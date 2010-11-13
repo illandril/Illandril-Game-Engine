@@ -4,6 +4,8 @@ goog.require("goog.math.Vec2");
 goog.require("illandril.math.Bounds");
 goog.require("illandril.game.World");
 goog.require("illandril.game.GameObject");
+goog.require("illandril.game.Player");
+goog.require("illandril.game.Collectable");
 goog.require("illandril.game.Viewport");
 goog.require("illandril.game.Controls");
 goog.require("illandril.game.Framerate");
@@ -24,7 +26,7 @@ illandril.game.Engine.init = function( gameContainerID ) {
   }
   
   // Start for testing
-  charac = new illandril.game.GameObject( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 250, 100 ), new goog.math.Vec2( 8, 8 ) ) );
+  charac = new illandril.game.Player( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 250, 100 ), new goog.math.Vec2( 8, 8 ) ) );
   window["charac"] = charac;
 
   mobs = [];
@@ -45,7 +47,7 @@ illandril.game.Engine.init = function( gameContainerID ) {
       attempts++;
     }
     if ( bounds != null ) {
-      mobs[i] = new illandril.game.GameObject( world, bounds );
+      mobs[i] = new illandril.game.Collectable( world, bounds );
       mobs[i].think = function( tick ) {
         if ( /* this.getPosition().isWithinXFrom( 100000, charac.getPosition() ) */ move ) {
           this.addVelocity( new goog.math.Vec2( Math.random() * 2 - 1, Math.random() * 2 - 1 ) );

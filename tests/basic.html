@@ -43,6 +43,7 @@ var end = new Date();
 document.write( ( end - start ) + "ms to initialize world with " + world.objects.length + " objects; " + illandril.game.Engine.mc + " of them mobile (plus one random destruction/construction, and one player)" );
 </script>
 <div id="fps"></div>
+<div id="collectableCount"></div>
 <input onclick="move=!move; return false;" type="submit" value="move/stop mobiles">
 <input onclick="doRandom=!doRandom; return false;" type="submit" value="enable/disable random">
 <input onclick="stop=!stop; return false;" type="submit" value="enable/disable everything">
