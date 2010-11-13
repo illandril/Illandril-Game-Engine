@@ -30,7 +30,10 @@ illandril.game.Engine.map = [
 
 for( var testx = 0; testx < 100; testx++ ) {
  for( var testy = -50; testy < 50; testy++ ) {
-  illandril.game.Engine.map[illandril.game.Engine.map.length] = { x: testx * 200 + 300, y: testy * 200, width: 5, height: 5 };
+  //illandril.game.Engine.map[illandril.game.Engine.map.length] = { x: testx * 200 + 300, y: testy * 200, width: 5, height: 5 };
+  if ( Math.random() > 0.65 ) {
+    illandril.game.Engine.map[illandril.game.Engine.map.length] = { x: testx * 10 + 300, y: testy * 10, width: 10, height: 10 };
+  }
  }
 }
 illandril.game.Engine.mc = 100;
