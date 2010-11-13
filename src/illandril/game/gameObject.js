@@ -23,11 +23,11 @@ illandril.game.GameObject.prototype.blocks = function( otherObject ) {
   return true;
 };
 
-illandril.game.Collectable.prototype.canBeBlocked = function() {
+illandril.game.GameObject.prototype.canBeBlocked = function() {
   return true;
 };
 
-illandril.game.Collectable.prototype.canBeBlockedBy = function( otherObject ) {
+illandril.game.GameObject.prototype.canBeBlockedBy = function( otherObject ) {
   return true;
 };
 
