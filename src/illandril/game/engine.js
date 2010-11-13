@@ -34,12 +34,26 @@ illandril.game.Engine.init = function( gameContainerID ) {
   var highMob = Math.round( totalMobs / 2 );
   var lowMob = -1 * highMob;
   for ( var i = lowMob; i < highMob; i++ ) {
-   mobs[i] = new illandril.game.GameObject( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 2000, 10 * i ), new goog.math.Vec2( 2, 2 ) ) );
-   mobs[i].think = function( tick ) {
-     if ( /* this.getPosition().isWithinXFrom( 100000, charac.getPosition() ) */ move ) {
-       this.addVelocity( new goog.math.Vec2( Math.random() * 2 - 1, Math.random() * 2 - 1 ) );
-     }
-   };
+    var bounds = null;
+    var attempts = 0;
+    
+    while( bounds == null && attempts < 50 ) {
+      var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 2000, 10 * i ), new goog.math.Vec2( 2, 2 ) );
+      if ( !world.hasObjectIntersecting( randomBounds ) ) {
+        bounds = randomBounds;
+      }
+      attempts++;
+    }
+    if ( bounds != null ) {
+      mobs[i] = new illandril.game.GameObject( world, bounds );
+      mobs[i].think = function( tick ) {
+        if ( /* this.getPosition().isWithinXFrom( 100000, charac.getPosition() ) */ move ) {
+          this.addVelocity( new goog.math.Vec2( Math.random() * 2 - 1, Math.random() * 2 - 1 ) );
+        }
+      };
+    } else {
+      illandril.game.Engine["mc"]--;
+    }
   }
   new illandril.game.GameObject( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 500, 0 ), new goog.math.Vec2( Math.random() * 100, Math.random() * 100 ) ) );
 
