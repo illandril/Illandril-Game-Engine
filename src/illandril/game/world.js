@@ -116,10 +116,11 @@ illandril.game.World.prototype.objectMoved = function( gameObject ) {
   this.updateViewports();
 };
 
+doRandom = false;
 illandril.game.World.prototype.update = function( tick ) {
   tick = Math.min( tick, 1000 );
   this.startBulk();
-  if ( Math.random() * 100 < 25 ) {
+  if ( doRandom && Math.random() * 100 < 25 ) {
     var oldObject = this.objects.pop();
     var oldBucket = oldObject.bucket;
     if ( oldBucket != null ) {
