@@ -150,8 +150,8 @@ illandril.game.World.prototype.move = function( tick, movingObjects ) {
     var obj = movingObjects[idx];
     var movement = obj.getVelocity().scale( tick / 50 );
     var intersectionBounds = illandril.math.Bounds.fromCenter( obj.getPosition().add( movement ), obj.getSize() );
-    var hasCollision = checkForCollisions( obj, intersectionBounds, this.getNearbyObjects( obj.getPosition() ) );
-    if ( !hasCollision ) {
+    var hasBlockingCollision = checkForCollisions( obj, intersectionBounds, this.getNearbyObjects( obj.getPosition() ) );
+    if ( !hasBlockingCollision ) {
       obj.moveBy( movement );
       // "friction"
       obj.addVelocity( obj.getVelocity().scale( 1 - Math.min( 1, tick / 100 ) ).invert() );
@@ -161,15 +161,29 @@ illandril.game.World.prototype.move = function( tick, movingObjects ) {
   }
 };
 
-function checkForCollisions( movingObject, bounds, objectList ) {
+illandril.game.World.prototype.hasObjectIntersecting = function( bounds ) {
+  var objectList = this.getNearbyObjects( bounds.getCenter() );
   var hasCollision = false;
-  for ( var idx = 0; idx < objectList.length && !hasCollision; idx++ ) {
+  for( var idx = 0; idx < objectList.length && !hasCollision; idx++ ) {
+    hasCollision = bounds.intersects( objectList[idx].getBounds() );
+  }
+  return hasCollision;
+};
+
+function checkForCollisions( movingObject, bounds, objectList ) {
+  var hasBlockingCollision = false;
+  var collidingObjects = [];
+  for ( var idx = 0; idx < objectList.length && !hasBlockingCollision; idx++ ) {
     var nearbyObject = objectList[idx];
     if ( movingObject == nearbyObject ) {
       continue;
     }
-    hasCollision = bounds.intersects( nearbyObject.getBounds() );
+    var collision = bounds.intersects( nearbyObject.getBounds() );
+    if ( collision ) {
+      collidingObjects.push( nearbyObject );
+      hasBlockingCollision = nearbyObject.blocks( movingObject );
+    }
   }
-  return hasCollision;
+  return hasBlockingCollision;
 };
 
