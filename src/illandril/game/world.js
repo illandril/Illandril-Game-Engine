@@ -162,6 +162,7 @@ illandril.game.World.prototype.move = function( tick, movingObjects ) {
 };
 
 function checkForCollisions( movingObject, bounds, objectList ) {
+  console.error( "Collision check against " + objectList.length + " objects" );
   var hasCollision = false;
   for ( var idx = 0; idx < objectList.length && !hasCollision; idx++ ) {
     var nearbyObject = objectList[idx];
