@@ -19,6 +19,13 @@ illandril.game.GameObject.prototype.setVelocity = function( newVelocity ) {
   this.velocity = newVelocity;
 };
 
+illandril.game.GameObject.prototype.blocks = function( otherObject ) {
+  return true;
+};
+
+illandril.game.GameObject.prototype.collideWith = function( otherObject ) {
+};
+
 illandril.game.GameObject.prototype.addVelocity = function( direction ) {
   var newVelocity = this.velocity.clone().add( direction );
   newVelocity.x = Math.min( 1, newVelocity.x );

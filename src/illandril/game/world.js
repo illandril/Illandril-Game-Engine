@@ -184,6 +184,11 @@ function checkForCollisions( movingObject, bounds, objectList ) {
       hasBlockingCollision = nearbyObject.blocks( movingObject );
     }
   }
+  if ( !hasBlockingCollision ) {
+    for ( var idx = 0; idx < collidingObjects.length; idx++ ) {
+      movingObject.collideWith( collidingObjects[idx] );
+    }
+  }
   return hasBlockingCollision;
 };
 
