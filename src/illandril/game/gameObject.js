@@ -6,12 +6,13 @@ var nextGameObjectID = 0;
 /**
  * @constructor
  */
-illandril.game.GameObject = function( world, bounds ) {
+illandril.game.GameObject = function( world, bounds, bg ) {
   this.id = nextGameObjectID++;
   this.world = world;
   this.bounds = bounds;
   this.world.addObject( this );
   this.velocity = new goog.math.Vec2( 0, 0 );
+  this.bg = bg;
 };
 
 illandril.game.GameObject.prototype.setVelocity = function( newVelocity ) {

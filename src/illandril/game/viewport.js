@@ -83,6 +83,9 @@ illandril.game.Viewport.prototype.update = function() {
       objDom.style.left = ( objPos.x - objSize.x / 2 - topLeft.x ) + "px";
       objDom.style.width = objSize.x + "px";
       objDom.style.height = objSize.y + "px";
+      if ( obj.bg != null ) {
+        objDom.style.backgroundImage = "url( " + obj.bg + " )";
+      }
     }
   }
   

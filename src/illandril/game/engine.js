@@ -18,7 +18,7 @@ illandril.game.Engine.init = function( gameContainerID ) {
     world.startBulk();
     for ( var idx = 0; idx < illandril.game.Engine.map.length; idx++ ) {
       var objDef = illandril.game.Engine.map[idx];
-      new illandril.game.GameObject( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef.x, objDef.y ), new goog.math.Vec2( objDef.width, objDef.height ) ) );
+      new illandril.game.GameObject( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef.x, objDef.y ), new goog.math.Vec2( objDef.width, objDef.height ) ), objDef.bg );
     }
     world.endBulk();
   }
