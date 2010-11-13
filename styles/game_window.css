@@ -1,0 +1,44 @@
+.viewportContainer {
+ display: inline-block;
+ margin: 1px;
+ padding: 1px;
+ border: 1px solid green;
+}
+
+.viewport {
+ border: 1px solid black;
+ position: relative;
+ overflow: hidden;
+ height: 100px;
+ width: 100px;
+ display: inline-block;
+ background-color: #ccc;
+ margin: 0;
+ padding: 0;
+}
+
+.gameObject {
+ top: 4px;
+ left: 3px;
+ z-index: 1000;
+ position: absolute;
+ border: none;
+ background-color: gray;
+ height: 10px;
+ width: 10px;
+ display: inline-block;
+}
+
+.game-char {
+ background-color: green;
+ z-index: 9999;
+}
+
+.game-monster {
+ background-color: red;
+ z-index: 5000;
+}
+
+.game-junk {
+ background-color: transparent;
+}

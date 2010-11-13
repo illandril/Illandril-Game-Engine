@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/440/trunk/closure/goog/messaging
+END
+messaging_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/440/trunk/closure/goog/messaging/messaging_test.html
+END
+multichannel_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/440/trunk/closure/goog/messaging/multichannel_test.html
+END
+bufferedchannel.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/423/trunk/closure/goog/messaging/bufferedchannel.js
+END
+messagechannel.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/387/trunk/closure/goog/messaging/messagechannel.js
+END
+messaging.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/371/trunk/closure/goog/messaging/messaging.js
+END
+bufferedchannel_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/440/trunk/closure/goog/messaging/bufferedchannel_test.html
+END
+multichannel.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/440/trunk/closure/goog/messaging/multichannel.js
+END

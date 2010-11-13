@@ -1,0 +1,31 @@
+#!/bin/bash
+set -e
+
+BUILDERS_DIR="./builders"
+OUTPUT_DIR="./bin"
+
+JS_COMPILER_JAR="$BUILDERS_DIR/closure-compiler/compiler.jar"
+JS_OUTPUT="--js_output_file bin/engine.js"
+JS_COMPILE="java -jar $JS_COMPILER_JAR --compilation_level ADVANCED_OPTIMIZATIONS --formatting PRETTY_PRINT"
+#WHITESPACE_ONLY SIMPLE_OPTIMIZATIONS ADVANCED_OPTIMIZATIONS
+
+JS_FILES="--js vector2.js"
+JS_FILES="$JS_FILES --js bounds.js";
+JS_FILES="$JS_FILES --js viewport.js";
+JS_FILES="$JS_FILES --js engine.js";
+JS_FILES="$JS_FILES --js world.js";
+JS_FILES="$JS_FILES --js controls.js";
+JS_FILES="$JS_FILES --js gameObject.js";
+
+JS_FILES="$JS_FILES --js exports.js";
+
+JS_FILES="$JS_FILES --externs console.js";
+
+CSS_COMPILE="cat"
+CSS_FILES="*.css"
+CSS_OUTPUT="$OUTPUT_DIR/engine.css"
+
+
+$JS_COMPILE $JS_FILES $JS_OUTPUT
+$CSS_COMPILE $CSS_FILES > $CSS_OUTPUT
+
