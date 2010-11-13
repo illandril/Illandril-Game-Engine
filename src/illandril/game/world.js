@@ -64,6 +64,15 @@ illandril.game.World.prototype.addObject = function( gameObject ) {
   this.objectMoved( gameObject );
 };
 
+illandril.game.World.prototype.removeObject = function( gameObject ) {
+  goog.array.remove( this.objects, gameObject );
+  var oldBucket = gameObject.bucket;
+  if ( oldBucket != null ) {
+    delete oldBucket[gameObject.id];
+  }
+  this.updateViewports();
+};
+
 illandril.game.World.prototype.getObjects = function( bounds ) {
   if ( bounds == null ) {
     return this.objects;
@@ -121,11 +130,7 @@ illandril.game.World.prototype.update = function( tick ) {
   tick = Math.min( tick, 1000 );
   this.startBulk();
   if ( doRandom && Math.random() * 100 < 25 ) {
-    var oldObject = this.objects.pop();
-    var oldBucket = oldObject.bucket;
-    if ( oldBucket != null ) {
-      delete oldBucket[oldObject.id];
-    }
+    this.removeObject( this.objects.peek() );
     new illandril.game.GameObject( this, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 500, 0 ), new goog.math.Vec2( Math.random() * 100, Math.random() * 100 ) ) );
   }
   var movingObjects = this.think( tick );
@@ -187,6 +192,7 @@ function checkForCollisions( movingObject, bounds, objectList ) {
   if ( !hasBlockingCollision ) {
     for ( var idx = 0; idx < collidingObjects.length; idx++ ) {
       movingObject.collideWith( collidingObjects[idx] );
+      collidingObjects[idx].collideWith( movingObject );
     }
   }
   return hasBlockingCollision;
