@@ -52,7 +52,7 @@ illandril.game.Engine.init = function( gameContainerID ) {
   
   vp2 = new illandril.game.Viewport( container, world, new goog.math.Vec2( 800, 200 ) );
   vp2.lookAt( new goog.math.Vec2( 2000, 0 ) );
-  vp2.setZoom( 0.2 );
+  vp2.setZoom( 0.15 );
   window["vp2"]=vp2;
   
   var controls = new illandril.game.Controls();
