@@ -15,7 +15,7 @@ illandril.game.World = function() {
   this.buckets = {};
 };
 
-var bucketSize = 50;
+var bucketSize = 100;
 illandril.game.World.prototype.getBucket = function( center ) {
   var bucketX = Math.round( center.x / bucketSize );
   if ( this.buckets[bucketX] == null ) {
