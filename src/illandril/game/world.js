@@ -148,7 +148,7 @@ illandril.game.World.prototype.think = function( tick ) {
 illandril.game.World.prototype.move = function( tick, movingObjects ) {
   for ( var idx = 0; idx < movingObjects.length; idx++ ) {
     var obj = movingObjects[idx];
-    var movement = obj.getVelocity().scale( tick / 10 );
+    var movement = obj.getVelocity().scale( tick / 50 );
     var intersectionBounds = illandril.math.Bounds.fromCenter( obj.getPosition().add( movement ), obj.getSize() );
     var hasCollision = checkForCollisions( obj, intersectionBounds, this.getNearbyObjects( obj.getPosition() ) );
     if ( !hasCollision ) {
@@ -162,7 +162,6 @@ illandril.game.World.prototype.move = function( tick, movingObjects ) {
 };
 
 function checkForCollisions( movingObject, bounds, objectList ) {
-  console.error( "Collision check against " + objectList.length + " objects" );
   var hasCollision = false;
   for ( var idx = 0; idx < objectList.length && !hasCollision; idx++ ) {
     var nearbyObject = objectList[idx];

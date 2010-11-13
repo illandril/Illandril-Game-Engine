@@ -24,7 +24,7 @@ illandril.game.Engine.init = function( gameContainerID ) {
   }
   
   // Start for testing
-  charac = new illandril.game.GameObject( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 250, 100 ), new goog.math.Vec2( 10, 10 ) ) );
+  charac = new illandril.game.GameObject( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 250, 100 ), new goog.math.Vec2( 8, 8 ) ) );
   window["charac"] = charac;
 
   mobs = [];
@@ -43,9 +43,10 @@ illandril.game.Engine.init = function( gameContainerID ) {
   }
   new illandril.game.GameObject( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 500, 0 ), new goog.math.Vec2( Math.random() * 100, Math.random() * 100 ) ) );
 
-  var vp = new illandril.game.Viewport( container, world, new goog.math.Vec2( 400, 300 ) );
+  var vp = new illandril.game.Viewport( container, world, new goog.math.Vec2( 500, 500 ) );
   vp.follow( charac );
   
+  /*
   var vp3 = new illandril.game.Viewport( container, world, new goog.math.Vec2( 400, 300 ) );
   vp3.follow( charac );
   vp3.setZoom( 0.25 );
@@ -54,6 +55,7 @@ illandril.game.Engine.init = function( gameContainerID ) {
   vp2.lookAt( new goog.math.Vec2( 2000, 0 ) );
   vp2.setZoom( 0.10 );
   window["vp2"]=vp2;
+  */
   
   var controls = new illandril.game.Controls();
   var moveUp = function() { charac.addVelocity( new goog.math.Vec2( 0, -1 ) ); };
