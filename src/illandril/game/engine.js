@@ -40,7 +40,7 @@ illandril.game.Engine.init = function( gameContainerID ) {
     var attempts = 0;
     
     while( bounds == null && attempts < 50 ) {
-      var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 2000, 10 * i ), new goog.math.Vec2( 2, 2 ) );
+      var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 200, 10 * i ), new goog.math.Vec2( 2, 2 ) );
       if ( !world.hasObjectIntersecting( randomBounds ) ) {
         bounds = randomBounds;
       }

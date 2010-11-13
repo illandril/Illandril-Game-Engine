@@ -23,8 +23,15 @@ illandril.game.GameObject.prototype.blocks = function( otherObject ) {
   return true;
 };
 
-illandril.game.GameObject.prototype.collideWith = function( otherObject ) {
+illandril.game.Collectable.prototype.canBeBlocked = function() {
+  return true;
 };
+
+illandril.game.Collectable.prototype.canBeBlockedBy = function( otherObject ) {
+  return true;
+};
+
+illandril.game.GameObject.prototype.collideWith = function( otherObject ) {};
 
 illandril.game.GameObject.prototype.addVelocity = function( direction ) {
   var newVelocity = this.velocity.clone().add( direction );

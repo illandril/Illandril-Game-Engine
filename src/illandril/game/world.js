@@ -186,7 +186,9 @@ function checkForCollisions( movingObject, bounds, objectList ) {
     var collision = bounds.intersects( nearbyObject.getBounds() );
     if ( collision ) {
       collidingObjects.push( nearbyObject );
-      hasBlockingCollision = nearbyObject.blocks( movingObject );
+      hasBlockingCollision = movingObject.canBeBlocked()
+                             && movingObject.canBeBlockedBy( nearbyObject )
+                             && nearbyObject.blocks( movingObject );
     }
   }
   if ( !hasBlockingCollision ) {
