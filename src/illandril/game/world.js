@@ -179,7 +179,7 @@ illandril.game.World.prototype.move = function( tick, movingObjects ) {
 };
 
 illandril.game.World.prototype.hasObjectIntersecting = function( bounds ) {
-  var objectList = this.getNearbyObjects( bounds.getCenter() );
+  var objectList = this.getNearbySolidObjects( bounds.getCenter() );
   var hasCollision = false;
   for( var idx = 0; idx < objectList.length && !hasCollision; idx++ ) {
     hasCollision = bounds.intersects( objectList[idx].getBounds() );
