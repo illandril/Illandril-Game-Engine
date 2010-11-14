@@ -13,32 +13,30 @@ illandril.game.objects.Container = function() {
   this.solidObjects = new goog.structs.Set();
 };
 
-illandril.game.objects.Container.add = function( object ) {
+illandril.game.objects.Container.prototype.add = function( object ) {
   this.objects.add( object );
-  if ( object instanceof illandril.game.objects.Active ) {
+  if ( object.isActive ) {
     this.activeObjects.add( object );
   }
-  if ( object instanceof illandril.game.objects.Solid ) {
+  if ( object.isSolid ) {
     this.solidObjects.add( object );
   }
 };
 
-illandril.game.objects.Container.remove = function( object ) {
+illandril.game.objects.Container.prototype.remove = function( object ) {
   this.objects.remove( object );
   this.activeObjects.remove( object );
   this.solidObjects.remove( object );
 };
 
-illandril.game.objects.Container.getAllObjects = function() {
+illandril.game.objects.Container.prototype.getAllObjects = function() {
   return this.objects.getValues();
 };
 
-illandril.game.objects.Container.getActiveObjects = function() {
+illandril.game.objects.Container.prototype.getActiveObjects = function() {
   return this.activeObjects.getValues();
 };
 
-illandril.game.objects.Container.getSolidObjects = function() {
+illandril.game.objects.Container.prototype.getSolidObjects = function() {
   return this.solidObjects.getValues();
 };
-
-

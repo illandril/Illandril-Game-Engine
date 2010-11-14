@@ -13,7 +13,7 @@ illandril.game.objects.Collectable = function( world, bounds, bg ) {
   illandril.game.objects.Solid.call( this );
 };
 goog.inherits( illandril.game.objects.Collectable, illandril.game.objects.GameObject );
-goog.inherits( illandril.game.objects.Collectable, illandril.game.objects.Solid );
+object.extend( illandril.game.objects.Collectable, illandril.game.objects.Solid );
 
 illandril.game.objects.Collectable.prototype.blocks = function( otherObject ) {
   return false;

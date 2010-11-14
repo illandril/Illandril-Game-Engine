@@ -10,6 +10,9 @@ illandril.game.objects.Solid = function() {
     throw "Error... solid object not also a game object!"
   }
 };
+
+illandril.game.objects.Solid.prototype.isSolid = true;
+
 illandril.game.objects.Solid.prototype.blocks = function( otherObject ) { return true; };
 illandril.game.objects.Solid.prototype.canBeBlocked = function() { return true; };
 illandril.game.objects.Solid.prototype.canBeBlockedBy = function( otherObject ) { return true; };

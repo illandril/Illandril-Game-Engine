@@ -12,6 +12,8 @@ illandril.game.objects.Active = function( world, bounds, bg ) {
   this.velocity = new goog.math.Vec2( 0, 0 );
 };
 
+illandril.game.objects.Active.prototype.isActive = true;
+
 illandril.game.objects.Active.prototype.think = function( tick ) {};
 
 illandril.game.objects.Active.prototype.setVelocity = function( newVelocity ) {
