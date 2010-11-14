@@ -28,6 +28,7 @@ illandril.game.Engine.map = [
  { x: 90, y: 90, width: 150, height: 150, bg: "http://farm4.static.flickr.com/3521/3770406326_3bd7b77892_z.jpg" }
 ];
 
+/*
 for( var testx = 0; testx < 100; testx++ ) {
  for( var testy = -50; testy < 50; testy++ ) {
   //illandril.game.Engine.map[illandril.game.Engine.map.length] = { x: testx * 200 + 300, y: testy * 200, width: 5, height: 5 };
@@ -36,11 +37,12 @@ for( var testx = 0; testx < 100; testx++ ) {
   }
  }
 }
+*/
 illandril.game.Engine.mc = 100;
 var start = new Date();
 illandril.game.Engine.init("game");
 var end = new Date();
-document.write( ( end - start ) + "ms to initialize world with " + world.objects.length + " objects; " + illandril.game.Engine.mc + " of them mobile (plus one random destruction/construction, and one player)" );
+document.write( ( end - start ) + "ms to initialize world with " + world.objects.getAllObjects().length + " objects; " + illandril.game.Engine.mc + " of them mobile (plus one random destruction/construction, and one player)" );
 </script>
 <div id="fps"></div>
 <div id="collectableCount"></div>
