@@ -8,7 +8,7 @@ illandril.game.Framerate.totalFrames = 0;
 illandril.game.Framerate.lastResetStamp = new Date();
 illandril.game.Framerate.lastFrameStamp = new Date();
 illandril.game.Framerate.frames = [];
-illandril.game.Framerate.rollingFrames = 100;
+illandril.game.Framerate.rollingFrames = 50;
 
 illandril.game.Framerate.reset = function() {
   illandril.game.Framerate.totalFrames = 0

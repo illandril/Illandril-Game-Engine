@@ -1,4 +1,4 @@
-goog.provide("illandril.game.Viewport");
+goog.provide("illandril.game.ui.Viewport");
 
 goog.require("goog.math.Vec2");
 goog.require("illandril.math.Bounds");
@@ -6,7 +6,7 @@ goog.require("illandril.math.Bounds");
 /**
  * @constructor
  */
-illandril.game.Viewport = function( container, world, size ) {
+illandril.game.ui.Viewport = function( container, world, size ) {
   //var vpcontainer = document.createElement('span');
   //vpcontainer.className = 'viewportContainer';
   //container.appendChild( vpcontainer );
@@ -28,7 +28,7 @@ illandril.game.Viewport = function( container, world, size ) {
   this.update();
 };
 
-illandril.game.Viewport.prototype.setZoom = function( zoom ) {
+illandril.game.ui.Viewport.prototype.setZoom = function( zoom ) {
   this.zoom = zoom;
   this.zoomedBounds = this.bounds.divide( this.zoom );
   var size = this.zoomedBounds.getSize();
@@ -38,25 +38,24 @@ illandril.game.Viewport.prototype.setZoom = function( zoom ) {
   this.domObject.style["MozTransform"] = "scale(" + zoom + ")";
   this.update();
 };
-illandril.game.Viewport.prototype["setZoom"] = illandril.game.Viewport.prototype.setZoom;
 
-illandril.game.Viewport.prototype.lookAtNoUpdate = function( position ) {
+illandril.game.ui.Viewport.prototype.lookAtNoUpdate = function( position ) {
   this.bounds.centerOn( position );
   this.zoomedBounds.centerOn( position );
 };
 
-illandril.game.Viewport.prototype.lookAt = function( position ) {
+illandril.game.ui.Viewport.prototype.lookAt = function( position ) {
   this.following = null;
   this.lookAtNoUpdate( position );
   this.update();
 };
 
-illandril.game.Viewport.prototype.follow = function( obj ) {
+illandril.game.ui.Viewport.prototype.follow = function( obj ) {
   this.following = obj;
   this.update();
 };
 
-illandril.game.Viewport.prototype.update = function() {
+illandril.game.ui.Viewport.prototype.update = function() {
   if ( this.following != null ) {
     this.lookAtNoUpdate( this.following.getPosition() );
   }
@@ -92,7 +91,7 @@ illandril.game.Viewport.prototype.update = function() {
   this.clean( shownObjects );
 };
 
-illandril.game.Viewport.prototype.clean = function( shownObjects ) {
+illandril.game.ui.Viewport.prototype.clean = function( shownObjects ) {
   if ( this.domObjectsCount > shownObjects.length ) {
     for ( var objID in this.domObjects ) {
       var hasObj = false;
@@ -108,7 +107,6 @@ illandril.game.Viewport.prototype.clean = function( shownObjects ) {
   }
 };
 
-illandril.game.Viewport.prototype.getBounds = function() {
+illandril.game.ui.Viewport.prototype.getBounds = function() {
   return this.bounds;
 };
-

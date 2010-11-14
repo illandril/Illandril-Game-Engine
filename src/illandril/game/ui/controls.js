@@ -1,4 +1,4 @@
-goog.provide("illandril.game.Controls");
+goog.provide("illandril.game.ui.Controls");
 
 var usedCodes = {};
 window["usedCodes"] = usedCodes;
@@ -40,14 +40,14 @@ function updateControls() {
 /**
  * @constructor
  */
-illandril.game.Controls = function( title ) {
+illandril.game.ui.Controls = function( title ) {
   this.codesToFn = {};
   this.fnToCode = {}
   var acIndex = activeControls.length;
   activeControls[acIndex] = this;
 };
 
-illandril.game.Controls.prototype.register = function( keyCode, fn, name ) {
+illandril.game.ui.Controls.prototype.register = function( keyCode, fn, name ) {
   if ( usedCodes[keyCode] ) {
     alert( "That key is already used by " + usedCodes[keyCode] );
   } else {
@@ -62,10 +62,9 @@ illandril.game.Controls.prototype.register = function( keyCode, fn, name ) {
   }
 };
 
-illandril.game.Controls.prototype.keyPressed = function( keyCode ) {
+illandril.game.ui.Controls.prototype.keyPressed = function( keyCode ) {
   var fn = this.codesToFn[keyCode];
   if ( fn != null ) {
     fn();
   }
 };
-illandril.game.Controls.prototype["keyPressed"] = illandril.game.Controls.prototype.keyPressed;
