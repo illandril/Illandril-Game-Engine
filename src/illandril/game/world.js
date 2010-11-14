@@ -8,8 +8,9 @@ goog.require("illandril.math.Bounds");
  */
 illandril.game.World = function() {
   this.viewports = [];
-  this.objects = [];
-  this["objects"] = this.objects;
+  
+  this.objects = new illandril.game.objects.Container();
+  
   this.inBulk = 0;
   this.hasUpdate = false;
   this.buckets = {};
@@ -23,12 +24,12 @@ illandril.game.World.prototype.getBucket = function( center ) {
   }
   var bucketY = Math.round( center.y / bucketSize );
   if ( this.buckets[bucketX][bucketY] == null ) {
-    this.buckets[bucketX][bucketY] = {};
+    this.buckets[bucketX][bucketY] = new illandril.game.objects.Container();
   }
   return this.buckets[bucketX][bucketY];
 };
 
-illandril.game.World.prototype.getNearbyObjects = function( center ) {
+illandril.game.World.prototype.getNearbySolidObjects = function( center ) {
   var nearbyObjects = [];
   var bucketX = Math.round( center.x / bucketSize );
   var bucketY = Math.round( center.y / bucketSize );
@@ -38,8 +39,9 @@ illandril.game.World.prototype.getNearbyObjects = function( center ) {
       for ( var y = -1; y <= 1; y++ ) {
         var bucket = xBucketContainer[bucketY + y]
         if ( bucket != null ) {
-          for ( var objID in bucket ) {
-            nearbyObjects[nearbyObjects.length] = bucket[objID];
+          var bucketObjects = bucket.getSolidObjects();
+          for ( var objIdx = 0; objIdx < bucketObjects.length; objIdx++ ) {
+            nearbyObjects[nearbyObjects.length] = bucketObjects[objIdx];
           }
         }
       }
@@ -60,15 +62,15 @@ illandril.game.World.prototype.endBulk = function() {
 };
 
 illandril.game.World.prototype.addObject = function( gameObject ) {
-  this.objects[this.objects.length] = gameObject;
+  this.objects.add( gameObject );
   this.objectMoved( gameObject );
 };
 
 illandril.game.World.prototype.removeObject = function( gameObject ) {
-  goog.array.remove( this.objects, gameObject );
+  this.objects.remove( gameObject );
   var oldBucket = gameObject.bucket;
   if ( oldBucket != null ) {
-    delete oldBucket[gameObject.id];
+    oldBucket.remove( gameObject );
   }
   this.updateViewports();
 };
@@ -90,8 +92,9 @@ illandril.game.World.prototype.getObjects = function( bounds ) {
       for( var y = bucketY; y <= bucketYMax; y++ ) {
         var bucket = xBucketContainer[y]
         if ( bucket != null ) {
-          for ( var objID in bucket ) {
-            containedObjects[containedObjects.length] = bucket[objID];
+          var bucketObjects = bucket.getAllObjects();
+          for ( var objIdx = 0; objIdx < bucketObjects.length; objIdx++ ) {
+            containedObjects[containedObjects.length] = bucketObjects[objIdx];
           }
         }
       }
@@ -118,20 +121,23 @@ illandril.game.World.prototype.objectMoved = function( gameObject ) {
   var oldBucket = gameObject.bucket;
   var newBucket = this.getBucket( gameObject.getPosition() );
   if ( oldBucket != null && oldBucket != newBucket ) {
-    delete oldBucket[gameObject.id];
+    oldBucket.remove( gameObject );
   }
-  newBucket[gameObject.id] = gameObject;
+  newBucket.add( gameObject );
   gameObject.bucket = newBucket;
   this.updateViewports();
 };
 
 doRandom = false;
+randomObject = null;
 illandril.game.World.prototype.update = function( tick ) {
   tick = Math.min( tick, 1000 );
   this.startBulk();
   if ( doRandom && Math.random() * 100 < 25 ) {
-    this.removeObject( this.objects.peek() );
-    new illandril.game.GameObject( this, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 500, 0 ), new goog.math.Vec2( Math.random() * 100, Math.random() * 100 ) ) );
+    if ( randomObject != null ) {
+      this.removeObject( randomObject );
+    }
+    randomObject = new illandril.game.GameObject( this, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 500, 0 ), new goog.math.Vec2( Math.random() * 100, Math.random() * 100 ) ) );
   }
   var movingObjects = this.think( tick );
   this.move( tick, movingObjects );
@@ -140,8 +146,9 @@ illandril.game.World.prototype.update = function( tick ) {
 
 illandril.game.World.prototype.think = function( tick ) {
   var movingObjects = [];
-  for ( var idx = 0; idx < this.objects.length; idx++ ) {
-    var obj = this.objects[idx];
+  var activeObjects = this.objects.getActiveObjects();
+  for ( var idx = 0; idx < activeObjects.length; idx++ ) {
+    var obj = activeObjects[idx];
     var needsUpdate = obj.think( tick );
     if ( obj.isMoving() ) {
       movingObjects.push( obj );
@@ -155,7 +162,7 @@ illandril.game.World.prototype.move = function( tick, movingObjects ) {
     var obj = movingObjects[idx];
     var movement = obj.getVelocity().scale( tick / 50 );
     var intersectionBounds = illandril.math.Bounds.fromCenter( obj.getPosition().add( movement ), obj.getSize() );
-    var hasBlockingCollision = checkForCollisions( obj, intersectionBounds, this.getNearbyObjects( obj.getPosition() ) );
+    var hasBlockingCollision = checkForCollisions( obj, intersectionBounds, this.getNearbySolidObjects( obj.getPosition() ) );
     if ( !hasBlockingCollision ) {
       obj.moveBy( movement );
       // "friction"
@@ -186,9 +193,9 @@ function checkForCollisions( movingObject, bounds, objectList ) {
     var collision = bounds.intersects( nearbyObject.getBounds() );
     if ( collision ) {
       collidingObjects.push( nearbyObject );
-      hasBlockingCollision = movingObject.canBeBlocked()
-                             && movingObject.canBeBlockedBy( nearbyObject )
-                             && nearbyObject.blocks( movingObject );
+      hasBlockingCollision = ( movingObject.canBeBlocked()
+                               && movingObject.canBeBlockedBy( nearbyObject )
+                               && nearbyObject.blocks( movingObject ) );
     }
   }
   if ( !hasBlockingCollision ) {
