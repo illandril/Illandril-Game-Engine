@@ -7,6 +7,9 @@ goog.require("illandril.game.objects.Container");
 
 /**
  * @constructor
+ * @param {illandril.game.World} world the world the object lives in
+ * @param {illandril.math.Bounds} bounds the bounds that define the size and location of the object
+ * @param {string|null} bg the URL of the background image for this object
  */
 illandril.game.World = function() {
   this.viewports = [];

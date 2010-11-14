@@ -1,5 +1,6 @@
 goog.provide("illandril.game.objects.Player");
 
+goog.require("goog.object");
 goog.require("illandril.game.objects.Active");
 goog.require("illandril.game.objects.Collectable");
 goog.require("illandril.game.objects.GameObject");
@@ -8,8 +9,9 @@ goog.require("illandril.game.objects.Solid");
 /**
  * @constructor
  * @extends illandril.game.objects.GameObject
- * @extends illandril.game.objects.Solid
- * @extends illandril.game.objects.Active
+ * @param {illandril.game.World} world the world the object lives in
+ * @param {illandril.math.Bounds} bounds the bounds that define the size and location of the object
+ * @param {string|null} bg the URL of the background image for this object
  */
 illandril.game.objects.Player = function( world, bounds, bg ) {
   illandril.game.objects.GameObject.call( this, world, bounds, bg );
