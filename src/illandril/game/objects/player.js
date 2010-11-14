@@ -20,8 +20,8 @@ illandril.game.objects.Player = function( world, bounds, bg ) {
   this.collectables = [];
 };
 goog.inherits( illandril.game.objects.Player, illandril.game.objects.GameObject );
-goog.object.extend( illandril.game.objects.Player, illandril.game.objects.Solid );
-goog.object.extend( illandril.game.objects.Player, illandril.game.objects.Active );
+goog.object.extend( illandril.game.objects.Player.prototype, illandril.game.objects.Solid.prototype );
+goog.object.extend( illandril.game.objects.Player.prototype, illandril.game.objects.Active.prototype );
 
 illandril.game.objects.Player.prototype.collideWith = function( otherObject ) {
   if ( otherObject instanceof illandril.game.objects.Collectable ) {
