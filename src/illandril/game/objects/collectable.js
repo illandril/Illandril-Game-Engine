@@ -7,7 +7,6 @@ goog.require("illandril.game.objects.Solid");
 /**
  * @constructor
  * @extends illandril.game.objects.GameObject
- * @extends illandril.game.objects.Solid
  */
 illandril.game.objects.Collectable = function( world, bounds, bg ) {
   illandril.game.objects.GameObject.call( this, world, bounds, bg );

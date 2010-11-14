@@ -3,9 +3,9 @@ goog.provide("illandril.game.Engine");
 goog.require("goog.math.Vec2");
 goog.require("illandril.math.Bounds");
 goog.require("illandril.game.World");
-goog.require("illandril.game.objects.GameObject");
+goog.require("illandril.game.objects.ActiveCollectable");
 goog.require("illandril.game.objects.Player");
-goog.require("illandril.game.objects.Collectable");
+goog.require("illandril.game.objects.Wall");
 goog.require("illandril.game.ui.Viewport");
 goog.require("illandril.game.ui.Controls");
 goog.require("illandril.game.util.Framerate");
@@ -21,7 +21,7 @@ illandril.game.Engine.init = function( gameContainerID ) {
     world.startBulk();
     for ( var idx = 0; idx < illandril.game.Engine.map.length; idx++ ) {
       var objDef = illandril.game.Engine.map[idx];
-      new illandril.game.objects.GameObject( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef.x, objDef.y ), new goog.math.Vec2( objDef.width, objDef.height ) ), objDef.bg );
+      new illandril.game.objects.Wall( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef.x, objDef.y ), new goog.math.Vec2( objDef.width, objDef.height ) ), objDef.bg );
     }
     world.endBulk();
   }
@@ -48,7 +48,7 @@ illandril.game.Engine.init = function( gameContainerID ) {
       attempts++;
     }
     if ( bounds != null ) {
-      mobs[i] = new illandril.game.objects.Collectable( world, bounds );
+      mobs[i] = new illandril.game.objects.ActiveCollectable( world, bounds );
       mobs[i].think = function( tick ) {
         if ( /* this.getPosition().isWithinXFrom( 100000, charac.getPosition() ) */ move ) {
           this.addVelocity( new goog.math.Vec2( Math.random() * 2 - 1, Math.random() * 2 - 1 ) );

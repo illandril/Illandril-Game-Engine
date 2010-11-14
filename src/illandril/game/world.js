@@ -137,6 +137,7 @@ doRandom = false;
 randomObject = null;
 illandril.game.World.prototype.update = function( tick ) {
   tick = Math.min( tick, 1000 );
+  console.debug( "Tick time: " + tick );
   this.startBulk();
   if ( doRandom && Math.random() * 100 < 25 ) {
     if ( randomObject != null ) {
@@ -152,6 +153,7 @@ illandril.game.World.prototype.update = function( tick ) {
 illandril.game.World.prototype.think = function( tick ) {
   var movingObjects = [];
   var activeObjects = this.objects.getActiveObjects();
+  console.debug( "Thinking for " + activeObjects.length + " objects" );
   for ( var idx = 0; idx < activeObjects.length; idx++ ) {
     var obj = activeObjects[idx];
     var needsUpdate = obj.think( tick );
@@ -163,6 +165,7 @@ illandril.game.World.prototype.think = function( tick ) {
 };
 
 illandril.game.World.prototype.move = function( tick, movingObjects ) {
+  console.debug( "Moving " + movingObjects.length + " objects" );
   for ( var idx = 0; idx < movingObjects.length; idx++ ) {
     var obj = movingObjects[idx];
     var movement = obj.getVelocity().scale( tick / 50 );
@@ -190,6 +193,7 @@ illandril.game.World.prototype.hasObjectIntersecting = function( bounds ) {
 function checkForCollisions( movingObject, bounds, objectList ) {
   var hasBlockingCollision = false;
   var collidingObjects = [];
+  console.debug( "Checking for collisions against " + objectList.length + " objects" );
   for ( var idx = 0; idx < objectList.length && !hasBlockingCollision; idx++ ) {
     var nearbyObject = objectList[idx];
     if ( movingObject == nearbyObject ) {
