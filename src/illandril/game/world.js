@@ -2,6 +2,8 @@ goog.provide("illandril.game.World");
 
 goog.require("goog.math.Vec2");
 goog.require("illandril.math.Bounds");
+goog.require("illandril.game.objects.solid");
+goog.require("illandril.game.objects.active");
 
 /**
  * @constructor
