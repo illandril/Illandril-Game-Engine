@@ -7,6 +7,7 @@ goog.require("illandril.game.objects.Solid");
 
 /**
  * @constructor
+ * @extends illandril.game.objects.GameObject
  * @extends illandril.game.objects.Solid
  * @extends illandril.game.objects.Active
  */
