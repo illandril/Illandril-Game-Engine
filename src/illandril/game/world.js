@@ -2,6 +2,8 @@ goog.provide("illandril.game.World");
 
 goog.require("goog.math.Vec2");
 goog.require("illandril.math.Bounds");
+goog.require("illandril.game.objects.GameObject");
+goog.require("illandril.game.objects.Container");
 
 /**
  * @constructor
@@ -137,7 +139,7 @@ illandril.game.World.prototype.update = function( tick ) {
     if ( randomObject != null ) {
       this.removeObject( randomObject );
     }
-    randomObject = new illandril.game.GameObject( this, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 500, 0 ), new goog.math.Vec2( Math.random() * 100, Math.random() * 100 ) ) );
+    randomObject = new illandril.game.objects.GameObject( this, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 500, 0 ), new goog.math.Vec2( Math.random() * 100, Math.random() * 100 ) ) );
   }
   var movingObjects = this.think( tick );
   this.move( tick, movingObjects );
