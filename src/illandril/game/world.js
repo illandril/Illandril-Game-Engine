@@ -72,6 +72,10 @@ illandril.game.World.prototype.addObject = function( gameObject ) {
 };
 
 illandril.game.World.prototype.removeObject = function( gameObject ) {
+  if ( gameObject.world != this ) {
+    return;
+  }
+  gameObject.world = null;
   this.objects.remove( gameObject );
   var oldBucket = gameObject.bucket;
   if ( oldBucket != null ) {
@@ -123,6 +127,9 @@ illandril.game.World.prototype.updateViewports = function() {
 };
 
 illandril.game.World.prototype.objectMoved = function( gameObject ) {
+  if ( gameObject.world != this ) {
+    return
+  }
   var oldBucket = gameObject.bucket;
   var newBucket = this.getBucket( gameObject.getPosition() );
   if ( oldBucket != null && oldBucket != newBucket ) {
@@ -154,6 +161,9 @@ illandril.game.World.prototype.think = function( tick ) {
   var activeObjects = this.objects.getActiveObjects();
   for ( var idx = 0; idx < activeObjects.length; idx++ ) {
     var obj = activeObjects[idx];
+    if ( obj.world != this ) {
+      continue; // Skip over the object if it has been removed from the world
+    }
     var needsUpdate = obj.think( tick );
     if ( obj.isMoving() ) {
       movingObjects.push( obj );
@@ -165,9 +175,15 @@ illandril.game.World.prototype.think = function( tick ) {
 illandril.game.World.prototype.move = function( tick, movingObjects ) {
   for ( var idx = 0; idx < movingObjects.length; idx++ ) {
     var obj = movingObjects[idx];
-    var movement = obj.getVelocity().scale( tick / 50 );
-    var intersectionBounds = illandril.math.Bounds.fromCenter( obj.getPosition().add( movement ), obj.getSize() );
-    var hasBlockingCollision = checkForCollisions( obj, intersectionBounds, this.getNearbySolidObjects( obj.getPosition() ) );
+    if ( obj.world != this ) {
+      continue; // Skip over the object if it has been removed from the world
+    }
+    var movement = obj.getVelocity().scale( tick / 10 );
+    var hasBlockingCollision = false;
+    if ( obj.isSolid ) {
+      var intersectionBounds = illandril.math.Bounds.fromCenter( obj.getPosition().add( movement ), obj.getSize() );
+      hasBlockingCollision = checkForCollisions( obj, intersectionBounds, this.getNearbySolidObjects( obj.getPosition() ) );
+    }
     if ( !hasBlockingCollision ) {
       obj.moveBy( movement );
       // "friction"

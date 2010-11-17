@@ -15,6 +15,7 @@ illandril.game.ui.Viewport = function( container, world, size ) {
   this.domObject.className = 'viewport';
   this.domObject.style.width = size.x + "px";
   this.domObject.style.height = size.y + "px";
+  this.domObject.style.zIndex = 0;
   vpcontainer.appendChild( this.domObject );
   this.domObjects = {};
   this.domObjectsCount = 0;
@@ -82,6 +83,7 @@ illandril.game.ui.Viewport.prototype.update = function() {
       objDom.style.left = ( objPos.x - objSize.x / 2 - topLeft.x ) + "px";
       objDom.style.width = objSize.x + "px";
       objDom.style.height = objSize.y + "px";
+      objDom.style.zIndex = Math.min( 1, obj.zIndex + 1000 );
       if ( obj.bg != null ) {
         objDom.style.backgroundImage = "url( " + obj.bg + " )";
       }

@@ -6,12 +6,14 @@ var nextGameObjectID = 0;
 /**
  * @constructor
  */
-illandril.game.objects.GameObject = function( world, bounds, bg ) {
+illandril.game.objects.GameObject = function( world, bounds, bg, zIndex ) {
   this.id = nextGameObjectID++;
   this.world = world;
   this.bounds = bounds;
+  this.zIndex = zIndex;
   this.world.addObject( this );
   this.bg = bg;
+  this.visible = true;
 };
 
 illandril.game.objects.GameObject.prototype.getBounds = function() {
@@ -25,3 +27,8 @@ illandril.game.objects.GameObject.prototype.getPosition = function() {
 illandril.game.objects.GameObject.prototype.getSize = function() {
   return this.bounds.getSize();
 };
+
+illandril.game.objects.GameObject.prototype.isVisible = function() {
+  return this.visible;
+};
+

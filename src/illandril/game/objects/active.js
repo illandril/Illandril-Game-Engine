@@ -50,5 +50,7 @@ illandril.game.objects.Active.prototype.moveBy = function( direction ) {
 
 illandril.game.objects.Active.prototype.moveTo = function( position ) {
   this.bounds.centerOn( position );
-  this.world.objectMoved( this );
+  if ( this.world != null ) {
+    this.world.objectMoved( this );
+  }
 };
