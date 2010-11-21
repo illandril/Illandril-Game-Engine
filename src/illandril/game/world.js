@@ -16,12 +16,13 @@ illandril.game.World = function() {
   
   this.objects = new illandril.game.objects.Container();
   
+  this.updateCount = 0;
   this.inBulk = 0;
   this.hasUpdate = false;
   this.buckets = {};
 };
 
-var bucketSize = 100;
+var bucketSize = 75;
 illandril.game.World.prototype.getBucket = function( center ) {
   var bucketX = Math.round( center.x / bucketSize );
   if ( this.buckets[bucketX] == null ) {
@@ -35,24 +36,36 @@ illandril.game.World.prototype.getBucket = function( center ) {
 };
 
 illandril.game.World.prototype.getNearbySolidObjects = function( center ) {
+  // The cache speeds things up quite a bit when there are lots of things moving close together...
+  // But it also means there might be cases where things don't collide when they should (two, fast moving objects and/or teleporting objects)
+  if ( this.getNearbySolidObjects__last != this.updateCount ) {
+    this.getNearbySolidObjects__last = this.updateCount;
+    this.getNearbySolidObjects__cache = {};
+  }
   var nearbyObjects = [];
   var bucketX = Math.round( center.x / bucketSize );
   var bucketY = Math.round( center.y / bucketSize );
-  for ( var x = -1; x <= 1; x++ ) {
-    var xBucketContainer = this.buckets[bucketX + x];
-    if ( xBucketContainer != null ) {
-      for ( var y = -1; y <= 1; y++ ) {
-        var bucket = xBucketContainer[bucketY + y]
-        if ( bucket != null ) {
-          var bucketObjects = bucket.getSolidObjects();
-          for ( var objIdx = 0; objIdx < bucketObjects.length; objIdx++ ) {
-            nearbyObjects[nearbyObjects.length] = bucketObjects[objIdx];
+  var id = bucketX+"."+bucketY;
+  if ( this.getNearbySolidObjects__cache[id] != null ) {
+    return this.getNearbySolidObjects__cache[id];
+  } else {
+    for ( var x = -1; x <= 1; x++ ) {
+      var xBucketContainer = this.buckets[bucketX + x];
+      if ( xBucketContainer != null ) {
+        for ( var y = -1; y <= 1; y++ ) {
+          var bucket = xBucketContainer[bucketY + y]
+          if ( bucket != null ) {
+            var bucketObjects = bucket.getSolidObjects();
+            for ( var objIdx = 0; objIdx < bucketObjects.length; objIdx++ ) {
+              nearbyObjects[nearbyObjects.length] = bucketObjects[objIdx];
+            }
           }
         }
       }
     }
+    this.getNearbySolidObjects__cache[id] = nearbyObjects;
+    return nearbyObjects;
   }
-  return nearbyObjects;
 };
 
 illandril.game.World.prototype.startBulk = function() {
@@ -143,6 +156,7 @@ illandril.game.World.prototype.objectMoved = function( gameObject ) {
 doRandom = false;
 randomObject = null;
 illandril.game.World.prototype.update = function( tick ) {
+  this.updateCount++;
   tick = Math.min( tick, 1000 );
   this.startBulk();
   if ( doRandom && Math.random() * 100 < 25 ) {
@@ -151,13 +165,6 @@ illandril.game.World.prototype.update = function( tick ) {
     }
     randomObject = new illandril.game.objects.GameObject( this, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 500, 0 ), new goog.math.Vec2( Math.random() * 100, Math.random() * 100 ) ) );
   }
-  var movingObjects = this.think( tick );
-  this.move( tick, movingObjects );
-  this.endBulk();
-};
-
-illandril.game.World.prototype.think = function( tick ) {
-  var movingObjects = [];
   var activeObjects = this.objects.getActiveObjects();
   for ( var idx = 0; idx < activeObjects.length; idx++ ) {
     var obj = activeObjects[idx];
@@ -166,31 +173,31 @@ illandril.game.World.prototype.think = function( tick ) {
     }
     var needsUpdate = obj.think( tick );
     if ( obj.isMoving() ) {
-      movingObjects.push( obj );
+      this.move( obj, tick );
+    }
+    if ( needsUpdate ) {
+      this.updateViewports();
     }
   }
-  return movingObjects;
+  this.endBulk();
 };
 
-illandril.game.World.prototype.move = function( tick, movingObjects ) {
-  for ( var idx = 0; idx < movingObjects.length; idx++ ) {
-    var obj = movingObjects[idx];
-    if ( obj.world != this ) {
-      continue; // Skip over the object if it has been removed from the world
-    }
-    var movement = obj.getVelocity().scale( tick / 10 );
-    var hasBlockingCollision = false;
-    if ( obj.isSolid ) {
-      var intersectionBounds = illandril.math.Bounds.fromCenter( obj.getPosition().add( movement ), obj.getSize() );
-      hasBlockingCollision = checkForCollisions( obj, intersectionBounds, this.getNearbySolidObjects( obj.getPosition() ) );
-    }
-    if ( !hasBlockingCollision ) {
-      obj.moveBy( movement );
-      // "friction"
-      obj.addVelocity( obj.getVelocity().scale( 1 - Math.min( 1, tick / 100 ) ).invert() );
-    } else {
-      obj.setVelocity( new goog.math.Vec2( 0, 0 ) );
-    }
+illandril.game.World.prototype.move = function( obj, tick ) {
+  if ( obj.world != this ) {
+    return; // Skip over the object if it has been removed from the world
+  }
+  var movement = obj.getVelocity().scale( tick / 10 );
+  var hasBlockingCollision = false;
+  if ( obj.isSolid ) {
+    var intersectionBounds = illandril.math.Bounds.fromCenter( obj.getPosition().add( movement ), obj.getSize() );
+    hasBlockingCollision = checkForCollisions( obj, intersectionBounds, this.getNearbySolidObjects( obj.getPosition() ) );
+  }
+  if ( !hasBlockingCollision ) {
+    obj.moveBy( movement );
+    // "friction"
+    obj.addVelocity( obj.getVelocity().scale( 1 - Math.min( 1, tick / 100 ) ).invert() );
+  } else {
+    obj.setVelocity( new goog.math.Vec2( 0, 0 ) );
   }
 };
 
