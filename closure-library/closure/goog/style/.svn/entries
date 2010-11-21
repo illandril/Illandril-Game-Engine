@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/style
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-25T15:33:28.000000Z
-381
-robcos@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-c08262e4deb08a5ffd7bc6f8cd5a2d4d
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+b8bf9c50deb801562f6c96a55befdbd7
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-4623
+4633
 
 style_test_iframe_quirk.html
 file
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-a95372fd3b86be1b58a1fffc53c914b1
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+1e858874248ce9bdea6916b8919c43fc
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-475
+485
 
 style_quirks_test.html
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-b47750701445a3f99fe5836805452644
-2010-10-25T15:33:28.000000Z
-381
-robcos@google.com
+2010-11-21T04:53:46.000000Z
+34c2f88a9177df8b478d2848340ef9d9
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-63147
+63157
 
 style_test_standard.html
 file
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-13f3dd468f6590a1f3d583afec7401f5
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+7a8878612db18d63e39d3254e187e60c
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -160,7 +160,7 @@ has-props
 
 
 
-389
+399
 
 style_test.html
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-59393880a43b9ec332d13cdfea290710
-2010-10-25T15:33:28.000000Z
-381
-robcos@google.com
+2010-11-21T04:53:46.000000Z
+96de997294e177ad1407f0f3e8b827d0
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-65490
+65500
 
 style_test_iframe_standard.html
 file
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-716b847c90d58db5f8e7aa27dca8d4ed
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+a8e5c5ba148fc9169ff098ea886acf8d
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -228,7 +228,7 @@ has-props
 
 
 
-491
+501
 
 cursor.js
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-008027842ee4eee82e142d9f75f3f08c
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+355d17e724d00ef5b341b01722c40ae1
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-4600
+4601
 
 style.js
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-186a579f1d9a01eed756546f32d266a2
-2010-10-25T15:33:28.000000Z
-381
-robcos@google.com
+2010-11-21T04:53:46.000000Z
+6a69ab515f1edf821019a20a560d95d8
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -296,7 +296,7 @@ has-props
 
 
 
-65768
+65767
 
 style_test_quirk.html
 file
@@ -304,11 +304,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-47ef18b9db88e7a3a2d46bf739f63a32
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+64a69c35d7ead36d1260e23551c6136b
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -330,5 +330,5 @@ has-props
 
 
 
-307
+317
 

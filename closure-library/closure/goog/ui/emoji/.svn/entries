@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/ui/emoji
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-26T14:58:24.000000Z
-387
-pallosp@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-0c030575ddc23d7e559eee4d233636ef
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:47.000000Z
+b9c3256edb1fb6321721aa02b9b41227
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-11660
+11661
 
 fast_nonprogressive_emojipicker_test.html
 file
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-b155db5bb03b383b0b6808105be771d3
-2010-10-26T14:58:24.000000Z
-387
-pallosp@google.com
+2010-11-21T04:53:47.000000Z
+616ff68da6a536e0d2080c3a6da6cfdf
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-9463
+9473
 
 emojipicker_test.html
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-dbc8820a6eadfb3c746d2d5d9ee359da
-2010-10-26T14:58:24.000000Z
-387
-pallosp@google.com
+2010-11-21T04:53:47.000000Z
+5862d113cd98be69177f61a66e17ce90
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-31141
+31151
 
 spriteinfo_test.html
 file
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-4dc4e16cd7a4a11896f61a8b9d6a1c8e
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:47.000000Z
+88c31510edec7e4401eec4e915880315
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -160,7 +160,7 @@ has-props
 
 
 
-1565
+1575
 
 emojipaletterenderer.js
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-437fbc04ef602d967439d6cbcefd5453
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:47.000000Z
+0c68b0969dcf6dc0e55da33d60e0dcc6
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-41a2874c3f134f4d410c3d0e15bf7e95
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:47.000000Z
+01bceab75ba4cedd84b2b2b5991bd031
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -228,7 +228,7 @@ has-props
 
 
 
-2130
+2140
 
 fast_progressive_emojipicker_test.html
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-52fadbbcf156360bac9d48b70a901dbe
-2010-10-26T14:58:24.000000Z
-387
-pallosp@google.com
+2010-11-21T04:53:47.000000Z
+9cbe9c754c8d0ce7c9a2267248643215
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-9566
+9576
 
 emojipicker.js
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-f07fa7368fc142c30e239784fc0c8421
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:47.000000Z
+5b814d48eed5084a65b4cfd21867ac17
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -296,7 +296,7 @@ has-props
 
 
 
-23214
+23215
 
 emojipalette.js
 file
@@ -304,11 +304,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-8591662ceb73cd2159ce7307af2dbf16
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:47.000000Z
+5a4a40934d61b52b0bc0d1cbd22d066d
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -330,7 +330,7 @@ has-props
 
 
 
-8797
+8798
 
 spriteinfo.js
 file
@@ -338,11 +338,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-9425bcddf7f295be997ef3c458bc1698
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:47.000000Z
+224c8181b6b61996fee3ea98bd963fda
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -364,7 +364,7 @@ has-props
 
 
 
-6115
+6116
 
 progressiveemojipaletterenderer.js
 file
@@ -372,11 +372,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-4351ee22f5ba9b9c63481dbdc1653eb3
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:47.000000Z
+d0726b7a5ee7a0e5e2311226fd541841
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -398,7 +398,7 @@ has-props
 
 
 
-3114
+3115
 
 emoji.js
 file
@@ -406,11 +406,11 @@ file
 
 
 
-2010-11-12T17:41:24.000000Z
-450787cb51be61ec2edf2c907c46731c
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:47.000000Z
+cdd7b953986aea79499ea5b5d01cb313
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -432,5 +432,5 @@ has-props
 
 
 
-1591
+1592
 

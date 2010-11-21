@@ -30,6 +30,7 @@ goog.require('goog.messaging.MessageChannel'); // interface
 goog.require('goog.object');
 
 
+
 /**
  * Creates a new MultiChannel wrapping a single MessageChannel. The
  * underlying channel shouldn't have any other listeners registered, but it
@@ -107,7 +108,7 @@ goog.messaging.MultiChannel.prototype.createVirtualChannel = function(name) {
  * unrecognized services to the appropriate virtual channel.
  *
  * @param {string} serviceName The name of the service being called.
- * @param {string|Object} payload The message payload.
+ * @param {string|!Object} payload The message payload.
  * @private
  */
 goog.messaging.MultiChannel.prototype.handleDefault_ = function(
@@ -159,6 +160,7 @@ goog.messaging.MultiChannel.prototype.disposeInternal = function() {
 };
 
 
+
 /**
  * A message channel that proxies its messages over another underlying channel.
  *
@@ -194,7 +196,7 @@ goog.inherits(goog.messaging.MultiChannel.VirtualChannel,
 
 /**
  * The default service to run if no other services match.
- * @type {?function(string, (string|Object))}
+ * @type {?function(string, (string|!Object))}
  * @private
  */
 goog.messaging.MultiChannel.VirtualChannel.prototype.defaultService_;

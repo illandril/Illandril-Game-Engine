@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/messaging
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-10T21:55:42.000000Z
-440
-nicksantos@google.com
+2010-11-18T01:44:40.000000Z
+468
+chadyoshikawa@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,10 +32,10 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-980210aaede29ad8587506afb2691c6a
-2010-11-10T21:55:42.000000Z
-440
+2010-11-21T04:53:46.000000Z
+7e9b4c10ed0b390bce27a01407d4646b
+2010-11-15T19:01:13.000000Z
+454
 nicksantos@google.com
 has-props
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-995
+1005
 
 multichannel_test.html
 file
@@ -66,10 +66,10 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-0f5a13b036ef7b1e4f4d77e3d0c5b437
-2010-11-10T21:55:42.000000Z
-440
+2010-11-21T04:53:46.000000Z
+ad8f9ff3619e2a97d8ae66be877cc4f9
+2010-11-15T19:01:13.000000Z
+454
 nicksantos@google.com
 has-props
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-3346
+3356
 
 bufferedchannel.js
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-aaf0a064a591decf2cff541cb60e69bb
-2010-11-04T20:39:48.000000Z
-423
-johncox@google.com
+2010-11-21T04:53:46.000000Z
+76bc4f800a1170570b6b451b542a6f7e
+2010-11-18T01:44:40.000000Z
+468
+chadyoshikawa@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-8557
+8556
 
 messagechannel.js
 file
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-82fa1f1d40745c6786552b7d68347ee8
-2010-10-26T14:58:24.000000Z
-387
-pallosp@google.com
+2010-11-21T04:53:46.000000Z
+3ed5ac672dd2da204d5353e50ca71c16
+2010-11-11T19:26:47.000000Z
+443
+nweiz@google.com
 has-props
 
 
@@ -160,7 +160,7 @@ has-props
 
 
 
-2955
+4614
 
 messaging.js
 file
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-51da5f6a55fec6eeb8520241322ef346
-2010-11-10T21:55:42.000000Z
-440
-nicksantos@google.com
+2010-11-21T04:53:46.000000Z
+4b939e633df32ff3c8a2550a3405ced2
+2010-11-18T01:44:40.000000Z
+468
+chadyoshikawa@google.com
 has-props
 
 
@@ -228,7 +228,7 @@ has-props
 
 
 
-6251
+6255
 
 multichannel.js
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-1e6f71b1ae1704d04fe6859898b4d985
-2010-11-10T21:55:42.000000Z
-440
-nicksantos@google.com
+2010-11-21T04:53:46.000000Z
+7062fca346f80d77cdbf214bdea22b92
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -262,5 +262,5 @@ has-props
 
 
 
-8678
+8682
 

@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/history
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-318bae6620a893990e761560caf3a95f
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+aade91570a93770324a0dea634b8b766
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-34966
+34969
 
 eventtype.js
 file
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-e1d17e51b1f3420bbf4604cb3c0d9ff2
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+05bb1e19eedaf479efe24b7c8db1351c
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -160,5 +160,5 @@ has-props
 
 
 
-843
+842
 

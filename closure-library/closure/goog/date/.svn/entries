@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/date
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-04T12:23:57.000000Z
-421
-ftomi@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-98d49b9459b2883d94d6b071a38bdca6
-2010-09-03T19:38:24.000000Z
-277
-yongrim@google.com
+2010-11-21T04:53:46.000000Z
+4ae3ea0329180531b373caf2eadbefe2
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-51881
+51891
 
 utcdatetime.js
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-a8be1a4eedbdd04e952e28e7ccbefe82
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+aaef4db02a9bcec7ee7037e09376c9fd
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-12444
+12445
 
 relative.js
 file
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-057ca8a5bce46703ea57fa3983107937
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+30c8409c5bf27d277c0ff2221475bfe5
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -228,7 +228,7 @@ has-props
 
 
 
-4454
+4464
 
 daterange_test.html
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-99b25219012ce124c9a4acc424ff8947
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+e8d94236c7f2396d6597354af3c5176b
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-6886
+6896
 
 relative_test.html
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-1d7d99cf69e98305bfbede4e217d4546
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+38e0275a7e22cefe556566c2ed5b9a34
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -296,7 +296,7 @@ has-props
 
 
 
-4245
+4255
 
 datelike.js
 file

@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/math
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-26T14:58:24.000000Z
-387
-pallosp@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-4b20f0fc855c2c6a619915aa4059cd42
-2010-10-20T19:16:15.000000Z
-378
-brenneman@google.com
+2010-11-21T04:53:44.000000Z
+110777d645b0b2149b27efe763ec2c3f
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-20903
+20904
 
 bezier_test.html
 file
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-f0d217222f979775a17acdc1d68a9847
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+c20fd92211cce479b116b0df779828ff
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-1956
+1966
 
 rangeset.js
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-faa5a7f73e12f2d9266a40825f705a78
-2010-10-20T19:16:15.000000Z
-378
-brenneman@google.com
+2010-11-21T04:53:44.000000Z
+10246a3319195b69ef828100c9c7efb2
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -126,41 +126,7 @@ has-props
 
 
 
-8746
-
-coordinate3.js
-file
-
-
-
-
-2010-11-12T17:41:18.000000Z
-2d3e5b06e676c643b87502ca634f944c
-2010-10-20T19:16:15.000000Z
-378
-brenneman@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4638
+8747
 
 size.js
 file
@@ -196,17 +162,17 @@ has-props
 
 4953
 
-coordinate_test.html
+coordinate3.js
 file
 
 
 
 
-2010-11-12T17:41:18.000000Z
-1aa10d7bc75cfc4230e1807086bc38d1
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+26f4d67400bd9972fec0cc7c22fb5b12
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -228,7 +194,7 @@ has-props
 
 
 
-2415
+4639
 
 line_test.html
 file
@@ -236,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-2765e4b1283a36227ea6fb61338b0afa
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+b03070cccfdab384e1448674a3ce19e9
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -262,7 +228,41 @@ has-props
 
 
 
-1725
+1735
+
+coordinate_test.html
+file
+
+
+
+
+2010-11-21T04:53:44.000000Z
+748a2afc81a298d801456de75844c9eb
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2425
 
 box_test.html
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-69888fff8b08c0b4153b08cd6f7a132d
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+f8df13b6159981411bdf184326925466
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -296,41 +296,7 @@ has-props
 
 
 
-5008
-
-math_test.html
-file
-
-
-
-
-2010-11-12T17:41:18.000000Z
-c9fad6c292d958ac9317eb79a5988abb
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-9756
+5018
 
 bezier.js
 file
@@ -338,11 +304,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-2e3d0cfe8fdd681dce95eddd0f8dca0c
-2010-10-20T19:16:15.000000Z
-378
-brenneman@google.com
+2010-11-21T04:53:44.000000Z
+e79d8a286624dd2a7a65f9ac928564eb
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -364,7 +330,41 @@ has-props
 
 
 
-6422
+6423
+
+math_test.html
+file
+
+
+
+
+2010-11-21T04:53:44.000000Z
+2cb6c090bb2bf62cd5863cc941e21c6b
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9766
 
 range_test.html
 file
@@ -372,11 +372,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-9fce80934e6ba3fc3a2deb7554c47249
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+db29645216511fd82d811842aa56a319
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -398,41 +398,7 @@ has-props
 
 
 
-3073
-
-rect_test.html
-file
-
-
-
-
-2010-11-12T17:41:18.000000Z
-03a930f9d9c7734140102768ad21ab99
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-10246
+3083
 
 integer_test.html
 file
@@ -440,11 +406,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-be8eb41954a1fe61a6b36a332b85f37b
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+f3fb5126464bb85294130cde650d4117
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -466,19 +432,19 @@ has-props
 
 
 
-108862
+108872
 
-vec2_test.html
+rect_test.html
 file
 
 
 
 
-2010-11-12T17:41:18.000000Z
-f38a937b90aabadb8f96ebc4d0ead6a6
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+1d13e6ba1eea775b8a7f05e718e99f99
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -500,7 +466,7 @@ has-props
 
 
 
-4236
+10256
 
 long_test.html
 file
@@ -508,11 +474,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-4b8c0d27b0f4e3a355ec14bdccd7a938
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+89a8ee892ebf6583dcc58922ccc51d53
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -534,7 +500,41 @@ has-props
 
 
 
-106256
+106266
+
+vec2_test.html
+file
+
+
+
+
+2010-11-21T04:53:44.000000Z
+4ec9aa0a155c04f98dbe067ff8d53344
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4246
 
 coordinate.js
 file
@@ -542,11 +542,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-25153b1ed1816e12ddcc42d79a89d35a
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+50db4807bf39ee355e377409f847aeaf
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -568,7 +568,7 @@ has-props
 
 
 
-3830
+3831
 
 vec3_test.html
 file
@@ -576,11 +576,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-4e5578e35e494903394376f425d8cd68
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+04bc3939468a5a12ce15d99f7a8ab1dc
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -602,7 +602,7 @@ has-props
 
 
 
-5119
+5129
 
 line.js
 file
@@ -610,11 +610,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-7ea5865596af925414e1cb87e33de64c
-2010-10-20T19:16:15.000000Z
-378
-brenneman@google.com
+2010-11-21T04:53:44.000000Z
+43d12f97ddd663734b4442daec219fd7
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -636,7 +636,7 @@ has-props
 
 
 
-5289
+5290
 
 box.js
 file
@@ -712,11 +712,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-041922d20ebd98c024000808d1d02612
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+5fc22910bd7adb6aeb3e3e2782cf42f6
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -738,7 +738,7 @@ has-props
 
 
 
-15246
+15256
 
 range.js
 file
@@ -746,11 +746,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-3060199ae689e354f7e6bea08aabe67e
-2010-10-20T19:16:15.000000Z
-378
-brenneman@google.com
+2010-11-21T04:53:44.000000Z
+1c6c76f376d4557a0bc7a02eff18e3e2
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -772,7 +772,7 @@ has-props
 
 
 
-3999
+4000
 
 rect.js
 file
@@ -780,11 +780,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-4b117fbbc67a6d2fb16b5f89c9d20f78
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+ae0401e3898a3f713f84ec434b8f06ac
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -806,7 +806,7 @@ has-props
 
 
 
-9898
+9901
 
 integer.js
 file
@@ -814,11 +814,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-3b643923d3db8fcee9e54c3e641979d5
-2010-10-20T19:16:15.000000Z
-378
-brenneman@google.com
+2010-11-21T04:53:44.000000Z
+47b968cf01a4276418b0fb32b70d8825
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -840,7 +840,7 @@ has-props
 
 
 
-22161
+22162
 
 rangeset_test.html
 file
@@ -848,11 +848,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-26703a9e4e824de484d1df8a0b1ea04a
-2010-10-26T14:58:24.000000Z
-387
-pallosp@google.com
+2010-11-21T04:53:44.000000Z
+efa43718aedc346f764712c27bc7b601
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -874,7 +874,7 @@ has-props
 
 
 
-17473
+17483
 
 vec2.js
 file
@@ -916,11 +916,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-bcab4ce33ec3b3458e004d870478aed4
-2010-10-20T19:16:15.000000Z
-378
-brenneman@google.com
+2010-11-21T04:53:44.000000Z
+e3ed2d2c9edf053e5374daf8b890f33f
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -942,7 +942,7 @@ has-props
 
 
 
-23191
+23202
 
 vec3.js
 file
@@ -950,11 +950,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-4d70ba9d1b596b06000d8d224f78fc06
-2010-10-20T19:16:15.000000Z
-378
-brenneman@google.com
+2010-11-21T04:53:44.000000Z
+121ddf2057a3952cf9a813269610664e
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -976,7 +976,7 @@ has-props
 
 
 
-8352
+8353
 
 size_test.html
 file
@@ -984,11 +984,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-7e488bc3fce7df446ae2e64a9a7d8081
-2010-09-06T07:29:22.000000Z
-279
-avrahamy@google.com
+2010-11-21T04:53:44.000000Z
+8fafa877338e19b112acb31c5badf929
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -1010,7 +1010,7 @@ has-props
 
 
 
-4297
+4307
 
 coordinate3_test.html
 file
@@ -1018,11 +1018,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-5f4a3e39dcabd0453bce18c8ac613a1e
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+aa99d550402de0706822e7dd445d3c98
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -1044,5 +1044,5 @@ has-props
 
 
 
-6043
+6053
 

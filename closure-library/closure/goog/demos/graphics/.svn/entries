@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/demos/graphics
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:19.000000Z
-c7cc20a45a32d42e45319d2347f28205
-2010-05-17T00:57:56.971509Z
-137
-dtbentley
+2010-11-21T04:53:45.000000Z
+ee30f944d0c8b45d9a837dccd153725a
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-8677
+8687
 
 advancedcoordinates.html
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:19.000000Z
-d909b2d8e532efe860e5622b84d44f4a
-2010-05-17T00:57:56.971509Z
-137
-dtbentley
+2010-11-21T04:53:45.000000Z
+b8a83532dda4b76b227157648dfdf328
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-4297
+4307
 
 advancedcoordinates2.html
 file
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-12T17:41:19.000000Z
-45e393ed4dfaa7322b5486beb5b84fef
-2010-05-17T00:57:56.971509Z
-137
-dtbentley
+2010-11-21T04:53:45.000000Z
+3cec9380c1e4df3f79f8511d0f7e9d14
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -160,7 +160,7 @@ has-props
 
 
 
-3538
+3548
 
 events.html
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-12T17:41:19.000000Z
-9fb3b74384cf0593c35363b13cb169e2
-2010-05-17T00:57:56.971509Z
-137
-dtbentley
+2010-11-21T04:53:45.000000Z
+ad11151d94f1f69889ec785ab691461e
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-3183
+3193
 
 modifyelements.html
 file
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:19.000000Z
-1cb1b0a5ce698a8917ad6bfe1e31edef
-2010-05-17T00:57:56.971509Z
-137
-dtbentley
+2010-11-21T04:53:45.000000Z
+9c2f62765eb99b26ab250b629e3b42f5
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -228,7 +228,7 @@ has-props
 
 
 
-6173
+6183
 
 tiger.html
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:19.000000Z
-1bf77de6dbb95f97dd1a59b1f2c094f8
-2010-05-17T00:57:56.971509Z
-137
-dtbentley
+2010-11-21T04:53:45.000000Z
+91e3705106efecac1b12eb910beed410
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-2580
+2590
 
 subpixel.html
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:19.000000Z
-fe0462adc343c05e62b7d78a662e930d
-2010-05-17T00:57:56.971509Z
-137
-dtbentley
+2010-11-21T04:53:45.000000Z
+b9fe11eb2d1cec350915d05f0c2a0972
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -296,5 +296,5 @@ has-props
 
 
 
-1830
+1840
 

@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/proto
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-34dec14c2e569be5decafa18773c93e5
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+fec37079e1a4476d6ebc47ac89c97d6c
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-1857
+1858
 
 serializer_test.html
 file
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:22.000000Z
-5cf89dc3ffd0fc510446390094aea5d5
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+943240b4f77a0f22fa6462d75892e83c
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-1249
+1259
 
 proto.js
 file

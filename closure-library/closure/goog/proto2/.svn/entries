@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/proto2
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-4ab8002049671102f72d741d4f71a44a
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+1918c01763c71f66f21b723096c6af97
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -58,75 +58,7 @@ has-props
 
 
 
-1343
-
-serializer.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-7be3a03541e52607df3f8ee623477ef5
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3587
-
-fielddescriptor_test.html
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-f836ca758fd4d19dd21b1b941c3a036d
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3113
+1353
 
 pbliteserializer.js
 file
@@ -134,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-c0783145e885ee45ad09e11249154309
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+b7b98fb0c231b1bf9525439182117ed2
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -160,7 +92,75 @@ has-props
 
 
 
-4092
+4093
+
+fielddescriptor_test.html
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+3e8c68e3f94109a3a8e749da7b3eac36
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3123
+
+serializer.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+8a770e526f3b9d9e8af28723411e5dda
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3588
 
 util.js
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-f5614291f4093bc5a1d8628efed60eb7
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+2caab637d924a2bf078f9d94dd7e9fca
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-1650
+1652
 
 descriptor.js
 file
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-fee6834f970a58f6eceb3f9ea643c8aa
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+89d82798a99cb6daea815412bbef082e
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -228,7 +228,7 @@ has-props
 
 
 
-4739
+4740
 
 test.pb.js
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-e992313ea846c131b62b368fba133bd2
-2010-05-17T00:57:56.971509Z
-137
-dtbentley
+2010-11-21T04:53:46.000000Z
+2146052e83fb56d828f6bdf4694dd644
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -262,41 +262,7 @@ has-props
 
 
 
-65298
-
-lazydeserializer.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-15748a32010f75b58a6e5ae9c517020a
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2243
+65294
 
 fielddescriptor.js
 file
@@ -304,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-4e72dd9bf4515be4486a45e19f2b02d2
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+3ad342ec31b1d384d3d60778789ad01d
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -330,7 +296,41 @@ has-props
 
 
 
-5702
+5703
+
+lazydeserializer.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+611bca074e60762bc78395643333768f
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2244
 
 message.js
 file
@@ -372,11 +372,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-763f2274d9d678b9578138638cd9d8bc
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+6338b48f4e6d9908eb6443497b022e28
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -398,41 +398,7 @@ has-props
 
 
 
-10357
-
-package_test.pb.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-08239e391d70cbeeb6b19b5e932476ee
-2010-05-17T00:57:56.971509Z
-137
-dtbentley
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4189
+10367
 
 proto_test.html
 file
@@ -440,11 +406,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-54758dbb97602dda480638823b90c77b
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+88153badac86b0eb52b67bcf6c3f7ea7
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -466,19 +432,19 @@ has-props
 
 
 
-28914
+28924
 
-pbliteserializer_test.html
+package_test.pb.js
 file
 
 
 
 
-2010-11-12T17:41:20.000000Z
-88979b1261d5eba3299912cc18ee06de
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+6225e0d2c3ff6e255c0028e8f06bbd11
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -500,7 +466,7 @@ has-props
 
 
 
-9326
+4191
 
 objectserializer.js
 file
@@ -535,4 +501,38 @@ has-props
 
 
 4297
+
+pbliteserializer_test.html
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+9ad5a0887bd85f284556d8cae6ac0e41
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9336
 

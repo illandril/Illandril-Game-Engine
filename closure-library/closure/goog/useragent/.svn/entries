@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/useragent
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-27T22:43:18.000000Z
-395
-mcg@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-1a419c3bfa3f93d4222f6ddec17568ef
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+1b14ce46b1b5e6b9277be93b46889d6b
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-1352
+1362
 
 product_test.html
 file
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-9d386703364edd9c91298bff79201798
-2010-10-16T02:08:08.000000Z
-364
-yongrim@google.com
+2010-11-21T04:53:44.000000Z
+7dc47a2ecdebeb4fdd3af477ce110199
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-11128
+11138
 
 platform_test.html
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-b792309ff2d1f9ded6b346fd10f2a71e
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+c6988d773ad7f9aab1a1c9581aa5fe9e
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-3432
+3442
 
 jscript.js
 file
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-c9532260a92e595c6a4500f97afa41e8
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+f73323f105b7ed0310fcfc6f9722b7c5
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -160,7 +160,7 @@ has-props
 
 
 
-2735
+2736
 
 product.js
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-94fd21efd5f246b3d0e4cd501e466195
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+aa085e320be94e3b90684021f74d5f6d
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-6843
+6845
 
 product_isversion.js
 file
@@ -230,17 +230,17 @@ has-props
 
 3640
 
-flash_test.html
+platform.js
 file
 
 
 
 
-2010-11-12T17:41:18.000000Z
-9c98e42c6a9faf5a6f6fc8b5a417cee0
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+c2a6f90eafd36e436700e8ad276cf683
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -262,41 +262,7 @@ has-props
 
 
 
-967
-
-useragent_test.html
-file
-
-
-
-
-2010-11-12T17:41:18.000000Z
-b6d724060184e602631c96a61ab0f158
-2010-10-26T14:58:24.000000Z
-387
-pallosp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-10925
+2140
 
 adobereader_test.html
 file
@@ -304,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-32bef4e272f0f161d4b342282ed9a564
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+b5bda93d7e0006d1e04c3acabc915334
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -330,16 +296,84 @@ has-props
 
 
 
-980
+990
 
-platform.js
+useragent_test.html
+file
+
+
+
+
+2010-11-21T04:53:44.000000Z
+c68e600c916a3837ad2e25084acf1d57
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10935
+
+flash_test.html
+file
+
+
+
+
+2010-11-21T04:53:44.000000Z
+0b12a7a5618f195a32d6528d0db77088
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+977
+
+flash.js
 file
 
 
 
 
 2010-11-12T17:41:18.000000Z
-308f5eca3b78c1e47527f344f6c34929
+9922b0e573f06fc54c0bdeb9e0e47c57
 2010-10-18T19:19:05.000000Z
 371
 dbentley@google.com
@@ -364,41 +398,7 @@ has-props
 
 
 
-2139
-
-adobereader.js
-file
-
-
-
-
-2010-11-12T17:41:18.000000Z
-b02c8784e08df4b92b03985c30f23b01
-2010-08-06T21:08:19.000000Z
-185
-nweiz@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2755
+3419
 
 useragent.js
 file
@@ -434,17 +434,17 @@ has-props
 
 13245
 
-flash.js
+adobereader.js
 file
 
 
 
 
 2010-11-12T17:41:18.000000Z
-9922b0e573f06fc54c0bdeb9e0e47c57
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+b02c8784e08df4b92b03985c30f23b01
+2010-08-06T21:08:19.000000Z
+185
+nweiz@google.com
 has-props
 
 
@@ -466,7 +466,7 @@ has-props
 
 
 
-3419
+2755
 
 picasa.js
 file

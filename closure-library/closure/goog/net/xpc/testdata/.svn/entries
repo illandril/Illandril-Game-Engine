@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/net/xpc/testdata
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-18T00:02:00.000000Z
+465
+nweiz@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:21.000000Z
-ba57cd198f95cb7b0896adac197189ad
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+40de7ec887d67eca06d9c8e7a43874e0
+2010-11-18T00:02:00.000000Z
+465
+nweiz@google.com
 has-props
 
 
@@ -58,5 +58,5 @@ has-props
 
 
 
-2636
+2789
 

@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/format
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-19T17:07:38.000000Z
-373
-yongrim@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:21.000000Z
-6dfa7b3b31718a34e900148b87771373
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+d0290b53fc306aff65c9f22b9846e680
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-6662
+6672
 
 jsonprettyprinter.js
 file
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:21.000000Z
-220813014ce43cea6376b29430cbe4ca
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+2f6252dfb95a1f49a92f8c6ad883460c
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-12846
+12849
 
 htmlprettyprinter_test.html
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:21.000000Z
-bcb0ab7eeca8f923195f9ec7be96182c
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+6e5be07cb7221c5fed35f18720a9df8d
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-7159
+7169
 
 format.js
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-12T17:41:21.000000Z
-44c5effa2cc562261d584d0a58cd31a1
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+ab414459f9049c6b46eaeeca3c0d5220
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-2663
+2673
 
 emailaddress.js
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:21.000000Z
-d90eebe82f2c933338f115fe8bbb5fee
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+2824fb32388cf8ad0a6f4095f7031049
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-6718
+6728
 
 htmlprettyprinter.js
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:21.000000Z
-ac8c4cc6b087a1b46c14ceb935851518
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+5de5cf1df26b073a3d6ca4293ff516cb
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -296,5 +296,5 @@ has-props
 
 
 
-11350
+11353
 

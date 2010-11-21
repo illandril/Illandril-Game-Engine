@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/dom/browserrange
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-0e8caaf585ce3d243e008df8ff0161b5
-2010-05-17T00:57:56.971509Z
-137
-dtbentley
+2010-11-21T04:53:46.000000Z
+a71f95096f6526f5daf597c2b05a137e
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-2958
+2959
 
 browserrange_test.html
 file
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-8e0c86b0e3294972a8c8fe6b3d9b7b6c
-2010-09-17T18:41:16.000000Z
-305
-skanuj@google.com
+2010-11-21T04:53:46.000000Z
+eb0bbaf85de560f373ad2945342f86c6
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-22026
+22036
 
 w3crange.js
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-d2731a6764c64d3a0f7fced1a057dc99
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+7221deaf315c4dbf96b0bd7b9637f48f
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-11244
+11245
 
 ierange.js
 file
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-465806f5dc72e7cac8ca807abd18e58b
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+89fa6a5fc55e9096ffddb61c74b49194
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -160,7 +160,7 @@ has-props
 
 
 
-32439
+32437
 
 abstractrange.js
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-0ce7a29801be0518abe4483669794cba
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+42ae08c7c773bf5b8a4bcdbca52e24bf
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-10980
+10982
 
 browserrange.js
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-a03f229a940150042a6b1679e9d780c1
-2010-06-04T21:59:01.892414Z
-146
-dtbentley
+2010-11-21T04:53:46.000000Z
+9f47af121db08069d4f3bf28f49ee129
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-4148
+4151
 
 operarange.js
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-c896702f1ed08a9f4c48ec71321ceb5b
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+35897bca66bb5d0c1ce0be8cc5900288
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -296,5 +296,5 @@ has-props
 
 
 
-2937
+2938
 

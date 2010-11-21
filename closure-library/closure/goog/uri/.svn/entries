@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/uri
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-253e76313df70e8022772bfbdfa3e091
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+b0c28fc097d79bdb87a9a9f7887e6e23
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-29510
+29520
 
 utils_test.html
 file
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-4fac3615a72e8a6943aa223f6d9d4bba
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+84b4bb4b07407c8b5758db9dae5caa55
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-19530
+19540
 
 uri.js
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-2b6b4b8c1d8702ab897c207b7d2aa638
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+1648d6472044dc66a7705b471e4f2adc
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 

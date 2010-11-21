@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/testing/net
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-28T09:19:25.000000Z
-397
-sjchen@google.com
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:19.000000Z
-7919fd0d27e1365cf52c6f8d3f8bbc55
-2010-10-28T09:19:25.000000Z
-397
-sjchen@google.com
+2010-11-21T04:53:46.000000Z
+3add1f3d8841f9a84b22b3c1287a226b
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -58,5 +58,5 @@ has-props
 
 
 
-14371
+14370
 

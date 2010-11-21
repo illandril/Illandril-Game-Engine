@@ -21,6 +21,7 @@
  *
  */
 
+
 /**
  * @define {boolean} Overridden to true by the compiler when --closure_pass
  *     or --mark_as_compiled is specified.
@@ -940,8 +941,7 @@ Object.prototype.clone;
  *     Only the pure-JS version is truly deprecated.
  */
 goog.bindNative_ = function(fn, selfObj, var_args) {
-  return /** @type {!Function} */ (Function.prototype.call.apply(
-      Function.prototype.bind, arguments));
+  return /** @type {!Function} */ (fn.call.apply(fn.bind, arguments));
 };
 
 

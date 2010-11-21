@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/locale
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-96a4f54d027402fb94e4d81767189b95
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+1b3ad3a1c089f821e45c2f7715bdf892
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-59436
+59437
 
 timezonelist.js
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-3102da778d8bcac352f203f261f636b1
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+98979ca59d499e49f6ac0aba740c6c04
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-2552
+2555
 
 timezonedetection.js
 file
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-8eac2a63c05c95d28fa79cff28d55ee3
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+d87746aa40e2967bb181a491a5855c0c
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -160,7 +160,7 @@ has-props
 
 
 
-4124
+4127
 
 countries.js
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-699f42a8613a5efb006553c537bf3b27
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+3814695d8bc688360a79a0a13ec18320
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-3340
+3341
 
 timezonelist_test.html
 file
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-468041d8422fbb64e396622ce225587f
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+cae3058ead02eee9f6b413f6ca4b0847
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -228,7 +228,7 @@ has-props
 
 
 
-5262
+5272
 
 genericfontnames_test.html
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-655dda9e4cb6854d13eb2a733776be52
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+c69cd0ac56b4c70a88b0c31bb36ef529
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-3519
+3529
 
 scriptToLanguages.js
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-ad793dba7cf44918e3068a1a1d74bd85
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+7800eb3b3794285ccdeac5e3382b46c2
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -296,7 +296,7 @@ has-props
 
 
 
-6261
+6262
 
 locale.js
 file
@@ -304,11 +304,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-3ff048eea70fe5d001db4f6cf7947bb4
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+ef409a0d0074f16c8226236406419fa4
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -330,7 +330,7 @@ has-props
 
 
 
-13491
+13492
 
 timezonedetection_test.html
 file
@@ -338,11 +338,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-c2b83b7c1efe6e1fb881325bb76dadbe
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:44.000000Z
+3f974da263cb80d96ff8f91404e2a4a2
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -364,7 +364,7 @@ has-props
 
 
 
-4097
+4107
 
 genericfontnamesdata.js
 file
@@ -372,11 +372,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-49e1dfe105516a72eb4c55854fc00cc1
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+a6d3d88fc3049a3fe1eea62f1795086f
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -398,7 +398,7 @@ has-props
 
 
 
-7059
+7060
 
 timezonefingerprint.js
 file
@@ -474,11 +474,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-6510d263d0476e3965cf5f3e7cf86518
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:44.000000Z
+3066081bf2e9d20658671d445e0b932d
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -500,5 +500,5 @@ has-props
 
 
 
-6423
+6433
 

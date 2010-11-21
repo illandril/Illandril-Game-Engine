@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/fx
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-29T16:33:40.000000Z
-400
-mirkov@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-3d8e159cc8097cacb1490fc7e04628b3
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+dd47b1c61210f5fef46ff72cc0d0d830
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -58,7 +58,41 @@ has-props
 
 
 
-4681
+4691
+
+cssspriteanimation_test.html
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+3207a625a5dc1c48f6b8592694f1f317
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2854
 
 easing.js
 file
@@ -66,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-f0956133b61b7002f26e734afb3a4f71
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+dc189f2970f6c5d9979fc9183166002b
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -94,51 +128,17 @@ has-props
 
 1377
 
-cssspriteanimation_test.html
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-b3d7dae4e0e618aa1fc5831465e139f3
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2844
-
 dragger.js
 file
 
 
 
 
-2010-11-12T17:41:20.000000Z
-935113de609a1f2cc66dde8573c7cf90
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+4983c147c4d4ae17bb21b16490226f38
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -160,75 +160,7 @@ has-props
 
 
 
-18800
-
-draglistgroup_test.html
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-7fc1bb261cba1163378e5b6da1446966
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-8500
-
-abstractdragdrop_test.html
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-2aaa20bb4639b6131e3d1b72a24ac0e7
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-14032
+18802
 
 fx.js
 file
@@ -264,6 +196,176 @@ has-props
 
 1125
 
+abstractdragdrop_test.html
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+e267951ee630884784de112fd0d80006
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+14042
+
+draglistgroup_test.html
+file
+
+
+
+
+2010-11-12T17:41:20.000000Z
+7fc1bb261cba1163378e5b6da1446966
+2010-10-18T19:19:05.000000Z
+371
+dbentley@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8500
+
+dom.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+3614f8e8d58b4958d73368fa6ea6ba23
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+18885
+
+animation.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+f0af2a6571d2666bdb9b983d63ceeb4e
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+14484
+
+dragdropgroup.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+9209027f7cced86810859412d03e4a87
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2573
+
 cssspriteanimation.js
 file
 
@@ -298,119 +400,17 @@ has-props
 
 3960
 
-dragdropgroup.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-67d32ecffd2c1bd9dbdf481d1836f833
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2571
-
-animation.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-6a77ace3f3535154df4e00f1b4713314
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-14484
-
-dom.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-0398f9f6cc2de1324332d59589703ffb
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-18881
-
 dragscrollsupport_test.html
 file
 
 
 
 
-2010-11-12T17:41:20.000000Z
-4402caeec0ce6e47db80b558dc0c9865
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+bbf3eaed677b77bb0b8fe6dec1fc20ac
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -432,7 +432,7 @@ has-props
 
 
 
-9048
+9058
 
 animationqueue.js
 file
@@ -440,11 +440,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-880756ec019c67caab1cbd6f1af48774
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+bf04b19bf0b627e61a21466c43bf67da
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -466,41 +466,7 @@ has-props
 
 
 
-8826
-
-abstractdragdrop.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-d1d37912aa4182a18583d6217df5037f
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-43539
+8827
 
 draglistgroup.js
 file
@@ -508,11 +474,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-e0cb5e68233bd906ddbeb024ebbccfd4
-2010-10-29T16:33:40.000000Z
-400
-mirkov@google.com
+2010-11-21T04:53:46.000000Z
+befeef559c7e80da8ea9ed5b07c0cfd6
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -534,7 +500,41 @@ has-props
 
 
 
-39213
+39220
+
+abstractdragdrop.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+09c24a88af950aaeafa485b35c6da685
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+43543
 
 dragscrollsupport.js
 file
@@ -542,11 +542,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-cb0b36bfbfad01e7b9980e13bf7d9940
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+e60dae523fc34c1e31349d20b89555a4
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -568,7 +568,7 @@ has-props
 
 
 
-8335
+8336
 
 dragger_test.html
 file
@@ -576,11 +576,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-c4b9466aea58c928a4076d704d26e626
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+d72c146ab7098ca0d73e8de79e3d4e1a
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -602,7 +602,7 @@ has-props
 
 
 
-12823
+12833
 
 dragdrop.js
 file
@@ -610,11 +610,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-9c9f3419865dfc01f748d18d89bd8442
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+37cdebd599c2d9ec3b7c40bfa750d4e3
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -636,5 +636,5 @@ has-props
 
 
 
-1632
+1633
 

@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/events
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-02T19:05:37.000000Z
-412
-mpd@google.com
+2010-11-18T09:59:51.000000Z
+469
+pallosp@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-61a49c42e354e0c224e2878c09e89151
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+bacb10ebda3f8913609a51d2acd589b3
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-2216
+2226
 
 imehandler.js
 file
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-ba4c2d1f02691cc7b8eab4541f11ac92
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+2eddcfd3a2dac124cd9b878b7dbfa963
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -160,7 +160,7 @@ has-props
 
 
 
-10700
+10702
 
 keynames.js
 file
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-4f43d572c1442631f2a2bae51fea4398
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:45.000000Z
+6a2b949e882d42fcc2105da379665d69
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -228,7 +228,7 @@ has-props
 
 
 
-1204
+1214
 
 keyhandler_test.html
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-ad746c0b95cdd69a2c9765ecf715a4ea
-2010-09-17T21:47:53.000000Z
-306
-mirkov@google.com
+2010-11-21T04:53:45.000000Z
+a8a32da7989e811f9cd32aae187cb7d7
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-24242
+24252
 
 focushandler.js
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-fa0f61af853779ca7be25a47e1eefd32
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+2aa7cb6d16a222fd9ad86ca247156ea9
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -296,7 +296,7 @@ has-props
 
 
 
-3509
+3510
 
 eventhandler.js
 file
@@ -304,11 +304,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-0d7f48c0e6ed0e3ab165ca962273c72d
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+46d27f1755c75a4bafdedba62f87bbd0
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -330,7 +330,7 @@ has-props
 
 
 
-11324
+11325
 
 onlinelistener_test.html
 file
@@ -338,11 +338,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-40e9f4080319b33cc803d9c14b2cc073
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+a95aa05fa22f6f61c32fac2d9c6d9d5f
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -364,7 +364,7 @@ has-props
 
 
 
-5881
+5891
 
 onlinehandler.js
 file
@@ -372,11 +372,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-6ad2d6b674f875ee4603440573d45d17
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+3823e5e883cf569e48d7baff2b619456
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -398,7 +398,7 @@ has-props
 
 
 
-5356
+5357
 
 listener.js
 file
@@ -406,11 +406,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-b55dc41802412e5500c207e508d75178
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+e83f31223ee3e1d8b0d921c2a0686aa0
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -432,7 +432,7 @@ has-props
 
 
 
-3964
+3967
 
 keyhandler.js
 file
@@ -474,11 +474,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-2a49c04f40aa83dcdc646ae1cf9acdfe
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+535a31d12db13a058b32504f13138062
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -500,7 +500,7 @@ has-props
 
 
 
-8236
+8246
 
 browserfeature.js
 file
@@ -542,11 +542,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-433484c66a883e2e64d06ca565ae2557
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+99e29ef8402c23e93d1992991400e53e
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -568,7 +568,7 @@ has-props
 
 
 
-11515
+11525
 
 filedrophandler.js
 file
@@ -576,11 +576,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-6f1c87cf6f0845763add0ca8a34e2e86
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+02955b5e7336fe84bd1e02f17ccfe093
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -602,7 +602,7 @@ has-props
 
 
 
-7341
+7342
 
 eventhandler_test.html
 file
@@ -610,11 +610,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-534f21c4132eda7ca8d71ad5b31de965
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:45.000000Z
+1b611a8ea4f2207aad02339235d46035
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -636,7 +636,7 @@ has-props
 
 
 
-8450
+8460
 
 actioneventwrapper_test.html
 file
@@ -644,11 +644,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-8b94c6982ec9168544470b613ec3d3ec
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:45.000000Z
+bff9983761afe2824dc8568df8f322e4
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -670,7 +670,7 @@ has-props
 
 
 
-6436
+6446
 
 pastehandler.js
 file
@@ -678,11 +678,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-3f2c0e63e3e105ec646de1014c9dd421
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+b990c348631c29cc1980feaffb107401
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -704,41 +704,7 @@ has-props
 
 
 
-14883
-
-actionhandler.js
-file
-
-
-
-
-2010-11-12T17:41:18.000000Z
-78b5937e32d65ac7c22ec2a2b9f16e92
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5719
+14884
 
 mousewheelhandler.js
 file
@@ -746,11 +712,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-3681ca602fb1f906c56a6e249214170f
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+c306a84a03fbc9d0061631bd38786334
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -772,7 +738,41 @@ has-props
 
 
 
-7667
+7669
+
+actionhandler.js
+file
+
+
+
+
+2010-11-21T04:53:45.000000Z
+154375f72e72044db61f1da4a191e98e
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5722
 
 eventtarget_test.html
 file
@@ -780,11 +780,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-5ff61f5381020ca3bea1a9de5540cb7a
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:45.000000Z
+f6955c84a11f1b06b5a994f3c3e08ccb
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -806,7 +806,7 @@ has-props
 
 
 
-12071
+12081
 
 actioneventwrapper.js
 file
@@ -814,11 +814,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-cf1cc699b0ae981fa83bbf969d5eb1c4
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+d5fa88903e94d37b98b52bb5fa3fc929
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -840,7 +840,7 @@ has-props
 
 
 
-4247
+4248
 
 event.js
 file
@@ -848,11 +848,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-57414217cf68c9af9e80a7f45b2711e1
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+9ef78a1de22a94d90f2ab132913432f7
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -874,7 +874,7 @@ has-props
 
 
 
-3261
+3262
 
 eventwrapper.js
 file
@@ -882,11 +882,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-a951cce203430000a994cfbd1e4cdadc
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+43cf747614f37a441dc2e3e59e4fe44e
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -908,7 +908,7 @@ has-props
 
 
 
-2285
+2286
 
 eventtype.js
 file
@@ -916,11 +916,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-50ad313d5925c116150579aeaa305a75
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+1355fe85e41ebeb8ad1f7b9122ffb444
+2010-11-18T09:59:51.000000Z
+469
+pallosp@google.com
 has-props
 
 
@@ -942,7 +942,7 @@ has-props
 
 
 
-2166
+2278
 
 browserevent.js
 file
@@ -950,11 +950,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-e71842c2e094cfdec073a38ddef9b437
-2010-10-19T22:28:46.000000Z
-375
-eae@google.com
+2010-11-21T04:53:45.000000Z
+81db04a8dadf28c4d176e0cfee3e742a
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -976,7 +976,7 @@ has-props
 
 
 
-10929
+10930
 
 eventtarget.js
 file
@@ -984,11 +984,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-56b43ec1c0db447eb2d2445f69703f2c
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+7001815b0376203d29978b390edbb92f
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -1010,7 +1010,7 @@ has-props
 
 
 
-6787
+6789
 
 events_test.html
 file
@@ -1018,11 +1018,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-1afa915882740c6d609c42f9ffec9a98
-2010-09-17T21:47:53.000000Z
-306
-mirkov@google.com
+2010-11-21T04:53:45.000000Z
+69675f0fefc1fb6c7c9c63b9904f73ac
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -1044,7 +1044,7 @@ has-props
 
 
 
-9807
+9817
 
 pools.js
 file
@@ -1086,11 +1086,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-67bc51df931b91ee91213e8c15c0088a
-2010-10-26T17:48:21.000000Z
-389
-mpd@google.com
+2010-11-21T04:53:45.000000Z
+cbecdc1dc561bf2bf5e6c2d2efaa21fc
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -1112,7 +1112,7 @@ has-props
 
 
 
-7343
+7345
 
 keycodes_test.html
 file
@@ -1188,11 +1188,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-a3c8496b04e13da277c30d9f620a8e06
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:45.000000Z
+3f14887cdea8accba2529bba6b8d07a9
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -1214,7 +1214,7 @@ has-props
 
 
 
-2709
+2719
 
 mousewheelhandler_test.html
 file
@@ -1222,11 +1222,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-4a7738ff866c55a3b1535d4c5fdb4a58
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:45.000000Z
+8630ea6829dd255b9334371da90aeb19
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -1248,5 +1248,5 @@ has-props
 
 
 
-8624
+8634
 

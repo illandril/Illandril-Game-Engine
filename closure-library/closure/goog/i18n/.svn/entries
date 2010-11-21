@@ -1,15 +1,15 @@
 9
 
 dir
-442
+470
 http://closure-library.googlecode.com/svn/trunk/closure/goog/i18n
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-08T21:22:12.000000Z
-432
-shanjian@google.com
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-d701118e536f29f31c9978791a237a36
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+48e91b9e4bfe04c919acc71b354d8937
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-113744
+113743
 
 numberformatsymbols.js
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-6ff0f9e6b77078c2ba9437dbfbc95313
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+e39ccfc3151631e319d072a4992c1e0b
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-27100
+27110
 
 mime_test.html
 file
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-5ba5a6941193e031b9eca9666557c530
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+78368b91c6b90451c1ece8bca9617c88
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -228,7 +228,7 @@ has-props
 
 
 
-1478
+1488
 
 messageformat_test.html
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-b8bf10d4582c1e2e2c7271a22c13dfdc
-2010-09-08T15:37:11.000000Z
-281
-cira@google.com
+2010-11-21T04:53:46.000000Z
+f52309f794a9a383501cf10b12b064dc
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-11760
+11770
 
 graphemebreak_test.html
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-8cffba074912224e0e0362a6055e5247
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+df4be95b74def11fa9c032f139eb1487
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -296,7 +296,7 @@ has-props
 
 
 
-2175
+2185
 
 numberformat_test.html
 file
@@ -304,11 +304,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-e1843cbe09aadf5b03698f67dd0c7ddd
-2010-09-21T19:40:35.000000Z
-312
-yongrim@google.com
+2010-11-21T04:53:46.000000Z
+e9c38ede0ce52caab810698b53f70834
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -330,7 +330,7 @@ has-props
 
 
 
-18206
+18216
 
 bidiformatter.js
 file
@@ -372,11 +372,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-3673540e4266a93c7466e1313d13fa35
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+e037b500cb89f164219340f206f3e9aa
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -398,7 +398,7 @@ has-props
 
 
 
-5230
+5231
 
 datetimeformat.js
 file
@@ -406,11 +406,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-0120e4a77354d2fad4c5057d9ae838e9
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+958383f111064c9910cd5254b91cb2c7
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -432,7 +432,7 @@ has-props
 
 
 
-23081
+23131
 
 bidi.js
 file
@@ -474,11 +474,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-9288d3a50b96b1d3292d750d7e78fc95
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+477d9704d2f03f9333c8833e48335e40
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -500,41 +500,7 @@ has-props
 
 
 
-17894
-
-currency_test.html
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-9749b230c40827448ce55f84e5ff5f8b
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-6811
+17895
 
 timezone_test.html
 file
@@ -542,11 +508,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-fb333f46ad173689cda987c49067f00a
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+f88fb198379c7f4629f806508132ee68
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -568,7 +534,41 @@ has-props
 
 
 
-7364
+7374
+
+currency_test.html
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+6d9acfac3f2840c20dd584d635bc3fa3
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6821
 
 bidiformatter_test.html
 file
@@ -576,11 +576,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-3555f391717078378c938ff8bf05804c
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+30af671fc4625c52468059b106a90f4f
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -602,7 +602,7 @@ has-props
 
 
 
-15530
+15540
 
 currencycodemap.js
 file
@@ -638,51 +638,17 @@ has-props
 
 4265
 
-datetimesymbolsext.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-93ad6445be97be0e9e8ca42bd7487a58
-2010-06-25T19:15:16.906704Z
-155
-brenneman@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-587942
-
 charlistdecompressor_test.html
 file
 
 
 
 
-2010-11-12T17:41:20.000000Z
-0e2a2969342a5dc8f3b96b1e35d96d92
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+a83682eb5d0fab1a6e2bdf46b2caf6c5
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -704,7 +670,75 @@ has-props
 
 
 
-1600
+1610
+
+datetimesymbolsext.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+a8eebd39a7d753e2418505310d784e7f
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+587943
+
+datetimeparse.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+4b1cfef6956c0a35e0843b54fddee1ad
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+35379
 
 mime.js
 file
@@ -740,51 +774,17 @@ has-props
 
 3533
 
-datetimeparse.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-ec835aaf9b7f8560c22031e487dbb41b
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-35364
-
 uchar_test.html
 file
 
 
 
 
-2010-11-12T17:41:20.000000Z
-d009ff3f854f5ea1d73f83a4a0d5cc2f
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+1628511891b7842187ed79e5ad218052
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -806,41 +806,7 @@ has-props
 
 
 
-1651
-
-currency.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-de19e8b2357889c502958ae82225e8c8
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-12468
+1661
 
 timezone.js
 file
@@ -848,11 +814,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-83f34e0c312fc69d4f618ed1742e4d3a
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+6dde9466fddc3d1303c759a86b93cf81
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -874,7 +840,41 @@ has-props
 
 
 
-11495
+11496
+
+currency.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+a621604f4eb6fb966363297b591fe525
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+12469
 
 datetimeformat_test.html
 file
@@ -882,11 +882,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-60da285e1e45a7f5709cff2378f0df64
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+2010-11-21T04:53:46.000000Z
+4d437f5fd52cf66730846341e9ddfff6
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -908,41 +908,7 @@ has-props
 
 
 
-21113
-
-messageformat.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-5061d320de83e160e4176f36f8235a59
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-16901
+21123
 
 graphemebreak.js
 file
@@ -978,17 +944,17 @@ has-props
 
 7347
 
-bidi_test.html
+messageformat.js
 file
 
 
 
 
 2010-11-12T17:41:20.000000Z
-693e893c306c1dfb699f922187329a84
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
+5061d320de83e160e4176f36f8235a59
+2010-10-18T19:19:05.000000Z
+371
+dbentley@google.com
 has-props
 
 
@@ -1010,7 +976,7 @@ has-props
 
 
 
-18775
+16901
 
 datetimepatternsext.js
 file
@@ -1046,17 +1012,17 @@ has-props
 
 154185
 
-numberformat.js
+bidi_test.html
 file
 
 
 
 
-2010-11-12T17:41:20.000000Z
-9cde98f5426174ac0eb104b1404d4cf3
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+d0a87523eb7eb0c55d3c31d0939cd9b2
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -1078,7 +1044,41 @@ has-props
 
 
 
-22783
+18785
+
+numberformat.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+f47d16e6e1a16719f8371958861efd63
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+22784
 
 uchar.js
 file
@@ -1086,11 +1086,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-c4e10f222ee59b7b783f655f2ecdf4d4
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-11-21T04:53:46.000000Z
+1177d351604e50ab9135cd7c821a8c15
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -1112,5 +1112,5 @@ has-props
 
 
 
-51501
+51502
 

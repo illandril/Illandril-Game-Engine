@@ -35,6 +35,7 @@ goog.require('goog.net.xpc.IframeRelayTransport');
 goog.require('goog.net.xpc.NativeMessagingTransport');
 goog.require('goog.net.xpc.NixTransport');
 goog.require('goog.net.xpc.Transport');
+goog.require('goog.string');
 goog.require('goog.userAgent');
 
 
@@ -309,10 +310,8 @@ goog.net.xpc.CrossPageChannel.prototype.createPeerIframe = function(
 
   // Add the channel configuration used by the peer as URL parameter.
   if (opt_addCfgParam !== false) {
-    peerUri.setParameterValue('xpc',
-                              goog.json.serialize(
-                                  this.getPeerConfiguration())
-                              );
+    peerUri.setParameterValue(
+        'xpc', goog.json.serialize(this.getPeerConfiguration()));
   }
 
   if (goog.userAgent.GECKO || goog.userAgent.WEBKIT) {
@@ -439,16 +438,7 @@ goog.net.xpc.CrossPageChannel.prototype.notifyTransportError_ = function() {
 };
 
 
-/**
- * Registers a service.
- *
- * @param {string} serviceName The name of the service.
- * @param {Function} callback The callback responsible to process incoming
- *     messages.
- * @param {boolean=} opt_jsonEncoded If true, incoming messages for this
- *     service are expected to contain a JSON-encoded object and will be
- *     deserialized automatically.
- */
+/** @inheritDoc */
 goog.net.xpc.CrossPageChannel.prototype.registerService = function(
     serviceName, callback, opt_jsonEncoded) {
   this.services_[serviceName] = {
@@ -459,27 +449,14 @@ goog.net.xpc.CrossPageChannel.prototype.registerService = function(
 };
 
 
-/**
- * Registers a service to handle any messages that aren't handled by any other
- * services.
- *
- * @param {function(string, (string|Object))} callback The callback responsible
- *     for processing incoming messages that aren't processed by other services.
- */
+/** @inheritDoc */
 goog.net.xpc.CrossPageChannel.prototype.registerDefaultService = function(
     callback) {
   this.defaultService_ = callback;
 };
 
 
-/**
- * Sends a msg over the channel.
- *
- * @param {string} serviceName The name of the service this message
- *     should be delivered to.
- * @param {string|Object} payload The payload. If this is an object, it is
- *     serialized to JSON before sending.
- */
+/** @inheritDoc */
 goog.net.xpc.CrossPageChannel.prototype.send = function(serviceName, payload) {
   if (!this.isConnected()) {
     goog.net.xpc.logger.severe('Can\'t send. Channel not connected.');
@@ -497,7 +474,11 @@ goog.net.xpc.CrossPageChannel.prototype.send = function(serviceName, payload) {
   if (goog.isObject(payload)) {
     payload = goog.json.serialize(payload);
   }
-  this.transport_.send(serviceName, payload);
+
+  // URL-encode the service name because some characters (: and |) are used as
+  // delimiters for some transports, and we want to allow those characters in
+  // service names.
+  this.transport_.send(goog.string.urlEncode(serviceName), payload);
 };
 
 
@@ -519,6 +500,7 @@ goog.net.xpc.CrossPageChannel.prototype.deliver_ = function(serviceName,
   } else {
     // only deliver messages if connected
     if (this.isConnected()) {
+      serviceName = goog.string.urlDecode(serviceName);
       var service = this.services_[serviceName];
       if (service) {
         if (service.jsonEncoded) {
