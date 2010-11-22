@@ -1,6 +1,10 @@
 goog.provide("illandril.game.Engine");
 
+goog.require("goog.events");
 goog.require("goog.math.Vec2");
+goog.require("goog.net.EventType");
+goog.require("goog.net.XhrIo");
+goog.require("goog.ui.Dialog");
 goog.require("illandril.math.Bounds");
 goog.require("illandril.game.World");
 goog.require("illandril.game.objects.ActiveCollectable");
@@ -16,21 +20,54 @@ goog.require("illandril.game.util.Framerate");
 illandril.game.Engine={};
 goog.exportSymbol( "illandril.game.Engine", illandril.game.Engine );
 
-illandril.game.Engine.init = function( gameContainerID ) {
+illandril.game.Engine.init = function( gameContainerID, mapSrc ) {
+  illandril.game.Engine.startTime = new Date();
+  
+  illandril.game.Engine.loadingDialog = new goog.ui.Dialog();
+  illandril.game.Engine.loadingDialog.setContent( "Loading, please wait..." );
+  illandril.game.Engine.loadingDialog.setTitle( "Loading" );
+  illandril.game.Engine.loadingDialog.setButtonSet( new goog.ui.Dialog.ButtonSet() );
+  illandril.game.Engine.loadingDialog.setVisible( true );
+  
   var container = document.getElementById( gameContainerID );
+  illandril.game.Engine.container = container;
   world = new illandril.game.World();
   window["world"] = world;
   world.startBulk();
   
-  
-  if ( illandril.game.Engine.map != null ) {
-    world.startBulk();
-    for ( var idx = 0; idx < illandril.game.Engine.map.length; idx++ ) {
-      var objDef = illandril.game.Engine.map[idx];
+  var x = new goog.net.XhrIo();
+  goog.events.listen( x, goog.net.EventType.COMPLETE, function(e) {
+    illandril.game.Engine.map = this.getResponseJson();
+    init_A();
+  });
+  x.send( mapSrc );
+}
+
+var lm_i = 0;
+var loadMap = function() {
+  if ( lm_i >= illandril.game.Engine.map.length ) {
+    init_B();
+  } else {
+    while ( lm_i < illandril.game.Engine.map.length ) {
+      var objDef = illandril.game.Engine.map[lm_i];
       new illandril.game.objects.Wall( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef.x, objDef.y ), new goog.math.Vec2( objDef.width, objDef.height ) ), objDef.bg, objDef.zIndex );
+      lm_i++;
+      if ( lm_i % 100 == 0 ) {
+        break; // Make sure the UI still responds
+      }
     }
-    world.endBulk();
+    setTimeout( loadMap, 0 );
   }
+}
+var init_A = function() {
+  if ( illandril.game.Engine.map != null ) {
+    loadMap();
+  } else {
+    init_B();
+  }
+}
+var init_B = function() {  
+  var container = illandril.game.Engine.container;
   
   // Start for testing
   charac = new illandril.game.objects.Player( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 8, 8 ) ), null, 1000 );
@@ -107,6 +144,9 @@ illandril.game.Engine.init = function( gameContainerID ) {
         world.update( timeForThisTick );
         if ( illandril.game.util.Framerate.totalFrames % 5 == 0 ) {
           document.getElementById("fps").innerHTML = illandril.game.util.Framerate.getAverageFPS() + "<br>" + illandril.game.util.Framerate.getRollingAverageFPS();
+          if ( illandril.game.util.Framerate.totalFrames == 5 ) {
+          document.getElementById("lifetime").innerHTML = ( new Date() - illandril.game.Engine.startTime ) / 1000;
+          }
           document.getElementById("objcount").innerHTML = world.getObjects().getAllObjects().length;
           document.getElementById("solidcount").innerHTML = world.getObjects().getSolidObjects().length;
           document.getElementById("thinkcount").innerHTML = world.getObjects().getActiveObjects().length;
@@ -115,6 +155,8 @@ illandril.game.Engine.init = function( gameContainerID ) {
     }, 10 );
 
   // End for testing
+  
   world.endBulk();
+  illandril.game.Engine.loadingDialog.setVisible( false );
 };
 goog.exportProperty( illandril.game.Engine, "init", illandril.game.Engine.init );
