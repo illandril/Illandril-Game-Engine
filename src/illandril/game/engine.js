@@ -1,10 +1,12 @@
 goog.provide("illandril.game.Engine");
 
 goog.require("goog.events");
+goog.require("goog.events.KeyCodes");
 goog.require("goog.math.Vec2");
 goog.require("goog.net.EventType");
 goog.require("goog.net.XhrIo");
 goog.require("goog.ui.Dialog");
+goog.require("goog.ui.KeyboardShortcutHandler");
 goog.require("illandril.math.Bounds");
 goog.require("illandril.game.World");
 goog.require("illandril.game.objects.ActiveCollectable");
@@ -17,146 +19,227 @@ goog.require("illandril.game.ui.Viewport");
 goog.require("illandril.game.ui.Controls");
 goog.require("illandril.game.util.Framerate");
 
-illandril.game.Engine={};
-goog.exportSymbol( "illandril.game.Engine", illandril.game.Engine );
-
-illandril.game.Engine.init = function( gameContainerID, mapSrc ) {
-  illandril.game.Engine.startTime = new Date();
-  
-  illandril.game.Engine.loadingDialog = new goog.ui.Dialog();
-  illandril.game.Engine.loadingDialog.setContent( "Loading, please wait..." );
-  illandril.game.Engine.loadingDialog.setTitle( "Loading" );
-  illandril.game.Engine.loadingDialog.setButtonSet( new goog.ui.Dialog.ButtonSet() );
-  illandril.game.Engine.loadingDialog.setVisible( true );
-  
-  var container = document.getElementById( gameContainerID );
-  illandril.game.Engine.container = container;
-  world = new illandril.game.World();
-  window["world"] = world;
-  world.startBulk();
-  
-  var x = new goog.net.XhrIo();
-  goog.events.listen( x, goog.net.EventType.COMPLETE, function(e) {
-    illandril.game.Engine.map = this.getResponseJson();
-    init_A();
-  });
-  x.send( mapSrc );
-}
-
-var lm_i = 0;
-var loadMap = function() {
-  if ( lm_i >= illandril.game.Engine.map.length ) {
-    init_B();
-  } else {
-    while ( lm_i < illandril.game.Engine.map.length ) {
-      var objDef = illandril.game.Engine.map[lm_i];
-      new illandril.game.objects.Wall( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef.x, objDef.y ), new goog.math.Vec2( objDef.width, objDef.height ) ), objDef.bg, objDef.zIndex );
-      lm_i++;
-      if ( lm_i % 100 == 0 ) {
-        break; // Make sure the UI still responds
-      }
-    }
-    setTimeout( loadMap, 0 );
-  }
-}
-var init_A = function() {
-  if ( illandril.game.Engine.map != null ) {
-    loadMap();
-  } else {
-    init_B();
-  }
-}
-var init_B = function() {  
-  var container = illandril.game.Engine.container;
-  
-  // Start for testing
-  charac = new illandril.game.objects.Player( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 8, 8 ) ), null, 1000 );
-  window["charac"] = charac;
-  
-  var vp = new illandril.game.ui.Viewport( container, world, new goog.math.Vec2( 500, 500 ) );
-  vp.follow( charac );
-  
-  var vp2 = new illandril.game.ui.Viewport( container, world, new goog.math.Vec2( 100, 500 ) );
-  vp2.lookAt( new goog.math.Vec2( 0, -2000 ) );
-  vp2.setZoom( 0.12 );
-  
-  var top = 4000;
-  var bottom = -10;
-  var left = -300;
-  var right = 300;
-  var minSpeed = 1 * 1000;
-  var maxSpeed = 10 * 1000;
-  var size = new goog.math.Vec2( 8, 3 );
-  for ( var y = top; y < bottom; y += size.y + 2 + Math.random() * 100 ) {
-    var cbounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( right, y ), size );
-    var gbounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( left, y ), size );
-    new illandril.game.objects.Consumer( world, cbounds, null, 0, illandril.game.objects.Car );
-    new illandril.game.objects.Generator( world, gbounds, null, 0, illandril.game.objects.Car, minSpeed, maxSpeed ).start();
-  }
-  for ( var x = left + 10; x < right; x += 20 ) {
-    var bounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( x, top - 50 ), new goog.math.Vec2( 2, 2 ) );
-    new illandril.game.objects.Collectable( world, bounds, null, 0 );
-  }
-  mobs = [];
-  window["mobs"] = mobs;
-  move = false;
-  var totalMobs = illandril.game.Engine["mc"];
-  var highMob = Math.round( totalMobs / 2 );
-  var lowMob = -1 * highMob;
-  for ( var i = lowMob; i < highMob; i++ ) {
-    var bounds = null;
-    var attempts = 0;
+illandril.game.Engine = {
+  debugFPS: true,
+  debugObjectCount: false,
+  paused: true,
+  loading: 0,
+  maps: [],
+  worlds: [],
+  currentWorld: null,
+  startTime: null,
+  init: function( gameContainerID, mapSrc ) {
+    illandril.game.Engine.startTime = new Date();
     
-    while( bounds == null && attempts < 50 ) {
-      var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 200, 3 * i ), new goog.math.Vec2( 2, 2 ) );
-      if ( !world.hasObjectIntersecting( randomBounds ) ) {
-        bounds = randomBounds;
-      }
-      attempts++;
+    var container = document.getElementById( gameContainerID );
+    illandril.game.Engine.container = container;
+    illandril.game.Engine.debug = document.createElement( "span" );
+    illandril.game.Engine.debug.style.position = "absolute";
+    illandril.game.Engine.debug.style.zIndex = 99999;
+    illandril.game.Engine.debug.style.textAlign = "left";
+    illandril.game.Engine.debug.style.fontSize = "12px";
+    illandril.game.Engine.debug.style.fontWeight = "bold";
+    illandril.game.Engine.debug.style.fontFamily = "Courier New"
+    illandril.game.Engine.debug.style.backgroundColor = "white";
+    illandril.game.Engine.debug.style.padding = "2px";
+    illandril.game.Engine.container.appendChild( illandril.game.Engine.debug );
+    
+    illandril.game.Engine.pausedDialog = new goog.ui.Dialog();
+    illandril.game.Engine.pausedDialog.setTitle( "Game Paused" );
+    illandril.game.Engine.pausedDialog.setContent( "Your game has been paused.<br>Press 'P' to resume." );
+    illandril.game.Engine.pausedDialog.setButtonSet( new goog.ui.Dialog.ButtonSet() );
+    illandril.game.Engine.pausedDialog.setHasTitleCloseButton( false );
+    illandril.game.Engine.pausedDialog.setDraggable( false );
+    illandril.game.Engine.pausedDialog.setModal( false );
+    illandril.game.Engine.pausedDialog.setVisible( true );
+    
+    illandril.game.Engine.loadingDialog = new goog.ui.Dialog();
+    illandril.game.Engine.loadingDialog.setTitle( "Loading" );
+    illandril.game.Engine.loadingDialog.setContent( "Loading, please wait..." );
+    illandril.game.Engine.loadingDialog.setButtonSet( new goog.ui.Dialog.ButtonSet() );
+    illandril.game.Engine.loadingDialog.setHasTitleCloseButton( false );
+    illandril.game.Engine.loadingDialog.setDraggable( false );
+    illandril.game.Engine.loadingDialog.setModal( false );
+    illandril.game.Engine.loadingDialog.setVisible( true );
+    
+    illandril.game.Engine.tick();
+    
+    var shortcutHandler = new goog.ui.KeyboardShortcutHandler( document );
+    shortcutHandler.registerShortcut( "pause", "p" );
+    shortcutHandler.registerShortcut( "pause", "shift+p" );
+    shortcutHandler.registerShortcut( "debugFPS", "f12" );
+    shortcutHandler.registerShortcut( "debugObjectCount", "f11" );
+    goog.events.listen( shortcutHandler, goog.ui.KeyboardShortcutHandler.EventType.SHORTCUT_TRIGGERED, illandril.game.Engine.shortcut );
+    
+    illandril.game.Engine.currentWorld = new illandril.game.World();
+    illandril.game.Engine.loadMap( mapSrc, illandril.game.Engine.currentWorld );
+  },
+  shortcut: function( event ) {
+    if ( event.identifier == "pause" ) {
+      illandril.game.Engine.togglePause();
+    } else if ( event.identifier == "debugFPS" ) {
+      illandril.game.Engine.debugFPS = !illandril.game.Engine.debugFPS;
+    } else if ( event.identifier == "debugObjectCount" ) {
+      illandril.game.Engine.debugObjectCount = !illandril.game.Engine.debugObjectCount;
     }
-    if ( bounds != null ) {
-      mobs[i] = new illandril.game.objects.ActiveCollectable( world, bounds, null, 1100 );
-      mobs[i].think = function( tick ) {
-        if ( /* this.getPosition().isWithinXFrom( 100000, charac.getPosition() ) */ move ) {
-          this.addVelocity( new goog.math.Vec2( Math.random() * 2 - 1, Math.random() * 2 - 1 ) );
-        }
-      };
+  },
+  loadMap: function( mapSrc, world ) {
+    illandril.game.Engine.pause();
+    illandril.game.Engine.loading++;
+    illandril.game.Engine._loadMap( mapSrc, world );
+  },
+  _loadMap: function( mapSrc, world ) {
+    if ( illandril.game.Engine.maps[mapSrc] == null ) {
+      var mapPullRequest = new goog.net.XhrIo();
+      goog.events.listen( mapPullRequest, goog.net.EventType.COMPLETE, function(e) {
+        illandril.game.Engine.maps[mapSrc] = this.getResponseJson() || [];
+        illandril.game.Engine._loadMap( mapSrc, world );
+      });
+      mapPullRequest.send( mapSrc );
+    } else if ( illandril.game.Engine.maps[mapSrc].length == 0 ) {
+      illandril.game.Engine._initMap( mapSrc, world );
     } else {
-      illandril.game.Engine["mc"]--;
+      world.startBulk();
+      while ( illandril.game.Engine.maps[mapSrc].length > 0 ) {
+        var objDef = illandril.game.Engine.maps[mapSrc].pop();
+        new illandril.game.objects.Wall( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef.x, objDef.y ), new goog.math.Vec2( objDef.width, objDef.height ) ), objDef.bg, objDef.zIndex );
+        if ( illandril.game.Engine.maps[mapSrc].length % 100 == 0 ) {
+          break; // Make sure the UI still responds
+        }
+      }
+      world.endBulk()
+      setTimeout( function() { illandril.game.Engine._loadMap( mapSrc, world ); }, 0 );
+    }
+  },
+  _initMap: function( mapSrc, world ) {
+    world.startBulk();
+    var container = illandril.game.Engine.container;
+    
+    // Start for testing
+    charac = new illandril.game.objects.Player( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 8, 8 ) ), null, 1000 );
+    window["charac"] = charac;
+    
+    var vp = new illandril.game.ui.Viewport( container, world, new goog.math.Vec2( 500, 500 ) );
+    vp.follow( charac );
+  
+    var vp2 = new illandril.game.ui.Viewport( container, world, new goog.math.Vec2( 100, 500 ) );
+    vp2.lookAt( new goog.math.Vec2( 0, -2000 ) );
+    vp2.setZoom( 0.12 );
+  
+    var top = 4000;
+    var bottom = -10;
+    var left = -300;
+    var right = 300;
+    var minSpeed = 1 * 1000;
+    var maxSpeed = 10 * 1000;
+    var size = new goog.math.Vec2( 8, 3 );
+    for ( var y = top; y < bottom; y += size.y + 2 + Math.random() * 100 ) {
+      var cbounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( right, y ), size );
+      var gbounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( left, y ), size );
+      new illandril.game.objects.Consumer( world, cbounds, null, 0, illandril.game.objects.Car );
+      new illandril.game.objects.Generator( world, gbounds, null, 0, illandril.game.objects.Car, minSpeed, maxSpeed ).start();
+    }
+    for ( var x = left + 10; x < right; x += 20 ) {
+      var bounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( x, top - 50 ), new goog.math.Vec2( 2, 2 ) );
+      new illandril.game.objects.Collectable( world, bounds, null, 0 );
+    }
+    mobs = [];
+    window["mobs"] = mobs;
+    move = false;
+    var totalMobs = illandril.game.Engine["mc"];
+    var highMob = Math.round( totalMobs / 2 );
+    var lowMob = -1 * highMob;
+    for ( var i = lowMob; i < highMob; i++ ) {
+      var bounds = null;
+      var attempts = 0;
+      
+      while( bounds == null && attempts < 50 ) {
+        var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 200, 3 * i ), new goog.math.Vec2( 2, 2 ) );
+        if ( !world.hasObjectIntersecting( randomBounds ) ) {
+          bounds = randomBounds;
+        }
+        attempts++;
+      }
+      if ( bounds != null ) {
+        mobs[i] = new illandril.game.objects.ActiveCollectable( world, bounds, null, 1100 );
+        /** @this {illandril.game.objects.ActiveCollectable} */
+        mobs[i].think = function( tick ) {
+          if ( /* this.getPosition().isWithinXFrom( 100000, charac.getPosition() ) */ move ) {
+            this.addVelocity( new goog.math.Vec2( Math.random() * 2 - 1, Math.random() * 2 - 1 ) );
+          }
+        };
+      } else {
+        illandril.game.Engine["mc"]--;
+      }
+    }
+    
+    var controls = new illandril.game.ui.Controls();
+    var moveUp = function() { charac.addVelocity( new goog.math.Vec2( 0, -1 ) ); };
+    controls.register( 87, moveUp, "move up" );
+    controls.register( 83, function(){ charac.addVelocity( new goog.math.Vec2( 0, 1 ) ) }, "move down" );
+    controls.register( 68, function(){ charac.addVelocity( new goog.math.Vec2( 1, 0 ) ) }, "move right" );
+    controls.register( 65, function(){ charac.addVelocity( new goog.math.Vec2( -1, 0 ) ) }, "move left" );
+    
+    stop = false;
+    illandril.game.util.Framerate.reset();
+    
+    // End for testing
+     
+    world.endBulk();
+    illandril.game.Engine.loading--;
+    if ( illandril.game.Engine.loading == 0 ) {
+      illandril.game.Engine.loadingDialog.setVisible( false );
+      if ( illandril.game.Engine.paused ) {
+        illandril.game.Engine.pausedDialog.setVisible( true );
+      }
+    }
+  },
+  tick: function() {
+    if ( illandril.game.Engine.paused || illandril.game.Engine.loading > 0 ) {
+      illandril.game.util.Framerate.reset();
+    } else {
+      var timeForThisTick = illandril.game.util.Framerate.tick();
+      updateControls();
+      var world = illandril.game.Engine.currentWorld;
+      world.update( timeForThisTick );
+      if ( illandril.game.util.Framerate.totalFrames % 5 == 0 ) {
+        illandril.game.Engine.debug.innerHTML = "";
+        if ( illandril.game.Engine.debugFPS ) {
+          illandril.game.Engine.debug.innerHTML = "FPS: " + illandril.game.util.Framerate.getAverageFPS().toString().substr(0,5) + ":" + illandril.game.util.Framerate.getRollingAverageFPS().toString().substr(0,5);
+          if ( illandril.game.Engine.debugObjectCount ) {
+            illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>";
+          }
+        }
+        if ( illandril.game.Engine.debugObjectCount ) {
+          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "Objects: " + world.getObjects().getAllObjects().length;
+          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>&nbsp;&nbsp;Solid: " + world.getObjects().getSolidObjects().length;
+          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>&nbsp;Active: " + world.getObjects().getActiveObjects().length;
+          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>DOM: " + document.all.length;
+        }
+      }
+    }
+    setTimeout( illandril.game.Engine.tick, 10 );
+  },
+  togglePause: function() {
+    if ( illandril.game.Engine.paused ) {
+      illandril.game.Engine.resume();
+    } else {
+      illandril.game.Engine.pause();
+    }
+  },
+  pause: function() {
+    illandril.game.Engine.paused = true;
+    illandril.game.Engine.pausedDialog.setVisible( true );
+  },
+  resume: function() {
+    if ( illandril.game.Engine.loading == 0 ) {
+      illandril.game.Engine.paused = false;
+      illandril.game.Engine.pausedDialog.setVisible( false );
     }
   }
-  
-  var controls = new illandril.game.ui.Controls();
-  var moveUp = function() { charac.addVelocity( new goog.math.Vec2( 0, -1 ) ); };
-  controls.register( 87, moveUp, "move up" );
-  controls.register( 83, function(){ charac.addVelocity( new goog.math.Vec2( 0, 1 ) ) }, "move down" );
-  controls.register( 68, function(){ charac.addVelocity( new goog.math.Vec2( 1, 0 ) ) }, "move right" );
-  controls.register( 65, function(){ charac.addVelocity( new goog.math.Vec2( -1, 0 ) ) }, "move left" );
-  
-  stop = false;
-  illandril.game.util.Framerate.reset();
-  setInterval( function() {
-      if ( stop ) {
-        illandril.game.util.Framerate.reset();
-      } else {
-        var timeForThisTick = illandril.game.util.Framerate.tick();
-        updateControls();
-        world.update( timeForThisTick );
-        if ( illandril.game.util.Framerate.totalFrames % 5 == 0 ) {
-          document.getElementById("fps").innerHTML = illandril.game.util.Framerate.getAverageFPS() + "<br>" + illandril.game.util.Framerate.getRollingAverageFPS();
-          if ( illandril.game.util.Framerate.totalFrames == 5 ) {
-          document.getElementById("lifetime").innerHTML = ( new Date() - illandril.game.Engine.startTime ) / 1000;
-          }
-          document.getElementById("objcount").innerHTML = world.getObjects().getAllObjects().length;
-          document.getElementById("solidcount").innerHTML = world.getObjects().getSolidObjects().length;
-          document.getElementById("thinkcount").innerHTML = world.getObjects().getActiveObjects().length;
-        }
-      }
-    }, 10 );
-
-  // End for testing
-  
-  world.endBulk();
-  illandril.game.Engine.loadingDialog.setVisible( false );
 };
+goog.exportSymbol( "illandril.game.Engine", illandril.game.Engine );
 goog.exportProperty( illandril.game.Engine, "init", illandril.game.Engine.init );
+goog.exportProperty( illandril.game.Engine, "pause", illandril.game.Engine.pause );
+goog.exportProperty( illandril.game.Engine, "resume", illandril.game.Engine.resume );
+

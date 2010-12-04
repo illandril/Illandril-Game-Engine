@@ -1,6 +1,15 @@
 import os,sys
 
-os.system( sys.executable + " closure-library/closure/bin/build/closurebuilder.py --root=closure-library/ --root=src/ --namespace=illandril.game.Engine --output_mode=compiled --compiler_jar=closure-compiler/compiler.jar --compiler_flags=--compilation_level=SIMPLE_OPTIMIZATIONS --compiler_flags=--formatting=PRETTY_PRINT > bin/engine.js" )
+builder = "closure-library/closure/bin/build/closurebuilder.py"
+args = " --root=closure-library/"
+args = args + " --root=src/"
+args = args + " --namespace=illandril.game.Engine"
+args = args + " --output_mode=compiled"
+args = args + " --compiler_jar=closure-compiler/compiler.jar"
+#args = args + " --compiler_flags=--compilation_level=SIMPLE_OPTIMIZATIONS"
+args = args + " --compiler_flags=--compilation_level=ADVANCED_OPTIMIZATIONS"
+args = args + " --compiler_flags=--formatting=PRETTY_PRINT"
+os.system( sys.executable + " " + builder + args + " > bin/engine.js" )
 
 def readfile( filename, output ):
 	f = file(filename)

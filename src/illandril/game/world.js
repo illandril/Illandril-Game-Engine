@@ -6,36 +6,51 @@ goog.require("illandril.game.objects.GameObject");
 goog.require("illandril.game.objects.Container");
 
 /**
+ * The size of each bucket in worlds.
+ * Buckets should be larger than the largest object that could exist in the world.
+ * @const
+ */
+var BUCKET_SIZE = 75;
+
+doRandom = false;
+randomObject = null;
+
+/**
  * @constructor
- * @param {illandril.game.World} world the world the object lives in
- * @param {illandril.math.Bounds} bounds the bounds that define the size and location of the object
- * @param {string|null} bg the URL of the background image for this object
  */
 illandril.game.World = function() {
   this.viewports = [];
-  
   this.objects = new illandril.game.objects.Container();
-  
   this.updateCount = 0;
   this.inBulk = 0;
   this.hasUpdate = false;
   this.buckets = {};
 };
 
-var bucketSize = 75;
-illandril.game.World.prototype.getBucket = function( center ) {
-  var bucketX = Math.round( center.x / bucketSize );
+/**
+ * Gets the bucket that contains the specified point
+ * @param {goog.math.Vec2} point The point the bucket should contain
+ * @return {illandril.game.objects.Container} The bucket containing the point
+ */
+illandril.game.World.prototype.getBucket = function( point ) {
+  var bucketX = Math.round( point.x / BUCKET_SIZE );
   if ( this.buckets[bucketX] == null ) {
     this.buckets[bucketX] = {};
   }
-  var bucketY = Math.round( center.y / bucketSize );
+  var bucketY = Math.round( point.y / BUCKET_SIZE );
   if ( this.buckets[bucketX][bucketY] == null ) {
     this.buckets[bucketX][bucketY] = new illandril.game.objects.Container();
   }
   return this.buckets[bucketX][bucketY];
 };
 
-illandril.game.World.prototype.getNearbySolidObjects = function( center ) {
+/**
+ * Gets an array of objects that are in the same bucket, or a bucket adjacent to,
+ * the specified point.
+ * @param {goog.math.Vec2} point The point to get nearby objects from
+ * @return {Array.<illandril.game.objects.GameObject>} All nearby solid objects
+ */
+illandril.game.World.prototype.getNearbySolidObjects = function( point ) {
   // The cache speeds things up quite a bit when there are lots of things moving close together...
   // But it also means there might be cases where things don't collide when they should (two, fast moving objects and/or teleporting objects)
   if ( this.getNearbySolidObjects__last != this.updateCount ) {
@@ -43,8 +58,8 @@ illandril.game.World.prototype.getNearbySolidObjects = function( center ) {
     this.getNearbySolidObjects__cache = {};
   }
   var nearbyObjects = [];
-  var bucketX = Math.round( center.x / bucketSize );
-  var bucketY = Math.round( center.y / bucketSize );
+  var bucketX = Math.round( point.x / BUCKET_SIZE );
+  var bucketY = Math.round( point.y / BUCKET_SIZE );
   var id = bucketX+"."+bucketY;
   if ( this.getNearbySolidObjects__cache[id] != null ) {
     return this.getNearbySolidObjects__cache[id];
@@ -68,10 +83,21 @@ illandril.game.World.prototype.getNearbySolidObjects = function( center ) {
   }
 };
 
+/**
+ * Mark the world for a bulk action.
+ * Use any time more than one object in the world is moving, being created, or being deleted.
+ * Call endBulk when the bulk action is complete.
+ */
 illandril.game.World.prototype.startBulk = function() {
   this.inBulk++;
 };
 
+/**
+ * Mark the end of a bulk action.
+ * Use any time more than one object in the world is moving, being created, or being deleted.
+ * Call startBulk before starting the bulk action.
+ * This will update all viewports if no other bulk actions are in progress.
+ */
 illandril.game.World.prototype.endBulk = function() {
   this.inBulk--;
   if ( this.hasUpdate ) {
@@ -79,11 +105,19 @@ illandril.game.World.prototype.endBulk = function() {
   }
 };
 
+/**
+ * Adds an object to the world.
+ * @param {illandril.game.objects.GameObject} gameObject The object to add to the world
+ */
 illandril.game.World.prototype.addObject = function( gameObject ) {
   this.objects.add( gameObject );
   this.objectMoved( gameObject );
 };
 
+/**
+ * Removes an object from the world.
+ * @param {illandril.game.objects.GameObject} gameObject The object to remove from the world
+ */
 illandril.game.World.prototype.removeObject = function( gameObject ) {
   if ( gameObject.world != this ) {
     return;
@@ -97,16 +131,22 @@ illandril.game.World.prototype.removeObject = function( gameObject ) {
   this.updateViewports();
 };
 
+/**
+ * Gets all objects that are contained by buckets that are at least partially inside
+ * the specified bounds.
+ * @param {illandril.math.Bounds} bounds The bounds that objects should be inside
+ * @return {Array.<illandril.game.objects.GameObject>} The objects in the specified bounds
+ */
 illandril.game.World.prototype.getObjects = function( bounds ) {
   if ( bounds == null ) {
     return this.objects;
   }
   var topLeft = bounds.getTopLeft();
   var bottomRight = topLeft.clone().add( bounds.getSize() );
-  var bucketX = Math.round( topLeft.x / bucketSize ) - 1;
-  var bucketXMax = Math.round( bottomRight.x / bucketSize ) + 1;
-  var bucketY = Math.round( topLeft.y / bucketSize ) - 1;
-  var bucketYMax = Math.round( bottomRight.y / bucketSize ) + 1;
+  var bucketX = Math.round( topLeft.x / BUCKET_SIZE ) - 1;
+  var bucketXMax = Math.round( bottomRight.x / BUCKET_SIZE ) + 1;
+  var bucketY = Math.round( topLeft.y / BUCKET_SIZE ) - 1;
+  var bucketYMax = Math.round( bottomRight.y / BUCKET_SIZE ) + 1;
   var containedObjects = [];
   for( var x = bucketX; x <= bucketXMax; x++ ) {
     var xBucketContainer = this.buckets[x];
@@ -125,10 +165,17 @@ illandril.game.World.prototype.getObjects = function( bounds ) {
   return containedObjects;
 };
 
+/**
+ * Links a viewport with this world.
+ * @param {illandril.game.Viewport} viewport The viewport to link to this world
+ */
 illandril.game.World.prototype.attachViewport = function( viewport ) {
   this.viewports[this.viewports.length] = viewport;
 };
 
+/**
+ *
+ */
 illandril.game.World.prototype.updateViewports = function() {
   this.hasUpdate = true;
   if ( this.inBulk == 0 ) {
@@ -139,6 +186,9 @@ illandril.game.World.prototype.updateViewports = function() {
   }
 };
 
+/**
+ *
+ */
 illandril.game.World.prototype.objectMoved = function( gameObject ) {
   if ( gameObject.world != this ) {
     return
@@ -153,8 +203,9 @@ illandril.game.World.prototype.objectMoved = function( gameObject ) {
   this.updateViewports();
 };
 
-doRandom = false;
-randomObject = null;
+/**
+ *
+ */
 illandril.game.World.prototype.update = function( tick ) {
   this.updateCount++;
   tick = Math.min( tick, 1000 );
@@ -182,6 +233,9 @@ illandril.game.World.prototype.update = function( tick ) {
   this.endBulk();
 };
 
+/**
+ *
+ */
 illandril.game.World.prototype.move = function( obj, tick ) {
   if ( obj.world != this ) {
     return; // Skip over the object if it has been removed from the world
@@ -201,6 +255,9 @@ illandril.game.World.prototype.move = function( obj, tick ) {
   }
 };
 
+/**
+ *
+ */
 illandril.game.World.prototype.hasObjectIntersecting = function( bounds ) {
   var objectList = this.getNearbySolidObjects( bounds.getCenter() );
   var hasCollision = false;
@@ -210,6 +267,9 @@ illandril.game.World.prototype.hasObjectIntersecting = function( bounds ) {
   return hasCollision;
 };
 
+/**
+ *
+ */
 function checkForCollisions( movingObject, bounds, objectList ) {
   var hasBlockingCollision = false;
   var collidingObjects = [];
@@ -234,4 +294,3 @@ function checkForCollisions( movingObject, bounds, objectList ) {
   }
   return hasBlockingCollision;
 };
-

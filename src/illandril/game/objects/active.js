@@ -37,7 +37,11 @@ illandril.game.objects.Active.prototype.addVelocity = function( direction ) {
 };
 
 illandril.game.objects.Active.prototype.getVelocity = function() {
-  return this.velocity.clone();
+  var retVelo = this.velocity.clone();
+  if ( retVelo.squaredMagnitude() > 1 ) {
+    retVelo.normalize();
+  }
+  return retVelo;
 };
 
 illandril.game.objects.Active.prototype.isMoving = function() {

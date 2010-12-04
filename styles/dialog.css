@@ -47,9 +47,10 @@
 }
 
 .modal-dialog-title-close {
+/*
   display: none;
+*/
   /* Client apps may override the URL at which they serve the sprite. */
-  /*
   background: #e0edfe url(https://ssl.gstatic.com/editor/editortoolbar.png) no-repeat -528px 0;
   cursor: default;
   height: 15px;
@@ -58,7 +59,6 @@
   top: 8px;
   width: 15px;
   vertical-align: middle;
-  */
 }
 
 .modal-dialog-buttons,
