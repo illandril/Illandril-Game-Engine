@@ -56,7 +56,7 @@ illandril.game.ui.Viewport.prototype.follow = function( obj ) {
   this.update();
 };
 
-illandril.game.ui.Viewport.prototype.update = function() {
+illandril.game.ui.Viewport.prototype.update = function( tickTime, gameTime ) {
   if ( this.following != null ) {
     this.lookAtNoUpdate( this.following.getPosition() );
   }
@@ -85,7 +85,10 @@ illandril.game.ui.Viewport.prototype.update = function() {
       objDom.style.height = objSize.y + "px";
       objDom.style.zIndex = Math.min( 1, obj.zIndex + 1000 );
       if ( obj.bg != null ) {
-        objDom.style.backgroundImage = "url( " + obj.bg + " )";
+        var sprite = obj.bg.getSprite( gameTime, obj.getDirection() );
+        objDom.style.backgroundImage = "url( " + sprite.src + " )";
+        objDom.style.backgroundPosition = ( sprite.x * -1 ) + "px " + ( sprite.y * -1 ) + "px";
+        objDom.style.backgroundColor = "transparent";
       }
     }
   }

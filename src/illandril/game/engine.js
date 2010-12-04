@@ -15,8 +15,10 @@ goog.require("illandril.game.objects.Wall");
 goog.require("illandril.game.objects.Car");
 goog.require("illandril.game.objects.Generator");
 goog.require("illandril.game.objects.Consumer");
-goog.require("illandril.game.ui.Viewport");
+goog.require("illandril.game.ui.Action");
 goog.require("illandril.game.ui.Controls");
+goog.require("illandril.game.ui.SpriteSheet");
+goog.require("illandril.game.ui.Viewport");
 goog.require("illandril.game.util.Framerate");
 
 illandril.game.Engine = {
@@ -89,14 +91,14 @@ illandril.game.Engine = {
     illandril.game.Engine._loadMap( mapSrc, world );
   },
   _loadMap: function( mapSrc, world ) {
-    if ( illandril.game.Engine.maps[mapSrc] == null ) {
+    if ( mapSrc != null && illandril.game.Engine.maps[mapSrc] == null ) {
       var mapPullRequest = new goog.net.XhrIo();
       goog.events.listen( mapPullRequest, goog.net.EventType.COMPLETE, function(e) {
         illandril.game.Engine.maps[mapSrc] = this.getResponseJson() || [];
         illandril.game.Engine._loadMap( mapSrc, world );
       });
       mapPullRequest.send( mapSrc );
-    } else if ( illandril.game.Engine.maps[mapSrc].length == 0 ) {
+    } else if ( mapSrc == null || illandril.game.Engine.maps[mapSrc].length == 0 ) {
       illandril.game.Engine._initMap( mapSrc, world );
     } else {
       world.startBulk();
@@ -116,7 +118,7 @@ illandril.game.Engine = {
     var container = illandril.game.Engine.container;
     
     // Start for testing
-    charac = new illandril.game.objects.Player( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 8, 8 ) ), null, 1000 );
+    charac = new illandril.game.objects.Player( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.SpriteSheet( "../graphics/turtle.png", 20, 20, 4 ), 1000 );
     window["charac"] = charac;
     
     var vp = new illandril.game.ui.Viewport( container, world, new goog.math.Vec2( 500, 500 ) );
@@ -173,12 +175,18 @@ illandril.game.Engine = {
       }
     }
     
-    var controls = new illandril.game.ui.Controls();
-    var moveUp = function() { charac.addVelocity( new goog.math.Vec2( 0, -1 ) ); };
-    controls.register( 87, moveUp, "move up" );
-    controls.register( 83, function(){ charac.addVelocity( new goog.math.Vec2( 0, 1 ) ) }, "move down" );
-    controls.register( 68, function(){ charac.addVelocity( new goog.math.Vec2( 1, 0 ) ) }, "move right" );
-    controls.register( 65, function(){ charac.addVelocity( new goog.math.Vec2( -1, 0 ) ) }, "move left" );
+    var moveUp = new illandril.game.ui.Action( function() { charac.addVelocity( new goog.math.Vec2( 0, -1 ) ); }, "Move Up" );
+    window["moveUp"] = moveUp;
+    var moveDown = new illandril.game.ui.Action( function() { charac.addVelocity( new goog.math.Vec2( 0, 1 ) ); }, "Move Down" );
+    window["moveDown"] = moveDown;
+    var moveLeft = new illandril.game.ui.Action( function() { charac.addVelocity( new goog.math.Vec2( -1, 0 ) ); }, "Move Left" );
+    window["moveLeft"] = moveLeft;
+    var moveRight = new illandril.game.ui.Action( function() { charac.addVelocity( new goog.math.Vec2( 1, 0 ) ); }, "Move Right" );
+    window["moveRight"] = moveRight;
+    illandril.game.ui.Controls.registerAction( moveUp, goog.events.KeyCodes.W, false, false, false );
+    illandril.game.ui.Controls.registerAction( moveLeft, goog.events.KeyCodes.A, false, false, false );
+    illandril.game.ui.Controls.registerAction( moveDown, goog.events.KeyCodes.S, false, false, false );
+    illandril.game.ui.Controls.registerAction( moveRight, goog.events.KeyCodes.D, false, false, false );
     
     stop = false;
     illandril.game.util.Framerate.reset();
@@ -198,10 +206,9 @@ illandril.game.Engine = {
     if ( illandril.game.Engine.paused || illandril.game.Engine.loading > 0 ) {
       illandril.game.util.Framerate.reset();
     } else {
-      var timeForThisTick = illandril.game.util.Framerate.tick();
-      updateControls();
+      illandril.game.ui.Controls.handleKeyEvents();
       var world = illandril.game.Engine.currentWorld;
-      world.update( timeForThisTick );
+      world.update( illandril.game.util.Framerate.tick(), illandril.game.util.Framerate.getTotalTime() );
       if ( illandril.game.util.Framerate.totalFrames % 5 == 0 ) {
         illandril.game.Engine.debug.innerHTML = "";
         if ( illandril.game.Engine.debugFPS ) {

@@ -17,7 +17,8 @@ illandril.game.objects.Active.prototype.isActive = true;
 illandril.game.objects.Active.prototype.think = function( tick ) {};
 
 illandril.game.objects.Active.prototype.setVelocity = function( newVelocity ) {
-  this.velocity = newVelocity;
+  this.velocity = newVelocity.clone();
+  this.setDirection( newVelocity );
 };
 
 illandril.game.objects.Active.prototype.addVelocity = function( direction ) {
@@ -27,10 +28,10 @@ illandril.game.objects.Active.prototype.addVelocity = function( direction ) {
   newVelocity.y = Math.min( 1, newVelocity.y );
   newVelocity.y = Math.max( -1, newVelocity.y );
   // We need to make sure they don't keep skating along very very slowly because of a rounding error
-  if ( newVelocity.x < 0.005 && newVelocity.x > -0.005 ) {
+  if ( Math.abs( newVelocity.x ) < illandril.game.objects.GameObject.GRANULARITY ) {
     newVelocity.x = 0;
   }
-  if ( newVelocity.y < 0.005 && newVelocity.y > -0.005 ) {
+  if ( Math.abs( newVelocity.y ) < illandril.game.objects.GameObject.GRANULARITY ) {
     newVelocity.y = 0;
   }
   this.setVelocity( newVelocity );
@@ -43,6 +44,8 @@ illandril.game.objects.Active.prototype.getVelocity = function() {
   }
   return retVelo;
 };
+
+
 
 illandril.game.objects.Active.prototype.isMoving = function() {
   return this.velocity.x != 0 || this.velocity.y != 0;

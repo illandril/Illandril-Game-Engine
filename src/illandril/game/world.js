@@ -25,6 +25,8 @@ illandril.game.World = function() {
   this.inBulk = 0;
   this.hasUpdate = false;
   this.buckets = {};
+  this.lastTickTime = 0;
+  this.lastGameTime = 0;
 };
 
 /**
@@ -181,7 +183,7 @@ illandril.game.World.prototype.updateViewports = function() {
   if ( this.inBulk == 0 ) {
     this.hasUpdate = false;
     for ( var idx = 0; idx < this.viewports.length; idx++ ) {
-      this.viewports[idx].update();
+      this.viewports[idx].update( this.lastTickTime, this.lastGameTime );
     }
   }
 };
@@ -206,9 +208,11 @@ illandril.game.World.prototype.objectMoved = function( gameObject ) {
 /**
  *
  */
-illandril.game.World.prototype.update = function( tick ) {
+illandril.game.World.prototype.update = function( tickTime, gameTime ) {
   this.updateCount++;
-  tick = Math.min( tick, 1000 );
+  var tick = Math.min( tickTime, 1000 );
+  this.lastTickTime = tick;
+  this.lastGameTime = gameTime;
   this.startBulk();
   if ( doRandom && Math.random() * 100 < 25 ) {
     if ( randomObject != null ) {
@@ -230,6 +234,9 @@ illandril.game.World.prototype.update = function( tick ) {
       this.updateViewports();
     }
   }
+  // Make sure the viewports always update every tick, for animation
+  // This should be handled by obj.think()
+  this.updateViewports();
   this.endBulk();
 };
 

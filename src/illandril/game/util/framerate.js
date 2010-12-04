@@ -30,8 +30,12 @@ illandril.game.util.Framerate.tick = function() {
   return timeForThisTick;
 };
 
+illandril.game.util.Framerate.getTotalTime = function() {
+  return illandril.game.util.Framerate.lastFrameStamp - illandril.game.util.Framerate.lastResetStamp;
+};
+
 illandril.game.util.Framerate.getAverageFPS = function() {
-  return ( illandril.game.util.Framerate.totalFrames * 1000 ) / ( illandril.game.util.Framerate.lastFrameStamp - illandril.game.util.Framerate.lastResetStamp );
+  return ( illandril.game.util.Framerate.totalFrames * 1000 ) / illandril.game.util.Framerate.getTotalTime();
 };
 
 illandril.game.util.Framerate.getRollingAverageFPS = function() {
