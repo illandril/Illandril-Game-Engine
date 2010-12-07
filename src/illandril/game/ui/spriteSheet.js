@@ -14,7 +14,7 @@ illandril.game.ui.SpriteSheet.prototype.getSprite = function( gameTime, directio
   var spriteY = 0;
   var magX = Math.abs( direction.x );
   var magY = Math.abs( direction.y );
-  var spriteX = Math.round( gameTime / ( this.mspf ) ) % 2;
+  var spriteX = Math.round( ( gameTime + 1 ) / ( this.mspf ) ) % 2;
   if ( magX > 2 * magY ) {
       if ( direction.x > 0 ) {
         spriteY = 1;
@@ -42,6 +42,16 @@ illandril.game.ui.SpriteSheet.prototype.getSprite = function( gameTime, directio
           spriteY = 3;
         }
       }
+  }
+  var retX = spriteX * this.tileWidth;
+  var retY = spriteY * this.tileHeight;
+  if ( isNaN( retX ) ) {
+    retX = 0;
+    illandril.util.Logger.shout( "sX: " + spriteX + "; GT: " + gameTime + "; MSPF: " + this.mspf + "; Width: " + this.tileWidth );
+  }
+  if ( isNaN( retY ) ) {
+    retY = 0;
+    illandril.util.Logger.shout( "sY: " + spriteY + "; GT: " + gameTime + "; MSPF: " + this.mspf + "; Height: " + this.tileHeight );
   }
   return { src: this.src, x: spriteX * this.tileWidth, y: spriteY * this.tileHeight };
 };

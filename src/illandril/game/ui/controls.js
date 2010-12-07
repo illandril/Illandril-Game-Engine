@@ -1,5 +1,6 @@
 goog.provide("illandril.game.ui.Controls");
 
+goog.require("illandril.util.Logger");
 goog.require("goog.events");
 goog.require("goog.events.EventType");
 goog.require("goog.events.KeyCodes");
@@ -76,7 +77,7 @@ illandril.game.ui.Controls = {
   keyDown: function( e ) {
     var ks = illandril.game.ui.Controls.getKeyState( e );
     var key = illandril.game.ui.Controls.getKeyEventKey( ks.keyCode, ks.ctrlKey, ks.altKey, ks.shiftKey );
-    console["debug"]( "KeyDown: " + key );
+    illandril.util.Logger.finest( "KeyDown: " + key );
     if ( ks.keyCode != goog.events.KeyCodes.SHIFT &&
          ks.keyCode != goog.events.KeyCodes.CTRL &&
          ks.keyCode != goog.events.KeyCodes.ALT ) {
@@ -90,7 +91,7 @@ illandril.game.ui.Controls = {
   keyUp: function( e ) {
     var ks = illandril.game.ui.Controls.getKeyState( e );
     var key = illandril.game.ui.Controls.getKeyEventKey( ks.keyCode, ks.ctrlKey, ks.altKey, ks.shiftKey );
-    console["debug"]( "KeyUp: " + key );
+    illandril.util.Logger.finest( "KeyUp: " + key );
     delete illandril.game.ui.Controls.keyStates[ks.keyCode];
     illandril.game.ui.Controls.modifierKeyStates.CTRL = ks.ctrlKey;
     illandril.game.ui.Controls.modifierKeyStates.ALT = ks.altKey;
@@ -131,7 +132,7 @@ illandril.game.ui.Controls = {
     if ( typeof( keyCodeOrKey ) == "number" ) {
       key = illandril.game.ui.Controls.getKeyEventKey( keyCodeOrKey, ctrl, alt, shift );
     }
-    console["debug"]( "registerAction: " + key );
+    illandril.util.Logger.finest( "registerAction: " + key );
     var changes = [];
     var oldAction = illandril.game.ui.Controls.controls[key];
     var oldKey = illandril.game.ui.Controls.reverseControls[action.name];
@@ -144,7 +145,7 @@ illandril.game.ui.Controls = {
         throw "The specified key is already in use for a different function.";
       }
     } else if ( oldKey != null ) {
-      console["debug"]( "oldKey: " + oldKey );
+      illandril.util.Logger.finest( "oldKey: " + oldKey );
       delete illandril.game.ui.Controls.controls[oldKey]
     }
     illandril.game.ui.Controls.controls[key] = action;
