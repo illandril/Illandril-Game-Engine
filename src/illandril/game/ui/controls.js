@@ -12,7 +12,7 @@ illandril.game.ui.Controls = {
   controls: {},
   reverseControls: {},
   keyStates: {},
-  modifierKeyStates: { CTRL: false, ALT: false, SHIFT: false },
+  modifierKeyStates: { CTRL: false, CTRL_LAST: false, ALT: false, ALT_LAST: false, SHIFT: false, SHIFT_LAST: false },
   controlChangeListeners: [],
   actionToRegister: null,
   registeringActionTimeout: null,
@@ -34,8 +34,11 @@ illandril.game.ui.Controls = {
     }
     illandril.game.ui.Controls.keyStates = {};
     illandril.game.ui.Controls.modifierKeyStates.CTRL = false;
+    illandril.game.ui.Controls.modifierKeyStates.CTRL_LAST = false;
     illandril.game.ui.Controls.modifierKeyStates.ALT = false;
+    illandril.game.ui.Controls.modifierKeyStates.ALT_LAST = false;
     illandril.game.ui.Controls.modifierKeyStates.SHIFT = false;
+    illandril.game.ui.Controls.modifierKeyStates.SHIFT_LAST = false;
   },
   
   keyDown: function( e ) {
@@ -47,7 +50,9 @@ illandril.game.ui.Controls = {
     if ( ks.keyCode != goog.events.KeyCodes.SHIFT &&
          ks.keyCode != goog.events.KeyCodes.CTRL &&
          ks.keyCode != goog.events.KeyCodes.ALT ) {
-      illandril.game.ui.Controls.keyStates[ks.keyCode] = true;
+      if ( illandril.game.ui.Controls.keyStates[ks.keyCode] == null ) {
+        illandril.game.ui.Controls.keyStates[ks.keyCode] = { wasActive: false };
+      }
     }
     illandril.game.ui.Controls.modifierKeyStates.CTRL = ks.ctrlKey;
     illandril.game.ui.Controls.modifierKeyStates.ALT = ks.altKey;
@@ -68,27 +73,37 @@ illandril.game.ui.Controls = {
   
   handleKeyEvents: function() {
     var activeKeys = 0;
+    var modifierRepeat = illandril.game.ui.Controls.modifierKeyStates.CTRL == illandril.game.ui.Controls.modifierKeyStates.CTRL_LAST
+                         && illandril.game.ui.Controls.modifierKeyStates.ALT == illandril.game.ui.Controls.modifierKeyStates.ALT_LAST
+                         && illandril.game.ui.Controls.modifierKeyStates.SHIFT == illandril.game.ui.Controls.modifierKeyStates.SHIFT_LAST;
     for ( var keyCode in illandril.game.ui.Controls.keyStates ) {
+      var repeat = modifierRepeat && illandril.game.ui.Controls.keyStates[keyCode].wasActive;
+      illandril.game.ui.Controls.keyStates[keyCode].wasActive = true;
+      
       activeKeys++;
       var key = illandril.game.ui.Controls.getKeyEventKey( keyCode, illandril.game.ui.Controls.modifierKeyStates.CTRL,
                                                                     illandril.game.ui.Controls.modifierKeyStates.ALT,
                                                                     illandril.game.ui.Controls.modifierKeyStates.SHIFT );
       if ( illandril.game.ui.Controls.actionToRegister == null ) {
-        if ( illandril.game.ui.Controls.controls[key] != null ) {
+        if ( illandril.game.ui.Controls.controls[key] != null
+             && ( !repeat || illandril.game.ui.Controls.controls[key].executeOnRepeat ) ) {
           illandril.game.ui.Controls.controls[key].execute();
         }
       }
     }
     if ( activeKeys == 1 && illandril.game.ui.Controls.actionToRegister != null ) {
-        if ( illandril.game.ui.Controls.registeringActionTimeout != null ) {
-          clearTimeout( illandril.game.ui.Controls.registeringActionTimeout );
-        }
-        illandril.game.ui.Controls.registeringActionTimeout = setTimeout( function() {
-          illandril.game.ui.Controls.registerAction( illandril.game.ui.Controls.actionToRegister, key );
-          illandril.game.ui.Controls.actionToRegister = null;
-          illandril.game.ui.Controls.registeringActionTimeout = null;
-        }, 100 );
+      if ( illandril.game.ui.Controls.registeringActionTimeout != null ) {
+        clearTimeout( illandril.game.ui.Controls.registeringActionTimeout );
       }
+      illandril.game.ui.Controls.registeringActionTimeout = setTimeout( function() {
+        illandril.game.ui.Controls.registerAction( illandril.game.ui.Controls.actionToRegister, key );
+        illandril.game.ui.Controls.actionToRegister = null;
+        illandril.game.ui.Controls.registeringActionTimeout = null;
+      }, 100 );
+    }
+    illandril.game.ui.Controls.modifierKeyStates.CTRL_LAST = illandril.game.ui.Controls.modifierKeyStates.CTRL;
+    illandril.game.ui.Controls.modifierKeyStates.ALT_LAST = illandril.game.ui.Controls.modifierKeyStates.ALT;
+    illandril.game.ui.Controls.modifierKeyStates.SHIFT_LAST = illandril.game.ui.Controls.modifierKeyStates.SHIFT;
   },
   
   getKeyEventKey: function( keyCode, ctrl, alt, shift ) {
