@@ -87,7 +87,6 @@ illandril.game.ui.Viewport.prototype.update = function( tickTime, gameTime ) {
       if ( obj.bg != null ) {
         var sprite = obj.bg.getSprite( gameTime, obj.getDirection() );
         objDom.style.backgroundImage = "url( " + sprite.src + " )";
-        illandril.util.Logger.finest( "bgPos: " + ( sprite.x * -1 ) + "px " + ( sprite.y * -1 ) + "px" );
         objDom.style.backgroundPosition = ( sprite.x * -1 ) + "px " + ( sprite.y * -1 ) + "px";
         objDom.style.backgroundColor = "transparent";
       }

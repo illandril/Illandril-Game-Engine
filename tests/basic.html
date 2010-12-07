@@ -13,7 +13,17 @@
 -->
  </head>
  <body>
-  <div id="illandrilDebug" style="float: right; height: 100px; overflow: scroll;"></div>
+  <div id="illandrilDebugContainer" style="float: right;">
+    <div>
+      Log Level:<br>
+      <input type="submit" onclick="setLogLevel( Log.NONE ); return false;" value="None">
+      <input type="submit" onclick="setLogLevel( Log.SEVERE ); return false;" value="Severe">
+      <input type="submit" onclick="setLogLevel( Log.WARNING ); return false;" value="Warning">
+      <input type="submit" onclick="setLogLevel( Log.CONFIG ); return false;" value="Config">
+      <input type="submit" onclick="setLogLevel( Log.ALL ); return false;" value="All">
+    </div>
+    <div id="illandrilDebug" style="float: right; height: 100px; overflow: scroll;"></div>
+  </div>
   <div id="game" style="text-align: center;"></div>
   <script type="text/javascript">
 

@@ -1,6 +1,5 @@
 goog.provide("illandril.game.ui.Controls");
 
-goog.require("illandril.util.Logger");
 goog.require("goog.events");
 goog.require("goog.events.EventType");
 goog.require("goog.events.KeyCodes");
@@ -8,44 +7,6 @@ goog.require("goog.events.KeyHandler");
 goog.require("goog.events.KeyNames");
 goog.require("goog.userAgent");
 
-/*
-var usedCodes = {};
-window["usedCodes"] = usedCodes;
-
-var activeControls = [];
-window["activeControls"] = activeControls;
-
-var activeKeys = {};
-window["activeKeys"] = activeKeys;
-
-document.onkeydown = function( e ) {
-  e = e || window.event;
-  var kc = e.keyCode;
-  activeKeys[kc] = true;
-};
-
-document.onkeyup = function( e ) {
-  e = e || window.event;
-  var kc = e.keyCode;
-  activeKeys[kc] = false;
-};
-
-window.onblur = function() {
-  activeKeys = {};
-};
-
-function updateControls() {
-  for ( var kc in usedCodes ) {
-    if ( activeKeys[kc] ) {
-      for ( var idx = 0; idx < activeControls.length; idx++ ) {
-        if ( activeControls[idx].keyPressed( kc ) ) {
-          break;
-        }
-      }
-    }
-  }
-}
-*/
 
 illandril.game.ui.Controls = {
   controls: {},
@@ -68,6 +29,9 @@ illandril.game.ui.Controls = {
   },
   
   blur: function( e ) {
+    if ( illandril.DEBUG ) {
+      illandril.getLogger("game.ui.Controls").finest( "Blur" );
+    }
     illandril.game.ui.Controls.keyStates = {};
     illandril.game.ui.Controls.modifierKeyStates.CTRL = false;
     illandril.game.ui.Controls.modifierKeyStates.ALT = false;
@@ -77,7 +41,9 @@ illandril.game.ui.Controls = {
   keyDown: function( e ) {
     var ks = illandril.game.ui.Controls.getKeyState( e );
     var key = illandril.game.ui.Controls.getKeyEventKey( ks.keyCode, ks.ctrlKey, ks.altKey, ks.shiftKey );
-    illandril.util.Logger.finest( "KeyDown: " + key );
+    if ( illandril.DEBUG ) {
+      illandril.getLogger("game.ui.Controls").finest( "KeyDown: " + key );
+    }
     if ( ks.keyCode != goog.events.KeyCodes.SHIFT &&
          ks.keyCode != goog.events.KeyCodes.CTRL &&
          ks.keyCode != goog.events.KeyCodes.ALT ) {
@@ -91,7 +57,9 @@ illandril.game.ui.Controls = {
   keyUp: function( e ) {
     var ks = illandril.game.ui.Controls.getKeyState( e );
     var key = illandril.game.ui.Controls.getKeyEventKey( ks.keyCode, ks.ctrlKey, ks.altKey, ks.shiftKey );
-    illandril.util.Logger.finest( "KeyUp: " + key );
+    if ( illandril.DEBUG ) {
+      illandril.getLogger("game.ui.Controls").finest( "KeyUp: " + key );
+    }
     delete illandril.game.ui.Controls.keyStates[ks.keyCode];
     illandril.game.ui.Controls.modifierKeyStates.CTRL = ks.ctrlKey;
     illandril.game.ui.Controls.modifierKeyStates.ALT = ks.altKey;
@@ -132,7 +100,9 @@ illandril.game.ui.Controls = {
     if ( typeof( keyCodeOrKey ) == "number" ) {
       key = illandril.game.ui.Controls.getKeyEventKey( keyCodeOrKey, ctrl, alt, shift );
     }
-    illandril.util.Logger.finest( "registerAction: " + key );
+    if ( illandril.DEBUG ) {
+      illandril.getLogger("game.ui.Controls").finest( "registerAction: " + action.name + "; " + key );
+    }
     var changes = [];
     var oldAction = illandril.game.ui.Controls.controls[key];
     var oldKey = illandril.game.ui.Controls.reverseControls[action.name];
@@ -145,7 +115,9 @@ illandril.game.ui.Controls = {
         throw "The specified key is already in use for a different function.";
       }
     } else if ( oldKey != null ) {
-      illandril.util.Logger.finest( "oldKey: " + oldKey );
+      if ( illandril.DEBUG ) {
+        illandril.getLogger("game.ui.Controls").finest( "oldKey: " + oldKey );
+      }
       delete illandril.game.ui.Controls.controls[oldKey]
     }
     illandril.game.ui.Controls.controls[key] = action;
@@ -198,6 +170,7 @@ goog.events.listen( document, goog.events.EventType.BLUR, illandril.game.ui.Cont
 
 goog.exportSymbol( "illandril.game.ui.Controls.registerControlChangeListener", illandril.game.ui.Controls.registerControlChangeListener );
 goog.exportSymbol( "illandril.game.ui.Controls.registerActionFromInput", illandril.game.ui.Controls.registerActionFromInput );
+
 /**
  * @constructor
  */
@@ -208,33 +181,3 @@ var exportedAction = function( key, action ) {
   this["action"] = action;
 };
 
- /*
-function( title ) {
-  this.codesToFn = {};
-  this.fnToCode = {}
-  var acIndex = activeControls.length;
-  activeControls[acIndex] = this;
-};
-
-illandril.game.ui.Controls.prototype.register = function( keyCode, fn, name ) {
-  if ( usedCodes[keyCode] ) {
-    alert( "That key is already used by " + usedCodes[keyCode] );
-  } else {
-    var oldCode = this.fnToCode[fn];
-    if ( oldCode != null ) {
-      this.codeToFn[oldCode] = null;
-      usedCodes[oldCode] = null;
-    }
-    usedCodes[keyCode] = name;
-    this.codesToFn[keyCode] = fn;
-    this.fnToCode[fn] = keyCode;
-  }
-};
-
-illandril.game.ui.Controls.prototype.keyPressed = function( keyCode ) {
-  var fn = this.codesToFn[keyCode];
-  if ( fn != null ) {
-    fn();
-  }
-};
-*/

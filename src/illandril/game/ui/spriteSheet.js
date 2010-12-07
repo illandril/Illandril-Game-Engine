@@ -47,11 +47,15 @@ illandril.game.ui.SpriteSheet.prototype.getSprite = function( gameTime, directio
   var retY = spriteY * this.tileHeight;
   if ( isNaN( retX ) ) {
     retX = 0;
-    illandril.util.Logger.shout( "sX: " + spriteX + "; GT: " + gameTime + "; MSPF: " + this.mspf + "; Width: " + this.tileWidth );
+    if ( illandril.DEBUG ) {
+      illandril.getLogger( "game.ui.spriteSheet" ).shout( "BAD SPRITE X -- sX: " + spriteX + "; GT: " + gameTime + "; MSPF: " + this.mspf + "; Width: " + this.tileWidth );
+    }
   }
   if ( isNaN( retY ) ) {
     retY = 0;
-    illandril.util.Logger.shout( "sY: " + spriteY + "; GT: " + gameTime + "; MSPF: " + this.mspf + "; Height: " + this.tileHeight );
+    if ( illandril.DEBUG ) {
+      illandril.getLogger( "game.ui.spriteSheet" ).shout( "BAD SPRITE Y -- sY: " + spriteY + "; GT: " + gameTime + "; MSPF: " + this.mspf + "; Height: " + this.tileHeight );
+    }
   }
   return { src: this.src, x: spriteX * this.tileWidth, y: spriteY * this.tileHeight };
 };

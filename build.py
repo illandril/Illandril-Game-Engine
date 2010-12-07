@@ -3,6 +3,7 @@ import os,sys
 builder = "closure-library/closure/bin/build/closurebuilder.py"
 args = " --root=closure-library/"
 args = args + " --root=src/"
+args = args + " --namespace=illandril"
 args = args + " --namespace=illandril.game.Engine"
 args = args + " --output_mode=compiled"
 args = args + " --compiler_jar=closure-compiler/compiler.jar"
