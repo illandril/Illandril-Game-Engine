@@ -1,8 +1,10 @@
 goog.provide("illandril.util.Logger");
 
+goog.require("goog.debug.DivConsole");
 goog.require("goog.debug.FancyWindow");
 goog.require("goog.debug.Logger");
-goog.require("goog.debug.Console");
+goog.require("goog.events");
+goog.require("goog.events.EventType");
 
 illandril.util.Logger = {};
 
@@ -53,7 +55,7 @@ if ( illandril.util.Logger.MAX_LOG_LEVEL <= illandril.util.Logger.Levels.INFO ) 
     goog.debug.Logger.getLogger( name ).info( message );
   };
 } else {
-  illandril.util.Logger.info= function() {};
+  illandril.util.Logger.info = function() {};
 }
 
 if ( illandril.util.Logger.MAX_LOG_LEVEL <= illandril.util.Logger.Levels.FINEST ) {
@@ -66,10 +68,16 @@ if ( illandril.util.Logger.MAX_LOG_LEVEL <= illandril.util.Logger.Levels.FINEST 
 
 
 if ( illandril.util.Logger.MAX_LOG_LEVEL < illandril.util.Logger.Levels.NONE ) {
-  var debugWindow = new goog.debug.FancyWindow('main');
-  debugWindow.setEnabled(true);
-  debugWindow.init();
-  
-  var console = new goog.debug.Console();
-  console.setCapturing( true );
+  goog.debug.Logger.getLogger("").setLevel( goog.debug.Logger.Level.ALL );
+  goog.events.listen( window, goog.events.EventType.LOAD, function() {
+    var elem = document.getElementById( "illandrilDebug" );
+    if ( elem != null ) {
+      var debugConsole = new goog.debug.DivConsole( elem );
+      debugConsole.setCapturing( true );
+    } else {
+      var debugWindow = new goog.debug.FancyWindow('main');
+      debugWindow.setEnabled( true );
+      debugWindow.init();
+    }
+  } );
 }

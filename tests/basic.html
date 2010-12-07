@@ -13,17 +13,20 @@
 -->
  </head>
  <body>
+  <div id="illandrilDebug" style="float: right; height: 100px; overflow: scroll;"></div>
   <div id="game" style="text-align: center;"></div>
   <script type="text/javascript">
 
-illandril.game.Engine.mc = 1000;
+illandril.game.Engine.mc = 10;
 illandril.game.Engine.init("game", null, "../graphics/");
 </script>
 <div id="debug">
 <div id="collectableCount"></div>
 <div id="deathCount"></div>
+<input onclick="illandril.game.Engine.resume(); return false;" type="submit" value="resume">
 <input onclick="move=!move; return false;" type="submit" value="move/stop mobiles">
 <input onclick="doRandom=!doRandom; return false;" type="submit" value="enable/disable random">
+</div>
 <br>
 <b>Hotkeys:</b>
 <br>
