@@ -30,9 +30,6 @@ illandril.game.objects.GameObject.prototype.getPosition = function() {
 
 illandril.game.objects.GameObject.prototype.setDirection = function( dir ) {
   var newDir = dir.clone();
-  if ( newDir.squaredMagnitude() > 1 ) {
-    newDir.normalize();
-  }
   if ( Math.abs( newDir.x ) < illandril.game.objects.GameObject.GRANULARITY ) {
     newDir.x = 0;
   }
@@ -40,23 +37,18 @@ illandril.game.objects.GameObject.prototype.setDirection = function( dir ) {
     newDir.y = 0;
   }
   if ( newDir.x != 0 || newDir.y != 0 ) {
+    newDir.normalize();
     this.direction = newDir;
-  } else {
-    if ( this.direction.x > 0 ) {
-      this.direction.x = illandril.game.objects.GameObject.GRANULARITY;
-    } else if ( this.direction.x < 0 ) {
-      this.direction.x = -1 * illandril.game.objects.GameObject.GRANULARITY;
-    }
-    if ( this.direction.y > 0 ) {
-      this.direction.y = illandril.game.objects.GameObject.GRANULARITY;
-    } else if ( this.direction.y < 0 ) {
-      this.direction.y = -1 * illandril.game.objects.GameObject.GRANULARITY;
-    }
   }
 };
 
 illandril.game.objects.GameObject.prototype.getDirection = function() {
   return this.direction;
+};
+
+
+illandril.game.objects.Active.prototype.getVelocity = function() {
+  return new goog.math.Vec2(0,0);
 };
 
 illandril.game.objects.GameObject.prototype.getSize = function() {

@@ -120,7 +120,7 @@ illandril.game.Engine = {
     var container = illandril.game.Engine.container;
     
     // Start for testing
-    charac = new illandril.game.objects.Player( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.SpriteSheet( "../graphics/turtle.png", 20, 20, 4 ), 1000 );
+    charac = new illandril.game.objects.Player( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.SpriteSheet( "../graphics/turtle.png", 20, 20, 8 ), 1000 );
     window["charac"] = charac;
     
     var vp = new illandril.game.ui.Viewport( container, world, new goog.math.Vec2( 500, 500 ) );
@@ -177,13 +177,13 @@ illandril.game.Engine = {
       }
     }
     
-    var moveUp = new illandril.game.ui.Action( function() { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( 0, -1 ) ); }, "Move Up", true );
+    var moveUp = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( 0, -1 ) ); }, "Move Up", true );
     window["moveUp"] = moveUp;
-    var moveDown = new illandril.game.ui.Action( function() { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( 0, 1 ) ); }, "Move Down", true );
+    var moveDown = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( 0, 1 ) ); }, "Move Down", true );
     window["moveDown"] = moveDown;
-    var moveLeft = new illandril.game.ui.Action( function() { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( -1, 0 ) ); }, "Move Left", true );
+    var moveLeft = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( -1, 0 ) ); }, "Move Left", true );
     window["moveLeft"] = moveLeft;
-    var moveRight = new illandril.game.ui.Action( function() { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( 1, 0 ) ); }, "Move Right", true );
+    var moveRight = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( 1, 0 ) ); }, "Move Right", true );
     window["moveRight"] = moveRight;
     illandril.game.ui.Controls.registerAction( moveUp, goog.events.KeyCodes.W, false, false, false );
     illandril.game.ui.Controls.registerAction( moveLeft, goog.events.KeyCodes.A, false, false, false );
@@ -204,12 +204,13 @@ illandril.game.Engine = {
     }
   },
   tick: function() {
-    illandril.game.ui.Controls.handleKeyEvents();
+    var tickTime = illandril.game.util.Framerate.tick();
+    illandril.game.ui.Controls.handleKeyEvents( tickTime );
     if ( illandril.game.Engine.paused || illandril.game.Engine.loading > 0 ) {
       illandril.game.util.Framerate.reset();
     } else {
       var world = illandril.game.Engine.currentWorld;
-      world.update( illandril.game.util.Framerate.tick(), illandril.game.util.Framerate.getTotalTime() );
+      world.update( tickTime, illandril.game.util.Framerate.getTotalTime() );
       if ( illandril.game.util.Framerate.totalFrames % 5 == 0 ) {
         illandril.game.Engine.debug.innerHTML = "";
         if ( illandril.game.Engine.debugFPS ) {

@@ -12,6 +12,22 @@ illandril.game.objects.Active = function( world, bounds, bg ) {
   this.velocity = new goog.math.Vec2( 0, 0 );
 };
 
+
+/*
+
+loop {
+ accelerate( direction );
+  \--> adjust velocity by acceleration
+ move
+  \--> fix velocity to 0 if below threshold
+  \--> adjust position by velocity scaled by tick and collisions
+       \--> adjust velocity based on collisions
+       \--> adjust velocity of other objects based on collision
+  \--> adjust velocity by gravity and friction
+}  
+
+*/
+
 illandril.game.objects.Active.prototype.isActive = true;
 
 illandril.game.objects.Active.prototype.think = function( tick ) {};

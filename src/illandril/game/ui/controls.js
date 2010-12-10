@@ -71,7 +71,7 @@ illandril.game.ui.Controls = {
     illandril.game.ui.Controls.modifierKeyStates.SHIFT = ks.shiftKey;
   },
   
-  handleKeyEvents: function() {
+  handleKeyEvents: function( tickTime ) {
     var activeKeys = 0;
     var modifierRepeat = illandril.game.ui.Controls.modifierKeyStates.CTRL == illandril.game.ui.Controls.modifierKeyStates.CTRL_LAST
                          && illandril.game.ui.Controls.modifierKeyStates.ALT == illandril.game.ui.Controls.modifierKeyStates.ALT_LAST
@@ -87,7 +87,7 @@ illandril.game.ui.Controls = {
       if ( illandril.game.ui.Controls.actionToRegister == null ) {
         if ( illandril.game.ui.Controls.controls[key] != null
              && ( !repeat || illandril.game.ui.Controls.controls[key].executeOnRepeat ) ) {
-          illandril.game.ui.Controls.controls[key].execute();
+          illandril.game.ui.Controls.controls[key].execute( tickTime );
         }
       }
     }
