@@ -12,6 +12,7 @@ goog.require("illandril.game.World");
 goog.require("illandril.game.objects.ActiveCollectable");
 goog.require("illandril.game.objects.Player");
 goog.require("illandril.game.objects.Wall");
+goog.require("illandril.game.objects.GameObject");
 goog.require("illandril.game.objects.Car");
 goog.require("illandril.game.objects.Generator");
 goog.require("illandril.game.objects.Consumer");
@@ -106,7 +107,15 @@ illandril.game.Engine = {
       world.startBulk();
       while ( illandril.game.Engine.maps[mapSrc].length > 0 ) {
         var objDef = illandril.game.Engine.maps[mapSrc].pop();
-        new illandril.game.objects.Wall( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef.x, objDef.y ), new goog.math.Vec2( objDef.width, objDef.height ) ), objDef.bg, objDef.zIndex );
+        var sprite = null;
+        if ( objDef["bg"] != null ) {
+          sprite = new illandril.game.ui.SpriteSheet( objDef["bg"], objDef["width"], objDef["height"], 1, 1 );
+        }
+        if ( objDef["solid"] != null && objDef["solid"] == false ) {
+          new illandril.game.objects.GameObject( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef["x"], objDef["y"] ), new goog.math.Vec2( objDef["width"], objDef["height"] ) ), sprite, objDef["zIndex"] );
+        } else {
+          new illandril.game.objects.Wall( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef["x"], objDef["y"] ), new goog.math.Vec2( objDef["width"], objDef["height"] ) ), sprite, objDef["zIndex"] );
+        }
         if ( illandril.game.Engine.maps[mapSrc].length % 100 == 0 ) {
           break; // Make sure the UI still responds
         }
@@ -120,14 +129,14 @@ illandril.game.Engine = {
     var container = illandril.game.Engine.container;
     
     // Start for testing
-    charac = new illandril.game.objects.Player( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.SpriteSheet( "../graphics/turtle.png", 20, 20, 8 ), 1000 );
+    charac = new illandril.game.objects.Player( world, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.SpriteSheet( "../graphics/turtle.png", 20, 20, 8, 6 ), 1000 );
     window["charac"] = charac;
     
     var vp = new illandril.game.ui.Viewport( container, world, new goog.math.Vec2( 500, 500 ) );
     vp.follow( charac );
   
     var vp2 = new illandril.game.ui.Viewport( container, world, new goog.math.Vec2( 100, 500 ) );
-    vp2.lookAt( new goog.math.Vec2( 0, -2000 ) );
+    vp2.lookAt( new goog.math.Vec2( 300, 2000 ) );
     vp2.setZoom( 0.12 );
   
     var top = 4000;
