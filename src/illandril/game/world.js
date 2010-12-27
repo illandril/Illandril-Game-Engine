@@ -24,7 +24,10 @@ illandril.game.World = function( name ) {
   illandril.game.Scene.call( this, name );
   this.objects = new illandril.game.objects.Container();
   this.buckets = {};
+  this.getNearbySolidObjects__last = -1;
+  this.getNearbySolidObjects__cache = {};
 };
+goog.inherits( illandril.game.World, illandril.game.Scene );
 
 /**
  * Gets the bucket that contains the specified point
@@ -52,8 +55,8 @@ illandril.game.World.prototype.getBucket = function( point ) {
 illandril.game.World.prototype.getNearbySolidObjects = function( point ) {
   // The cache speeds things up quite a bit when there are lots of things moving close together...
   // But it also means there might be cases where things don't collide when they should (two, fast moving objects and/or teleporting objects)
-  if ( this.getNearbySolidObjects__last != this.updateCount ) {
-    this.getNearbySolidObjects__last = this.updateCount;
+  if ( this.getNearbySolidObjects__last != this.tickCount ) {
+    this.getNearbySolidObjects__last = this.tickCount;
     this.getNearbySolidObjects__cache = {};
   }
   var nearbyObjects = [];

@@ -26,7 +26,6 @@ illandril.game.ui.Viewport = function( container, world, size ) {
   this.world = world;
   this.following = null;
   this.world.attachViewport( this );
-  this.update();
 };
 
 illandril.game.ui.Viewport.prototype.setZoom = function( zoom ) {
@@ -37,7 +36,7 @@ illandril.game.ui.Viewport.prototype.setZoom = function( zoom ) {
   this.domObject.style.height = size.y + "px";
   this.domObject.style.zoom = zoom;
   this.domObject.style["MozTransform"] = "scale(" + zoom + ")";
-  this.update();
+  this.world.updateViewports();
 };
 
 illandril.game.ui.Viewport.prototype.lookAtNoUpdate = function( position ) {
@@ -48,12 +47,12 @@ illandril.game.ui.Viewport.prototype.lookAtNoUpdate = function( position ) {
 illandril.game.ui.Viewport.prototype.lookAt = function( position ) {
   this.following = null;
   this.lookAtNoUpdate( position );
-  this.update();
+  this.world.updateViewports();
 };
 
 illandril.game.ui.Viewport.prototype.follow = function( obj ) {
   this.following = obj;
-  this.update();
+  this.world.updateViewports();
 };
 
 illandril.game.ui.Viewport.prototype.update = function( tickTime, gameTime ) {

@@ -9,7 +9,7 @@ illandril.game.Scene = function( name ) {
   this.controls = new illandril.game.ui.Controls( name );
   
   this.tickCount = 0;
-  this.sceneTime = 0;
+  this.lastSceneTime = 0;
   this.lastTickTime = 0;
   
   this.hasUpdate = false;
@@ -49,6 +49,7 @@ illandril.game.Scene.prototype.endBulk = function() {
  */
 illandril.game.Scene.prototype.attachViewport = function( viewport ) {
   this.viewports[this.viewports.length] = viewport;
+  this.updateViewports();
 };
 
 /**
@@ -59,7 +60,7 @@ illandril.game.Scene.prototype.updateViewports = function() {
   if ( this.inBulk == 0 ) {
     this.hasUpdate = false;
     for ( var idx = 0; idx < this.viewports.length; idx++ ) {
-      this.viewports[idx].update( this.lastTickTime, this.lastGameTime );
+      this.viewports[idx].update( this.lastTickTime, this.lastSceneTime );
     }
   }
 };
