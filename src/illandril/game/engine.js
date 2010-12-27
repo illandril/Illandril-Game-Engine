@@ -30,6 +30,7 @@ illandril.game.Engine = {
   worlds: [],
   currentWorld: null,
   startTime: null,
+  controls: null,
   init: function( gameContainerID, mapSrc ) {
     illandril.game.Engine.startTime = new Date();
     
@@ -64,16 +65,17 @@ illandril.game.Engine = {
     illandril.game.Engine.loadingDialog.setModal( false );
     illandril.game.Engine.loadingDialog.setVisible( true );
     
-    illandril.game.Engine.tick();
-    
+    illandril.game.Engine.controls = new illandril.game.ui.Controls();
     var pause = new illandril.game.ui.Action( function() { illandril.game.Engine.togglePause(); }, "pause", false );
-    illandril.game.ui.Controls.registerAction( pause, goog.events.KeyCodes.P, false, false, false );
+    illandril.game.Engine.controls.registerAction( pause, goog.events.KeyCodes.P, false, false, false );
     
     var debugFPS = new illandril.game.ui.Action( function() { illandril.game.Engine.debugFPS = !illandril.game.Engine.debugFPS; }, "Debug FPS", false );
-    illandril.game.ui.Controls.registerAction( debugFPS, goog.events.KeyCodes.F8, false, false, false );
+    illandril.game.Engine.controls.registerAction( debugFPS, goog.events.KeyCodes.F8, false, false, false );
     
     var debugObjectCount = new illandril.game.ui.Action( function() { illandril.game.Engine.debugObjectCount = !illandril.game.Engine.debugObjectCount; }, "Debug Object Count", false );
-    illandril.game.ui.Controls.registerAction( debugObjectCount, goog.events.KeyCodes.F7, false, false, false );
+    illandril.game.Engine.controls.registerAction( debugObjectCount, goog.events.KeyCodes.F7, false, false, false );
+    
+    illandril.game.Engine.tick();
     
     illandril.game.Engine.currentWorld = new illandril.game.World();
     illandril.game.Engine.loadMap( mapSrc, illandril.game.Engine.currentWorld );
@@ -185,10 +187,10 @@ illandril.game.Engine = {
     window["moveLeft"] = moveLeft;
     var moveRight = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( 1, 0 ) ); }, "Move Right", true );
     window["moveRight"] = moveRight;
-    illandril.game.ui.Controls.registerAction( moveUp, goog.events.KeyCodes.W, false, false, false );
-    illandril.game.ui.Controls.registerAction( moveLeft, goog.events.KeyCodes.A, false, false, false );
-    illandril.game.ui.Controls.registerAction( moveDown, goog.events.KeyCodes.S, false, false, false );
-    illandril.game.ui.Controls.registerAction( moveRight, goog.events.KeyCodes.D, false, false, false );
+    world.getControls().registerAction( moveUp, goog.events.KeyCodes.W, false, false, false );
+    world.getControls().registerAction( moveLeft, goog.events.KeyCodes.A, false, false, false );
+    world.getControls().registerAction( moveDown, goog.events.KeyCodes.S, false, false, false );
+    world.getControls().registerAction( moveRight, goog.events.KeyCodes.D, false, false, false );
     
     illandril.game.util.Framerate.reset();
     
@@ -205,11 +207,12 @@ illandril.game.Engine = {
   },
   tick: function() {
     var tickTime = illandril.game.util.Framerate.tick();
-    illandril.game.ui.Controls.handleKeyEvents( tickTime );
+    illandril.game.Engine.controls.handleKeyEvents( tickTime );
     if ( illandril.game.Engine.paused || illandril.game.Engine.loading > 0 ) {
       illandril.game.util.Framerate.reset();
     } else {
       var world = illandril.game.Engine.currentWorld;
+      world.getControls().handleKeyEvents( tickTime );
       world.update( tickTime, illandril.game.util.Framerate.getTotalTime() );
       if ( illandril.game.util.Framerate.totalFrames % 5 == 0 ) {
         illandril.game.Engine.debug.innerHTML = "";

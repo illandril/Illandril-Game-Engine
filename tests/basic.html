@@ -46,24 +46,5 @@ FPS: F12
 <br>
 Object Count: F11
 <br>
-<div id="controls"></div>
-<script>
-var updateControlActions = [];
-var updateControlsList = function( lastChanges, fullList ) {
-  updateControlActions = [];
-  var list = "";
-  for ( var i = 0; i < fullList.length; i++ ) {
-    if ( list.length != 0 ) {
-      list = list + "<br>";
-    }
-    var action = fullList[i].action;
-    updateControlActions[i] = action;
-    list = list + "<input onclick='illandril.game.ui.Controls.registerActionFromInput(updateControlActions[" + i + "]); return false;' type='submit' value='Change'>&nbsp;"; 
-    list = list + action.name + ": " + fullList[i].key;
-  }
-  document.getElementById( "controls" ).innerHTML = list;
-}
-illandril.game.ui.Controls.registerControlChangeListener( updateControlsList, true );
-</script>
  </body>
 </html>

@@ -2,6 +2,7 @@ goog.provide("illandril.game.World");
 
 goog.require("goog.math.Vec2");
 goog.require("illandril.math.Bounds");
+goog.require("illandril.game.Scene");
 goog.require("illandril.game.objects.GameObject");
 goog.require("illandril.game.objects.Container");
 
@@ -17,16 +18,12 @@ randomObject = null;
 
 /**
  * @constructor
+ * @extends illandril.game.Scene
  */
-illandril.game.World = function() {
-  this.viewports = [];
+illandril.game.World = function( name ) {
+  illandril.game.Scene.call( this, name );
   this.objects = new illandril.game.objects.Container();
-  this.updateCount = 0;
-  this.inBulk = 0;
-  this.hasUpdate = false;
   this.buckets = {};
-  this.lastTickTime = 0;
-  this.lastGameTime = 0;
 };
 
 /**
@@ -82,28 +79,6 @@ illandril.game.World.prototype.getNearbySolidObjects = function( point ) {
     }
     this.getNearbySolidObjects__cache[id] = nearbyObjects;
     return nearbyObjects;
-  }
-};
-
-/**
- * Mark the world for a bulk action.
- * Use any time more than one object in the world is moving, being created, or being deleted.
- * Call endBulk when the bulk action is complete.
- */
-illandril.game.World.prototype.startBulk = function() {
-  this.inBulk++;
-};
-
-/**
- * Mark the end of a bulk action.
- * Use any time more than one object in the world is moving, being created, or being deleted.
- * Call startBulk before starting the bulk action.
- * This will update all viewports if no other bulk actions are in progress.
- */
-illandril.game.World.prototype.endBulk = function() {
-  this.inBulk--;
-  if ( this.hasUpdate ) {
-    this.updateViewports();
   }
 };
 
@@ -168,27 +143,6 @@ illandril.game.World.prototype.getObjects = function( bounds ) {
 };
 
 /**
- * Links a viewport with this world.
- * @param {illandril.game.Viewport} viewport The viewport to link to this world
- */
-illandril.game.World.prototype.attachViewport = function( viewport ) {
-  this.viewports[this.viewports.length] = viewport;
-};
-
-/**
- *
- */
-illandril.game.World.prototype.updateViewports = function() {
-  this.hasUpdate = true;
-  if ( this.inBulk == 0 ) {
-    this.hasUpdate = false;
-    for ( var idx = 0; idx < this.viewports.length; idx++ ) {
-      this.viewports[idx].update( this.lastTickTime, this.lastGameTime );
-    }
-  }
-};
-
-/**
  *
  */
 illandril.game.World.prototype.objectMoved = function( gameObject ) {
@@ -208,12 +162,7 @@ illandril.game.World.prototype.objectMoved = function( gameObject ) {
 /**
  *
  */
-illandril.game.World.prototype.update = function( tickTime, gameTime ) {
-  this.updateCount++;
-  var tick = Math.min( tickTime, 1000 );
-  this.lastTickTime = tick;
-  this.lastGameTime = gameTime;
-  this.startBulk();
+illandril.game.World.prototype._update = function() {
   if ( doRandom && Math.random() * 100 < 25 ) {
     if ( randomObject != null ) {
       this.removeObject( randomObject );
@@ -226,18 +175,14 @@ illandril.game.World.prototype.update = function( tickTime, gameTime ) {
     if ( obj.world != this ) {
       continue; // Skip over the object if it has been removed from the world
     }
-    var needsUpdate = obj.think( tick );
+    var needsUpdate = obj.think( this.lastTickTime );
     if ( obj.isMoving() ) {
-      this.move( obj, tick );
+      this.move( obj, this.lastTickTime );
     }
     if ( needsUpdate ) {
       this.updateViewports();
     }
   }
-  // Make sure the viewports always update every tick, for animation
-  // This should be handled by obj.think()
-  this.updateViewports();
-  this.endBulk();
 };
 
 /**
