@@ -47,7 +47,7 @@ illandril.game.objects.GameObject.prototype.getDirection = function() {
 };
 
 
-illandril.game.objects.Active.prototype.getVelocity = function() {
+illandril.game.objects.GameObject.prototype.getVelocity = function() {
   return new goog.math.Vec2(0,0);
 };
 

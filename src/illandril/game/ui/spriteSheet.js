@@ -3,12 +3,13 @@ goog.provide("illandril.game.ui.SpriteSheet");
 /**
  * @constructor
  */
-illandril.game.ui.SpriteSheet =  function( src, tileHeight, tileWidth, fps ) {
+illandril.game.ui.SpriteSheet =  function( src, tileHeight, tileWidth, fps, frames ) {
+  illandril.getLogger( "game.ui.SpriteSheet" ).shout( src );
   this.src = src;
   this.tileHeight = tileHeight;
   this.tileWidth = tileWidth;
   this.mspf = 1000 / fps;
-  this.frames = 6;
+  this.frames = frames;
   this.lastDirection = -1;
   this.directionTime = 0;
   this.lastGameTime = -1;
