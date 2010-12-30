@@ -8,8 +8,8 @@ goog.require("illandril.game.objects.Solid");
  * @constructor
  * @extends illandril.game.objects.GameObject
  */
-illandril.game.objects.Consumer = function( world, bounds, bg, zIndex, type ) {
-  illandril.game.objects.GameObject.call( this, world, bounds, bg, zIndex );
+illandril.game.objects.Consumer = function( scene, bounds, bg, zIndex, type ) {
+  illandril.game.objects.GameObject.call( this, scene, bounds, bg, zIndex );
   illandril.game.objects.Solid.call( this );
   this.type = type;
 };
@@ -22,6 +22,6 @@ illandril.game.objects.Consumer.prototype.blocks = function( otherObject ) {
 
 illandril.game.objects.Consumer.prototype.collideWith = function( otherObject ) {
   if ( otherObject instanceof this.type ) {
-    this.world.removeObject( otherObject );
+    this.scene.removeObject( otherObject );
   }
 };

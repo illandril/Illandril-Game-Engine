@@ -6,12 +6,12 @@ var nextGameObjectID = 0;
 /**
  * @constructor
  */
-illandril.game.objects.GameObject = function( world, bounds, bg, zIndex ) {
+illandril.game.objects.GameObject = function( scene, bounds, bg, zIndex ) {
   this.id = nextGameObjectID++;
-  this.world = world;
+  this.scene = scene;
   this.bounds = bounds;
   this.zIndex = zIndex;
-  this.world.addObject( this );
+  this.scene.addObject( this );
   this.bg = bg;
   this.visible = true;
   this.direction = new goog.math.Vec2(0,0);

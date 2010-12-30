@@ -4,7 +4,6 @@ goog.provide("illandril.game.ui.SpriteSheet");
  * @constructor
  */
 illandril.game.ui.SpriteSheet =  function( src, tileHeight, tileWidth, fps, frames ) {
-  illandril.getLogger( "game.ui.SpriteSheet" ).shout( src );
   this.src = src;
   this.tileHeight = tileHeight;
   this.tileWidth = tileWidth;
@@ -30,7 +29,10 @@ illandril.game.ui.SpriteSheet.Direction = {
   NW: 7
 };
 
-illandril.game.ui.SpriteSheet.prototype.getSprite = function( gameTime, directionVector, speedVector ) {
+illandril.game.ui.SpriteSheet.prototype.getSprite = function( gameTime, obj ) {
+  var directionVector = obj.getDirection();
+  var speedVector = obj.getVelocity();
+  
   var tickTime = gameTime - this.lastGameTime;
   this.lastGameTime = gameTime;
   
@@ -113,22 +115,18 @@ illandril.game.ui.SpriteSheet.prototype.getSprite = function( gameTime, directio
       break;
   }
   
-  if ( illandril.DEBUG ) {
-    illandril.getLogger( "game.ui.spriteSheet" ).finest( "direction: " + direction + "; spriteX: " + spriteX + "; spriteY: " + spriteY + "; stationary: " + isStationary );
-  }
-  
   var retX = spriteX * this.tileWidth;
   var retY = spriteY * this.tileHeight;
   if ( isNaN( retX ) ) {
     retX = 0;
     if ( illandril.DEBUG ) {
-      illandril.getLogger( "game.ui.spriteSheet" ).shout( "BAD SPRITE X -- sX: " + spriteX + "; DT: " + this.directionTime + "; MSPF: " + this.mspf + "; Width: " + this.tileWidth );
+      illandril.getLogger( "game.ui.SpriteSheet" ).shout( "BAD SPRITE X -- sX: " + spriteX + "; DT: " + this.directionTime + "; MSPF: " + this.mspf + "; Width: " + this.tileWidth );
     }
   }
   if ( isNaN( retY ) ) {
     retY = 0;
     if ( illandril.DEBUG ) {
-      illandril.getLogger( "game.ui.spriteSheet" ).shout( "BAD SPRITE Y -- sY: " + spriteY + "; GT: " + gameTime + "; MSPF: " + this.mspf + "; Height: " + this.tileHeight );
+      illandril.getLogger( "game.ui.SpriteSheet" ).shout( "BAD SPRITE Y -- sY: " + spriteY + "; GT: " + gameTime + "; MSPF: " + this.mspf + "; Height: " + this.tileHeight );
     }
   }
   return { src: this.src, x: spriteX * this.tileWidth, y: spriteY * this.tileHeight };

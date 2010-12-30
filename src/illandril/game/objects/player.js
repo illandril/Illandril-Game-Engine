@@ -9,12 +9,12 @@ goog.require("illandril.game.objects.Solid");
 /**
  * @constructor
  * @extends illandril.game.objects.GameObject
- * @param {illandril.game.World} world the world the object lives in
+ * @param {illandril.game.Scene} scene the scene the object lives in
  * @param {illandril.math.Bounds} bounds the bounds that define the size and location of the object
  * @param {string|null} bg the URL of the background image for this object
  */
-illandril.game.objects.Player = function( world, bounds, bg, zIndex ) {
-  illandril.game.objects.GameObject.call( this, world, bounds, bg, zIndex );
+illandril.game.objects.Player = function( scene, bounds, bg, zIndex ) {
+  illandril.game.objects.GameObject.call( this, scene, bounds, bg, zIndex );
   illandril.game.objects.Solid.call( this );
   illandril.game.objects.Active.call( this );
   this.collectables = [];
@@ -27,7 +27,7 @@ goog.object.extend( illandril.game.objects.Player.prototype, illandril.game.obje
 
 illandril.game.objects.Player.prototype.collideWith = function( otherObject ) {
   if ( otherObject instanceof illandril.game.objects.Collectable ) {
-    this.world.removeObject( otherObject );
+    this.scene.removeObject( otherObject );
     this.collectables.push( otherObject );
     document.getElementById( "collectableCount" ).innerHTML = "Collectables: " + this.collectables.length;
     this.moveTo( this.startPos );

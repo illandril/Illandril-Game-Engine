@@ -8,8 +8,8 @@ goog.require("illandril.game.objects.Solid");
  * @constructor
  * @extends illandril.game.objects.GameObject
  */
-illandril.game.objects.Collectable = function( world, bounds, bg, zIndex ) {
-  illandril.game.objects.GameObject.call( this, world, bounds, bg, zIndex );
+illandril.game.objects.Collectable = function( scene, bounds, bg, zIndex ) {
+  illandril.game.objects.GameObject.call( this, scene, bounds, bg, zIndex );
   illandril.game.objects.Solid.call( this );
 };
 goog.inherits( illandril.game.objects.Collectable, illandril.game.objects.GameObject );

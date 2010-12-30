@@ -8,8 +8,8 @@ goog.require("illandril.game.objects.GameObject");
  * @constructor
  * @extends illandril.game.objects.GameObject
  */
-illandril.game.objects.Generator = function( world, bounds, bg, zIndex, generatedType, minDelay, maxDelay ) {
-  illandril.game.objects.GameObject.call( this, world, bounds, bg, zIndex );
+illandril.game.objects.Generator = function( scene, bounds, bg, zIndex, generatedType, minDelay, maxDelay ) {
+  illandril.game.objects.GameObject.call( this, scene, bounds, bg, zIndex );
   illandril.game.objects.Active.call( this );
   this.generatedType = generatedType;
   this.minDelay = minDelay || 1;
@@ -36,8 +36,8 @@ illandril.game.objects.Generator.prototype.think = function( tick ) {
     if ( this.timeSinceLast >= this.minDelay ) {
       if ( this.timeSinceLast + Math.random() * ( this.maxDelay - this.minDelay ) >= this.maxDelay ) {
         var bounds = illandril.math.Bounds.fromCenter( this.getPosition(), this.getSize() );
-        if ( !this.world.hasObjectIntersecting( bounds ) ) {
-          new this.generatedType( this.world, bounds, this.bg, this.zIndex );
+        if ( !this.scene.hasObjectIntersecting( bounds ) ) {
+          new this.generatedType( this.scene, bounds, this.bg, this.zIndex );
           this.timeSinceLast = 0;
         }
       }

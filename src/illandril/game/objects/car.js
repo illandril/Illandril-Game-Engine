@@ -9,8 +9,8 @@ goog.require("illandril.game.objects.GameObject");
  * @constructor
  * @extends illandril.game.objects.GameObject
  */
-illandril.game.objects.Car = function( world, bounds, bg, zIndex ) {
-  illandril.game.objects.GameObject.call( this, world, bounds, bg, zIndex );
+illandril.game.objects.Car = function( scene, bounds, bg, zIndex ) {
+  illandril.game.objects.GameObject.call( this, scene, bounds, bg, zIndex );
   illandril.game.objects.Active.call( this );
   illandril.game.objects.Solid.call( this );
 };

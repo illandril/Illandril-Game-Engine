@@ -5,7 +5,7 @@ goog.require("illandril.game.objects.GameObject");
 /**
  * @constructor
  */
-illandril.game.objects.Active = function( world, bounds, bg ) {
+illandril.game.objects.Active = function() {
   if ( !this instanceof illandril.game.objects.GameObject ) {
     throw "Error... active object not also a game object!"
   }
@@ -73,7 +73,7 @@ illandril.game.objects.Active.prototype.moveBy = function( direction ) {
 
 illandril.game.objects.Active.prototype.moveTo = function( position ) {
   this.bounds.centerOn( position );
-  if ( this.world != null ) {
-    this.world.objectMoved( this );
+  if ( this.scene != null ) {
+    this.scene.objectMoved( this );
   }
 };

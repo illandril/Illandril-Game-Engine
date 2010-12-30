@@ -25,26 +25,15 @@
     <div id="illandrilDebug" style="position: absolute; right: 0; z-index: 10000; height: 100px; overflow: scroll; opacity: 0.5"></div>
   </div>
   <script type="text/javascript">initLogs("illandrilDebug");</script>
-  <div id="game" style="text-align: center;"></div>
+  <div style="text-align: center;"><div id="game"></div></div>
   <script type="text/javascript">
 illandril.game.Engine.mc = 10;
 illandril.game.Engine.init("game", null, "../graphics/");
 </script>
-<div id="debug">
-<div id="collectableCount"></div>
-<div id="deathCount"></div>
 <input onclick="illandril.game.Engine.resume(); return false;" type="submit" value="resume">
 <input onclick="move=!move; return false;" type="submit" value="move/stop mobiles">
 <input onclick="doRandom=!doRandom; return false;" type="submit" value="enable/disable random">
+<div id="collectableCount"></div>
 </div>
-<br>
-<b>Hotkeys:</b>
-<br>
-Pause: P
-<br>
-FPS: F12
-<br>
-Object Count: F11
-<br>
  </body>
 </html>
