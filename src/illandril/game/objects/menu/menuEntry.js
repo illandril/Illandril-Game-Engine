@@ -13,32 +13,41 @@ goog.require("illandril.game.ui.Font");
  * @param {string|null} bg the URL of the background image for this object
  */
 illandril.game.objects.menus.MenuEntry = function( scene, text, center, font, zIndex ) {
+  // 0x0 because the letters are the actual objects
+  illandril.game.objects.GameObject.call( this, scene, illandril.math.Bounds.fromCenter( center, new goog.math.Vec2( 0, 0 ) ), null, zIndex );
   this.state = { active: false, down: false, hover: false };
-  this.text = text;
   this.font = font;
   this.center = center;
+  this.setText( text );
+};
+goog.inherits( illandril.game.objects.menus.MenuEntry, illandril.game.objects.GameObject );
+
+illandril.game.objects.menus.MenuEntry.prototype.setText = function( text ) {
+  this.text = text;
+  if ( this.letters != null ) {
+    for ( var i = 0; i < this.letters.length; i++ ) {
+      this.scene.removeObject( this.letters[i] );
+    }
+    delete this.letters;
+  }
   this.letters = [];
   var width = 0;
   var height = 0;
   for ( var i = 0; i < text.length; i++ ) {
     var letter = text.charAt( i );
-    var letterUI = font.getLetter( letter );
+    var letterUI = this.font.getLetter( letter );
     width += letterUI.width;
     height = Math.max( height, letterUI.height );
-    this.letters.push( new illandril.game.objects.menus.MenuLetter( scene, illandril.math.Bounds.fromCenter( center, new goog.math.Vec2( letterUI.width, letterUI.height ) ), font, letter, this, zIndex ) );
+    this.letters.push( new illandril.game.objects.menus.MenuLetter( this.scene, illandril.math.Bounds.fromCenter( this.center, new goog.math.Vec2( letterUI.width, letterUI.height ) ), this.font, letter, this, this.zIndex ) );
   }
-  var x = center.x - width / 2;
+  var x = this.center.x - width / 2;
   for ( var i = 0; i < this.letters.length; i++ ) {
     var letter = this.letters[i];
     var size = letter.getSize();
-    letter.bounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( x + size.x / 2, center.y ), size );
+    letter.bounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( x + size.x / 2, this.center.y ), size );
     x += size.x;
   }
-  // 0x0 because the letters are the actual objects
-  var bounds = illandril.math.Bounds.fromCenter( center, new goog.math.Vec2( 0, 0 ) );
-  illandril.game.objects.GameObject.call( this, scene, bounds, null, zIndex );
 };
-goog.inherits( illandril.game.objects.menus.MenuEntry, illandril.game.objects.GameObject );
 
 illandril.game.objects.menus.MenuEntry.prototype.getState = function() {
   return this.state;

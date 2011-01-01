@@ -18,6 +18,8 @@ illandril.game.ui.Controls = function() {
   this.registeringActionTimeout = null;
 };
 
+illandril.game.ui.Controls.actionPendingFor = null;
+
 illandril.game.ui.Controls.keyStates = {};
 
 illandril.game.ui.Controls.modifierKeyStates = { CTRL: false, CTRL_LAST: false, ALT: false, ALT_LAST: false, SHIFT: false, SHIFT_LAST: false },
@@ -105,15 +107,21 @@ illandril.game.ui.Controls.prototype = {
       if ( this.registeringActionTimeout != null ) {
         clearTimeout( this.registeringActionTimeout );
       }
+      var controls = this;
       this.registeringActionTimeout = setTimeout( function() {
-        this.registerAction( this.actionToRegister, key );
-        this.actionToRegister = null;
-        this.registeringActionTimeout = null;
+        controls.registerAction( controls.actionToRegister, key );
+        controls.actionToRegister = null;
+        illandril.game.ui.Controls.actionPendingFor = null;
+        controls.registeringActionTimeout = null;
       }, 100 );
     }
     illandril.game.ui.Controls.modifierKeyStates.CTRL_LAST = illandril.game.ui.Controls.modifierKeyStates.CTRL;
     illandril.game.ui.Controls.modifierKeyStates.ALT_LAST = illandril.game.ui.Controls.modifierKeyStates.ALT;
     illandril.game.ui.Controls.modifierKeyStates.SHIFT_LAST = illandril.game.ui.Controls.modifierKeyStates.SHIFT;
+  },
+  
+  getKeyForAction: function( action ) {
+    return this.reverseControls[action];
   },
   
   registerAction: function( action, keyCodeOrKey, ctrl, alt, shift ) {
@@ -148,6 +156,10 @@ illandril.game.ui.Controls.prototype = {
   },
   
   registerActionFromInput: function( action ) {
+    if ( illandril.game.ui.Controls.actionPendingFor != null ) {
+      illandril.game.ui.Controls.actionPendingFor.notifyControlChangeListeners( null );
+    }
+    illandril.game.ui.Controls.actionPendingFor = this;
     this.actionToRegister = action;
   },
   
@@ -171,8 +183,8 @@ illandril.game.ui.Controls.prototype = {
     return actions;
   },
   
-  registerControlChangeListener: function( listener, notifyNow ) {
-    this.controlChangeListeners.push( listener );
+  registerControlChangeListener: function( listener, fn, notifyNow ) {
+    this.controlChangeListeners.push( { listener: listener, fn: fn } );
     if ( notifyNow ) {
       listener( [], this.getActionList() );
     }
@@ -180,7 +192,8 @@ illandril.game.ui.Controls.prototype = {
   
   notifyControlChangeListeners: function( lastChanges ) {
     for ( var idx = 0; idx < this.controlChangeListeners.length; idx++ ) {
-      this.controlChangeListeners[idx]( lastChanges, this.getActionList() );
+      var ln = this.controlChangeListeners[idx];
+      ln.fn.apply( ln.listener, lastChanges, this.getActionList() );
     }
   }
 };

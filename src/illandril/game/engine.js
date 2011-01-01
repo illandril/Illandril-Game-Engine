@@ -17,6 +17,7 @@ goog.require("illandril.game.objects.Car");
 goog.require("illandril.game.objects.Generator");
 goog.require("illandril.game.objects.Consumer");
 goog.require("illandril.game.objects.menus.MenuEntry");
+goog.require("illandril.game.objects.menus.ControlEntry");
 goog.require("illandril.game.ui.Action");
 goog.require("illandril.game.ui.Controls");
 goog.require("illandril.game.ui.Font");
@@ -70,7 +71,7 @@ illandril.game.Engine = {
     illandril.game.Engine.loadingDialog.setVisible( true );
     
     illandril.game.Engine.controls = new illandril.game.ui.Controls();
-    var pause = new illandril.game.ui.Action( function() { illandril.game.Engine.togglePause(); }, "pause", false );
+    var pause = new illandril.game.ui.Action( function() { illandril.game.Engine.togglePause(); }, "Pause", false );
     illandril.game.Engine.controls.registerAction( pause, goog.events.KeyCodes.P, false, false, false );
     
     var debugFPS = new illandril.game.ui.Action( function() { illandril.game.Engine.debugFPS = !illandril.game.Engine.debugFPS; }, "Debug FPS", false );
@@ -88,11 +89,12 @@ illandril.game.Engine = {
     illandril.game.Engine.controls.registerAction( toMenu, goog.events.KeyCodes.ESC, false, false, false );
     
     var loadedScene = new illandril.game.Scene();
-    var test = new illandril.game.objects.menus.MenuEntry( menuScene, "Test Menu 1", new goog.math.Vec2( 0, -200 ), font, 0 );
-    var test = new illandril.game.objects.menus.MenuEntry( menuScene, "WASD Moves", new goog.math.Vec2( 0, -100 ), font, 0 );
-    var test = new illandril.game.objects.menus.MenuEntry( menuScene, "Escape Exits", new goog.math.Vec2( 0, -80 ), font, 0 );
-    var test = new illandril.game.objects.menus.MenuEntry( menuScene, "P Pauses", new goog.math.Vec2( 0, -60 ), font, 0 );
-    var test = new illandril.game.objects.menus.MenuEntry( menuScene, "F7 and F8 for Debug Info", new goog.math.Vec2( 0, -40 ), font, 0 );
+    new illandril.game.objects.menus.MenuEntry( menuScene, "Test Menu 1", new goog.math.Vec2( 0, -200 ), font, 0 );
+    new illandril.game.objects.menus.MenuEntry( menuScene, "WASD Moves", new goog.math.Vec2( 0, -100 ), font, 0 );
+    new illandril.game.objects.menus.MenuEntry( menuScene, "Escape Exits", new goog.math.Vec2( 0, -80 ), font, 0 );
+    new illandril.game.objects.menus.ControlEntry( menuScene, illandril.game.Engine.controls, pause, new goog.math.Vec2( 0, -60 ), font, 0 );
+    new illandril.game.objects.menus.ControlEntry( menuScene, illandril.game.Engine.controls, debugFPS, new goog.math.Vec2( 0, -40 ), font, 0 );
+    new illandril.game.objects.menus.ControlEntry( menuScene, illandril.game.Engine.controls, debugObjectCount, new goog.math.Vec2( 0, -20 ), font, 0 );
     var menu = new illandril.game.objects.menus.MenuEntry( menuScene, "Play", new goog.math.Vec2( 0, 200 ), font, 0 );
     menu.onClick = function() {
       illandril.game.Engine.currentScene = loadedScene;
