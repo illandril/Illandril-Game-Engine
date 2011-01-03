@@ -79,6 +79,10 @@ illandril.game.ui.Controls.keyUp = function( e ) {
 };
 
 illandril.game.ui.Controls.getKeyEventKey = function( keyCode, ctrl, alt, shift ) {
+  var keyName = goog.events.KeyNames[keyCode];
+  if ( keyName == null ) {
+    keyName = "KEY[" + keyCode + "]";
+  }
   return ( ctrl ? "ctrl + " : "" ) + ( alt ? "alt + " : "" ) + ( shift ? "shift + " : "" ) + goog.events.KeyNames[keyCode];
 };
 

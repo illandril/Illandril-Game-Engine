@@ -5,20 +5,26 @@ goog.require("illandril.game.ui.Letter");
 /**
  * @constructor
  */
-illandril.game.ui.Font = function( src, tileHeight, tileWidth, letters ) {
+illandril.game.ui.Font = function( src, tileHeight, tileWidth, letters, fps, frames, defaultLetterSpacing ) {
   this.src = src;
   this.tileHeight = tileHeight;
   this.tileWidth = tileWidth;
   this.letters = letters;
+  this.mspf = 1000 / ( fps || 1 );
+  this.frames = frames || 1;
+  this.defaultLetterSpacing = defaultLetterSpacing || 0;
 };
 
 illandril.game.ui.Font.prototype.getSprite = function( gameTime, obj ) {
-  return this.getLetter( obj.letter, obj.getState() );
+  var frame = 0;
+  if ( this.frames > 1 ) {
+    frame = Math.round( gameTime / this.mspf ) % this.frames;
+  }
+  return this.getLetter( obj.letter, obj.getState(), frame );
 };
 
-illandril.game.ui.Font.prototype.getLetter = function( letter, state ) {
-  
-  var spriteY = 0;
+illandril.game.ui.Font.prototype.getLetter = function( letter, state, frame ) {
+  var spriteY = ( frame || 0 ) * 8;
   if ( state != null ) {
     if ( state.active ) {
       spriteY = spriteY + 4;

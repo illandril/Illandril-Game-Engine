@@ -20,7 +20,8 @@ illandril.game.ui.Viewport = function( container, scene, size ) {
   this.bounds = new illandril.math.Bounds( new goog.math.Vec2( 0, 0 ), size );
   this.zoomedBounds = this.bounds;
   this.zoom = 1;
-  
+  this.movedSinceLastUpdate = false;
+  this.zoomedSinceLastUpdate = false;
   this.scene = scene;
   this.following = null;
   this.scene.attachViewport( this );
@@ -34,12 +35,15 @@ illandril.game.ui.Viewport.prototype.setZoom = function( zoom ) {
   this.domObject.style.height = size.y + "px";
   this.domObject.style.zoom = zoom;
   this.domObject.style["MozTransform"] = "scale(" + zoom + ")";
+  this.movedSinceLastUpdate = true;
+  this.zoomedSinceLastUpdate = true;
   this.scene.updateViewports();
 };
 
 illandril.game.ui.Viewport.prototype.lookAtNoUpdate = function( position ) {
   this.bounds.centerOn( position );
   this.zoomedBounds.centerOn( position );
+  this.movedSinceLastUpdate = true;
 };
 
 illandril.game.ui.Viewport.prototype.lookAt = function( position ) {
@@ -82,43 +86,68 @@ illandril.game.ui.Viewport.prototype.update = function( tickTime, gameTime ) {
         this.domObjects[obj.id] = objDom;
         this.domObjectsCount++;
         objDom.className = "gameObject";
-        this.domObject.appendChild( objDom );
+        objDom.obj = obj;
+        objDom.savedStyle = {};
+        if ( obj.bg != null ) {
+          objDom.style.backgroundColor = "transparent";
+        }
         objDom.onclick = function(e) {
-          if ( obj.onClick != null ) {
-            obj.onClick(e);
+          if ( this.obj.onClick != null ) {
+            this.obj.onClick(e);
           }
         };
         objDom.onmousedown = function(e) {
-          if ( obj.onMouseDown != null ) {
-            obj.onMouseDown(e);
+          if ( this.obj.onMouseDown != null ) {
+            this.obj.onMouseDown(e);
           }
         };
         objDom.onmouseup = function(e) {
-          if ( obj.onMouseUp != null ) {
-            obj.onMouseUp(e);
+          if ( this.obj.onMouseUp != null ) {
+            this.obj.onMouseUp(e);
           }
         };
         objDom.onmouseover = function(e) {
-          if ( obj.onMouseOver != null ) {
-            obj.onMouseOver(e);
+          if ( this.obj.onMouseOver != null ) {
+            this.obj.onMouseOver(e);
           }
         };
         objDom.onmouseout = function(e) {
-          if ( obj.onMouseOut != null ) {
-            obj.onMouseOut(e);
+          if ( this.obj.onMouseOut != null ) {
+            this.obj.onMouseOut(e);
           }
         };
+        this.domObject.appendChild( objDom );
       }
-      objDom.style.top = ( objPos.y - objSize.y / 2 - topLeft.y ) + "px";
-      objDom.style.left = ( objPos.x - objSize.x / 2 - topLeft.x ) + "px";
-      objDom.style.width = objSize.x + "px";
-      objDom.style.height = objSize.y + "px";
-      objDom.style.zIndex = Math.max( 1, obj.zIndex + 1000 );
+      var resized = this.zoomedSinceLastUpdate || objDom.savedStyle.width != objSize.x || objDom.savedStyle.height != objSize.y;
+      var moved = this.movedSinceLastUpdate || resized || objDom.savedStyle.top != objPos.y || objDom.savedStyle.left != objPos.x
+      if ( moved ) {
+        objDom.style.left = ( objPos.x - objSize.x / 2 - topLeft.x ) + "px";
+        objDom.style.top = ( objPos.y - objSize.y / 2 - topLeft.y ) + "px";
+        objDom.savedStyle.left = objPos.x;
+        objDom.savedStyle.top = objPos.y;
+      }
+      if ( resized ) {
+        objDom.style.width = objSize.x + "px";
+        objDom.style.height = objSize.y + "px";
+        objDom.savedStyle.width = objSize.x;
+        objDom.savedStyle.height = objSize.y;
+      }
+      if ( objDom.savedStyle.z != obj.zIndex ) {
+        objDom.style.zIndex = Math.max( 1, obj.zIndex + 1000 );
+        objDom.savedStyle.z = obj.zIndex;
+      }
       if ( obj.bg != null ) {
         var sprite = obj.bg.getSprite( gameTime, obj );
-        objDom.style.backgroundImage = "url( " + sprite.src + " )";
-        objDom.style.backgroundPosition = ( sprite.x * -1 ) + "px " + ( sprite.y * -1 ) + "px";
-        objDom.style.backgroundColor = "transparent";
+        // We save the old BG and BGPos as seperate attributes because CSS engines can tweak the values returned from style
+        if ( objDom.savedStyle.bg != sprite.src ) {
+          objDom.style.backgroundImage = "url(" + sprite.src + ")";
+          objDom.savedStyle.bg = sprite.src;
+        }
+        if ( objDom.savedStyle.bgX != sprite.x || objDom.savedStyle.bgY != sprite.y ) {
+          objDom.style.backgroundPosition = ( sprite.x * -1 ) + "px " + ( sprite.y * -1 ) + "px";
+          objDom.savedStyle.bgX = sprite.x;
+          objDom.savedStyle.bgY = sprite.y;
+        }
       }
     }
   }
