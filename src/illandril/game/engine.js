@@ -22,7 +22,8 @@ goog.require("illandril.game.objects.menus.ControlEntry");
 goog.require("illandril.game.ui.Action");
 goog.require("illandril.game.ui.Controls");
 goog.require("illandril.game.ui.Font");
-goog.require("illandril.game.ui.SpriteSheet");
+goog.require("illandril.game.ui.StaticSprite");
+goog.require("illandril.game.ui.BasicDirectionalAnimation");
 goog.require("illandril.game.ui.Viewport");
 goog.require("illandril.game.util.Framerate");
 
@@ -157,7 +158,9 @@ illandril.game.Engine = {
         var objDef = illandril.game.Engine.maps[mapSrc].pop();
         var sprite = null;
         if ( objDef["bg"] != null ) {
-          sprite = new illandril.game.ui.SpriteSheet( objDef["bg"], objDef["width"], objDef["height"], 1, 1 );
+          var bgOffsetX = objDef["bgOffsetX"] || 0;
+          var bgOffsetY = objDef["bgOffsetY"] || 0;
+          sprite = new illandril.game.ui.StaticSprite( objDef["bg"], new goog.math.Vec2( bgOffsetX, bgOffsetY ) );
         }
         if ( objDef["solid"] != null && objDef["solid"] == false ) {
           new illandril.game.objects.GameObject( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef["x"], objDef["y"] ), new goog.math.Vec2( objDef["width"], objDef["height"] ) ), sprite, objDef["zIndex"] );
@@ -177,7 +180,7 @@ illandril.game.Engine = {
     var container = illandril.game.Engine.container;
     
     // Start for testing
-    charac = new illandril.game.objects.Player( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.SpriteSheet( "../graphics/turtle.png", 20, 20, 8, 6 ), 1000 );
+    charac = new illandril.game.objects.Player( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.BasicDirectionalAnimation( "../graphics/turtle.png", 20, 20, 8, 6 ), 1000 );
     window["charac"] = charac;
     
     var vp = new illandril.game.ui.Viewport( container, scene, new goog.math.Vec2( 400, 500 ) );

@@ -1,12 +1,14 @@
 goog.provide("illandril.game.ui.Font");
 
 goog.require("illandril.game.ui.Letter");
+goog.require("illandril.game.ui.SpriteSheet");
 
 /**
  * @constructor
+ * @extends illandril.game.ui.SpriteSheet
  */
 illandril.game.ui.Font = function( src, tileHeight, tileWidth, letters, fps, frames, defaultLetterSpacing ) {
-  this.src = src;
+  illandril.game.ui.SpriteSheet.call( this, src );
   this.tileHeight = tileHeight;
   this.tileWidth = tileWidth;
   this.letters = letters;
@@ -14,6 +16,8 @@ illandril.game.ui.Font = function( src, tileHeight, tileWidth, letters, fps, fra
   this.frames = frames || 1;
   this.defaultLetterSpacing = defaultLetterSpacing || 0;
 };
+goog.inherits( illandril.game.ui.Font, illandril.game.ui.SpriteSheet );
+
 
 illandril.game.ui.Font.prototype.getSprite = function( gameTime, obj ) {
   var frame = 0;
