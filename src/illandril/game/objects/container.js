@@ -8,35 +8,74 @@ goog.require("illandril.game.objects.Solid");
  * @constructor
  */
 illandril.game.objects.Container = function() {
-  this.objects = new goog.structs.Set();
-  this.activeObjects = new goog.structs.Set();
-  this.solidObjects = new goog.structs.Set();
+  this.objects = {};
+  this.objectsArrayCache = [];
+  this.activeObjects = {};
+  this.activeObjectsArrayCache = [];
+  this.solidObjects = {};
+  this.solidObjectsArrayCache = [];
 };
 
 illandril.game.objects.Container.prototype.add = function( object ) {
-  this.objects.add( object );
+  this.objects[object.id] = object;
+  if ( this.objectsArrayCache != null ) {
+    this.objectsArrayCache.push( object );
+  }
   if ( object.isActive ) {
-    this.activeObjects.add( object );
+    this.activeObjects[object.id] = object;
+    if ( this.activeObjectsArrayCache != null ) {
+      this.activeObjectsArrayCache.push( object );
+    }
   }
   if ( object.isSolid ) {
-    this.solidObjects.add( object );
+    this.solidObjects[object.id] = object;
+    if ( this.solidObjectsArrayCache != null ) {
+      this.solidObjectsArrayCache.push( object );
+    }
   }
 };
 
 illandril.game.objects.Container.prototype.remove = function( object ) {
-  this.objects.remove( object );
-  this.activeObjects.remove( object );
-  this.solidObjects.remove( object );
+  if ( this.objects[object.id] != null ) {
+    this.objectsArrayCache = null;
+    delete this.objects[object.id];
+  } 
+  if ( this.activeObjects[object.id] != null ) {
+    this.activeObjectsArrayCache = null;
+    delete this.activeObjects[object.id];
+  }
+  if ( this.solidObjects[object.id] != null ) {
+    this.solidObjectsArrayCache = null;
+    delete this.solidObjects[object.id];
+  }
 };
 
 illandril.game.objects.Container.prototype.getAllObjects = function() {
-  return this.objects.getValues();
+  if ( this.objectsArrayCache == null ) {
+    this.objectsArrayCache = [];
+    for ( var key in this.objects ) {
+      this.objectsArrayCache.push( this.objects[key] );
+    }
+  }
+  return this.objectsArrayCache;
 };
 
 illandril.game.objects.Container.prototype.getActiveObjects = function() {
-  return this.activeObjects.getValues();
+  if ( this.activeObjectsArrayCache == null ) {
+    this.activeObjectsArrayCache = [];
+    for ( var key in this.activeObjects ) {
+      this.activeObjectsArrayCache.push( this.objects[key] );
+    }
+  }
+  return this.activeObjectsArrayCache;
 };
 
 illandril.game.objects.Container.prototype.getSolidObjects = function() {
-  return this.solidObjects.getValues();
+  if ( this.solidObjectsArrayCache == null ) {
+    this.solidObjectsArrayCache = [];
+    for ( var key in this.solidObjects ) {
+      this.solidObjectsArrayCache.push( this.objects[key] );
+    }
+  }
+  return this.solidObjectsArrayCache;
 };

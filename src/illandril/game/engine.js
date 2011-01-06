@@ -99,9 +99,11 @@ illandril.game.Engine = {
     
     var menuScene = new illandril.game.Scene( "Main Menu" );
     new illandril.game.ui.Viewport( illandril.game.Engine.container, menuScene, new goog.math.Vec2( 500, 500 ) );
-    
+    new illandril.game.objects.Player( menuScene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 0, 0 ), new goog.math.Vec2( 0, 0 ) ), null, 0 );
+
     illandril.game.Engine.controlScene = new illandril.game.ControlChangeScene( "Controls Menu", new goog.math.Vec2( 0, -200 ), font );
     new illandril.game.ui.Viewport( illandril.game.Engine.container, illandril.game.Engine.controlScene, new goog.math.Vec2( 500, 500 ) );
+    new illandril.game.objects.Player( illandril.game.Engine.controlScene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 0, 0 ), new goog.math.Vec2( 0, 0 ) ), null, 0 );
     
     var toMenu = new illandril.game.ui.Action( function() { if ( !illandril.game.Engine.paused ) { illandril.game.Engine.currentScene = menuScene; } }, "Main Menu", false );
     illandril.game.Engine.controls.registerAction( toMenu, goog.events.KeyCodes.ESC, false, false, false );
@@ -219,8 +221,6 @@ illandril.game.Engine = {
       var bounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( x, top - 50 ), new goog.math.Vec2( 2, 2 ) );
       new illandril.game.objects.Collectable( scene, bounds, null, 0 );
     }
-    mobs = [];
-    window["mobs"] = mobs;
     move = false;
     var totalMobs = illandril.game.Engine["mc"];
     var highMob = Math.round( totalMobs / 2 );
@@ -230,17 +230,17 @@ illandril.game.Engine = {
       var attempts = 0;
       
       while( bounds == null && attempts < 50 ) {
-        var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 200, 3 * i ), new goog.math.Vec2( 2, 2 ) );
+        var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 200, 50 * i ), new goog.math.Vec2( 2, 2 ) );
         if ( !scene.hasObjectIntersecting( randomBounds ) ) {
           bounds = randomBounds;
         }
         attempts++;
       }
       if ( bounds != null ) {
-        mobs[i] = new illandril.game.objects.ActiveCollectable( scene, bounds, null, 1100 );
+        var mob = new illandril.game.objects.ActiveCollectable( scene, bounds, null, 1100 );
         /** @this {illandril.game.objects.ActiveCollectable} */
-        mobs[i].think = function( tick ) {
-          if ( /* this.getPosition().isWithinXFrom( 100000, charac.getPosition() ) */ move ) {
+        mob.think = function( tick ) {
+          if ( move ) {
             this.addVelocity( new goog.math.Vec2( Math.random() * 2 - 1, Math.random() * 2 - 1 ) );
           }
         };
@@ -302,10 +302,11 @@ illandril.game.Engine = {
           }
         }
         if ( illandril.game.Engine.debugObjectCount ) {
-          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "Objects: " + scene.getObjects().getAllObjects().length;
-          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>&nbsp;&nbsp;Solid: " + scene.getObjects().getSolidObjects().length;
-          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>&nbsp;Active: " + scene.getObjects().getActiveObjects().length;
-          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>DOM: " + document.all.length;
+          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "Game Objects: " + scene.getObjects().getAllObjects().length;
+          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solid: " + scene.getObjects().getSolidObjects().length;
+          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Active: " + scene.getObjects().getActiveObjects().length;
+          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Movers: " + scene.movingLastUpdate;
+          illandril.game.Engine.debug.innerHTML = illandril.game.Engine.debug.innerHTML + "<br>DOM Objects: " + document.all.length;
         }
         illandril.game.Engine.debug.style.display = ( illandril.game.Engine.debug.innerHTML == "" ) ? "none" : "";
       }

@@ -7,37 +7,40 @@ goog.require("illandril.math.Bounds");
  * @constructor
  */
 illandril.game.ui.Viewport = function( container, scene, size ) {
-  var vpcontainer = container;
-  this.domObject = document.createElement('span');
-  this.domObject.className = 'viewport';
-  this.domObject.style.width = size.x + "px";
-  this.domObject.style.height = size.y + "px";
-  this.domObject.style.zIndex = 0;
-  this.hide();
-  vpcontainer.appendChild( this.domObject );
   this.domObjects = {};
   this.domObjectsCount = 0;
   this.bounds = new illandril.math.Bounds( new goog.math.Vec2( 0, 0 ), size );
   this.zoomedBounds = this.bounds;
   this.zoom = 1;
-  this.movedSinceLastUpdate = false;
-  this.zoomedSinceLastUpdate = false;
+  this.movedSinceLastUpdate = true;
   this.scene = scene;
   this.following = null;
+  this.buildDOMContainers( container, size );
+  this.hide();
   this.scene.attachViewport( this );
 };
+
+illandril.game.ui.Viewport.prototype.buildDOMContainers = function( container, size ) {
+  this.domObjectContainer = document.createElement('span');
+  this.domObjectContainer.className = 'viewportContainer';
+  this.domObjectContainer.style.width = size.x + "px";
+  this.domObjectContainer.style.height = size.y + "px";
+  this.domObject = document.createElement('span');
+  this.domObject.className = 'viewport';
+  this.domObjectContainer.appendChild( this.domObject );
+  container.appendChild( this.domObjectContainer );
+}
 
 illandril.game.ui.Viewport.prototype.setZoom = function( zoom ) {
   if ( this.zoom != zoom ) {
     this.zoom = zoom;
     this.zoomedBounds = this.bounds.divide( this.zoom );
     var size = this.zoomedBounds.getSize();
-    this.domObject.style.width = size.x + "px";
-    this.domObject.style.height = size.y + "px";
-    this.domObject.style.zoom = zoom;
-    this.domObject.style["MozTransform"] = "scale(" + zoom + ")";
+    this.domObjectContainer.style.width = size.x + "px";
+    this.domObjectContainer.style.height = size.y + "px";
+    this.domObjectContainer.style.zoom = zoom;
+    this.domObjectContainer.style["MozTransform"] = "scale(" + zoom + ")";
     this.movedSinceLastUpdate = true;
-    this.zoomedSinceLastUpdate = true;
     this.scene.updateViewports();
   }
 };
@@ -64,11 +67,11 @@ illandril.game.ui.Viewport.prototype.follow = function( obj ) {
 };
 
 illandril.game.ui.Viewport.prototype.hide = function() {
-  this.domObject.style.display = "none";
+  this.domObjectContainer.style.display = "none";
 };
 
 illandril.game.ui.Viewport.prototype.show = function() {
-  this.domObject.style.display = "";
+  this.domObjectContainer.style.display = "";
 };
 
 illandril.game.ui.Viewport.prototype.update = function( tickTime, gameTime ) {
@@ -78,7 +81,12 @@ illandril.game.ui.Viewport.prototype.update = function( tickTime, gameTime ) {
   
   var shownObjects = [];
   var objectsToShow = this.scene.getObjects( this.zoomedBounds );
-  var topLeft = this.zoomedBounds.getTopLeft();
+  if ( this.movedSinceLastUpdate ) {
+    var topLeft = this.zoomedBounds.getTopLeft();
+    this.movedSinceLastUpdate = false;
+    this.domObject.style.left = ( -1 * topLeft.x ) + "px";
+    this.domObject.style.top = ( -1 * topLeft.y ) + "px";
+  }
   for ( var idx = 0; idx < objectsToShow.length; idx++ ) {
     var obj = objectsToShow[idx];
     var objBounds = obj.getBounds();
@@ -89,11 +97,11 @@ illandril.game.ui.Viewport.prototype.update = function( tickTime, gameTime ) {
       var objDom = this.getOrCreateDomObject( obj );
       var top = objBounds.getTop();
       var left = objBounds.getLeft();
-      var resized = this.zoomedSinceLastUpdate || objDom.savedStyle.width != objSize.x || objDom.savedStyle.height != objSize.y;
-      var moved = this.movedSinceLastUpdate || resized || objDom.savedStyle.top != top || objDom.savedStyle.left != left
+      var resized = objDom.savedStyle.width != objSize.x || objDom.savedStyle.height != objSize.y;
+      var moved = resized || objDom.savedStyle.top != top || objDom.savedStyle.left != left
       if ( moved ) {
-        objDom.style.left = ( left - topLeft.x ) + "px";
-        objDom.style.top = ( top - topLeft.y ) + "px";
+        objDom.style.left = left + "px";
+        objDom.style.top = top + "px";
         objDom.savedStyle.left = left;
         objDom.savedStyle.top = top;
       }
@@ -112,8 +120,7 @@ illandril.game.ui.Viewport.prototype.update = function( tickTime, gameTime ) {
       }
     }
   }
-  this.movedSinceLastUpdate = false;
-  this.clean( shownObjects );
+  this.clean( shownObjects, gameTime );
 };
 
 illandril.game.ui.Viewport.prototype.isBigEnoughToBeVisible = function( objSize ) {
@@ -166,8 +173,8 @@ illandril.game.ui.Viewport.prototype.updateBG = function( obj, objDom, gameTime 
   }
 };
 
-illandril.game.ui.Viewport.prototype.clean = function( shownObjects ) {
-  if ( this.domObjectsCount > shownObjects.length ) {
+illandril.game.ui.Viewport.prototype.clean = function( shownObjects, gameTime ) {
+  if ( this.domObjectsCount > ( shownObjects.length + 100 ) ) {
     for ( var objID in this.domObjects ) {
       var hasObj = false;
       for ( var idx = 0; idx < shownObjects.length && !hasObj; idx++ ) {

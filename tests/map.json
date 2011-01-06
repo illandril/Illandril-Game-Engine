@@ -1,15 +1,17 @@
 [
  { "x": 256, "y":  16, "width":128, "height": 64, "zIndex":2000, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":   0, "bgOffsetY": 320, "solid": false },
- { "x": 256, "y":  96, "width":128, "height": 96, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":   0, "bgOffsetY": 384, "solid": true },
- { "x":   0, "y":  64, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":   0, "bgOffsetY": 288, "solid": false },
- { "x":   0, "y":  96, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":   0, "bgOffsetY": 288, "solid": false },
- { "x":  16, "y":  16, "xEnd": 624, "yEnd": 624, "width": 64, "height": 64, "zIndex":   0, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":   0, "bgOffsetY": 640, "solid": false },
- { "x": -32, "y": -32, "xEnd": 672, "yEnd": -32, "width": 32, "height": 32, "zIndex":   0, "bg": "../graphics/sneto_tileset.png", "bgOffsetX": 128, "bgOffsetY": 640, "solid": true },
- { "x": -32, "y":   0, "xEnd": -32, "yEnd": 640, "width": 32, "height": 32, "zIndex":   0, "bg": "../graphics/sneto_tileset.png", "bgOffsetX": 128, "bgOffsetY": 640, "solid": true },
- { "x": 672, "y":   0, "xEnd": 672, "yEnd": 640, "width": 32, "height": 32, "zIndex":   0, "bg": "../graphics/sneto_tileset.png", "bgOffsetX": 128, "bgOffsetY": 640, "solid": true },
- { "x": -32, "y": 672, "xEnd": 672, "yEnd": 672, "width": 32, "height": 32, "zIndex":   0, "bg": "../graphics/sneto_tileset.png", "bgOffsetX": 128, "bgOffsetY": 640, "solid": true },
- { "x":-256, "y":-256, "xEnd": 896, "yEnd": -64, "width": 32, "height": 32, "zIndex":   0, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":  64, "bgOffsetY": 640, "solid": false },
- { "x":-256, "y": -32, "xEnd": -64, "yEnd": 704, "width": 32, "height": 32, "zIndex":   0, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":  64, "bgOffsetY": 640, "solid": false },
- { "x": 704, "y": -32, "xEnd": 896, "yEnd": 704, "width": 32, "height": 32, "zIndex":   0, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":  64, "bgOffsetY": 640, "solid": false },
- { "x":-256, "y": 704, "xEnd": 896, "yEnd": 896, "width": 32, "height": 32, "zIndex":   0, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":  64, "bgOffsetY": 640, "solid": false }
+ { "x": 256, "y":  96, "width":128, "height": 96, "zIndex":   2, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":   0, "bgOffsetY": 384, "solid": true },
+ { "x":   0, "y":  64, "width": 32, "height": 32, "zIndex":   2, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":   0, "bgOffsetY": 288, "solid": false },
+ { "x":   0, "y":  96, "width": 32, "height": 32, "zIndex":   2, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":   0, "bgOffsetY": 288, "solid": false },
+ { "x":   0, "y":   0, "xEnd": 640, "yEnd": 640, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":   0, "bgOffsetY": 640, "solid": false },
+ { "x": -32, "y": -32, "xEnd": 672, "yEnd": -32, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX": 128, "bgOffsetY": 640, "solid": true },
+ { "x": -32, "y":   0, "xEnd": -32, "yEnd": 640, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX": 128, "bgOffsetY": 640, "solid": true },
+ { "x": 672, "y":   0, "xEnd": 672, "yEnd": 640, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX": 128, "bgOffsetY": 640, "solid": true },
+ { "x": -32, "y": 672, "xEnd": 672, "yEnd": 672, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX": 128, "bgOffsetY": 640, "solid": true },
+ { "x":-256, "y":-256, "xEnd": 896, "yEnd": -64, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":  64, "bgOffsetY": 640, "solid": false },
+ { "x":-256, "y": -32, "xEnd": -64, "yEnd": 704, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":  64, "bgOffsetY": 640, "solid": false },
+ { "x": 704, "y": -32, "xEnd": 896, "yEnd": 704, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":  64, "bgOffsetY": 640, "solid": false },
+ { "x":-256, "y": 704, "xEnd": 896, "yEnd": 896, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/sneto_tileset.png", "bgOffsetX":  64, "bgOffsetY": 640, "solid": false }
 ]
+
+

@@ -8,12 +8,28 @@ goog.require("illandril.game.ui.Controls");
 
 
 /**
- * The size of each bucket in scenes.
- * Buckets should be larger than the largest object that could exist in the scene.
+ * The maximum allowed tick time, to prevent lag spikes from causing objects to move too far in one tick.
  * @const
  */
-var BUCKET_SIZE = 75;
+var MAX_TICK_TIME = 250;
 
+/**
+ * The size of each bucket in scenes.
+ * Buckets should be larger than the largest object that could exist in the scene,
+ *   otherwise things might disappear at the edges of the viewing area, and collision
+ *   detection might fail.
+ * @const
+ */
+var BUCKET_SIZE = 70;
+
+/**
+ * The squared distance away from players that should be active.
+ * Recommended to be at least be double the visible diagonal.
+ * 500x500 screen = 500,000 squared diagonal
+ * Using 5,000,000 to make the activity area 10x visible range 
+ * @const
+ */
+var ACTIVITY_RANGE = 5000000;
 
 /**
  * @constructor
@@ -21,6 +37,7 @@ var BUCKET_SIZE = 75;
 illandril.game.Scene = function( name ) {
   this.controls = new illandril.game.ui.Controls( name );
   
+  this.players = [];
   this.objects = new illandril.game.objects.Container();
   this.buckets = {};
   this.getNearbySolidObjects__last = -1;
@@ -88,7 +105,7 @@ illandril.game.Scene.prototype.updateViewports = function() {
  */
 illandril.game.Scene.prototype.update = function( tickTime, gameTime ) {
   this.tickCount++;
-  var tick = Math.min( tickTime, 1000 );
+  var tick = Math.min( tickTime, MAX_TICK_TIME );
   this.lastTickTime = tick;
   this.lastSceneTime = gameTime;
   
@@ -104,21 +121,26 @@ illandril.game.Scene.prototype.update = function( tickTime, gameTime ) {
 };
 
 
+illandril.game.Scene.prototype.getBucketXY = function( point ) {
+  var x = Math.round( point.x / BUCKET_SIZE );
+  var y = Math.round( point.y / BUCKET_SIZE );
+  return { x: x, y: y };
+};
+
 /**
  * Gets the bucket that contains the specified point
  * @param {goog.math.Vec2} point The point the bucket should contain
  * @return {illandril.game.objects.Container} The bucket containing the point
  */
 illandril.game.Scene.prototype.getBucket = function( point ) {
-  var bucketX = Math.round( point.x / BUCKET_SIZE );
-  if ( this.buckets[bucketX] == null ) {
-    this.buckets[bucketX] = {};
+  var bucketXY = this.getBucketXY( point );
+  if ( this.buckets[bucketXY.x] == null ) {
+    this.buckets[bucketXY.x] = {};
   }
-  var bucketY = Math.round( point.y / BUCKET_SIZE );
-  if ( this.buckets[bucketX][bucketY] == null ) {
-    this.buckets[bucketX][bucketY] = new illandril.game.objects.Container();
+  if ( this.buckets[bucketXY.x][bucketXY.y] == null ) {
+    this.buckets[bucketXY.x][bucketXY.y] = new illandril.game.objects.Container();
   }
-  return this.buckets[bucketX][bucketY];
+  return this.buckets[bucketXY.x][bucketXY.y];
 };
 
 /**
@@ -134,31 +156,32 @@ illandril.game.Scene.prototype.getNearbySolidObjects = function( point ) {
     this.getNearbySolidObjects__last = this.tickCount;
     this.getNearbySolidObjects__cache = {};
   }
+  var bucketXY = this.getBucketXY( point );
+  var id = bucketXY.x+"."+bucketXY.y;
+  if ( this.getNearbySolidObjects__cache[id] == null ) {
+    this.getNearbySolidObjects__cache[id] = this._getNearbySolidObjects( bucketXY );
+  }
+  return this.getNearbySolidObjects__cache[id];
+};
+
+illandril.game.Scene.prototype._getNearbySolidObjects = function( bucketXY ) {
   var nearbyObjects = [];
-  var bucketX = Math.round( point.x / BUCKET_SIZE );
-  var bucketY = Math.round( point.y / BUCKET_SIZE );
-  var id = bucketX+"."+bucketY;
-  if ( this.getNearbySolidObjects__cache[id] != null ) {
-    return this.getNearbySolidObjects__cache[id];
-  } else {
-    for ( var x = -1; x <= 1; x++ ) {
-      var xBucketContainer = this.buckets[bucketX + x];
-      if ( xBucketContainer != null ) {
-        for ( var y = -1; y <= 1; y++ ) {
-          var bucket = xBucketContainer[bucketY + y]
-          if ( bucket != null ) {
-            var bucketObjects = bucket.getSolidObjects();
-            for ( var objIdx = 0; objIdx < bucketObjects.length; objIdx++ ) {
-              nearbyObjects[nearbyObjects.length] = bucketObjects[objIdx];
-            }
+  for ( var x = -1; x <= 1; x++ ) {
+    var xBucketContainer = this.buckets[bucketXY.x + x];
+    if ( xBucketContainer != null ) {
+      for ( var y = -1; y <= 1; y++ ) {
+        var bucket = xBucketContainer[bucketXY.y + y]
+        if ( bucket != null ) {
+          var bucketObjects = bucket.getSolidObjects();
+          for ( var objIdx = 0; objIdx < bucketObjects.length; objIdx++ ) {
+            nearbyObjects[nearbyObjects.length] = bucketObjects[objIdx];
           }
         }
       }
     }
-    this.getNearbySolidObjects__cache[id] = nearbyObjects;
-    return nearbyObjects;
   }
-};
+  return nearbyObjects;
+}
 
 /**
  * Adds an object to the scene.
@@ -167,6 +190,9 @@ illandril.game.Scene.prototype.getNearbySolidObjects = function( point ) {
 illandril.game.Scene.prototype.addObject = function( gameObject ) {
   this.objects.add( gameObject );
   this.objectMoved( gameObject );
+  if ( gameObject.isPlayer ) {
+    this.players.push( gameObject );
+  }
 };
 
 /**
@@ -183,6 +209,15 @@ illandril.game.Scene.prototype.removeObject = function( gameObject ) {
   if ( oldBucket != null ) {
     oldBucket.remove( gameObject );
   }
+  if ( gameObject.isPlayer ) {
+    var oldPlayers = this.players;
+    this.players = [];
+    for ( var pIdx = 0; pIdx < oldPlayers.length; pIdx++ ) {
+      if ( oldPlayers[pIdx] != gameObject ) {
+        this.players.push( oldPlayers[pIdx] );
+      }
+    }
+  }
   this.updateViewports();
 };
 
@@ -198,15 +233,17 @@ illandril.game.Scene.prototype.getObjects = function( bounds ) {
   }
   var topLeft = bounds.getTopLeft();
   var bottomRight = topLeft.clone().add( bounds.getSize() );
-  var bucketX = Math.round( topLeft.x / BUCKET_SIZE ) - 1;
-  var bucketXMax = Math.round( bottomRight.x / BUCKET_SIZE ) + 1;
-  var bucketY = Math.round( topLeft.y / BUCKET_SIZE ) - 1;
-  var bucketYMax = Math.round( bottomRight.y / BUCKET_SIZE ) + 1;
+  var bucketXY = this.getBucketXY( topLeft );
+  var bucketX = bucketXY.x - 1;
+  var bucketY = bucketXY.y - 1;
+  var bucketXYMax = this.getBucketXY( bottomRight );
+  var bucketXMax = bucketXYMax.x + 1;
+  var bucketYMax = bucketXYMax.y + 1;
   var containedObjects = [];
-  for( var x = bucketX; x <= bucketXMax; x++ ) {
+  for( var x = bucketX; x <= bucketXMax; x += 1 ) {
     var xBucketContainer = this.buckets[x];
     if ( xBucketContainer != null ) {
-      for( var y = bucketY; y <= bucketYMax; y++ ) {
+      for( var y = bucketY; y <= bucketYMax; y += 1 ) {
         var bucket = xBucketContainer[y]
         if ( bucket != null ) {
           var bucketObjects = bucket.getAllObjects();
@@ -237,30 +274,34 @@ illandril.game.Scene.prototype.objectMoved = function( gameObject ) {
   this.updateViewports();
 };
 
-doRandom = false;
 /**
  *
  */
 illandril.game.Scene.prototype._update = function() {
-  if ( doRandom && Math.random() * 100 < 25 ) {
-    if ( randomObject != null ) {
-      this.removeObject( randomObject );
-    }
-    randomObject = new illandril.game.objects.GameObject( this, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 500, 0 ), new goog.math.Vec2( Math.random() * 100, Math.random() * 100 ) ) );
-  }
+  this.movingLastUpdate = 0;
   var activeObjects = this.objects.getActiveObjects();
+  var needsUpdate = false;
   for ( var idx = 0; idx < activeObjects.length; idx++ ) {
     var obj = activeObjects[idx];
     if ( obj.scene != this ) {
       continue; // Skip over the object if it has been removed from the scene
     }
-    var needsUpdate = obj.think( this.lastTickTime );
-    if ( obj.isMoving() ) {
-      this.move( obj, this.lastTickTime );
+    var closeEnoughToPlayers = false;
+    for ( var pIdx = 0; pIdx < this.players.length && !closeEnoughToPlayers; pIdx++ ) {
+      if ( goog.math.Vec2.squaredDistance( obj.getPosition(), this.players[pIdx].getPosition() ) < ACTIVITY_RANGE ) {
+        closeEnoughToPlayers = true;
+      }
     }
-    if ( needsUpdate ) {
-      this.updateViewports();
+    if ( closeEnoughToPlayers ) {
+        needsUpdate = obj.think( this.lastTickTime ) || needsUpdate;
+        if ( obj.isMoving() ) {
+          this.move( obj, this.lastTickTime );
+          this.movingLastUpdate++;
+        }
     }
+  }
+  if ( needsUpdate ) {
+    this.updateViewports();
   }
 };
 
