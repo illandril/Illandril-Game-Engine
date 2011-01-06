@@ -1,15 +1,15 @@
 9
 
 dir
-470
+577
 http://closure-library.googlecode.com/svn/trunk/closure/goog/window
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2010-12-08T21:28:19.000000Z
+529
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -59,4 +59,38 @@ has-props
 
 
 6866
+
+window_test.html
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+64ec5ac1bb7f61597f9aa608f0570c2f
+2010-12-08T21:28:19.000000Z
+529
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5459
 

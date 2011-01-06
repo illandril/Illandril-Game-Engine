@@ -43,13 +43,17 @@ goog.math.Vec2 = function(opt_x, opt_y) {
    * X-value
    * @type {number}
    */
-  this.x = Number(opt_x) || 0;
+  this.x = opt_x || 0;
+  // MODIFIED BY Joe Spandrusyszyn - constructor only accepts numbers, and Number() is very slow to return
+  //this.x = Number(opt_x) || 0;
 
   /**
    * Y-value
    * @type {number}
    */
-  this.y = Number(opt_y) || 0;
+  this.y = opt_y || 0;
+  // MODIFIED BY Joe Spandrusyszyn - constructor only accepts numbers, and Number() is very slow to return
+  //this.y = Number(opt_y) || 0;
 };
 goog.inherits(goog.math.Vec2, goog.math.Coordinate);
 

@@ -1,14 +1,14 @@
 9
 
 dir
-470
+577
 http://closure-library.googlecode.com/svn/trunk/third_party/closure/goog/dojo/dom
 http://closure-library.googlecode.com/svn
 
 
 
-2010-10-29T17:10:09.000000Z
-402
+2010-11-18T18:13:23.000000Z
+472
 nicksantos@google.com
 
 
@@ -32,10 +32,10 @@ file
 
 
 
-2010-11-12T17:41:17.000000Z
-fed2e992bc52db3f3870bd8e709f127e
-2010-10-29T17:10:09.000000Z
-402
+2011-01-06T21:13:32.000000Z
+87124b3ef7006c486967b29600ea1949
+2010-11-18T18:13:23.000000Z
+472
 nicksantos@google.com
 has-props
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-4726
+4737
 
 query.js
 file

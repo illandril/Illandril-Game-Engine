@@ -11,6 +11,7 @@ See the COPYING file for details.
 <title>Closure Unit Tests - goog.*</title>
 <script src="base.js"></script>
 <script>
+goog.require('goog.functions');
 // Used to test dynamic loading works, see testRequire*
 goog.require('goog.Timer');
 goog.require('goog.testing.jsunit');
@@ -891,6 +892,24 @@ function testLoadInNonHtmlNotThrows() {
   }
 }
 
+function testLoadBaseWithQueryParamOk() {
+  var savedGoogGlobal = goog.global;
+  try {
+    goog.global = {};
+    goog.global.document = {
+      write: goog.nullFunction,
+      getElementsByTagName: goog.functions.constant(
+          [{src: '/path/to/base.js?zx=5'}])
+    };
+    assertTrue(goog.inHtmlDocument_());
+    goog.findBasePath_();
+    assertEquals('/path/to/', goog.basePath);
+  } finally {
+    // Restore context to respect other tests.
+    goog.global = savedGoogGlobal;
+  }
+}
+
 //=== tests for getmsg ===
 function testGetMsgWithDollarSigns() {
   var msg = goog.getMsg('{$amount} per minute',
@@ -984,6 +1003,12 @@ function testPropertyIsEnumerable_() {
 
 function testGetObjectByName() {
   var m = {
+    'undefined': undefined,
+    'null': null,
+    emptyString: '',
+    'false': false,
+    'true': true,
+    zero: 0,
     one: 1,
     two: {
       three: 3,
@@ -996,6 +1021,12 @@ function testGetObjectByName() {
   };
   goog.global.m = m;
 
+  assertNull(goog.getObjectByName('m.undefined'));
+  assertNull(goog.getObjectByName('m.null'));
+  assertEquals(goog.getObjectByName('m.emptyString'), '');
+  assertEquals(goog.getObjectByName('m.false'), false);
+  assertEquals(goog.getObjectByName('m.true'), true);
+  assertEquals(goog.getObjectByName('m.zero'), 0);
   assertEquals(goog.getObjectByName('m.one'), 1);
   assertEquals(goog.getObjectByName('m.two.three'), 3);
   assertEquals(goog.getObjectByName('m.two.four.five'), 5);

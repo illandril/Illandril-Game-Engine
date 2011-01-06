@@ -1,15 +1,15 @@
 9
 
 dir
-470
+577
 http://closure-library.googlecode.com/svn/trunk/closure/goog/messaging
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-18T01:44:40.000000Z
-468
-chadyoshikawa@google.com
+2010-12-10T01:28:00.000000Z
+533
+nweiz@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -60,6 +60,108 @@ has-props
 
 1005
 
+loggerclient_test.html
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+05a7ea0d8ef91cac7e39b2d892161cbb
+2010-12-07T03:50:37.000000Z
+522
+nweiz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2534
+
+loggerserver.js
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+23ee41d1068f00fa9ad8b553e9c22e88
+2010-12-07T03:50:37.000000Z
+522
+nweiz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3004
+
+deferredchannel.js
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+ec5c2ed23388547307cc2845a16c6951
+2010-12-10T01:28:00.000000Z
+533
+nweiz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2305
+
 multichannel_test.html
 file
 
@@ -100,44 +202,10 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-76bc4f800a1170570b6b451b542a6f7e
-2010-11-18T01:44:40.000000Z
-468
-chadyoshikawa@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-8556
-
-messagechannel.js
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-3ed5ac672dd2da204d5353e50ca71c16
-2010-11-11T19:26:47.000000Z
-443
+2011-01-06T21:13:32.000000Z
+78b2ae73cefb2a432ac312f020ba331f
+2010-12-01T19:36:35.000000Z
+511
 nweiz@google.com
 has-props
 
@@ -160,7 +228,7 @@ has-props
 
 
 
-4614
+7851
 
 messaging.js
 file
@@ -196,17 +264,17 @@ has-props
 
 1196
 
-bufferedchannel_test.html
+messagechannel.js
 file
 
 
 
 
 2010-11-21T04:53:46.000000Z
-4b939e633df32ff3c8a2550a3405ced2
-2010-11-18T01:44:40.000000Z
-468
-chadyoshikawa@google.com
+3ed5ac672dd2da204d5353e50ca71c16
+2010-11-11T19:26:47.000000Z
+443
+nweiz@google.com
 has-props
 
 
@@ -228,7 +296,75 @@ has-props
 
 
 
-6255
+4614
+
+loggerclient.js
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+8715e07f164a6c044a0eb1a06061bc07
+2010-12-07T03:50:37.000000Z
+522
+nweiz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4178
+
+abstractchannel_test.html
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+9414e478b2d61f0610b14023552d4daf
+2010-12-09T00:34:04.000000Z
+531
+nweiz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2190
 
 multichannel.js
 file
@@ -263,4 +399,140 @@ has-props
 
 
 8682
+
+abstractchannel.js
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+2e3ef3bbdc1ce3bbc1b8b3dd24e0ce97
+2010-12-09T00:34:04.000000Z
+531
+nweiz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4974
+
+loggerserver_test.html
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+c8cd2b0f4c88e91fb75583f69b2acb6b
+2010-12-07T03:50:37.000000Z
+522
+nweiz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2932
+
+deferredchannel_test.html
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+edc78517fe6c36313e68f7c3e369caac
+2010-12-10T01:28:00.000000Z
+533
+nweiz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3094
+
+bufferedchannel_test.html
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+61121df07da2326c13a05364ad6aa6fb
+2010-12-01T19:36:35.000000Z
+511
+nweiz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6917
 

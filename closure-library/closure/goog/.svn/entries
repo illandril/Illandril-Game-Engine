@@ -1,15 +1,15 @@
 9
 
 dir
-470
+577
 http://closure-library.googlecode.com/svn/trunk/closure/goog
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-18T21:05:53.072608Z
-470
-Nicholas.J.Santos
+2011-01-05T22:35:12.000000Z
+577
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -71,16 +71,19 @@ dir
 json
 dir
 
+tweak
+dir
+
 base_test.html
 file
 
 
 
 
-2010-11-21T04:53:48.000000Z
-f9c8c3aea5b6532b454e4479e39868fb
-2010-11-15T19:01:13.000000Z
-454
+2011-01-06T21:13:34.000000Z
+da60f1f2ed34990271a37c27376cda8b
+2010-12-17T19:29:43.000000Z
+549
 nicksantos@google.com
 has-props
 
@@ -103,39 +106,48 @@ has-props
 
 
 
-32604
+33560
 
-testing
-dir
-
-fx
+messaging
 dir
 
 date
 dir
 
-messaging
+fx
+dir
+
+testing
+dir
+
+bootstrap
 dir
 
 color
 dir
 
-i18n
+dom
 dir
 
 spell
 dir
 
-dom
+i18n
 dir
 
 timer
 dir
 
+cssom
+dir
+
 reflect
 dir
 
-cssom
+proto2
+dir
+
+module
 dir
 
 base.js
@@ -144,11 +156,11 @@ file
 
 
 
-2010-11-21T04:53:48.000000Z
-b18f05acb4255d2a3ac14aa50ca29fa6
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-01-06T21:13:34.000000Z
+9221722a9fa248cb9dff91067dbc8d3d
+2010-12-17T19:29:43.000000Z
+549
+nicksantos@google.com
 has-props
 
 
@@ -170,13 +182,7 @@ has-props
 
 
 
-44966
-
-module
-dir
-
-proto2
-dir
+45957
 
 net
 dir
@@ -232,11 +238,11 @@ file
 
 
 
-2010-11-21T04:53:48.000000Z
-362b72f2b6db20ddf76dc0618f31afdb
-2010-11-18T01:44:40.000000Z
-468
-chadyoshikawa@google.com
+2011-01-06T21:13:34.000000Z
+c26f2d9a9fbeb10b876212d66adaf846
+2011-01-04T21:21:11.000000Z
+569
+nweiz@google.com
 has-props
 
 
@@ -258,7 +264,7 @@ has-props
 
 
 
-168196
+169668
 
 structs
 dir
