@@ -5,35 +5,31 @@
   <title>Engine Test</title>
   <link rel="stylesheet" type="text/css" href="../bin/engine.css">
   <script type="text/javascript" src="../bin/engine.js"></script>
-<!--
--->
-<!--
-  <script type="text/javascript" src="../closure-library/closure/goog/base.js"></script>
-  <script type="text/javascript" src="../src/engine.js"></script>
--->
  </head>
  <body>
   <div id="illandrilDebugContainer" style="float: right;">
-    <div>
-      Log Level:<br>
-      <input type="submit" onclick="setLogLevel( Log.NONE ); return false;" value="None">
-      <input type="submit" onclick="setLogLevel( Log.SEVERE ); return false;" value="Severe">
-      <input type="submit" onclick="setLogLevel( Log.WARNING ); return false;" value="Warning">
-      <input type="submit" onclick="setLogLevel( Log.CONFIG ); return false;" value="Config">
-      <input type="submit" onclick="setLogLevel( Log.ALL ); return false;" value="All">
-    </div>
-    <div id="illandrilDebug" style="position: absolute; right: 0; z-index: 10000; height: 100px; overflow: scroll; opacity: 0.5"></div>
+   <div>
+    Log Level:<br>
+    <input type="submit" onclick="setLogLevel( Log.NONE ); return false;" value="None">
+    <input type="submit" onclick="setLogLevel( Log.SEVERE ); return false;" value="Severe">
+    <input type="submit" onclick="setLogLevel( Log.WARNING ); return false;" value="Warning">
+    <input type="submit" onclick="setLogLevel( Log.CONFIG ); return false;" value="Config">
+    <input type="submit" onclick="setLogLevel( Log.ALL ); return false;" value="All">
+   </div>
+   <div id="illandrilDebug" style="position: absolute; right: 0; z-index: 10000; height: 100px; overflow: scroll; opacity: 0.5"></div>
   </div>
   <script type="text/javascript">initLogs("illandrilDebug");</script>
   <div style="text-align: center;"><div id="game"></div></div>
   <script type="text/javascript">
-illandril.game.Engine.mc = 10;
-illandril.game.Engine.init("game", "map.json", "../graphics/");
-</script>
-<input onclick="illandril.game.Engine.resume(); return false;" type="submit" value="resume">
-<input onclick="move=!move; return false;" type="submit" value="move/stop mobiles">
-<input onclick="doRandom=!doRandom; return false;" type="submit" value="enable/disable random">
-<div id="collectableCount"></div>
-</div>
+   illandril.game.Engine.mc = 0;
+   illandril.game.Engine.init("game", "map.json", "../graphics/");
+  </script>
+  <div id="collectableCount"></div>
+  <br><br>
+  This is just a performance test. If you like the graphics, they were created by José Maria Silveira Neto, and are being used under a creative commons license. Also... e-mail me to tell me how you found out about this. <a href="mailto:games@illandril.net">games@illandril.net</a>
+  <br>
+  http://www.flickr.com/photos/silveiraneto/3247032423/
+  <br>
+  http://creativecommons.org/licenses/by-sa/2.0/deed.en
  </body>
 </html>

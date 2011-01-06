@@ -156,16 +156,26 @@ illandril.game.Engine = {
       scene.startBulk();
       while ( illandril.game.Engine.maps[mapSrc].length > 0 ) {
         var objDef = illandril.game.Engine.maps[mapSrc].pop();
-        var sprite = null;
-        if ( objDef["bg"] != null ) {
-          var bgOffsetX = objDef["bgOffsetX"] || 0;
-          var bgOffsetY = objDef["bgOffsetY"] || 0;
-          sprite = new illandril.game.ui.StaticSprite( objDef["bg"], new goog.math.Vec2( bgOffsetX, bgOffsetY ) );
-        }
-        if ( objDef["solid"] != null && objDef["solid"] == false ) {
-          new illandril.game.objects.GameObject( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef["x"], objDef["y"] ), new goog.math.Vec2( objDef["width"], objDef["height"] ) ), sprite, objDef["zIndex"] );
-        } else {
-          new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( objDef["x"], objDef["y"] ), new goog.math.Vec2( objDef["width"], objDef["height"] ) ), sprite, objDef["zIndex"] );
+        var xStart = objDef["x"];
+        var xEnd = objDef["xEnd"] || xStart;
+        var yStart = objDef["y"];
+        var yEnd = objDef["yEnd"] || yStart;
+        var width = objDef["width"];
+        var height = objDef["height"];
+        var bgOffsetX = objDef["bgOffsetX"] || 0;
+        var bgOffsetY = objDef["bgOffsetY"] || 0;
+        for ( var x = xStart; x <= xEnd; x+= width ) {
+          for ( var y = yStart; y <= yEnd; y+= height ) {
+            var sprite = null;
+            if ( objDef["bg"] != null ) {
+              sprite = new illandril.game.ui.StaticSprite( objDef["bg"], new goog.math.Vec2( bgOffsetX, bgOffsetY ) );
+            }
+            if ( objDef["solid"] != null && objDef["solid"] == false ) {
+              new illandril.game.objects.GameObject( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( x, y ), new goog.math.Vec2( width, height ) ), sprite, objDef["zIndex"] );
+            } else {
+              new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( x, y ), new goog.math.Vec2( width, height ) ), sprite, objDef["zIndex"] );
+            }
+          }
         }
         if ( illandril.game.Engine.maps[mapSrc].length % 100 == 0 ) {
           break; // Make sure the UI still responds
@@ -183,13 +193,15 @@ illandril.game.Engine = {
     charac = new illandril.game.objects.Player( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.BasicDirectionalAnimation( "../graphics/turtle.png", 20, 20, 8, 6 ), 1000 );
     window["charac"] = charac;
     
-    var vp = new illandril.game.ui.Viewport( container, scene, new goog.math.Vec2( 400, 500 ) );
+    var vp = new illandril.game.ui.Viewport( container, scene, new goog.math.Vec2( 500, 500 ) );
     vp.follow( charac );
-  
-    var vp2 = new illandril.game.ui.Viewport( container, scene, new goog.math.Vec2( 100, 500 ) );
-    vp2.lookAt( new goog.math.Vec2( 300, 2000 ) );
-    vp2.setZoom( 0.12 );
-  
+    
+    /*
+    var vp2 = new illandril.game.ui.Viewport( container, scene, new goog.math.Vec2( 500, 100 ) );
+    vp2.lookAt( new goog.math.Vec2( 250, 50 ) );
+    vp2.setZoom( 0.25 );
+    */
+
     var top = 4000;
     var bottom = -10;
     var left = -300;
@@ -265,14 +277,6 @@ illandril.game.Engine = {
     var tickTime = illandril.game.util.Framerate.tick();
     illandril.game.Engine.controls.handleKeyEvents( tickTime );
     if ( illandril.game.Engine.paused ) {
-      /*
-      if ( illandril.game.Engine.lastScene != null ) {
-        for ( var i = 0; i < illandril.game.Engine.lastScene.viewports.length; i++ ) {
-          illandril.game.Engine.lastScene.viewports[i].hide();
-        }
-        illandril.game.Engine.lastScene = null;
-      }
-      */
       illandril.game.util.Framerate.reset();
     } else {
       var scene = illandril.game.Engine.currentScene;
