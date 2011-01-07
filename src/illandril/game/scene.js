@@ -313,13 +313,12 @@ illandril.game.Scene.prototype.move = function( obj, tick ) {
     return; // Skip over the object if it has been removed from the scene
   }
   var movement = obj.getVelocity().scale( tick / 10 );
-  var hasBlockingCollision = false;
+  var newMovement = movement.clone();
   if ( obj.isSolid ) {
-    var intersectionBounds = illandril.math.Bounds.fromCenter( obj.getPosition().add( movement ), obj.getSize() );
-    hasBlockingCollision = checkForCollisions( obj, intersectionBounds, this.getNearbySolidObjects( obj.getPosition() ) );
+    newMovement = checkForCollisions( obj, movement, this.getNearbySolidObjects( obj.getPosition() ) );
   }
-  if ( !hasBlockingCollision ) {
-    obj.moveBy( movement );
+  if ( newMovement.x != 0 || newMovement.y != 0 ) {
+    obj.moveBy( newMovement );
     // "friction"
     obj.addVelocity( obj.getVelocity().scale( 1 - Math.min( 1, tick / 100 ) ).invert() );
   } else {
@@ -342,10 +341,15 @@ illandril.game.Scene.prototype.hasObjectIntersecting = function( bounds ) {
 /**
  *
  */
-function checkForCollisions( movingObject, bounds, objectList ) {
+function checkForCollisions( movingObject, movement, objectList ) {
+  var shallowXMovement = null;
+  var shallowYMovement = null;
+  var startingPosition = movingObject.getPosition();
+  var bounds = illandril.math.Bounds.fromCenter( goog.math.Vec2.sum( startingPosition, movement ), movingObject.getSize() );
+  var stillMoving = true;
   var hasBlockingCollision = false;
   var collidingObjects = [];
-  for ( var idx = 0; idx < objectList.length && !hasBlockingCollision; idx++ ) {
+  for ( var idx = 0; idx < objectList.length && stillMoving; idx++ ) {
     var nearbyObject = objectList[idx];
     if ( movingObject == nearbyObject ) {
       continue;
@@ -353,16 +357,83 @@ function checkForCollisions( movingObject, bounds, objectList ) {
     var collision = bounds.intersects( nearbyObject.getBounds() );
     if ( collision ) {
       collidingObjects.push( nearbyObject );
-      hasBlockingCollision = ( movingObject.canBeBlocked()
-                               && movingObject.canBeBlockedBy( nearbyObject )
-                               && nearbyObject.blocks( movingObject ) );
+      if ( movingObject.canBeBlocked() && movingObject.canBeBlockedBy( nearbyObject ) && nearbyObject.blocks( movingObject ) ) {
+        hasBlockingCollision = true;
+        if ( shallowXMovement == null ) {
+          shallowXMovement = new goog.math.Vec2( movement.x / 10, 0 );
+          shallowYMovement = new goog.math.Vec2( 0, movement.y / 10 );
+        }
+        var secondXCollision = false;
+        var secondYCollision = false;
+        stillMoving = false;
+        var newBounds = illandril.math.Bounds.fromCenter( movingObject.getPosition(), movingObject.getSize() );
+        while ( !secondXCollision || !secondYCollision ) {
+          var currentCenter = bounds.getCenter();
+          var newCenter = newBounds.getCenter();
+          if ( !secondXCollision ) {
+            if ( shallowXMovement.x < 0 ) {
+              secondXCollision = newCenter.x <= currentCenter.x;
+              if ( secondXCollision ) {
+                newCenter.x = currentCenter.x;
+                newBounds.centerOn( new goog.math.Vec2( currentCenter.x, newCenter.y ) );
+              }
+            } else {
+              secondXCollision = newCenter.x >= currentCenter.x;
+              if ( secondXCollision ) {
+                newCenter.x = currentCenter.x;
+                newBounds.centerOn( new goog.math.Vec2( currentCenter.x, newCenter.y ) );
+              }
+            }
+          }
+          if ( !secondXCollision ) {
+            newBounds.centerOn( newBounds.getCenter().add( shallowXMovement ) );
+            secondXCollision = newBounds.intersects( nearbyObject.getBounds() );
+            if ( secondXCollision ) {
+              newBounds.centerOn( newBounds.getCenter().subtract( shallowXMovement ) );
+            } else {
+              stillMoving = true;
+            }
+          }
+          if ( !secondYCollision ) {
+            if ( shallowYMovement.y < 0 ) {
+              secondYCollision = newCenter.y <= currentCenter.y;
+              if ( secondYCollision ) {
+                newCenter.y = currentCenter.y;
+                newBounds.centerOn( new goog.math.Vec2( newCenter.x, currentCenter.y ) );
+              }
+            } else {
+              secondYCollision = newCenter.y >= currentCenter.y;
+              if ( secondYCollision ) {
+                newCenter.y = currentCenter.y;
+                newBounds.centerOn( new goog.math.Vec2( newCenter.x, currentCenter.y ) );
+              }
+            }
+          }
+          if ( !secondYCollision ) {
+            newBounds.centerOn( newBounds.getCenter().add( shallowYMovement ) );
+            secondYCollision = newBounds.intersects( nearbyObject.getBounds() );
+            if ( secondYCollision ) {
+              newBounds.centerOn( newBounds.getCenter().subtract( shallowYMovement ) );
+            } else {
+              stillMoving = true;
+            }
+          }
+        }
+        bounds = newBounds;
+      }
     }
   }
-  if ( !hasBlockingCollision ) {
+  if ( stillMoving ) {
     for ( var idx = 0; idx < collidingObjects.length; idx++ ) {
-      movingObject.collideWith( collidingObjects[idx] );
-      collidingObjects[idx].collideWith( movingObject );
+      if ( !hasBlockingCollision || bounds.intersects( collidingObjects[idx].getBounds() ) ) {
+        movingObject.collideWith( collidingObjects[idx] );
+        collidingObjects[idx].collideWith( movingObject );
+      }
     }
   }
-  return hasBlockingCollision;
+  var newMovement = movement;
+  if ( hasBlockingCollision ) {
+    newMovement = goog.math.Vec2.difference( bounds.getCenter(), movingObject.getPosition() );
+  }
+  return newMovement;
 };
