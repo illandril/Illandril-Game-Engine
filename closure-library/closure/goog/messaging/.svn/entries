@@ -1,7 +1,7 @@
 9
 
 dir
-577
+581
 http://closure-library.googlecode.com/svn/trunk/closure/goog/messaging
 http://closure-library.googlecode.com/svn
 
@@ -230,40 +230,6 @@ has-props
 
 7851
 
-messaging.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-07b06fff78bfc2c11f56b151c2cc03b6
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1196
-
 messagechannel.js
 file
 
@@ -297,6 +263,40 @@ has-props
 
 
 4614
+
+messaging.js
+file
+
+
+
+
+2010-11-12T17:41:20.000000Z
+07b06fff78bfc2c11f56b151c2cc03b6
+2010-10-18T19:19:05.000000Z
+371
+dbentley@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1196
 
 loggerclient.js
 file
@@ -332,40 +332,6 @@ has-props
 
 4178
 
-abstractchannel_test.html
-file
-
-
-
-
-2011-01-06T21:13:32.000000Z
-9414e478b2d61f0610b14023552d4daf
-2010-12-09T00:34:04.000000Z
-531
-nweiz@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2190
-
 multichannel.js
 file
 
@@ -399,6 +365,40 @@ has-props
 
 
 8682
+
+abstractchannel_test.html
+file
+
+
+
+
+2011-01-06T21:13:32.000000Z
+9414e478b2d61f0610b14023552d4daf
+2010-12-09T00:34:04.000000Z
+531
+nweiz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2190
 
 abstractchannel.js
 file
