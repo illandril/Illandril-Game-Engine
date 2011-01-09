@@ -1,15 +1,15 @@
 9
 
 dir
-581
+583
 http://closure-library.googlecode.com/svn/trunk/closure/goog/proto2
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-06T20:34:13.000000Z
-580
-jschorr@google.com
+2011-01-07T10:19:50.000000Z
+582
+pallosp@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -60,17 +60,17 @@ has-props
 
 1353
 
-pbliteserializer.js
+serializer.js
 file
 
 
 
 
 2011-01-06T21:13:33.000000Z
-d5abd3a0cd54c162915b4c557e2f59ab
-2010-12-20T23:26:44.000000Z
-554
-nicksantos@google.com
+6f2892e0f6a4bb25c473c0ea722b17f9
+2010-11-30T10:34:06.000000Z
+505
+pallosp@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-4093
+3372
 
 fielddescriptor_test.html
 file
@@ -128,17 +128,17 @@ has-props
 
 3123
 
-serializer.js
+pbliteserializer.js
 file
 
 
 
 
 2011-01-06T21:13:33.000000Z
-6f2892e0f6a4bb25c473c0ea722b17f9
-2010-11-30T10:34:06.000000Z
-505
-pallosp@google.com
+d5abd3a0cd54c162915b4c557e2f59ab
+2010-12-20T23:26:44.000000Z
+554
+nicksantos@google.com
 has-props
 
 
@@ -160,7 +160,7 @@ has-props
 
 
 
-3372
+4093
 
 message_test.html
 file
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-89d82798a99cb6daea815412bbef082e
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-01-09T17:31:52.000000Z
+74259603d11e69ae9ed484764caf766f
+2011-01-07T10:19:50.000000Z
+582
+pallosp@google.com
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-4740
+5133
 
 test.pb.js
 file
@@ -298,40 +298,6 @@ has-props
 
 65293
 
-fielddescriptor.js
-file
-
-
-
-
-2011-01-06T21:13:33.000000Z
-de5f408fa7f6c6052f7b7df7ebd5be5d
-2010-12-20T23:26:44.000000Z
-554
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5961
-
 lazydeserializer.js
 file
 
@@ -366,16 +332,50 @@ has-props
 
 2244
 
-message.js
+fielddescriptor.js
 file
 
 
 
 
 2011-01-06T21:13:33.000000Z
-83a443d790c77468f0b71874d37012a3
-2011-01-05T12:34:21.000000Z
-571
+de5f408fa7f6c6052f7b7df7ebd5be5d
+2010-12-20T23:26:44.000000Z
+554
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5961
+
+message.js
+file
+
+
+
+
+2011-01-09T17:31:52.000000Z
+6c3b7250ca999ac9f43c825e5b771c62
+2011-01-07T10:19:50.000000Z
+582
 pallosp@google.com
 has-props
 
@@ -398,7 +398,7 @@ has-props
 
 
 
-20168
+20185
 
 objectserializer_test.html
 file
@@ -434,40 +434,6 @@ has-props
 
 10425
 
-proto_test.html
-file
-
-
-
-
-2011-01-07T19:21:47.000000Z
-c1896795782ffc82e66b2cd6ea59a466
-2011-01-06T20:34:13.000000Z
-580
-jschorr@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-29071
-
 package_test.pb.js
 file
 
@@ -501,6 +467,40 @@ has-props
 
 
 4189
+
+proto_test.html
+file
+
+
+
+
+2011-01-07T19:21:47.000000Z
+c1896795782ffc82e66b2cd6ea59a466
+2011-01-06T20:34:13.000000Z
+580
+jschorr@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+29071
 
 pbliteserializer_test.html
 file

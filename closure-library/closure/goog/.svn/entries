@@ -1,15 +1,15 @@
 9
 
 dir
-581
+583
 http://closure-library.googlecode.com/svn/trunk/closure/goog
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-06T23:37:01.000000Z
-581
-ecattell@google.com
+2011-01-07T16:10:13.000000Z
+583
+agrieve@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -108,46 +108,46 @@ has-props
 
 33560
 
-bootstrap
-dir
-
-testing
-dir
-
-fx
+messaging
 dir
 
 date
 dir
 
-messaging
+fx
+dir
+
+testing
+dir
+
+bootstrap
 dir
 
 color
 dir
 
-i18n
+dom
 dir
 
 spell
 dir
 
-dom
+i18n
 dir
 
 timer
 dir
 
-reflect
-dir
-
 cssom
 dir
 
-module
+reflect
 dir
 
 proto2
+dir
+
+module
 dir
 
 base.js
