@@ -32,6 +32,8 @@ illandril.game.Engine = {
   debugObjectCount: false,
   resumeOnLoadingFinish: true,
   paused: true,
+  lagPaused: false,
+  allowLagPause: true,
   loading: 0,
   maps: [],
   scenes: [],
@@ -39,6 +41,9 @@ illandril.game.Engine = {
   lastScene: null,
   startTime: null,
   controls: null,
+  TARGET_TIMEOUT: 33, // About 30 FPS
+  MINIMUM_TIMEOUT: 5, // Make sure computer has time to respond to other programs in case the game is causing lag
+  LAG_TIMEOUT: 100, // About 10 FPS
   init: function( gameContainerID, mapSrc ) {
     illandril.game.Engine.startTime = new Date();
     
@@ -65,6 +70,16 @@ illandril.game.Engine = {
     illandril.game.Engine.noClick.style.display = "none";
     illandril.game.Engine.container.appendChild( illandril.game.Engine.noClick );
 
+    illandril.game.Engine.lagDialog = new goog.ui.Dialog();
+    illandril.game.Engine.lagDialog.setTitle( "Game Lagging" );
+    illandril.game.Engine.lagDialog.setContent( "You appear to be experiencing excessive lag. Your game has been paused.<br>Please close any programs that may be slowing down your system.<br>Press 'F6' to prevent the game from auto-pausing on lag spikes.<br>Press 'P' to try to resume playing." );
+    illandril.game.Engine.lagDialog.setButtonSet( new goog.ui.Dialog.ButtonSet() );
+    illandril.game.Engine.lagDialog.setHasTitleCloseButton( false );
+    illandril.game.Engine.lagDialog.setEscapeToCancel( false );
+    illandril.game.Engine.lagDialog.setDraggable( false );
+    illandril.game.Engine.lagDialog.setModal( false );
+    illandril.game.Engine.lagDialog.setVisible( false );
+    
     illandril.game.Engine.pausedDialog = new goog.ui.Dialog();
     illandril.game.Engine.pausedDialog.setTitle( "Game Paused" );
     illandril.game.Engine.pausedDialog.setContent( "Your game has been paused.<br>Press 'P' to resume." );
@@ -89,6 +104,9 @@ illandril.game.Engine = {
     var pause = new illandril.game.ui.Action( function() { illandril.game.Engine.togglePause(); }, "Pause", false );
     illandril.game.Engine.controls.registerAction( pause, goog.events.KeyCodes.P, false, false, false );
     
+    var lagPause = new illandril.game.ui.Action( function() { illandril.game.Engine.allowLagPause = false; }, "Prevent Lag Pause", false );
+    illandril.game.Engine.controls.registerAction( lagPause, goog.events.KeyCodes.F6, false, false, false );
+
     var debugFPS = new illandril.game.ui.Action( function() { if ( !illandril.game.Engine.paused ) { illandril.game.Engine.debugFPS = !illandril.game.Engine.debugFPS; } }, "Debug FPS", false );
     illandril.game.Engine.controls.registerAction( debugFPS, goog.events.KeyCodes.F8, false, false, false );
     
@@ -109,6 +127,7 @@ illandril.game.Engine = {
     illandril.game.Engine.controls.registerAction( toMenu, goog.events.KeyCodes.ESC, false, false, false );
     
     var loadedScene = new illandril.game.Scene();
+    loadedScene.setGravity( new goog.math.Vec2( 0, 400 ) );
     new illandril.game.objects.menus.MenuEntry( menuScene, "Test Menu 1", new goog.math.Vec2( 0, -200 ), font, 0 );
     new illandril.game.objects.menus.MenuEntry( menuScene, "Test Menu 2", new goog.math.Vec2( 0, -180 ), font, 0 );
     illandril.game.Engine.controlScene.addControl( illandril.game.Engine.controls, toMenu );
@@ -127,6 +146,7 @@ illandril.game.Engine = {
     }
     
     illandril.game.Engine.currentScene = menuScene;
+    illandril.game.util.Framerate.reset();
     illandril.game.Engine.tick();
 
     illandril.game.Engine.loadMap( mapSrc, loadedScene );
@@ -192,7 +212,8 @@ illandril.game.Engine = {
     var container = illandril.game.Engine.container;
     
     // Start for testing
-    charac = new illandril.game.objects.Player( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 20 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.BasicDirectionalAnimation( "../graphics/generic_character.png", 20, 20, 4, 2 ), 1000 );
+    charac = new illandril.game.objects.Player( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 15, 15 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.BasicDirectionalAnimation( "../graphics/generic_character.png", 20, 20, 4, 2 ), 1000 );
+    charac.setSpeed( 100 );
     window["charac"] = charac;
     
     var vp = new illandril.game.ui.Viewport( container, scene, new goog.math.Vec2( 500, 500 ) );
@@ -203,7 +224,8 @@ illandril.game.Engine = {
     vp2.lookAt( new goog.math.Vec2( 250, 50 ) );
     vp2.setZoom( 0.25 );
     */
-
+    
+    /*
     var top = 4000;
     var bottom = -10;
     var left = -300;
@@ -221,6 +243,7 @@ illandril.game.Engine = {
       var bounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( x, top - 50 ), new goog.math.Vec2( 2, 2 ) );
       new illandril.game.objects.Collectable( scene, bounds, null, 0 );
     }
+    */
     move = false;
     var totalMobs = illandril.game.Engine["mc"];
     var highMob = Math.round( totalMobs / 2 );
@@ -249,14 +272,10 @@ illandril.game.Engine = {
       }
     }
     
-    var moveUp = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( 0, -1 ) ); }, "Move Up", true );
-    window["moveUp"] = moveUp;
-    var moveDown = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( 0, 1 ) ); }, "Move Down", true );
-    window["moveDown"] = moveDown;
-    var moveLeft = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( -1, 0 ) ); }, "Move Left", true );
-    window["moveLeft"] = moveLeft;
-    var moveRight = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.addVelocity( new goog.math.Vec2( 1, 0 ) ); }, "Move Right", true );
-    window["moveRight"] = moveRight;
+    var moveUp = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( 0, -1 ) ); }, "Move Up", true );
+    var moveDown = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( 0, 1 ) ); }, "Move Down", true );
+    var moveLeft = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( -1, 0 ) ); }, "Move Left", true );
+    var moveRight = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( 1, 0 ) ); }, "Move Right", true );
     scene.getControls().registerAction( moveUp, goog.events.KeyCodes.W, false, false, false );
     illandril.game.Engine.controlScene.addControl( scene.getControls(), moveUp );
     scene.getControls().registerAction( moveLeft, goog.events.KeyCodes.A, false, false, false );
@@ -276,6 +295,12 @@ illandril.game.Engine = {
   tick: function() {
     var tickTime = illandril.game.util.Framerate.tick();
     illandril.game.Engine.controls.handleKeyEvents( tickTime );
+    
+    if ( !illandril.game.Engine.paused && illandril.game.Engine.allowLagPause && tickTime > illandril.game.Engine.LAG_TIMEOUT ) {
+      illandril.game.Engine.lagPaused = true;
+      illandril.game.Engine.pause();
+    }
+    
     if ( illandril.game.Engine.paused ) {
       illandril.game.util.Framerate.reset();
     } else {
@@ -311,7 +336,12 @@ illandril.game.Engine = {
         illandril.game.Engine.debug.style.display = ( illandril.game.Engine.debug.innerHTML == "" ) ? "none" : "";
       }
     }
-    setTimeout( illandril.game.Engine.tick, 10 );
+    
+    var timeout = illandril.game.Engine.TARGET_TIMEOUT - ( new Date() - illandril.game.util.Framerate.lastFrameStamp );
+    if ( timeout < illandril.game.Engine.MINIMUM_TIMEOUT ) {
+      timeout = illandril.game.Engine.MINIMUM_TIMEOUT;
+    }
+    setTimeout( illandril.game.Engine.tick, timeout );
   },
   startLoad: function() {
     illandril.game.Engine.loading++;
@@ -342,16 +372,22 @@ illandril.game.Engine = {
   },
   _pause: function() {
     illandril.game.Engine.paused = true;
-    illandril.game.Engine.pausedDialog.setVisible( illandril.game.Engine.loading == 0 );
+    if ( illandril.game.Engine.lagPaused ) {
+      illandril.game.Engine.lagDialog.setVisible( illandril.game.Engine.loading == 0 );
+    } else {
+      illandril.game.Engine.pausedDialog.setVisible( illandril.game.Engine.loading == 0 );
+    }
     illandril.game.Engine.noClick.style.display = "";
     illandril.game.Engine.noClick.style.width = illandril.game.Engine.container.clientWidth + "px";
     illandril.game.Engine.noClick.style.height = illandril.game.Engine.container.clientHeight + "px";
   },
   resume: function() {
     if ( illandril.game.Engine.loading == 0 ) {
+      illandril.game.Engine.lagPaused = false;
       illandril.game.Engine.paused = false;
       illandril.game.Engine.resumeOnLoadingFinish = true;
       illandril.game.Engine.pausedDialog.setVisible( false );
+      illandril.game.Engine.lagDialog.setVisible( false );
       illandril.game.Engine.noClick.style.display = "none";
     }
   }

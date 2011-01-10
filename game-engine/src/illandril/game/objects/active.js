@@ -10,6 +10,10 @@ illandril.game.objects.Active = function() {
     throw "Error... active object not also a game object!"
   }
   this.velocity = new goog.math.Vec2( 0, 0 );
+  this.internalVelocity = new goog.math.Vec2( 0, 0 );
+  this.desiredMovement = null;
+  this.setSpeed( 1 );
+  this.jumpY = true;
 };
 
 
@@ -30,38 +34,132 @@ loop {
 
 illandril.game.objects.Active.prototype.isActive = true;
 
-illandril.game.objects.Active.prototype.think = function( tick ) {};
-
-illandril.game.objects.Active.prototype.setVelocity = function( newVelocity ) {
-  this.velocity = newVelocity.clone();
-  this.setDirection( newVelocity );
+illandril.game.objects.Active.prototype.setSpeed = function( speed ) {
+  this.speed = speed;
+  this.squaredSpeed = speed * speed;
 };
 
-illandril.game.objects.Active.prototype.addVelocity = function( direction ) {
-  var newVelocity = this.velocity.clone().add( direction );
-  newVelocity.x = Math.min( 1, newVelocity.x );
-  newVelocity.x = Math.max( -1, newVelocity.x );
-  newVelocity.y = Math.min( 1, newVelocity.y );
-  newVelocity.y = Math.max( -1, newVelocity.y );
+illandril.game.objects.Active.prototype.setDesiredMovement = function( direction ) {
+  if ( this.desiredMovement == null ) {
+    this.desiredMovement = direction.clone();
+  } else {
+    this.desiredMovement.add( direction );
+  }
+};
+
+illandril.game.objects.Active.prototype.think = function( tickSeconds ) {
+  var desiredInternalVelocityChange = null;
+  if ( this.desiredMovement != null ) {
+    desiredInternalVelocityChange = this.desiredMovement.clone();
+    this.desiredMovement = null;
+    if ( desiredInternalVelocityChange.squaredMagnitude() != 1 ) {
+      desiredInternalVelocityChange.normalize();
+    }
+    desiredInternalVelocityChange.scale( this.speed * tickSeconds );
+  } else {
+    desiredInternalVelocityChange = new goog.math.Vec2( 0, 0 );
+  }
+  if ( desiredInternalVelocityChange.x == 0 && this.internalVelocity.x != 0 ) {
+    var inverseVelocity = -1 * this.internalVelocity.x;
+    var scaledSpeed = this.speed * tickSeconds;
+    if ( !this.jumpY ) {
+      scaledSpeed = scaledSpeed * ( Math.abs( this.internalVelocity.x ) / ( Math.abs( this.internalVelocity.x ) + Math.abs( this.internalVelocity.y ) ) );
+    }
+    if ( Math.abs( inverseVelocity ) < scaledSpeed ) {
+      desiredInternalVelocityChange.x = inverseVelocity;
+    } else {
+      if ( inverseVelocity > 0 ) {
+        desiredInternalVelocityChange.x = scaledSpeed;
+      } else {
+        desiredInternalVelocityChange.x = -1 * scaledSpeed;
+      }
+    }
+  }
+  if ( !this.jumpY && desiredInternalVelocityChange.y == 0 && this.internalVelocity.y != 0 ) {
+    var inverseVelocity = -1 * this.internalVelocity.y;
+    var scaledSpeed = this.speed * tickSeconds;
+    scaledSpeed = scaledSpeed * ( Math.abs( this.internalVelocity.y ) / ( Math.abs( this.internalVelocity.x ) + Math.abs( this.internalVelocity.y ) ) );
+    if ( Math.abs( inverseVelocity ) < scaledSpeed ) {
+      desiredInternalVelocityChange.y = inverseVelocity;
+    } else {
+      if ( inverseVelocity > 0 ) {
+        desiredInternalVelocityChange.y = scaledSpeed;
+      } else {
+        desiredInternalVelocityChange.y = -1 * scaledSpeed;
+      }
+    }
+  }
+  if ( desiredInternalVelocityChange.x != 0 || desiredInternalVelocityChange.y != 0 ) {
+    var actualVelocityChange = desiredInternalVelocityChange.clone();
+    if ( this.jumpY ) {
+      actualVelocityChange.y = 0;
+    }
+    var newX = this.internalVelocity.x + actualVelocityChange.x;
+    var newY = this.internalVelocity.y + actualVelocityChange.y;
+    var newSQSpeed = newX * newX;
+    if ( !this.jumpY ) {
+      newSQSpeed += newY * newY;
+    }
+    if ( newSQSpeed > this.squaredSpeed ) {
+      if ( Math.abs( newX ) > Math.abs( this.internalVelocity.x ) ) {
+        actualVelocityChange.x = 0;
+      }
+      if ( Math.abs( newY ) > Math.abs( this.internalVelocity.y ) ) {
+        actualVelocityChange.y = 0;
+      }
+    }
+    if ( this.jumpY && ( this.internalVelocity.y == 0 && this.velocity.y == 0 && desiredInternalVelocityChange.y < 0 ) ) {
+      actualVelocityChange.y = -2 * this.speed;
+    }
+    this.internalVelocity.add( actualVelocityChange );
+  }
+  
   // We need to make sure they don't keep skating along very very slowly because of a rounding error
-  if ( Math.abs( newVelocity.x ) < illandril.game.objects.GameObject.GRANULARITY ) {
-    newVelocity.x = 0;
+  if ( Math.abs( this.velocity.x ) < illandril.game.objects.GameObject.GRANULARITY ) {
+    this.velocity.x = 0;
   }
-  if ( Math.abs( newVelocity.y ) < illandril.game.objects.GameObject.GRANULARITY ) {
-    newVelocity.y = 0;
+  if ( Math.abs( this.velocity.y ) < illandril.game.objects.GameObject.GRANULARITY ) {
+    this.velocity.y = 0;
   }
-  this.setVelocity( newVelocity );
+  if ( Math.abs( this.internalVelocity.x ) < illandril.game.objects.GameObject.GRANULARITY ) {
+    this.internalVelocity.x = 0;
+  }
+  if ( Math.abs( this.internalVelocity.y ) < illandril.game.objects.GameObject.GRANULARITY ) {
+    this.internalVelocity.y = 0;
+  }
+  
+  this.setDirection( this.getVelocity() );
+};
+
+illandril.game.objects.Active.prototype.addVelocity = function( velocity ) {
+  this.velocity.add( velocity );
+};
+
+illandril.game.objects.Active.prototype.applyFriction = function( tickSeconds ) {
+  var friction = tickSeconds / 2;
+  this.velocity.x = this.velocity.x - this.velocity.x * friction;
+  this.velocity.y = this.velocity.y - this.velocity.y * friction;
+  this.internalVelocity.x = this.internalVelocity.x - this.internalVelocity.x * friction;
+  this.internalVelocity.y = this.internalVelocity.y - this.internalVelocity.y * friction;
+};
+
+illandril.game.objects.Active.prototype.blockedY = function() {
+  this.velocity.y = 0;
+  this.internalVelocity.y = 0;
+};
+
+illandril.game.objects.Active.prototype.blockedX = function() {
+  this.velocity.x = 0;
+  this.internalVelocity.x = 0;
 };
 
 illandril.game.objects.Active.prototype.getVelocity = function() {
   var retVelo = this.velocity.clone();
-  if ( retVelo.squaredMagnitude() > 1 ) {
-    retVelo.normalize();
-  }
-  return retVelo;
+  //if ( retVelo.squaredMagnitude() > 1 ) {
+  //  retVelo.normalize();
+  //}
+  return this.velocity.clone().add( this.internalVelocity );
 };
-
-
 
 illandril.game.objects.Active.prototype.isMoving = function() {
   return this.velocity.x != 0 || this.velocity.y != 0;

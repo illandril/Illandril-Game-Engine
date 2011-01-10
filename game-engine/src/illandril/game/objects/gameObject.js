@@ -20,6 +20,8 @@ illandril.game.objects.GameObject = function( scene, bounds, bg, zIndex ) {
 // We need to make sure things don't get messed up because of rounding errors
 illandril.game.objects.GameObject.GRANULARITY = 0.005;
 
+illandril.game.objects.GameObject.prototype.impactedByGravity = true;
+
 illandril.game.objects.GameObject.prototype.getBounds = function() {
   return this.bounds;
 };

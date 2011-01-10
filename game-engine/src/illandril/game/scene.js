@@ -45,11 +45,16 @@ illandril.game.Scene = function( name ) {
   
   this.tickCount = 0;
   this.lastSceneTime = 0;
-  this.lastTickTime = 0;
+  this.lastTickSeconds = 0;
   
   this.hasUpdate = false;
   this.inBulk = 0;
   this.viewports = [];
+  this.gravity = new goog.math.Vec2(0,0);
+};
+
+illandril.game.Scene.prototype.setGravity = function( gravity ) {
+  this.gravity = gravity.clone();
 };
 
 illandril.game.Scene.prototype.getControls = function() {
@@ -95,7 +100,7 @@ illandril.game.Scene.prototype.updateViewports = function() {
   if ( this.inBulk == 0 ) {
     this.hasUpdate = false;
     for ( var idx = 0; idx < this.viewports.length; idx++ ) {
-      this.viewports[idx].update( this.lastTickTime, this.lastSceneTime );
+      this.viewports[idx].update( this.lastTickSeconds, this.lastSceneTime );
     }
   }
 };
@@ -106,7 +111,7 @@ illandril.game.Scene.prototype.updateViewports = function() {
 illandril.game.Scene.prototype.update = function( tickTime, gameTime ) {
   this.tickCount++;
   var tick = Math.min( tickTime, MAX_TICK_TIME );
-  this.lastTickTime = tick;
+  this.lastTickSeconds = tick / 1000;
   this.lastSceneTime = gameTime;
   
   this.startBulk();
@@ -278,9 +283,10 @@ illandril.game.Scene.prototype.objectMoved = function( gameObject ) {
  *
  */
 illandril.game.Scene.prototype._update = function() {
+  var scaledGravity = this.gravity.clone().scale( this.lastTickSeconds );
   this.movingLastUpdate = 0;
   var activeObjects = this.objects.getActiveObjects();
-  var needsUpdate = false;
+  var needsUpdate = true;
   for ( var idx = 0; idx < activeObjects.length; idx++ ) {
     var obj = activeObjects[idx];
     if ( obj.scene != this ) {
@@ -293,9 +299,14 @@ illandril.game.Scene.prototype._update = function() {
       }
     }
     if ( closeEnoughToPlayers ) {
-        needsUpdate = obj.think( this.lastTickTime ) || needsUpdate;
+        obj.applyFriction( this.lastTickSeconds );
+        obj.think( this.lastTickSeconds );
+        if ( obj.impactedByGravity && ( scaledGravity.x != 0 || scaledGravity.y != 0 ) ) {
+          obj.addVelocity( scaledGravity );
+        }
+        
         if ( obj.isMoving() ) {
-          this.move( obj, this.lastTickTime );
+          this.move( obj, this.lastTickSeconds );
           this.movingLastUpdate++;
         }
     }
@@ -308,21 +319,23 @@ illandril.game.Scene.prototype._update = function() {
 /**
  *
  */
-illandril.game.Scene.prototype.move = function( obj, tick ) {
+illandril.game.Scene.prototype.move = function( obj, tickSeconds ) {
   if ( obj.scene != this ) {
     return; // Skip over the object if it has been removed from the scene
   }
-  var movement = obj.getVelocity().scale( tick / 10 );
-  var newMovement = movement.clone();
+  var movement = obj.getVelocity().scale( tickSeconds );
+  var newMovement = movement;
   if ( obj.isSolid ) {
     newMovement = checkForCollisions( obj, movement, this.getNearbySolidObjects( obj.getPosition() ) );
   }
+  if ( movement.x != 0 && newMovement.x == 0 ) {
+    obj.blockedX();
+  }
+  if ( movement.y != 0 && newMovement.y == 0 ) {
+    obj.blockedY();
+  }
   if ( newMovement.x != 0 || newMovement.y != 0 ) {
     obj.moveBy( newMovement );
-    // "friction"
-    obj.addVelocity( obj.getVelocity().scale( 1 - Math.min( 1, tick / 100 ) ).invert() );
-  } else {
-    obj.setVelocity( new goog.math.Vec2( 0, 0 ) );
   }
 };
 
