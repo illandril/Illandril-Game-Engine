@@ -1,15 +1,15 @@
 9
 
 dir
-583
+616
 http://closure-library.googlecode.com/svn/trunk/closure/goog/ui/autocomplete
 http://closure-library.googlecode.com/svn
 
 
 
-2010-12-07T20:54:10.000000Z
-524
-rshearer@google.com
+2011-01-12T00:57:55.000000Z
+602
+gboyer@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-21T04:53:47.000000Z
-7037db46005ba1c96b60d08a4708aa4f
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-01-14T03:35:36.000000Z
+86912f87fe9bc03d6a1637ef1f5948c5
+2011-01-12T00:57:55.000000Z
+602
+gboyer@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-25755
+25942
 
 basic_test.html
 file
@@ -366,51 +366,17 @@ has-props
 
 3770
 
-inputhandler.js
-file
-
-
-
-
-2010-11-12T17:41:24.000000Z
-41b522cfabefcf97cd58efffa099275e
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-35438
-
 renderer_test.html
 file
 
 
 
 
-2010-11-21T04:53:47.000000Z
-081ba91a19e84aaf185161c329050f94
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-14T03:35:36.000000Z
+5aad9565af0115440e61aaff287d1fc1
+2011-01-12T00:57:55.000000Z
+602
+gboyer@google.com
 has-props
 
 
@@ -432,7 +398,41 @@ has-props
 
 
 
-13656
+14205
+
+inputhandler.js
+file
+
+
+
+
+2011-01-14T03:35:36.000000Z
+415e0902596ed748016c19f71c76c4cf
+2011-01-11T22:16:52.000000Z
+600
+henrywong@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+35436
 
 remotearraymatcher.js
 file
@@ -468,40 +468,6 @@ has-props
 
 8712
 
-autocomplete.js
-file
-
-
-
-
-2010-11-12T17:41:24.000000Z
-200ea97014540a7cce41176f2c9c3aea
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-17462
-
 richremote.js
 file
 
@@ -535,6 +501,40 @@ has-props
 
 
 4235
+
+autocomplete.js
+file
+
+
+
+
+2010-11-12T17:41:24.000000Z
+200ea97014540a7cce41176f2c9c3aea
+2010-10-18T19:19:05.000000Z
+371
+dbentley@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+17462
 
 richinputhandler.js
 file

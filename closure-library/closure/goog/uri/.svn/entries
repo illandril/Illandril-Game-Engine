@@ -1,15 +1,15 @@
 9
 
 dir
-583
+616
 http://closure-library.googlecode.com/svn/trunk/closure/goog/uri
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-12T20:44:37.000000Z
+607
+sra@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-21T04:53:44.000000Z
-b0c28fc097d79bdb87a9a9f7887e6e23
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-14T03:35:35.000000Z
+249691b0889054ed2760aedcb3e7b9c4
+2011-01-12T20:44:37.000000Z
+607
+sra@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-29520
+29804
 
 utils_test.html
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-21T04:53:44.000000Z
-1648d6472044dc66a7705b471e4f2adc
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-01-14T03:35:35.000000Z
+d558f1654145777e0ece64a9b644ce7b
+2011-01-12T20:44:37.000000Z
+607
+sra@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-42291
+42462
 
 utils.js
 file

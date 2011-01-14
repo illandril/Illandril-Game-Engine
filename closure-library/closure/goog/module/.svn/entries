@@ -1,15 +1,15 @@
 9
 
 dir
-583
+616
 http://closure-library.googlecode.com/svn/trunk/closure/goog/module
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-30T22:20:50.000000Z
-509
-xiangtian@google.com
+2011-01-11T17:07:43.000000Z
+599
+digi@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -100,11 +100,11 @@ file
 
 
 
-2011-01-06T21:13:33.000000Z
-87e694a29bd7813fe1530cbfc676a05e
-2010-11-29T15:08:49.000000Z
-495
-doughtie@google.com
+2011-01-14T03:35:35.000000Z
+f50419dadb76e740de9dbe3392864105
+2011-01-11T17:07:43.000000Z
+599
+digi@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-38710
+39767
 
 basemoduleloader.js
 file
@@ -273,11 +273,11 @@ file
 
 
 
-2011-01-06T21:13:33.000000Z
-0936d74b6466df1257cdbc53c3838fa1
-2010-11-30T22:20:50.000000Z
-509
-xiangtian@google.com
+2011-01-14T03:35:35.000000Z
+b61223eaeaf2842c4b9fcc007e40ce05
+2011-01-11T17:07:43.000000Z
+599
+digi@google.com
 has-props
 
 
@@ -299,7 +299,7 @@ has-props
 
 
 
-31092
+31539
 
 basemodule.js
 file

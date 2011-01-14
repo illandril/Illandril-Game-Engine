@@ -1,15 +1,15 @@
 9
 
 dir
-583
+616
 http://closure-library.googlecode.com/svn/trunk/closure/goog/gears
 http://closure-library.googlecode.com/svn
 
 
 
-2010-12-09T00:34:04.000000Z
-531
-nweiz@google.com
+2011-01-10T20:07:27.000000Z
+587
+mgoodman@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -230,40 +230,6 @@ has-props
 
 11875
 
-loggerclient.js
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-437b8b22d148a830cf17005b25a1629c
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3925
-
 basestore_test.html
 file
 
@@ -298,17 +264,17 @@ has-props
 
 7670
 
-fakeworkerpool_test.html
+loggerclient.js
 file
 
 
 
 
 2010-11-21T04:53:46.000000Z
-6e1660ec4748b7350c363c04d1d73926
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+437b8b22d148a830cf17005b25a1629c
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -330,7 +296,7 @@ has-props
 
 
 
-5080
+3925
 
 managedresourcestore.js
 file
@@ -366,14 +332,14 @@ has-props
 
 15748
 
-logstore_test.html
+fakeworkerpool_test.html
 file
 
 
 
 
 2010-11-21T04:53:46.000000Z
-99684a61ba2ab7abde223723478c6472
+6e1660ec4748b7350c363c04d1d73926
 2010-11-15T19:01:13.000000Z
 454
 nicksantos@google.com
@@ -398,7 +364,7 @@ has-props
 
 
 
-18011
+5080
 
 statustype.js
 file
@@ -434,17 +400,17 @@ has-props
 
 1023
 
-urlcapture.js
+logstore_test.html
 file
 
 
 
 
 2010-11-21T04:53:46.000000Z
-5c528d89e31642b3969f68f340d9df7c
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+99684a61ba2ab7abde223723478c6472
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -466,7 +432,7 @@ has-props
 
 
 
-10999
+18011
 
 multipartformdata_test.html
 file
@@ -501,6 +467,40 @@ has-props
 
 
 5653
+
+urlcapture.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+5c528d89e31642b3969f68f340d9df7c
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10999
 
 basestore.js
 file
@@ -678,11 +678,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-7eb3d599c3c58af4460eca6afb135de6
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-01-14T03:35:35.000000Z
+b24d7f93f90ec103036339453b78a560
+2011-01-10T20:07:27.000000Z
+587
+mgoodman@google.com
 has-props
 
 
@@ -704,7 +704,7 @@ has-props
 
 
 
-7768
+7773
 
 database_test.html
 file

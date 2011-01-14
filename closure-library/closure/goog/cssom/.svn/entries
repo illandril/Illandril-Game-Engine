@@ -1,15 +1,15 @@
 9
 
 dir
-583
+616
 http://closure-library.googlecode.com/svn/trunk/closure/goog/cssom
 http://closure-library.googlecode.com/svn
 
 
 
-2010-12-08T19:42:23.000000Z
-528
-nicksantos@google.com
+2011-01-10T21:22:44.000000Z
+589
+lilyxia@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-f488e1272d59d334df0b9586335fe0b5
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2011-01-14T03:35:35.000000Z
+c4010804d52666efb20a33128559936a
+2011-01-10T21:22:44.000000Z
+589
+lilyxia@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-16238
+16255
 
 iframe
 dir
@@ -137,11 +137,11 @@ file
 
 
 
-2011-01-06T21:13:32.000000Z
-f304f5cfd32229c9a0635b8cc58db546
-2010-12-08T19:42:23.000000Z
-528
-nicksantos@google.com
+2011-01-14T03:35:35.000000Z
+ca442dd72b2db53634598ede541eae26
+2011-01-10T21:22:44.000000Z
+589
+lilyxia@google.com
 has-props
 
 
@@ -163,7 +163,7 @@ has-props
 
 
 
-13175
+14012
 
 cssom_test_link_1.css
 file
