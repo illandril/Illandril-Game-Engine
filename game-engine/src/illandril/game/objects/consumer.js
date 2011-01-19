@@ -1,3 +1,9 @@
+/**
+ * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
+ * See https://github.com/illandril/Illandril-Game-Engine
+ */
+
+
 goog.provide("illandril.game.objects.Consumer");
 
 goog.require("goog.object");

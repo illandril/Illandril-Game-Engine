@@ -1,3 +1,8 @@
+/**
+ * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
+ * See https://github.com/illandril/Illandril-Game-Engine
+ */
+
 goog.provide("illandril.math.Bounds");
 
 goog.require("goog.math.Vec2");

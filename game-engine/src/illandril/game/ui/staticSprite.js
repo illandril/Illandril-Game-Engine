@@ -1,3 +1,9 @@
+/**
+ * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
+ * See https://github.com/illandril/Illandril-Game-Engine
+ */
+
+
 goog.provide("illandril.game.ui.StaticSprite");
 
 goog.require("goog.math.Vec2");

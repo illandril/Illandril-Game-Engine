@@ -1,3 +1,13 @@
+/**
+ * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
+ * See https://github.com/illandril/Illandril-Game-Engine
+ */
+
+/**
+ * @fileoverview Logging helpers (and possibly more in the future) for all Illandril projects
+ */
+
+
 goog.provide( "illandril" );
 
 goog.require("goog.debug.Logger");
@@ -5,35 +15,21 @@ goog.require("goog.debug.Logger");
 illandril = illandril || {};
 
 /**
- * @define {boolean}
+ * @define {boolean} If false, all logging calls are replaced with empty functions to improve performance
  */
 illandril.DEBUG = true;
 
-illandril.loggers = {};
-
-illandril.getLogger = function( namespace ) {
-  var logger = illandril.loggers[namespace];
-  if ( logger == null ) {
-    if ( illandril.DEBUG ) {
-      logger = illandril.loggers[namespace] = goog.debug.Logger.getLogger( "illandril." + namespace );
-    } else {
-      logger = illandril.loggers[namespace] = {
-        finest: function(){},
-        finer: function(){},
-        fine: function(){},
-        config: function(){},
-        info: function(){},
-        warning: function(){},
-        severe: function(){},
-        shout: function(){}
-      };
-    }
-  }
-  return logger;
-}
-
-
 if ( illandril.DEBUG ) {
+  /**
+   * Gets a logger for the specified namespace.
+   * @param {string} namespace The namespace (without "illandril.") of the code snippit the logger is for
+   * @return {goog.debug.Logger} logger
+   */
+  illandril.getLogger = function( namespace ) {
+    return goog.debug.Logger.getLogger( "illandril." + namespace );
+  }
+  
+  // Exposes some logging controls
   goog.require("goog.events");
   goog.require("goog.events.EventType");
   goog.require("goog.debug.DivConsole");
