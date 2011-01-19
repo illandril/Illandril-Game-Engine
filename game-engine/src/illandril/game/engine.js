@@ -39,6 +39,7 @@ illandril.game.Engine = {
   resumeOnLoadingFinish: true,
   paused: true,
   lagPaused: false,
+  lagCount: 0,
   allowLagPause: true,
   loading: 0,
   maps: [],
@@ -50,6 +51,7 @@ illandril.game.Engine = {
   TARGET_TIMEOUT: 1, // About 30 FPS
   MINIMUM_TIMEOUT: 1, // Make sure computer has time to respond to other programs in case the game is causing lag
   LAG_TIMEOUT: 100, // About 10 FPS
+  TICKS_FOR_LAG: 2, // About 10 FPS
   init: function( gameContainerID, mapSrc ) {
     illandril.game.Engine.startTime = new Date();
     
@@ -303,8 +305,13 @@ illandril.game.Engine = {
     illandril.game.Engine.controls.handleKeyEvents( tickTime );
     
     if ( !illandril.game.Engine.paused && illandril.game.Engine.allowLagPause && tickTime > illandril.game.Engine.LAG_TIMEOUT ) {
-      illandril.game.Engine.lagPaused = true;
-      illandril.game.Engine.pause();
+      lagCount++;
+      if ( lagCount >= illandril.game.Engine.TICKS_FOR_LAG ) {
+        illandril.game.Engine.lagPaused = true;
+        illandril.game.Engine.pause();
+      }
+    } else {
+      lagCount = 0;
     }
     
     if ( illandril.game.Engine.paused ) {
