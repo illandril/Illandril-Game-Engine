@@ -280,6 +280,28 @@ illandril.game.Engine = {
       }
     }
     
+    for ( var y = 752; y >= 100; y -= 34 ) {
+      var t = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 100, y ), new goog.math.Vec2( 32, 32 ) ), null, 50 );
+      t.blocksFromBottom = function() { return false; }
+      t.blocksFromLeft = function() { return false; }
+      t.blocksFromRight = function() { return false; }
+    }
+    
+    var b = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 200, 730 ), new goog.math.Vec2( 32, 32 ) ), null, 50 );
+    b.blocksFromTop = function() { return false; }
+    b.blocksFromLeft = function() { return false; }
+    b.blocksFromRight = function() { return false; }
+
+    var l = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300, 752 ), new goog.math.Vec2( 32, 32 ) ), null, 50 );
+    l.blocksFromTop = function() { return false; }
+    l.blocksFromBottom = function() { return false; }
+    l.blocksFromRight = function() { return false; }
+
+    var r = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 400, 752 ), new goog.math.Vec2( 32, 32 ) ), null, 50 );
+    r.blocksFromTop = function() { return false; }
+    r.blocksFromBottom = function() { return false; }
+    r.blocksFromLeft = function() { return false; }
+    
     var moveUp = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( 0, -1 ) ); }, "Move Up", true );
     var moveDown = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( 0, 1 ) ); }, "Move Down", true );
     var moveLeft = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( -1, 0 ) ); }, "Move Left", true );

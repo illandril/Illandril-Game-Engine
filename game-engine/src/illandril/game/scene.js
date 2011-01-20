@@ -376,7 +376,7 @@ function checkForCollisions( movingObject, movement, objectList ) {
     var collision = bounds.intersects( nearbyObject.getBounds() );
     if ( collision ) {
       collidingObjects.push( nearbyObject );
-      if ( movingObject.canBeBlocked() && movingObject.canBeBlockedBy( nearbyObject ) && nearbyObject.blocks( movingObject ) ) {
+      if ( movingObject.isBlockingCollision( nearbyObject, movement ) ) {
         hasBlockingCollision = true;
         if ( shallowXMovement == null ) {
           shallowXMovement = new goog.math.Vec2( movement.x / 10, 0 );

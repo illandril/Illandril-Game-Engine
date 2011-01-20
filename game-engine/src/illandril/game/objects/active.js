@@ -40,6 +40,8 @@ loop {
 
 illandril.game.objects.Active.prototype.isActive = true;
 
+illandril.game.objects.Active.prototype.grounded = { x: 0, y: 0 };
+
 illandril.game.objects.Active.prototype.setSpeed = function( speed ) {
   this.speed = speed;
   this.squaredSpeed = speed * speed;
@@ -114,7 +116,7 @@ illandril.game.objects.Active.prototype.think = function( tickSeconds ) {
         actualVelocityChange.y = 0;
       }
     }
-    if ( this.jumpY && ( this.internalVelocity.y == 0 && this.velocity.y == 0 && desiredInternalVelocityChange.y < 0 ) ) {
+    if ( this.jumpY && ( this.grounded.y == 1 && desiredInternalVelocityChange.y < 0 ) ) {
       actualVelocityChange.y = -2 * this.speed;
     }
     this.internalVelocity.add( actualVelocityChange );
@@ -133,7 +135,8 @@ illandril.game.objects.Active.prototype.think = function( tickSeconds ) {
   if ( Math.abs( this.internalVelocity.y ) < illandril.game.objects.GameObject.GRANULARITY ) {
     this.internalVelocity.y = 0;
   }
-  
+  this.grounded.x = 0;
+  this.grounded.y = 0;
   this.setDirection( this.getVelocity() );
 };
 
@@ -150,11 +153,25 @@ illandril.game.objects.Active.prototype.applyFriction = function( tickSeconds ) 
 };
 
 illandril.game.objects.Active.prototype.blockedY = function() {
+  if ( this.grounded.y == 0 ) {
+    if ( this.velocity.y + this.internalVelocity.y > 0 ) {
+      this.grounded.y = 1;
+    } else {
+      this.grounded.y = -1;
+    }
+  }
   this.velocity.y = 0;
   this.internalVelocity.y = 0;
 };
 
 illandril.game.objects.Active.prototype.blockedX = function() {
+  if ( this.grounded.x == 0 ) {
+    if ( this.velocity.x + this.internalVelocity.x > 0 ) {
+      this.grounded.x = 1;
+    } else {
+      this.grounded.x = -1;
+    }
+  }
   this.velocity.x = 0;
   this.internalVelocity.x = 0;
 };
