@@ -58,7 +58,7 @@ illandril.game.objects.Active.prototype.setDesiredMovement = function( direction
 illandril.game.objects.Active.prototype.think = function( tickSeconds ) {
   var desiredInternalVelocityChange = null;
   if ( this.desiredMovement != null ) {
-    desiredInternalVelocityChange = this.desiredMovement.clone();
+    desiredInternalVelocityChange = this.desiredMovement;
     this.desiredMovement = null;
     if ( desiredInternalVelocityChange.squaredMagnitude() != 1 ) {
       desiredInternalVelocityChange.normalize();
@@ -181,7 +181,7 @@ illandril.game.objects.Active.prototype.getVelocity = function() {
   //if ( retVelo.squaredMagnitude() > 1 ) {
   //  retVelo.normalize();
   //}
-  return this.velocity.clone().add( this.internalVelocity );
+  return retVelo.add( this.internalVelocity );
 };
 
 illandril.game.objects.Active.prototype.isMoving = function() {
