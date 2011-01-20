@@ -242,14 +242,12 @@ illandril.game.Scene.prototype.getObjects = function( bounds ) {
   if ( bounds == null ) {
     return this.objects;
   }
-  var topLeft = bounds.getTopLeft();
-  var bottomRight = topLeft.clone().add( bounds.getSize() );
-  var bucketXY = this.getBucketXY( topLeft );
-  var bucketX = bucketXY.x - 1;
-  var bucketY = bucketXY.y - 1;
-  var bucketXYMax = this.getBucketXY( bottomRight );
-  var bucketXMax = bucketXYMax.x + 1;
-  var bucketYMax = bucketXYMax.y + 1;
+  var bucketXYTL = this.getBucketXY( new goog.math.Vec2( bounds.getLeft(), bounds.getTop() ) );
+  var bucketXYBR = this.getBucketXY( new goog.math.Vec2( bounds.getRight(), bounds.getBottom() ) );
+  var bucketX = bucketXYTL.x - 1;
+  var bucketY = bucketXYBR.y - 1;
+  var bucketXMax = bucketXYBR.x + 1;
+  var bucketYMax = bucketXYTL.y + 1;
   var containedObjects = [];
   for( var x = bucketX; x <= bucketXMax; x += 1 ) {
     var xBucketContainer = this.buckets[x];

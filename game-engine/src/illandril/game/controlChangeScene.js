@@ -24,6 +24,6 @@ goog.inherits( illandril.game.ControlChangeScene, illandril.game.Scene );
 illandril.game.ControlChangeScene.prototype.addControl = function( controls, action ) {
   var newEntry = new illandril.game.objects.menus.ControlEntry( this, controls, action, this.nextCenter, this.font, 0 );
   var height = this.font.getLetter( action.name.charAt(0) ).height;
-  this.nextCenter = new goog.math.Vec2( this.nextCenter.x, this.nextCenter.y + height + this.padding );
+  this.nextCenter = new goog.math.Vec2( this.nextCenter.x, this.nextCenter.y - height - this.padding );
 };
 

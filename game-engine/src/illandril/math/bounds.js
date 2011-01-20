@@ -28,12 +28,8 @@ illandril.math.Bounds.prototype.getCenter = function() {
   return this.center.clone();
 };
 
-illandril.math.Bounds.prototype.getTopLeft = function() {
-  return new goog.math.Vec2( this.getLeft(), this.getTop() );
-};
-
 illandril.math.Bounds.prototype.getTop = function() {
-  return this.center.y - this.halfSize.y;
+  return this.center.y + this.halfSize.y;
 };
 
 illandril.math.Bounds.prototype.getLeft = function() {
@@ -41,7 +37,7 @@ illandril.math.Bounds.prototype.getLeft = function() {
 };
 
 illandril.math.Bounds.prototype.getBottom = function() {
-  return this.center.y + this.halfSize.y;
+  return this.center.y - this.halfSize.y;
 };
 
 illandril.math.Bounds.prototype.getRight = function() {
@@ -62,8 +58,8 @@ illandril.math.Bounds.prototype.toString = function() {
 };
 
 illandril.math.Bounds.prototype.intersects = function( otherBounds ) {
-  if ( this.getTop() >= otherBounds.getBottom() ) { return false; }
-  if ( this.getBottom() <= otherBounds.getTop() ) { return false; }
+  if ( this.getTop() <= otherBounds.getBottom() ) { return false; }
+  if ( this.getBottom() >= otherBounds.getTop() ) { return false; }
   if ( this.getRight() <= otherBounds.getLeft() ) { return false; }
   if ( this.getLeft() >= otherBounds.getRight() ) { return false; }
   return true;

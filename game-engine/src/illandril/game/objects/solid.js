@@ -31,14 +31,14 @@ illandril.game.objects.Solid.prototype.isBlockingCollision = function( nearbyObj
   }
   if ( nearbyObject.hasDirectionalBlockingRules() ) {
     var nearbyBounds = nearbyObject.getBounds();
-    if ( movement.y > 0 && nearbyObject.blocksFromTop() ) {
+    if ( movement.y < 0 && nearbyObject.blocksFromTop() ) {
         // We're starting above the other object
-        if ( this.bounds.getBottom() < nearbyBounds.getTop() ) {
+        if ( this.bounds.getBottom() > nearbyBounds.getTop() ) {
             return true;
         }
-    } else if ( movement.y < 0 && nearbyObject.blocksFromBottom() ) {
+    } else if ( movement.y > 0 && nearbyObject.blocksFromBottom() ) {
         // We're starting below the other object
-        if ( this.bounds.getTop() > nearbyBounds.getBottom() ) {
+        if ( this.bounds.getTop() < nearbyBounds.getBottom() ) {
             return true;
         }
     }

@@ -56,13 +56,13 @@ illandril.game.ui.BasicDirectionalAnimation.prototype.getSprite = function( game
       direction = illandril.game.ui.BasicDirectionalAnimation.Direction.W;
     }
   } else if ( magY > 2 * magX ) {
-    if ( directionVector.y > 0 ) {
+    if ( directionVector.y < 0 ) {
       direction = illandril.game.ui.BasicDirectionalAnimation.Direction.S;
     } else {
       direction = illandril.game.ui.BasicDirectionalAnimation.Direction.N;
     }
   } else {
-    if ( directionVector.y > 0 ) {
+    if ( directionVector.y < 0 ) {
       if ( directionVector.x > 0 ) {
         direction = illandril.game.ui.BasicDirectionalAnimation.Direction.SE;
       } else {

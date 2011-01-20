@@ -116,8 +116,8 @@ illandril.game.objects.Active.prototype.think = function( tickSeconds ) {
         actualVelocityChange.y = 0;
       }
     }
-    if ( this.jumpY && ( this.grounded.y == 1 && desiredInternalVelocityChange.y < 0 ) ) {
-      actualVelocityChange.y = -2 * this.speed;
+    if ( this.jumpY && ( this.grounded.y == -1 && desiredInternalVelocityChange.y > 0 ) ) {
+      actualVelocityChange.y = 2 * this.speed;
     }
     this.internalVelocity.add( actualVelocityChange );
   }

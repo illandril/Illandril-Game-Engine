@@ -88,10 +88,9 @@ illandril.game.ui.Viewport.prototype.update = function( tickTime, gameTime ) {
   var shownObjects = [];
   var objectsToShow = this.scene.getObjects( this.zoomedBounds );
   if ( this.movedSinceLastUpdate ) {
-    var topLeft = this.zoomedBounds.getTopLeft();
     this.movedSinceLastUpdate = false;
-    this.domObject.style.left = ( -1 * Math.round( topLeft.x ) ) + "px";
-    this.domObject.style.top = ( -1 * Math.round( topLeft.y ) ) + "px";
+    this.domObject.style.left = ( -1 * Math.round( this.zoomedBounds.getLeft() ) ) + "px";
+    this.domObject.style.top = ( Math.round( this.zoomedBounds.getTop() ) ) + "px";
   }
   for ( var idx = 0; idx < objectsToShow.length; idx++ ) {
     var obj = objectsToShow[idx];
@@ -107,7 +106,7 @@ illandril.game.ui.Viewport.prototype.update = function( tickTime, gameTime ) {
       var moved = resized || objDom.savedStyle.top != top || objDom.savedStyle.left != left
       if ( moved ) {
         objDom.style.left = left + "px";
-        objDom.style.top = top + "px";
+        objDom.style.top = (-1 * top ) + "px";
         objDom.savedStyle.left = left;
         objDom.savedStyle.top = top;
       }

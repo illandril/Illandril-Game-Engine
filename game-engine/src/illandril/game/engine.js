@@ -127,7 +127,7 @@ illandril.game.Engine = {
     new illandril.game.ui.Viewport( illandril.game.Engine.container, menuScene, new goog.math.Vec2( 500, 500 ) );
     new illandril.game.objects.Player( menuScene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 0, 0 ), new goog.math.Vec2( 0, 0 ) ), null, 0 );
 
-    illandril.game.Engine.controlScene = new illandril.game.ControlChangeScene( "Controls Menu", new goog.math.Vec2( 0, -200 ), font );
+    illandril.game.Engine.controlScene = new illandril.game.ControlChangeScene( "Controls Menu", new goog.math.Vec2( 0, 200 ), font );
     new illandril.game.ui.Viewport( illandril.game.Engine.container, illandril.game.Engine.controlScene, new goog.math.Vec2( 500, 500 ) );
     new illandril.game.objects.Player( illandril.game.Engine.controlScene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 0, 0 ), new goog.math.Vec2( 0, 0 ) ), null, 0 );
     
@@ -135,20 +135,20 @@ illandril.game.Engine = {
     illandril.game.Engine.controls.registerAction( toMenu, goog.events.KeyCodes.ESC, false, false, false );
     
     var loadedScene = new illandril.game.Scene();
-    loadedScene.setGravity( new goog.math.Vec2( 0, 400 ) );
-    new illandril.game.objects.menus.MenuEntry( menuScene, "Test Menu 1", new goog.math.Vec2( 0, -200 ), font, 0 );
-    new illandril.game.objects.menus.MenuEntry( menuScene, "Test Menu 2", new goog.math.Vec2( 0, -180 ), font, 0 );
+    loadedScene.setGravity( new goog.math.Vec2( 0, -400 ) );
+    new illandril.game.objects.menus.MenuEntry( menuScene, "Test Menu 1", new goog.math.Vec2( 0, 200 ), font, 0 );
+    new illandril.game.objects.menus.MenuEntry( menuScene, "Test Menu 2", new goog.math.Vec2( 0, 180 ), font, 0 );
     illandril.game.Engine.controlScene.addControl( illandril.game.Engine.controls, toMenu );
     illandril.game.Engine.controlScene.addControl( illandril.game.Engine.controls, pause );
     illandril.game.Engine.controlScene.addControl( illandril.game.Engine.controls, debugFPS );
     illandril.game.Engine.controlScene.addControl( illandril.game.Engine.controls, debugObjectCount );
     
-    var controlsMenu = new illandril.game.objects.menus.MenuEntry( menuScene, "Controls", new goog.math.Vec2( 0, 180 ), font, 5 );
+    var controlsMenu = new illandril.game.objects.menus.MenuEntry( menuScene, "Controls", new goog.math.Vec2( 0, -180 ), font, 5 );
     controlsMenu.onClick = function() {
       illandril.game.Engine.currentScene = illandril.game.Engine.controlScene;
     }
     
-    var playMenu = new illandril.game.objects.menus.MenuEntry( menuScene, "Play", new goog.math.Vec2( 0, 200 ), font, 0 );
+    var playMenu = new illandril.game.objects.menus.MenuEntry( menuScene, "Play", new goog.math.Vec2( 0, -200 ), font, 0 );
     playMenu.onClick = function() {
       illandril.game.Engine.currentScene = loadedScene;
     }
@@ -220,7 +220,7 @@ illandril.game.Engine = {
     var container = illandril.game.Engine.container;
     
     // Start for testing
-    charac = new illandril.game.objects.Player( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, -10 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.BasicDirectionalAnimation( "../graphics/generic_character.png", 20, 20, 4, 2 ), 1000 );
+    charac = new illandril.game.objects.Player( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 10 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.BasicDirectionalAnimation( "../graphics/generic_character.png", 20, 20, 4, 2 ), 1000 );
     charac.setSpeed( 100 );
     window["charac"] = charac;
     
@@ -280,30 +280,30 @@ illandril.game.Engine = {
       }
     }
     
-    for ( var y = -16; y >= -1000; y -= 32 ) {
+    for ( var y = 16; y <= 1000; y += 32 ) {
       var t = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 32, y ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 32, 256 ) ), 50 );
       t.blocksFromBottom = function() { return false; }
       t.blocksFromLeft = function() { return false; }
       t.blocksFromRight = function() { return false; }
     }
     
-    var b = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 96, -48 ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 32, 352 ) ), 50 );
+    var b = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 96, 48 ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 32, 352 ) ), 50 );
     b.blocksFromTop = function() { return false; }
     b.blocksFromLeft = function() { return false; }
     b.blocksFromRight = function() { return false; }
 
-    var l = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 160, -16 ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 0, 288 ) ), 50 );
+    var l = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 160, 16 ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 0, 288 ) ), 50 );
     l.blocksFromTop = function() { return false; }
     l.blocksFromBottom = function() { return false; }
     l.blocksFromRight = function() { return false; }
 
-    var r = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 224, -16 ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 352, 288 ) ), 50 );
+    var r = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 224, 16 ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 352, 288 ) ), 50 );
     r.blocksFromTop = function() { return false; }
     r.blocksFromBottom = function() { return false; }
     r.blocksFromLeft = function() { return false; }
     
-    var moveUp = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( 0, -1 ) ); }, "Move Up", true );
-    var moveDown = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( 0, 1 ) ); }, "Move Down", true );
+    var moveUp = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( 0, 1 ) ); }, "Move Up", true );
+    var moveDown = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( 0, -1 ) ); }, "Move Down", true );
     var moveLeft = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( -1, 0 ) ); }, "Move Left", true );
     var moveRight = new illandril.game.ui.Action( function( tickTime ) { if ( illandril.game.Engine.paused ) { return; } charac.setDesiredMovement( new goog.math.Vec2( 1, 0 ) ); }, "Move Right", true );
     scene.getControls().registerAction( moveUp, goog.events.KeyCodes.W, false, false, false );
