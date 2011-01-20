@@ -220,7 +220,7 @@ illandril.game.Engine = {
     var container = illandril.game.Engine.container;
     
     // Start for testing
-    charac = new illandril.game.objects.Player( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 15, 15 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.BasicDirectionalAnimation( "../graphics/generic_character.png", 20, 20, 4, 2 ), 1000 );
+    charac = new illandril.game.objects.Player( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, -10 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.BasicDirectionalAnimation( "../graphics/generic_character.png", 20, 20, 4, 2 ), 1000 );
     charac.setSpeed( 100 );
     window["charac"] = charac;
     
@@ -280,24 +280,24 @@ illandril.game.Engine = {
       }
     }
     
-    for ( var y = 752; y >= 100; y -= 34 ) {
-      var t = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 100, y ), new goog.math.Vec2( 32, 32 ) ), null, 50 );
+    for ( var y = -16; y >= -1000; y -= 32 ) {
+      var t = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 32, y ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 32, 256 ) ), 50 );
       t.blocksFromBottom = function() { return false; }
       t.blocksFromLeft = function() { return false; }
       t.blocksFromRight = function() { return false; }
     }
     
-    var b = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 200, 730 ), new goog.math.Vec2( 32, 32 ) ), null, 50 );
+    var b = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 96, -48 ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 32, 352 ) ), 50 );
     b.blocksFromTop = function() { return false; }
     b.blocksFromLeft = function() { return false; }
     b.blocksFromRight = function() { return false; }
 
-    var l = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300, 752 ), new goog.math.Vec2( 32, 32 ) ), null, 50 );
+    var l = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 160, -16 ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 0, 288 ) ), 50 );
     l.blocksFromTop = function() { return false; }
     l.blocksFromBottom = function() { return false; }
     l.blocksFromRight = function() { return false; }
 
-    var r = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 400, 752 ), new goog.math.Vec2( 32, 32 ) ), null, 50 );
+    var r = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 224, -16 ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 352, 288 ) ), 50 );
     r.blocksFromTop = function() { return false; }
     r.blocksFromBottom = function() { return false; }
     r.blocksFromLeft = function() { return false; }
