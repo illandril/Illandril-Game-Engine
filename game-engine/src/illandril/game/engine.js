@@ -48,8 +48,8 @@ illandril.game.Engine = {
   lastScene: null,
   startTime: null,
   controls: null,
-  TARGET_TIMEOUT: 1, // About 30 FPS
-  MINIMUM_TIMEOUT: 1, // Make sure computer has time to respond to other programs in case the game is causing lag
+  TARGET_TIMEOUT: 33, // 16 - about 60 FPS; 33 - about 30 FPS
+  MINIMUM_TIMEOUT: 2, // Make sure computer has time to respond to other programs in case the game is causing lag
   LAG_TIMEOUT: 100, // About 10 FPS
   TICKS_FOR_LAG: 2, // About 10 FPS
   init: function( gameContainerID, mapSrc ) {
