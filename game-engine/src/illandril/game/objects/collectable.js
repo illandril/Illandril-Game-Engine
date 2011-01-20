@@ -24,7 +24,7 @@ goog.inherits( illandril.game.objects.Collectable, illandril.game.objects.GameOb
 goog.object.extend( illandril.game.objects.Collectable.prototype, illandril.game.objects.Solid.prototype );
 goog.object.extend( illandril.game.objects.Collectable.prototype, illandril.game.objects.Floater.prototype );
 
-illandril.game.objects.Collectable.prototype.blocks = function( otherObject ) {
+illandril.game.objects.Collectable.prototype.canBlock = function( otherObject ) {
   return false;
 };
 

@@ -29,5 +29,5 @@ illandril.game.objects.Car.prototype.think = function( tick ) {
 };
 
 illandril.game.objects.Car.prototype.canBeBlocked = function() { return false; }
-illandril.game.objects.Car.prototype.blocks = function() { return false; }
+illandril.game.objects.Car.prototype.canBlock = function() { return false; }
 

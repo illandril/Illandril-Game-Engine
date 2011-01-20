@@ -22,7 +22,7 @@ illandril.game.objects.Consumer = function( scene, bounds, bg, zIndex, type ) {
 goog.inherits( illandril.game.objects.Consumer, illandril.game.objects.GameObject );
 goog.object.extend( illandril.game.objects.Consumer.prototype, illandril.game.objects.Solid.prototype );
 
-illandril.game.objects.Consumer.prototype.blocks = function( otherObject ) {
+illandril.game.objects.Consumer.prototype.canBlock = function( otherObject ) {
   return false;
 };
 
