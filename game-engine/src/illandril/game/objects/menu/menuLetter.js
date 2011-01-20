@@ -8,6 +8,7 @@ goog.provide("illandril.game.objects.menus.MenuLetter");
 
 goog.require("goog.object");
 goog.require("illandril.game.objects.GameObject");
+goog.require("illandril.game.objects.Floater");
 
 /**
  * @constructor
@@ -18,10 +19,12 @@ goog.require("illandril.game.objects.GameObject");
  */
 illandril.game.objects.menus.MenuLetter = function( scene, bounds, font, letter, menuEntry, zIndex ) {
   illandril.game.objects.GameObject.call( this, scene, bounds, font, zIndex );
+  illandril.game.objects.Floater.call( this );
   this.letter = letter;
   this.menuEntry = menuEntry;
 };
 goog.inherits( illandril.game.objects.menus.MenuLetter, illandril.game.objects.GameObject );
+goog.object.extend( illandril.game.objects.menus.MenuLetter.prototype, illandril.game.objects.Floater.prototype );
 
 illandril.game.objects.menus.MenuLetter.prototype.getState = function() {
   return this.menuEntry.getState();

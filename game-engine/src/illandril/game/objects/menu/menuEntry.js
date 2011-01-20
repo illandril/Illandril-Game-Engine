@@ -9,6 +9,7 @@ goog.provide("illandril.game.objects.menus.MenuEntry");
 goog.require("goog.object");
 goog.require("illandril.game.objects.Active");
 goog.require("illandril.game.objects.GameObject");
+goog.require("illandril.game.objects.Floater");
 goog.require("illandril.game.objects.menus.MenuLetter");
 goog.require("illandril.game.ui.Font");
 
@@ -23,6 +24,7 @@ illandril.game.objects.menus.MenuEntry = function( scene, text, center, font, zI
   // 0x0 because the letters are the actual objects
   illandril.game.objects.GameObject.call( this, scene, illandril.math.Bounds.fromCenter( center, new goog.math.Vec2( 0, 0 ) ), null, zIndex );
   illandril.game.objects.Active.call( this );
+  illandril.game.objects.Floater.call( this );
   this.state = { active: false, down: false, hover: false };
   this.font = font;
   this.center = center;
@@ -32,6 +34,7 @@ illandril.game.objects.menus.MenuEntry = function( scene, text, center, font, zI
 };
 goog.inherits( illandril.game.objects.menus.MenuEntry, illandril.game.objects.GameObject );
 goog.object.extend( illandril.game.objects.menus.MenuEntry.prototype, illandril.game.objects.Active.prototype );
+goog.object.extend( illandril.game.objects.menus.MenuEntry.prototype, illandril.game.objects.Floater.prototype );
 
 illandril.game.objects.menus.MenuEntry.prototype.setText = function( text ) {
   this.text = text;

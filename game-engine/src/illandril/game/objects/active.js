@@ -185,7 +185,7 @@ illandril.game.objects.Active.prototype.getVelocity = function() {
 };
 
 illandril.game.objects.Active.prototype.isMoving = function() {
-  return this.velocity.x != 0 || this.velocity.y != 0;
+  return this.velocity.x != 0 || this.velocity.y != 0 || this.internalVelocity.x != 0 || this.internalVelocity.y != 0;
 };
 
 illandril.game.objects.Active.prototype.moveBy = function( direction ) {
