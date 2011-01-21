@@ -68,7 +68,7 @@ illandril.game.Engine.prototype.initControls = function() {
   this.debugFPSAction = new illandril.game.ui.Action( function() { if ( !self.paused ) { self.debugFPS = !self.debugFPS; } }, "Debug FPS", false );
   this.controls.registerAction( this.debugFPSAction, goog.events.KeyCodes.F8, false, false, false );
   
-  this.debugObjectCountAction = new illandril.game.ui.Action( function() { if ( !self.paused ) { self.debugObjectCount = !self.debugObjectCount; } }, "Debug Object Count", false );
+  this.debugObjectCountAction = new illandril.game.ui.Action( function() { if ( !self.paused ) { self.debug.objectCount = !self.debug.objectCount; } }, "Debug Object Count", false );
   this.controls.registerAction( this.debugObjectCountAction, goog.events.KeyCodes.F7, false, false, false );
 };
 

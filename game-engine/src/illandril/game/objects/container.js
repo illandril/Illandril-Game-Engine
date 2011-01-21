@@ -24,17 +24,19 @@ illandril.game.objects.Container = function() {
 };
 
 illandril.game.objects.Container.prototype.add = function( object ) {
-  this.objects[object.id] = object;
-  if ( this.objectsArrayCache != null ) {
-    this.objectsArrayCache.push( object );
+  if ( this.objects[object.id] != object ) {
+    this.objects[object.id] = object;
+    if ( this.objectsArrayCache != null ) {
+      this.objectsArrayCache.push( object );
+    }
   }
-  if ( object.isActive ) {
+  if ( object.isActive && this.activeObjects[object.id] != object ) {
     this.activeObjects[object.id] = object;
     if ( this.activeObjectsArrayCache != null ) {
       this.activeObjectsArrayCache.push( object );
     }
   }
-  if ( object.isSolid ) {
+  if ( object.isSolid && this.solidObjects[object.id] != object ) {
     this.solidObjects[object.id] = object;
     if ( this.solidObjectsArrayCache != null ) {
       this.solidObjectsArrayCache.push( object );

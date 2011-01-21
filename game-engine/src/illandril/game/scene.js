@@ -200,6 +200,10 @@ illandril.game.Scene.prototype._getNearbySolidObjects = function( bucketXY ) {
  * @param {illandril.game.objects.GameObject} gameObject The object to add to the scene
  */
 illandril.game.Scene.prototype.addObject = function( gameObject ) {
+  if ( gameObject.scene != null ) {
+    gameObject.scene.removeObject( gameObject );
+  }
+  gameObject.scene = this;
   this.objects.add( gameObject );
   this.objectMoved( gameObject );
   if ( gameObject.isPlayer ) {
@@ -276,11 +280,13 @@ illandril.game.Scene.prototype.objectMoved = function( gameObject ) {
   }
   var oldBucket = gameObject.bucket;
   var newBucket = this.getBucket( gameObject.getPosition() );
-  if ( oldBucket != null && oldBucket != newBucket ) {
-    oldBucket.remove( gameObject );
+  if ( oldBucket != newBucket ) {
+    if ( oldBucket != null ) {
+      oldBucket.remove( gameObject );
+    }
+    newBucket.add( gameObject );
+    gameObject.bucket = newBucket;
   }
-  newBucket.add( gameObject );
-  gameObject.bucket = newBucket;
   this.updateViewports();
 };
 
@@ -369,7 +375,7 @@ function checkForCollisions( movingObject, movement, objectList ) {
   var collidingObjects = [];
   for ( var idx = 0; idx < objectList.length && stillMoving; idx++ ) {
     var nearbyObject = objectList[idx];
-    if ( movingObject == nearbyObject || !( movingObject.canCollideWith( nearbyObject ) || nearbyObject.canCollideWith( movingObject ) || movingObject.canBlock( nearbyObject ) || nearbyObject.canBlock( movingObject ) ) ) {
+    if ( movingObject == nearbyObject || nearbyObject.scene != movingObject.scene || !( movingObject.canCollideWith( nearbyObject ) || nearbyObject.canCollideWith( movingObject ) || movingObject.canBlock( nearbyObject ) || nearbyObject.canBlock( movingObject ) ) ) {
       continue;
     }
     var collision = bounds.intersects( nearbyObject.getBounds() );

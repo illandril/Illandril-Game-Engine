@@ -25,6 +25,7 @@ illandril.game.ui.Viewport = function( container, scene, size ) {
   this.buildDOMContainers( container, size );
   this.hide();
   this.scene.attachViewport( this );
+  this.lastClean = 0;
 };
 
 illandril.game.ui.Viewport.prototype.buildDOMContainers = function( container, size ) {
@@ -180,7 +181,11 @@ illandril.game.ui.Viewport.prototype.updateBG = function( obj, objDom, gameTime 
 };
 
 illandril.game.ui.Viewport.prototype.clean = function( shownObjects, gameTime ) {
-  if ( this.domObjectsCount > ( shownObjects.length + 100 ) ) {
+  // It would be nice to be able to do this less frequently... if possible.
+  // It sucks to continually delete and re-create a dom object just for items floating near the edge of the visible area
+  // Only doing it when we have at least X extra objects doesn't work, because then we have things just sitting around that no longer exist.
+  if ( ( ( gameTime - this.lastClean ) > 50 ) && this.domObjectsCount > shownObjects.length ) {
+    this.lastClean = gameTime;
     for ( var objID in this.domObjects ) {
       var hasObj = false;
       for ( var idx = 0; idx < shownObjects.length && !hasObj; idx++ ) {

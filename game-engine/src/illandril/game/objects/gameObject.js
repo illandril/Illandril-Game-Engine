@@ -15,13 +15,12 @@ var nextGameObjectID = 0;
  */
 illandril.game.objects.GameObject = function( scene, bounds, bg, zIndex ) {
   this.id = nextGameObjectID++;
-  this.scene = scene;
   this.bounds = bounds;
   this.zIndex = zIndex;
-  this.scene.addObject( this );
   this.bg = bg;
   this.visible = true;
   this.direction = new goog.math.Vec2(0,0);
+  scene.addObject( this );
 };
 
 // We need to make sure things don't get messed up because of rounding errors

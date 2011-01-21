@@ -83,7 +83,7 @@ test.initMap = function( mapSrc, scene ) {
     var attempts = 0;
     
     while( bounds == null && attempts < 50 ) {
-      var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 200, 2 + 2 * i ), new goog.math.Vec2( 2, 2 ) );
+      var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 100 + Math.random() * 100, 64 + i * 2 ), new goog.math.Vec2( 2, 2 ) );
       if ( !scene.hasObjectIntersecting( randomBounds ) ) {
         bounds = randomBounds;
       }
@@ -104,7 +104,7 @@ test.initMap = function( mapSrc, scene ) {
   }
   
   for ( var y = 16; y <= 1000; y += 32 ) {
-    var t = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 32, y ), new goog.math.Vec2( 32, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 32, 256 ) ), 50 );
+    var t = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 16 - Math.random() * 64, y ), new goog.math.Vec2( 64, 32 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 32, 256 ) ), 50 );
     t.blocksFromBottom = function() { return false; }
     t.blocksFromLeft = function() { return false; }
     t.blocksFromRight = function() { return false; }

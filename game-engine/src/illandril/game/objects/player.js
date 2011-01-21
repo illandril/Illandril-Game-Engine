@@ -37,8 +37,7 @@ illandril.game.objects.Player.prototype.collideWith = function( otherObject ) {
   if ( otherObject instanceof illandril.game.objects.Collectable ) {
     this.scene.removeObject( otherObject );
     this.collectables.push( otherObject );
-    document.getElementById( "collectableCount" ).innerHTML = "Collectables: " + this.collectables.length;
-    this.moveTo( this.startPos );
+    document.getElementById( "collectableCount" ).innerHTML = "Collectables: " + this.collectables.length + " / " + test.mc;
   } else if ( otherObject instanceof illandril.game.objects.Car ) {
     this.moveTo( this.startPos );
     this.deaths++;
