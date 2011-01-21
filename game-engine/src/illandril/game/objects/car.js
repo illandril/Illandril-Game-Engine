@@ -7,6 +7,7 @@
 goog.provide("illandril.game.objects.Car");
 
 goog.require("goog.object");
+goog.require("illandril");
 goog.require("illandril.game.objects.Active");
 goog.require("illandril.game.objects.Solid");
 goog.require("illandril.game.objects.GameObject");

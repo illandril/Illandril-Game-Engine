@@ -7,6 +7,7 @@
 goog.provide("illandril.game.objects.Container");
 
 goog.require("goog.structs.Set");
+goog.require("illandril");
 goog.require("illandril.game.objects.Active");
 goog.require("illandril.game.objects.Solid");
 

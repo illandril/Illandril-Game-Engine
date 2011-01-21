@@ -6,6 +6,7 @@
 
 goog.provide("illandril.game.objects.Active");
 
+goog.require("illandril");
 goog.require("illandril.game.objects.GameObject");
 
 /**

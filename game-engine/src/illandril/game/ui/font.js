@@ -6,6 +6,7 @@
 
 goog.provide("illandril.game.ui.Font");
 
+goog.require("illandril");
 goog.require("illandril.game.ui.Letter");
 goog.require("illandril.game.ui.SpriteSheet");
 

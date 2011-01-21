@@ -7,10 +7,11 @@
 goog.provide("illandril.game.Scene");
 
 goog.require("goog.math.Vec2");
-goog.require("illandril.math.Bounds");
+goog.require("illandril");
 goog.require("illandril.game.objects.GameObject");
 goog.require("illandril.game.objects.Container");
 goog.require("illandril.game.ui.Controls");
+goog.require("illandril.math.Bounds");
 
 
 /**

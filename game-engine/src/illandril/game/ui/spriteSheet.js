@@ -6,6 +6,8 @@
 
 goog.provide("illandril.game.ui.SpriteSheet");
 
+goog.require("illandril");
+
 /**
  * @constructor
  */

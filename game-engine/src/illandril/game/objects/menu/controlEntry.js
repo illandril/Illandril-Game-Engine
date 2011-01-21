@@ -7,6 +7,7 @@
 goog.provide("illandril.game.objects.menus.ControlEntry");
 
 goog.require("goog.object");
+goog.require("illandril");
 goog.require("illandril.game.objects.menus.MenuEntry");
 
 /**

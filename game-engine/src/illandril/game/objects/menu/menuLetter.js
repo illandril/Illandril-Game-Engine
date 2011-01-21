@@ -7,6 +7,7 @@
 goog.provide("illandril.game.objects.menus.MenuLetter");
 
 goog.require("goog.object");
+goog.require("illandril");
 goog.require("illandril.game.objects.GameObject");
 goog.require("illandril.game.objects.Floater");
 

@@ -6,6 +6,8 @@
 
 goog.provide("illandril.game.ui.Action");
 
+goog.require("illandril");
+
 /**
  * @param {Function} fn The function to execute when this action occurs
  * @param {string} name The end-user facing name of the action

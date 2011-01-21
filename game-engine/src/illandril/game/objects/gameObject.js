@@ -7,6 +7,7 @@
 goog.provide("illandril.game.objects.GameObject");
 
 goog.require("goog.math.Vec2");
+goog.require("illandril");
 
 var nextGameObjectID = 0;
 /**

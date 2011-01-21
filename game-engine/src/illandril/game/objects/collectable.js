@@ -7,6 +7,7 @@
 goog.provide("illandril.game.objects.Collectable");
 
 goog.require("goog.object")
+goog.require("illandril");
 goog.require("illandril.game.objects.GameObject");
 goog.require("illandril.game.objects.Solid");
 goog.require("illandril.game.objects.Floater");

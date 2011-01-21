@@ -6,6 +6,7 @@
 
 goog.provide("illandril.game.ui.Letter");
 
+goog.require("illandril");
 
 /**
  * @constructor

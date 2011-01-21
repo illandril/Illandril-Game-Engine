@@ -6,6 +6,8 @@
 
 goog.provide("illandril.game.util.Framerate");
 
+goog.require("illandril");
+
 /**
  * @constructor
  */

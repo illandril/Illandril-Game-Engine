@@ -7,6 +7,7 @@
 goog.provide("illandril.game.ui.StaticSprite");
 
 goog.require("goog.math.Vec2");
+goog.require("illandril");
 goog.require("illandril.game.ui.SpriteSheet");
 
 /**

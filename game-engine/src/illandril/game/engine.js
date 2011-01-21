@@ -13,9 +13,8 @@ goog.require("goog.net.EventType");
 goog.require("goog.net.XhrIo");
 goog.require("goog.ui.Dialog");
 goog.require("goog.ui.KeyboardShortcutHandler");
-goog.require("illandril.math.Bounds");
+goog.require("illandril");
 goog.require("illandril.game.ControlChangeScene");
-goog.require("illandril.game.Scene");
 goog.require("illandril.game.objects.ActiveCollectable");
 goog.require("illandril.game.objects.Player");
 goog.require("illandril.game.objects.Wall");
@@ -25,6 +24,7 @@ goog.require("illandril.game.objects.Generator");
 goog.require("illandril.game.objects.Consumer");
 goog.require("illandril.game.objects.menus.MenuEntry");
 goog.require("illandril.game.objects.menus.ControlEntry");
+goog.require("illandril.game.Scene");
 goog.require("illandril.game.ui.Action");
 goog.require("illandril.game.ui.Controls");
 goog.require("illandril.game.ui.Font");
@@ -32,6 +32,7 @@ goog.require("illandril.game.ui.StaticSprite");
 goog.require("illandril.game.ui.BasicDirectionalAnimation");
 goog.require("illandril.game.ui.Viewport");
 goog.require("illandril.game.util.Framerate");
+goog.require("illandril.math.Bounds");
 
 illandril.game.Engine = {
   debugFPS: true,
@@ -253,9 +254,7 @@ illandril.game.Engine = {
       new illandril.game.objects.Collectable( scene, bounds, null, 0 );
     }
     */
-    move = false;
-    var totalMobs = illandril.game.Engine["mc"];
-    var highMob = totalMobs;
+    var highMob = illandril.game.Engine.mc;
     var lowMob = 0;
     for ( var i = lowMob; i < highMob; i++ ) {
       var bounds = null;
@@ -273,12 +272,12 @@ illandril.game.Engine = {
         mob.setSpeed( 50 );
         /** @this {illandril.game.objects.ActiveCollectable} */
         mob.think = function( tick ) {
-          if ( move ) {
+          if ( window["move"] ) {
             this.addVelocity( new goog.math.Vec2( Math.random() * 2 - 1, Math.random() * 2 - 1 ) );
           }
         };
       } else {
-        illandril.game.Engine["mc"]--;
+        illandril.game.Engine.mc--;
       }
     }
     
@@ -429,7 +428,6 @@ illandril.game.Engine = {
     }
   }
 };
-goog.exportSymbol( "illandril.game.Engine", illandril.game.Engine );
 goog.exportProperty( illandril.game.Engine, "init", illandril.game.Engine.init );
 goog.exportProperty( illandril.game.Engine, "pause", illandril.game.Engine.pause );
 goog.exportProperty( illandril.game.Engine, "resume", illandril.game.Engine.resume );

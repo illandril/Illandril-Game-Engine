@@ -12,6 +12,7 @@ goog.require("goog.events.KeyCodes");
 goog.require("goog.events.KeyHandler");
 goog.require("goog.events.KeyNames");
 goog.require("goog.userAgent");
+goog.require("illandril");
 
 /**
  * @constructor

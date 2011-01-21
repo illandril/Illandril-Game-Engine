@@ -6,6 +6,7 @@
 
 goog.provide("illandril.game.ui.BasicDirectionalAnimation");
 
+goog.require("illandril");
 goog.require("illandril.game.ui.SpriteSheet");
 
 /**

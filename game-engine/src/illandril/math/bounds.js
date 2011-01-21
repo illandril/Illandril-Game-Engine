@@ -6,6 +6,7 @@
 goog.provide("illandril.math.Bounds");
 
 goog.require("goog.math.Vec2");
+goog.require("illandril");
 
 /**
  * @constructor
