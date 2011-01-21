@@ -28,6 +28,10 @@ illandril.game.objects.Collectable.prototype.canBlock = function( otherObject ) 
   return false;
 };
 
+illandril.game.objects.Collectable.prototype.canCollideWith = function( otherObject ) {
+  return false;
+};
+
 illandril.game.objects.Collectable.prototype.canBeBlocked = function() {
   return false;
 };

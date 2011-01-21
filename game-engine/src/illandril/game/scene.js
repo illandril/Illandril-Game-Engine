@@ -368,7 +368,7 @@ function checkForCollisions( movingObject, movement, objectList ) {
   var collidingObjects = [];
   for ( var idx = 0; idx < objectList.length && stillMoving; idx++ ) {
     var nearbyObject = objectList[idx];
-    if ( movingObject == nearbyObject ) {
+    if ( movingObject == nearbyObject || !( movingObject.canCollideWith( nearbyObject ) || nearbyObject.canCollideWith( movingObject ) || movingObject.canBlock( nearbyObject ) || nearbyObject.canBlock( movingObject ) ) ) {
       continue;
     }
     var collision = bounds.intersects( nearbyObject.getBounds() );

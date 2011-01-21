@@ -23,9 +23,6 @@ illandril.game.objects.Solid.prototype.isBlockingCollision = function( nearbyObj
   if ( !this.canBeBlocked() ) {
     return false;
   }
-  if ( !this.canBeBlockedBy( nearbyObject ) ) {
-    return false;
-  }
   if ( !nearbyObject.canBlock( this ) ) {
     return false;
   }
@@ -68,8 +65,10 @@ illandril.game.objects.Solid.prototype.blocksFromLeft = function() { return true
 illandril.game.objects.Solid.prototype.blocksFromRight = function() { return true; };
 
 illandril.game.objects.Solid.prototype.canBlock = function( otherObject ) {
-  return  this.blocksFromTop() || this.blocksFromBottom() || this.blocksFromLeft() || this.blocksFromRight();
+  return ( this.blocksFromTop() || this.blocksFromBottom() || this.blocksFromLeft() || this.blocksFromRight() ) && otherObject.canBeBlockedBy( this );
 };
 illandril.game.objects.Solid.prototype.canBeBlocked = function() { return true; };
 illandril.game.objects.Solid.prototype.canBeBlockedBy = function( otherObject ) { return true; };
+
+illandril.game.objects.Solid.prototype.canCollideWith = function( otherObject ) { return false; };
 illandril.game.objects.Solid.prototype.collideWith = function( otherObject ) {};

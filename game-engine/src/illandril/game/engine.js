@@ -221,7 +221,8 @@ illandril.game.Engine = {
     
     // Start for testing
     charac = new illandril.game.objects.Player( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 10, 10 ), new goog.math.Vec2( 20, 20 ) ), new illandril.game.ui.BasicDirectionalAnimation( "../graphics/generic_character.png", 20, 20, 4, 2 ), 1000 );
-    charac.setSpeed( 100 );
+    charac.setSpeed( 100 );    charac.setSpeed( 100 );
+
     window["charac"] = charac;
     
     var vp = new illandril.game.ui.Viewport( container, scene, new goog.math.Vec2( 500, 500 ) );
@@ -254,14 +255,14 @@ illandril.game.Engine = {
     */
     move = false;
     var totalMobs = illandril.game.Engine["mc"];
-    var highMob = Math.round( totalMobs / 2 );
-    var lowMob = -1 * highMob;
+    var highMob = totalMobs;
+    var lowMob = 0;
     for ( var i = lowMob; i < highMob; i++ ) {
       var bounds = null;
       var attempts = 0;
       
       while( bounds == null && attempts < 50 ) {
-        var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 200, 50 * i ), new goog.math.Vec2( 2, 2 ) );
+        var randomBounds = illandril.math.Bounds.fromCenter( new goog.math.Vec2( 300 + Math.random() * 200, 2 + 2 * i ), new goog.math.Vec2( 2, 2 ) );
         if ( !scene.hasObjectIntersecting( randomBounds ) ) {
           bounds = randomBounds;
         }
@@ -269,6 +270,7 @@ illandril.game.Engine = {
       }
       if ( bounds != null ) {
         var mob = new illandril.game.objects.ActiveCollectable( scene, bounds, null, 1100 );
+        mob.setSpeed( 50 );
         /** @this {illandril.game.objects.ActiveCollectable} */
         mob.think = function( tick ) {
           if ( move ) {
