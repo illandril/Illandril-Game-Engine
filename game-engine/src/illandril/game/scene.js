@@ -338,15 +338,16 @@ illandril.game.Scene.prototype.move = function( obj, tickSeconds ) {
   var newMovement = movement;
   if ( obj.isSolid ) {
     newMovement = checkForCollisions( obj, movement, this.getNearbySolidObjects( obj.getPosition() ) );
-  }
-  if ( movement.x != 0 && newMovement.x == 0 ) {
-    obj.blockedX();
-  }
-  if ( movement.y != 0 && newMovement.y == 0 ) {
-    obj.blockedY();
-  }
-  if ( newMovement.x != 0 || newMovement.y != 0 ) {
-    obj.moveBy( newMovement );
+  } else {
+    if ( movement.x != 0 && newMovement.x == 0 ) {
+      obj.blockedX();
+    }
+    if ( movement.y != 0 && newMovement.y == 0 ) {
+      obj.blockedY();
+    }
+    if ( newMovement.x != 0 || newMovement.y != 0 ) {
+      obj.moveBy( newMovement );
+    }
   }
 };
 
@@ -447,6 +448,19 @@ function checkForCollisions( movingObject, movement, objectList ) {
       }
     }
   }
+  var newMovement = movement;
+  if ( hasBlockingCollision ) {
+    newMovement = goog.math.Vec2.difference( bounds.getCenter(), movingObject.getPosition() );
+  }
+  if ( movement.x != 0 && newMovement.x == 0 ) {
+    movingObject.blockedX();
+  }
+  if ( movement.y != 0 && newMovement.y == 0 ) {
+    movingObject.blockedY();
+  }
+  if ( newMovement.x != 0 || newMovement.y != 0 ) {
+    movingObject.moveBy( newMovement );
+  }
   if ( stillMoving ) {
     for ( var idx = 0; idx < collidingObjects.length; idx++ ) {
       if ( !hasBlockingCollision || bounds.intersects( collidingObjects[idx].getBounds() ) ) {
@@ -454,10 +468,6 @@ function checkForCollisions( movingObject, movement, objectList ) {
         collidingObjects[idx].collideWith( movingObject );
       }
     }
-  }
-  var newMovement = movement;
-  if ( hasBlockingCollision ) {
-    newMovement = goog.math.Vec2.difference( bounds.getCenter(), movingObject.getPosition() );
   }
   return newMovement;
 };
