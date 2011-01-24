@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 39
-/svn/!svn/ver/613/trunk/closure/goog/fx
+/svn/!svn/ver/624/trunk/closure/goog/fx
 END
 fx_test.html
 K 25
@@ -9,11 +9,11 @@ svn:wc:ra_dav:version-url
 V 52
 /svn/!svn/ver/454/trunk/closure/goog/fx/fx_test.html
 END
-dragdropgroup_test.html
+easing.js
 K 25
 svn:wc:ra_dav:version-url
-V 63
-/svn/!svn/ver/519/trunk/closure/goog/fx/dragdropgroup_test.html
+V 49
+/svn/!svn/ver/451/trunk/closure/goog/fx/easing.js
 END
 cssspriteanimation_test.html
 K 25
@@ -21,29 +21,17 @@ svn:wc:ra_dav:version-url
 V 68
 /svn/!svn/ver/454/trunk/closure/goog/fx/cssspriteanimation_test.html
 END
-easing.js
+dragdropgroup_test.html
 K 25
 svn:wc:ra_dav:version-url
-V 49
-/svn/!svn/ver/451/trunk/closure/goog/fx/easing.js
+V 63
+/svn/!svn/ver/519/trunk/closure/goog/fx/dragdropgroup_test.html
 END
 dragger.js
 K 25
 svn:wc:ra_dav:version-url
 V 50
-/svn/!svn/ver/613/trunk/closure/goog/fx/dragger.js
-END
-fx.js
-K 25
-svn:wc:ra_dav:version-url
-V 45
-/svn/!svn/ver/371/trunk/closure/goog/fx/fx.js
-END
-abstractdragdrop_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 66
-/svn/!svn/ver/454/trunk/closure/goog/fx/abstractdragdrop_test.html
+/svn/!svn/ver/617/trunk/closure/goog/fx/dragger.js
 END
 draglistgroup_test.html
 K 25
@@ -51,17 +39,23 @@ svn:wc:ra_dav:version-url
 V 63
 /svn/!svn/ver/371/trunk/closure/goog/fx/draglistgroup_test.html
 END
-dom.js
+abstractdragdrop_test.html
 K 25
 svn:wc:ra_dav:version-url
-V 46
-/svn/!svn/ver/451/trunk/closure/goog/fx/dom.js
+V 66
+/svn/!svn/ver/454/trunk/closure/goog/fx/abstractdragdrop_test.html
 END
-animation.js
+fx.js
 K 25
 svn:wc:ra_dav:version-url
-V 52
-/svn/!svn/ver/451/trunk/closure/goog/fx/animation.js
+V 45
+/svn/!svn/ver/371/trunk/closure/goog/fx/fx.js
+END
+cssspriteanimation.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/371/trunk/closure/goog/fx/cssspriteanimation.js
 END
 dragdropgroup.js
 K 25
@@ -69,11 +63,17 @@ svn:wc:ra_dav:version-url
 V 56
 /svn/!svn/ver/519/trunk/closure/goog/fx/dragdropgroup.js
 END
-cssspriteanimation.js
+animation.js
 K 25
 svn:wc:ra_dav:version-url
-V 61
-/svn/!svn/ver/371/trunk/closure/goog/fx/cssspriteanimation.js
+V 52
+/svn/!svn/ver/451/trunk/closure/goog/fx/animation.js
+END
+dom.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/624/trunk/closure/goog/fx/dom.js
 END
 dragscrollsupport_test.html
 K 25
@@ -109,7 +109,7 @@ dragger_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 57
-/svn/!svn/ver/613/trunk/closure/goog/fx/dragger_test.html
+/svn/!svn/ver/617/trunk/closure/goog/fx/dragger_test.html
 END
 dragdrop.js
 K 25

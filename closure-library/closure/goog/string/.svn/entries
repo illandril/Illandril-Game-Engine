@@ -1,15 +1,15 @@
 9
 
 dir
-616
+641
 http://closure-library.googlecode.com/svn/trunk/closure/goog/string
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-20T18:29:40.000000Z
+637
+pallosp@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-21T04:53:47.000000Z
-b6e3a016fc7fe2c88ac0563068ce368e
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-24T00:26:21.000000Z
+b39d8919527ff1932fc406ee9559da74
+2011-01-20T18:29:40.000000Z
+637
+pallosp@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-7689
+7253
 
 string.js
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-21T04:53:47.000000Z
-1109334b000fe7e4dc5e031cbbd5dc49
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-24T00:26:21.000000Z
+5449310fe281680f480dbb0bfbf12928
+2011-01-20T18:29:40.000000Z
+637
+pallosp@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-31624
+31352
 
 stringformat.js
 file

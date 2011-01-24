@@ -1,15 +1,15 @@
 9
 
 dir
-616
+641
 http://closure-library.googlecode.com/svn/trunk/closure/goog/dom
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-10T21:29:52.000000Z
-590
-aherrman@google.com
+2011-01-20T18:29:40.000000Z
+637
+pallosp@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -607,40 +607,6 @@ has-props
 
 4651
 
-iter_test.html
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-ecdf1ff81ce8ce6a47c36753ef4eb975
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2634
-
 iframe_test.html
 file
 
@@ -674,6 +640,40 @@ has-props
 
 
 2459
+
+iter_test.html
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+ecdf1ff81ce8ce6a47c36753ef4eb975
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2634
 
 nodeoffset.js
 file
@@ -743,40 +743,6 @@ has-props
 
 1897
 
-browserfeature.js
-file
-
-
-
-
-2010-11-12T17:41:20.000000Z
-1a6b7c61a935262f344172725a352f2d
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1565
-
 nodeiterator.js
 file
 
@@ -811,14 +777,14 @@ has-props
 
 2868
 
-xml.js
+browserfeature.js
 file
 
 
 
 
 2010-11-12T17:41:20.000000Z
-1a9d43967bc5affbdf7030a2f212e8c1
+1a6b7c61a935262f344172725a352f2d
 2010-10-18T19:19:05.000000Z
 371
 dbentley@google.com
@@ -843,41 +809,7 @@ has-props
 
 
 
-6249
-
-fontsizemonitor_test.html
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-e783dcec29fae5ab964c841ecbcdb5a1
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-8603
+1565
 
 annotate_test.html
 file
@@ -913,8 +845,73 @@ has-props
 
 6771
 
-pattern
-dir
+fontsizemonitor_test.html
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+e783dcec29fae5ab964c841ecbcdb5a1
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8603
+
+xml.js
+file
+
+
+
+
+2010-11-12T17:41:20.000000Z
+1a9d43967bc5affbdf7030a2f212e8c1
+2010-10-18T19:19:05.000000Z
+371
+dbentley@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6249
 
 a11y_test.html
 file
@@ -949,6 +946,9 @@ has-props
 
 
 2659
+
+pattern
+dir
 
 dom_quirks_test.html
 file
@@ -1500,11 +1500,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-c757b404fc647d49cf6ae3f6be174efe
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-01-24T00:26:21.000000Z
+b9dc042504291e9908f8bdb9370f81c1
+2011-01-19T19:53:10.000000Z
+631
+nicksantos@google.com
 has-props
 
 
@@ -1526,7 +1526,7 @@ has-props
 
 
 
-12892
+12922
 
 classes.js
 file
@@ -1636,11 +1636,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-9ce3a18c89843f1d428590099a05a00e
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-24T00:26:21.000000Z
+b5ab2c7f4707b892030e79c1abdd71e7
+2011-01-20T18:29:40.000000Z
+637
+pallosp@google.com
 has-props
 
 
@@ -1662,7 +1662,7 @@ has-props
 
 
 
-4415
+4413
 
 iframe.js
 file

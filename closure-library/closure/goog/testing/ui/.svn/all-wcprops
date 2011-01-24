@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 47
-/svn/!svn/ver/528/trunk/closure/goog/testing/ui
+/svn/!svn/ver/637/trunk/closure/goog/testing/ui
 END
 style_reference.html
 K 25
@@ -13,7 +13,7 @@ style_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 63
-/svn/!svn/ver/528/trunk/closure/goog/testing/ui/style_test.html
+/svn/!svn/ver/637/trunk/closure/goog/testing/ui/style_test.html
 END
 rendererharness.js
 K 25
@@ -37,5 +37,5 @@ rendererasserts_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 73
-/svn/!svn/ver/528/trunk/closure/goog/testing/ui/rendererasserts_test.html
+/svn/!svn/ver/637/trunk/closure/goog/testing/ui/rendererasserts_test.html
 END

@@ -1,13 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 42
-/svn/!svn/ver/454/trunk/closure/goog/crypt
+/svn/!svn/ver/641/trunk/closure/goog/crypt
 END
 base64.js
 K 25
 svn:wc:ra_dav:version-url
 V 52
-/svn/!svn/ver/451/trunk/closure/goog/crypt/base64.js
+/svn/!svn/ver/641/trunk/closure/goog/crypt/base64.js
 END
 hash32.js
 K 25
@@ -37,7 +37,7 @@ base64_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 59
-/svn/!svn/ver/454/trunk/closure/goog/crypt/base64_test.html
+/svn/!svn/ver/637/trunk/closure/goog/crypt/base64_test.html
 END
 sha1.js
 K 25
@@ -49,7 +49,7 @@ basen_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 58
-/svn/!svn/ver/454/trunk/closure/goog/crypt/basen_test.html
+/svn/!svn/ver/637/trunk/closure/goog/crypt/basen_test.html
 END
 hash32_test.html
 K 25

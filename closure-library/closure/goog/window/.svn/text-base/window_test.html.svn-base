@@ -160,6 +160,10 @@ See the COPYING file for details.
       doTestOpenWindow(true,  "a;b;c");
   }
 
+  function testOpenEncoded() {
+      doTestOpenWindow(true,  "this&that");
+  }
+
   function testOpenBlank() {
     if (!canOpenPopups()) {
       return;

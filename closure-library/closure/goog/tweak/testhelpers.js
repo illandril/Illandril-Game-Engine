@@ -48,10 +48,10 @@ function createRegistryEntries(queryParams, opt_compilerOverrides) {
       new goog.tweak.Registry(queryParams, opt_compilerOverrides || {});
   goog.tweak.registry_ = registry;
 
-  goog.tweak.registerBoolean('Bool', 'The bool');
+  goog.tweak.registerBoolean('Bool', 'The bool1');
   goog.tweak.registerBoolean('Bool2', 'The bool2', true);
 
-  goog.tweak.registerString('Str', 'The Str', undefined, {
+  goog.tweak.registerString('Str', 'The Str1', undefined, {
     paramName: 's'
   });
   goog.tweak.registerString('Str2', 'The str2', 'foo');
@@ -75,6 +75,10 @@ function createRegistryEntries(queryParams, opt_compilerOverrides) {
   goog.tweak.endBooleanGroup();
 
   goog.tweak.registerButton('Button', 'The Btn', goog.nullFunction, '<btn>');
+
+  goog.tweak.beginBooleanGroup('foo.bar.BoolGroup', 'Namespaced Bool Group');
+  goog.tweak.registerBoolean('foo.bar.BoolOne', 'Desc for Namespaced 1');
+  goog.tweak.endBooleanGroup();
 
   boolEntry = registry.getEntry('Bool');
   boolEntry2 = registry.getEntry('Bool2');
