@@ -1,15 +1,15 @@
 9
 
 dir
-641
+667
 http://closure-library.googlecode.com/svn/trunk/closure/goog/module
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-20T18:29:40.000000Z
-637
-pallosp@google.com
+2011-01-26T23:28:47.000000Z
+656
+nweiz@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -273,11 +273,11 @@ file
 
 
 
-2011-01-14T03:35:35.000000Z
-b61223eaeaf2842c4b9fcc007e40ce05
-2011-01-11T17:07:43.000000Z
-599
-digi@google.com
+2011-01-30T19:44:48.000000Z
+0caa778b481fd737907cb5c8940ad7e9
+2011-01-26T23:28:47.000000Z
+656
+nweiz@google.com
 has-props
 
 
@@ -299,7 +299,7 @@ has-props
 
 
 
-31539
+31623
 
 basemodule.js
 file

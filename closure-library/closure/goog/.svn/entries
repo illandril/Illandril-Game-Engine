@@ -1,15 +1,15 @@
 9
 
 dir
-641
+667
 http://closure-library.googlecode.com/svn/trunk/closure/goog
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-21T14:28:06.000000Z
-641
-hearn@google.com
+2011-01-29T00:27:06.196290Z
+667
+nicholas.j.santos
 
 
 svn:special svn:externals svn:needs-lock
@@ -111,40 +111,40 @@ has-props
 
 33980
 
-messaging
-dir
-
-date
-dir
-
-fx
+bootstrap
 dir
 
 testing
 dir
 
-bootstrap
+fx
+dir
+
+date
+dir
+
+messaging
 dir
 
 color
 dir
 
-dom
+i18n
 dir
 
 spell
 dir
 
-i18n
+dom
 dir
 
 timer
 dir
 
-cssom
+reflect
 dir
 
-reflect
+cssom
 dir
 
 proto2
@@ -241,11 +241,11 @@ file
 
 
 
-2011-01-24T00:26:22.000000Z
-aa4f45100d3792d23139df10501331e1
-2011-01-21T14:28:06.000000Z
-641
-hearn@google.com
+2011-01-30T19:44:49.000000Z
+98846a891e433514efbbdafc82bf5f43
+2011-01-27T23:31:59.000000Z
+663
+nicksay@google.com
 has-props
 
 
@@ -267,7 +267,7 @@ has-props
 
 
 
-170655
+171805
 
 structs
 dir

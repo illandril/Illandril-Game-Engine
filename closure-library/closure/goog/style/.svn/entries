@@ -1,15 +1,15 @@
 9
 
 dir
-641
+667
 http://closure-library.googlecode.com/svn/trunk/closure/goog/style
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-29T00:27:06.196290Z
+667
+nicholas.j.santos
 
 
 svn:special svn:externals svn:needs-lock
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-34c2f88a9177df8b478d2848340ef9d9
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-30T19:44:49.000000Z
+1a23cb1145d6b707609477b58bac8c38
+2011-01-27T23:31:59.000000Z
+663
+nicksay@google.com
 has-props
 
 
@@ -126,7 +126,7 @@ has-props
 
 
 
-63157
+62432
 
 style_test_standard.html
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-96de997294e177ad1407f0f3e8b827d0
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-30T19:44:49.000000Z
+a41b5504ee3262ed7c5ed01a1ad39e63
+2011-01-29T00:27:06.196290Z
+667
+nicholas.j.santos
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-65500
+65937
 
 style_test_iframe_standard.html
 file
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-6a69ab515f1edf821019a20a560d95d8
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-01-30T19:44:49.000000Z
+e01a3a286ecd8b01b4d4478658da46e7
+2011-01-29T00:27:06.196290Z
+667
+nicholas.j.santos
 has-props
 
 
@@ -296,7 +296,7 @@ has-props
 
 
 
-65767
+65661
 
 style_test_quirk.html
 file

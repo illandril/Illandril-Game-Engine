@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 42
-/svn/!svn/ver/634/trunk/closure/goog/tweak
+/svn/!svn/ver/648/trunk/closure/goog/tweak
 END
 registry.js
 K 25
@@ -49,5 +49,5 @@ testhelpers.js
 K 25
 svn:wc:ra_dav:version-url
 V 57
-/svn/!svn/ver/632/trunk/closure/goog/tweak/testhelpers.js
+/svn/!svn/ver/648/trunk/closure/goog/tweak/testhelpers.js
 END

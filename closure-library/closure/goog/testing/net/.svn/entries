@@ -1,15 +1,15 @@
 9
 
 dir
-641
+667
 http://closure-library.googlecode.com/svn/trunk/closure/goog/testing/net
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-04T21:21:11.000000Z
-569
-nweiz@google.com
+2011-01-24T18:07:51.000000Z
+643
+smike@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2011-01-06T21:13:32.000000Z
-e62dc4653e3abeed492fae63c73628fb
-2011-01-04T21:21:11.000000Z
-569
-nweiz@google.com
+2011-01-30T19:44:48.000000Z
+0fc2da455734fba87651c1f38c2c06d7
+2011-01-24T18:07:51.000000Z
+643
+smike@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-15627
+16765
 
 xhrio_test.html
 file

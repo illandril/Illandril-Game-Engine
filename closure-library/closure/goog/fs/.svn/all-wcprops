@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 39
-/svn/!svn/ver/640/trunk/closure/goog/fs
+/svn/!svn/ver/652/trunk/closure/goog/fs
 END
 filesystem.js
 K 25
@@ -13,7 +13,7 @@ fs.js
 K 25
 svn:wc:ra_dav:version-url
 V 45
-/svn/!svn/ver/640/trunk/closure/goog/fs/fs.js
+/svn/!svn/ver/652/trunk/closure/goog/fs/fs.js
 END
 error.js
 K 25

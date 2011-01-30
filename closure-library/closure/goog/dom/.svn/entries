@@ -1,15 +1,15 @@
 9
 
 dir
-641
+667
 http://closure-library.googlecode.com/svn/trunk/closure/goog/dom
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-20T18:29:40.000000Z
-637
-pallosp@google.com
+2011-01-27T23:31:59.000000Z
+663
+nicksay@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -505,6 +505,40 @@ has-props
 browserrange
 dir
 
+dataset.js
+file
+
+
+
+
+2011-01-30T19:44:48.000000Z
+349661ed2164224a71487f9695417af4
+2011-01-27T23:31:59.000000Z
+663
+nicksay@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3120
+
 forms.js
 file
 
@@ -607,40 +641,6 @@ has-props
 
 4651
 
-iframe_test.html
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-4ff1a911376f6578dbaafa503625f4b0
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2459
-
 iter_test.html
 file
 
@@ -675,17 +675,17 @@ has-props
 
 2634
 
-nodeoffset.js
+iframe_test.html
 file
 
 
 
 
 2010-11-21T04:53:46.000000Z
-dc211ec95a2bba1e3078325ce1ea3616
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+4ff1a911376f6578dbaafa503625f4b0
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -707,7 +707,41 @@ has-props
 
 
 
-3108
+2459
+
+nodeoffset.js
+file
+
+
+
+
+2011-01-30T19:44:48.000000Z
+2232c9703a76665131361cac24bbe8cf
+2011-01-27T10:17:29.000000Z
+659
+pallosp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3139
 
 multirange_test.html
 file
@@ -743,40 +777,6 @@ has-props
 
 1897
 
-nodeiterator.js
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-31d7158470d6117ce5d3f22cdc178b04
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2868
-
 browserfeature.js
 file
 
@@ -811,17 +811,17 @@ has-props
 
 1565
 
-annotate_test.html
+nodeiterator.js
 file
 
 
 
 
 2010-11-21T04:53:46.000000Z
-badc6f550e531cc3e6a86c9913e45939
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+31d7158470d6117ce5d3f22cdc178b04
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
 has-props
 
 
@@ -843,41 +843,7 @@ has-props
 
 
 
-6771
-
-fontsizemonitor_test.html
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-e783dcec29fae5ab964c841ecbcdb5a1
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-8603
+2868
 
 xml.js
 file
@@ -913,6 +879,77 @@ has-props
 
 6249
 
+fontsizemonitor_test.html
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+e783dcec29fae5ab964c841ecbcdb5a1
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8603
+
+annotate_test.html
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+badc6f550e531cc3e6a86c9913e45939
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6771
+
+pattern
+dir
+
 a11y_test.html
 file
 
@@ -946,9 +983,6 @@ has-props
 
 
 2659
-
-pattern
-dir
 
 dom_quirks_test.html
 file
@@ -1154,17 +1188,17 @@ has-props
 
 15776
 
-dom.js
+dataset_test.html
 file
 
 
 
 
-2011-01-14T03:35:35.000000Z
-63ead9de3d12797c0184a68f4538b1d8
-2011-01-10T21:29:52.000000Z
-590
-aherrman@google.com
+2011-01-30T19:44:48.000000Z
+4400d1abf35f244e0fbc72747bdf87f7
+2011-01-27T23:31:59.000000Z
+663
+nicksay@google.com
 has-props
 
 
@@ -1186,7 +1220,41 @@ has-props
 
 
 
-78304
+3237
+
+dom.js
+file
+
+
+
+
+2011-01-30T19:44:48.000000Z
+562ead0282c70457e25233a7a17ee381
+2011-01-27T03:36:28.000000Z
+658
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+78435
 
 abstractrange.js
 file
@@ -1602,11 +1670,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-c69c2f1a321d738bc1bc5db6df0324c0
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-01-30T19:44:48.000000Z
+0e42424b578acbf3da8312e0935a342d
+2011-01-25T23:51:51.000000Z
+650
+mpd@google.com
 has-props
 
 
@@ -1628,7 +1696,7 @@ has-props
 
 
 
-17411
+17481
 
 textrangeiterator_test.html
 file

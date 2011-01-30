@@ -1,15 +1,15 @@
 9
 
 dir
-641
+667
 http://closure-library.googlecode.com/svn/trunk/closure/goog/dom/browserrange
 http://closure-library.googlecode.com/svn
 
 
 
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-25T23:51:51.000000Z
+650
+mpd@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-eb0bbaf85de560f373ad2945342f86c6
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-01-30T19:44:48.000000Z
+4ee8c5d17b80b18624b2f4132e2363dc
+2011-01-25T23:51:51.000000Z
+650
+mpd@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-22036
+22484
 
 w3crange.js
 file
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-6a228e0cffdc0ba0ad1bb20ebd6e2831
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2011-01-30T19:44:48.000000Z
+0d55517b8c30f213fe828bb838838cc4
+2011-01-25T23:51:51.000000Z
+650
+mpd@google.com
 has-props
 
 
@@ -228,7 +228,7 @@ has-props
 
 
 
-5653
+5755
 
 webkitrange.js
 file

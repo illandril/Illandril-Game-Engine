@@ -1,15 +1,15 @@
 9
 
 dir
-641
+667
 http://closure-library.googlecode.com/svn/trunk/closure/goog/object
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-18T21:04:16.000000Z
-625
-nnaze@google.com
+2011-01-24T20:01:14.000000Z
+645
+nkanodia@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2011-01-24T00:26:21.000000Z
-e3563922eb649288505fee91b804ac0f
-2011-01-18T21:04:16.000000Z
-625
-nnaze@google.com
+2011-01-30T19:44:49.000000Z
+2aed23ce8b2abbe0cfdfc5035dd1fdc4
+2011-01-24T20:01:14.000000Z
+645
+nkanodia@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-16162
+16005
 
 object_test.html
 file

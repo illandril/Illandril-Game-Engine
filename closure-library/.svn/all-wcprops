@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 23
-/svn/!svn/ver/641/trunk
+/svn/!svn/ver/667/trunk
 END
 LICENSE
 K 25
@@ -14,18 +14,6 @@ K 25
 svn:wc:ra_dav:version-url
 V 31
 /svn/!svn/ver/626/trunk/AUTHORS
-END
-alltests.js
-K 25
-svn:wc:ra_dav:version-url
-V 35
-/svn/!svn/ver/640/trunk/alltests.js
-END
-all_tests.html
-K 25
-svn:wc:ra_dav:version-url
-V 38
-/svn/!svn/ver/454/trunk/all_tests.html
 END
 README
 K 25
