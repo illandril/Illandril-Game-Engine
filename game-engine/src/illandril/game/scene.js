@@ -18,7 +18,7 @@ goog.require("illandril.math.Bounds");
  * The maximum allowed tick time, to prevent lag spikes from causing objects to move too far in one tick.
  * @const
  */
-var MAX_TICK_TIME = 250;
+var MAX_TICK_TIME = 100;
 
 /**
  * The size of each bucket in scenes.

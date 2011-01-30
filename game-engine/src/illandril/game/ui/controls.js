@@ -90,7 +90,7 @@ illandril.game.ui.Controls.getKeyEventKey = function( keyCode, ctrl, alt, shift 
   if ( keyName == null ) {
     keyName = "KEY[" + keyCode + "]";
   }
-  return ( ctrl ? "ctrl + " : "" ) + ( alt ? "alt + " : "" ) + ( shift ? "shift + " : "" ) + goog.events.KeyNames[keyCode];
+  return ( ctrl ? "Ctrl + " : "" ) + ( alt ? "Alt + " : "" ) + ( shift ? "Shift + " : "" ) + keyName.toUpperCase();
 };
 
 illandril.game.ui.Controls.prototype = {

@@ -11,6 +11,7 @@ goog.require("goog.events.KeyCodes");
 goog.require("goog.math.Vec2");
 goog.require("goog.net.EventType");
 goog.require("goog.net.XhrIo");
+goog.require("goog.style");
 goog.require("goog.ui.Dialog");
 goog.require("goog.ui.KeyboardShortcutHandler");
 goog.require("illandril");
@@ -63,7 +64,7 @@ illandril.game.Engine.prototype.initControls = function() {
   this.controls.registerAction( this.pauseAction, goog.events.KeyCodes.P, false, false, false );
     
   this.noLagPauseAction = new illandril.game.ui.Action( function() { self.allowLagPause = false; }, "Prevent Lag Pause", false );
-  this.controls.registerAction( this.noLagPauseAction, goog.events.KeyCodes.F6, false, false, false );
+  this.controls.registerAction( this.noLagPauseAction, goog.events.KeyCodes.L, false, false, true );
   
   this.debugFPSAction = new illandril.game.ui.Action( function() { if ( !self.paused ) { self.debugFPS = !self.debugFPS; } }, "Debug FPS", false );
   this.controls.registerAction( this.debugFPSAction, goog.events.KeyCodes.F8, false, false, false );
@@ -95,10 +96,12 @@ illandril.game.Engine.prototype.initNoClick = function() {
   this.noClick = document.createElement( "div" );
   this.noClick.style.position = "absolute";
   this.noClick.style.zIndex = 99997;
-  this.noClick.style.width = this.container.width;
-  this.noClick.style.height = this.container.height;
+  if ( this.container.width != null ) {
+    this.noClick.style.width = this.container.width;
+    this.noClick.style.height = this.container.height;
+  }
   this.noClick.style.backgroundColor = "#000";
-  this.noClick.style.opacity = 0.5;
+  goog.style.setOpacity( this.noClick, 0.5 );
   this.noClick.style.display = "none";
   this.container.appendChild( this.noClick );
 };
