@@ -197,14 +197,14 @@ illandril.game.ui.Controls.prototype = {
   registerControlChangeListener: function( listener, fn, notifyNow ) {
     this.controlChangeListeners.push( { listener: listener, fn: fn } );
     if ( notifyNow ) {
-      listener( [], this.getActionList() );
+      fn.apply( listener, null, this.getActionList() );
     }
   },
   
   notifyControlChangeListeners: function( lastChanges ) {
     for ( var idx = 0; idx < this.controlChangeListeners.length; idx++ ) {
       var ln = this.controlChangeListeners[idx];
-      ln.fn.apply( ln.listener, lastChanges, this.getActionList() );
+      ln.fn.apply( ln.listener, lastChanges || [], this.getActionList() );
     }
   }
 };

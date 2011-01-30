@@ -256,8 +256,10 @@ illandril.game.Engine.prototype._loadMap = function( mapSrc, scene, callback ) {
 };
 illandril.game.Engine.prototype.tick = function() {
   var tickTime = illandril.game.util.Framerate.tick();
+  if ( illandril.game.ui.Controls.actionPendingFor != null ) {
+    illandril.game.ui.Controls.actionPendingFor.handleKeyEvents( tickTime );
+  }
   this.controls.handleKeyEvents( tickTime );
-  
   if ( !this.paused && this.allowLagPause && tickTime > this.LAG_TIMEOUT ) {
     this.lagCount++;
     if ( this.lagCount >= this.TICKS_FOR_LAG ) {

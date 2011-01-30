@@ -46,8 +46,6 @@ illandril.game.objects.menus.ControlEntry.prototype.actionsUpdated = function() 
   var controlText = this.controls.getKeyForAction( this.action.name );
   if ( controlText == null ) {
     controlText = "N/A";
-  } else {
-    controlText = controlText.toUpperCase();
   }
   this.setControlText( controlText );
 };
