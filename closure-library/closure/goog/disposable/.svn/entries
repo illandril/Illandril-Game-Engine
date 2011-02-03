@@ -1,15 +1,15 @@
 9
 
 dir
-667
+681
 http://closure-library.googlecode.com/svn/trunk/closure/goog/disposable
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-27T10:17:29.000000Z
-659
-pallosp@google.com
+2011-02-01T18:18:08.000000Z
+679
+vsm@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2011-01-30T19:44:47.000000Z
-db7fa8386d3b77f8ededa94e35eff95f
-2011-01-27T10:17:29.000000Z
-659
-pallosp@google.com
+2011-02-03T17:02:40.000000Z
+bc2967a9eb02706f085bcb2f71a7b9d4
+2011-02-01T18:18:08.000000Z
+679
+vsm@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-4865
+4895
 
 disposable_test.html
 file

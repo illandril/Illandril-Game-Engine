@@ -1,7 +1,7 @@
 9
 
 dir
-667
+681
 http://closure-library.googlecode.com/svn/trunk/closure/goog/graphics
 http://closure-library.googlecode.com/svn
 
@@ -25,108 +25,6 @@ svn:special svn:externals svn:needs-lock
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-pathelement.js
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-4ed7821abf491cc5812f8e3a7fbf045a
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1757
-
-paths_test.html
-file
-
-
-
-
-2010-11-12T17:41:22.000000Z
-9da14b4a39d84b237e3f34c92ae28cd5
-2010-09-01T01:12:03.707719Z
-247
-nicholas.j.santos
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2576
-
-font.js
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-e9d7c154fdf1dfb3d027230619f8ee31
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1507
 
 groupelement.js
 file
@@ -162,14 +60,14 @@ has-props
 
 1712
 
-stroke.js
+font.js
 file
 
 
 
 
 2010-11-21T04:53:46.000000Z
-da103858da74b23a6ed1f264a4298838
+e9d7c154fdf1dfb3d027230619f8ee31
 2010-11-15T01:08:31.000000Z
 451
 ajp@google.com
@@ -194,7 +92,109 @@ has-props
 
 
 
-1458
+1507
+
+paths_test.html
+file
+
+
+
+
+2010-11-12T17:41:22.000000Z
+9da14b4a39d84b237e3f34c92ae28cd5
+2010-09-01T01:12:03.707719Z
+247
+nicholas.j.santos
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2576
+
+pathelement.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+4ed7821abf491cc5812f8e3a7fbf045a
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1757
+
+ellipseelement.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+c0d54469afc174e8c2265bd23bb8f09a
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2041
 
 rectelement.js
 file
@@ -230,14 +230,14 @@ has-props
 
 2009
 
-ellipseelement.js
+stroke.js
 file
 
 
 
 
 2010-11-21T04:53:46.000000Z
-c0d54469afc174e8c2265bd23bb8f09a
+da103858da74b23a6ed1f264a4298838
 2010-11-15T01:08:31.000000Z
 451
 ajp@google.com
@@ -262,7 +262,7 @@ has-props
 
 
 
-2041
+1458
 
 vmlelement.js
 file
@@ -332,40 +332,6 @@ has-props
 
 8872
 
-strokeandfillelement.js
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-a6f669478f0ff063f76c8076039d8217
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3084
-
 affinetransform_test.html
 file
 
@@ -400,14 +366,14 @@ has-props
 
 11318
 
-vmlgraphics.js
+strokeandfillelement.js
 file
 
 
 
 
 2010-11-21T04:53:46.000000Z
-d18a369109b44041c042b5c021c05a49
+a6f669478f0ff063f76c8076039d8217
 2010-11-15T01:08:31.000000Z
 451
 ajp@google.com
@@ -432,7 +398,7 @@ has-props
 
 
 
-28983
+3084
 
 paths.js
 file
@@ -467,6 +433,40 @@ has-props
 
 
 2777
+
+vmlgraphics.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+d18a369109b44041c042b5c021c05a49
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+28983
 
 svggraphics.js
 file

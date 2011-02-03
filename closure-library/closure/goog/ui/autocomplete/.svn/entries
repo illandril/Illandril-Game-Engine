@@ -1,15 +1,15 @@
 9
 
 dir
-667
+681
 http://closure-library.googlecode.com/svn/trunk/closure/goog/ui/autocomplete
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-27T10:17:29.000000Z
-659
-pallosp@google.com
+2011-02-01T19:02:21.000000Z
+680
+nicksantos@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -66,11 +66,11 @@ file
 
 
 
-2011-01-14T03:35:36.000000Z
-86912f87fe9bc03d6a1637ef1f5948c5
-2011-01-12T00:57:55.000000Z
-602
-gboyer@google.com
+2011-02-03T17:02:41.000000Z
+6991278f6ef02d69bdcf15c45ca5e6ae
+2011-02-01T19:02:21.000000Z
+680
+nicksantos@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-25942
+25790
 
 basic_test.html
 file
@@ -366,40 +366,6 @@ has-props
 
 3770
 
-renderer_test.html
-file
-
-
-
-
-2011-01-14T03:35:36.000000Z
-5aad9565af0115440e61aaff287d1fc1
-2011-01-12T00:57:55.000000Z
-602
-gboyer@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-14205
-
 inputhandler.js
 file
 
@@ -433,6 +399,40 @@ has-props
 
 
 35436
+
+renderer_test.html
+file
+
+
+
+
+2011-01-14T03:35:36.000000Z
+5aad9565af0115440e61aaff287d1fc1
+2011-01-12T00:57:55.000000Z
+602
+gboyer@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+14205
 
 remotearraymatcher.js
 file
@@ -468,40 +468,6 @@ has-props
 
 8743
 
-richremote.js
-file
-
-
-
-
-2010-11-12T17:41:24.000000Z
-d7fdc09aec08eaf6c95946ca28a79739
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4235
-
 autocomplete.js
 file
 
@@ -535,6 +501,40 @@ has-props
 
 
 17462
+
+richremote.js
+file
+
+
+
+
+2010-11-12T17:41:24.000000Z
+d7fdc09aec08eaf6c95946ca28a79739
+2010-10-18T19:19:05.000000Z
+371
+dbentley@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4235
 
 richinputhandler.js
 file
