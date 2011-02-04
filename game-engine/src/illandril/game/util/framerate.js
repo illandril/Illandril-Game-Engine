@@ -1,12 +1,12 @@
 /**
  * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
- * See https://github.com/illandril/Illandril-Game-Engine
+ * See https://github.com/illandril/Illandril-Game-Engine.
  */
 
 
-goog.provide("illandril.game.util.Framerate");
+goog.provide('illandril.game.util.Framerate');
 
-goog.require("illandril");
+goog.require('illandril');
 
 /**
  * @constructor
@@ -19,7 +19,7 @@ illandril.game.util.Framerate.frames = [];
 illandril.game.util.Framerate.rollingFrames = 50;
 
 illandril.game.util.Framerate.reset = function() {
-  illandril.game.util.Framerate.totalFrames = 0
+  illandril.game.util.Framerate.totalFrames = 0;
   illandril.game.util.Framerate.lastResetStamp = new Date();
   illandril.game.util.Framerate.lastFrameStamp = new Date();
   illandril.game.util.Framerate.frames = [];
@@ -30,9 +30,9 @@ illandril.game.util.Framerate.tick = function() {
   var timeForThisTick = thisFrameStamp - illandril.game.util.Framerate.lastFrameStamp;
   illandril.game.util.Framerate.lastFrameStamp = thisFrameStamp;
   illandril.game.util.Framerate.totalFrames++;
-  illandril.game.util.Framerate.frames.push( thisFrameStamp );
+  illandril.game.util.Framerate.frames.push(thisFrameStamp);
   // First frame in the list is effectively the "start time" for the second, so keep 1 extra frame
-  while ( illandril.game.util.Framerate.frames.length > illandril.game.util.Framerate.rollingFrames + 1 ) {
+  while (illandril.game.util.Framerate.frames.length > illandril.game.util.Framerate.rollingFrames + 1) {
     illandril.game.util.Framerate.frames.shift();
   }
   return timeForThisTick;
@@ -43,11 +43,11 @@ illandril.game.util.Framerate.getTotalTime = function() {
 };
 
 illandril.game.util.Framerate.getAverageFPS = function() {
-  return ( illandril.game.util.Framerate.totalFrames * 1000 ) / illandril.game.util.Framerate.getTotalTime();
+  return (illandril.game.util.Framerate.totalFrames * 1000) / illandril.game.util.Framerate.getTotalTime();
 };
 
 illandril.game.util.Framerate.getRollingAverageFPS = function() {
   // First frame in the list is effectively the "start time" for the second, so we subtract 1 to avoid giving an overly low FPS
-  return ( ( illandril.game.util.Framerate.frames.length - 1 ) * 1000 ) / ( illandril.game.util.Framerate.frames[illandril.game.util.Framerate.frames.length - 1] - illandril.game.util.Framerate.frames[0] );
+  return ((illandril.game.util.Framerate.frames.length - 1) * 1000) / (illandril.game.util.Framerate.frames[illandril.game.util.Framerate.frames.length - 1] - illandril.game.util.Framerate.frames[0]);
 };
 

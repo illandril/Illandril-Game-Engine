@@ -1,17 +1,17 @@
 /**
  * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
- * See https://github.com/illandril/Illandril-Game-Engine
+ * See https://github.com/illandril/Illandril-Game-Engine.
  */
 
 
-goog.provide("illandril.game.ui.SpriteSheet");
+goog.provide('illandril.game.ui.SpriteSheet');
 
-goog.require("illandril");
+goog.require('illandril');
 
 /**
  * @constructor
  */
-illandril.game.ui.SpriteSheet =  function( src ) {
+illandril.game.ui.SpriteSheet = function(src ) {
   this.src = src;
   var imgPreLoad = new Image(); // Pre-load
   imgPreLoad.src = src;

@@ -1,17 +1,17 @@
 /**
  * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
- * See https://github.com/illandril/Illandril-Game-Engine
+ * See https://github.com/illandril/Illandril-Game-Engine.
  */
 
 
-goog.provide("illandril.game.ui.Letter");
+goog.provide('illandril.game.ui.Letter');
 
-goog.require("illandril");
+goog.require('illandril');
 
 /**
  * @constructor
  */
-illandril.game.ui.Letter = function( src, x, y, height, width ) {
+illandril.game.ui.Letter = function(src, x, y, height, width ) {
   this.src = src;
   this.x = x;
   this.y = y;

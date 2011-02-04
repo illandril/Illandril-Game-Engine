@@ -1,27 +1,27 @@
 /**
  * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
- * See https://github.com/illandril/Illandril-Game-Engine
+ * See https://github.com/illandril/Illandril-Game-Engine.
  */
 
-goog.provide("illandril.math.Bounds");
+goog.provide('illandril.math.Bounds');
 
-goog.require("goog.math.Vec2");
-goog.require("illandril");
+goog.require('goog.math.Vec2');
+goog.require('illandril');
 
 /**
  * @constructor
  */
-illandril.math.Bounds = function( center, size, debug ) {
+illandril.math.Bounds = function(center, size, debug ) {
   this.size = size;
-  this.halfSize = size.clone().scale( 0.5 );
+  this.halfSize = size.clone().scale(0.5);
   this.center = center;
 };
 
-illandril.math.Bounds.fromCenter = function( center, size ) {
-  return new illandril.math.Bounds( center, size );
+illandril.math.Bounds.fromCenter = function(center, size ) {
+  return new illandril.math.Bounds(center, size);
 };
 
-illandril.math.Bounds.prototype.centerOn = function( position ) {
+illandril.math.Bounds.prototype.centerOn = function(position ) {
   this.center = position;
 };
 
@@ -49,20 +49,20 @@ illandril.math.Bounds.prototype.getSize = function() {
   return this.size.clone();
 };
 
-illandril.math.Bounds.prototype.divide = function( scale ) {
-  var newSize = this.size.clone().scale( 1.0 / scale );
-  return new illandril.math.Bounds( this.center.clone(), newSize );
+illandril.math.Bounds.prototype.divide = function(scale ) {
+  var newSize = this.size.clone().scale(1.0 / scale);
+  return new illandril.math.Bounds(this.center.clone(), newSize);
 };
 
 illandril.math.Bounds.prototype.toString = function() {
-  return this.getLeft() + "," + this.getTop() + " - " + this.getRight() + "," + this.getBottom() + " -- " + this.size.toString();
+  return this.getLeft() + ',' + this.getTop() + ' - ' + this.getRight() + ',' + this.getBottom() + ' -- ' + this.size.toString();
 };
 
-illandril.math.Bounds.prototype.intersects = function( otherBounds ) {
-  if ( this.getTop() <= otherBounds.getBottom() ) { return false; }
-  if ( this.getBottom() >= otherBounds.getTop() ) { return false; }
-  if ( this.getRight() <= otherBounds.getLeft() ) { return false; }
-  if ( this.getLeft() >= otherBounds.getRight() ) { return false; }
+illandril.math.Bounds.prototype.intersects = function(otherBounds ) {
+  if (this.getTop() <= otherBounds.getBottom()) { return false; }
+  if (this.getBottom() >= otherBounds.getTop()) { return false; }
+  if (this.getRight() <= otherBounds.getLeft()) { return false; }
+  if (this.getLeft() >= otherBounds.getRight()) { return false; }
   return true;
 };
 

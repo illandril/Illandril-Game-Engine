@@ -1,53 +1,53 @@
 /**
  * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
- * See https://github.com/illandril/Illandril-Game-Engine
+ * See https://github.com/illandril/Illandril-Game-Engine.
  */
 
 
-goog.provide("illandril.game.objects.Solid");
+goog.provide('illandril.game.objects.Solid');
 
-goog.require("illandril");
-goog.require("illandril.game.objects.GameObject");
+goog.require('illandril');
+goog.require('illandril.game.objects.GameObject');
 
 /**
  * @constructor
  */
 illandril.game.objects.Solid = function() {
-  if ( !this instanceof illandril.game.objects.GameObject ) {
-    throw "Error... solid object not also a game object!"
+  if (!this instanceof illandril.game.objects.GameObject) {
+    throw 'Error... solid object not also a game object!';
   }
 };
 
 illandril.game.objects.Solid.prototype.isSolid = true;
 
-illandril.game.objects.Solid.prototype.isBlockingCollision = function( nearbyObject, movement ) {
-  if ( !this.canBeBlocked() ) {
+illandril.game.objects.Solid.prototype.isBlockingCollision = function(nearbyObject, movement ) {
+  if (!this.canBeBlocked()) {
     return false;
   }
-  if ( !nearbyObject.canBlock( this ) ) {
+  if (!nearbyObject.canBlock(this)) {
     return false;
   }
-  if ( nearbyObject.hasDirectionalBlockingRules() ) {
+  if (nearbyObject.hasDirectionalBlockingRules()) {
     var nearbyBounds = nearbyObject.getBounds();
-    if ( movement.y < 0 && nearbyObject.blocksFromTop() ) {
+    if (movement.y < 0 && nearbyObject.blocksFromTop()) {
         // We're starting above the other object
-        if ( this.bounds.getBottom() > nearbyBounds.getTop() ) {
+        if (this.bounds.getBottom() > nearbyBounds.getTop()) {
             return true;
         }
-    } else if ( movement.y > 0 && nearbyObject.blocksFromBottom() ) {
+    } else if (movement.y > 0 && nearbyObject.blocksFromBottom()) {
         // We're starting below the other object
-        if ( this.bounds.getTop() < nearbyBounds.getBottom() ) {
+        if (this.bounds.getTop() < nearbyBounds.getBottom()) {
             return true;
         }
     }
-    if ( movement.x > 0 && nearbyObject.blocksFromLeft() ) {
+    if (movement.x > 0 && nearbyObject.blocksFromLeft()) {
         // We're starting left of the other object
-        if ( this.bounds.getRight() < nearbyBounds.getLeft() ) {
+        if (this.bounds.getRight() < nearbyBounds.getLeft()) {
             return true;
         }
-    } else if ( movement.x < 0 && nearbyObject.blocksFromRight() ) {
+    } else if (movement.x < 0 && nearbyObject.blocksFromRight()) {
         // We're starting left of the other object
-        if ( this.bounds.getLeft() > nearbyBounds.getRight() ) {
+        if (this.bounds.getLeft() > nearbyBounds.getRight()) {
             return true;
         }
     }
@@ -65,11 +65,11 @@ illandril.game.objects.Solid.prototype.blocksFromBottom = function() { return tr
 illandril.game.objects.Solid.prototype.blocksFromLeft = function() { return true; };
 illandril.game.objects.Solid.prototype.blocksFromRight = function() { return true; };
 
-illandril.game.objects.Solid.prototype.canBlock = function( otherObject ) {
-  return ( this.blocksFromTop() || this.blocksFromBottom() || this.blocksFromLeft() || this.blocksFromRight() ) && otherObject.canBeBlockedBy( this );
+illandril.game.objects.Solid.prototype.canBlock = function(otherObject ) {
+  return (this.blocksFromTop() || this.blocksFromBottom() || this.blocksFromLeft() || this.blocksFromRight()) && otherObject.canBeBlockedBy(this);
 };
 illandril.game.objects.Solid.prototype.canBeBlocked = function() { return true; };
-illandril.game.objects.Solid.prototype.canBeBlockedBy = function( otherObject ) { return true; };
+illandril.game.objects.Solid.prototype.canBeBlockedBy = function(otherObject ) { return true; };
 
-illandril.game.objects.Solid.prototype.canCollideWith = function( otherObject ) { return false; };
-illandril.game.objects.Solid.prototype.collideWith = function( otherObject ) {};
+illandril.game.objects.Solid.prototype.canCollideWith = function(otherObject ) { return false; };
+illandril.game.objects.Solid.prototype.collideWith = function(otherObject ) {};

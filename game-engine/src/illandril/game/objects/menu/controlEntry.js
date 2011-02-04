@@ -1,38 +1,38 @@
 /**
  * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
- * See https://github.com/illandril/Illandril-Game-Engine
+ * See https://github.com/illandril/Illandril-Game-Engine.
  */
 
 
-goog.provide("illandril.game.objects.menus.ControlEntry");
+goog.provide('illandril.game.objects.menus.ControlEntry');
 
-goog.require("goog.object");
-goog.require("illandril");
-goog.require("illandril.game.objects.menus.MenuEntry");
+goog.require('goog.object');
+goog.require('illandril');
+goog.require('illandril.game.objects.menus.MenuEntry');
 
 /**
  * @constructor
  * @extends illandril.game.objects.menu.MenuEntry
- * @param {illandril.game.Scene} scene the scene the object lives in
- * @param {illandril.math.Bounds} bounds the bounds that define the size and location of the object
- * @param {string|null} bg the URL of the background image for this object
+ * @param {illandril.game.Scene} scene the scene the object lives in.
+ * @param {illandril.math.Bounds} bounds the bounds that define the size and location of the object.
+ * @param {?string} bg the URL of the background image for this object.
  */
-illandril.game.objects.menus.ControlEntry = function( scene, controls, action, center, font, zIndex ) {
-  illandril.game.objects.menus.MenuEntry.call( this, scene, "", center, font, zIndex );
+illandril.game.objects.menus.ControlEntry = function(scene, controls, action, center, font, zIndex ) {
+  illandril.game.objects.menus.MenuEntry.call(this, scene, '', center, font, zIndex);
   this.controls = controls;
   this.action = action;
   this.displayAction = this.action.name;
-  while ( this.displayAction.length < illandril.game.objects.menus.ControlEntry.MAX_ACTION_NAME_LENGTH ) {
-    this.displayAction = " " + this.displayAction;
+  while (this.displayAction.length < illandril.game.objects.menus.ControlEntry.MAX_ACTION_NAME_LENGTH) {
+    this.displayAction = ' ' + this.displayAction;
   }
-  if ( this.displayAction.length > illandril.game.objects.menus.ControlEntry.MAX_ACTION_NAME_LENGTH ) {
+  if (this.displayAction.length > illandril.game.objects.menus.ControlEntry.MAX_ACTION_NAME_LENGTH) {
     this.displayAction = this.displayAction.subString(0, illandril.game.objects.menus.ControlEntry.MAX_ACTION_NAME_LENGTH - 3);
-    this.displayAction = this.displayAction + "...";
+    this.displayAction = this.displayAction + '...';
   }
-  controls.registerControlChangeListener( this, this.actionsUpdated );
+  controls.registerControlChangeListener(this, this.actionsUpdated);
   this.actionsUpdated();
 };
-goog.inherits( illandril.game.objects.menus.ControlEntry, illandril.game.objects.menus.MenuEntry );
+goog.inherits(illandril.game.objects.menus.ControlEntry, illandril.game.objects.menus.MenuEntry);
 
 // This is to help ensure that the : is always in the same spot. It should be longer than the longest possible action name.
 // If there is a longer named action, the action name will be truncated with an ellipses.
@@ -43,23 +43,23 @@ illandril.game.objects.menus.ControlEntry.MAX_ACTION_NAME_LENGTH = 28;
 illandril.game.objects.menus.ControlEntry.MAX_CONTROL_NAME_LENGTH = 28;
 
 illandril.game.objects.menus.ControlEntry.prototype.actionsUpdated = function() {
-  var controlText = this.controls.getKeyForAction( this.action.name );
-  if ( controlText == null ) {
-    controlText = "N/A";
+  var controlText = this.controls.getKeyForAction(this.action.name);
+  if (controlText == null) {
+    controlText = 'N/A';
   }
-  this.setControlText( controlText );
+  this.setControlText(controlText);
 };
 
-illandril.game.objects.menus.ControlEntry.prototype.setControlText = function( controlText ) {
-  while ( controlText.length < illandril.game.objects.menus.ControlEntry.MAX_CONTROL_NAME_LENGTH ) {
-    controlText = controlText + " ";
+illandril.game.objects.menus.ControlEntry.prototype.setControlText = function(controlText ) {
+  while (controlText.length < illandril.game.objects.menus.ControlEntry.MAX_CONTROL_NAME_LENGTH) {
+    controlText = controlText + ' ';
   }
-  this.setText( this.displayAction + ": " + controlText );
+  this.setText(this.displayAction + ': ' + controlText);
 };
 
-illandril.game.objects.menus.ControlEntry.prototype.onClick = function( e ) {
-  this.controls.registerActionFromInput( this.action );
-  this.setControlText( "Press a Key" );
+illandril.game.objects.menus.ControlEntry.prototype.onClick = function(e ) {
+  this.controls.registerActionFromInput(this.action);
+  this.setControlText('Press a Key');
 };
 
 /*
