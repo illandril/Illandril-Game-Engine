@@ -169,7 +169,7 @@ illandril.game.Scene.prototype.getNearbySolidObjects = function(point ) {
     this.getNearbySolidObjects__cache = {};
   }
   var bucketXY = this.getBucketXY(point);
-  var id = bucketXY.x + '.'+ bucketXY.y;
+  var id = bucketXY.x + '.' + bucketXY.y;
   if (this.getNearbySolidObjects__cache[id] == null) {
     this.getNearbySolidObjects__cache[id] = this._getNearbySolidObjects(bucketXY);
   }
@@ -370,7 +370,7 @@ function checkForCollisions(movingObject, movement, objectList ) {
   var shallowXMovement = null;
   var shallowYMovement = null;
   var startingPosition = movingObject.getPosition();
-  var bounds = illandril.math.Bounds.fromCenter(goog.math.Vec2.sum(startingPosition, movement), movingObject.getSize());
+  var bounds = new illandril.math.Bounds(goog.math.Vec2.sum(startingPosition, movement), movingObject.getSize());
   var stillMoving = true;
   var hasBlockingCollision = false;
   var collidingObjects = [];
@@ -391,7 +391,7 @@ function checkForCollisions(movingObject, movement, objectList ) {
         var secondXCollision = false;
         var secondYCollision = false;
         stillMoving = false;
-        var newBounds = illandril.math.Bounds.fromCenter(movingObject.getPosition(), movingObject.getSize());
+        var newBounds = new illandril.math.Bounds(movingObject.getPosition(), movingObject.getSize());
         while (!secondXCollision || !secondYCollision) {
           var currentCenter = bounds.getCenter();
           var newCenter = newBounds.getCenter();

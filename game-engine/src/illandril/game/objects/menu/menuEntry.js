@@ -23,7 +23,7 @@ goog.require('illandril.game.ui.Font');
  */
 illandril.game.objects.menus.MenuEntry = function(scene, text, center, font, zIndex, letterSpacing ) {
   // 0x0 because the letters are the actual objects
-  illandril.game.objects.GameObject.call(this, scene, illandril.math.Bounds.fromCenter(center, new goog.math.Vec2(0, 0)), null, zIndex);
+  illandril.game.objects.GameObject.call(this, scene, new illandril.math.Bounds(center, new goog.math.Vec2(0, 0)), null, zIndex);
   illandril.game.objects.Active.call(this);
   illandril.game.objects.Floater.call(this);
   this.state = { active: false, down: false, hover: false };
@@ -63,13 +63,13 @@ illandril.game.objects.menus.MenuEntry.prototype._updateLetters = function() {
       uiWidth += this.letterSpacing;
     }
     height = Math.max(height, letterUI.height);
-    this.letters.push(new illandril.game.objects.menus.MenuLetter(this.scene, illandril.math.Bounds.fromCenter(this.center, new goog.math.Vec2(uiWidth, letterUI.height)), this.font, letter, this, this.zIndex));
+    this.letters.push(new illandril.game.objects.menus.MenuLetter(this.scene, new illandril.math.Bounds(this.center, new goog.math.Vec2(uiWidth, letterUI.height)), this.font, letter, this, this.zIndex));
   }
   var x = this.center.x - width / 2;
   for (var i = 0; i < this.letters.length; i++) {
     var letter = this.letters[i];
     var size = letter.getSize();
-    letter.bounds = illandril.math.Bounds.fromCenter(new goog.math.Vec2(x + size.x / 2, this.center.y), size);
+    letter.bounds = new illandril.math.Bounds(new goog.math.Vec2(x + size.x / 2, this.center.y), size);
     x += size.x + this.letterSpacing;
   }
   this.scene.endBulk();
