@@ -22,7 +22,11 @@ goog.require('illandril.game.ui.Controls');
 goog.require('illandril.game.util.Framerate');
 goog.require('illandril.math.Bounds');
 
-illandril.game.Engine = function(gameContainerID ) {
+/**
+ * @param {string} gameContainerID The ID of the dom element containing the game.
+ * @constructor
+ */
+illandril.game.Engine = function(gameContainerID) {
   this.debug = {
     FPS: true,
     objectCount: false
@@ -47,6 +51,10 @@ illandril.game.Engine = function(gameContainerID ) {
   this.initDialogs();
 };
 
+/**
+ * The desired delay between each frame, in MS
+ * @const {number}
+ */
 illandril.game.Engine.prototype.TARGET_TIMEOUT = 33, // 16 - about 60 FPS; 33 - about 30 FPS
 illandril.game.Engine.prototype.MINIMUM_TIMEOUT = 2, // Make sure computer has time to respond to other programs in case the game is causing lag
 illandril.game.Engine.prototype.LAG_TIMEOUT = 100, // About 10 FPS
@@ -206,7 +214,7 @@ illandril.game.Engine.prototype.start = function() {
 illandril.game.Engine.prototype.loadMap = function(mapSrc, scene, callback ) {
   this.startLoad();
   this._loadMap(mapSrc, scene, callback);
-};,
+};
 
 illandril.game.Engine.prototype._loadMap = function(mapSrc, scene, callback ) {
   if (mapSrc != null && this.maps[mapSrc] == null) {
@@ -239,9 +247,9 @@ illandril.game.Engine.prototype._loadMap = function(mapSrc, scene, callback ) {
             sprite = new illandril.game.ui.StaticSprite(objDef['bg'], new goog.math.Vec2(bgOffsetX, bgOffsetY));
           }
           if (objDef['solid'] != null && objDef['solid'] == false) {
-            new illandril.game.objects.GameObject(scene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(x, y), new goog.math.Vec2(width, height)), sprite, objDef['zIndex']);
+            new illandril.game.objects.GameObject(scene, new illandril.math.Bounds(new goog.math.Vec2(x, y), new goog.math.Vec2(width, height)), sprite, objDef['zIndex']);
           } else {
-            new illandril.game.objects.Wall(scene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(x, y), new goog.math.Vec2(width, height)), sprite, objDef['zIndex']);
+            new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(x, y), new goog.math.Vec2(width, height)), sprite, objDef['zIndex']);
           }
         }
       }

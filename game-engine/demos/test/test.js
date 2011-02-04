@@ -33,11 +33,11 @@ test.init = function(mc, mapSrc ) {
 
   var menuScene = new illandril.game.Scene('Main Menu');
   new illandril.game.ui.Viewport(test.engine.container, menuScene, new goog.math.Vec2(500, 500));
-  new illandril.game.objects.Player(menuScene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(0, 0), new goog.math.Vec2(0, 0)), null, 0);
+  new illandril.game.objects.Player(menuScene, new illandril.math.Bounds(new goog.math.Vec2(0, 0), new goog.math.Vec2(0, 0)), null, 0);
 
   test.controlScene = new illandril.game.ControlChangeScene('Controls Menu', new goog.math.Vec2(0, 200), font);
   new illandril.game.ui.Viewport(test.engine.container, test.controlScene, new goog.math.Vec2(500, 500));
-  new illandril.game.objects.Player(test.controlScene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(0, 0), new goog.math.Vec2(0, 0)), null, 0);
+  new illandril.game.objects.Player(test.controlScene, new illandril.math.Bounds(new goog.math.Vec2(0, 0), new goog.math.Vec2(0, 0)), null, 0);
 
   var toMenu = new illandril.game.ui.Action(function() { if (!test.engine.paused) { test.engine.loadScene(menuScene); } }, 'Main Menu', false);
   test.engine.addActionToControls(toMenu, goog.events.KeyCodes.ESC, false, false, false);
@@ -71,7 +71,7 @@ test.initMap = function(mapSrc, scene ) {
   var container = test.engine.container;
 
   // Start for testing
-  var charac = new illandril.game.objects.Player(scene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(10, 10), new goog.math.Vec2(20, 20)), new illandril.game.ui.BasicDirectionalAnimation('../graphics/generic_character.png', 20, 20, 4, 2), 1000);
+  var charac = new illandril.game.objects.Player(scene, new illandril.math.Bounds(new goog.math.Vec2(10, 10), new goog.math.Vec2(20, 20)), new illandril.game.ui.BasicDirectionalAnimation('../graphics/generic_character.png', 20, 20, 4, 2), 1000);
   charac.setSpeed(100);
 
   var vp = new illandril.game.ui.Viewport(container, scene, new goog.math.Vec2(500, 500));
@@ -84,7 +84,7 @@ test.initMap = function(mapSrc, scene ) {
     var attempts = 0;
 
     while (bounds == null && attempts < 50) {
-      var randomBounds = illandril.math.Bounds.fromCenter(new goog.math.Vec2(100 + Math.random() * 100, 64 + i * 2), new goog.math.Vec2(2, 2));
+      var randomBounds = new illandril.math.Bounds(new goog.math.Vec2(100 + Math.random() * 100, 64 + i * 2), new goog.math.Vec2(2, 2));
       if (!scene.hasObjectIntersecting(randomBounds)) {
         bounds = randomBounds;
       }
@@ -105,41 +105,41 @@ test.initMap = function(mapSrc, scene ) {
   }
 
   for (var y = 16; y <= 1000; y += 32) {
-    var t = new illandril.game.objects.Wall(scene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(16 - Math.random() * 64, y), new goog.math.Vec2(64, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(32, 256)), 50);
+    var t = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(16 - Math.random() * 64, y), new goog.math.Vec2(64, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(32, 256)), 50);
     t.blocksFromBottom = function() { return false; }
     t.blocksFromLeft = function() { return false; }
     t.blocksFromRight = function() { return false; }
   }
 
-  var b = new illandril.game.objects.Wall(scene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(1192, 48), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(32, 352)), 50);
+  var b = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(1192, 48), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(32, 352)), 50);
   b.blocksFromTop = function() { return false; }
   b.blocksFromLeft = function() { return false; }
   b.blocksFromRight = function() { return false; }
 
-  var l = new illandril.game.objects.Wall(scene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(1160, 16), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(0, 288)), 50);
+  var l = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(1160, 16), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(0, 288)), 50);
   l.blocksFromTop = function() { return false; }
   l.blocksFromBottom = function() { return false; }
   l.blocksFromRight = function() { return false; }
 
-  var r = new illandril.game.objects.Wall(scene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(1224, 16), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(96, 288)), 50);
+  var r = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(1224, 16), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(96, 288)), 50);
   r.blocksFromTop = function() { return false; }
   r.blocksFromBottom = function() { return false; }
   r.blocksFromLeft = function() { return false; }
 
-  var s = new illandril.game.objects.Wall(scene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(96, 32), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(128, 256)), 50);
+  var s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(96, 32), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(128, 256)), 50);
   goog.object.extend(s, illandril.game.objects.Slope.prototype);
   s.direction = illandril.game.objects.Slope.DIRECTION.NE;
 
-  s = new illandril.game.objects.Wall(scene, illandril.math.Bounds.fromCenter(new goog.math.Vec2(160, 32), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(192, 256)), 50);
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(160, 32), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(192, 256)), 50);
   goog.object.extend(s, illandril.game.objects.Slope.prototype);
   s.direction = illandril.game.objects.Slope.DIRECTION.NW;
 
   /*
-  s = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 96, 96 ), new goog.math.Vec2( 64, 64 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 192, 320 ) ), 50 );
+  s = new illandril.game.objects.Wall( scene, new illandril.math.Bounds( new goog.math.Vec2( 96, 96 ), new goog.math.Vec2( 64, 64 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 192, 320 ) ), 50 );
   goog.object.extend( s, illandril.game.objects.Slope.prototype );
   s.direction = illandril.game.objects.Slope.DIRECTION.SW;
 
-  s = new illandril.game.objects.Wall( scene, illandril.math.Bounds.fromCenter( new goog.math.Vec2( 160, 96 ), new goog.math.Vec2( 64, 64 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 128, 320 ) ), 50 );
+  s = new illandril.game.objects.Wall( scene, new illandril.math.Bounds( new goog.math.Vec2( 160, 96 ), new goog.math.Vec2( 64, 64 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 128, 320 ) ), 50 );
   goog.object.extend( s, illandril.game.objects.Slope.prototype );
   s.direction = illandril.game.objects.Slope.DIRECTION.SE;
   */
