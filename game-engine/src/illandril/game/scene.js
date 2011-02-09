@@ -462,10 +462,11 @@ function checkForCollisions(movingObject, movement, objectList ) {
     movingObject.moveBy(newMovement);
   }
   if (stillMoving) {
+    var invertedMovement = newMovement.clone().invert();
     for (var idx = 0; idx < collidingObjects.length; idx++) {
       if (!hasBlockingCollision || bounds.intersects(collidingObjects[idx].getBounds())) {
-        movingObject.collideWith(collidingObjects[idx]);
-        collidingObjects[idx].collideWith(movingObject);
+        movingObject.collideWith(collidingObjects[idx], invertedMovement);
+        collidingObjects[idx].collideWith(movingObject, newMovement);
       }
     }
   }

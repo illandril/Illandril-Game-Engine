@@ -42,49 +42,53 @@ illandril.game.objects.Slope.prototype.blocksFromRight = function() {
   return this.direction == illandril.game.objects.Slope.DIRECTION.NE || this.direction == illandril.game.objects.Slope.DIRECTION.SE;
 };
 
-illandril.game.objects.Slope.prototype.collideWith = function(otherObject ) {
+illandril.game.objects.Slope.prototype.collideWith = function(otherObject, movement) {
   if (otherObject.canBeBlockedBy(this)) {
     var otherBounds = otherObject.getBounds();
     var size = this.getBounds().getSize();
     if (this.direction == illandril.game.objects.Slope.DIRECTION.NE) {
-      // WORKS
       var y = otherBounds.getBottom() - this.getBounds().getBottom();
       var x = this.getBounds().getRight() - otherBounds.getRight();
       var slope = Math.min((size.x - x) / size.x, 1);
       var rampTop = slope * size.y + illandril.game.objects.Slope.RAMP_OFFSET;
       if (rampTop > y) {
         otherObject.moveBy(new goog.math.Vec2(0, rampTop - y));
-        otherObject.blockedY();
+        if ( movement.y < 0 ) {
+          otherObject.blockedY();
+        }
       }
     } else if (this.direction == illandril.game.objects.Slope.DIRECTION.SE) {
-      // NOT TESTED
       var y = this.getBounds().getTop() - otherBounds.getTop();
       var x = this.getBounds().getRight() - otherBounds.getRight();
       var slope = Math.min((size.x - x) / size.x, 1);
-      var rampTop = slope * size.y + illandril.game.objects.Slope.RAMP_OFFSET;
-      if (rampTop < y) {
-        otherObject.moveBy(new goog.math.Vec2(0, rampTop - y));
-        otherObject.blockedY();
+      var rampBottom = slope * size.y + illandril.game.objects.Slope.RAMP_OFFSET;
+      if (rampBottom > y) {
+        otherObject.moveBy(new goog.math.Vec2(0, -1 * (rampBottom - y)));
+        if ( movement.y > 0 ) {
+          otherObject.blockedY();
+        }
       }
     } else if (this.direction == illandril.game.objects.Slope.DIRECTION.SW) {
-      // NOT TESTED
       var y = this.getBounds().getTop() - otherBounds.getTop();
       var x = otherBounds.getLeft() - this.getBounds().getLeft();
       var slope = Math.min((size.x - x) / size.x, 1);
-      var rampTop = slope * size.y + illandril.game.objects.Slope.RAMP_OFFSET;
-      if (rampTop < y) {
-        otherObject.moveBy(new goog.math.Vec2(0, rampTop - y));
-        otherObject.blockedY();
+      var rampBottom = slope * size.y + illandril.game.objects.Slope.RAMP_OFFSET;
+      if (rampBottom > y) {
+        otherObject.moveBy(new goog.math.Vec2(0, -1 * (rampBottom - y)));
+        if ( movement.y > 0 ) {
+          otherObject.blockedY();
+        }
       }
     } else /* NW */ {
-      // WORKS
       var y = otherBounds.getBottom() - this.getBounds().getBottom();
       var x = otherBounds.getLeft() - this.getBounds().getLeft();
       var slope = Math.min((size.x - x) / size.x, 1);
       var rampTop = slope * size.y + illandril.game.objects.Slope.RAMP_OFFSET;
       if (rampTop > y) {
         otherObject.moveBy(new goog.math.Vec2(0, rampTop - y));
-        otherObject.blockedY();
+        if ( movement.y < 0 ) {
+          otherObject.blockedY();
+        }
       }
     }
   }
