@@ -13,7 +13,7 @@ goog.require('illandril.game.ui.SpriteSheet');
  * @constructor
  * @extends illandril.game.ui.SpriteSheet
  */
-illandril.game.ui.BasicDirectionalAnimation = function(src, tileHeight, tileWidth, fps, frames ) {
+illandril.game.ui.BasicDirectionalAnimation = function(src, tileWidth, tileHeight, fps, frames ) {
   illandril.game.ui.SpriteSheet.call(this, src);
   this.tileHeight = tileHeight;
   this.tileWidth = tileWidth;
