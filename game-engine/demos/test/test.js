@@ -24,11 +24,11 @@ goog.require('illandril.game.ui.Viewport');
 goog.require('illandril.game.util.Framerate');
 
 test = {};
-test.init = function(mc, mapSrc ) {
+test.init = function(mc, mapSrc) {
   test.engine = new illandril.game.Engine('game');
   test.mc = mc;
   //illandril.game.Engine.mc = mc;
-  //illandril.game.Engine.init( "game", "map.json", "../graphics/" );
+  //illandril.game.Engine.init("game", "map.json", "../graphics/");
 
   var font = new illandril.game.ui.Font('../graphics/font.png', 15, 15, '?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 :+', 1, 1, -4);
 
@@ -67,7 +67,7 @@ test.init = function(mc, mapSrc ) {
   test.engine.loadMap(mapSrc, loadedScene, test.initMap);
 };
 
-test.initMap = function(mapSrc, scene ) {
+test.initMap = function(mapSrc, scene) {
   scene.startBulk();
   var container = test.engine.container;
 
@@ -95,7 +95,7 @@ test.initMap = function(mapSrc, scene ) {
       var mob = new illandril.game.objects.ActiveCollectable(scene, bounds, null, 1100);
       mob.setSpeed(50);
       /** @this {illandril.game.objects.ActiveCollectable} */
-      mob.think = function(tick ) {
+      mob.think = function(tick) {
         if (window['move']) {
           this.addVelocity(new goog.math.Vec2(Math.random() * 2 - 1, Math.random() * 2 - 1));
         }
@@ -105,6 +105,7 @@ test.initMap = function(mapSrc, scene ) {
     }
   }
 
+  // START OF DIRECTIONAL BLOCKING TESTS
   for (var y = 16; y <= 1000; y += 32) {
     var t = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(16 - Math.random() * 64, y), new goog.math.Vec2(64, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(32, 256)), 50);
     t.blocksFromBottom = function() { return false; }
@@ -112,45 +113,147 @@ test.initMap = function(mapSrc, scene ) {
     t.blocksFromRight = function() { return false; }
   }
 
-  var b = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(1192, 48), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(32, 352)), 50);
+  var b = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(-112, 48), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(32, 352)), 50);
   b.blocksFromTop = function() { return false; }
   b.blocksFromLeft = function() { return false; }
   b.blocksFromRight = function() { return false; }
 
-  var l = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(1160, 16), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(0, 288)), 50);
+  var l = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(-128, 16), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(0, 288)), 50);
   l.blocksFromTop = function() { return false; }
   l.blocksFromBottom = function() { return false; }
   l.blocksFromRight = function() { return false; }
 
-  var r = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(1224, 16), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(96, 288)), 50);
+  var r = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(-196, 16), new goog.math.Vec2(32, 32)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(96, 288)), 50);
   r.blocksFromTop = function() { return false; }
   r.blocksFromBottom = function() { return false; }
   r.blocksFromLeft = function() { return false; }
 
-  var s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(96, 32), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(128, 256)), 50);
+
+  // START OF SLOPE / STAIR TESTING
+  var s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(96, 32), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(256, 0)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.NE;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(160, 32), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(320, 0)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.NW;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(96, 96), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(320, 64)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.SW;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(160, 96), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(256, 64)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.SE;
+
+
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(256, 64), new goog.math.Vec2(64, 128)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(256, 128)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.NE;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(320, 64), new goog.math.Vec2(64, 128)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(320, 128)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.NW;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(256, 160), new goog.math.Vec2(64, 128)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(320, 256)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.SW;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(320, 160), new goog.math.Vec2(64, 128)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(256, 256)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.SE;
+
+
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(448, 32), new goog.math.Vec2(128, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(0, 384)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.NE;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(576, 32), new goog.math.Vec2(128, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(128, 384)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.NW;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(448, 96), new goog.math.Vec2(128, 64)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(128, 448)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.SW;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(576, 96), new goog.math.Vec2(128, 64)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(0, 448)), 50);
+  goog.object.extend(s, illandril.game.objects.Slope.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.SE;
+
+
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(704, 32), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(384, 0)), 50);
   goog.object.extend(s, illandril.game.objects.Stairs.prototype);
   s.direction = illandril.game.objects.Slope.DIRECTION.NE;
-  s.steps = 5;
+  s.steps = 8;
 
-  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(160, 32), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(192, 256)), 50);
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(768, 32), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(448, 0)), 50);
   goog.object.extend(s, illandril.game.objects.Stairs.prototype);
   s.direction = illandril.game.objects.Slope.DIRECTION.NW;
-  s.steps = 5;
+  s.steps = 8;
 
-  s = new illandril.game.objects.Wall( scene, new illandril.math.Bounds( new goog.math.Vec2( 96, 96 ), new goog.math.Vec2( 64, 64 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 192, 320 ) ), 50 );
-  goog.object.extend( s, illandril.game.objects.Stairs.prototype );
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(704, 96), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(448, 64)), 50);
+  goog.object.extend(s, illandril.game.objects.Stairs.prototype);
   s.direction = illandril.game.objects.Slope.DIRECTION.SW;
-  s.steps = 5;
+  s.steps = 8;
 
-  s = new illandril.game.objects.Wall( scene, new illandril.math.Bounds( new goog.math.Vec2( 160, 96 ), new goog.math.Vec2( 64, 64 ) ), new illandril.game.ui.StaticSprite( "../graphics/generic_tiles.png", new goog.math.Vec2( 128, 320 ) ), 50 );
-  goog.object.extend( s, illandril.game.objects.Stairs.prototype );
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(768, 96), new goog.math.Vec2(64, 64)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(384, 64)), 50);
+  goog.object.extend(s, illandril.game.objects.Stairs.prototype);
   s.direction = illandril.game.objects.Slope.DIRECTION.SE;
-  s.steps = 5;
+  s.steps = 8;
 
-  var moveUp = new illandril.game.ui.Action(function(tickTime ) { charac.setDesiredMovement(new goog.math.Vec2(0, 1)); }, 'Move Up', true);
-  var moveDown = new illandril.game.ui.Action(function(tickTime ) { charac.setDesiredMovement(new goog.math.Vec2(0, -1)); }, 'Move Down', true);
-  var moveLeft = new illandril.game.ui.Action(function(tickTime ) { charac.setDesiredMovement(new goog.math.Vec2(-1, 0)); }, 'Move Left', true);
-  var moveRight = new illandril.game.ui.Action(function(tickTime ) { charac.setDesiredMovement(new goog.math.Vec2(1, 0)); }, 'Move Right', true);
+
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(864, 64), new goog.math.Vec2(64, 128)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(384, 128)), 50);
+  goog.object.extend(s, illandril.game.objects.Stairs.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.NE;
+  s.steps = 16;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(928, 64), new goog.math.Vec2(64, 128)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(448, 128)), 50);
+  goog.object.extend(s, illandril.game.objects.Stairs.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.NW;
+  s.steps = 16;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(864, 160), new goog.math.Vec2(64, 128)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(448, 256)), 50);
+  goog.object.extend(s, illandril.game.objects.Stairs.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.SW;
+  s.steps = 16;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(928, 160), new goog.math.Vec2(64, 128)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(384, 256)), 50);
+  goog.object.extend(s, illandril.game.objects.Stairs.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.SE;
+  s.steps = 16;
+
+
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(1056, 32), new goog.math.Vec2(128, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(256, 384)), 50);
+  goog.object.extend(s, illandril.game.objects.Stairs.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.NE;
+  s.steps = 16;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(1184, 32), new goog.math.Vec2(128, 64)), new illandril.game.ui.StaticSprite('../graphics/generic_tiles.png', new goog.math.Vec2(384, 384)), 50);
+  goog.object.extend(s, illandril.game.objects.Stairs.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.NW;
+  s.steps = 16;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(1056, 96), new goog.math.Vec2(128, 64)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(384, 448)), 50);
+  goog.object.extend(s, illandril.game.objects.Stairs.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.SW;
+  s.steps = 16;
+
+  s = new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(1184, 96), new goog.math.Vec2(128, 64)), new illandril.game.ui.StaticSprite("../graphics/generic_tiles.png", new goog.math.Vec2(256, 448)), 50);
+  goog.object.extend(s, illandril.game.objects.Stairs.prototype);
+  s.direction = illandril.game.objects.Slope.DIRECTION.SE;
+  s.steps = 16;
+
+
+  // PLAYER CONTROLS
+  var moveUp = new illandril.game.ui.Action(function(tickTime) { charac.setDesiredMovement(new goog.math.Vec2(0, 1)); }, 'Move Up', true);
+  var moveDown = new illandril.game.ui.Action(function(tickTime) { charac.setDesiredMovement(new goog.math.Vec2(0, -1)); }, 'Move Down', true);
+  var moveLeft = new illandril.game.ui.Action(function(tickTime) { charac.setDesiredMovement(new goog.math.Vec2(-1, 0)); }, 'Move Left', true);
+  var moveRight = new illandril.game.ui.Action(function(tickTime) { charac.setDesiredMovement(new goog.math.Vec2(1, 0)); }, 'Move Right', true);
   scene.getControls().registerAction(moveUp, goog.events.KeyCodes.W, false, false, false);
   test.controlScene.addControl(scene.getControls(), moveUp);
   scene.getControls().registerAction(moveLeft, goog.events.KeyCodes.A, false, false, false);

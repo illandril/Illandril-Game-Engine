@@ -1,7 +1,7 @@
 [
- { "x":-192, "y":  64, "xEnd": 960, "yEnd":1088, "width":128, "height":128, "zIndex":   1, "bg": "../graphics/generic_tiles.png", "bgOffsetX": 128, "bgOffsetY":   0, "solid": false },
- { "x":-192, "y": -64, "xEnd": 960, "yEnd": -64, "width":128, "height":128, "zIndex":   1, "bg": "../graphics/generic_tiles.png", "bgOffsetX":   0, "bgOffsetY": 128, "solid": true },
- { "x":-192, "y":-192, "xEnd": 960, "yEnd":-192, "width":128, "height":128, "zIndex":   1, "bg": "../graphics/generic_tiles.png", "bgOffsetX":   0, "bgOffsetY":   0, "solid": false }
+ { "x":-1024, "y":  64, "xEnd": 1960, "yEnd":1088, "width":128, "height":128, "zIndex":   1, "bg": "../graphics/generic_tiles.png", "bgOffsetX": 128, "bgOffsetY":   0, "solid": false },
+ { "x":-1024, "y": -64, "xEnd": 1960, "yEnd": -64, "width":128, "height":128, "zIndex":   1, "bg": "../graphics/generic_tiles.png", "bgOffsetX":   0, "bgOffsetY": 128, "solid": true },
+ { "x":-1024, "y":-192, "xEnd": 1960, "yEnd":-192, "width":128, "height":128, "zIndex":   1, "bg": "../graphics/generic_tiles.png", "bgOffsetX":   0, "bgOffsetY":   0, "solid": false }
 ]
 
 
