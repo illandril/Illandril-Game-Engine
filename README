@@ -1,7 +1,27 @@
 See:
 https://github.com/illandril/Illandril-Game-Engine
 
+Contact Information:
+game.engine@illandril.net
+
 If you would like to use any of the code or other resources under the 
-game-engine directory for commercial purposes, send an e-mail to 
-game.engine@illandril.net - I will probably agree with very reasonable 
-terms.
+game-engine directory for commercial purposes, send me an email - I will
+probably agree with very reasonable terms.
+
+Closure Compiler:
+http://code.google.com/closure/compiler/
+
+Closure Library:
+http://code.google.com/closure/library/
+
+external-resources:
+The licenses vary for all of the files under the external-resources directory.
+Look for the appropriate "license.txt" or "readme.txt" file to get details for
+each file. Feel free to send me an e-mail if you need help.
+If you own the copyright to any of these files, and either have a correction to
+how I am crediting you or what license they should be using, or want them
+removed from this repository, send me an e-mail to let me know. I'll do my best
+to make the corrections ASAP.
+If you have any resources that you think would be useful to me, and would like
+to allow me to distribute them in this repository and use them for testing and
+demo games, please let me know.
