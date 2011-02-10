@@ -20,9 +20,9 @@ goog.require('illandril.game.objects.Solid');
  * @param {illandril.math.Bounds} bounds the bounds that define the size and location of the object.
  * @param {?string} bg the URL of the background image for this object.
  */
-illandril.game.objects.Player = function(scene, bounds, bg, zIndex ) {
+illandril.game.objects.Player = function(scene, bounds, bg, zIndex, blockingBounds) {
   illandril.game.objects.GameObject.call(this, scene, bounds, bg, zIndex);
-  illandril.game.objects.Solid.call(this);
+  illandril.game.objects.Solid.call(this, blockingBounds);
   illandril.game.objects.Active.call(this);
   this.collectables = [];
   this.startPos = bounds.getCenter();

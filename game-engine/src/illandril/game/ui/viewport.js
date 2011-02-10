@@ -26,6 +26,7 @@ illandril.game.ui.Viewport = function(container, scene, size ) {
   this.hide();
   this.scene.attachViewport(this);
   this.lastClean = 0;
+  this.DEBUG_BOUNDING = false;
 };
 
 illandril.game.ui.Viewport.prototype.buildDOMContainers = function(container, size ) {
@@ -126,24 +127,57 @@ illandril.game.ui.Viewport.prototype.update = function(tickTime, gameTime ) {
         this.updateBG(obj, objDom, gameTime);
       }
     }
+    if ( this.DEBUG_BOUNDING && obj.getBlockingBounds != null ) {
+      objBounds = obj.getBlockingBounds();
+      objSize = objBounds.getSize();
+      if (this.isBigEnoughToBeVisible(objSize)) {
+        shownObjects[shownObjects.length] = obj.id + "_BOUNDS";
+        var objDom = this.getOrCreateDomObject(obj, "_BOUNDS");
+        var top = Math.round(objBounds.getTop());
+        var left = Math.round(objBounds.getLeft());
+        var resized = objDom.savedStyle.width != objSize.x || objDom.savedStyle.height != objSize.y;
+        var moved = resized || objDom.savedStyle.top != top || objDom.savedStyle.left != left;
+        if (moved) {
+          objDom.style.left = left + 'px';
+          objDom.style.top = (-1 * top) + 'px';
+          objDom.savedStyle.left = left;
+          objDom.savedStyle.top = top;
+        }
+        if (resized) {
+          objDom.style.width = Math.round(objSize.x) + 'px';
+          objDom.style.height = Math.round(objSize.y) + 'px';
+          objDom.savedStyle.width = objSize.x;
+          objDom.savedStyle.height = objSize.y;
+        }
+        if (objDom.savedStyle.z != obj.zIndex) {
+          objDom.style.zIndex = Math.max(1, obj.zIndex + 1000) + 1;
+          objDom.savedStyle.z = obj.zIndex;
+        }
+      }
+    }
   }
   this.clean(shownObjects, gameTime);
+};
+
+illandril.game.ui.Viewport.prototype.showObject = function(obj) {
 };
 
 illandril.game.ui.Viewport.prototype.isBigEnoughToBeVisible = function(objSize ) {
   return this.zoom >= 1 || ((objSize.x * objSize.y) * this.zoom) >= 1;
 };
 
-illandril.game.ui.Viewport.prototype.getOrCreateDomObject = function(obj ) {
-  var objDom = this.domObjects[obj.id];
+illandril.game.ui.Viewport.prototype.getOrCreateDomObject = function(obj, extra) {
+  extra = extra || "";
+  var id = obj.id + extra;
+  var objDom = this.domObjects[id];
   if (objDom == null) {
     objDom = document.createElement('span');
-    this.domObjects[obj.id] = objDom;
+    this.domObjects[id] = objDom;
     this.domObjectsCount++;
-    objDom.className = 'gameObject';
+    objDom.className = 'gameObject' + extra;
     objDom.obj = obj;
     objDom.savedStyle = {};
-    if (obj.bg != null) {
+    if (obj.bg != null && extra == "") {
       objDom.style.backgroundColor = 'transparent';
     }
     objDom.onclick = function(e) {

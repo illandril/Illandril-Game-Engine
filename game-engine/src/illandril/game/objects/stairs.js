@@ -22,12 +22,13 @@ goog.inherits(illandril.game.objects.Stairs, illandril.game.objects.Slope);
 
 illandril.game.objects.Stairs.prototype.collideWith = function(otherObject, movement) {
   if (otherObject.canBeBlockedBy(this)) {
-    var otherBounds = otherObject.getBounds();
+    var thisBounds = this.getBlockingBounds();
+    var otherBounds = otherObject.getBlockingBounds();
     var size = this.getBounds().getSize();
     var stepHeight = size.y / this.steps;
     if (this.direction == illandril.game.objects.Slope.DIRECTION.NE) {
-      var y = otherBounds.getBottom() - this.getBounds().getBottom();
-      var x = this.getBounds().getRight() - otherBounds.getRight();
+      var y = otherBounds.getBottom() - thisBounds.getBottom();
+      var x = thisBounds.getRight() - otherBounds.getRight();
       var slope = Math.min((size.x - x) / size.x, 1);
       var rampTop = slope * size.y;
       rampTop = rampTop - rampTop % stepHeight + stepHeight;
@@ -40,8 +41,8 @@ illandril.game.objects.Stairs.prototype.collideWith = function(otherObject, move
         }
       }
     } else if (this.direction == illandril.game.objects.Slope.DIRECTION.SE) {
-      var y = this.getBounds().getTop() - otherBounds.getTop();
-      var x = this.getBounds().getRight() - otherBounds.getRight();
+      var y = thisBounds.getTop() - otherBounds.getTop();
+      var x = thisBounds.getRight() - otherBounds.getRight();
       var slope = Math.min((size.x - x) / size.x, 1);
       var rampBottom = slope * size.y;
       rampBottom = rampBottom - rampBottom % stepHeight + stepHeight;
@@ -54,8 +55,8 @@ illandril.game.objects.Stairs.prototype.collideWith = function(otherObject, move
         }
       }
     } else if (this.direction == illandril.game.objects.Slope.DIRECTION.SW) {
-      var y = this.getBounds().getTop() - otherBounds.getTop();
-      var x = otherBounds.getLeft() - this.getBounds().getLeft();
+      var y = thisBounds.getTop() - otherBounds.getTop();
+      var x = otherBounds.getLeft() - thisBounds.getLeft();
       var slope = Math.min((size.x - x) / size.x, 1);
       var rampBottom = slope * size.y;
       rampBottom = rampBottom - rampBottom % stepHeight + stepHeight;
@@ -68,8 +69,8 @@ illandril.game.objects.Stairs.prototype.collideWith = function(otherObject, move
         }
       }
     } else /* NW */ {
-      var y = otherBounds.getBottom() - this.getBounds().getBottom();
-      var x = otherBounds.getLeft() - this.getBounds().getLeft();
+      var y = otherBounds.getBottom() - thisBounds.getBottom();
+      var x = otherBounds.getLeft() - thisBounds.getLeft();
       var slope = Math.min((size.x - x) / size.x, 1);
       var rampTop = slope * size.y;
       rampTop = rampTop - rampTop % stepHeight + stepHeight;

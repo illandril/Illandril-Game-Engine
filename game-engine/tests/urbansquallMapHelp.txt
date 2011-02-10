@@ -1,0 +1,68 @@
+Shovel:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY":   0, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Bucket with Water:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY":   0, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Empty Bucket:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  64, "bgOffsetY":   0, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Golden Apple:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY":  32, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Feed Bag Closed:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY":  32, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Feed Bag Opened:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  64, "bgOffsetY":  32, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Wheat Field (TL, T, TR, L, M, R, BL, B, BR):
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY":  64, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY":  64, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  64, "bgOffsetY":  64, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY":  96, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY":  96, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  64, "bgOffsetY":  96, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 128, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY": 128, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  64, "bgOffsetY": 128, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+White Flower Bush:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY": 160, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+No Flower Bush:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 192, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Pink Flower Bush:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY": 192, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Pink Flower Bush:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY": 192, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Dirt:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY": 448, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Purple Brick:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  64, "bgOffsetY": 448, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+White Brick:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  96, "bgOffsetY": 448, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Grass:
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 448, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+Grass with Cliff (L1, TL, TR, R1, L2, T1, T2, R2, BL, B1, B2, BR):
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 480, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY": 480, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  64, "bgOffsetY": 480, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  96, "bgOffsetY": 480, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 512, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY": 512, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  64, "bgOffsetY": 512, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  96, "bgOffsetY": 512, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 544, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  32, "bgOffsetY": 544, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  64, "bgOffsetY": 544, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":?????, "y":?????, "xEnd":?????, "yEnd":?????, "zIndex":?????, "solid": false, "width": 32, "height": 32, "bgOffsetX":  96, "bgOffsetY": 544, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+
+

@@ -7,3 +7,7 @@ We recently stopped production on an internal project over at Urbansquall [http:
 
 If you decide to use any of these tilesheets, please let us know by dropping a comment here (though you certainly don’t have to). We’d love to see them find a home in a game somewhere. If you need some more in a matching style to finish your game, let us know as well and we might be able to take care of you.
 """
+
+Transparent background versions (_TB) modified from originals by Illandril.
+Adjusted positioning versions (_AP) modified from originals by Illandril.
+

@@ -1,0 +1,9 @@
+[
+ { "x":   64, "y":    0,                             "zIndex":    1, "solid":  true, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 192, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":   96, "y":   10,                             "zIndex":    1, "solid":  true, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 192, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":  128, "y":   20,                             "zIndex":    1, "solid":  true, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 192, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":  160, "y":   15,                             "zIndex":    1, "solid":  true, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 192, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" },
+ { "x":-1024, "y":-1024, "xEnd": 1024, "yEnd": 1024, "zIndex":    1, "solid": false, "width": 32, "height": 32, "bgOffsetX":   0, "bgOffsetY": 448, "bg": "../../external-resources/graphics/urbansquall_tileset/tilesets/Exterior_CastleGarden_TB.png" }
+]
+
+

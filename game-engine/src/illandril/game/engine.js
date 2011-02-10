@@ -29,7 +29,8 @@ goog.require('illandril.math.Bounds');
 illandril.game.Engine = function(gameContainerID) {
   this.debug = {
     FPS: true,
-    objectCount: false
+    objectCount: false,
+    bounding: false
   };
   this.allowLagPause = true;
   this.resumeOnLoadingFinish = true;
@@ -79,6 +80,9 @@ illandril.game.Engine.prototype.initControls = function() {
 
   this.debugObjectCountAction = new illandril.game.ui.Action(function() { if (!self.paused) { self.debug.objectCount = !self.debug.objectCount; } }, 'Debug Object Count', false);
   this.controls.registerAction(this.debugObjectCountAction, goog.events.KeyCodes.F7, false, false, false);
+  
+  this.debugBoundingAction = new illandril.game.ui.Action(function() { if (!self.paused) { self.debug.bounding = !self.debug.bounding; } }, 'Debug Bounding Boxes', false);
+  this.controls.registerAction(this.debugBoundingAction, goog.events.KeyCodes.F9, false, false, false);
 };
 
 illandril.game.Engine.prototype.initDebug = function() {
@@ -292,6 +296,7 @@ illandril.game.Engine.prototype.tick = function() {
     }
     for (var i = 0; i < scene.viewports.length; i++) {
       scene.viewports[i].show();
+      scene.viewports[i].DEBUG_BOUNDING = this.debug.bounding;
     }
     scene.getControls().handleKeyEvents(tickTime);
     scene.update(tickTime, illandril.game.util.Framerate.getTotalTime());

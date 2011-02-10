@@ -34,3 +34,15 @@
  display: inline-block;
 }
 
+.gameObject_BOUNDS {
+ z-index: 1001;
+ position: absolute;
+ border: none;
+ background-color: #90F;
+ opacity: 0.4;
+ filter: alpha(opacity=40)
+ height: 10px;
+ width: 10px;
+ display: inline-block;
+}
+
