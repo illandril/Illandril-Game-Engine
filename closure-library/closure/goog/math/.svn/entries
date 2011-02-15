@@ -1,15 +1,15 @@
 9
 
 dir
-681
+707
 http://closure-library.googlecode.com/svn/trunk/closure/goog/math
 http://closure-library.googlecode.com/svn
 
 
 
-2011-01-20T18:29:40.000000Z
-637
-pallosp@google.com
+2011-02-11T23:01:16.000000Z
+705
+brenneman@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -128,40 +128,6 @@ has-props
 
 8747
 
-coordinate3.js
-file
-
-
-
-
-2010-11-21T04:53:44.000000Z
-26f4d67400bd9972fec0cc7c22fb5b12
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4639
-
 size.js
 file
 
@@ -196,17 +162,17 @@ has-props
 
 4953
 
-coordinate_test.html
+coordinate3.js
 file
 
 
 
 
-2010-11-21T04:53:44.000000Z
-748a2afc81a298d801456de75844c9eb
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-02-15T18:25:23.000000Z
+e7ebcd35e1173f5a515718fa46a77ffc
+2011-02-11T23:01:16.000000Z
+705
+brenneman@google.com
 has-props
 
 
@@ -228,7 +194,7 @@ has-props
 
 
 
-2425
+4639
 
 line_test.html
 file
@@ -264,6 +230,40 @@ has-props
 
 1735
 
+coordinate_test.html
+file
+
+
+
+
+2010-11-21T04:53:44.000000Z
+748a2afc81a298d801456de75844c9eb
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2425
+
 box_test.html
 file
 
@@ -297,40 +297,6 @@ has-props
 
 
 5018
-
-math_test.html
-file
-
-
-
-
-2010-11-21T04:53:44.000000Z
-2cb6c090bb2bf62cd5863cc941e21c6b
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-9766
 
 bezier.js
 file
@@ -366,6 +332,40 @@ has-props
 
 6423
 
+math_test.html
+file
+
+
+
+
+2010-11-21T04:53:44.000000Z
+2cb6c090bb2bf62cd5863cc941e21c6b
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9766
+
 range_test.html
 file
 
@@ -399,40 +399,6 @@ has-props
 
 
 3083
-
-rect_test.html
-file
-
-
-
-
-2010-11-21T04:53:44.000000Z
-1d13e6ba1eea775b8a7f05e718e99f99
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-10256
 
 integer_test.html
 file
@@ -468,14 +434,14 @@ has-props
 
 108872
 
-vec2_test.html
+rect_test.html
 file
 
 
 
 
 2010-11-21T04:53:44.000000Z
-4ec9aa0a155c04f98dbe067ff8d53344
+1d13e6ba1eea775b8a7f05e718e99f99
 2010-11-15T19:01:13.000000Z
 454
 nicksantos@google.com
@@ -500,7 +466,7 @@ has-props
 
 
 
-4246
+10256
 
 long_test.html
 file
@@ -535,6 +501,40 @@ has-props
 
 
 106266
+
+vec2_test.html
+file
+
+
+
+
+2011-02-15T18:25:23.000000Z
+3468258a3b72b45bf3a2df964bb19515
+2011-02-11T23:01:16.000000Z
+705
+brenneman@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4083
 
 coordinate.js
 file
@@ -576,11 +576,11 @@ file
 
 
 
-2010-11-21T04:53:44.000000Z
-04bc3939468a5a12ce15d99f7a8ab1dc
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-02-15T18:25:23.000000Z
+07cb964ceb7481c6699d91f0762b2ee8
+2011-02-11T23:01:16.000000Z
+705
+brenneman@google.com
 has-props
 
 
@@ -602,7 +602,7 @@ has-props
 
 
 
-5129
+4918
 
 line.js
 file
@@ -746,11 +746,11 @@ file
 
 
 
-2010-11-21T04:53:44.000000Z
-1c6c76f376d4557a0bc7a02eff18e3e2
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-02-15T18:25:23.000000Z
+96382f1b1aa579155a864b00887d625a
+2011-02-11T23:01:16.000000Z
+705
+brenneman@google.com
 has-props
 
 
@@ -772,7 +772,7 @@ has-props
 
 
 
-4000
+3965
 
 rect.js
 file
@@ -882,33 +882,12 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-546f46e0504a602d9138b9504560ff08
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+
+b0409aacc92cfb712bcd06ecd7a6eb2d
+2011-02-11T23:01:16.000000Z
+705
+brenneman@google.com
 has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7021
 
 long.js
 file
@@ -950,11 +929,11 @@ file
 
 
 
-2010-11-21T04:53:44.000000Z
-121ddf2057a3952cf9a813269610664e
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-02-15T18:25:23.000000Z
+a438140b0ca04ba30a57b67cedd4f893
+2011-02-11T23:01:16.000000Z
+705
+brenneman@google.com
 has-props
 
 
@@ -976,7 +955,7 @@ has-props
 
 
 
-8353
+7791
 
 size_test.html
 file
@@ -1018,11 +997,11 @@ file
 
 
 
-2011-01-24T00:26:20.000000Z
-ce1c76259ab46c16955e66f993eb0480
-2011-01-20T18:29:40.000000Z
-637
-pallosp@google.com
+2011-02-15T18:25:23.000000Z
+2fd06053cb7b4a4633f806f6146cd035
+2011-02-11T23:01:16.000000Z
+705
+brenneman@google.com
 has-props
 
 
@@ -1044,5 +1023,5 @@ has-props
 
 
 
-6044
+5701
 
