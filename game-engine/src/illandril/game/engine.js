@@ -65,7 +65,7 @@ illandril.game.Engine.prototype.initControls = function() {
   if (this.controls != null) {
     return;
   }
-  this.controls = new illandril.game.ui.Controls();
+  this.controls = new illandril.game.ui.Controls("Engine");
   this.controls.registerControlChangeListener(this, this.updateDialogs);
 
   var self = this;
@@ -190,17 +190,17 @@ illandril.game.Engine.prototype.initLoadingDialog = function() {
   this.loadingDialog.setVisible(true);
 };
 
-illandril.game.Engine.prototype.addActionToControls = function(action, keyCodeOrKey, ctrl, alt, shift ) {
+illandril.game.Engine.prototype.addActionToControls = function(action, keyCodeOrKey, ctrl, alt, shift) {
   this.controls.registerAction(action, keyCodeOrKey, ctrl, alt, shift);
 };
 
-illandril.game.Engine.prototype.addStandardEngineControlsToScene = function(controlScene ) {
+illandril.game.Engine.prototype.addStandardEngineControlsToScene = function(controlScene) {
   controlScene.addControl(this.controls, this.pauseAction);
   controlScene.addControl(this.controls, this.debugFPSAction);
   controlScene.addControl(this.controls, this.debugObjectCountAction);
 };
 
-illandril.game.Engine.prototype.loadScene = function(scene ) {
+illandril.game.Engine.prototype.loadScene = function(scene) {
   if (scene == null) {
     throw 'Null Scene!';
   }
@@ -215,12 +215,12 @@ illandril.game.Engine.prototype.start = function() {
   this.tick();
 };
 
-illandril.game.Engine.prototype.loadMap = function(mapSrc, scene, callback ) {
+illandril.game.Engine.prototype.loadMap = function(mapSrc, scene, callback) {
   this.startLoad();
   this._loadMap(mapSrc, scene, callback);
 };
 
-illandril.game.Engine.prototype._loadMap = function(mapSrc, scene, callback ) {
+illandril.game.Engine.prototype._loadMap = function(mapSrc, scene, callback) {
   if (mapSrc != null && this.maps[mapSrc] == null) {
     var mapPullRequest = new goog.net.XhrIo();
     var self = this;
@@ -281,9 +281,15 @@ illandril.game.Engine.prototype.tick = function() {
   } else {
     this.lagCount = 0;
   }
-
+  
+  if (!this.paused) {
+    this.currentScene.handleKeyEvents(tickTime);
+  }
+  illandril.game.ui.Controls.rememberCurrentAsLastKeyState();
+  
   if (this.paused) {
     //illandril.game.util.Framerate.reset();
+    illandril.game.ui.Controls.rememberCurrentAsLastKeyState();
   } else {
     var scene = this.currentScene;
     if (scene != this.lastScene) {
@@ -298,7 +304,6 @@ illandril.game.Engine.prototype.tick = function() {
       scene.viewports[i].show();
       scene.viewports[i].DEBUG_BOUNDING = this.debug.bounding;
     }
-    scene.getControls().handleKeyEvents(tickTime);
     scene.update(tickTime, illandril.game.util.Framerate.getTotalTime());
     if (illandril.game.util.Framerate.totalFrames % 5 == 0) {
       this.debugContainer.innerHTML = '';
@@ -318,7 +323,7 @@ illandril.game.Engine.prototype.tick = function() {
       this.debugContainer.style.display = (this.debugContainer.innerHTML == '') ? 'none' : '';
     }
   }
-
+  
   var timeout = this.TARGET_TIMEOUT - (new Date() - illandril.game.util.Framerate.lastFrameStamp);
   if (timeout < this.MINIMUM_TIMEOUT) {
     timeout = this.MINIMUM_TIMEOUT;

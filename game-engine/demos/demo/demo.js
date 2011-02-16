@@ -2,6 +2,7 @@ goog.provide('demo');
 
 goog.require('illandril');
 goog.require('illandril.game.ControlChangeScene');
+goog.require('illandril.game.Cutscene');
 goog.require('illandril.game.Engine');
 goog.require('illandril.game.Scene');
 goog.require('illandril.game.objects.ActiveCollectable');
@@ -40,7 +41,7 @@ demo.init = function(mapSrc) {
   var toMenu = new illandril.game.ui.Action(function() { if (!demo.engine.paused) { demo.engine.loadScene(menuScene); } }, 'Main Menu', false);
   demo.engine.addActionToControls(toMenu, goog.events.KeyCodes.ESC, false, false, false);
 
-  var loadedScene = new illandril.game.Scene();
+  var loadedScene = new illandril.game.Scene("Demo");
   // loadedScene.setGravity(new goog.math.Vec2(0, -400));
   demo.controlScene.addControl(demo.engine.controls, toMenu);
   demo.engine.addStandardEngineControlsToScene(demo.controlScene);
@@ -89,6 +90,52 @@ demo.initMap = function(mapSrc, scene) {
   demo.controlScene.addControl(scene.getControls(), moveRight);
 
   scene.endBulk();
+  
+  var cutscene = new illandril.game.Cutscene("cutscene", scene);
+  
+  var loadScene = new illandril.game.ui.Action(function(tickTime) { scene.setCutscene(cutscene); }, 'Start Cutscene', false);
+  scene.getControls().registerAction(loadScene, goog.events.KeyCodes.Q, false, false, false);
+  demo.controlScene.addControl(scene.getControls(), loadScene);
+  var endScene = new illandril.game.ui.Action(function(tickTime) { scene.setCutscene(null); }, 'End Cutscene', false);
+  cutscene.getControls().registerAction(endScene, goog.events.KeyCodes.Q, false, false, false);
+  demo.controlScene.addControl(cutscene.getControls(), endScene);
+
+  cutscene.initialize = function() {
+    this.phase = 1;
+    charac.moveTo(new goog.math.Vec2(0,0));
+  };
+  cutscene.think = function() {
+    if (this.phase == 1) {
+      if (charac.getPosition().y > 200) {
+        this.phase = 2;
+        charac.moveTo(new goog.math.Vec2(0,200));
+        charac.blockedX();
+        charac.blockedY();
+      } else {
+        charac.setDesiredMovement(new goog.math.Vec2(0, 1));
+      }
+    }
+    if (this.phase == 2) {
+      if (charac.getPosition().x > 200) {
+        this.phase = 3;
+        charac.moveTo(new goog.math.Vec2(200,200));
+        charac.blockedX();
+        charac.blockedY();
+      } else {
+        charac.setDesiredMovement(new goog.math.Vec2(1, 0));
+      }
+    }
+    if (this.phase == 3) {
+      charac.setDesiredMovement(new goog.math.Vec2(Math.random() * 2 - 1, Math.random() * 2 - 1));
+    }
+  };
+  cutscene.cleanup = function() {
+    charac.blockedX();
+    charac.blockedY();
+    charac.moveTo(new goog.math.Vec2(0,0));
+  };
+  cutscene.addObject(charac);
+  
 };
 
 goog.exportSymbol('demo', demo);

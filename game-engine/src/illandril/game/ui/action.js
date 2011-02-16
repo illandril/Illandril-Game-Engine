@@ -14,7 +14,7 @@ goog.require('illandril');
  * @param {boolean} executeOnRepeat flag indicating if execute should be called on repeat key presses.
  * @constructor
  */
-illandril.game.ui.Action = function(fn, name, executeOnRepeat ) {
+illandril.game.ui.Action = function(fn, name, executeOnRepeat) {
   this.execute = fn;
   this.name = name;
   this['name'] = name;

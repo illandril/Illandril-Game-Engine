@@ -27,7 +27,7 @@ illandril.game.objects.Active = function() {
 /*
 
 loop {
- accelerate( direction );
+ accelerate(direction);
   \--> adjust velocity by acceleration
  move
   \--> fix velocity to 0 if below threshold
@@ -43,12 +43,12 @@ illandril.game.objects.Active.prototype.isActive = true;
 
 illandril.game.objects.Active.prototype.grounded = { x: 0, y: 0 };
 
-illandril.game.objects.Active.prototype.setSpeed = function(speed ) {
+illandril.game.objects.Active.prototype.setSpeed = function(speed) {
   this.speed = speed;
   this.squaredSpeed = speed * speed;
 };
 
-illandril.game.objects.Active.prototype.setDesiredMovement = function(direction ) {
+illandril.game.objects.Active.prototype.setDesiredMovement = function(direction) {
   if (this.desiredMovement == null) {
     this.desiredMovement = direction.clone();
   } else {
@@ -56,7 +56,7 @@ illandril.game.objects.Active.prototype.setDesiredMovement = function(direction 
   }
 };
 
-illandril.game.objects.Active.prototype.think = function(tickSeconds ) {
+illandril.game.objects.Active.prototype.think = function(tickSeconds) {
   var desiredInternalVelocityChange = null;
   if (this.desiredMovement != null) {
     desiredInternalVelocityChange = this.desiredMovement;
@@ -141,11 +141,11 @@ illandril.game.objects.Active.prototype.think = function(tickSeconds ) {
   this.setDirection(this.getVelocity());
 };
 
-illandril.game.objects.Active.prototype.addVelocity = function(velocity ) {
+illandril.game.objects.Active.prototype.addVelocity = function(velocity) {
   this.velocity.add(velocity);
 };
 
-illandril.game.objects.Active.prototype.applyFriction = function(tickSeconds ) {
+illandril.game.objects.Active.prototype.applyFriction = function(tickSeconds) {
   var friction = tickSeconds / 2;
   this.velocity.x = this.velocity.x - this.velocity.x * friction;
   this.velocity.y = this.velocity.y - this.velocity.y * friction;
@@ -179,7 +179,7 @@ illandril.game.objects.Active.prototype.blockedX = function() {
 
 illandril.game.objects.Active.prototype.getVelocity = function() {
   var retVelo = this.velocity.clone();
-  //if ( retVelo.squaredMagnitude() > 1 ) {
+  //if (retVelo.squaredMagnitude() > 1) {
   //  retVelo.normalize();
   //}
   return retVelo.add(this.internalVelocity);
@@ -189,11 +189,11 @@ illandril.game.objects.Active.prototype.isMoving = function() {
   return this.velocity.x != 0 || this.velocity.y != 0 || this.internalVelocity.x != 0 || this.internalVelocity.y != 0;
 };
 
-illandril.game.objects.Active.prototype.moveBy = function(direction ) {
+illandril.game.objects.Active.prototype.moveBy = function(direction) {
   this.moveTo(this.getPosition().add(direction));
 };
 
-illandril.game.objects.Active.prototype.moveTo = function(position ) {
+illandril.game.objects.Active.prototype.moveTo = function(position) {
   this.bounds.centerOn(position);
   if (this.scene != null) {
     this.scene.objectMoved(this);

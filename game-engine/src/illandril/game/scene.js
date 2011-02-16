@@ -41,7 +41,7 @@ var ACTIVITY_RANGE = 5000000;
 /**
  * @constructor
  */
-illandril.game.Scene = function(name ) {
+illandril.game.Scene = function(name) {
   this.controls = new illandril.game.ui.Controls(name);
 
   this.players = [];
@@ -58,9 +58,23 @@ illandril.game.Scene = function(name ) {
   this.inBulk = 0;
   this.viewports = [];
   this.gravity = new goog.math.Vec2(0, 0);
+  
+  this.cutscene = null;
 };
 
-illandril.game.Scene.prototype.setGravity = function(gravity ) {
+illandril.game.Scene.prototype.setCutscene = function(cutscene) {
+  if (this.cutscene != cutscene) {
+    if (this.cutscene != null) {
+	  this.cutscene.end();
+    }
+    this.cutscene = cutscene;
+	if (this.cutscene != null) {
+      this.cutscene.start();
+	}
+  }
+};
+
+illandril.game.Scene.prototype.setGravity = function(gravity) {
   this.gravity = gravity.clone();
 };
 
@@ -94,7 +108,7 @@ illandril.game.Scene.prototype.endBulk = function() {
  * Links a viewport with this scene.
  * @param {illandril.game.Viewport} viewport The viewport to link to this scene.
  */
-illandril.game.Scene.prototype.attachViewport = function(viewport ) {
+illandril.game.Scene.prototype.attachViewport = function(viewport) {
   this.viewports[this.viewports.length] = viewport;
   this.updateViewports();
 };
@@ -115,17 +129,30 @@ illandril.game.Scene.prototype.updateViewports = function() {
 /**
  *
  */
-illandril.game.Scene.prototype.update = function(tickTime, gameTime ) {
+illandril.game.Scene.prototype.handleKeyEvents = function(tickTime) {
+  if (this.cutscene == null) {
+    this.controls.handleKeyEvents(tickTime);
+  } else {
+    this.cutscene.getControls().handleKeyEvents(tickTime);
+  }
+}
+
+/**
+ *
+ */
+illandril.game.Scene.prototype.update = function(tickTime, gameTime) {
   this.tickCount++;
   var tick = Math.min(tickTime, MAX_TICK_TIME);
   this.lastTickSeconds = tick / 1000;
   this.lastSceneTime = gameTime;
 
   this.startBulk();
-
-  // TODO: Update objects in the scene
-  this._update();
-
+  if (this.cutscene == null) {
+    this._update(this.objects.getActiveObjects());
+  } else {
+    this.cutscene.update();
+  }
+  
   // Make sure the viewports always update every tick, for animation
   // This should be handled by obj.think() calls in _update probably...
   this.updateViewports();
@@ -133,7 +160,7 @@ illandril.game.Scene.prototype.update = function(tickTime, gameTime ) {
 };
 
 
-illandril.game.Scene.prototype.getBucketXY = function(point ) {
+illandril.game.Scene.prototype.getBucketXY = function(point) {
   var x = Math.round(point.x / BUCKET_SIZE);
   var y = Math.round(point.y / BUCKET_SIZE);
   return { x: x, y: y };
@@ -144,7 +171,7 @@ illandril.game.Scene.prototype.getBucketXY = function(point ) {
  * @param {goog.math.Vec2} point The point the bucket should contain.
  * @return {illandril.game.objects.Container} The bucket containing the point.
  */
-illandril.game.Scene.prototype.getBucket = function(point ) {
+illandril.game.Scene.prototype.getBucket = function(point) {
   var bucketXY = this.getBucketXY(point);
   if (this.buckets[bucketXY.x] == null) {
     this.buckets[bucketXY.x] = {};
@@ -161,7 +188,7 @@ illandril.game.Scene.prototype.getBucket = function(point ) {
  * @param {goog.math.Vec2} point The point to get nearby objects from.
  * @return {Array.<illandril.game.objects.GameObject>} All nearby solid objects.
  */
-illandril.game.Scene.prototype.getNearbySolidObjects = function(point ) {
+illandril.game.Scene.prototype.getNearbySolidObjects = function(point) {
   // The cache speeds things up quite a bit when there are lots of things moving close together...
   // But it also means there might be cases where things don't collide when they should (two, fast moving objects and/or teleporting objects)
   if (this.getNearbySolidObjects__last != this.tickCount) {
@@ -176,7 +203,7 @@ illandril.game.Scene.prototype.getNearbySolidObjects = function(point ) {
   return this.getNearbySolidObjects__cache[id];
 };
 
-illandril.game.Scene.prototype._getNearbySolidObjects = function(bucketXY ) {
+illandril.game.Scene.prototype._getNearbySolidObjects = function(bucketXY) {
   var nearbyObjects = [];
   for (var x = -1; x <= 1; x++) {
     var xBucketContainer = this.buckets[bucketXY.x + x];
@@ -199,7 +226,7 @@ illandril.game.Scene.prototype._getNearbySolidObjects = function(bucketXY ) {
  * Adds an object to the scene.
  * @param {illandril.game.objects.GameObject} gameObject The object to add to the scene.
  */
-illandril.game.Scene.prototype.addObject = function(gameObject ) {
+illandril.game.Scene.prototype.addObject = function(gameObject) {
   if (gameObject.scene != null) {
     gameObject.scene.removeObject(gameObject);
   }
@@ -215,7 +242,7 @@ illandril.game.Scene.prototype.addObject = function(gameObject ) {
  * Removes an object from the scene.
  * @param {illandril.game.objects.GameObject} gameObject The object to remove from the scene.
  */
-illandril.game.Scene.prototype.removeObject = function(gameObject ) {
+illandril.game.Scene.prototype.removeObject = function(gameObject) {
   if (gameObject.scene != this) {
     return;
   }
@@ -243,7 +270,7 @@ illandril.game.Scene.prototype.removeObject = function(gameObject ) {
  * @param {illandril.math.Bounds} bounds The bounds that objects should be inside.
  * @return {Array.<illandril.game.objects.GameObject>} The objects in the specified bounds.
  */
-illandril.game.Scene.prototype.getObjects = function(bounds ) {
+illandril.game.Scene.prototype.getObjects = function(bounds) {
   if (bounds == null) {
     return this.objects;
   }
@@ -274,7 +301,7 @@ illandril.game.Scene.prototype.getObjects = function(bounds ) {
 /**
  *
  */
-illandril.game.Scene.prototype.objectMoved = function(gameObject ) {
+illandril.game.Scene.prototype.objectMoved = function(gameObject) {
   if (gameObject.scene != this) {
     return;
   }
@@ -293,10 +320,9 @@ illandril.game.Scene.prototype.objectMoved = function(gameObject ) {
 /**
  *
  */
-illandril.game.Scene.prototype._update = function() {
+illandril.game.Scene.prototype._update = function(activeObjects) {
   var scaledGravity = this.gravity.clone().scale(this.lastTickSeconds);
   this.movingLastUpdate = 0;
-  var activeObjects = this.objects.getActiveObjects();
   var needsUpdate = true;
   for (var idx = 0; idx < activeObjects.length; idx++) {
     var obj = activeObjects[idx];
@@ -330,7 +356,7 @@ illandril.game.Scene.prototype._update = function() {
 /**
  *
  */
-illandril.game.Scene.prototype.move = function(obj, tickSeconds ) {
+illandril.game.Scene.prototype.move = function(obj, tickSeconds) {
   if (obj.scene != this) {
     return; // Skip over the object if it has been removed from the scene
   }
@@ -354,7 +380,7 @@ illandril.game.Scene.prototype.move = function(obj, tickSeconds ) {
 /**
  *
  */
-illandril.game.Scene.prototype.hasObjectIntersecting = function(bounds ) {
+illandril.game.Scene.prototype.hasObjectIntersecting = function(bounds) {
   var objectList = this.getNearbySolidObjects(bounds.getCenter());
   var hasCollision = false;
   for (var idx = 0; idx < objectList.length && !hasCollision; idx++) {
@@ -366,7 +392,7 @@ illandril.game.Scene.prototype.hasObjectIntersecting = function(bounds ) {
 /**
  *
  */
-function checkForCollisions(movingObject, movement, objectList ) {
+function checkForCollisions(movingObject, movement, objectList) {
   var shallowXMovement = null;
   var shallowYMovement = null;
   var movingBlockingBounds = movingObject.getBlockingBounds();

@@ -23,6 +23,10 @@ illandril.game.objects.Container = function() {
   this.solidObjectsArrayCache = [];
 };
 
+illandril.game.objects.Container.prototype.contains = function(object) {
+  return this.objects[object.id] == object;
+}
+
 illandril.game.objects.Container.prototype.add = function(object ) {
   if (this.objects[object.id] != object) {
     this.objects[object.id] = object;
