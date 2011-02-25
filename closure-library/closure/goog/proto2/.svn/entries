@@ -1,7 +1,7 @@
 9
 
 dir
-707
+726
 http://closure-library.googlecode.com/svn/trunk/closure/goog/proto2
 http://closure-library.googlecode.com/svn
 
@@ -60,14 +60,14 @@ has-props
 
 1384
 
-pbliteserializer.js
+serializer.js
 file
 
 
 
 
 2011-01-24T00:26:21.000000Z
-bf09eb1699b628caa3c4db595e0a92de
+a87eae1dc2c0c917394842f56d32603c
 2011-01-16T19:41:52.000000Z
 621
 sra@google.com
@@ -92,7 +92,7 @@ has-props
 
 
 
-4115
+4592
 
 fielddescriptor_test.html
 file
@@ -128,14 +128,14 @@ has-props
 
 3123
 
-serializer.js
+pbliteserializer.js
 file
 
 
 
 
 2011-01-24T00:26:21.000000Z
-a87eae1dc2c0c917394842f56d32603c
+bf09eb1699b628caa3c4db595e0a92de
 2011-01-16T19:41:52.000000Z
 621
 sra@google.com
@@ -160,7 +160,7 @@ has-props
 
 
 
-4592
+4115
 
 message_test.html
 file
@@ -298,40 +298,6 @@ has-props
 
 69586
 
-fielddescriptor.js
-file
-
-
-
-
-2011-01-24T00:26:21.000000Z
-3fec7c639e66af7e0113da781828d0a5
-2011-01-16T19:41:52.000000Z
-621
-sra@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7413
-
 lazydeserializer.js
 file
 
@@ -365,6 +331,40 @@ has-props
 
 
 2244
+
+fielddescriptor.js
+file
+
+
+
+
+2011-01-24T00:26:21.000000Z
+3fec7c639e66af7e0113da781828d0a5
+2011-01-16T19:41:52.000000Z
+621
+sra@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7413
 
 message.js
 file
@@ -434,40 +434,6 @@ has-props
 
 13550
 
-proto_test.html
-file
-
-
-
-
-2011-01-24T00:26:21.000000Z
-6531ca2fa4440f8ae3cdbf0959c91577
-2011-01-16T19:41:52.000000Z
-621
-sra@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-29018
-
 package_test.pb.js
 file
 
@@ -501,6 +467,40 @@ has-props
 
 
 4261
+
+proto_test.html
+file
+
+
+
+
+2011-01-24T00:26:21.000000Z
+6531ca2fa4440f8ae3cdbf0959c91577
+2011-01-16T19:41:52.000000Z
+621
+sra@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+29018
 
 pbliteserializer_test.html
 file

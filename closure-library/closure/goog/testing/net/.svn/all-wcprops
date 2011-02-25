@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 48
-/svn/!svn/ver/643/trunk/closure/goog/testing/net
+/svn/!svn/ver/709/trunk/closure/goog/testing/net
 END
 xhrio.js
 K 25
@@ -14,4 +14,10 @@ K 25
 svn:wc:ra_dav:version-url
 V 64
 /svn/!svn/ver/528/trunk/closure/goog/testing/net/xhrio_test.html
+END
+xhriopool.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/709/trunk/closure/goog/testing/net/xhriopool.js
 END

@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 49
-/svn/!svn/ver/528/trunk/closure/goog/debug/devcss
+/svn/!svn/ver/711/trunk/closure/goog/debug/devcss
 END
 devcss.js
 K 25
@@ -13,7 +13,7 @@ devcss_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 66
-/svn/!svn/ver/528/trunk/closure/goog/debug/devcss/devcss_test.html
+/svn/!svn/ver/711/trunk/closure/goog/debug/devcss/devcss_test.html
 END
 devcssrunner.js
 K 25
