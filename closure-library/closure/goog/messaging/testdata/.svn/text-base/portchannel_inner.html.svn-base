@@ -11,6 +11,7 @@ See the COPYING file for details.
 <head>
 <title>PortChannel test inner document</title>
 <script src="../../base.js"></script>
+<script src="../../../../third_party/closure/goog/deps.js"></script>
 <script>
 goog.require('goog.messaging.PortChannel');
 </script>
@@ -18,7 +19,7 @@ goog.require('goog.messaging.PortChannel');
 <body>
 <script>
 
-var channel = new goog.messaging.PortChannel(self, '*');
+var channel = goog.messaging.PortChannel.forGlobalWindow('*');
 channel.registerService('ping', function(msg) {
   channel.send('pong', msg);
 });
