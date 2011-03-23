@@ -1,15 +1,15 @@
 9
 
 dir
-747
+790
 http://closure-library.googlecode.com/svn/trunk/closure/goog/math
 http://closure-library.googlecode.com/svn
 
 
 
-2011-02-19T00:25:22.000000Z
-715
-nicksantos@google.com
+2011-03-18T16:50:24.000000Z
+784
+chernand@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-21T04:53:44.000000Z
-c20fd92211cce479b116b0df779828ff
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-03-23T21:47:17.000000Z
+e0df07212b60134da789443be8a82d0b
+2011-03-18T16:50:24.000000Z
+784
+chernand@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-1966
+3393
 
 rangeset.js
 file
@@ -128,40 +128,6 @@ has-props
 
 8747
 
-size.js
-file
-
-
-
-
-2010-11-12T17:41:18.000000Z
-b22d50930e7b8c7aa7570273206dd4a3
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4953
-
 coordinate3.js
 file
 
@@ -196,17 +162,17 @@ has-props
 
 4639
 
-line_test.html
+size.js
 file
 
 
 
 
-2010-11-21T04:53:44.000000Z
-b03070cccfdab384e1448674a3ce19e9
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2010-11-12T17:41:18.000000Z
+b22d50930e7b8c7aa7570273206dd4a3
+2010-10-18T19:19:05.000000Z
+371
+dbentley@google.com
 has-props
 
 
@@ -228,7 +194,7 @@ has-props
 
 
 
-1735
+4953
 
 coordinate_test.html
 file
@@ -264,16 +230,16 @@ has-props
 
 2425
 
-box_test.html
+line_test.html
 file
 
 
 
 
-2011-02-25T23:34:41.000000Z
-0abd3e3d473ba148285471cd571acf7b
-2011-02-19T00:25:22.000000Z
-715
+2010-11-21T04:53:44.000000Z
+b03070cccfdab384e1448674a3ce19e9
+2010-11-15T19:01:13.000000Z
+454
 nicksantos@google.com
 has-props
 
@@ -296,19 +262,19 @@ has-props
 
 
 
-5359
+1735
 
-bezier.js
+box_test.html
 file
 
 
 
 
-2010-11-21T04:53:44.000000Z
-e79d8a286624dd2a7a65f9ac928564eb
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-03-23T21:47:17.000000Z
+6e2da4c39b7f7cdf444e18507ab32032
+2011-03-16T00:37:49.000000Z
+773
+bcornell@google.com
 has-props
 
 
@@ -330,7 +296,7 @@ has-props
 
 
 
-6423
+8485
 
 math_test.html
 file
@@ -366,6 +332,40 @@ has-props
 
 9766
 
+bezier.js
+file
+
+
+
+
+2011-03-23T21:47:17.000000Z
+1f2dd530ee1da3146bc36bbd059fbb10
+2011-03-18T16:50:24.000000Z
+784
+chernand@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8438
+
 range_test.html
 file
 
@@ -399,40 +399,6 @@ has-props
 
 
 3083
-
-integer_test.html
-file
-
-
-
-
-2010-11-21T04:53:44.000000Z
-f3fb5126464bb85294130cde650d4117
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-108872
 
 rect_test.html
 file
@@ -468,14 +434,14 @@ has-props
 
 10256
 
-long_test.html
+integer_test.html
 file
 
 
 
 
 2010-11-21T04:53:44.000000Z
-89a8ee892ebf6583dcc58922ccc51d53
+f3fb5126464bb85294130cde650d4117
 2010-11-15T19:01:13.000000Z
 454
 nicksantos@google.com
@@ -500,7 +466,7 @@ has-props
 
 
 
-106266
+108872
 
 vec2_test.html
 file
@@ -535,6 +501,40 @@ has-props
 
 
 4083
+
+long_test.html
+file
+
+
+
+
+2010-11-21T04:53:44.000000Z
+89a8ee892ebf6583dcc58922ccc51d53
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+106266
 
 coordinate.js
 file
@@ -644,11 +644,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
-3aa31b7c187d7330b2e1be1e34c9f9f0
-2010-10-20T19:16:15.000000Z
-378
-brenneman@google.com
+2011-03-23T21:47:17.000000Z
+c5cea5bdef866c71c53283e87ca98998
+2011-03-16T00:37:49.000000Z
+773
+bcornell@google.com
 has-props
 
 
@@ -670,7 +670,7 @@ has-props
 
 
 
-6594
+7065
 
 math.js
 file

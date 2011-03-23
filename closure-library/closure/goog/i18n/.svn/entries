@@ -1,15 +1,15 @@
 9
 
 dir
-747
+790
 http://closure-library.googlecode.com/svn/trunk/closure/goog/i18n
 http://closure-library.googlecode.com/svn
 
 
 
-2011-02-16T19:45:57.000000Z
-710
-shanjian@google.com
+2011-03-19T21:07:42.437496Z
+785
+Nicholas.J.Santos
 
 
 svn:special svn:externals svn:needs-lock
@@ -236,11 +236,11 @@ file
 
 
 
-2011-02-15T18:25:23.000000Z
-bba9f9f98efc482542b7ecfeb71c3e5b
-2011-02-09T00:27:24.000000Z
-699
-cira@google.com
+2011-03-23T21:47:18.000000Z
+a502fafe9012f89a634a153ac3b2d73b
+2011-03-19T21:07:42.437496Z
+785
+Nicholas.J.Santos
 has-props
 
 
@@ -262,7 +262,7 @@ has-props
 
 
 
-13078
+13892
 
 graphemebreak_test.html
 file
@@ -474,11 +474,11 @@ file
 
 
 
-2010-11-12T17:41:20.000000Z
-9b59e4490b0a0d31454d77418d80b7a8
-2010-10-27T04:54:58.000000Z
-392
-mknichel@google.com
+2011-03-23T21:47:18.000000Z
+c2d1df61330507af4ee32797e124fb05
+2011-03-14T16:40:44.000000Z
+770
+aharon@google.com
 has-props
 
 
@@ -500,7 +500,7 @@ has-props
 
 
 
-25475
+25997
 
 pluralrules.js
 file
@@ -536,40 +536,6 @@ has-props
 
 17895
 
-timezone_test.html
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-f88fb198379c7f4629f806508132ee68
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7374
-
 currency_test.html
 file
 
@@ -603,6 +569,40 @@ has-props
 
 
 6821
+
+timezone_test.html
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+f88fb198379c7f4629f806508132ee68
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7374
 
 bidiformatter_test.html
 file
@@ -672,40 +672,6 @@ has-props
 
 4265
 
-charlistdecompressor_test.html
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-a83682eb5d0fab1a6e2bdf46b2caf6c5
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1610
-
 datetimesymbolsext.js
 file
 
@@ -740,17 +706,17 @@ has-props
 
 573556
 
-datetimeparse.js
+charlistdecompressor_test.html
 file
 
 
 
 
-2011-02-15T18:25:23.000000Z
-7e9103dd2dcc6fec763877e7455d4cd1
-2011-02-04T20:16:20.000000Z
-690
-kuzmin@google.com
+2010-11-21T04:53:46.000000Z
+a83682eb5d0fab1a6e2bdf46b2caf6c5
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -772,7 +738,7 @@ has-props
 
 
 
-35541
+1610
 
 mime.js
 file
@@ -808,6 +774,40 @@ has-props
 
 3533
 
+datetimeparse.js
+file
+
+
+
+
+2011-02-15T18:25:23.000000Z
+7e9103dd2dcc6fec763877e7455d4cd1
+2011-02-04T20:16:20.000000Z
+690
+kuzmin@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+35541
+
 uchar_test.html
 file
 
@@ -841,40 +841,6 @@ has-props
 
 
 1661
-
-timezone.js
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-6dde9466fddc3d1303c759a86b93cf81
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-11496
 
 currency.js
 file
@@ -910,6 +876,40 @@ has-props
 
 12469
 
+timezone.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+6dde9466fddc3d1303c759a86b93cf81
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+11496
+
 datetimeformat_test.html
 file
 
@@ -943,6 +943,40 @@ has-props
 
 
 21523
+
+messageformat.js
+file
+
+
+
+
+2011-03-23T21:47:18.000000Z
+1e4b236941030f4e9adfc92a9f8eec97
+2011-03-19T21:07:42.437496Z
+785
+Nicholas.J.Santos
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+17328
 
 graphemebreak.js
 file
@@ -978,17 +1012,17 @@ has-props
 
 7347
 
-messageformat.js
+bidi_test.html
 file
 
 
 
 
-2011-02-15T18:25:23.000000Z
-531ea85669a4a5101b7355102a821afe
-2011-02-09T00:27:24.000000Z
-699
-cira@google.com
+2010-11-21T04:53:46.000000Z
+d0a87523eb7eb0c55d3c31d0939cd9b2
+2010-11-15T19:01:13.000000Z
+454
+nicksantos@google.com
 has-props
 
 
@@ -1010,7 +1044,7 @@ has-props
 
 
 
-17172
+18785
 
 datetimepatternsext.js
 file
@@ -1045,40 +1079,6 @@ has-props
 
 
 183966
-
-bidi_test.html
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-d0a87523eb7eb0c55d3c31d0939cd9b2
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-18785
 
 numberformat.js
 file

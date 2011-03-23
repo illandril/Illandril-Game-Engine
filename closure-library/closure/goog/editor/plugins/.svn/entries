@@ -1,7 +1,7 @@
 9
 
 dir
-747
+790
 http://closure-library.googlecode.com/svn/trunk/closure/goog/editor/plugins
 http://closure-library.googlecode.com/svn
 
@@ -808,40 +808,6 @@ has-props
 
 2643
 
-removeformatting_test.html
-file
-
-
-
-
-2011-02-25T23:34:41.000000Z
-4728f77757dd94aba93a5176cf7ae7bc
-2011-02-16T20:28:16.000000Z
-711
-dbentley@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-35030
-
 abstracttabhandler_test.html
 file
 
@@ -875,6 +841,40 @@ has-props
 
 
 2714
+
+removeformatting_test.html
+file
+
+
+
+
+2011-02-25T23:34:41.000000Z
+4728f77757dd94aba93a5176cf7ae7bc
+2011-02-16T20:28:16.000000Z
+711
+dbentley@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+35030
 
 loremipsum_test.html
 file
@@ -978,40 +978,6 @@ has-props
 
 1761
 
-removeformatting.js
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-3bb54162397c3a5217ce11ddbe7a302f
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-28608
-
 abstracttabhandler.js
 file
 
@@ -1045,6 +1011,40 @@ has-props
 
 
 2591
+
+removeformatting.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+3bb54162397c3a5217ce11ddbe7a302f
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+28608
 
 loremipsum.js
 file

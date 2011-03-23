@@ -1,13 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 42
-/svn/!svn/ver/747/trunk/closure/goog/style
+/svn/!svn/ver/787/trunk/closure/goog/style
 END
 cursor_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 59
-/svn/!svn/ver/454/trunk/closure/goog/style/cursor_test.html
+/svn/!svn/ver/787/trunk/closure/goog/style/cursor_test.html
 END
 style_test_iframe_quirk.html
 K 25
@@ -43,7 +43,7 @@ cursor.js
 K 25
 svn:wc:ra_dav:version-url
 V 52
-/svn/!svn/ver/451/trunk/closure/goog/style/cursor.js
+/svn/!svn/ver/787/trunk/closure/goog/style/cursor.js
 END
 style.js
 K 25

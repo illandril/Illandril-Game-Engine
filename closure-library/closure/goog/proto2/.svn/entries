@@ -1,15 +1,15 @@
 9
 
 dir
-747
+790
 http://closure-library.googlecode.com/svn/trunk/closure/goog/proto2
 http://closure-library.googlecode.com/svn
 
 
 
-2011-02-28T20:19:20.000000Z
-730
-nicksantos@google.com
+2011-03-15T16:59:23.000000Z
+772
+jschorr@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -60,14 +60,14 @@ has-props
 
 1384
 
-pbliteserializer.js
+serializer.js
 file
 
 
 
 
 2011-01-24T00:26:21.000000Z
-bf09eb1699b628caa3c4db595e0a92de
+a87eae1dc2c0c917394842f56d32603c
 2011-01-16T19:41:52.000000Z
 621
 sra@google.com
@@ -92,7 +92,7 @@ has-props
 
 
 
-4115
+4592
 
 fielddescriptor_test.html
 file
@@ -128,14 +128,14 @@ has-props
 
 3123
 
-serializer.js
+pbliteserializer.js
 file
 
 
 
 
 2011-01-24T00:26:21.000000Z
-a87eae1dc2c0c917394842f56d32603c
+bf09eb1699b628caa3c4db595e0a92de
 2011-01-16T19:41:52.000000Z
 621
 sra@google.com
@@ -160,7 +160,7 @@ has-props
 
 
 
-4592
+4115
 
 message_test.html
 file
@@ -264,6 +264,40 @@ has-props
 
 5131
 
+textformatserializer_test.html
+file
+
+
+
+
+2011-03-23T21:47:18.000000Z
+f0431aab8a636aa69742aadb9f74838f
+2011-03-15T16:59:23.000000Z
+772
+jschorr@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+11364
+
 test.pb.js
 file
 
@@ -297,40 +331,6 @@ has-props
 
 
 69586
-
-fielddescriptor.js
-file
-
-
-
-
-2011-01-24T00:26:21.000000Z
-3fec7c639e66af7e0113da781828d0a5
-2011-01-16T19:41:52.000000Z
-621
-sra@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7413
 
 lazydeserializer.js
 file
@@ -366,14 +366,14 @@ has-props
 
 2244
 
-message.js
+fielddescriptor.js
 file
 
 
 
 
 2011-01-24T00:26:21.000000Z
-ce4cb9902cc92083bc1ef1d358b80e32
+3fec7c639e66af7e0113da781828d0a5
 2011-01-16T19:41:52.000000Z
 621
 sra@google.com
@@ -398,7 +398,41 @@ has-props
 
 
 
-20493
+7413
+
+message.js
+file
+
+
+
+
+2011-03-23T21:47:18.000000Z
+340930ea19f5aa75416458b8fded117a
+2011-03-15T16:59:23.000000Z
+772
+jschorr@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+20681
 
 objectserializer_test.html
 file
@@ -434,17 +468,17 @@ has-props
 
 13550
 
-proto_test.html
+textformatserializer.js
 file
 
 
 
 
-2011-01-24T00:26:21.000000Z
-6531ca2fa4440f8ae3cdbf0959c91577
-2011-01-16T19:41:52.000000Z
-621
-sra@google.com
+2011-03-23T21:47:18.000000Z
+67561aaf17a6d30342ce8cdeec50c11d
+2011-03-15T16:59:23.000000Z
+772
+jschorr@google.com
 has-props
 
 
@@ -466,7 +500,7 @@ has-props
 
 
 
-29018
+24156
 
 package_test.pb.js
 file
@@ -501,6 +535,40 @@ has-props
 
 
 4261
+
+proto_test.html
+file
+
+
+
+
+2011-01-24T00:26:21.000000Z
+6531ca2fa4440f8ae3cdbf0959c91577
+2011-01-16T19:41:52.000000Z
+621
+sra@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+29018
 
 pbliteserializer_test.html
 file
