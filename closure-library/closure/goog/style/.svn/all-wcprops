@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 42
-/svn/!svn/ver/787/trunk/closure/goog/style
+/svn/!svn/ver/834/trunk/closure/goog/style
 END
 cursor_test.html
 K 25
@@ -19,7 +19,7 @@ style_quirks_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 65
-/svn/!svn/ver/713/trunk/closure/goog/style/style_quirks_test.html
+/svn/!svn/ver/806/trunk/closure/goog/style/style_quirks_test.html
 END
 style_test_standard.html
 K 25
@@ -31,7 +31,7 @@ style_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 58
-/svn/!svn/ver/713/trunk/closure/goog/style/style_test.html
+/svn/!svn/ver/806/trunk/closure/goog/style/style_test.html
 END
 style_test_iframe_standard.html
 K 25
@@ -49,7 +49,7 @@ style.js
 K 25
 svn:wc:ra_dav:version-url
 V 51
-/svn/!svn/ver/747/trunk/closure/goog/style/style.js
+/svn/!svn/ver/834/trunk/closure/goog/style/style.js
 END
 style_test_quirk.html
 K 25

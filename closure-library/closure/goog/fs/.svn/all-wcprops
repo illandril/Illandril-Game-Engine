@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 39
-/svn/!svn/ver/790/trunk/closure/goog/fs
+/svn/!svn/ver/826/trunk/closure/goog/fs
 END
 filesystem.js
 K 25
@@ -25,13 +25,13 @@ filewriter.js
 K 25
 svn:wc:ra_dav:version-url
 V 53
-/svn/!svn/ver/640/trunk/closure/goog/fs/filewriter.js
+/svn/!svn/ver/821/trunk/closure/goog/fs/filewriter.js
 END
 fs_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 52
-/svn/!svn/ver/768/trunk/closure/goog/fs/fs_test.html
+/svn/!svn/ver/826/trunk/closure/goog/fs/fs_test.html
 END
 filesaver.js
 K 25
@@ -43,5 +43,5 @@ entry.js
 K 25
 svn:wc:ra_dav:version-url
 V 48
-/svn/!svn/ver/768/trunk/closure/goog/fs/entry.js
+/svn/!svn/ver/821/trunk/closure/goog/fs/entry.js
 END

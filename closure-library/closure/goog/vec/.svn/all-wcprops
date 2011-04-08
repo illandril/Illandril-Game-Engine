@@ -1,13 +1,25 @@
 K 25
 svn:wc:ra_dav:version-url
 V 40
-/svn/!svn/ver/788/trunk/closure/goog/vec
+/svn/!svn/ver/832/trunk/closure/goog/vec
 END
 vec3_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 55
-/svn/!svn/ver/788/trunk/closure/goog/vec/vec3_test.html
+/svn/!svn/ver/792/trunk/closure/goog/vec/vec3_test.html
+END
+matrix3.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/828/trunk/closure/goog/vec/matrix3.js
+END
+vec4_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/828/trunk/closure/goog/vec/vec4_test.html
 END
 float32array.js
 K 25
@@ -21,6 +33,12 @@ svn:wc:ra_dav:version-url
 V 47
 /svn/!svn/ver/777/trunk/closure/goog/vec/vec.js
 END
+matrix3_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/828/trunk/closure/goog/vec/matrix3_test.html
+END
 vec3.js
 K 25
 svn:wc:ra_dav:version-url
@@ -32,4 +50,16 @@ K 25
 svn:wc:ra_dav:version-url
 V 63
 /svn/!svn/ver/777/trunk/closure/goog/vec/float32array_test.html
+END
+vec_perf.html
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/832/trunk/closure/goog/vec/vec_perf.html
+END
+vec4.js
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/828/trunk/closure/goog/vec/vec4.js
 END

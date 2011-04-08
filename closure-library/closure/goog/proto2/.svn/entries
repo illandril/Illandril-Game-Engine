@@ -1,7 +1,7 @@
 9
 
 dir
-790
+843
 http://closure-library.googlecode.com/svn/trunk/closure/goog/proto2
 http://closure-library.googlecode.com/svn
 
@@ -60,14 +60,14 @@ has-props
 
 1384
 
-serializer.js
+pbliteserializer.js
 file
 
 
 
 
 2011-01-24T00:26:21.000000Z
-a87eae1dc2c0c917394842f56d32603c
+bf09eb1699b628caa3c4db595e0a92de
 2011-01-16T19:41:52.000000Z
 621
 sra@google.com
@@ -92,7 +92,7 @@ has-props
 
 
 
-4592
+4115
 
 fielddescriptor_test.html
 file
@@ -128,14 +128,14 @@ has-props
 
 3123
 
-pbliteserializer.js
+serializer.js
 file
 
 
 
 
 2011-01-24T00:26:21.000000Z
-bf09eb1699b628caa3c4db595e0a92de
+a87eae1dc2c0c917394842f56d32603c
 2011-01-16T19:41:52.000000Z
 621
 sra@google.com
@@ -160,7 +160,7 @@ has-props
 
 
 
-4115
+4592
 
 message_test.html
 file
@@ -230,40 +230,6 @@ has-props
 
 1652
 
-descriptor.js
-file
-
-
-
-
-2011-03-07T22:13:40.000000Z
-4a8c33d99e2a7c3d6874fd24b5ea0309
-2011-02-28T20:19:20.000000Z
-730
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5131
-
 textformatserializer_test.html
 file
 
@@ -297,6 +263,40 @@ has-props
 
 
 11364
+
+descriptor.js
+file
+
+
+
+
+2011-03-07T22:13:40.000000Z
+4a8c33d99e2a7c3d6874fd24b5ea0309
+2011-02-28T20:19:20.000000Z
+730
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5131
 
 test.pb.js
 file
@@ -332,40 +332,6 @@ has-props
 
 69586
 
-lazydeserializer.js
-file
-
-
-
-
-2010-11-21T04:53:46.000000Z
-611bca074e60762bc78395643333768f
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2244
-
 fielddescriptor.js
 file
 
@@ -399,6 +365,40 @@ has-props
 
 
 7413
+
+lazydeserializer.js
+file
+
+
+
+
+2010-11-21T04:53:46.000000Z
+611bca074e60762bc78395643333768f
+2010-11-15T01:08:31.000000Z
+451
+ajp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2244
 
 message.js
 file
@@ -434,40 +434,6 @@ has-props
 
 20681
 
-objectserializer_test.html
-file
-
-
-
-
-2011-01-24T00:26:21.000000Z
-b1559e21a41deb69474545b8d9cdd003
-2011-01-20T18:29:40.000000Z
-637
-pallosp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-13550
-
 textformatserializer.js
 file
 
@@ -501,6 +467,40 @@ has-props
 
 
 24156
+
+objectserializer_test.html
+file
+
+
+
+
+2011-01-24T00:26:21.000000Z
+b1559e21a41deb69474545b8d9cdd003
+2011-01-20T18:29:40.000000Z
+637
+pallosp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+13550
 
 package_test.pb.js
 file
