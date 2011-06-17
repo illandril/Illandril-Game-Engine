@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+  <title>Engine Test</title>
+  <link rel="stylesheet" type="text/css" href="../bin/engine.css">
+  <script type="text/javascript" src="../bin/platformer.js"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20811732-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = 'https://ssl.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+ </head>
+ <body>
+  <div id="illandrilDebugContainer" style="float: right;">
+   <div>
+    Log Level:<br>
+    <input type="submit" onclick="setLogLevel( Log.NONE ); return false;" value="None">
+    <input type="submit" onclick="setLogLevel( Log.SEVERE ); return false;" value="Severe">
+    <input type="submit" onclick="setLogLevel( Log.WARNING ); return false;" value="Warning">
+    <input type="submit" onclick="setLogLevel( Log.CONFIG ); return false;" value="Config">
+    <input type="submit" onclick="setLogLevel( Log.ALL ); return false;" value="All">
+   </div>
+   <div id="illandrilDebug" style="position: absolute; right: 0; z-index: 10000; height: 400px; overflow: scroll; opacity: 0.5; filter: alpha(opacity=50);"></div>
+  </div>
+  <script type="text/javascript">initLogs("illandrilDebug");</script>
+  <div style="text-align: center;"><div id="game"></div></div>
+  <script type="text/javascript">
+   platformer.init("platformerMenu.json", "platformerMap.json");
+   setTimeout( function(){ _gaq.push(['_trackEvent', 'game-platformer', 
+'initialized b']) }, 100 );
+  </script>
+  <div id="collectableCount"></div>
+  <br><br>
+  This is just a performance test. Please e-mail me to tell me how you found out about this. <a href="mailto:games@illandril.net">games@illandril.net</a>
+  <br><br>
+  Graphics from: <a href="http://www.gamepoetry.com/blog/2008/06/27/free-rpg-tilesheets/">http://www.gamepoetry.com/blog/2008/06/27/free-rpg-tilesheets/</a>
+ </body>
+</html>

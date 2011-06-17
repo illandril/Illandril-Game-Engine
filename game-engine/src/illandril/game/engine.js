@@ -215,18 +215,18 @@ illandril.game.Engine.prototype.start = function() {
   this.tick();
 };
 
-illandril.game.Engine.prototype.loadMap = function(mapSrc, scene, callback) {
+illandril.game.Engine.prototype.loadMap = function(mapSrc, scene, callback, objectBuilder) {
   this.startLoad();
-  this._loadMap(mapSrc, scene, callback);
+  this._loadMap(mapSrc, scene, callback, objectBuilder || illandril.game.Engine.defaultObjectBuilder);
 };
 
-illandril.game.Engine.prototype._loadMap = function(mapSrc, scene, callback) {
+illandril.game.Engine.prototype._loadMap = function(mapSrc, scene, callback, objectBuilder) {
   if (mapSrc != null && this.maps[mapSrc] == null) {
     var mapPullRequest = new goog.net.XhrIo();
     var self = this;
     goog.events.listen(mapPullRequest, goog.net.EventType.COMPLETE, function(e) {
       self.maps[mapSrc] = this.getResponseJson() || [];
-      self._loadMap(mapSrc, scene, callback);
+      self._loadMap(mapSrc, scene, callback, objectBuilder);
     });
     mapPullRequest.send(mapSrc);
   } else if (mapSrc == null || this.maps[mapSrc].length == 0) {
@@ -242,19 +242,18 @@ illandril.game.Engine.prototype._loadMap = function(mapSrc, scene, callback) {
       var yEnd = objDef['yEnd'] || yStart;
       var width = objDef['width'];
       var height = objDef['height'];
+      objDef.size = new goog.math.Vec2(width, height);
       var bgOffsetX = objDef['bgOffsetX'] || 0;
       var bgOffsetY = objDef['bgOffsetY'] || 0;
+      objDef.sprite = null;
+      if (objDef['bg'] != null) {
+        objDef.sprite = new illandril.game.ui.StaticSprite(objDef['bg'], new goog.math.Vec2(bgOffsetX, bgOffsetY));
+      }
+      objDef.scene = scene;
       for (var x = xStart; x <= xEnd; x += width) {
         for (var y = yStart; y <= yEnd; y += height) {
-          var sprite = null;
-          if (objDef['bg'] != null) {
-            sprite = new illandril.game.ui.StaticSprite(objDef['bg'], new goog.math.Vec2(bgOffsetX, bgOffsetY));
-          }
-          if (objDef['solid'] != null && objDef['solid'] == false) {
-            new illandril.game.objects.GameObject(scene, new illandril.math.Bounds(new goog.math.Vec2(x, y), new goog.math.Vec2(width, height)), sprite, objDef['zIndex']);
-          } else {
-            new illandril.game.objects.Wall(scene, new illandril.math.Bounds(new goog.math.Vec2(x, y), new goog.math.Vec2(width, height)), sprite, objDef['zIndex']);
-          }
+          objDef.pos = new goog.math.Vec2(x, y);
+          objectBuilder(objDef);
         }
       }
       if (this.maps[mapSrc].length % 100 == 0) {
@@ -263,9 +262,18 @@ illandril.game.Engine.prototype._loadMap = function(mapSrc, scene, callback) {
     }
     scene.endBulk();
     var self = this;
-    setTimeout(function() { self._loadMap(mapSrc, scene, callback); }, 0);
+    setTimeout(function() { self._loadMap(mapSrc, scene, callback, objectBuilder); }, 0);
   }
 };
+
+illandril.game.Engine.defaultObjectBuilder = function(objDef) {
+  if (objDef['solid'] != null && objDef['solid'] == false) {
+    new illandril.game.objects.GameObject(objDef.scene, new illandril.math.Bounds(objDef.pos, objDef.size), objDef.sprite, objDef['zIndex']);
+  } else {
+    new illandril.game.objects.Wall(objDef.scene, new illandril.math.Bounds(objDef.pos, objDef.size), objDef.sprite, objDef['zIndex']);
+  }
+};
+
 illandril.game.Engine.prototype.tick = function() {
   var tickTime = illandril.game.util.Framerate.tick();
   if (illandril.game.ui.Controls.actionPendingFor != null) {

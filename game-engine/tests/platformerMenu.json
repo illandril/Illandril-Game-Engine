@@ -1,0 +1,18 @@
+[
+ { "x":-196, "y": -51,                           "width": 20, "height": 20, "zIndex":   2, "bg": "../graphics/generic_character.png", "bgOffsetX":  60, "bgOffsetY":     0, "solid": false },
+ { "x":-256, "y": -96,                           "width":128, "height": 64, "zIndex":   2, "bg": "../graphics/generic_tiles.png", "bgOffsetX":   0, "bgOffsetY": 384, "solid": false },
+ { "x": -32, "y": -96,                           "width":128, "height": 64, "zIndex":   2, "bg": "../graphics/generic_tiles.png", "bgOffsetX": 128, "bgOffsetY": 384, "solid": false },
+ { "x":  80, "y": -96,                           "width": 64, "height": 64, "zIndex":   2, "bg": "../graphics/generic_tiles.png", "bgOffsetX": 384, "bgOffsetY":   0, "solid": false },
+ { "x": 144, "y": -96,                           "width": 64, "height": 64, "zIndex":   2, "bg": "../graphics/generic_tiles.png", "bgOffsetX":  32, "bgOffsetY": 256, "solid": false },
+ { "x": 144, "y": -96,                           "width": 64, "height": 64, "zIndex":   2, "bg": "../graphics/generic_tiles.png", "bgOffsetX":  32, "bgOffsetY": 256, "solid": false },
+ { "x": 144, "y": -32,                           "width": 64, "height": 64, "zIndex":   2, "bg": "../graphics/generic_tiles.png", "bgOffsetX":  32, "bgOffsetY": 256, "solid": false },
+ { "x": 144, "y":  32,                           "width": 64, "height": 64, "zIndex":   2, "bg": "../graphics/generic_tiles.png", "bgOffsetX":  32, "bgOffsetY": 256, "solid": false },
+ { "x": 144, "y":  96,                           "width": 64, "height": 64, "zIndex":   2, "bg": "../graphics/generic_tiles.png", "bgOffsetX":  32, "bgOffsetY": 256, "solid": false },
+ { "x": 144, "y": 160,                           "width": 64, "height": 64, "zIndex":   2, "bg": "../graphics/generic_tiles.png", "bgOffsetX":  32, "bgOffsetY": 256, "solid": false },
+ { "x": 144, "y": 224,                           "width": 64, "height": 64, "zIndex":   2, "bg": "../graphics/generic_tiles.png", "bgOffsetX":  32, "bgOffsetY": 256, "solid": false },
+ { "x":-192, "y": -64, "xEnd": 192, "yEnd": 192, "width":128, "height":128, "zIndex":   1, "bg": "../graphics/generic_tiles.png", "bgOffsetX": 128, "bgOffsetY":   0, "solid": false },
+ { "x":-256, "y":-144, "xEnd": 256, "yEnd":-144, "width": 32, "height": 32, "zIndex":   1, "bg": "../graphics/generic_tiles.png", "bgOffsetX":   0, "bgOffsetY": 128, "solid": true },
+ { "x":-192, "y":-224, "xEnd": 192, "yEnd":-224, "width":128, "height":128, "zIndex":   1, "bg": "../graphics/generic_tiles.png", "bgOffsetX":   0, "bgOffsetY":   0, "solid": false }
+]
+
+
