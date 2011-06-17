@@ -94,7 +94,7 @@ function _trueTypeOf(something) {
         }
         break;
     }
-  } catch(e) {
+  } catch (e) {
 
   } finally {
     result = result.substr(0, 1).toUpperCase() + result.substr(1);
@@ -467,6 +467,10 @@ goog.testing.asserts.findDifferences = function(expected, actual) {
     seen2.pop();
   }
 
+  /**
+   * @suppress {missingProperties} The map_ property is unknown to the compiler
+   *     unless goog.structs.Map is loaded.
+   */
   function innerAssert_(var1, var2, path) {
     if (var1 === var2) {
       return;
@@ -653,6 +657,34 @@ function assertElementsEquals(a, b, c) {
     for (var i = 0; i < v1.length; ++i) {
       assertEquals(
           'mismatch at index ' + i + ': ' + failureMessage, v1[i], v2[i]);
+    }
+  }
+}
+
+
+/**
+ * Compares two objects that can be accessed like an array and assert that
+ * each element is roughly equal.
+ * @param {string|Object} a Failure message (4 arguments)
+ *     or object #1 (3 arguments).
+ * @param {Object} b Object #1 (3 arguments) or object #2 (4 arguments).
+ * @param {Object} c Object #2 (4 arguments) or tolerance (3 arguments).
+ * @param {number} d tolerance (4 arguments).
+ */
+function assertElementsRoughlyEqual(a, b, c, d) {
+  _validateArguments(3, arguments);
+
+  var v1 = nonCommentArg(1, 3, arguments);
+  var v2 = nonCommentArg(2, 3, arguments);
+  var tolerance = nonCommentArg(3, 3, arguments);
+  var failureMessage = commentArg(3, arguments) ? commentArg(3, arguments) : '';
+
+  if (!v1) {
+    assert(failureMessage, !v2);
+  } else {
+    assertEquals('length mismatch: ' + failureMessage, v1.length, v2.length);
+    for (var i = 0; i < v1.length; ++i) {
+      assertRoughlyEquals(failureMessage, v2[i], v1[i], tolerance);
     }
   }
 }
@@ -938,6 +970,7 @@ goog.testing.asserts.raiseException_ = function(comment, opt_message) {
  * name is an array index.
  * @param {string} prop
  * @return {boolean}
+ * @private
  */
 goog.testing.asserts.isArrayIndexProp_ = function(prop) {
   return (prop | 0) == prop;

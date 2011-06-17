@@ -1,15 +1,15 @@
 9
 
 dir
-843
+1048
 http://closure-library.googlecode.com/svn/trunk/closure/goog/useragent
 http://closure-library.googlecode.com/svn
 
 
 
-2011-04-08T02:29:19.000000Z
-843
-wuyingbing@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-21T04:53:44.000000Z
+
 1b14ce46b1b5e6b9277be93b46889d6b
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -66,11 +66,11 @@ file
 
 
 
-2011-02-15T18:25:23.000000Z
+
 6ef7108e89c66a76e1e14ff3625a79cc
-2011-02-11T23:00:28.000000Z
-704
-brenneman@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-21T04:53:44.000000Z
+
 c6988d773ad7f9aab1a1c9581aa5fe9e
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-21T04:53:44.000000Z
+
 f73323f105b7ed0310fcfc6f9722b7c5
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-21T04:53:44.000000Z
+
 aa085e320be94e3b90684021f74d5f6d
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -202,11 +202,11 @@ file
 
 
 
-2011-02-15T18:25:23.000000Z
+
 b36721c207e615985957a35899221920
-2011-02-11T23:00:28.000000Z
-704
-brenneman@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -230,119 +230,17 @@ has-props
 
 3875
 
-platform.js
-file
-
-
-
-
-2010-11-21T04:53:44.000000Z
-c2a6f90eafd36e436700e8ad276cf683
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2140
-
-adobereader_test.html
-file
-
-
-
-
-2010-11-21T04:53:44.000000Z
-b5bda93d7e0006d1e04c3acabc915334
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-990
-
-useragent_test.html
-file
-
-
-
-
-2010-11-21T04:53:44.000000Z
-c68e600c916a3837ad2e25084acf1d57
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-10935
-
 flash_test.html
 file
 
 
 
 
-2010-11-21T04:53:44.000000Z
+
 0b12a7a5618f195a32d6528d0db77088
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -366,17 +264,17 @@ has-props
 
 977
 
-flash.js
+useragent_test.html
 file
 
 
 
 
-2010-11-12T17:41:18.000000Z
-9922b0e573f06fc54c0bdeb9e0e47c57
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+
+c68e600c916a3837ad2e25084acf1d57
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -398,19 +296,19 @@ has-props
 
 
 
-3419
+10935
 
-useragent.js
+adobereader_test.html
 file
 
 
 
 
-2011-04-08T15:36:08.000000Z
-a0beb73fd7d356ac26e26a030602c6e6
-2011-04-08T02:29:19.000000Z
-843
-wuyingbing@google.com
+
+b5bda93d7e0006d1e04c3acabc915334
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -432,7 +330,41 @@ has-props
 
 
 
-14110
+990
+
+platform.js
+file
+
+
+
+
+
+c2a6f90eafd36e436700e8ad276cf683
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2140
 
 adobereader.js
 file
@@ -440,11 +372,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
+
 b02c8784e08df4b92b03985c30f23b01
-2010-08-06T21:08:19.000000Z
-185
-nweiz@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -468,17 +400,85 @@ has-props
 
 2755
 
+useragent.js
+file
+
+
+
+
+
+a0beb73fd7d356ac26e26a030602c6e6
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+14110
+
+flash.js
+file
+
+
+
+
+
+9922b0e573f06fc54c0bdeb9e0e47c57
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3419
+
 picasa.js
 file
 
 
 
 
-2010-11-12T17:41:18.000000Z
+
 8c8693355c6e23f9aa4705725fdb52ff
-2010-10-27T22:43:18.000000Z
-395
-mcg@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -508,11 +508,11 @@ file
 
 
 
-2010-11-12T17:41:18.000000Z
+
 e5f9a8b0f7f5dd9767b87c8eb712dc1a
-2010-10-18T19:19:05.000000Z
-371
-dbentley@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 

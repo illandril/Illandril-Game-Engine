@@ -1,35 +1,35 @@
 K 25
 svn:wc:ra_dav:version-url
-V 23
-/svn/!svn/ver/843/trunk
+V 24
+/svn/!svn/ver/1048/trunk
 END
 LICENSE
 K 25
 svn:wc:ra_dav:version-url
-V 29
-/svn/!svn/ver/9/trunk/LICENSE
+V 31
+/svn/!svn/ver/850/trunk/LICENSE
 END
 AUTHORS
 K 25
 svn:wc:ra_dav:version-url
 V 31
-/svn/!svn/ver/724/trunk/AUTHORS
+/svn/!svn/ver/850/trunk/AUTHORS
 END
 alltests.js
 K 25
 svn:wc:ra_dav:version-url
 V 35
-/svn/!svn/ver/828/trunk/alltests.js
+/svn/!svn/ver/992/trunk/alltests.js
 END
 README
 K 25
 svn:wc:ra_dav:version-url
-V 28
-/svn/!svn/ver/9/trunk/README
+V 30
+/svn/!svn/ver/850/trunk/README
 END
 all_tests.html
 K 25
 svn:wc:ra_dav:version-url
 V 38
-/svn/!svn/ver/682/trunk/all_tests.html
+/svn/!svn/ver/850/trunk/all_tests.html
 END

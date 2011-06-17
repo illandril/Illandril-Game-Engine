@@ -1,15 +1,15 @@
 9
 
 dir
-843
+1048
 http://closure-library.googlecode.com/svn/trunk/closure/goog
 http://closure-library.googlecode.com/svn
 
 
 
-2011-04-08T02:29:19.000000Z
-843
-wuyingbing@google.com
+2011-06-15T23:39:28.000000Z
+1048
+nsw@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -59,6 +59,9 @@ dir
 events
 dir
 
+storage
+dir
+
 images
 dir
 
@@ -83,11 +86,11 @@ file
 
 
 
-2011-04-08T15:36:11.000000Z
-b0d793d4128a3e9c7de0e7a6e6ab1d8f
-2011-03-30T00:43:02.000000Z
-816
-diegosalas@google.com
+2011-06-17T16:24:20.000000Z
+70381043a37b93317df4629f840a4fea
+2011-05-13T21:21:11.000000Z
+928
+nnaze@google.com
 has-props
 
 
@@ -109,45 +112,45 @@ has-props
 
 
 
-35256
+36146
 
-vec
-dir
-
-bootstrap
-dir
-
-testing
-dir
-
-fx
+messaging
 dir
 
 date
 dir
 
-messaging
+fx
+dir
+
+testing
+dir
+
+bootstrap
+dir
+
+vec
 dir
 
 color
 dir
 
-i18n
+dom
 dir
 
 spell
 dir
 
-dom
+i18n
 dir
 
 timer
 dir
 
-reflect
+cssom
 dir
 
-cssom
+reflect
 dir
 
 proto2
@@ -162,11 +165,11 @@ file
 
 
 
-2011-04-08T15:36:11.000000Z
-134fe3948593f825e8e0dd555ee7e35f
-2011-03-29T21:18:06.000000Z
-814
-magnusrk@google.com
+2011-06-17T16:24:20.000000Z
+fd275a42a41568ab2a7246666baaa587
+2011-06-10T23:10:06.000000Z
+1032
+brenneman@google.com
 has-props
 
 
@@ -188,7 +191,7 @@ has-props
 
 
 
-46857
+48596
 
 net
 dir
@@ -244,11 +247,11 @@ file
 
 
 
-2011-04-08T15:36:11.000000Z
-6ff201814ffc510932edbed8c942461e
-2011-04-07T17:48:22.000000Z
-842
-pallosp@google.com
+2011-06-17T16:24:20.000000Z
+4cca351d9720fbd0a1f90d28beee8c9e
+2011-06-14T17:41:17.000000Z
+1042
+carm@google.com
 has-props
 
 
@@ -270,12 +273,15 @@ has-props
 
 
 
-182967
+188880
 
 structs
 dir
 
 functions
+dir
+
+soy
 dir
 
 async

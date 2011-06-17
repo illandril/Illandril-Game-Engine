@@ -1,15 +1,15 @@
 9
 
 dir
-843
+1048
 http://closure-library.googlecode.com/svn/trunk/closure/goog/dom/browserrange
 http://closure-library.googlecode.com/svn
 
 
 
-2011-04-06T08:27:58.000000Z
-837
-wuyingbing@google.com
+2011-06-13T20:18:10.000000Z
+1034
+gboyer@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
+
 a71f95096f6526f5daf597c2b05a137e
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -66,11 +66,11 @@ file
 
 
 
-2011-04-08T15:36:09.000000Z
-574f24f0a24fb185f834803b94bc90c7
-2011-04-06T08:27:58.000000Z
-837
-wuyingbing@google.com
+2011-06-17T16:24:13.000000Z
+7bbcd4e591e4707b4adbc5f0ad19ce28
+2011-06-13T20:18:10.000000Z
+1034
+gboyer@google.com
 has-props
 
 
@@ -92,7 +92,7 @@ has-props
 
 
 
-22505
+23006
 
 w3crange.js
 file
@@ -100,11 +100,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
+
 7221deaf315c4dbf96b0bd7b9637f48f
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
-89fa6a5fc55e9096ffddb61c74b49194
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-06-17T16:24:13.000000Z
+9e953a92e8cc46d8424a6e6b7e4a70ba
+2011-06-13T20:18:10.000000Z
+1034
+gboyer@google.com
 has-props
 
 
@@ -160,7 +160,7 @@ has-props
 
 
 
-32437
+32596
 
 abstractrange.js
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
+
 42ae08c7c773bf5b8a4bcdbca52e24bf
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -202,11 +202,11 @@ file
 
 
 
-2011-04-08T15:36:09.000000Z
+
 ebf0a85b8094f733efe8281159181b5c
-2011-04-06T08:27:58.000000Z
-837
-wuyingbing@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -236,11 +236,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
+
 9f47af121db08069d4f3bf28f49ee129
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -270,11 +270,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
+
 35897bca66bb5d0c1ce0be8cc5900288
-2010-11-15T01:08:31.000000Z
-451
-ajp@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 

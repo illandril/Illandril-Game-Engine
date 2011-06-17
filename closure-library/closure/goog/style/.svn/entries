@@ -1,15 +1,15 @@
 9
 
 dir
-843
+1048
 http://closure-library.googlecode.com/svn/trunk/closure/goog/style
 http://closure-library.googlecode.com/svn
 
 
 
-2011-04-05T18:24:16.000000Z
-834
-kellyellis@google.com
+2011-06-14T04:16:47.000000Z
+1039
+gboyer@google.com
 
 
 svn:special svn:externals svn:needs-lock
@@ -32,11 +32,11 @@ file
 
 
 
-2011-03-23T21:47:18.000000Z
+
 9ed36002bd20daa8670e4e4293041781
-2011-03-21T10:56:06.000000Z
-787
-cnester@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -66,11 +66,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
+
 1e858874248ce9bdea6916b8919c43fc
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -100,11 +100,11 @@ file
 
 
 
-2011-04-08T15:36:10.000000Z
+
 31b70c7bffd3713d50168a33efd10a42
-2011-03-25T16:21:11.000000Z
-806
-nicksantos@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -134,11 +134,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
+
 7a8878612db18d63e39d3254e187e60c
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -168,11 +168,11 @@ file
 
 
 
-2011-04-08T15:36:10.000000Z
+
 2196fad4d36b0c27e15eb9f7770b5c5a
-2011-03-25T16:21:11.000000Z
-806
-nicksantos@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -202,11 +202,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
+
 a8e5c5ba148fc9169ff098ea886acf8d
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -236,11 +236,11 @@ file
 
 
 
-2011-03-23T21:47:18.000000Z
+
 d9a3752e8d0cbbcc919c3fc23cc46c1a
-2011-03-21T10:56:06.000000Z
-787
-cnester@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
@@ -270,11 +270,11 @@ file
 
 
 
-2011-04-08T15:36:10.000000Z
-9adcd8e611d22f0a2f2098d51be928ae
-2011-04-05T18:24:16.000000Z
-834
-kellyellis@google.com
+2011-06-17T16:24:16.000000Z
+3ba7c6ce3e0dbc12b72cf872baa3f68b
+2011-06-14T04:16:47.000000Z
+1039
+gboyer@google.com
 has-props
 
 
@@ -296,7 +296,7 @@ has-props
 
 
 
-65056
+65061
 
 style_test_quirk.html
 file
@@ -304,11 +304,11 @@ file
 
 
 
-2010-11-21T04:53:46.000000Z
+
 64a69c35d7ead36d1260e23551c6136b
-2010-11-15T19:01:13.000000Z
-454
-nicksantos@google.com
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
 has-props
 
 
