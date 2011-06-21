@@ -6,6 +6,11 @@
  font-size: 0;
 }
 
+.debugViewport {
+ position: relative;
+ z-index: 1000000;
+}
+
 .viewportContainer {
  border: 1px solid black;
  text-align: left;
