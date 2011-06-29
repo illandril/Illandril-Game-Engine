@@ -1,3 +1,5 @@
+goog.provide('engine');
+
 goog.require('game.draw');
 goog.require('Box2D');
 
@@ -16,8 +18,8 @@ window.requestAnimFrame = (function(){
 
 var viewportWidth = 600;
 var viewportHeight = 400;
-var worldWidth = 1200;
-var worldHeight = 800;
+var worldWidth = 120;
+var worldHeight = 80;
 var scale = 5.0;
 
 var lastTickTime = 0;
@@ -45,7 +47,7 @@ var debug = true;
 var fps;
 var frames = 0;
 var rollingFPS = 60;
-var testObjects = 500;
+var testObjects = 100;
 
 var domObjects = {};
 
@@ -288,6 +290,6 @@ var draw = function( tick ) {
     }
     display.style.left = "-" + ( camera.x * scale ) + "px";
     display.style.top = "-" + ( camera.y * scale ) + "px";
-    //game.draw( tick, display, world, camera, scale );
+    game.draw( tick, display, world, camera, scale );
 };
 
