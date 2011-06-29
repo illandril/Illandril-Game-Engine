@@ -4,14 +4,20 @@
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
   <title>Engine Test</title>
   <link rel="stylesheet" type="text/css" href="./styles/game_window.css">
+  <script type="text/javascript" src="../closure-library/closure/goog/base.js"></script>
   <!--
   <script type="text/javascript" src="../box2d/Box2dWeb-2.1.a.3b2.js"></script>
-  -->
-  <script type="text/javascript" src="../box2d/Box2dWeb-2.1.illandril.js"></script>
-  <script type="text/javascript" src="../closure-library/closure/goog/base.js"></script>
-  <script type="text/javascript" src="engine.js"></script>
+  <!-- -->
+  <!-- -->
+  <script type="text/javascript" src="../box2d/illandril/base.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/collision.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/dynamics.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/unopped.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/post.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/Box2D.js"></script>
+  <!-- -->
   <script type="text/javascript" src="view.js"></script>
-  <script type="text/javascript" src="test.js"></script>
+  <script type="text/javascript" src="engine.js"></script>
  </head>
  <body>
   <div style="text-align: center;">
@@ -20,7 +26,23 @@
   </div>
   <div id="fps"></div>
   <script type="text/javascript">
-   init( "game", true );
+   init( "game", false );
+   x = new Date();
+   y = null;
+   setInterval(function(){
+       if (x != null) {
+           if((new Date() - x) > 5000) {
+               x = null;
+               y = new Date();
+           }
+       } else if (y != null) {
+           var elapsedTime = new Date() - y;
+           if(elapsedTime > 20000) {
+               alert( frames / ( elapsedTime / 1000 ) );
+               y = null;
+           }
+       }
+   },1000);
   </script>
  </body>
 </html>

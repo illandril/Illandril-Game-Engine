@@ -1,282 +1,161 @@
 /*
-* Copyright (c) 2006-2007 Erin Catto http://www.gphysics.com
-*
-* This software is provided 'as-is', without any express or implied
-* warranty.  In no event will the authors be held liable for any damages
-* arising from the use of this software.
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*/
-/*
- * This copy includes modifications by Illandril
+ * See Box2D.js
  */
-var Box2D = {};
+goog.provide('Box2D.unopped');
 
-(function (a2j, undefined) {
-
-   if(!(Object.prototype.defineProperty instanceof Function)
-      && Object.prototype.__defineGetter__ instanceof Function
-      && Object.prototype.__defineSetter__ instanceof Function)
-   {
-      Object.defineProperty = function(obj, p, cfg) {
-         if(cfg.get instanceof Function)
-            obj.__defineGetter__(p, cfg.get);
-         if(cfg.set instanceof Function)
-            obj.__defineSetter__(p, cfg.set);
-      }
-   }
-   
-   function emptyFn() {};
-   a2j.inherit = function(cls, base) {
-      var tmpCtr = cls;
-      emptyFn.prototype = base.prototype;
-      cls.prototype = new emptyFn;
-      cls.prototype.constructor = tmpCtr;
-   };
-   
-   a2j.generateCallback = function generateCallback(context, cb) {
-      return function () {
-         cb.apply(context, arguments);
-      };
-   };
-   
-   a2j.NVector = function NVector(length) {
-      if (length === undefined) length = 0;
-      var tmp = new Array(length || 0);
-      for (var i = 0; i < length; ++i)
-      tmp[i] = 0;
-      return tmp;
-   };
-   
-   a2j.is = function is(o1, o2) {
-      if (o1 === null) return false;
-      if ((o2 instanceof Function) && (o1 instanceof o2)) return true;
-      if ((o1.constructor.__implements != undefined) && (o1.constructor.__implements[o2])) return true;
-      return false;
-   };
-   
-   a2j.parseUInt = function(v) {
-      return Math.abs(parseInt(v));
-   }
-   
-})(Box2D);
-
-//#TODO remove assignments from global namespace
-var Vector = Array;
-var Vector_a2j_Number = Box2D.NVector;
 //package structure
-if (typeof(Box2D) === "undefined") Box2D = {};
-if (typeof(Box2D.Collision) === "undefined") Box2D.Collision = {};
 if (typeof(Box2D.Collision.Shapes) === "undefined") Box2D.Collision.Shapes = {};
 if (typeof(Box2D.Common) === "undefined") Box2D.Common = {};
 if (typeof(Box2D.Common.Math) === "undefined") Box2D.Common.Math = {};
-if (typeof(Box2D.Dynamics) === "undefined") Box2D.Dynamics = {};
 if (typeof(Box2D.Dynamics.Contacts) === "undefined") Box2D.Dynamics.Contacts = {};
 if (typeof(Box2D.Dynamics.Controllers) === "undefined") Box2D.Dynamics.Controllers = {};
 if (typeof(Box2D.Dynamics.Joints) === "undefined") Box2D.Dynamics.Joints = {};
-//pre-definitions
+
+// Illandril: delete this
+var c = Box2D.Collision;
+
+Box2D.Collision.b2DynamicTree = function() {
+    c.b2DynamicTree.b2DynamicTree.apply(this, arguments);
+    if (this.constructor === c.b2DynamicTree) this.b2DynamicTree.apply(this, arguments);
+};
+(function(b2DynamicTree) {
+})(Box2D.Collision.b2DynamicTree);
+
+Box2D.Collision.b2DynamicTreeBroadPhase = function() {
+    c.b2DynamicTreeBroadPhase.b2DynamicTreeBroadPhase.apply(this, arguments);
+};
+(function(b2DynamicTreeBroadPhase) {
+})(Box2D.Collision.b2DynamicTreeBroadPhase);
+
+Box2D.Collision.b2DynamicTreeNode = function() {
+    c.b2DynamicTreeNode.b2DynamicTreeNode.apply(this, arguments);
+};
+(function(b2DynamicTreeNode) {
+})(Box2D.Collision.b2DynamicTreeNode);
+
+Box2D.Collision.b2DynamicTreePair = function() {
+    c.b2DynamicTreePair.b2DynamicTreePair.apply(this, arguments);
+};
+(function(b2DynamicTreePair) {
+})(Box2D.Collision.b2DynamicTreePair);
+
+Box2D.Collision.b2Manifold = function() {
+    c.b2Manifold.b2Manifold.apply(this, arguments);
+    if (this.constructor === c.b2Manifold) this.b2Manifold.apply(this, arguments);
+};
+(function(b2Manifold) {
+})(Box2D.Collision.b2Manifold);
+
+Box2D.Collision.b2ManifoldPoint = function() {
+    c.b2ManifoldPoint.b2ManifoldPoint.apply(this, arguments);
+    if (this.constructor === c.b2ManifoldPoint) this.b2ManifoldPoint.apply(this, arguments);
+};
+(function(b2ManifoldPoint) {
+})(Box2D.Collision.b2ManifoldPoint);
+
+Box2D.Collision.b2Point = function() {
+    c.b2Point.b2Point.apply(this, arguments);
+};
+(function(b2Point) {
+})(Box2D.Collision.b2Point);
+
+Box2D.Collision.b2RayCastInput = function() {
+    c.b2RayCastInput.b2RayCastInput.apply(this, arguments);
+    if (this.constructor === c.b2RayCastInput) this.b2RayCastInput.apply(this, arguments);
+};
+(function(b2RayCastInput) {
+})(Box2D.Collision.b2RayCastInput);
+
+Box2D.Collision.b2RayCastOutput = function() {
+    c.b2RayCastOutput.b2RayCastOutput.apply(this, arguments);
+};
+(function(b2RayCastOutput) {
+})(Box2D.Collision.b2RayCastOutput);
+
+Box2D.Collision.b2Segment = function() {
+    c.b2Segment.b2Segment.apply(this, arguments);
+};
+(function(b2Segment) {
+})(Box2D.Collision.b2Segment);
+
+Box2D.Collision.b2SeparationFunction = function() {
+    c.b2SeparationFunction.b2SeparationFunction.apply(this, arguments);
+};
+(function(b2SeparationFunction) {
+})(Box2D.Collision.b2SeparationFunction);
+
+(function(c) {
+    
+    c.b2Simplex = function() {
+        c.b2Simplex.b2Simplex.apply(this, arguments);
+        if (this.constructor === c.b2Simplex) this.b2Simplex.apply(this, arguments);
+    };
+    
+    c.b2SimplexCache = function() {
+        c.b2SimplexCache.b2SimplexCache.apply(this, arguments);
+    };
+    
+    c.b2SimplexVertex = function() {
+        c.b2SimplexVertex.b2SimplexVertex.apply(this, arguments);
+    };
+    
+    c.b2TimeOfImpact = function() {
+        c.b2TimeOfImpact.b2TimeOfImpact.apply(this, arguments);
+    };
+    
+    c.b2TOIInput = function() {
+        c.b2TOIInput.b2TOIInput.apply(this, arguments);
+    };
+    
+    c.b2WorldManifold = function() {
+        c.b2WorldManifold.b2WorldManifold.apply(this, arguments);
+        if (this.constructor === c.b2WorldManifold) this.b2WorldManifold.apply(this, arguments);
+    };
+    
+    c.ClipVertex = function() {
+        c.ClipVertex.ClipVertex.apply(this, arguments);
+    };
+    
+    c.Features = function() {
+        c.Features.Features.apply(this, arguments);
+    };
+})(Box2D.Collision);
+    
+(function(s) {
+    s.b2CircleShape = function() {
+        s.b2CircleShape.b2CircleShape.apply(this, arguments);
+        if (this.constructor === s.b2CircleShape) this.b2CircleShape.apply(this, arguments);
+    };
+    
+    s.b2EdgeChainDef = function() {
+        s.b2EdgeChainDef.b2EdgeChainDef.apply(this, arguments);
+        if (this.constructor === s.b2EdgeChainDef) this.b2EdgeChainDef.apply(this, arguments);
+    };
+    
+    s.b2EdgeShape = function() {
+        s.b2EdgeShape.b2EdgeShape.apply(this, arguments);
+        if (this.constructor === s.b2EdgeShape) this.b2EdgeShape.apply(this, arguments);
+    };
+    
+    s.b2MassData = function() {
+        s.b2MassData.b2MassData.apply(this, arguments);
+    };
+    
+    s.b2PolygonShape = function() {
+        s.b2PolygonShape.b2PolygonShape.apply(this, arguments);
+        if (this.constructor === s.b2PolygonShape) this.b2PolygonShape.apply(this, arguments);
+    };
+    
+    s.b2Shape = function() {
+        s.b2Shape.b2Shape.apply(this, arguments);
+        if (this.constructor === s.b2Shape) this.b2Shape.apply(this, arguments);
+    };
+})(Box2D.Collision.Shapes);
+
 (function () {
     
-    // Added by illandril
    Box2D.MIN_VALUE_SQUARED = Number.MIN_VALUE * Number.MIN_VALUE;
     
-   Box2D.Collision.IBroadPhase = 'Box2D.Collision.IBroadPhase';
-
-   function b2AABB() {
-      b2AABB.b2AABB.apply(this, arguments);
-   };
-   Box2D.Collision.b2AABB = b2AABB;
-
-   function b2Bound() {
-      b2Bound.b2Bound.apply(this, arguments);
-   };
-   Box2D.Collision.b2Bound = b2Bound;
-
-   function b2BoundValues() {
-      b2BoundValues.b2BoundValues.apply(this, arguments);
-      if (this.constructor === b2BoundValues) this.b2BoundValues.apply(this, arguments);
-   };
-   Box2D.Collision.b2BoundValues = b2BoundValues;
-
-   function b2Collision() {
-      b2Collision.b2Collision.apply(this, arguments);
-   };
-   Box2D.Collision.b2Collision = b2Collision;
-
-   function b2ContactID() {
-      b2ContactID.b2ContactID.apply(this, arguments);
-      if (this.constructor === b2ContactID) this.b2ContactID.apply(this, arguments);
-   };
-   Box2D.Collision.b2ContactID = b2ContactID;
-
-   function b2ContactPoint() {
-      b2ContactPoint.b2ContactPoint.apply(this, arguments);
-   };
-   Box2D.Collision.b2ContactPoint = b2ContactPoint;
-
-   function b2Distance() {
-      b2Distance.b2Distance.apply(this, arguments);
-   };
-   Box2D.Collision.b2Distance = b2Distance;
-
-   function b2DistanceInput() {
-      b2DistanceInput.b2DistanceInput.apply(this, arguments);
-   };
-   Box2D.Collision.b2DistanceInput = b2DistanceInput;
-
-   function b2DistanceOutput() {
-      b2DistanceOutput.b2DistanceOutput.apply(this, arguments);
-   };
-   Box2D.Collision.b2DistanceOutput = b2DistanceOutput;
-
-   function b2DistanceProxy() {
-      b2DistanceProxy.b2DistanceProxy.apply(this, arguments);
-   };
-   Box2D.Collision.b2DistanceProxy = b2DistanceProxy;
-
-   function b2DynamicTree() {
-      b2DynamicTree.b2DynamicTree.apply(this, arguments);
-      if (this.constructor === b2DynamicTree) this.b2DynamicTree.apply(this, arguments);
-   };
-   Box2D.Collision.b2DynamicTree = b2DynamicTree;
-
-   function b2DynamicTreeBroadPhase() {
-      b2DynamicTreeBroadPhase.b2DynamicTreeBroadPhase.apply(this, arguments);
-   };
-   Box2D.Collision.b2DynamicTreeBroadPhase = b2DynamicTreeBroadPhase;
-
-   function b2DynamicTreeNode() {
-      b2DynamicTreeNode.b2DynamicTreeNode.apply(this, arguments);
-   };
-   Box2D.Collision.b2DynamicTreeNode = b2DynamicTreeNode;
-
-   function b2DynamicTreePair() {
-      b2DynamicTreePair.b2DynamicTreePair.apply(this, arguments);
-   };
-   Box2D.Collision.b2DynamicTreePair = b2DynamicTreePair;
-
-   function b2Manifold() {
-      b2Manifold.b2Manifold.apply(this, arguments);
-      if (this.constructor === b2Manifold) this.b2Manifold.apply(this, arguments);
-   };
-   Box2D.Collision.b2Manifold = b2Manifold;
-
-   function b2ManifoldPoint() {
-      b2ManifoldPoint.b2ManifoldPoint.apply(this, arguments);
-      if (this.constructor === b2ManifoldPoint) this.b2ManifoldPoint.apply(this, arguments);
-   };
-   Box2D.Collision.b2ManifoldPoint = b2ManifoldPoint;
-
-   function b2Point() {
-      b2Point.b2Point.apply(this, arguments);
-   };
-   Box2D.Collision.b2Point = b2Point;
-
-   function b2RayCastInput() {
-      b2RayCastInput.b2RayCastInput.apply(this, arguments);
-      if (this.constructor === b2RayCastInput) this.b2RayCastInput.apply(this, arguments);
-   };
-   Box2D.Collision.b2RayCastInput = b2RayCastInput;
-
-   function b2RayCastOutput() {
-      b2RayCastOutput.b2RayCastOutput.apply(this, arguments);
-   };
-   Box2D.Collision.b2RayCastOutput = b2RayCastOutput;
-
-   function b2Segment() {
-      b2Segment.b2Segment.apply(this, arguments);
-   };
-   Box2D.Collision.b2Segment = b2Segment;
-
-   function b2SeparationFunction() {
-      b2SeparationFunction.b2SeparationFunction.apply(this, arguments);
-   };
-   Box2D.Collision.b2SeparationFunction = b2SeparationFunction;
-
-   function b2Simplex() {
-      b2Simplex.b2Simplex.apply(this, arguments);
-      if (this.constructor === b2Simplex) this.b2Simplex.apply(this, arguments);
-   };
-   Box2D.Collision.b2Simplex = b2Simplex;
-
-   function b2SimplexCache() {
-      b2SimplexCache.b2SimplexCache.apply(this, arguments);
-   };
-   Box2D.Collision.b2SimplexCache = b2SimplexCache;
-
-   function b2SimplexVertex() {
-      b2SimplexVertex.b2SimplexVertex.apply(this, arguments);
-   };
-   Box2D.Collision.b2SimplexVertex = b2SimplexVertex;
-
-   function b2TimeOfImpact() {
-      b2TimeOfImpact.b2TimeOfImpact.apply(this, arguments);
-   };
-   Box2D.Collision.b2TimeOfImpact = b2TimeOfImpact;
-
-   function b2TOIInput() {
-      b2TOIInput.b2TOIInput.apply(this, arguments);
-   };
-   Box2D.Collision.b2TOIInput = b2TOIInput;
-
-   function b2WorldManifold() {
-      b2WorldManifold.b2WorldManifold.apply(this, arguments);
-      if (this.constructor === b2WorldManifold) this.b2WorldManifold.apply(this, arguments);
-   };
-   Box2D.Collision.b2WorldManifold = b2WorldManifold;
-
-   function ClipVertex() {
-      ClipVertex.ClipVertex.apply(this, arguments);
-   };
-   Box2D.Collision.ClipVertex = ClipVertex;
-
-   function Features() {
-      Features.Features.apply(this, arguments);
-   };
-   Box2D.Collision.Features = Features;
-
-   function b2CircleShape() {
-      b2CircleShape.b2CircleShape.apply(this, arguments);
-      if (this.constructor === b2CircleShape) this.b2CircleShape.apply(this, arguments);
-   };
-   Box2D.Collision.Shapes.b2CircleShape = b2CircleShape;
-
-   function b2EdgeChainDef() {
-      b2EdgeChainDef.b2EdgeChainDef.apply(this, arguments);
-      if (this.constructor === b2EdgeChainDef) this.b2EdgeChainDef.apply(this, arguments);
-   };
-   Box2D.Collision.Shapes.b2EdgeChainDef = b2EdgeChainDef;
-
-   function b2EdgeShape() {
-      b2EdgeShape.b2EdgeShape.apply(this, arguments);
-      if (this.constructor === b2EdgeShape) this.b2EdgeShape.apply(this, arguments);
-   };
-   Box2D.Collision.Shapes.b2EdgeShape = b2EdgeShape;
-
-   function b2MassData() {
-      b2MassData.b2MassData.apply(this, arguments);
-   };
-   Box2D.Collision.Shapes.b2MassData = b2MassData;
-
-   function b2PolygonShape() {
-      b2PolygonShape.b2PolygonShape.apply(this, arguments);
-      if (this.constructor === b2PolygonShape) this.b2PolygonShape.apply(this, arguments);
-   };
-   Box2D.Collision.Shapes.b2PolygonShape = b2PolygonShape;
-
-   function b2Shape() {
-      b2Shape.b2Shape.apply(this, arguments);
-      if (this.constructor === b2Shape) this.b2Shape.apply(this, arguments);
-   };
-   Box2D.Collision.Shapes.b2Shape = b2Shape;
    Box2D.Common.b2internal = 'Box2D.Common.b2internal';
 
    function b2Color() {
@@ -401,12 +280,6 @@ if (typeof(Box2D.Dynamics.Joints) === "undefined") Box2D.Dynamics.Joints = {};
       b2TimeStep.b2TimeStep.apply(this, arguments);
    };
    Box2D.Dynamics.b2TimeStep = b2TimeStep;
-
-   function b2World() {
-      b2World.b2World.apply(this, arguments);
-      if (this.constructor === b2World) this.b2World.apply(this, arguments);
-   };
-   Box2D.Dynamics.b2World = b2World;
 
    function b2CircleContact() {
       b2CircleContact.b2CircleContact.apply(this, arguments);
@@ -654,7 +527,7 @@ if (typeof(Box2D.Dynamics.Joints) === "undefined") Box2D.Dynamics.Joints = {};
    };
    Box2D.Dynamics.Joints.b2WeldJointDef = b2WeldJointDef;
 })(); //definitions
-Box2D.postDefs = [];
+
 (function () {
    var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
       b2EdgeChainDef = Box2D.Collision.Shapes.b2EdgeChainDef,
@@ -673,8 +546,6 @@ Box2D.postDefs = [];
       b2Vec2 = Box2D.Common.Math.b2Vec2,
       b2Vec3 = Box2D.Common.Math.b2Vec3,
       b2AABB = Box2D.Collision.b2AABB,
-      b2Bound = Box2D.Collision.b2Bound,
-      b2BoundValues = Box2D.Collision.b2BoundValues,
       b2Collision = Box2D.Collision.b2Collision,
       b2ContactID = Box2D.Collision.b2ContactID,
       b2ContactPoint = Box2D.Collision.b2ContactPoint,
@@ -703,790 +574,9 @@ Box2D.postDefs = [];
       Features = Box2D.Collision.Features,
       IBroadPhase = Box2D.Collision.IBroadPhase;
 
-   b2AABB.b2AABB = function () {
-      this.lowerBound = new b2Vec2();
-      this.upperBound = new b2Vec2();
-   };
-   // Modified by Illandril
-   b2AABB.prototype.IsValid = function () {
-      var dX = this.upperBound.x - this.lowerBound.x;
-      if ( dX < 0 )  {
-          return false;
-      }
-      var dY = this.upperBound.y - this.lowerBound.y;
-      var valid = dX >= 0.0 && dY >= 0.0;
-      valid = valid && this.lowerBound.IsValid() && this.upperBound.IsValid();
-      return valid;
-   }
-   b2AABB.prototype.GetCenter = function () {
-      return new b2Vec2((this.lowerBound.x + this.upperBound.x) / 2, (this.lowerBound.y + this.upperBound.y) / 2);
-   }
-   b2AABB.prototype.GetExtents = function () {
-      return new b2Vec2((this.upperBound.x - this.lowerBound.x) / 2, (this.upperBound.y - this.lowerBound.y) / 2);
-   }
-   b2AABB.prototype.Contains = function (aabb) {
-      var result = true;
-      result = result && this.lowerBound.x <= aabb.lowerBound.x;
-      result = result && this.lowerBound.y <= aabb.lowerBound.y;
-      result = result && aabb.upperBound.x <= this.upperBound.x;
-      result = result && aabb.upperBound.y <= this.upperBound.y;
-      return result;
-   }
-   b2AABB.prototype.RayCast = function (output, input) {
-      var tmin = (-Number.MAX_VALUE);
-      var tmax = Number.MAX_VALUE;
-      var pX = input.p1.x;
-      var pY = input.p1.y;
-      var dX = input.p2.x - input.p1.x;
-      var dY = input.p2.y - input.p1.y;
-      var absDX = Math.abs(dX);
-      var absDY = Math.abs(dY);
-      var normal = output.normal;
-      var inv_d = 0;
-      var t1 = 0;
-      var t2 = 0;
-      var t3 = 0;
-      var s = 0; {
-         if (absDX < Number.MIN_VALUE) {
-            if (pX < this.lowerBound.x || this.upperBound.x < pX) return false;
-         }
-         else {
-            inv_d = 1.0 / dX;
-            t1 = (this.lowerBound.x - pX) * inv_d;
-            t2 = (this.upperBound.x - pX) * inv_d;
-            s = (-1.0);
-            if (t1 > t2) {
-               t3 = t1;
-               t1 = t2;
-               t2 = t3;
-               s = 1.0;
-            }
-            if (t1 > tmin) {
-               normal.x = s;
-               normal.y = 0;
-               tmin = t1;
-            }
-            tmax = Math.min(tmax, t2);
-            if (tmin > tmax) return false;
-         }
-      } {
-         if (absDY < Number.MIN_VALUE) {
-            if (pY < this.lowerBound.y || this.upperBound.y < pY) return false;
-         }
-         else {
-            inv_d = 1.0 / dY;
-            t1 = (this.lowerBound.y - pY) * inv_d;
-            t2 = (this.upperBound.y - pY) * inv_d;
-            s = (-1.0);
-            if (t1 > t2) {
-               t3 = t1;
-               t1 = t2;
-               t2 = t3;
-               s = 1.0;
-            }
-            if (t1 > tmin) {
-               normal.y = s;
-               normal.x = 0;
-               tmin = t1;
-            }
-            tmax = Math.min(tmax, t2);
-            if (tmin > tmax) return false;
-         }
-      }
-      output.fraction = tmin;
-      return true;
-   }
-   b2AABB.prototype.TestOverlap = function (other) {
-      var d1X = other.lowerBound.x - this.upperBound.x;
-      var d1Y = other.lowerBound.y - this.upperBound.y;
-      var d2X = this.lowerBound.x - other.upperBound.x;
-      var d2Y = this.lowerBound.y - other.upperBound.y;
-      if (d1X > 0.0 || d1Y > 0.0) return false;
-      if (d2X > 0.0 || d2Y > 0.0) return false;
-      return true;
-   }
-   b2AABB.Combine = function (aabb1, aabb2) {
-      var aabb = new b2AABB();
-      aabb.Combine(aabb1, aabb2);
-      return aabb;
-   }
-   b2AABB.prototype.Combine = function (aabb1, aabb2) {
-      this.lowerBound.x = Math.min(aabb1.lowerBound.x, aabb2.lowerBound.x);
-      this.lowerBound.y = Math.min(aabb1.lowerBound.y, aabb2.lowerBound.y);
-      this.upperBound.x = Math.max(aabb1.upperBound.x, aabb2.upperBound.x);
-      this.upperBound.y = Math.max(aabb1.upperBound.y, aabb2.upperBound.y);
-   }
-   b2Bound.b2Bound = function () {};
-   b2Bound.prototype.IsLower = function () {
-      return (this.value & 1) == 0;
-   }
-   b2Bound.prototype.IsUpper = function () {
-      return (this.value & 1) == 1;
-   }
-   b2Bound.prototype.Swap = function (b) {
-      var tempValue = this.value;
-      var tempProxy = this.proxy;
-      var tempStabbingCount = this.stabbingCount;
-      this.value = b.value;
-      this.proxy = b.proxy;
-      this.stabbingCount = b.stabbingCount;
-      b.value = tempValue;
-      b.proxy = tempProxy;
-      b.stabbingCount = tempStabbingCount;
-   }
-   b2BoundValues.b2BoundValues = function () {};
-   b2BoundValues.prototype.b2BoundValues = function () {
-      this.lowerValues = new Vector_a2j_Number();
-      this.lowerValues[0] = 0.0;
-      this.lowerValues[1] = 0.0;
-      this.upperValues = new Vector_a2j_Number();
-      this.upperValues[0] = 0.0;
-      this.upperValues[1] = 0.0;
-   }
-   b2Collision.b2Collision = function () {};
-   b2Collision.ClipSegmentToLine = function (vOut, vIn, normal, offset) {
-      if (offset === undefined) offset = 0;
-      var cv;
-      var numOut = 0;
-      cv = vIn[0];
-      var vIn0 = cv.v;
-      cv = vIn[1];
-      var vIn1 = cv.v;
-      var distance0 = normal.x * vIn0.x + normal.y * vIn0.y - offset;
-      var distance1 = normal.x * vIn1.x + normal.y * vIn1.y - offset;
-      if (distance0 <= 0.0) vOut[numOut++].Set(vIn[0]);
-      if (distance1 <= 0.0) vOut[numOut++].Set(vIn[1]);
-      if (distance0 * distance1 < 0.0) {
-         var interp = distance0 / (distance0 - distance1);
-         cv = vOut[numOut];
-         var tVec = cv.v;
-         tVec.x = vIn0.x + interp * (vIn1.x - vIn0.x);
-         tVec.y = vIn0.y + interp * (vIn1.y - vIn0.y);
-         cv = vOut[numOut];
-         var cv2;
-         if (distance0 > 0.0) {
-            cv2 = vIn[0];
-            cv.id = cv2.id;
-         }
-         else {
-            cv2 = vIn[1];
-            cv.id = cv2.id;
-         }++numOut;
-      }
-      return numOut;
-   }
-   b2Collision.EdgeSeparation = function (poly1, xf1, edge1, poly2, xf2) {
-      if (edge1 === undefined) edge1 = 0;
-      var count1 = parseInt(poly1.m_vertexCount);
-      var vertices1 = poly1.m_vertices;
-      var normals1 = poly1.m_normals;
-      var count2 = parseInt(poly2.m_vertexCount);
-      var vertices2 = poly2.m_vertices;
-      var tMat;
-      var tVec;
-      tMat = xf1.R;
-      tVec = normals1[edge1];
-      var normal1WorldX = (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      var normal1WorldY = (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      tMat = xf2.R;
-      var normal1X = (tMat.col1.x * normal1WorldX + tMat.col1.y * normal1WorldY);
-      var normal1Y = (tMat.col2.x * normal1WorldX + tMat.col2.y * normal1WorldY);
-      var index = 0;
-      var minDot = Number.MAX_VALUE;
-      for (var i = 0; i < count2; ++i) {
-         tVec = vertices2[i];
-         var dot = tVec.x * normal1X + tVec.y * normal1Y;
-         if (dot < minDot) {
-            minDot = dot;
-            index = i;
-         }
-      }
-      tVec = vertices1[edge1];
-      tMat = xf1.R;
-      var v1X = xf1.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      var v1Y = xf1.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      tVec = vertices2[index];
-      tMat = xf2.R;
-      var v2X = xf2.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      var v2Y = xf2.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      v2X -= v1X;
-      v2Y -= v1Y;
-      var separation = v2X * normal1WorldX + v2Y * normal1WorldY;
-      return separation;
-   }
-   b2Collision.FindMaxSeparation = function (edgeIndex, poly1, xf1, poly2, xf2) {
-      var count1 = parseInt(poly1.m_vertexCount);
-      var normals1 = poly1.m_normals;
-      var tVec;
-      var tMat;
-      tMat = xf2.R;
-      tVec = poly2.m_centroid;
-      var dX = xf2.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      var dY = xf2.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      tMat = xf1.R;
-      tVec = poly1.m_centroid;
-      dX -= xf1.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      dY -= xf1.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      var dLocal1X = (dX * xf1.R.col1.x + dY * xf1.R.col1.y);
-      var dLocal1Y = (dX * xf1.R.col2.x + dY * xf1.R.col2.y);
-      var edge = 0;
-      var maxDot = (-Number.MAX_VALUE);
-      for (var i = 0; i < count1; ++i) {
-         tVec = normals1[i];
-         var dot = (tVec.x * dLocal1X + tVec.y * dLocal1Y);
-         if (dot > maxDot) {
-            maxDot = dot;
-            edge = i;
-         }
-      }
-      var s = b2Collision.EdgeSeparation(poly1, xf1, edge, poly2, xf2);
-      var prevEdge = parseInt(edge - 1 >= 0 ? edge - 1 : count1 - 1);
-      var sPrev = b2Collision.EdgeSeparation(poly1, xf1, prevEdge, poly2, xf2);
-      var nextEdge = parseInt(edge + 1 < count1 ? edge + 1 : 0);
-      var sNext = b2Collision.EdgeSeparation(poly1, xf1, nextEdge, poly2, xf2);
-      var bestEdge = 0;
-      var bestSeparation = 0;
-      var increment = 0;
-      if (sPrev > s && sPrev > sNext) {
-         increment = (-1);
-         bestEdge = prevEdge;
-         bestSeparation = sPrev;
-      }
-      else if (sNext > s) {
-         increment = 1;
-         bestEdge = nextEdge;
-         bestSeparation = sNext;
-      }
-      else {
-         edgeIndex[0] = edge;
-         return s;
-      }
-      while (true) {
-         if (increment == (-1)) edge = bestEdge - 1 >= 0 ? bestEdge - 1 : count1 - 1;
-         else edge = bestEdge + 1 < count1 ? bestEdge + 1 : 0;s = b2Collision.EdgeSeparation(poly1, xf1, edge, poly2, xf2);
-         if (s > bestSeparation) {
-            bestEdge = edge;
-            bestSeparation = s;
-         }
-         else {
-            break;
-         }
-      }
-      edgeIndex[0] = bestEdge;
-      return bestSeparation;
-   }
-   b2Collision.FindIncidentEdge = function (c, poly1, xf1, edge1, poly2, xf2) {
-      if (edge1 === undefined) edge1 = 0;
-      var count1 = parseInt(poly1.m_vertexCount);
-      var normals1 = poly1.m_normals;
-      var count2 = parseInt(poly2.m_vertexCount);
-      var vertices2 = poly2.m_vertices;
-      var normals2 = poly2.m_normals;
-      var tMat;
-      var tVec;
-      tMat = xf1.R;
-      tVec = normals1[edge1];
-      var normal1X = (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      var normal1Y = (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      tMat = xf2.R;
-      var tX = (tMat.col1.x * normal1X + tMat.col1.y * normal1Y);
-      normal1Y = (tMat.col2.x * normal1X + tMat.col2.y * normal1Y);
-      normal1X = tX;
-      var index = 0;
-      var minDot = Number.MAX_VALUE;
-      for (var i = 0; i < count2; ++i) {
-         tVec = normals2[i];
-         var dot = (normal1X * tVec.x + normal1Y * tVec.y);
-         if (dot < minDot) {
-            minDot = dot;
-            index = i;
-         }
-      }
-      var tClip;
-      var i1 = parseInt(index);
-      var i2 = parseInt(i1 + 1 < count2 ? i1 + 1 : 0);
-      tClip = c[0];
-      tVec = vertices2[i1];
-      tMat = xf2.R;
-      tClip.v.x = xf2.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      tClip.v.y = xf2.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      tClip.id.features.referenceEdge = edge1;
-      tClip.id.features.incidentEdge = i1;
-      tClip.id.features.incidentVertex = 0;
-      tClip = c[1];
-      tVec = vertices2[i2];
-      tMat = xf2.R;
-      tClip.v.x = xf2.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      tClip.v.y = xf2.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      tClip.id.features.referenceEdge = edge1;
-      tClip.id.features.incidentEdge = i2;
-      tClip.id.features.incidentVertex = 1;
-   }
-   b2Collision.MakeClipPointVector = function () {
-      var r = new Vector(2);
-      r[0] = new ClipVertex();
-      r[1] = new ClipVertex();
-      return r;
-   }
-   b2Collision.CollidePolygons = function (manifold, polyA, xfA, polyB, xfB) {
-      var cv;
-      manifold.m_pointCount = 0;
-      var totalRadius = polyA.m_radius + polyB.m_radius;
-      var edgeA = 0;
-      b2Collision.s_edgeAO[0] = edgeA;
-      var separationA = b2Collision.FindMaxSeparation(b2Collision.s_edgeAO, polyA, xfA, polyB, xfB);
-      edgeA = b2Collision.s_edgeAO[0];
-      if (separationA > totalRadius) return;
-      var edgeB = 0;
-      b2Collision.s_edgeBO[0] = edgeB;
-      var separationB = b2Collision.FindMaxSeparation(b2Collision.s_edgeBO, polyB, xfB, polyA, xfA);
-      edgeB = b2Collision.s_edgeBO[0];
-      if (separationB > totalRadius) return;
-      var poly1;
-      var poly2;
-      var xf1;
-      var xf2;
-      var edge1 = 0;
-      var flip = 0;
-      var k_relativeTol = 0.98;
-      var k_absoluteTol = 0.001;
-      var tMat;
-      if (separationB > k_relativeTol * separationA + k_absoluteTol) {
-         poly1 = polyB;
-         poly2 = polyA;
-         xf1 = xfB;
-         xf2 = xfA;
-         edge1 = edgeB;
-         manifold.m_type = b2Manifold.e_faceB;
-         flip = 1;
-      }
-      else {
-         poly1 = polyA;
-         poly2 = polyB;
-         xf1 = xfA;
-         xf2 = xfB;
-         edge1 = edgeA;
-         manifold.m_type = b2Manifold.e_faceA;
-         flip = 0;
-      }
-      var incidentEdge = b2Collision.s_incidentEdge;
-      b2Collision.FindIncidentEdge(incidentEdge, poly1, xf1, edge1, poly2, xf2);
-      var count1 = parseInt(poly1.m_vertexCount);
-      var vertices1 = poly1.m_vertices;
-      var local_v11 = vertices1[edge1];
-      var local_v12;
-      if (edge1 + 1 < count1) {
-         local_v12 = vertices1[parseInt(edge1 + 1)];
-      }
-      else {
-         local_v12 = vertices1[0];
-      }
-      var localTangent = b2Collision.s_localTangent;
-      localTangent.Set(local_v12.x - local_v11.x, local_v12.y - local_v11.y);
-      localTangent.Normalize();
-      var localNormal = b2Collision.s_localNormal;
-      localNormal.x = localTangent.y;
-      localNormal.y = (-localTangent.x);
-      var planePoint = b2Collision.s_planePoint;
-      planePoint.Set(0.5 * (local_v11.x + local_v12.x), 0.5 * (local_v11.y + local_v12.y));
-      var tangent = b2Collision.s_tangent;
-      tMat = xf1.R;
-      tangent.x = (tMat.col1.x * localTangent.x + tMat.col2.x * localTangent.y);
-      tangent.y = (tMat.col1.y * localTangent.x + tMat.col2.y * localTangent.y);
-      var tangent2 = b2Collision.s_tangent2;
-      tangent2.x = (-tangent.x);
-      tangent2.y = (-tangent.y);
-      var normal = b2Collision.s_normal;
-      normal.x = tangent.y;
-      normal.y = (-tangent.x);
-      var v11 = b2Collision.s_v11;
-      var v12 = b2Collision.s_v12;
-      v11.x = xf1.position.x + (tMat.col1.x * local_v11.x + tMat.col2.x * local_v11.y);
-      v11.y = xf1.position.y + (tMat.col1.y * local_v11.x + tMat.col2.y * local_v11.y);
-      v12.x = xf1.position.x + (tMat.col1.x * local_v12.x + tMat.col2.x * local_v12.y);
-      v12.y = xf1.position.y + (tMat.col1.y * local_v12.x + tMat.col2.y * local_v12.y);
-      var frontOffset = normal.x * v11.x + normal.y * v11.y;
-      var sideOffset1 = (-tangent.x * v11.x) - tangent.y * v11.y + totalRadius;
-      var sideOffset2 = tangent.x * v12.x + tangent.y * v12.y + totalRadius;
-      var clipPoints1 = b2Collision.s_clipPoints1;
-      var clipPoints2 = b2Collision.s_clipPoints2;
-      var np = 0;
-      np = b2Collision.ClipSegmentToLine(clipPoints1, incidentEdge, tangent2, sideOffset1);
-      if (np < 2) return;
-      np = b2Collision.ClipSegmentToLine(clipPoints2, clipPoints1, tangent, sideOffset2);
-      if (np < 2) return;
-      manifold.m_localPlaneNormal.SetV(localNormal);
-      manifold.m_localPoint.SetV(planePoint);
-      var pointCount = 0;
-      for (var i = 0; i < b2Settings.b2_maxManifoldPoints; ++i) {
-         cv = clipPoints2[i];
-         var separation = normal.x * cv.v.x + normal.y * cv.v.y - frontOffset;
-         if (separation <= totalRadius) {
-            var cp = manifold.m_points[pointCount];
-            tMat = xf2.R;
-            var tX = cv.v.x - xf2.position.x;
-            var tY = cv.v.y - xf2.position.y;
-            cp.m_localPoint.x = (tX * tMat.col1.x + tY * tMat.col1.y);
-            cp.m_localPoint.y = (tX * tMat.col2.x + tY * tMat.col2.y);
-            cp.m_id.Set(cv.id);
-            cp.m_id.features.flip = flip;
-            ++pointCount;
-         }
-      }
-      manifold.m_pointCount = pointCount;
-   }
-   b2Collision.CollideCircles = function (manifold, circle1, xf1, circle2, xf2) {
-      manifold.m_pointCount = 0;
-      var tMat;
-      var tVec;
-      tMat = xf1.R;
-      tVec = circle1.m_p;
-      var p1X = xf1.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      var p1Y = xf1.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      tMat = xf2.R;
-      tVec = circle2.m_p;
-      var p2X = xf2.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      var p2Y = xf2.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      var dX = p2X - p1X;
-      var dY = p2Y - p1Y;
-      var distSqr = dX * dX + dY * dY;
-      var radius = circle1.m_radius + circle2.m_radius;
-      if (distSqr > radius * radius) {
-         return;
-      }
-      manifold.m_type = b2Manifold.e_circles;
-      manifold.m_localPoint.SetV(circle1.m_p);
-      manifold.m_localPlaneNormal.SetZero();
-      manifold.m_pointCount = 1;
-      manifold.m_points[0].m_localPoint.SetV(circle2.m_p);
-      manifold.m_points[0].m_id.key = 0;
-   }
-   b2Collision.CollidePolygonAndCircle = function (manifold, polygon, xf1, circle, xf2) {
-      manifold.m_pointCount = 0;
-      var tPoint;
-      var dX = 0;
-      var dY = 0;
-      var positionX = 0;
-      var positionY = 0;
-      var tVec;
-      var tMat;
-      tMat = xf2.R;
-      tVec = circle.m_p;
-      var cX = xf2.position.x + (tMat.col1.x * tVec.x + tMat.col2.x * tVec.y);
-      var cY = xf2.position.y + (tMat.col1.y * tVec.x + tMat.col2.y * tVec.y);
-      dX = cX - xf1.position.x;
-      dY = cY - xf1.position.y;
-      tMat = xf1.R;
-      var cLocalX = (dX * tMat.col1.x + dY * tMat.col1.y);
-      var cLocalY = (dX * tMat.col2.x + dY * tMat.col2.y);
-      var dist = 0;
-      var normalIndex = 0;
-      var separation = (-Number.MAX_VALUE);
-      var radius = polygon.m_radius + circle.m_radius;
-      var vertexCount = parseInt(polygon.m_vertexCount);
-      var vertices = polygon.m_vertices;
-      var normals = polygon.m_normals;
-      for (var i = 0; i < vertexCount; ++i) {
-         tVec = vertices[i];
-         dX = cLocalX - tVec.x;
-         dY = cLocalY - tVec.y;
-         tVec = normals[i];
-         var s = tVec.x * dX + tVec.y * dY;
-         if (s > radius) {
-            return;
-         }
-         if (s > separation) {
-            separation = s;
-            normalIndex = i;
-         }
-      }
-      var vertIndex1 = parseInt(normalIndex);
-      var vertIndex2 = parseInt(vertIndex1 + 1 < vertexCount ? vertIndex1 + 1 : 0);
-      var v1 = vertices[vertIndex1];
-      var v2 = vertices[vertIndex2];
-      if (separation < Number.MIN_VALUE) {
-         manifold.m_pointCount = 1;
-         manifold.m_type = b2Manifold.e_faceA;
-         manifold.m_localPlaneNormal.SetV(normals[normalIndex]);
-         manifold.m_localPoint.x = 0.5 * (v1.x + v2.x);
-         manifold.m_localPoint.y = 0.5 * (v1.y + v2.y);
-         manifold.m_points[0].m_localPoint.SetV(circle.m_p);
-         manifold.m_points[0].m_id.key = 0;
-         return;
-      }
-      var u1 = (cLocalX - v1.x) * (v2.x - v1.x) + (cLocalY - v1.y) * (v2.y - v1.y);
-      var u2 = (cLocalX - v2.x) * (v1.x - v2.x) + (cLocalY - v2.y) * (v1.y - v2.y);
-      if (u1 <= 0.0) {
-         if ((cLocalX - v1.x) * (cLocalX - v1.x) + (cLocalY - v1.y) * (cLocalY - v1.y) > radius * radius) return;
-         manifold.m_pointCount = 1;
-         manifold.m_type = b2Manifold.e_faceA;
-         manifold.m_localPlaneNormal.x = cLocalX - v1.x;
-         manifold.m_localPlaneNormal.y = cLocalY - v1.y;
-         manifold.m_localPlaneNormal.Normalize();
-         manifold.m_localPoint.SetV(v1);
-         manifold.m_points[0].m_localPoint.SetV(circle.m_p);
-         manifold.m_points[0].m_id.key = 0;
-      }
-      else if (u2 <= 0) {
-         if ((cLocalX - v2.x) * (cLocalX - v2.x) + (cLocalY - v2.y) * (cLocalY - v2.y) > radius * radius) return;
-         manifold.m_pointCount = 1;
-         manifold.m_type = b2Manifold.e_faceA;
-         manifold.m_localPlaneNormal.x = cLocalX - v2.x;
-         manifold.m_localPlaneNormal.y = cLocalY - v2.y;
-         manifold.m_localPlaneNormal.Normalize();
-         manifold.m_localPoint.SetV(v2);
-         manifold.m_points[0].m_localPoint.SetV(circle.m_p);
-         manifold.m_points[0].m_id.key = 0;
-      }
-      else {
-         var faceCenterX = 0.5 * (v1.x + v2.x);
-         var faceCenterY = 0.5 * (v1.y + v2.y);
-         separation = (cLocalX - faceCenterX) * normals[vertIndex1].x + (cLocalY - faceCenterY) * normals[vertIndex1].y;
-         if (separation > radius) return;
-         manifold.m_pointCount = 1;
-         manifold.m_type = b2Manifold.e_faceA;
-         manifold.m_localPlaneNormal.x = normals[vertIndex1].x;
-         manifold.m_localPlaneNormal.y = normals[vertIndex1].y;
-         manifold.m_localPlaneNormal.Normalize();
-         manifold.m_localPoint.Set(faceCenterX, faceCenterY);
-         manifold.m_points[0].m_localPoint.SetV(circle.m_p);
-         manifold.m_points[0].m_id.key = 0;
-      }
-   }
-   b2Collision.TestOverlap = function (a, b) {
-      var t1 = b.lowerBound;
-      var t2 = a.upperBound;
-      var d1X = t1.x - t2.x;
-      var d1Y = t1.y - t2.y;
-      t1 = a.lowerBound;
-      t2 = b.upperBound;
-      var d2X = t1.x - t2.x;
-      var d2Y = t1.y - t2.y;
-      if (d1X > 0.0 || d1Y > 0.0) return false;
-      if (d2X > 0.0 || d2Y > 0.0) return false;
-      return true;
-   }
-   Box2D.postDefs.push(function () {
-      Box2D.Collision.b2Collision.s_incidentEdge = b2Collision.MakeClipPointVector();
-      Box2D.Collision.b2Collision.s_clipPoints1 = b2Collision.MakeClipPointVector();
-      Box2D.Collision.b2Collision.s_clipPoints2 = b2Collision.MakeClipPointVector();
-      Box2D.Collision.b2Collision.s_edgeAO = new Vector_a2j_Number(1);
-      Box2D.Collision.b2Collision.s_edgeBO = new Vector_a2j_Number(1);
-      Box2D.Collision.b2Collision.s_localTangent = new b2Vec2();
-      Box2D.Collision.b2Collision.s_localNormal = new b2Vec2();
-      Box2D.Collision.b2Collision.s_planePoint = new b2Vec2();
-      Box2D.Collision.b2Collision.s_normal = new b2Vec2();
-      Box2D.Collision.b2Collision.s_tangent = new b2Vec2();
-      Box2D.Collision.b2Collision.s_tangent2 = new b2Vec2();
-      Box2D.Collision.b2Collision.s_v11 = new b2Vec2();
-      Box2D.Collision.b2Collision.s_v12 = new b2Vec2();
-      Box2D.Collision.b2Collision.b2CollidePolyTempVec = new b2Vec2();
-      Box2D.Collision.b2Collision.b2_nullFeature = 0x000000ff;
-   });
-   b2ContactID.b2ContactID = function () {
-      this.features = new Features();
-   };
-   b2ContactID.prototype.b2ContactID = function () {
-      this.features._m_id = this;
-   }
-   b2ContactID.prototype.Set = function (id) {
-      this.key = id._key;
-   }
-   b2ContactID.prototype.Copy = function () {
-      var id = new b2ContactID();
-      id.key = this.key;
-      return id;
-   }
-   Object.defineProperty(b2ContactID.prototype, 'key', {
-      enumerable: false,
-      configurable: true,
-      get: function () {
-         return this._key;
-      }
-   });
-   Object.defineProperty(b2ContactID.prototype, 'key', {
-      enumerable: false,
-      configurable: true,
-      set: function (value) {
-         if (value === undefined) value = 0;
-         this._key = value;
-         this.features._referenceEdge = this._key & 0x000000ff;
-         this.features._incidentEdge = ((this._key & 0x0000ff00) >> 8) & 0x000000ff;
-         this.features._incidentVertex = ((this._key & 0x00ff0000) >> 16) & 0x000000ff;
-         this.features._flip = ((this._key & 0xff000000) >> 24) & 0x000000ff;
-      }
-   });
-   b2ContactPoint.b2ContactPoint = function () {
-      this.position = new b2Vec2();
-      this.velocity = new b2Vec2();
-      this.normal = new b2Vec2();
-      this.id = new b2ContactID();
-   };
-   b2Distance.b2Distance = function () {};
-   
-   // Modified by Illandril
-   b2Distance.Distance = function (output, cache, input) {
-      ++b2Distance.b2_gjkCalls;
-      var proxyA = input.proxyA;
-      var proxyB = input.proxyB;
-      var transformA = input.transformA;
-      var transformB = input.transformB;
-      var simplex = b2Distance.s_simplex;
-      simplex.ReadCache(cache, proxyA, transformA, proxyB, transformB);
-      var vertices = simplex.m_vertices;
-      var k_maxIters = 20;
-      var saveA = b2Distance.s_saveA;
-      var saveB = b2Distance.s_saveB;
-      var saveCount = 0;
-      var closestPoint = simplex.GetClosestPoint();
-      var distanceSqr1 = closestPoint.LengthSquared();
-      var distanceSqr2 = distanceSqr1;
-      var i = 0;
-      var p;
-      var iter = 0;
-      while (iter < k_maxIters) {
-         saveCount = simplex.m_count;
-         for (i = 0;
-         i < saveCount; i++) {
-            saveA[i] = vertices[i].indexA;
-            saveB[i] = vertices[i].indexB;
-         }
-         switch (simplex.m_count) {
-         case 1:
-            break;
-         case 2:
-            simplex.Solve2();
-            break;
-         case 3:
-            simplex.Solve3();
-            break;
-         default:
-            b2Settings.b2Assert(false);
-         }
-         if (simplex.m_count == 3) {
-            break;
-         }
-         p = simplex.GetClosestPoint();
-         distanceSqr2 = p.LengthSquared();
-         if (distanceSqr2 > distanceSqr1) {}
-         distanceSqr1 = distanceSqr2;
-         var d = simplex.GetSearchDirection();
-         if (d.LengthSquared() < Box2D.MIN_VALUE_SQUARED) {
-            break;
-         }
-         var vertex = vertices[simplex.m_count];
-         vertex.indexA = proxyA.GetSupport(b2Math.MulTMV(transformA.R, d.GetNegative()));
-         vertex.wA = b2Math.MulX(transformA, proxyA.GetVertex(vertex.indexA));
-         vertex.indexB = proxyB.GetSupport(b2Math.MulTMV(transformB.R, d));
-         vertex.wB = b2Math.MulX(transformB, proxyB.GetVertex(vertex.indexB));
-         vertex.w = b2Math.SubtractVV(vertex.wB, vertex.wA);
-         ++iter;
-         ++b2Distance.b2_gjkIters;
-         var duplicate = false;
-         for (i = 0;
-         i < saveCount; i++) {
-            if (vertex.indexA == saveA[i] && vertex.indexB == saveB[i]) {
-               duplicate = true;
-               break;
-            }
-         }
-         if (duplicate) {
-            break;
-         }++simplex.m_count;
-      }
-      b2Distance.b2_gjkMaxIters = b2Math.Max(b2Distance.b2_gjkMaxIters, iter);
-      simplex.GetWitnessPoints(output.pointA, output.pointB);
-      output.distance = b2Math.SubtractVV(output.pointA, output.pointB).Length();
-      output.iterations = iter;
-      simplex.WriteCache(cache);
-      if (input.useRadii) {
-         var rA = proxyA.m_radius;
-         var rB = proxyB.m_radius;
-         if (output.distance > rA + rB && output.distance > Number.MIN_VALUE) {
-            output.distance -= rA + rB;
-            var normal = b2Math.SubtractVV(output.pointB, output.pointA);
-            normal.Normalize();
-            output.pointA.x += rA * normal.x;
-            output.pointA.y += rA * normal.y;
-            output.pointB.x -= rB * normal.x;
-            output.pointB.y -= rB * normal.y;
-         }
-         else {
-            p = new b2Vec2();
-            p.x = .5 * (output.pointA.x + output.pointB.x);
-            p.y = .5 * (output.pointA.y + output.pointB.y);
-            output.pointA.x = output.pointB.x = p.x;
-            output.pointA.y = output.pointB.y = p.y;
-            output.distance = 0.0;
-         }
-      }
-   }
-   Box2D.postDefs.push(function () {
-      Box2D.Collision.b2Distance.s_simplex = new b2Simplex();
-      Box2D.Collision.b2Distance.s_saveA = new Vector_a2j_Number(3);
-      Box2D.Collision.b2Distance.s_saveB = new Vector_a2j_Number(3);
-   });
-   b2DistanceInput.b2DistanceInput = function () {};
-   b2DistanceOutput.b2DistanceOutput = function () {
-      this.pointA = new b2Vec2();
-      this.pointB = new b2Vec2();
-   };
-   b2DistanceProxy.b2DistanceProxy = function () {};
-   b2DistanceProxy.prototype.Set = function (shape) {
-      switch (shape.GetType()) {
-      case b2Shape.e_circleShape:
-         {
-            var circle = (shape instanceof b2CircleShape ? shape : null);
-            this.m_vertices = new Vector(1, true);
-            this.m_vertices[0] = circle.m_p;
-            this.m_count = 1;
-            this.m_radius = circle.m_radius;
-         }
-         break;
-      case b2Shape.e_polygonShape:
-         {
-            var polygon = (shape instanceof b2PolygonShape ? shape : null);
-            this.m_vertices = polygon.m_vertices;
-            this.m_count = polygon.m_vertexCount;
-            this.m_radius = polygon.m_radius;
-         }
-         break;
-      default:
-         b2Settings.b2Assert(false);
-      }
-   }
-   b2DistanceProxy.prototype.GetSupport = function (d) {
-      var bestIndex = 0;
-      var bestValue = this.m_vertices[0].x * d.x + this.m_vertices[0].y * d.y;
-      for (var i = 1; i < this.m_count; ++i) {
-         var value = this.m_vertices[i].x * d.x + this.m_vertices[i].y * d.y;
-         if (value > bestValue) {
-            bestIndex = i;
-            bestValue = value;
-         }
-      }
-      return bestIndex;
-   }
-   b2DistanceProxy.prototype.GetSupportVertex = function (d) {
-      var bestIndex = 0;
-      var bestValue = this.m_vertices[0].x * d.x + this.m_vertices[0].y * d.y;
-      for (var i = 1; i < this.m_count; ++i) {
-         var value = this.m_vertices[i].x * d.x + this.m_vertices[i].y * d.y;
-         if (value > bestValue) {
-            bestIndex = i;
-            bestValue = value;
-         }
-      }
-      return this.m_vertices[bestIndex];
-   }
-   b2DistanceProxy.prototype.GetVertexCount = function () {
-      return this.m_count;
-   }
-   b2DistanceProxy.prototype.GetVertex = function (index) {
-      if (index === undefined) index = 0;
-      b2Settings.b2Assert(0 <= index && index < this.m_count);
-      return this.m_vertices[index];
-   }
+
+
+
    b2DynamicTree.b2DynamicTree = function () {};
    b2DynamicTree.prototype.b2DynamicTree = function () {
       this.m_root = null;
@@ -1547,7 +637,7 @@ Box2D.postDefs = [];
    }
    b2DynamicTree.prototype.Query = function (callback, aabb) {
       if (this.m_root == null) return;
-      var stack = new Vector();
+      var stack = [];
       var count = 0;
       stack[count++] = this.m_root;
       while (count > 0) {
@@ -1583,7 +673,7 @@ Box2D.postDefs = [];
          segmentAABB.upperBound.x = Math.max(p1.x, tX);
          segmentAABB.upperBound.y = Math.max(p1.y, tY);
       }
-      var stack = new Vector();
+      var stack = [];
       var count = 0;
       stack[count++] = this.m_root;
       while (count > 0) {
@@ -1726,8 +816,8 @@ Box2D.postDefs = [];
    }
    b2DynamicTreeBroadPhase.b2DynamicTreeBroadPhase = function () {
       this.m_tree = new b2DynamicTree();
-      this.m_moveBuffer = new Vector();
-      this.m_pairBuffer = new Vector();
+      this.m_moveBuffer = [];
+      this.m_pairBuffer = [];
       this.m_pairCount = 0;
    };
    b2DynamicTreeBroadPhase.prototype.CreateProxy = function (aabb, userData) {
@@ -1832,7 +922,7 @@ Box2D.postDefs = [];
       this.m_pointCount = 0;
    };
    b2Manifold.prototype.b2Manifold = function () {
-      this.m_points = new Vector(b2Settings.b2_maxManifoldPoints);
+      this.m_points = [];
       for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++) {
          this.m_points[i] = new b2ManifoldPoint();
       }
@@ -2190,7 +1280,7 @@ Box2D.postDefs = [];
       this.m_v1 = new b2SimplexVertex();
       this.m_v2 = new b2SimplexVertex();
       this.m_v3 = new b2SimplexVertex();
-      this.m_vertices = new Vector(3);
+      this.m_vertices = new Array(3);
    };
    b2Simplex.prototype.b2Simplex = function () {
       this.m_vertices[0] = this.m_v1;
@@ -2408,8 +1498,8 @@ Box2D.postDefs = [];
       this.m_count = 3;
    }
    b2SimplexCache.b2SimplexCache = function () {
-      this.indexA = new Vector_a2j_Number(3);
-      this.indexB = new Vector_a2j_Number(3);
+      this.indexA = [0,0,0];
+      this.indexB = [0,0,0];
    };
    b2SimplexVertex.b2SimplexVertex = function () {};
    b2SimplexVertex.prototype.Set = function (other) {
@@ -2548,13 +1638,12 @@ Box2D.postDefs = [];
       this.m_normal = new b2Vec2();
    };
    b2WorldManifold.prototype.b2WorldManifold = function () {
-      this.m_points = new Vector(b2Settings.b2_maxManifoldPoints);
+      this.m_points = new Array(b2Settings.b2_maxManifoldPoints);
       for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++) {
          this.m_points[i] = new b2Vec2();
       }
    }
    
-   // Modified by Illandril
    b2WorldManifold.prototype.Initialize = function (manifold, xfA, radiusA, xfB, radiusB) {
       if (radiusA === undefined) radiusA = 0;
       if (radiusB === undefined) radiusB = 0;
@@ -2755,8 +1844,6 @@ Box2D.postDefs = [];
       b2TimeStep = Box2D.Dynamics.b2TimeStep,
       b2World = Box2D.Dynamics.b2World,
       b2AABB = Box2D.Collision.b2AABB,
-      b2Bound = Box2D.Collision.b2Bound,
-      b2BoundValues = Box2D.Collision.b2BoundValues,
       b2Collision = Box2D.Collision.b2Collision,
       b2ContactID = Box2D.Collision.b2ContactID,
       b2ContactPoint = Box2D.Collision.b2ContactPoint,
@@ -3114,7 +2201,7 @@ Box2D.postDefs = [];
    }
    b2PolygonShape.prototype.SetAsArray = function (vertices, vertexCount) {
       if (vertexCount === undefined) vertexCount = 0;
-      var v = new Vector();
+      var v = [];
       var i = 0,
          tVec;
       for (i = 0;
@@ -3371,7 +2458,7 @@ Box2D.postDefs = [];
       if (offset === undefined) offset = 0;
       var normalL = b2Math.MulTMV(xf.R, normal);
       var offsetL = offset - b2Math.Dot(normal, xf.position);
-      var depths = new Vector_a2j_Number();
+      var depths = [];
       var diveCount = 0;
       var intoIndex = parseInt((-1));
       var outoIndex = parseInt((-1));
@@ -3483,8 +2570,8 @@ Box2D.postDefs = [];
       this.__super.b2Shape.call(this);
       this.m_type = b2Shape.e_polygonShape;
       this.m_centroid = new b2Vec2();
-      this.m_vertices = new Vector();
-      this.m_normals = new Vector();
+      this.m_vertices = [];
+      this.m_normals = [];
    }
    b2PolygonShape.prototype.Reserve = function (count) {
       if (count === undefined) count = 0;
@@ -3519,7 +2606,7 @@ Box2D.postDefs = [];
    b2PolygonShape.ComputeOBB = function (obb, vs, count) {
       if (count === undefined) count = 0;
       var i = 0;
-      var p = new Vector(count + 1);
+      var p = new Array(count + 1);
       for (i = 0;
       i < count; ++i) {
          p[i] = vs[i];
@@ -4331,8 +3418,6 @@ Box2D.postDefs = [];
       b2internal = Box2D.Common.b2internal,
       b2Settings = Box2D.Common.b2Settings,
       b2AABB = Box2D.Collision.b2AABB,
-      b2Bound = Box2D.Collision.b2Bound,
-      b2BoundValues = Box2D.Collision.b2BoundValues,
       b2Collision = Box2D.Collision.b2Collision,
       b2ContactID = Box2D.Collision.b2ContactID,
       b2ContactPoint = Box2D.Collision.b2ContactPoint,
@@ -4457,7 +3542,7 @@ Box2D.postDefs = [];
       if (fixture.m_density > 0.0) {
          this.ResetMassData();
       }
-      this.m_world.m_flags |= b2World.e_newFixture;
+      this.m_world.m_newFixture = true;
       return fixture;
    }
    b2Body.prototype.CreateFixture2 = function (shape, density) {
@@ -5088,8 +4173,8 @@ Box2D.postDefs = [];
       Box2D.Dynamics.b2ContactFilter.b2_defaultFilter = new b2ContactFilter();
    });
    b2ContactImpulse.b2ContactImpulse = function () {
-      this.normalImpulses = new Vector_a2j_Number(b2Settings.b2_maxManifoldPoints);
-      this.tangentImpulses = new Vector_a2j_Number(b2Settings.b2_maxManifoldPoints);
+      this.normalImpulses = new Box2D.NVector(b2Settings.b2_maxManifoldPoints);
+      this.tangentImpulses = new Box2D.NVector(b2Settings.b2_maxManifoldPoints);
    };
    b2ContactListener.b2ContactListener = function () {};
    b2ContactListener.prototype.BeginContact = function (contact) {}
@@ -5465,9 +4550,9 @@ Box2D.postDefs = [];
    }
    b2Island.b2Island = function () {};
    b2Island.prototype.b2Island = function () {
-      this.m_bodies = new Vector();
-      this.m_contacts = new Vector();
-      this.m_joints = new Vector();
+      this.m_bodies = [];
+      this.m_contacts = [];
+      this.m_joints = [];
    }
    b2Island.prototype.Initialize = function (bodyCapacity, contactCapacity, jointCapacity, allocator, listener, contactSolver) {
       if (bodyCapacity === undefined) bodyCapacity = 0;
@@ -5706,855 +4791,6 @@ Box2D.postDefs = [];
       this.velocityIterations = step.velocityIterations;
       this.warmStarting = step.warmStarting;
    }
-   b2World.b2World = function () {
-      this.s_stack = new Vector();
-      this.m_contactManager = new b2ContactManager();
-      this.m_contactSolver = new b2ContactSolver();
-      this.m_island = new b2Island();
-   };
-   b2World.prototype.b2World = function (gravity, doSleep) {
-      this.m_destructionListener = null;
-      this.m_debugDraw = null;
-      this.m_bodyList = null;
-      this.m_contactList = null;
-      this.m_jointList = null;
-      this.m_controllerList = null;
-      this.m_bodyCount = 0;
-      this.m_contactCount = 0;
-      this.m_jointCount = 0;
-      this.m_controllerCount = 0;
-      b2World.m_warmStarting = true;
-      b2World.m_continuousPhysics = true;
-      this.m_allowSleep = doSleep;
-      this.m_gravity = gravity;
-      this.m_inv_dt0 = 0.0;
-      this.m_contactManager.m_world = this;
-      var bd = new b2BodyDef();
-      this.m_groundBody = this.CreateBody(bd);
-   }
-   b2World.prototype.SetDestructionListener = function (listener) {
-      this.m_destructionListener = listener;
-   }
-   b2World.prototype.SetContactFilter = function (filter) {
-      this.m_contactManager.m_contactFilter = filter;
-   }
-   b2World.prototype.SetContactListener = function (listener) {
-      this.m_contactManager.m_contactListener = listener;
-   }
-   b2World.prototype.SetDebugDraw = function (debugDraw) {
-      this.m_debugDraw = debugDraw;
-   }
-   b2World.prototype.SetBroadPhase = function (broadPhase) {
-      var oldBroadPhase = this.m_contactManager.m_broadPhase;
-      this.m_contactManager.m_broadPhase = broadPhase;
-      for (var b = this.m_bodyList; b; b = b.m_next) {
-         for (var f = b.m_fixtureList; f; f = f.m_next) {
-            f.m_proxy = broadPhase.CreateProxy(oldBroadPhase.GetFatAABB(f.m_proxy), f);
-         }
-      }
-   }
-   b2World.prototype.Validate = function () {
-      this.m_contactManager.m_broadPhase.Validate();
-   }
-   b2World.prototype.GetProxyCount = function () {
-      return this.m_contactManager.m_broadPhase.GetProxyCount();
-   }
-   b2World.prototype.CreateBody = function (def) {
-      if (this.IsLocked() == true) {
-         return null;
-      }
-      var b = new b2Body(def, this);
-      b.m_prev = null;
-      b.m_next = this.m_bodyList;
-      if (this.m_bodyList) {
-         this.m_bodyList.m_prev = b;
-      }
-      this.m_bodyList = b;
-      ++this.m_bodyCount;
-      return b;
-   }
-   b2World.prototype.DestroyBody = function (b) {
-      if (this.IsLocked() == true) {
-         return;
-      }
-      var jn = b.m_jointList;
-      while (jn) {
-         var jn0 = jn;
-         jn = jn.next;
-         if (this.m_destructionListener) {
-            this.m_destructionListener.SayGoodbyeJoint(jn0.joint);
-         }
-         this.DestroyJoint(jn0.joint);
-      }
-      var coe = b.m_controllerList;
-      while (coe) {
-         var coe0 = coe;
-         coe = coe.nextController;
-         coe0.controller.RemoveBody(b);
-      }
-      var ce = b.m_contactList;
-      while (ce) {
-         var ce0 = ce;
-         ce = ce.next;
-         this.m_contactManager.Destroy(ce0.contact);
-      }
-      b.m_contactList = null;
-      var f = b.m_fixtureList;
-      while (f) {
-         var f0 = f;
-         f = f.m_next;
-         if (this.m_destructionListener) {
-            this.m_destructionListener.SayGoodbyeFixture(f0);
-         }
-         f0.DestroyProxy(this.m_contactManager.m_broadPhase);
-         f0.Destroy();
-      }
-      b.m_fixtureList = null;
-      b.m_fixtureCount = 0;
-      if (b.m_prev) {
-         b.m_prev.m_next = b.m_next;
-      }
-      if (b.m_next) {
-         b.m_next.m_prev = b.m_prev;
-      }
-      if (b == this.m_bodyList) {
-         this.m_bodyList = b.m_next;
-      }--this.m_bodyCount;
-   }
-   b2World.prototype.CreateJoint = function (def) {
-      var j = b2Joint.Create(def, null);
-      j.m_prev = null;
-      j.m_next = this.m_jointList;
-      if (this.m_jointList) {
-         this.m_jointList.m_prev = j;
-      }
-      this.m_jointList = j;
-      ++this.m_jointCount;
-      j.m_edgeA.joint = j;
-      j.m_edgeA.other = j.m_bodyB;
-      j.m_edgeA.prev = null;
-      j.m_edgeA.next = j.m_bodyA.m_jointList;
-      if (j.m_bodyA.m_jointList) j.m_bodyA.m_jointList.prev = j.m_edgeA;
-      j.m_bodyA.m_jointList = j.m_edgeA;
-      j.m_edgeB.joint = j;
-      j.m_edgeB.other = j.m_bodyA;
-      j.m_edgeB.prev = null;
-      j.m_edgeB.next = j.m_bodyB.m_jointList;
-      if (j.m_bodyB.m_jointList) j.m_bodyB.m_jointList.prev = j.m_edgeB;
-      j.m_bodyB.m_jointList = j.m_edgeB;
-      var bodyA = def.bodyA;
-      var bodyB = def.bodyB;
-      if (def.collideConnected == false) {
-         var edge = bodyB.GetContactList();
-         while (edge) {
-            if (edge.other == bodyA) {
-               edge.contact.FlagForFiltering();
-            }
-            edge = edge.next;
-         }
-      }
-      return j;
-   }
-   b2World.prototype.DestroyJoint = function (j) {
-      var collideConnected = j.m_collideConnected;
-      if (j.m_prev) {
-         j.m_prev.m_next = j.m_next;
-      }
-      if (j.m_next) {
-         j.m_next.m_prev = j.m_prev;
-      }
-      if (j == this.m_jointList) {
-         this.m_jointList = j.m_next;
-      }
-      var bodyA = j.m_bodyA;
-      var bodyB = j.m_bodyB;
-      bodyA.SetAwake(true);
-      bodyB.SetAwake(true);
-      if (j.m_edgeA.prev) {
-         j.m_edgeA.prev.next = j.m_edgeA.next;
-      }
-      if (j.m_edgeA.next) {
-         j.m_edgeA.next.prev = j.m_edgeA.prev;
-      }
-      if (j.m_edgeA == bodyA.m_jointList) {
-         bodyA.m_jointList = j.m_edgeA.next;
-      }
-      j.m_edgeA.prev = null;
-      j.m_edgeA.next = null;
-      if (j.m_edgeB.prev) {
-         j.m_edgeB.prev.next = j.m_edgeB.next;
-      }
-      if (j.m_edgeB.next) {
-         j.m_edgeB.next.prev = j.m_edgeB.prev;
-      }
-      if (j.m_edgeB == bodyB.m_jointList) {
-         bodyB.m_jointList = j.m_edgeB.next;
-      }
-      j.m_edgeB.prev = null;
-      j.m_edgeB.next = null;
-      b2Joint.Destroy(j, null);
-      --this.m_jointCount;
-      if (collideConnected == false) {
-         var edge = bodyB.GetContactList();
-         while (edge) {
-            if (edge.other == bodyA) {
-               edge.contact.FlagForFiltering();
-            }
-            edge = edge.next;
-         }
-      }
-   }
-   b2World.prototype.AddController = function (c) {
-      c.m_next = this.m_controllerList;
-      c.m_prev = null;
-      this.m_controllerList = c;
-      c.m_world = this;
-      this.m_controllerCount++;
-      return c;
-   }
-   b2World.prototype.RemoveController = function (c) {
-      if (c.m_prev) c.m_prev.m_next = c.m_next;
-      if (c.m_next) c.m_next.m_prev = c.m_prev;
-      if (this.m_controllerList == c) this.m_controllerList = c.m_next;
-      this.m_controllerCount--;
-   }
-   b2World.prototype.CreateController = function (controller) {
-      if (controller.m_world != this) throw new Error("Controller can only be a member of one world");
-      controller.m_next = this.m_controllerList;
-      controller.m_prev = null;
-      if (this.m_controllerList) this.m_controllerList.m_prev = controller;
-      this.m_controllerList = controller;
-      ++this.m_controllerCount;
-      controller.m_world = this;
-      return controller;
-   }
-   b2World.prototype.DestroyController = function (controller) {
-      controller.Clear();
-      if (controller.m_next) controller.m_next.m_prev = controller.m_prev;
-      if (controller.m_prev) controller.m_prev.m_next = controller.m_next;
-      if (controller == this.m_controllerList) this.m_controllerList = controller.m_next;
-      --this.m_controllerCount;
-   }
-   b2World.prototype.SetWarmStarting = function (flag) {
-      b2World.m_warmStarting = flag;
-   }
-   b2World.prototype.SetContinuousPhysics = function (flag) {
-      b2World.m_continuousPhysics = flag;
-   }
-   b2World.prototype.GetBodyCount = function () {
-      return this.m_bodyCount;
-   }
-   b2World.prototype.GetJointCount = function () {
-      return this.m_jointCount;
-   }
-   b2World.prototype.GetContactCount = function () {
-      return this.m_contactCount;
-   }
-   b2World.prototype.SetGravity = function (gravity) {
-      this.m_gravity = gravity;
-   }
-   b2World.prototype.GetGravity = function () {
-      return this.m_gravity;
-   }
-   b2World.prototype.GetGroundBody = function () {
-      return this.m_groundBody;
-   }
-   b2World.prototype.Step = function (dt, velocityIterations, positionIterations) {
-      if (dt === undefined) dt = 0;
-      if (velocityIterations === undefined) velocityIterations = 0;
-      if (positionIterations === undefined) positionIterations = 0;
-      if (this.m_flags & b2World.e_newFixture) {
-         this.m_contactManager.FindNewContacts();
-         this.m_flags &= ~b2World.e_newFixture;
-      }
-      this.m_flags |= b2World.e_locked;
-      var step = b2World.s_timestep2;
-      step.dt = dt;
-      step.velocityIterations = velocityIterations;
-      step.positionIterations = positionIterations;
-      if (dt > 0.0) {
-         step.inv_dt = 1.0 / dt;
-      }
-      else {
-         step.inv_dt = 0.0;
-      }
-      step.dtRatio = this.m_inv_dt0 * dt;
-      step.warmStarting = b2World.m_warmStarting;
-      this.m_contactManager.Collide();
-      if (step.dt > 0.0) {
-         this.Solve(step);
-      }
-      if (b2World.m_continuousPhysics && step.dt > 0.0) {
-         this.SolveTOI(step);
-      }
-      if (step.dt > 0.0) {
-         this.m_inv_dt0 = step.inv_dt;
-      }
-      this.m_flags &= ~b2World.e_locked;
-   }
-   b2World.prototype.ClearForces = function () {
-      for (var body = this.m_bodyList; body; body = body.m_next) {
-         body.m_force.SetZero();
-         body.m_torque = 0.0;
-      }
-   }
-   b2World.prototype.DrawDebugData = function () {
-      if (this.m_debugDraw == null) {
-         return;
-      }
-      this.m_debugDraw.m_sprite.graphics.clear();
-      var flags = this.m_debugDraw.GetFlags();
-      var i = 0;
-      var b;
-      var f;
-      var s;
-      var j;
-      var bp;
-      var invQ = new b2Vec2;
-      var x1 = new b2Vec2;
-      var x2 = new b2Vec2;
-      var xf;
-      var b1 = new b2AABB();
-      var b2 = new b2AABB();
-      var vs = [new b2Vec2(), new b2Vec2(), new b2Vec2(), new b2Vec2()];
-      var color = new b2Color(0, 0, 0);
-      if (flags & b2DebugDraw.e_shapeBit) {
-         for (b = this.m_bodyList;
-         b; b = b.m_next) {
-            xf = b.m_xf;
-            for (f = b.GetFixtureList();
-            f; f = f.m_next) {
-               s = f.GetShape();
-               if (b.IsActive() == false) {
-                  color.Set(0.5, 0.5, 0.3);
-                  this.DrawShape(s, xf, color);
-               }
-               else if (b.GetType() == b2Body.b2_staticBody) {
-                  color.Set(0.5, 0.9, 0.5);
-                  this.DrawShape(s, xf, color);
-               }
-               else if (b.GetType() == b2Body.b2_kinematicBody) {
-                  color.Set(0.5, 0.5, 0.9);
-                  this.DrawShape(s, xf, color);
-               }
-               else if (b.IsAwake() == false) {
-                  color.Set(0.6, 0.6, 0.6);
-                  this.DrawShape(s, xf, color);
-               }
-               else {
-                  color.Set(0.9, 0.7, 0.7);
-                  this.DrawShape(s, xf, color);
-               }
-            }
-         }
-      }
-      if (flags & b2DebugDraw.e_jointBit) {
-         for (j = this.m_jointList;
-         j; j = j.m_next) {
-            this.DrawJoint(j);
-         }
-      }
-      if (flags & b2DebugDraw.e_controllerBit) {
-         for (var c = this.m_controllerList; c; c = c.m_next) {
-            c.Draw(this.m_debugDraw);
-         }
-      }
-      if (flags & b2DebugDraw.e_pairBit) {
-         color.Set(0.3, 0.9, 0.9);
-         for (var contact = this.m_contactManager.m_contactList; contact; contact = contact.GetNext()) {
-            var fixtureA = contact.GetFixtureA();
-            var fixtureB = contact.GetFixtureB();
-            var cA = fixtureA.GetAABB().GetCenter();
-            var cB = fixtureB.GetAABB().GetCenter();
-            this.m_debugDraw.DrawSegment(cA, cB, color);
-         }
-      }
-      if (flags & b2DebugDraw.e_aabbBit) {
-         bp = this.m_contactManager.m_broadPhase;
-         vs = [new b2Vec2(), new b2Vec2(), new b2Vec2(), new b2Vec2()];
-         for (b = this.m_bodyList;
-         b; b = b.GetNext()) {
-            if (b.IsActive() == false) {
-               continue;
-            }
-            for (f = b.GetFixtureList();
-            f; f = f.GetNext()) {
-               var aabb = bp.GetFatAABB(f.m_proxy);
-               vs[0].Set(aabb.lowerBound.x, aabb.lowerBound.y);
-               vs[1].Set(aabb.upperBound.x, aabb.lowerBound.y);
-               vs[2].Set(aabb.upperBound.x, aabb.upperBound.y);
-               vs[3].Set(aabb.lowerBound.x, aabb.upperBound.y);
-               this.m_debugDraw.DrawPolygon(vs, 4, color);
-            }
-         }
-      }
-      if (flags & b2DebugDraw.e_centerOfMassBit) {
-         for (b = this.m_bodyList;
-         b; b = b.m_next) {
-            xf = b2World.s_xf;
-            xf.R = b.m_xf.R;
-            xf.position = b.GetWorldCenter();
-            this.m_debugDraw.DrawTransform(xf);
-         }
-      }
-   }
-   b2World.prototype.QueryAABB = function (callback, aabb) {
-      var __this = this;
-      var broadPhase = __this.m_contactManager.m_broadPhase;
-
-      function WorldQueryWrapper(proxy) {
-         return callback(broadPhase.GetUserData(proxy));
-      };
-      broadPhase.Query(WorldQueryWrapper, aabb);
-   }
-   b2World.prototype.QueryShape = function (callback, shape, transform) {
-      var __this = this;
-      if (transform === undefined) transform = null;
-      if (transform == null) {
-         transform = new b2Transform();
-         transform.SetIdentity();
-      }
-      var broadPhase = __this.m_contactManager.m_broadPhase;
-
-      function WorldQueryWrapper(proxy) {
-         var fixture = (broadPhase.GetUserData(proxy) instanceof b2Fixture ? broadPhase.GetUserData(proxy) : null);
-         if (b2Shape.TestOverlap(shape, transform, fixture.GetShape(), fixture.GetBody().GetTransform())) return callback(fixture);
-         return true;
-      };
-      var aabb = new b2AABB();
-      shape.ComputeAABB(aabb, transform);
-      broadPhase.Query(WorldQueryWrapper, aabb);
-   }
-   b2World.prototype.QueryPoint = function (callback, p) {
-      var __this = this;
-      var broadPhase = __this.m_contactManager.m_broadPhase;
-
-      function WorldQueryWrapper(proxy) {
-         var fixture = (broadPhase.GetUserData(proxy) instanceof b2Fixture ? broadPhase.GetUserData(proxy) : null);
-         if (fixture.TestPoint(p)) return callback(fixture);
-         return true;
-      };
-      var aabb = new b2AABB();
-      aabb.lowerBound.Set(p.x - b2Settings.b2_linearSlop, p.y - b2Settings.b2_linearSlop);
-      aabb.upperBound.Set(p.x + b2Settings.b2_linearSlop, p.y + b2Settings.b2_linearSlop);
-      broadPhase.Query(WorldQueryWrapper, aabb);
-   }
-   b2World.prototype.RayCast = function (callback, point1, point2) {
-      var __this = this;
-      var broadPhase = __this.m_contactManager.m_broadPhase;
-      var output = new b2RayCastOutput;
-
-      function RayCastWrapper(input, proxy) {
-         var userData = broadPhase.GetUserData(proxy);
-         var fixture = (userData instanceof b2Fixture ? userData : null);
-         var hit = fixture.RayCast(output, input);
-         if (hit) {
-            var fraction = output.fraction;
-            var point = new b2Vec2((1.0 - fraction) * point1.x + fraction * point2.x, (1.0 - fraction) * point1.y + fraction * point2.y);
-            return callback(fixture, point, output.normal, fraction);
-         }
-         return input.maxFraction;
-      };
-      var input = new b2RayCastInput(point1, point2);
-      broadPhase.RayCast(RayCastWrapper, input);
-   }
-   b2World.prototype.RayCastOne = function (point1, point2) {
-      var __this = this;
-      var result;
-
-      function RayCastOneWrapper(fixture, point, normal, fraction) {
-         if (fraction === undefined) fraction = 0;
-         result = fixture;
-         return fraction;
-      };
-      __this.RayCast(RayCastOneWrapper, point1, point2);
-      return result;
-   }
-   b2World.prototype.RayCastAll = function (point1, point2) {
-      var __this = this;
-      var result = new Vector();
-
-      function RayCastAllWrapper(fixture, point, normal, fraction) {
-         if (fraction === undefined) fraction = 0;
-         result[result.length] = fixture;
-         return 1;
-      };
-      __this.RayCast(RayCastAllWrapper, point1, point2);
-      return result;
-   }
-   b2World.prototype.GetBodyList = function () {
-      return this.m_bodyList;
-   }
-   b2World.prototype.GetJointList = function () {
-      return this.m_jointList;
-   }
-   b2World.prototype.GetContactList = function () {
-      return this.m_contactList;
-   }
-   b2World.prototype.IsLocked = function () {
-      return (this.m_flags & b2World.e_locked) > 0;
-   }
-   b2World.prototype.Solve = function (step) {
-      var b;
-      for (var controller = this.m_controllerList; controller; controller = controller.m_next) {
-         controller.Step(step);
-      }
-      var island = this.m_island;
-      island.Initialize(this.m_bodyCount, this.m_contactCount, this.m_jointCount, null, this.m_contactManager.m_contactListener, this.m_contactSolver);
-      for (b = this.m_bodyList;
-      b; b = b.m_next) {
-         b.m_flags &= ~b2Body.e_islandFlag;
-      }
-      for (var c = this.m_contactList; c; c = c.m_next) {
-         c.m_flags &= ~b2Contact.e_islandFlag;
-      }
-      for (var j = this.m_jointList; j; j = j.m_next) {
-         j.m_islandFlag = false;
-      }
-      var stackSize = parseInt(this.m_bodyCount);
-      var stack = this.s_stack;
-      for (var seed = this.m_bodyList; seed; seed = seed.m_next) {
-         if (seed.m_flags & b2Body.e_islandFlag) {
-            continue;
-         }
-         if (seed.IsAwake() == false || seed.IsActive() == false) {
-            continue;
-         }
-         if (seed.GetType() == b2Body.b2_staticBody) {
-            continue;
-         }
-         island.Clear();
-         var stackCount = 0;
-         stack[stackCount++] = seed;
-         seed.m_flags |= b2Body.e_islandFlag;
-         while (stackCount > 0) {
-            b = stack[--stackCount];
-            island.AddBody(b);
-            if (b.IsAwake() == false) {
-               b.SetAwake(true);
-            }
-            if (b.GetType() == b2Body.b2_staticBody) {
-               continue;
-            }
-            var other;
-            for (var ce = b.m_contactList; ce; ce = ce.next) {
-               if (ce.contact.m_flags & b2Contact.e_islandFlag) {
-                  continue;
-               }
-               if (ce.contact.IsSensor() == true || ce.contact.IsEnabled() == false || ce.contact.IsTouching() == false) {
-                  continue;
-               }
-               island.AddContact(ce.contact);
-               ce.contact.m_flags |= b2Contact.e_islandFlag;
-               other = ce.other;
-               if (other.m_flags & b2Body.e_islandFlag) {
-                  continue;
-               }
-               stack[stackCount++] = other;
-               other.m_flags |= b2Body.e_islandFlag;
-            }
-            for (var jn = b.m_jointList; jn; jn = jn.next) {
-               if (jn.joint.m_islandFlag == true) {
-                  continue;
-               }
-               other = jn.other;
-               if (other.IsActive() == false) {
-                  continue;
-               }
-               island.AddJoint(jn.joint);
-               jn.joint.m_islandFlag = true;
-               if (other.m_flags & b2Body.e_islandFlag) {
-                  continue;
-               }
-               stack[stackCount++] = other;
-               other.m_flags |= b2Body.e_islandFlag;
-            }
-         }
-         island.Solve(step, this.m_gravity, this.m_allowSleep);
-         for (var i = 0; i < island.m_bodyCount; ++i) {
-            b = island.m_bodies[i];
-            if (b.GetType() == b2Body.b2_staticBody) {
-               b.m_flags &= ~b2Body.e_islandFlag;
-            }
-         }
-      }
-      for (i = 0;
-      i < stack.length; ++i) {
-         if (!stack[i]) break;
-         stack[i] = null;
-      }
-      for (b = this.m_bodyList;
-      b; b = b.m_next) {
-         if (b.IsAwake() == false || b.IsActive() == false) {
-            continue;
-         }
-         if (b.GetType() == b2Body.b2_staticBody) {
-            continue;
-         }
-         b.SynchronizeFixtures();
-      }
-      this.m_contactManager.FindNewContacts();
-   }
-   
-   // Modified by Illandril
-   b2World.prototype.SolveTOI = function (step) {
-      var b;
-      var bA;
-      var bB;
-      var cEdge;
-      var j;
-      var island = this.m_island;
-      island.Initialize(this.m_bodyCount, b2Settings.b2_maxTOIContactsPerIsland, b2Settings.b2_maxTOIJointsPerIsland, null, this.m_contactManager.m_contactListener, this.m_contactSolver);
-      var queue = b2World.s_queue;
-      for (b = this.m_bodyList; b; b = b.m_next) {
-         b.m_flags &= ~b2Body.e_islandFlag;
-         b.m_sweep.t0 = 0.0;
-      }
-      var c;
-      for (c = this.m_contactList; c; c = c.m_next) {
-         c.m_flags &= ~ (b2Contact.e_toiFlag | b2Contact.e_islandFlag);
-      }
-      for (j = this.m_jointList; j; j = j.m_next) {
-         j.m_islandFlag = false;
-      }
-      var MAX_TOI = 1.0 - 100.0 * Number.MIN_VALUE;
-      for (;;) {
-         var minContact = null;
-         var minTOI = 1.0;
-         for (c = this.m_contactList; c; c = c.m_next) {
-            if (c.IsSensor() == true || c.IsEnabled() == false || c.IsContinuous() == false) {
-               continue;
-            }
-            bA = c.m_fixtureA.m_body;
-            bB = c.m_fixtureB.m_body;
-            if ((bA.GetType() != b2Body.b2_dynamicBody || bA.IsAwake() == false) && (bB.GetType() != b2Body.b2_dynamicBody || bB.IsAwake() == false)) {
-               continue;
-            }
-            var toi = 1.0;
-            if (c.m_flags & b2Contact.e_toiFlag) {
-               toi = c.m_toi;
-            } else {
-               var t0 = bA.m_sweep.t0;
-               if (bA.m_sweep.t0 < bB.m_sweep.t0) {
-                  t0 = bB.m_sweep.t0;
-                  bA.m_sweep.Advance(t0);
-               } else if (bB.m_sweep.t0 < bA.m_sweep.t0) {
-                  t0 = bA.m_sweep.t0;
-                  bB.m_sweep.Advance(t0);
-               }
-               toi = c.ComputeTOI(bA.m_sweep, bB.m_sweep);
-               b2Settings.b2Assert(0.0 <= toi && toi <= 1.0);
-               if (toi > 0.0 && toi < 1.0) {
-                  toi = (1.0 - toi) * t0 + toi;
-                  if (toi > 1) toi = 1;
-               }
-               c.m_toi = toi;
-               c.m_flags |= b2Contact.e_toiFlag;
-            }
-            if (Number.MIN_VALUE < toi && toi < minTOI) {
-               minContact = c;
-               minTOI = toi;
-            }
-         }
-         if (minContact == null || MAX_TOI < minTOI) {
-            break;
-         }
-         bA = minContact.m_fixtureA.m_body;
-         bB = minContact.m_fixtureB.m_body;
-         b2World.s_backupA.Set(bA.m_sweep);
-         b2World.s_backupB.Set(bB.m_sweep);
-         bA.Advance(minTOI);
-         bB.Advance(minTOI);
-         minContact.Update(this.m_contactManager.m_contactListener);
-         minContact.m_flags &= ~b2Contact.e_toiFlag;
-         if (minContact.IsSensor() == true || minContact.IsEnabled() == false) {
-            bA.m_sweep.Set(b2World.s_backupA);
-            bB.m_sweep.Set(b2World.s_backupB);
-            bA.SynchronizeTransform();
-            bB.SynchronizeTransform();
-            continue;
-         }
-         if (minContact.IsTouching() == false) {
-            continue;
-         }
-         var seed = bA;
-         if (seed.GetType() != b2Body.b2_dynamicBody) {
-            seed = bB;
-         }
-         island.Clear();
-         var queueStart = 0;
-         var queueSize = 0;
-         queue[queueStart + queueSize++] = seed;
-         seed.m_flags |= b2Body.e_islandFlag;
-         while (queueSize > 0) {
-            b = queue[queueStart++];
-            --queueSize;
-            island.AddBody(b);
-            if (b.IsAwake() == false) {
-               b.SetAwake(true);
-            }
-            if (b.GetType() != b2Body.b2_dynamicBody) {
-               continue;
-            }
-            for (cEdge = b.m_contactList;
-            cEdge; cEdge = cEdge.next) {
-               if (island.m_contactCount == island.m_contactCapacity) {
-                  break;
-               }
-               if (cEdge.contact.m_flags & b2Contact.e_islandFlag) {
-                  continue;
-               }
-               if (cEdge.contact.IsSensor() == true || cEdge.contact.IsEnabled() == false || cEdge.contact.IsTouching() == false) {
-                  continue;
-               }
-               island.AddContact(cEdge.contact);
-               cEdge.contact.m_flags |= b2Contact.e_islandFlag;
-               var other = cEdge.other;
-               if (other.m_flags & b2Body.e_islandFlag) {
-                  continue;
-               }
-               if (other.GetType() != b2Body.b2_staticBody) {
-                  other.Advance(minTOI);
-                  other.SetAwake(true);
-               }
-               queue[queueStart + queueSize] = other;
-               ++queueSize;
-               other.m_flags |= b2Body.e_islandFlag;
-            }
-            for (var jEdge = b.m_jointList; jEdge; jEdge = jEdge.next) {
-               if (island.m_jointCount == island.m_jointCapacity) continue;
-               if (jEdge.joint.m_islandFlag == true) continue;
-               other = jEdge.other;
-               if (other.IsActive() == false) {
-                  continue;
-               }
-               island.AddJoint(jEdge.joint);
-               jEdge.joint.m_islandFlag = true;
-               if (other.m_flags & b2Body.e_islandFlag) continue;
-               if (other.GetType() != b2Body.b2_staticBody) {
-                  other.Advance(minTOI);
-                  other.SetAwake(true);
-               }
-               queue[queueStart + queueSize] = other;
-               ++queueSize;
-               other.m_flags |= b2Body.e_islandFlag;
-            }
-         }
-         var subStep = b2World.s_timestep;
-         subStep.warmStarting = false;
-         subStep.dt = (1.0 - minTOI) * step.dt;
-         subStep.inv_dt = 1.0 / subStep.dt;
-         subStep.dtRatio = 0.0;
-         subStep.velocityIterations = step.velocityIterations;
-         subStep.positionIterations = step.positionIterations;
-         island.SolveTOI(subStep);
-         var i = 0;
-         for (i = 0;
-         i < island.m_bodyCount; ++i) {
-            b = island.m_bodies[i];
-            b.m_flags &= ~b2Body.e_islandFlag;
-            if (b.IsAwake() == false) {
-               continue;
-            }
-            if (b.GetType() != b2Body.b2_dynamicBody) {
-               continue;
-            }
-            b.SynchronizeFixtures();
-            for (cEdge = b.m_contactList;
-            cEdge; cEdge = cEdge.next) {
-               cEdge.contact.m_flags &= ~b2Contact.e_toiFlag;
-            }
-         }
-         for (i = 0;
-         i < island.m_contactCount; ++i) {
-            c = island.m_contacts[i];
-            c.m_flags &= ~ (b2Contact.e_toiFlag | b2Contact.e_islandFlag);
-         }
-         for (i = 0;
-         i < island.m_jointCount; ++i) {
-            j = island.m_joints[i];
-            j.m_islandFlag = false;
-         }
-         this.m_contactManager.FindNewContacts();
-      }
-   }
-   b2World.prototype.DrawJoint = function (joint) {
-      var b1 = joint.GetBodyA();
-      var b2 = joint.GetBodyB();
-      var xf1 = b1.m_xf;
-      var xf2 = b2.m_xf;
-      var x1 = xf1.position;
-      var x2 = xf2.position;
-      var p1 = joint.GetAnchorA();
-      var p2 = joint.GetAnchorB();
-      var color = b2World.s_jointColor;
-      switch (joint.m_type) {
-      case b2Joint.e_distanceJoint:
-         this.m_debugDraw.DrawSegment(p1, p2, color);
-         break;
-      case b2Joint.e_pulleyJoint:
-         {
-            var pulley = ((joint instanceof b2PulleyJoint ? joint : null));
-            var s1 = pulley.GetGroundAnchorA();
-            var s2 = pulley.GetGroundAnchorB();
-            this.m_debugDraw.DrawSegment(s1, p1, color);
-            this.m_debugDraw.DrawSegment(s2, p2, color);
-            this.m_debugDraw.DrawSegment(s1, s2, color);
-         }
-         break;
-      case b2Joint.e_mouseJoint:
-         this.m_debugDraw.DrawSegment(p1, p2, color);
-         break;
-      default:
-         if (b1 != this.m_groundBody) this.m_debugDraw.DrawSegment(x1, p1, color);
-         this.m_debugDraw.DrawSegment(p1, p2, color);
-         if (b2 != this.m_groundBody) this.m_debugDraw.DrawSegment(x2, p2, color);
-      }
-   }
-   b2World.prototype.DrawShape = function (shape, xf, color) {
-      switch (shape.m_type) {
-      case b2Shape.e_circleShape:
-         {
-            var circle = ((shape instanceof b2CircleShape ? shape : null));
-            var center = b2Math.MulX(xf, circle.m_p);
-            var radius = circle.m_radius;
-            var axis = xf.R.col1;
-            this.m_debugDraw.DrawSolidCircle(center, radius, axis, color);
-         }
-         break;
-      case b2Shape.e_polygonShape:
-         {
-            var i = 0;
-            var poly = ((shape instanceof b2PolygonShape ? shape : null));
-            var vertexCount = parseInt(poly.GetVertexCount());
-            var localVertices = poly.GetVertices();
-            var vertices = new Vector(vertexCount);
-            for (i = 0;
-            i < vertexCount; ++i) {
-               vertices[i] = b2Math.MulX(xf, localVertices[i]);
-            }
-            this.m_debugDraw.DrawSolidPolygon(vertices, vertexCount, color);
-         }
-         break;
-      case b2Shape.e_edgeShape:
-         {
-            var edge = (shape instanceof b2EdgeShape ? shape : null);
-            this.m_debugDraw.DrawSegment(b2Math.MulX(xf, edge.GetVertex1()), b2Math.MulX(xf, edge.GetVertex2()), color);
-         }
-         break;
-      }
-   }
-   Box2D.postDefs.push(function () {
-      Box2D.Dynamics.b2World.s_timestep2 = new b2TimeStep();
-      Box2D.Dynamics.b2World.s_xf = new b2Transform();
-      Box2D.Dynamics.b2World.s_backupA = new b2Sweep();
-      Box2D.Dynamics.b2World.s_backupB = new b2Sweep();
-      Box2D.Dynamics.b2World.s_timestep = new b2TimeStep();
-      Box2D.Dynamics.b2World.s_queue = new Vector();
-      Box2D.Dynamics.b2World.s_jointColor = new b2Color(0.5, 0.8, 0.8);
-      Box2D.Dynamics.b2World.e_newFixture = 0x0001;
-      Box2D.Dynamics.b2World.e_locked = 0x0002;
-   });
 })();
 (function () {
    var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
@@ -6603,8 +4839,6 @@ Box2D.postDefs = [];
       b2Vec2 = Box2D.Common.Math.b2Vec2,
       b2Vec3 = Box2D.Common.Math.b2Vec3,
       b2AABB = Box2D.Collision.b2AABB,
-      b2Bound = Box2D.Collision.b2Bound,
-      b2BoundValues = Box2D.Collision.b2BoundValues,
       b2Collision = Box2D.Collision.b2Collision,
       b2ContactID = Box2D.Collision.b2ContactID,
       b2ContactPoint = Box2D.Collision.b2ContactPoint,
@@ -6834,7 +5068,7 @@ Box2D.postDefs = [];
       this.K = new b2Mat22();
    };
    b2ContactConstraint.prototype.b2ContactConstraint = function () {
-      this.points = new Vector(b2Settings.b2_maxManifoldPoints);
+      this.points = new Array(b2Settings.b2_maxManifoldPoints);
       for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++) {
          this.points[i] = new b2ContactConstraintPoint();
       }
@@ -6863,9 +5097,9 @@ Box2D.postDefs = [];
       }
    }
    b2ContactFactory.prototype.InitializeRegisters = function () {
-      this.m_registers = new Vector(b2Shape.e_shapeTypeCount);
+      this.m_registers = new Array(b2Shape.e_shapeTypeCount);
       for (var i = 0; i < b2Shape.e_shapeTypeCount; i++) {
-         this.m_registers[i] = new Vector(b2Shape.e_shapeTypeCount);
+         this.m_registers[i] = new Array(b2Shape.e_shapeTypeCount);
          for (var j = 0; j < b2Shape.e_shapeTypeCount; j++) {
             this.m_registers[i][j] = new b2ContactRegister();
          }
@@ -6929,7 +5163,7 @@ Box2D.postDefs = [];
    };
    b2ContactSolver.b2ContactSolver = function () {
       this.m_step = new b2TimeStep();
-      this.m_constraints = new Vector();
+      this.m_constraints = [];
    };
    b2ContactSolver.prototype.b2ContactSolver = function () {}
    b2ContactSolver.prototype.Initialize = function (step, contacts, contactCount, allocator) {
@@ -7092,7 +5326,6 @@ Box2D.postDefs = [];
       }
    }
    
-   // Added by Illandril
    b2ContactSolver.prototype._SVCA = function(xX, aX, xY, aY, normalX, normalY, invMassA, invMassB, invIA, invIB, cp1, cp2, vA, vB) {
      var dX = xX - aX;
      var dY = xY - aY;
@@ -7111,7 +5344,6 @@ Box2D.postDefs = [];
      return { wad: wad, wbd: wbd };
    }
    
-   // Modified by Illandril
    b2ContactSolver.prototype.SolveVelocityConstraints = function () {
       var rAX = 0;
       var rAY = 0;
@@ -7581,14 +5813,13 @@ Box2D.postDefs = [];
    b2PositionSolverManifold.b2PositionSolverManifold = function () {};
    b2PositionSolverManifold.prototype.b2PositionSolverManifold = function () {
       this.m_normal = new b2Vec2();
-      this.m_separations = new Vector_a2j_Number(b2Settings.b2_maxManifoldPoints);
-      this.m_points = new Vector(b2Settings.b2_maxManifoldPoints);
+      this.m_separations = new Box2D.NVector(b2Settings.b2_maxManifoldPoints);
+      this.m_points = new Array(b2Settings.b2_maxManifoldPoints);
       for (var i = 0; i < b2Settings.b2_maxManifoldPoints; i++) {
          this.m_points[i] = new b2Vec2();
       }
    }
    
-   // Modified by Illandril
    b2PositionSolverManifold.prototype.Initialize = function (cc) {
       b2Settings.b2Assert(cc.pointCount > 0);
       var i = 0;
@@ -11028,7 +9259,4 @@ Box2D.postDefs = [];
       s.closePath();
       s.stroke();
    };
-})(); //post-definitions
-var i;
-for (i = 0; i < Box2D.postDefs.length; ++i) Box2D.postDefs[i]();
-delete Box2D.postDefs;
+})();

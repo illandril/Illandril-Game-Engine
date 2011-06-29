@@ -1,3 +1,6 @@
+goog.require('game.draw');
+goog.require('Box2D');
+
 // requestAnim shim layer by Paul Irish
 window.requestAnimFrame = (function(){
       return  window.requestAnimationFrame       || 
@@ -10,11 +13,12 @@ window.requestAnimFrame = (function(){
               };
     })();
     
+
 var viewportWidth = 600;
 var viewportHeight = 400;
-var worldWidth = 60;
-var worldHeight = 40;
-var scale = 10.0;
+var worldWidth = 1200;
+var worldHeight = 800;
+var scale = 5.0;
 
 var lastTickTime = 0;
 var frameSteps = 10;
@@ -39,9 +43,26 @@ var camera = new Vec2( 0, 0 );
 var player;
 var debug = true;
 var fps;
-var testObjects = 100;
+var frames = 0;
+var rollingFPS = 60;
+var testObjects = 500;
 
 var domObjects = {};
+
+var createStaticBox = function( width, height, centerX, centerY ) {
+    fixtureDefinition.density = 1.0;
+    fixtureDefinition.friction = 0.5;
+    fixtureDefinition.restitution = 0.2;
+    fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+    fixtureDefinition.shape.SetAsBox( width / 2, height / 2 );
+    bodyDefinition.type = Box2D.Dynamics.b2Body.b2_staticBody;
+    bodyDefinition.position.x = centerX;
+    bodyDefinition.position.y = centerY;
+    var body = world.CreateBody( bodyDefinition );
+    body.size = new Vec2( width, height );
+    var fixture = body.CreateFixture( fixtureDefinition );
+    return { body: body, fixture: fixture };
+};
 
 var createBox = function( width, height, centerX, centerY ) {
     fixtureDefinition.density = 1.0;
@@ -49,7 +70,7 @@ var createBox = function( width, height, centerX, centerY ) {
     fixtureDefinition.restitution = 0.2;
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
     fixtureDefinition.shape.SetAsBox( width / 2, height / 2 );
-    bodyDefinition.type = Box2D.Dynamics.b2Body.b2_staticBody;
+    bodyDefinition.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
     bodyDefinition.position.x = centerX;
     bodyDefinition.position.y = centerY;
     var body = world.CreateBody( bodyDefinition );
@@ -74,6 +95,8 @@ var init = function( gameContainerID, doDebug ) {
         debugCanvas = document.getElementById( gameContainerID + '__DEBUG' );
         debugCanvas.width = worldWidth * scale;
         debugCanvas.height = worldHeight * scale;
+        debugCanvas.style.marginRight = "-" + debugCanvas.width + "px";
+        debugCanvas.style.marginBottom = "-" + debugCanvas.height + "px";
         debugDraw.SetSprite( debugCanvas.getContext( "2d" ) );
         debugDraw.SetDrawScale( scale );
         debugDraw.SetFillAlpha( 0.3 );
@@ -82,10 +105,31 @@ var init = function( gameContainerID, doDebug ) {
         world.SetDebugDraw( debugDraw );
     }
     // Add in the boundries
-    createBox( worldWidth, 1, worldWidth / 2, 0 );
-    createBox( worldWidth, 1, worldWidth / 2, worldHeight );
-    createBox( 1, worldHeight, 0, worldHeight / 2 );
-    createBox( 1, worldHeight, worldWidth, worldHeight / 2 );
+    createStaticBox( worldWidth, 1, worldWidth / 2, 0 );
+    createStaticBox( worldWidth, 1, worldWidth / 2, worldHeight );
+    createStaticBox( 1, worldHeight, 0, worldHeight / 2 );
+    createStaticBox( 1, worldHeight, worldWidth, worldHeight / 2 );
+    
+    var jointDef = new Box2D.Dynamics.Joints.b2RevoluteJointDef();
+    var weldJointDef = new Box2D.Dynamics.Joints.b2WeldJointDef();
+    var flip = false;
+    for ( var i = 10; i <= worldWidth - 10; i += 8 ) {
+        bodyDefinition.angle = i / worldWidth * 3.1415;
+        var y = worldHeight / 2;
+        if ( flip ) {
+            y = y + 8;
+        }
+        flip = !flip;
+        var b0 = createStaticBox( 0.1, 0.1, i, y );
+        var b1 = createBox( 10, 1, i, y );
+        var b2 = createBox( 1, 10, i, y );
+        jointDef.Initialize(b0.body, b1.body, b0.body.GetWorldCenter());
+        world.CreateJoint(jointDef);
+        jointDef.Initialize(b0.body, b2.body, b0.body.GetWorldCenter());
+        world.CreateJoint(jointDef);
+        weldJointDef.Initialize(b1.body, b2.body, b1.body.GetWorldCenter());
+        world.CreateJoint(weldJointDef);
+    }
     
     // Debug Objects
     bodyDefinition.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
@@ -105,17 +149,17 @@ var init = function( gameContainerID, doDebug ) {
     db2.size = new Vec2( 4, 4 );
     db2.CreateFixture( fixtureDefinition );
     */
-    fixtureDefinition.restitution = 1.5;
+    fixtureDefinition.restitution = 2.5;
     
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2CircleShape( 0.25 );
-    var y = 5;
+    var y = 15;
     for ( var i = 0; i < testObjects; i++ ) {
-      var x = i % ( worldWidth - 10 );
+      var x = ( i * 5 ) % ( worldWidth - 10 );
       if ( x == 0 ) {
-          y = y + 5;
+          //y = y + 5;
       }
-      bodyDefinition.position.y = y + 5 * ( Math.random() - 0.5 );
-      bodyDefinition.position.x = x + ( Math.random() - 0.5 ) + 5;
+      bodyDefinition.position.y = y + ( i % 20 );
+      bodyDefinition.position.x = x + ( i % 20 ) / 20 + 4.5;
       var db3 = world.CreateBody( bodyDefinition );
       db3.size = new Vec2( 0.5, 0.5 );
       db3.CreateFixture( fixtureDefinition );
@@ -123,18 +167,52 @@ var init = function( gameContainerID, doDebug ) {
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
     fixtureDefinition.shape.SetAsBox( 0.25, 0.25 );
     bodyDefinition.position.x = 5;
-    y = 5;
+    y = 15;
     for ( var i = 0; i < testObjects; i++ ) {
       player = db3;
-      var x = i % ( worldWidth - 10 );
+      var x = ( i * 5 ) % ( worldWidth - 10 );
       if ( x == 0 ) {
-          y = y + 5;
+          //y = y + 5;
       }
-      bodyDefinition.position.y = y + 5 * ( Math.random() - 0.5 );
-      bodyDefinition.position.x = x + ( Math.random() - 0.5 ) + 5;
-      bodyDefinition.angle = Math.random();
+      bodyDefinition.position.y = y + ( ( i + 5 ) % 20 );
+      bodyDefinition.position.x = x + ( ( i + 5 ) % 20 ) / 20 + 4.5;
+      bodyDefinition.angle = ( i % 17 ) / 17;
       var db3 = world.CreateBody( bodyDefinition );
       db3.size = new Vec2( 0.5, 0.5 );
+      db3.CreateFixture( fixtureDefinition );
+    }
+    fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+    fixtureDefinition.shape.SetAsArray( [ new Vec2(-0.5, -0.5), new Vec2(0.5, -0.5), new Vec2(-0.5,0.5)], 3 );
+    bodyDefinition.position.x = 5;
+    y = 15;
+    for ( var i = 0; i < testObjects; i++ ) {
+      player = db3;
+      var x = ( i * 5 ) % ( worldWidth - 10 );
+      if ( x == 0 ) {
+          //y = y + 5;
+      }
+      bodyDefinition.position.y = y + ( ( i + 10 ) % 20 );
+      bodyDefinition.position.x = x + ( ( i + 10 ) % 20 ) / 20 + 4.5;
+      bodyDefinition.angle = ( i % 22 ) / 22;
+      var db3 = world.CreateBody( bodyDefinition );
+      db3.size = new Vec2( 0.75, 0.75 );
+      db3.CreateFixture( fixtureDefinition );
+    }
+    fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+    fixtureDefinition.shape.SetAsArray( [ new Vec2(-0.5, -0.5), new Vec2(0, -0.5), new Vec2(0.5,0), new Vec2(0.5, 0.5), new Vec2( 0, 0.3 )], 5 );
+    bodyDefinition.position.x = 5;
+    y = 15;
+    for ( var i = 0; i < testObjects; i++ ) {
+      player = db3;
+      var x = ( i * 5 ) % ( worldWidth - 10 );
+      if ( x == 0 ) {
+          //y = y + 5;
+      }
+      bodyDefinition.position.y = y + ( ( i + 15 ) % 20 );
+      bodyDefinition.position.x = x + ( ( i + 15 ) % 20 ) / 20 + 4.5;
+      bodyDefinition.angle = ( i % 35 ) / 35;
+      var db3 = world.CreateBody( bodyDefinition );
+      db3.size = new Vec2( 0.75, 0.75 );
       db3.CreateFixture( fixtureDefinition );
     }
     
@@ -174,7 +252,10 @@ var update = function( time ) {
             tick = 0.04;
         }
         if ( fps ) {
-            fps.innerHTML = 1 / tick;
+            var instantFPS = 1 / tick;
+            rollingFPS = rollingFPS * 0.99 + instantFPS * 0.01;
+            fps.innerHTML = Math.round(instantFPS) + " - " + Math.round(rollingFPS);
+            frames++;
         }
         lastTickTime = time;
         world.Step( tick /* time delta (sec) */, frameSteps /* Velocity Iterations */, frameSteps /* Position Iterations */ );
@@ -207,5 +288,6 @@ var draw = function( tick ) {
     }
     display.style.left = "-" + ( camera.x * scale ) + "px";
     display.style.top = "-" + ( camera.y * scale ) + "px";
-    game.draw( tick, display, world, camera, scale );
+    //game.draw( tick, display, world, camera, scale );
 };
+

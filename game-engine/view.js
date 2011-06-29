@@ -1,3 +1,5 @@
+goog.provide('game.draw');
+
 game = {};
 (function(game){
     var nextID = 0;
@@ -28,6 +30,7 @@ game = {};
                 domObject.style.top = ( ( pos.y - size.y / 2 ) * scale ) + "px";
                 domObject.style.width = ( size.x * scale ) + "px";
                 domObject.style.height = ( size.y * scale ) + "px";
+                domObject.style.webkitTransform = "rotate(" + body.GetAngle() + "rad)";
             }
             body = body.GetNext();
         }
