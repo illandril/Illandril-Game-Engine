@@ -19,18 +19,18 @@ window.requestAnimFrame = (function(){
 var viewportWidth = 600;
 var viewportHeight = 400;
 var worldWidth = 120;
-var worldHeight = 80;
-var scale = 5.0;
+var worldHeight = 20;
+var scale = 20.0;
 
 var lastTickTime = 0;
 var frameSteps = 10;
 
 var b2dDebugFlags = 0;
-b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_aabbBit;
-b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_centerOfMassBit;
-b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_controllerBit;
-b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_jointBit;
-b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_pairBit;
+//b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_aabbBit;
+//b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_centerOfMassBit;
+//b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_controllerBit;
+//b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_jointBit;
+//b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_pairBit;
 b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_shapeBit;
 
 var Vec2 = Box2D.Common.Math.b2Vec2;
@@ -43,18 +43,19 @@ var display;
 var debugCanvas;
 var camera = new Vec2( 0, 0 );
 var player;
+var controls;
 var debug = true;
 var fps;
 var frames = 0;
 var rollingFPS = 60;
-var testObjects = 100;
+var testObjects = 0;
 
 var domObjects = {};
 
 var createStaticBox = function( width, height, centerX, centerY ) {
     fixtureDefinition.density = 1.0;
     fixtureDefinition.friction = 0.5;
-    fixtureDefinition.restitution = 0.2;
+    fixtureDefinition.restitution = 0.01;
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
     fixtureDefinition.shape.SetAsBox( width / 2, height / 2 );
     bodyDefinition.type = Box2D.Dynamics.b2Body.b2_staticBody;
@@ -109,6 +110,7 @@ var init = function( gameContainerID, doDebug ) {
     // Add in the boundries
     createStaticBox( worldWidth, 1, worldWidth / 2, 0 );
     createStaticBox( worldWidth, 1, worldWidth / 2, worldHeight );
+    createStaticBox( worldWidth, 1, worldWidth / 2, worldHeight - 20 );
     createStaticBox( 1, worldHeight, 0, worldHeight / 2 );
     createStaticBox( 1, worldHeight, worldWidth, worldHeight / 2 );
     
@@ -117,7 +119,7 @@ var init = function( gameContainerID, doDebug ) {
     var flip = false;
     for ( var i = 10; i <= worldWidth - 10; i += 8 ) {
         bodyDefinition.angle = i / worldWidth * 3.1415;
-        var y = worldHeight / 2;
+        var y = worldHeight - 14;
         if ( flip ) {
             y = y + 8;
         }
@@ -133,34 +135,90 @@ var init = function( gameContainerID, doDebug ) {
         world.CreateJoint(weldJointDef);
     }
     
+    
+    bodyDefinition.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+    bodyDefinition.position.y = worldHeight - 5;
+    bodyDefinition.position.x = 5;
+    bodyDefinition.angle = 0;
+    bodyDefinition.fixedRotation = true;
+    fixtureDefinition.restitution = 0;
+    fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+    fixtureDefinition.shape.SetAsBox(0.4, 1.0);
+    player = world.CreateBody(bodyDefinition);
+    player.size = new Vec2(0.8,2.0);
+    player.acceleration = 1;
+    player.speed = 5;
+    player.CreateFixture(fixtureDefinition);
+    
+    fixtureDefinition.restitution = 0;
+    fixtureDefinition.isSensor = true;
+    fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
+    fixtureDefinition.shape.SetAsOrientedBox(0.35, 0.1, new Vec2(0,0.95));
+    player.groundSensor = player.CreateFixture(fixtureDefinition);
+    
+    fixtureDefinition.isSensor = false;
+    controls = new illandril.game.ui.Controls("main");
+            
+    var moveUp = new illandril.game.ui.Action(function(tickTime) {
+        var ground = null;
+        var nextContact = player.GetContactList();
+        var fContact = nextContact;
+        while(nextContact != null && ground == null) {
+            if (nextContact.contact.IsTouching() && nextContact.contact.IsSensor()) {
+                if (nextContact.contact.GetFixtureA() == player.groundSensor) {
+                    ground = nextContact.contact.GetFixtureB().GetBody();
+                } else if(nextContact.contact.GetFixtureB() == player.groundSensor) {
+                    ground = nextContact.contact.GetFixtureA().GetBody();
+                }
+            }
+            nextContact = nextContact.next;
+        }
+        if (ground != null) {
+            var impulse = player.GetMass() * player.speed * 1.5;
+            var newPos = player.GetWorldCenter();
+            newPos.y -= 0.15;
+            player.SetPosition(newPos); 
+            player.ApplyImpulse(new Vec2(0,-impulse), newPos);
+            ground.ApplyImpulse(new Vec2(0,impulse), newPos);
+            console.log("Jump!" + tickTime);
+        }
+    }, 'Move Up', true);
+    var moveDown = new illandril.game.ui.Action(function(tickTime) {
+        //var impulse = player.GetMass() * 10;
+        //player.ApplyImpulse( new Vec2(0,impulse), player.GetWorldCenter() );
+    }, 'Move Down', true);
+    var moveLeft = new illandril.game.ui.Action(function(tickTime) {
+        var vel = player.GetLinearVelocity();
+        var desiredVel = Math.max(vel.x - player.acceleration, -player.speed);
+        var velChange = desiredVel - vel.x;
+        if (velChange < 0 ) {
+            var imp = player.GetMass() * velChange;
+            player.ApplyImpulse(new Vec2(imp,0), player.GetWorldCenter());
+            console.log(vel.x);
+        }
+    }, 'Move Left', true);
+    var moveRight = new illandril.game.ui.Action(function(tickTime) {
+        var vel = player.GetLinearVelocity();
+        var desiredVel = Math.min(vel.x + player.acceleration, player.speed);
+        var velChange = desiredVel - vel.x;
+        if (velChange > 0 ) {
+            var imp = player.GetMass() * velChange;
+            player.ApplyImpulse(new Vec2(imp,0), player.GetWorldCenter());
+        }
+    }, 'Move Right', true);
+    controls.registerAction(moveUp, goog.events.KeyCodes.W, false, false, false);
+    controls.registerAction(moveLeft, goog.events.KeyCodes.A, false, false, false);
+    controls.registerAction(moveDown, goog.events.KeyCodes.S, false, false, false);
+    controls.registerAction(moveRight, goog.events.KeyCodes.D, false, false, false);
+    
     // Debug Objects
     bodyDefinition.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-    /*
-    fixtureDefinition.shape = new Box2D.Collision.Shapes.b2CircleShape( 2 );
-    bodyDefinition.position.x = 5;
-    bodyDefinition.position.y = 5;
-    var db1 = world.CreateBody( bodyDefinition );
-    db1.size = new Vec2( 4, 4 );
-    db1.CreateFixture( fixtureDefinition );
-    bodyDefinition.position.x = 6;
-    bodyDefinition.position.y = 10;
-    fixtureDefinition.restitution = 1.2;
-    fixtureDefinition.friction = 0.0;
-    var db2 = world.CreateBody( bodyDefinition );
-    player = db2;
-    db2.size = new Vec2( 4, 4 );
-    db2.CreateFixture( fixtureDefinition );
-    */
+    bodyDefinition.fixedRotation = false;
     fixtureDefinition.restitution = 2.5;
-    
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2CircleShape( 0.25 );
-    var y = 15;
     for ( var i = 0; i < testObjects; i++ ) {
       var x = ( i * 5 ) % ( worldWidth - 10 );
-      if ( x == 0 ) {
-          //y = y + 5;
-      }
-      bodyDefinition.position.y = y + ( i % 20 );
+      bodyDefinition.position.y = 15 + ( i % 20 );
       bodyDefinition.position.x = x + ( i % 20 ) / 20 + 4.5;
       var db3 = world.CreateBody( bodyDefinition );
       db3.size = new Vec2( 0.5, 0.5 );
@@ -168,15 +226,9 @@ var init = function( gameContainerID, doDebug ) {
     }
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
     fixtureDefinition.shape.SetAsBox( 0.25, 0.25 );
-    bodyDefinition.position.x = 5;
-    y = 15;
     for ( var i = 0; i < testObjects; i++ ) {
-      player = db3;
       var x = ( i * 5 ) % ( worldWidth - 10 );
-      if ( x == 0 ) {
-          //y = y + 5;
-      }
-      bodyDefinition.position.y = y + ( ( i + 5 ) % 20 );
+      bodyDefinition.position.y = 15 + ( ( i + 5 ) % 20 );
       bodyDefinition.position.x = x + ( ( i + 5 ) % 20 ) / 20 + 4.5;
       bodyDefinition.angle = ( i % 17 ) / 17;
       var db3 = world.CreateBody( bodyDefinition );
@@ -185,15 +237,9 @@ var init = function( gameContainerID, doDebug ) {
     }
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
     fixtureDefinition.shape.SetAsArray( [ new Vec2(-0.5, -0.5), new Vec2(0.5, -0.5), new Vec2(-0.5,0.5)], 3 );
-    bodyDefinition.position.x = 5;
-    y = 15;
     for ( var i = 0; i < testObjects; i++ ) {
-      player = db3;
       var x = ( i * 5 ) % ( worldWidth - 10 );
-      if ( x == 0 ) {
-          //y = y + 5;
-      }
-      bodyDefinition.position.y = y + ( ( i + 10 ) % 20 );
+      bodyDefinition.position.y = 15 + ( ( i + 10 ) % 20 );
       bodyDefinition.position.x = x + ( ( i + 10 ) % 20 ) / 20 + 4.5;
       bodyDefinition.angle = ( i % 22 ) / 22;
       var db3 = world.CreateBody( bodyDefinition );
@@ -202,15 +248,9 @@ var init = function( gameContainerID, doDebug ) {
     }
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
     fixtureDefinition.shape.SetAsArray( [ new Vec2(-0.5, -0.5), new Vec2(0, -0.5), new Vec2(0.5,0), new Vec2(0.5, 0.5), new Vec2( 0, 0.3 )], 5 );
-    bodyDefinition.position.x = 5;
-    y = 15;
     for ( var i = 0; i < testObjects; i++ ) {
-      player = db3;
       var x = ( i * 5 ) % ( worldWidth - 10 );
-      if ( x == 0 ) {
-          //y = y + 5;
-      }
-      bodyDefinition.position.y = y + ( ( i + 15 ) % 20 );
+      bodyDefinition.position.y = 15 + ( ( i + 15 ) % 20 );
       bodyDefinition.position.x = x + ( ( i + 15 ) % 20 ) / 20 + 4.5;
       bodyDefinition.angle = ( i % 35 ) / 35;
       var db3 = world.CreateBody( bodyDefinition );
@@ -260,6 +300,8 @@ var update = function( time ) {
             frames++;
         }
         lastTickTime = time;
+        
+        controls.handleKeyEvents(tick);
         world.Step( tick /* time delta (sec) */, frameSteps /* Velocity Iterations */, frameSteps /* Position Iterations */ );
         world.DrawDebugData();
         world.ClearForces();

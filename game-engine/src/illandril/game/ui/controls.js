@@ -12,7 +12,10 @@ goog.require('goog.events.KeyCodes');
 goog.require('goog.events.KeyHandler');
 goog.require('goog.events.KeyNames');
 goog.require('goog.userAgent');
-goog.require('illandril');
+//goog.require('illandril');
+illandril = {};
+illandril.game = {};
+illandril.game.ui = {};
 
 /**
  * @constructor
@@ -32,7 +35,7 @@ illandril.game.ui.Controls.nextID = 0;
 illandril.game.ui.Controls.actionPendingFor = null;
 
 illandril.game.ui.Controls.keyStates = {};
-illandril.game.ui.Controls.modifierKeyStates = { CTRL: false, CTRL_LAST: {}, ALT: false, ALT_LAST: {}, SHIFT: false, SHIFT_LAST: {} },
+illandril.game.ui.Controls.modifierKeyStates = { CTRL: false, CTRL_LAST: {}, ALT: false, ALT_LAST: {}, SHIFT: false, SHIFT_LAST: {} };
 
 illandril.game.ui.Controls.rememberCurrentAsLastKeyState = function() {
   for (var keyCode in illandril.game.ui.Controls.keyStates) {
@@ -108,9 +111,9 @@ illandril.game.ui.Controls.getKeyEventKey = function(keyCode, ctrl, alt, shift) 
 illandril.game.ui.Controls.prototype = {
   handleKeyEvents: function(tickTime) {
     var activeKeys = 0;
-    var modifierRepeat = illandril.game.ui.Controls.modifierKeyStates.CTRL == illandril.game.ui.Controls.modifierKeyStates.CTRL_LAST
-                         && illandril.game.ui.Controls.modifierKeyStates.ALT == illandril.game.ui.Controls.modifierKeyStates.ALT_LAST
-                         && illandril.game.ui.Controls.modifierKeyStates.SHIFT == illandril.game.ui.Controls.modifierKeyStates.SHIFT_LAST;
+    var modifierRepeat = illandril.game.ui.Controls.modifierKeyStates.CTRL == illandril.game.ui.Controls.modifierKeyStates.CTRL_LAST &&
+                         illandril.game.ui.Controls.modifierKeyStates.ALT == illandril.game.ui.Controls.modifierKeyStates.ALT_LAST &&
+                         illandril.game.ui.Controls.modifierKeyStates.SHIFT == illandril.game.ui.Controls.modifierKeyStates.SHIFT_LAST;
     for (var keyCode in illandril.game.ui.Controls.keyStates) {
       var repeat = modifierRepeat && illandril.game.ui.Controls.keyStates[keyCode].wasActive;
 
@@ -119,8 +122,7 @@ illandril.game.ui.Controls.prototype = {
                                                                    illandril.game.ui.Controls.modifierKeyStates.ALT,
                                                                    illandril.game.ui.Controls.modifierKeyStates.SHIFT);
       if (this.actionToRegister == null) {
-        if (this.controls[key] != null
-             && (!repeat || this.controls[key].executeOnRepeat)) {
+        if (this.controls[key] != null && (!repeat || this.controls[key].executeOnRepeat)) {
           this.controls[key].execute(tickTime);
         }
       }
@@ -217,9 +219,9 @@ illandril.game.ui.Controls.prototype = {
   }
 };
 
-goog.events.listen(document, goog.events.EventType.KEYDOWN, illandril.game.ui.Controls.keyDown);
-goog.events.listen(document, goog.events.EventType.KEYUP, illandril.game.ui.Controls.keyUp);
-goog.events.listen(document, goog.events.EventType.BLUR, illandril.game.ui.Controls.blur);
+//goog.events.listen(document, goog.events.EventType.KEYDOWN, illandril.game.ui.Controls.keyDown);
+//goog.events.listen(document, goog.events.EventType.KEYUP, illandril.game.ui.Controls.keyUp);
+//goog.events.listen(document, goog.events.EventType.BLUR, illandril.game.ui.Controls.blur);
 
 /**
  * @constructor

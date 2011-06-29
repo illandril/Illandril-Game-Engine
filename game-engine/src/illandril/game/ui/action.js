@@ -6,7 +6,7 @@
 
 goog.provide('illandril.game.ui.Action');
 
-goog.require('illandril');
+//goog.require('illandril');
 
 /**
  * @param {Function} fn The function to execute when this action occurs.
