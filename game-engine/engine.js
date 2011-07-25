@@ -77,7 +77,8 @@ var createBox = function( width, height, centerX, centerY ) {
     bodyDefinition.position.x = centerX;
     bodyDefinition.position.y = centerY;
     var body = world.CreateBody( bodyDefinition );
-    body.size = new Vec2( width, height );
+    body.display = {};
+    body.display.size = new Vec2( width, height );
     var fixture = body.CreateFixture( fixtureDefinition );
     return { body: body, fixture: fixture };
 };
@@ -145,7 +146,8 @@ var init = function( gameContainerID, doDebug ) {
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
     fixtureDefinition.shape.SetAsBox(0.4, 1.0);
     player = world.CreateBody(bodyDefinition);
-    player.size = new Vec2(0.8,2.0);
+    player.display = {};
+    player.display.size = new Vec2(0.8,2.0);
     player.acceleration = 1;
     player.speed = 5;
     player.CreateFixture(fixtureDefinition);
@@ -153,13 +155,16 @@ var init = function( gameContainerID, doDebug ) {
     fixtureDefinition.restitution = 0;
     fixtureDefinition.isSensor = true;
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    fixtureDefinition.shape.SetAsOrientedBox(0.35, 0.1, new Vec2(0,0.95));
+    fixtureDefinition.shape.SetAsOrientedBox(0.39, 0.1, new Vec2(0,0.99));
     player.groundSensor = player.CreateFixture(fixtureDefinition);
-    
     fixtureDefinition.isSensor = false;
+    
     controls = new illandril.game.ui.Controls("main");
-            
+    
     var moveUp = new illandril.game.ui.Action(function(tickTime) {
+        if (player.jumping) {
+            return;
+        }
         var ground = null;
         var nextContact = player.GetContactList();
         var fContact = nextContact;
@@ -176,16 +181,21 @@ var init = function( gameContainerID, doDebug ) {
         if (ground != null) {
             var impulse = player.GetMass() * player.speed * 1.5;
             var newPos = player.GetWorldCenter();
-            newPos.y -= 0.15;
-            player.SetPosition(newPos); 
+            // Stop all current Y motion, so we don't give too much or too little velocity from the jump
+            // (hopefully it will already be 0 or very, very close to 0 in most situations)
+            var velocity = player.GetLinearVelocity();
+            velocity.y = 0;
+            player.SetLinearVelocity(velocity);
             player.ApplyImpulse(new Vec2(0,-impulse), newPos);
+            // Known bug: This might cause a double-impulse to the ground in some situations (when velocity is not 0 above)
             ground.ApplyImpulse(new Vec2(0,impulse), newPos);
-            console.log("Jump!" + tickTime);
+            console.log("Jump!" + tickTime + "|" + frames);
+            player.jumping = true;
+            setTimeout(function(){ player.jumping = false; }, 100);
         }
     }, 'Move Up', true);
     var moveDown = new illandril.game.ui.Action(function(tickTime) {
-        //var impulse = player.GetMass() * 10;
-        //player.ApplyImpulse( new Vec2(0,impulse), player.GetWorldCenter() );
+        // Duck? Drop down through floor?
     }, 'Move Down', true);
     var moveLeft = new illandril.game.ui.Action(function(tickTime) {
         var vel = player.GetLinearVelocity();
@@ -194,7 +204,6 @@ var init = function( gameContainerID, doDebug ) {
         if (velChange < 0 ) {
             var imp = player.GetMass() * velChange;
             player.ApplyImpulse(new Vec2(imp,0), player.GetWorldCenter());
-            console.log(vel.x);
         }
     }, 'Move Left', true);
     var moveRight = new illandril.game.ui.Action(function(tickTime) {
@@ -221,7 +230,8 @@ var init = function( gameContainerID, doDebug ) {
       bodyDefinition.position.y = 15 + ( i % 20 );
       bodyDefinition.position.x = x + ( i % 20 ) / 20 + 4.5;
       var db3 = world.CreateBody( bodyDefinition );
-      db3.size = new Vec2( 0.5, 0.5 );
+      db3.display = {};
+      db3.display.size = new Vec2( 0.5, 0.5 );
       db3.CreateFixture( fixtureDefinition );
     }
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
@@ -232,7 +242,8 @@ var init = function( gameContainerID, doDebug ) {
       bodyDefinition.position.x = x + ( ( i + 5 ) % 20 ) / 20 + 4.5;
       bodyDefinition.angle = ( i % 17 ) / 17;
       var db3 = world.CreateBody( bodyDefinition );
-      db3.size = new Vec2( 0.5, 0.5 );
+      db3.display = {};
+      db3.display.size = new Vec2( 0.5, 0.5 );
       db3.CreateFixture( fixtureDefinition );
     }
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
@@ -243,7 +254,8 @@ var init = function( gameContainerID, doDebug ) {
       bodyDefinition.position.x = x + ( ( i + 10 ) % 20 ) / 20 + 4.5;
       bodyDefinition.angle = ( i % 22 ) / 22;
       var db3 = world.CreateBody( bodyDefinition );
-      db3.size = new Vec2( 0.75, 0.75 );
+      db3.display = {};
+      db3.display.size = new Vec2( 0.75, 0.75 );
       db3.CreateFixture( fixtureDefinition );
     }
     fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
@@ -254,7 +266,8 @@ var init = function( gameContainerID, doDebug ) {
       bodyDefinition.position.x = x + ( ( i + 15 ) % 20 ) / 20 + 4.5;
       bodyDefinition.angle = ( i % 35 ) / 35;
       var db3 = world.CreateBody( bodyDefinition );
-      db3.size = new Vec2( 0.75, 0.75 );
+      db3.display = {};
+      db3.display.size = new Vec2( 0.75, 0.75 );
       db3.CreateFixture( fixtureDefinition );
     }
     
