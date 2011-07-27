@@ -51,6 +51,7 @@ game = {};
                 if ( domObject.savedStyle.bg != bg ) {
                     domObject.savedStyle.bg = bg;
                     domObject.style.backgroundImage = 'url(' + bg + ')';
+                    domObject.style.backgroundColor = 'transparent';
                 }
                 var bgPos = body.display.spriteOffset;
                 if ( bgPos != null && ( domObject.savedStyle.bgPosX != bgPos.x || domObject.savedStyle.bgPosY != bgPos.y ) ) {

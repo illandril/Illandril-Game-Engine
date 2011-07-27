@@ -14,16 +14,16 @@ window.requestAnimFrame = (function(){
                 window.setTimeout(callback, 1000 / 60);
               };
     })();
-    
 
-var viewportWidth = 600;
-var viewportHeight = 400;
-var worldWidth = 120;
-var worldHeight = 20;
-var scale = 20.0;
-
-var lastTickTime = 0;
+var viewportWidth = 600; // Pixels
+var viewportHeight = 400; // Pixels
+var worldWidth = 120; // Meters
+var worldHeight = 20; // Meters
+var scale = 20.0; // Pixels per Meter
 var frameSteps = 10;
+
+var PI = 3.14159265;
+var HALF_PI = 1.57079633;
 
 var b2dDebugFlags = 0;
 //b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_aabbBit;
@@ -45,12 +45,11 @@ var camera = new Vec2( 0, 0 );
 var player;
 var controls;
 var debug = true;
-var fps;
+var fps = 0;
 var frames = 0;
 var rollingFPS = 60;
 var testObjects = 0;
-
-var domObjects = {};
+var lastTickTime = 0;
 
 var createStaticBox = function( width, height, centerX, centerY ) {
     fixtureDefinition.density = 1.0;
@@ -62,7 +61,8 @@ var createStaticBox = function( width, height, centerX, centerY ) {
     bodyDefinition.position.x = centerX;
     bodyDefinition.position.y = centerY;
     var body = world.CreateBody( bodyDefinition );
-    body.size = new Vec2( width, height );
+    body.display = {};
+    body.display.size = new Vec2( width, height );
     var fixture = body.CreateFixture( fixtureDefinition );
     return { body: body, fixture: fixture };
 };
@@ -109,25 +109,33 @@ var init = function( gameContainerID, doDebug ) {
         world.SetDebugDraw( debugDraw );
     }
     // Add in the boundries
-    createStaticBox( worldWidth, 1, worldWidth / 2, 0 );
-    createStaticBox( worldWidth, 1, worldWidth / 2, worldHeight );
-    createStaticBox( worldWidth, 1, worldWidth / 2, worldHeight - 20 );
-    createStaticBox( 1, worldHeight, 0, worldHeight / 2 );
-    createStaticBox( 1, worldHeight, worldWidth, worldHeight / 2 );
+    var top = createStaticBox( worldWidth, 1, worldWidth / 2, 0 );
+    top.body.display.spriteSheet = 'graphics/sky.png';
+    var bottom = createStaticBox( worldWidth, 1, worldWidth / 2, worldHeight );
+    bottom.body.display.spriteSheet = 'graphics/grass.png';
+    var left = createStaticBox( 1, worldHeight, 0, worldHeight / 2 );
+    left.body.display.spriteSheet = 'graphics/wall.png';
+    var right = createStaticBox( 1, worldHeight, worldWidth, worldHeight / 2 );
+    right.body.display.spriteSheet = 'graphics/wall.png';
     
+    // Add in the spinners
     var jointDef = new Box2D.Dynamics.Joints.b2RevoluteJointDef();
     var weldJointDef = new Box2D.Dynamics.Joints.b2WeldJointDef();
     var flip = false;
     for ( var i = 10; i <= worldWidth - 10; i += 8 ) {
-        bodyDefinition.angle = i / worldWidth * 3.1415;
+        bodyDefinition.angle = i / worldWidth * PI;
         var y = worldHeight - 14;
         if ( flip ) {
             y = y + 8;
         }
         flip = !flip;
         var b0 = createStaticBox( 0.1, 0.1, i, y );
+        b0.body.display = null; // Hide the middle joint
         var b1 = createBox( 10, 1, i, y );
-        var b2 = createBox( 1, 10, i, y );
+        b1.body.display.spriteSheet = 'graphics/spinner.png';
+        var b2 = createBox( 10, 1, i, y );
+        b2.body.SetAngle(bodyDefinition.angle + HALF_PI);
+        b2.body.display.spriteSheet = 'graphics/spinner.png';
         jointDef.Initialize(b0.body, b1.body, b0.body.GetWorldCenter());
         world.CreateJoint(jointDef);
         jointDef.Initialize(b0.body, b2.body, b0.body.GetWorldCenter());
@@ -148,6 +156,7 @@ var init = function( gameContainerID, doDebug ) {
     player = world.CreateBody(bodyDefinition);
     player.display = {};
     player.display.size = new Vec2(0.8,2.0);
+    player.display.spriteSheet = 'graphics/character.png';
     player.acceleration = 1;
     player.speed = 5;
     player.CreateFixture(fixtureDefinition);
