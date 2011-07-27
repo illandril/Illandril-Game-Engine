@@ -24,8 +24,11 @@ goog.events.listen(document, goog.events.EventType.KEYDOWN, illandril.game.ui.Co
 goog.events.listen(document, goog.events.EventType.KEYUP, illandril.game.ui.Controls.keyUp);
 goog.events.listen(document, goog.events.EventType.BLUR, illandril.game.ui.Controls.blur);
   </script>
-  <script type="text/javascript" src="view.js"></script>
-  <script type="text/javascript" src="engine.js"></script>
+  <script type="text/javascript" src="src/ai.js"></script>
+  <script type="text/javascript" src="src/view.js"></script>
+  <script type="text/javascript" src="src/world.js"></script>
+  <script type="text/javascript" src="src/engine.js"></script>
+  <script type="text/javascript" src="src/test.js"></script>
   <!-- -->
   <!--
   <script type="text/javascript" src="test.js"></script>  
@@ -38,7 +41,7 @@ goog.events.listen(document, goog.events.EventType.BLUR, illandril.game.ui.Contr
   </div>
   <div id="fps"></div>
   <script type="text/javascript">
-   init( "game", false /* debug */ );
+   test.init( "game", false /* debug */ );
    /* Uncomment to get an FPS alert
    x = new Date();
    y = null;
