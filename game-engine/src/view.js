@@ -29,10 +29,10 @@ game = game || {};
         return display;
     };
     
-    game.ui.initDisplay = function(containerID, _scale, width, height, debug) {
+    game.ui.initDisplay = function(containerID, _scale, viewportSize, debug) {
         scale = _scale;
-        viewportWidth = width;
-        viewportHeight = height;
+        viewportWidth = viewportSize.x;
+        viewportHeight = viewportSize.y;
         scaledViewportWidth = ( viewportWidth / scale );
         scaledViewportHeight = ( viewportHeight / scale );
         game.ui.lookAt( new Box2D.Common.Math.b2Vec2( 0, 0 ) );
@@ -73,13 +73,13 @@ game = game || {};
         camera.y = position.y - scaledViewportHeight / 2;
         if ( camera.x < 0 ) {
             camera.x = 0;
-        } else if ( camera.x > worldWidth - scaledViewportWidth ) {
-            camera.x = worldWidth - scaledViewportWidth;
+        } else if ( camera.x > game.world.getWorldWidth() - scaledViewportWidth ) {
+            camera.x = game.world.getWorldWidth() - scaledViewportWidth;
         }
         if ( camera.y < 0 ) {
             camera.y = 0;
-        } else if ( camera.y > worldHeight - scaledViewportHeight ) {
-            camera.y = worldHeight - scaledViewportHeight;
+        } else if ( camera.y > game.world.getWorldHeight() - scaledViewportHeight ) {
+            camera.y = game.world.getWorldHeight() - scaledViewportHeight;
         }
     };
     
@@ -138,17 +138,19 @@ game = game || {};
                     domObject.savedStyle.rotation = rotation;
                     domObject.style.webkitTransform = "rotate(" + rotation + "rad)";
                 }
-                var bg = body.display.spriteSheet;
-                if ( domObject.savedStyle.bg != bg ) {
-                    domObject.savedStyle.bg = bg;
-                    domObject.style.backgroundImage = 'url(' + bg + ')';
-                    domObject.style.backgroundColor = 'transparent';
-                }
-                var bgPos = body.display.spriteOffset;
-                if ( bgPos != null && ( domObject.savedStyle.bgPosX != bgPos.x || domObject.savedStyle.bgPosY != bgPos.y ) ) {
-                    domObject.savedStyle.bgPosX = bgPos.x;
-                    domObject.savedStyle.bgPosY = bgPos.y;
-                    domObject.style.backgroundPosition = (bgPos.x * -1) + 'px ' + (bgPos.y * -1) + 'px';
+                if (body.display.spriteSheet != null) {
+                    var bg = body.display.spriteSheet.url;
+                    if ( domObject.savedStyle.bg != bg ) {
+                        domObject.savedStyle.bg = bg;
+                        domObject.style.backgroundImage = 'url(' + bg + ')';
+                        domObject.style.backgroundColor = 'transparent';
+                    }
+                    var bgPos = body.display.spriteSheet.frameOffset;
+                    if ( bgPos != null && ( domObject.savedStyle.bgPosX != bgPos.x || domObject.savedStyle.bgPosY != bgPos.y ) ) {
+                        domObject.savedStyle.bgPosX = bgPos.x;
+                        domObject.savedStyle.bgPosY = bgPos.y;
+                        domObject.style.backgroundPosition = (bgPos.x * -1) + 'px ' + (bgPos.y * -1) + 'px';
+                    }
                 }
             }
             body = body.GetNext();

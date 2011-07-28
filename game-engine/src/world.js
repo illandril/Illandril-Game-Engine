@@ -1,5 +1,7 @@
 goog.provide('game.world');
 
+goog.require('game.animations');
+
 game = game || {};
 
 var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
@@ -9,21 +11,22 @@ var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
     var bodyDefinition = new Box2D.Dynamics.b2BodyDef();
     var worldWidth = null;
     var worldHeight = null;
+    var frameSteps = 10;
     
     game.world = {};
     
-    game.world.init = function(width, height) {
-        worldWidth = width;
-        worldHeight = height;
+    game.world.init = function(worldSize) {
+        worldWidth = worldSize.x;
+        worldHeight = worldSize.y;
         // Add in the boundries
         var top = game.world.createStaticBox( worldWidth, 1, worldWidth / 2, 0 );
-        top.body.display.spriteSheet = 'graphics/sky.png';
+        top.body.display.spriteSheet.url = 'graphics/sky.png';
         var bottom = game.world.createStaticBox( worldWidth, 1, worldWidth / 2, worldHeight );
-        bottom.body.display.spriteSheet = 'graphics/grass.png';
+        bottom.body.display.spriteSheet.url = 'graphics/grass.png';
         var left = game.world.createStaticBox( 1, worldHeight, 0, worldHeight / 2 );
-        left.body.display.spriteSheet = 'graphics/wall.png';
+        left.body.display.spriteSheet.url = 'graphics/wall.png';
         var right = game.world.createStaticBox( 1, worldHeight, worldWidth, worldHeight / 2 );
-        right.body.display.spriteSheet = 'graphics/wall.png';
+        right.body.display.spriteSheet.url = 'graphics/wall.png';
     };
     
     game.world.update = function(time, tick) {
@@ -62,8 +65,7 @@ var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
         bodyDefinition.position.x = centerX;
         bodyDefinition.position.y = centerY;
         var body = world.CreateBody( bodyDefinition );
-        body.display = {};
-        body.display.size = new Box2D.Common.Math.b2Vec2( width, height );
+        game.animations.setSpriteSheet(body, new Box2D.Common.Math.b2Vec2( width, height ));
         var fixture = body.CreateFixture( fixtureDefinition );
         return { body: body, fixture: fixture };
     };
@@ -78,8 +80,7 @@ var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
         bodyDefinition.position.x = centerX;
         bodyDefinition.position.y = centerY;
         var body = world.CreateBody( bodyDefinition );
-        body.display = {};
-        body.display.size = new Box2D.Common.Math.b2Vec2( width, height );
+        game.animations.setSpriteSheet(body, new Box2D.Common.Math.b2Vec2( width, height ));
         var fixture = body.CreateFixture( fixtureDefinition );
         return { body: body, fixture: fixture };
     };

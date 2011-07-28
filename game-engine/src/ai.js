@@ -33,7 +33,7 @@ game = game || {};
                 continue;
             }
             thinker.tIdx = newThinkers.push(thinkers[tIdx]);
-            thinker.think(tick);
+            thinker.think(time, tick);
         }
         thinkers = newThinkers;
     };
