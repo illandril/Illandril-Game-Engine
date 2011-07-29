@@ -49,9 +49,10 @@ game = game || {};
         display = document.createElement('span');
         display.className = 'viewport';
         displayContainer.appendChild(display);
-        
+        container.appendChild(displayContainer);
+
         if (debug) {
-            debugCanvas = document.getElementById( gameContainerID + '__DEBUG' );
+            debugCanvas = document.getElementById(containerID + '__DEBUG');
             debugCanvas.width = game.world.getWorldWidth() * scale;
             debugCanvas.height = game.world.getWorldHeight() * scale;
             debugCanvas.style.marginRight = '-' + debugCanvas.width + 'px';
@@ -65,7 +66,6 @@ game = game || {};
             debugDraw.SetFlags(b2dDebugFlags);
             game.world.getBox2DWorld().SetDebugDraw(debugDraw);
         }
-        container.appendChild(displayContainer);
     };
     
     game.ui.lookAt = function(position) {
@@ -156,4 +156,18 @@ game = game || {};
             body = body.GetNext();
         }
     };
+    
+    game.ui.setDisplaySize = function(object, size) {
+        object.display = object.display || {};
+        object.display.size = size; // Meters
+    };
+    
+    game.ui.setImage = function(object, url) {
+        if (object.display == null || object.display.size == null) {
+            throw 'Attempt to set image of object with no display size!'
+        }
+        object.display.spriteSheet = object.display.spriteSheet || {};
+        object.display.spriteSheet.url = url;
+    };
+
 })(game);

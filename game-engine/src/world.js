@@ -13,20 +13,51 @@ var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
     var worldHeight = null;
     var frameSteps = 10;
     
+    var fixtureDefaults = {
+        density: 0.10,
+        friction: 0.5,
+        restitution: 0.01
+    };
+    
+    var bodyDefaults = {
+        fixedRotation: false,
+        type: Box2D.Dynamics.b2Body.b2_dynamicBody
+    };
+    
+    var argsOrDefaults = function(args, defaults) {
+        args = args || {};
+        var newArgs = {};
+        for(var x in defaults) {
+            if(args[x] === undefined || args[x] === null) {
+                newArgs[x] = defaults[x];
+            } else {
+                newArgs[x] = args[x];
+            }
+        }
+        return newArgs;
+    };
+    var argsOrFixtureDefaults = function(args) {
+        return argsOrDefaults(args, fixtureDefaults);
+    };
+    
+    var argsOrBodyDefaults = function(args) {
+        return argsOrDefaults(args, bodyDefaults);
+    };
+    
     game.world = {};
     
     game.world.init = function(worldSize) {
         worldWidth = worldSize.x;
         worldHeight = worldSize.y;
         // Add in the boundries
-        var top = game.world.createStaticBox( worldWidth, 1, worldWidth / 2, 0 );
-        top.body.display.spriteSheet.url = 'graphics/sky.png';
-        var bottom = game.world.createStaticBox( worldWidth, 1, worldWidth / 2, worldHeight );
-        bottom.body.display.spriteSheet.url = 'graphics/grass.png';
-        var left = game.world.createStaticBox( 1, worldHeight, 0, worldHeight / 2 );
-        left.body.display.spriteSheet.url = 'graphics/wall.png';
-        var right = game.world.createStaticBox( 1, worldHeight, worldWidth, worldHeight / 2 );
-        right.body.display.spriteSheet.url = 'graphics/wall.png';
+        var top = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, 0));
+        game.ui.setImage(top.body, 'graphics/border.png');
+        var bottom = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, worldHeight));
+        game.ui.setImage(bottom.body, 'graphics/border.png');
+        var left = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(0, worldHeight / 2));
+        game.ui.setImage(left.body, 'graphics/border.png');
+        var right = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(worldWidth, worldHeight / 2));
+        game.ui.setImage(right.body, 'graphics/border.png');
     };
     
     game.world.update = function(time, tick) {
@@ -55,33 +86,31 @@ var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
         return worldHeight;
     };
     
-    game.world.createStaticBox = function( width, height, centerX, centerY ) {
-        fixtureDefinition.density = 1.0;
-        fixtureDefinition.friction = 0.5;
-        fixtureDefinition.restitution = 0.01;
-        fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-        fixtureDefinition.shape.SetAsBox( width / 2, height / 2 );
-        bodyDefinition.type = Box2D.Dynamics.b2Body.b2_staticBody;
-        bodyDefinition.position.x = centerX;
-        bodyDefinition.position.y = centerY;
-        var body = world.CreateBody( bodyDefinition );
-        game.animations.setSpriteSheet(body, new Box2D.Common.Math.b2Vec2( width, height ));
-        var fixture = body.CreateFixture( fixtureDefinition );
-        return { body: body, fixture: fixture };
+    game.world.createStaticBox = function(size, position, visible) {
+        return game.world.createBox(size, position, visible, Box2D.Dynamics.b2Body.b2_staticBody);
     };
     
-    game.world.createBox = function( width, height, centerX, centerY ) {
-        fixtureDefinition.density = 1.0;
-        fixtureDefinition.friction = 0.5;
-        fixtureDefinition.restitution = 0.2;
-        fixtureDefinition.shape = new Box2D.Collision.Shapes.b2PolygonShape();
-        fixtureDefinition.shape.SetAsBox( width / 2, height / 2 );
-        bodyDefinition.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-        bodyDefinition.position.x = centerX;
-        bodyDefinition.position.y = centerY;
-        var body = world.CreateBody( bodyDefinition );
-        game.animations.setSpriteSheet(body, new Box2D.Common.Math.b2Vec2( width, height ));
-        var fixture = body.CreateFixture( fixtureDefinition );
+    game.world.createBox = function(size, position, visible, type) {
+        var shape = new Box2D.Collision.Shapes.b2PolygonShape();
+        shape.SetAsBox(size.x / 2, size.y / 2);
+        return game.world.createObject(size, position, visible !== false, { type: type }, null, shape);
+    };
+    
+    game.world.createObject = function(size, position, visible, bodyArgs, fixtureArgs, shape) {
+        bodyArgs = argsOrBodyDefaults(bodyArgs);
+        fixtureArgs = argsOrFixtureDefaults(fixtureArgs);
+        fixtureDefinition.density = fixtureArgs.density;
+        fixtureDefinition.friction = fixtureArgs.friction;
+        fixtureDefinition.restitution = fixtureArgs.restitution;
+        fixtureDefinition.shape = shape;
+        bodyDefinition.type = bodyArgs.type;
+        bodyDefinition.fixedRotation = bodyArgs.fixedRotation;
+        bodyDefinition.position = position;
+        var body = world.CreateBody(bodyDefinition);
+        var fixture = body.CreateFixture(fixtureDefinition);
+        if (visible) {
+            game.ui.setDisplaySize(body, new Box2D.Common.Math.b2Vec2(size.x, size.y));
+        }
         return { body: body, fixture: fixture };
     };
 })(game);

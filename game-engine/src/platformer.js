@@ -15,7 +15,7 @@ game.platformer = {};
         game.world.getBox2DBodyDefinition().fixedRotation = true;
         game.world.getBox2DFixtureDefinition().restitution = 0;
         game.world.getBox2DFixtureDefinition().shape = new Box2D.Collision.Shapes.b2PolygonShape();
-        game.world.getBox2DFixtureDefinition().shape.SetAsBox(size.x / 2, size.y / 2); // If you change this, change player.display.size and groundSensor below
+        game.world.getBox2DFixtureDefinition().shape.SetAsBox(size.x / 2, size.y / 2);
         var player = game.world.getBox2DWorld().CreateBody(game.world.getBox2DBodyDefinition());
         player.acceleration = 1;
         player.speed = 5;
@@ -27,12 +27,6 @@ game.platformer = {};
         game.world.getBox2DFixtureDefinition().shape.SetAsOrientedBox(size.x / 2 - 0.01, 0.1, new Box2D.Common.Math.b2Vec2(0, size.y / 2 - 0.01));
         player.groundSensor = player.CreateFixture(game.world.getBox2DFixtureDefinition());
         game.world.getBox2DFixtureDefinition().isSensor = false;
-        
-        game.animations.setSpriteSheet(player, size /* size (meters) */, 'graphics/generic_character.png' /* url */, new Box2D.Common.Math.b2Vec2(0, 0) /* offset */, new Box2D.Common.Math.b2Vec2(20, 20) /* frameSize */, 2 /* frames */, 4 /* frameSpeed (fps) */ );
-        player.think = function(time, tick) {
-            game.animations.fourDirectionalAnimation(time, tick, player);
-        };
-        game.ai.addThinker(player);
         
         player.actions = {};
         player.actions.moveUp = new illandril.game.ui.Action(function(tickTime) {
@@ -92,6 +86,17 @@ game.platformer = {};
         return player;
     };
     
-
+    platformer.createPlatform = function(position, size) {
+        game.world.getBox2DBodyDefinition().type = Box2D.Dynamics.b2Body.b2_dynamicBody;
+        game.world.getBox2DBodyDefinition().position = position;
+        game.world.getBox2DBodyDefinition().angle = 0;
+        game.world.getBox2DBodyDefinition().fixedRotation = true;
+        game.world.getBox2DFixtureDefinition().restitution = 0;
+        game.world.getBox2DFixtureDefinition().shape = new Box2D.Collision.Shapes.b2PolygonShape();
+        game.world.getBox2DFixtureDefinition().shape.SetAsBox(size.x / 2, size.y / 2);
+        var platform = game.world.getBox2DWorld().CreateBody(game.world.getBox2DBodyDefinition());
+        platform.CreateFixture(game.world.getBox2DFixtureDefinition());
+        return platform;
+    };
     
 })(game.platformer);

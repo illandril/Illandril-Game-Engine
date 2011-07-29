@@ -1,5 +1,7 @@
 goog.provide('game.animations');
 
+goog.require('game.ai');
+
 game = game || {};
 game.animations = {};
 (function(animations) {
@@ -7,23 +9,40 @@ game.animations = {};
     var W = 1;
     var N = 2;
     var S = 3;
+    var NE = 4;
+    var NW = 5;
+    var SE = 6;
+    var SW = 7;
     var ZERO_MOTION = 0.01;
     
     animations.setSpriteSheet = function(object, size, url, offset, frameSize, frames, frameSpeed) {
-        object.display = object.display || {};
-        object.display.size = size; // Meters
-        object.display.spriteSheet = {
-            url: url,
-            offset: offset, // Pixels
-            frameSize: frameSize, // Pixels
-            frames: frames,
-            frameSpeed: frameSpeed, // FPS
-            frameTick: 0,
-            frameOffset: new Box2D.Common.Math.b2Vec2(0,0),
-            frameDir: { a: E, x: E, y: N }
-        };
+        game.ui.setDisplaySize(object, size);
+        game.ui.setImage(object, url);
+        object.display.spriteSheet.offset = offset; // Pixels
+        object.display.spriteSheet.frameSize = frameSize; // Pixels
+        object.display.spriteSheet.frames = frames;
+        object.display.spriteSheet.frameSpeed = frameSpeed; // FPS
+        object.display.spriteSheet.frameTick = 0;
+        object.display.spriteSheet.frameOffset = new Box2D.Common.Math.b2Vec2(0,0);
+        object.display.spriteSheet.frameDir = { a: E, x: E, y: N };
     };
     
+    animations.setAsFourDirectionalAnimation = function(object, size, url, offset, frameSize, frames, frameSpeed) {
+        game.animations.setSpriteSheet(object, size, url, offset, frameSize, frames, frameSpeed );
+        if (object.think) {
+            var oldThink = object.think;
+            object.think = function(time, tick) {
+                oldThink(time, tick);
+                game.animations.fourDirectionalAnimation(time, tick, object);
+            };
+        } else {
+            object.think = function(time, tick) {
+                game.animations.fourDirectionalAnimation(time, tick, object);
+            };
+            game.ai.addThinker(object);
+        }
+    };
+
     animations.fourDirectionalAnimation = function(time, tick, object) {
         var spriteSheet = object.display.spriteSheet;
         spriteSheet.frameTick += tick;
