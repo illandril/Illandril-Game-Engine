@@ -29,13 +29,13 @@ game = game || {};
     
     var specificGameType = null;
     
-    game.init = function(gameType, gameContainerID, worldSize, viewportSize, viewportScale, doDebug) {
+    game.init = function(gameType, gameContainerID, worldSize, gravity, viewportSize, viewportScale, doDebug) {
         specificGameType = gameType;
         
         fps = document.getElementById( "fps" );
         
         // Initialize the world
-        game.world.init(worldSize);
+        game.world.init(worldSize, gravity);
         
         // Initialize the display
         game.ui.initDisplay(gameContainerID, viewportScale, viewportSize, doDebug);

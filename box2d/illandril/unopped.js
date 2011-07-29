@@ -120,7 +120,7 @@ Box2D.Collision.b2SeparationFunction = function() {
         c.Features.Features.apply(this, arguments);
     };
 })(Box2D.Collision);
-    
+
 (function(s) {
     s.b2CircleShape = function() {
         s.b2CircleShape.b2CircleShape.apply(this, arguments);
@@ -528,6 +528,7 @@ Box2D.Collision.b2SeparationFunction = function() {
    Box2D.Dynamics.Joints.b2WeldJointDef = b2WeldJointDef;
 })(); //definitions
 
+
 (function () {
    var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
       b2EdgeChainDef = Box2D.Collision.Shapes.b2EdgeChainDef,
@@ -573,7 +574,6 @@ Box2D.Collision.b2SeparationFunction = function() {
       ClipVertex = Box2D.Collision.ClipVertex,
       Features = Box2D.Collision.Features,
       IBroadPhase = Box2D.Collision.IBroadPhase;
-
 
 
 
@@ -1643,7 +1643,6 @@ Box2D.Collision.b2SeparationFunction = function() {
          this.m_points[i] = new b2Vec2();
       }
    }
-   
    b2WorldManifold.prototype.Initialize = function (manifold, xfA, radiusA, xfB, radiusB) {
       if (radiusA === undefined) radiusA = 0;
       if (radiusB === undefined) radiusB = 0;
@@ -2829,7 +2828,7 @@ Box2D.Collision.b2SeparationFunction = function() {
       b2Transform = Box2D.Common.Math.b2Transform,
       b2Vec2 = Box2D.Common.Math.b2Vec2,
       b2Vec3 = Box2D.Common.Math.b2Vec3;
-
+    
    b2Mat22.b2Mat22 = function () {
       this.col1 = new b2Vec2();
       this.col2 = new b2Vec2();
@@ -3406,6 +3405,7 @@ Box2D.Collision.b2SeparationFunction = function() {
    }
 })();
 (function () {
+    
    var b2ControllerEdge = Box2D.Dynamics.Controllers.b2ControllerEdge,
       b2Mat22 = Box2D.Common.Math.b2Mat22,
       b2Mat33 = Box2D.Common.Math.b2Mat33,
@@ -5323,7 +5323,7 @@ Box2D.Collision.b2SeparationFunction = function() {
      return { wad: wad, wbd: wbd };
    }
    
-   b2ContactSolver.prototype.SolveVelocityConstraints = function () {
+   b2ContactSolver.prototype.SolveVelocityConstraints_NEW = function () {
       var rAX = 0;
       var rAY = 0;
       var rBX = 0;
@@ -5456,7 +5456,7 @@ Box2D.Collision.b2SeparationFunction = function() {
       }
    }
    
-      b2ContactSolver.prototype.SolveVelocityConstraints_OLD = function () {
+   b2ContactSolver.prototype.SolveVelocityConstraints = function () {
       var j = 0;
       var ccp;
       var rAX = 0;
@@ -5660,6 +5660,43 @@ Box2D.Collision.b2SeparationFunction = function() {
       }
    }
    b2ContactSolver.prototype.SolvePositionConstraints = function (baumgarte) {
+      if (baumgarte === undefined) baumgarte = 0;
+      var minSeparation = 0.0;
+      for (var i = 0; i < this.m_constraintCount; i++) {
+         var c = this.m_constraints[i];
+         var bodyA = c.bodyA;
+         var bodyB = c.bodyB;
+         var invMassA = bodyA.m_mass * bodyA.m_invMass;
+         var invIA = bodyA.m_mass * bodyA.m_invI;
+         var invMassB = bodyB.m_mass * bodyB.m_invMass;
+         var invIB = bodyB.m_mass * bodyB.m_invI;
+         b2ContactSolver.s_psm.Initialize(c);
+         var normal = b2ContactSolver.s_psm.m_normal;
+         for (var j = 0; j < c.pointCount; j++) {
+            var ccp = c.points[j];
+            var point = b2ContactSolver.s_psm.m_points[j];
+            var separation = b2ContactSolver.s_psm.m_separations[j];
+            var rAX = point.x - bodyA.m_sweep.c.x;
+            var rAY = point.y - bodyA.m_sweep.c.y;
+            var rBX = point.x - bodyB.m_sweep.c.x;
+            var rBY = point.y - bodyB.m_sweep.c.y;
+            minSeparation = minSeparation < separation ? minSeparation : separation;
+            var C = b2Math.Clamp(baumgarte * (separation + b2Settings.b2_linearSlop), (-b2Settings.b2_maxLinearCorrection), 0.0);
+            var impulse = (-ccp.equalizedMass * C);
+            var PX = impulse * normal.x;
+            var PY = impulse * normal.y;bodyA.m_sweep.c.x -= invMassA * PX;
+            bodyA.m_sweep.c.y -= invMassA * PY;
+            bodyA.m_sweep.a -= invIA * (rAX * PY - rAY * PX);
+            bodyA.SynchronizeTransform();
+            bodyB.m_sweep.c.x += invMassB * PX;
+            bodyB.m_sweep.c.y += invMassB * PY;
+            bodyB.m_sweep.a += invIB * (rBX * PY - rBY * PX);
+            bodyB.SynchronizeTransform();
+         }
+      }
+      return minSeparation > (-1.5 * b2Settings.b2_linearSlop);
+   }
+   b2ContactSolver.prototype.SolvePositionConstraints_NEW = function (baumgarte) {
       if (baumgarte === undefined) baumgarte = 0;
       var minSeparation = 0.0;
       for (var i = 0; i < this.m_constraintCount; i++) {
@@ -9075,6 +9112,7 @@ Box2D.Collision.b2SeparationFunction = function() {
       this.referenceAngle = this.bodyB.GetAngle() - this.bodyA.GetAngle();
    }
 })();
+
 (function () {
    var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
    b2DebugDraw.b2DebugDraw = function () {

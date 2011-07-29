@@ -5,35 +5,57 @@ goog.provide('test');
 
 var test = {};
 
+var player;
+var ramp;
 (function(test){
 
-var testObjects = 0;
-var worldSize = new Box2D.Common.Math.b2Vec2(60, 30); // Meters
+var testObjects = 120;
+var worldSize = new Box2D.Common.Math.b2Vec2(60, 80); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(600, 400); // Pixels
 var viewportScale = 20; // Pixels per Meter
 
-var player;
 var controls;
 
 test.init = function(gameContainerID, doDebug) {
-    game.init(test, gameContainerID, worldSize, viewportSize, viewportScale, doDebug);
-    var position = new Box2D.Common.Math.b2Vec2(5, worldSize.y - 5);
+    game.init(test, gameContainerID, worldSize, game.platformer.DEFAULT_GRAVITY, viewportSize, viewportScale, doDebug);
+    var position = new Box2D.Common.Math.b2Vec2(15, worldSize.y - 8);
     test.createPlayer(position);
+    test.createWorld();
     test.createSpinners();
     test.createDebugObjects();
     game.start();
 };
 
 test.createPlayer = function(position) {
-    var size = new Box2D.Common.Math.b2Vec2(1.0, 1.0);
-    player = game.platformer.createPlayer(position, size);
-    game.animations.setAsFourDirectionalAnimation(player, size /* size (meters) */, 'graphics/generic_character.png' /* url */, new Box2D.Common.Math.b2Vec2(0, 0) /* offset */, new Box2D.Common.Math.b2Vec2(20, 20) /* frameSize */, 2 /* frames */, 4 /* frameSpeed (fps) */ );
-    controls = new illandril.game.ui.Controls("main");
+    var sprite = '../external-resources/graphics/urbansquall_tileset/characters/princess_AP.png';
+    var spriteOffset = new Box2D.Common.Math.b2Vec2(0, 0);
+    var frames = 4;
+    var frameSpeed = 4;
+    var frameSize = new Box2D.Common.Math.b2Vec2(21, 47);
+    var size = new Box2D.Common.Math.b2Vec2(frameSize.x / viewportScale, frameSize.y / viewportScale);
+    player = game.platformer.createPlayer(size, position);
+    game.animations.setAsFourDirectionalAnimation(player.body, size, sprite, spriteOffset, frameSize, frames, frameSpeed );
     
+    controls = new illandril.game.ui.Controls("main");
     controls.registerAction(player.actions.moveUp, goog.events.KeyCodes.W, false, false, false);
     controls.registerAction(player.actions.moveLeft, goog.events.KeyCodes.A, false, false, false);
     controls.registerAction(player.actions.moveDown, goog.events.KeyCodes.S, false, false, false);
     controls.registerAction(player.actions.moveRight, goog.events.KeyCodes.D, false, false, false);
+};
+
+test.createWorld = function() {
+    var platformSize = new Box2D.Common.Math.b2Vec2(3, 0.25);
+    ramp = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(5, 0.25),  new Box2D.Common.Math.b2Vec2(16, worldSize.y - 1.5), true /* visible */, { angle: Math.PI / 3 }, null );
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(12, worldSize.y - 2.5));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 5));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(8, worldSize.y - 7.5));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(6, worldSize.y - 10));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(4, worldSize.y - 12.5));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(2, worldSize.y - 15));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(8, worldSize.y - 17.5));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 20));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(12, worldSize.y - 22.5));
+    game.platformer.createPlatform(new Box2D.Common.Math.b2Vec2(worldSize.x - 14, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2) + 7, worldSize.y - 25));
 };
 
 test.createSpinners = function() {
@@ -41,7 +63,7 @@ test.createSpinners = function() {
     var jointDef = new Box2D.Dynamics.Joints.b2RevoluteJointDef();
     var weldJointDef = new Box2D.Dynamics.Joints.b2WeldJointDef();
     var flip = false;
-    for ( var i = 10; i <= worldSize.x - 10; i += 8 ) {
+    for ( var i = 20; i <= worldSize.x - 10; i += 8 ) {
         game.world.getBox2DBodyDefinition().angle = i / worldSize.x * Math.PI;
         var y = worldSize.y - 14;
         if ( flip ) {
@@ -122,7 +144,7 @@ test.preThink = function(time, tick) {
 };
 //test.preUpdate = function(time, tick) {};
 test.preDraw = function(time, tick) {
-    game.ui.lookAt(player.GetWorldCenter());
+    game.ui.lookAt(player.body.GetWorldCenter());
 };
 
 })(test);

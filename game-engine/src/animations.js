@@ -42,7 +42,7 @@ game.animations = {};
             game.ai.addThinker(object);
         }
     };
-
+    
     animations.fourDirectionalAnimation = function(time, tick, object) {
         var spriteSheet = object.display.spriteSheet;
         spriteSheet.frameTick += tick;
@@ -96,4 +96,116 @@ game.animations = {};
         }
     };
     
+    animations.eightDirectionalAnimation = function(time, tick, object) {
+        var vel = object.GetLinearVelocity();
+        var absX = Math.abs(vel.x);
+        var absY = Math.abs(vel.y);
+        
+        var direction = illandril.game.ui.BasicDirectionalAnimation.Direction.N;
+        var magX = Math.abs(directionVector.x);
+        var magY = Math.abs(directionVector.y);
+      if (magX > 2 * magY) {
+          if (directionVector.x > 0) {
+              direction = illandril.game.ui.BasicDirectionalAnimation.Direction.E;
+          }
+          else {
+              direction = illandril.game.ui.BasicDirectionalAnimation.Direction.W;
+          }
+      }
+      else if (magY > 2 * magX) {
+          if (directionVector.y < 0) {
+              direction = illandril.game.ui.BasicDirectionalAnimation.Direction.S;
+          }
+          else {
+              direction = illandril.game.ui.BasicDirectionalAnimation.Direction.N;
+          }
+      }
+      else {
+          if (directionVector.y < 0) {
+              if (directionVector.x > 0) {
+                  direction = illandril.game.ui.BasicDirectionalAnimation.Direction.SE;
+              }
+              else {
+                  direction = illandril.game.ui.BasicDirectionalAnimation.Direction.SW;
+              }
+          }
+          else {
+              if (directionVector.x > 0) {
+                  direction = illandril.game.ui.BasicDirectionalAnimation.Direction.NE;
+              }
+              else {
+                  direction = illandril.game.ui.BasicDirectionalAnimation.Direction.NW;
+              }
+          }
+      }
+      
+      if (direction != this.lastDirection) {
+          this.directionTime = 0;
+          this.lastDirection = direction;
+      }
+      
+      var spriteY = 0;
+      var spriteX = Math.round((this.directionTime + 1) / (this.mspf)) % this.frames;
+      
+      var isStationary = speedVector.squaredMagnitude() == 0;
+      if (!isStationary || this.lastFrame != 0) {
+          this.directionTime += tickTime;
+          this.lastFrame = spriteX;
+      }
+      else {
+          this.directionTime = 0;
+          spriteX = this.lastFrame = 0;
+      }
+      
+      switch (direction) {
+      case illandril.game.ui.BasicDirectionalAnimation.Direction.N:
+          spriteY = 0;
+          break;
+      case illandril.game.ui.BasicDirectionalAnimation.Direction.NE:
+          spriteY = 0;
+          spriteX += this.frames;
+          break;
+      case illandril.game.ui.BasicDirectionalAnimation.Direction.E:
+          spriteY = 1;
+          break;
+      case illandril.game.ui.BasicDirectionalAnimation.Direction.SE:
+          spriteY = 1;
+          spriteX += this.frames;
+          break;
+      case illandril.game.ui.BasicDirectionalAnimation.Direction.S:
+          spriteY = 2;
+          break;
+      case illandril.game.ui.BasicDirectionalAnimation.Direction.SW:
+          spriteY = 2;
+          spriteX += this.frames;
+          break;
+      case illandril.game.ui.BasicDirectionalAnimation.Direction.W:
+          spriteY = 3;
+          break;
+      case illandril.game.ui.BasicDirectionalAnimation.Direction.NW:
+          spriteY = 3;
+          spriteX += this.frames;
+          break;
+      }
+      
+      var retX = spriteX * this.tileWidth;
+      var retY = spriteY * this.tileHeight;
+      if (isNaN(retX)) {
+          retX = 0;
+          if (illandril.DEBUG) {
+              illandril.getLogger('game.ui.BasicDirectionalAnimation').shout('BAD SPRITE X -- sX: ' + spriteX + '; DT: ' + this.directionTime + '; MSPF: ' + this.mspf + '; Width: ' + this.tileWidth);
+          }
+      }
+      if (isNaN(retY)) {
+          retY = 0;
+          if (illandril.DEBUG) {
+              illandril.getLogger('game.ui.SpriteSheet').shout('BAD SPRITE Y -- sY: ' + spriteY + '; GT: ' + gameTime + '; MSPF: ' + this.mspf + '; Height: ' + this.tileHeight);
+          }
+      }
+      return {
+          src: this.src,
+          x: spriteX * this.tileWidth,
+          y: spriteY * this.tileHeight
+      };
+    };
 })(game.animations);

@@ -4,11 +4,10 @@ goog.require('game.animations');
 
 game = game || {};
 
-var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
 (function(game){
-    var world = new Box2D.Dynamics.b2World( GRAVITY /* Gravity */, true /* allow sleep */ );
     var fixtureDefinition = new Box2D.Dynamics.b2FixtureDef();
     var bodyDefinition = new Box2D.Dynamics.b2BodyDef();
+    var world = null;
     var worldWidth = null;
     var worldHeight = null;
     var frameSteps = 10;
@@ -21,6 +20,7 @@ var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
     
     var bodyDefaults = {
         fixedRotation: false,
+        angle: 0,
         type: Box2D.Dynamics.b2Body.b2_dynamicBody
     };
     
@@ -46,17 +46,18 @@ var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
     
     game.world = {};
     
-    game.world.init = function(worldSize) {
+    game.world.init = function(worldSize, gravity) {
+        world = new Box2D.Dynamics.b2World( gravity, true /* allow sleep */ );
         worldWidth = worldSize.x;
         worldHeight = worldSize.y;
         // Add in the boundries
-        var top = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, 0));
+        var top = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, 0), true, null, { friction: 0} );
         game.ui.setImage(top.body, 'graphics/border.png');
-        var bottom = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, worldHeight));
+        var bottom = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, worldHeight), true, null, { friction: 0});
         game.ui.setImage(bottom.body, 'graphics/border.png');
-        var left = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(0, worldHeight / 2));
+        var left = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(0, worldHeight / 2), true, null, { friction: 0});
         game.ui.setImage(left.body, 'graphics/border.png');
-        var right = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(worldWidth, worldHeight / 2));
+        var right = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(worldWidth, worldHeight / 2), true, null, { friction: 0});
         game.ui.setImage(right.body, 'graphics/border.png');
     };
     
@@ -86,14 +87,16 @@ var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
         return worldHeight;
     };
     
-    game.world.createStaticBox = function(size, position, visible) {
-        return game.world.createBox(size, position, visible, Box2D.Dynamics.b2Body.b2_staticBody);
+    game.world.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+        bodyArgs = bodyArgs || {};
+        bodyArgs.type = Box2D.Dynamics.b2Body.b2_staticBody;
+        return game.world.createBox(size, position, visible, bodyArgs, fixtureArgs);
     };
     
-    game.world.createBox = function(size, position, visible, type) {
+    game.world.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         var shape = new Box2D.Collision.Shapes.b2PolygonShape();
         shape.SetAsBox(size.x / 2, size.y / 2);
-        return game.world.createObject(size, position, visible !== false, { type: type }, null, shape);
+        return game.world.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
     };
     
     game.world.createObject = function(size, position, visible, bodyArgs, fixtureArgs, shape) {
@@ -104,6 +107,7 @@ var GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
         fixtureDefinition.restitution = fixtureArgs.restitution;
         fixtureDefinition.shape = shape;
         bodyDefinition.type = bodyArgs.type;
+        bodyDefinition.angle = bodyArgs.angle;
         bodyDefinition.fixedRotation = bodyArgs.fixedRotation;
         bodyDefinition.position = position;
         var body = world.CreateBody(bodyDefinition);

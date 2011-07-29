@@ -532,6 +532,7 @@ Box2D.Collision.b2ContactPoint = function() {
     this.id = new Box2D.Collision.b2ContactID();
 };
 
+
 Box2D.Collision.b2Distance = function() {};
 (function(b2Distance) {
     b2Distance.Distance = function(output, cache, input) {
@@ -539,7 +540,8 @@ Box2D.Collision.b2Distance = function() {};
         if ( b2Distance.s_simplex.m_count < 1 || b2Distance.s_simplex.m_count > 3 ) {
             Box2D.Common.b2Settings.b2Assert(false);
         }
-        while ( b2Distance.s_simplex.m_count < 3 ) {
+        var iter = 0;
+        while ( iter < 20 ) {
             var save = [];
             for (var i = 0; i < b2Distance.s_simplex.m_count; i++) {
                 save[i] = {};
@@ -548,6 +550,12 @@ Box2D.Collision.b2Distance = function() {};
             }
             if (b2Distance.s_simplex.m_count == 2) {
                 b2Distance.s_simplex.Solve2();
+            } else if ( b2Distance.s_simplex.m_count == 3 ) {
+                b2Distance.s_simplex.Solve3();
+            }
+            if ( b2Distance.s_simplex.m_count == 3 ) {
+                // m_count can be changed by s_simplex.Solve3/Solve2
+                break;
             }
             var d = b2Distance.s_simplex.GetSearchDirection();
             if (d.LengthSquared() < Box2D.MIN_VALUE_SQUARED) {
@@ -559,8 +567,9 @@ Box2D.Collision.b2Distance = function() {};
             b2Distance.s_simplex.m_vertices[b2Distance.s_simplex.m_count].wB = Box2D.Common.Math.b2Math.MulX(input.transformB, input.proxyB.GetVertex(b2Distance.s_simplex.m_vertices[b2Distance.s_simplex.m_count].indexB));
             b2Distance.s_simplex.m_vertices[b2Distance.s_simplex.m_count].w = Box2D.Common.Math.b2Math.SubtractVV(b2Distance.s_simplex.m_vertices[b2Distance.s_simplex.m_count].wB, b2Distance.s_simplex.m_vertices[b2Distance.s_simplex.m_count].wA);
             
+            iter++;
             var duplicate = false;
-            for (var i = 0; i < b2Distance.s_simplex.m_count; i++) {
+            for (var i = 0; i < save.length; i++) {
                 if (b2Distance.s_simplex.m_vertices[b2Distance.s_simplex.m_count].indexA == save[i].indexA && b2Distance.s_simplex.m_vertices[b2Distance.s_simplex.m_count].indexB == save[i].indexB) {
                     duplicate = true;
                     break;
@@ -571,11 +580,9 @@ Box2D.Collision.b2Distance = function() {};
             }
             b2Distance.s_simplex.m_count++;
         }
-        if ( b2Distance.s_simplex.m_count == 3 ) {
-            b2Distance.s_simplex.Solve3();
-        }
         b2Distance.s_simplex.GetWitnessPoints(output.pointA, output.pointB);
         output.distance = Box2D.Common.Math.b2Math.SubtractVV(output.pointA, output.pointB).Length();
+        output.iterations = iter;
         b2Distance.s_simplex.WriteCache(cache);
         if (input.useRadii) {
             var rA = input.proxyA.m_radius;

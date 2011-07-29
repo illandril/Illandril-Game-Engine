@@ -3,8 +3,8 @@
  */
 goog.provide('Box2D.base');
 
-var Box2D = {};
-Box2D.base = {};
+Box2D = Box2D || {};
+Box2D.base = Box2D.base || {};
 
 (function (a2j, undefined) {
     if(!(Object.prototype.defineProperty instanceof Function) &&
