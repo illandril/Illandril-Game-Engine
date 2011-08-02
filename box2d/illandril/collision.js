@@ -663,3 +663,4 @@ Box2D.Collision.b2DistanceProxy = function() {};
       return this.m_vertices[index];
    };
 })(Box2D.Collision.b2DistanceProxy);
+

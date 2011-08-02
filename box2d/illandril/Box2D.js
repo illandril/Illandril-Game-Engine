@@ -31,5 +31,6 @@ goog.provide('Box2D');
 goog.require('Box2D.base');
 goog.require('Box2D.Collision');
 goog.require('Box2D.Dynamics');
+goog.require('Box2D.Dynamics.Contacts');
 goog.require('Box2D.unopped');
 goog.require('Box2D.Post');

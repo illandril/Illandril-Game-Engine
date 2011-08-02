@@ -12,6 +12,7 @@
   <script type="text/javascript" src="../box2d/illandril/base.js"></script>
   <script type="text/javascript" src="../box2d/illandril/collision.js"></script>
   <script type="text/javascript" src="../box2d/illandril/dynamics.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/contacts.js"></script>
   <script type="text/javascript" src="../box2d/illandril/unopped.js"></script>
   <script type="text/javascript" src="../box2d/illandril/post.js"></script>
   <script type="text/javascript" src="../box2d/illandril/Box2D.js"></script>
@@ -43,7 +44,7 @@ goog.events.listen(document, goog.events.EventType.BLUR, illandril.game.ui.Contr
   </div>
   <div id="fps"></div>
   <script type="text/javascript">
-   test.init( "game", true /* debug */ );
+   test.init( "game", false /* debug */ );
    /* Uncomment to get an FPS alert
    x = new Date();
    y = null;

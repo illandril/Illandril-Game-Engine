@@ -9,7 +9,7 @@ var player;
 var ramp;
 (function(test){
 
-var testObjects = 120;
+var testObjects = 0;
 var worldSize = new Box2D.Common.Math.b2Vec2(60, 80); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(600, 400); // Pixels
 var viewportScale = 20; // Pixels per Meter
@@ -17,12 +17,13 @@ var viewportScale = 20; // Pixels per Meter
 var controls;
 
 test.init = function(gameContainerID, doDebug) {
-    game.init(test, gameContainerID, worldSize, game.platformer.DEFAULT_GRAVITY, viewportSize, viewportScale, doDebug);
-    var position = new Box2D.Common.Math.b2Vec2(15, worldSize.y - 8);
-    test.createPlayer(position);
+    game.init(test, gameContainerID, worldSize, game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
+    game.platformer.init();
+    var position = new Box2D.Common.Math.b2Vec2(13, worldSize.y - 25);
     test.createWorld();
     test.createSpinners();
     test.createDebugObjects();
+    test.createPlayer(position);
     game.start();
 };
 
@@ -55,7 +56,40 @@ test.createWorld = function() {
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(8, worldSize.y - 17.5));
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 20));
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(12, worldSize.y - 22.5));
-    game.platformer.createPlatform(new Box2D.Common.Math.b2Vec2(worldSize.x - 14, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2) + 7, worldSize.y - 25));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(12, worldSize.y - 27.5));
+    game.platformer.createPlatform(new Box2D.Common.Math.b2Vec2(worldSize.x - 14, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2) + 7, worldSize.y - 25), true, true, true);
+    test.createBallPit(new Box2D.Common.Math.b2Vec2(worldSize.x - 30, 5), new Box2D.Common.Math.b2Vec2(20, worldSize.y - 25));
+};
+
+test.createBallPit = function(size, bottomLeft) {
+    // Bottom assumed to already exist
+    
+    // Ramp
+    game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, Math.sqrt(size.y * size.y * 2)), new Box2D.Common.Math.b2Vec2(bottomLeft.x + size.y / 2, bottomLeft.y - size.y / 2), true /* visible */, { angle: Math.PI / 4 }, null );
+    
+    // Left wall
+    game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, size.y), new Box2D.Common.Math.b2Vec2(bottomLeft.x + size.y, bottomLeft.y - size.y / 2), true /* visible */, null, null );
+    
+    // Right wall
+    game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, size.y), new Box2D.Common.Math.b2Vec2(bottomLeft.x + size.x, bottomLeft.y - size.y / 2), true /* visible */, null, null );
+    
+    var radius = 0.15;
+    var shape = new Box2D.Collision.Shapes.b2CircleShape(radius);
+    for(var x = size.y + 1; x < size.x; x += radius * 2) {
+        for(var y = 0; y < size.y; y+=1) { // half full
+            var ball = game.world.createObject(new Box2D.Common.Math.b2Vec2(radius * 2, radius * 2), new Box2D.Common.Math.b2Vec2(bottomLeft.x + x + (Math.random() - 0.5)/2, bottomLeft.y - size.y), true /* visible */, null, { density: 0.1, restitution: 0.0, friction: 0.1 }, shape );
+            var color = Math.random();
+            if (color <= 0.25) {
+                game.ui.setImage(ball.body, 'graphics/ball-red.png');
+            } else if (color <= 0.5) {
+                game.ui.setImage(ball.body, 'graphics/ball-green.png');
+            } else if (color <= 0.75) {
+                game.ui.setImage(ball.body, 'graphics/ball-yellow.png');
+            } else {
+                game.ui.setImage(ball.body, 'graphics/ball-blue.png');
+            }
+        }
+    };
 };
 
 test.createSpinners = function() {
@@ -74,6 +108,7 @@ test.createSpinners = function() {
         b0.body.display = null; // Hide the middle joint
         var b1 = game.world.createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(i, y));
         game.ui.setImage(b1.body, 'graphics/spinner.png');
+        game.platformer.initializeDirectionalSiding(b1, false, true, false, false);
         var b2 = game.world.createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(i, y));
         b2.body.SetAngle(game.world.getBox2DBodyDefinition().angle + Math.PI / 2);
         game.ui.setImage(b2.body, 'graphics/spinner.png');
