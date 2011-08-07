@@ -24,6 +24,7 @@ test.init = function(gameContainerID, doDebug) {
     test.createSpinners();
     test.createDebugObjects();
     test.createPlayer(position);
+    test.createMario(new Box2D.Common.Math.b2Vec2(13, worldSize.y - 40));
     game.start();
 };
 
@@ -37,7 +38,7 @@ test.createPlayer = function(position) {
     player = game.platformer.createPlayer(size, position);
     game.animations.setAsFourDirectionalAnimation(player.body, size, sprite, spriteOffset, frameSize, frames, frameSpeed );
     
-    controls = new illandril.game.ui.Controls("main");
+    controls = new game.controls("main");
     controls.registerAction(player.actions.moveUp, goog.events.KeyCodes.W, false, false, false);
     controls.registerAction(player.actions.moveLeft, goog.events.KeyCodes.A, false, false, false);
     controls.registerAction(player.actions.moveDown, goog.events.KeyCodes.S, false, false, false);
@@ -56,7 +57,10 @@ test.createWorld = function() {
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(8, worldSize.y - 17.5));
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 20));
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(12, worldSize.y - 22.5));
-    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(12, worldSize.y - 27.5));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 27.5));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 31));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 34.5));
+    game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 38));
     game.platformer.createPlatform(new Box2D.Common.Math.b2Vec2(worldSize.x - 14, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2) + 7, worldSize.y - 25), true, true, true);
     test.createBallPit(new Box2D.Common.Math.b2Vec2(worldSize.x - 30, 5), new Box2D.Common.Math.b2Vec2(20, worldSize.y - 25));
 };
@@ -89,7 +93,7 @@ test.createBallPit = function(size, bottomLeft) {
                 game.ui.setImage(ball.body, 'graphics/ball-blue.png');
             }
         }
-    };
+    }
 };
 
 test.createSpinners = function() {
@@ -172,6 +176,26 @@ test.createDebugObjects = function() {
       db3.display.size = new Box2D.Common.Math.b2Vec2( 0.75, 0.75 );
       db3.CreateFixture(game.world.getBox2DFixtureDefinition());
     }
+};
+
+test.createMario = function(offset) {
+    var tileSize = new Box2D.Common.Math.b2Vec2(2, 2);
+    var start = new Box2D.Common.Math.b2Vec2(offset.x + tileSize.x / 2, offset.y + tileSize.y / 2);
+    //http://ian-albert.com/games/super_mario_bros_maps/mario-1-1.gif
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 2, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 3, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 4, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 5, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 6, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 7, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 8, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 9, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 10, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 11, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 12, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 13, start.y));
 };
 
 test.preThink = function(time, tick) {

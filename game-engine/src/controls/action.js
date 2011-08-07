@@ -4,9 +4,8 @@
  */
 
 
-goog.provide('illandril.game.ui.Action');
-
-//goog.require('illandril');
+goog.provide('game.controls.action');
+goog.require('game.controls');
 
 /**
  * @param {Function} fn The function to execute when this action occurs.
@@ -14,7 +13,7 @@ goog.provide('illandril.game.ui.Action');
  * @param {boolean} executeOnRepeat flag indicating if execute should be called on repeat key presses.
  * @constructor
  */
-illandril.game.ui.Action = function(fn, name, executeOnRepeat) {
+game.controls.action = function(fn, name, executeOnRepeat) {
   this.execute = fn;
   this.name = name;
   this['name'] = name;

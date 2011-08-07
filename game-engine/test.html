@@ -5,6 +5,11 @@
   <title>Engine Test</title>
   <link rel="stylesheet" type="text/css" href="./styles/game_window.css">
   <script type="text/javascript" src="../closure-library/closure/goog/base.js"></script>
+  <script type="text/javascript">
+  // Requires that will prevent the other scripts from even fully loading
+  goog.require('goog.events');
+  goog.require('goog.events.EventType');
+  </script>
   <!--
   <script type="text/javascript" src="../box2d/Box2dWeb-2.1.a.3b2.js"></script>
   <!-- -->
@@ -18,20 +23,17 @@
   <script type="text/javascript" src="../box2d/illandril/Box2D.js"></script>
   <!-- -->
   <!-- -->
-  <script type="text/javascript" src="src/illandril/game/ui/controls.js"></script>
-  <script type="text/javascript" src="src/illandril/game/ui/action.js"></script>
-  <script type="text/javascript">
-goog.events.listen(document, goog.events.EventType.KEYDOWN, illandril.game.ui.Controls.keyDown);
-goog.events.listen(document, goog.events.EventType.KEYUP, illandril.game.ui.Controls.keyUp);
-goog.events.listen(document, goog.events.EventType.BLUR, illandril.game.ui.Controls.blur);
-  </script>
-  <script type="text/javascript" src="src/ai.js"></script>
-  <script type="text/javascript" src="src/animations.js"></script>
-  <script type="text/javascript" src="src/view.js"></script>
+  <script type="text/javascript" src="src/controls/controls.js"></script>
+  <script type="text/javascript" src="src/controls/action.js"></script>
+  <script type="text/javascript" src="src/ai/ai.js"></script>
+  <script type="text/javascript" src="src/ui/animations.js"></script>
+  <script type="text/javascript" src="src/ui/view.js"></script>
   <script type="text/javascript" src="src/world.js"></script>
   <script type="text/javascript" src="src/engine.js"></script>
-  <script type="text/javascript" src="src/platformer.js"></script>
-  <script type="text/javascript" src="src/test.js"></script>
+  <script type="text/javascript" src="src/gameTypes/platformer.js"></script>
+  <script type="text/javascript" src="src/games/test.js"></script>
+  <script type="text/javascript">
+  </script>
   <!-- -->
   <!--
   <script type="text/javascript" src="test.js"></script>  

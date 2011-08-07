@@ -116,10 +116,10 @@ game.platformer = {};
         player.rightEdge = game.world.addFixture(player.body, { friction: 0 }, shape);
         
         player.actions = {};
-        player.actions.moveUp = new illandril.game.ui.Action(function(tickTime) {
+        player.actions.moveUp = new game.controls.action(function(tickTime) {
             player.platformerRules.jumper.jump();
         }, 'Move Up', true);
-        player.actions.moveDown = new illandril.game.ui.Action(function(tickTime) {
+        player.actions.moveDown = new game.controls.action(function(tickTime) {
             /*
             var nextContact = player.body.GetContactList();
             while(nextContact != null) {
@@ -137,10 +137,10 @@ game.platformer = {};
             */
             // Duck? Drop down through floor?
         }, 'Move Down', true);
-        player.actions.moveLeft = new illandril.game.ui.Action(function(tickTime) {
+        player.actions.moveLeft = new game.controls.action(function(tickTime) {
             player.platformerRules.mover.moveLeft();
         }, 'Move Left', true);
-        player.actions.moveRight = new illandril.game.ui.Action(function(tickTime) {
+        player.actions.moveRight = new game.controls.action(function(tickTime) {
             player.platformerRules.mover.moveRight();
         }, 'Move Right', true);
         
@@ -239,7 +239,6 @@ game.platformer = {};
             contact.GetWorldManifold(m);
             var normal = m.m_normal;
             if (normal.y > 0) {
-                console.error(normal.y);
                 var foundBody = false;
                 for (var i = 0; i < objectA.platformerRules.jumper.grounds.length; i++) {
                     if (objectA.platformerRules.jumper.grounds[i].body == bodyB) {
@@ -288,9 +287,14 @@ game.platformer = {};
     
     
     
+    platformer.createBlock = function(size, position) {
+        return game.world.createStaticBox(size, position, true /* visible */ );
+    };
+    
     platformer.createPlatform = function(size, position, solidBottom, solidLeft, solidRight) {
         var platform = game.world.createStaticBox(size, position, true /* visible */, { angle: Math.PI * Math.random() * 0 }, null );
-        platformer.initializeDirectionalSiding(platform, false, !solidBottom, !solidLeft, !solidRight);
+        platformer.initializeDirectionalSiding(platform, false /* top */, !solidBottom, !solidLeft, !solidRight);
+        return platform;
     };
     
 })(game.platformer);
