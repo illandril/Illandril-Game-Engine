@@ -1,7 +1,9 @@
+goog.provide('test');
+
 goog.require('game');
 goog.require('game.platformer');
-
-goog.provide('test');
+goog.require('game.controls');
+goog.require('goog.events.KeyCodes');
 
 var player;
 var ramp;

@@ -16,6 +16,7 @@ game.platformer = game.platformer || {};
 
 goog.require('game.animations');
 goog.require('game.ai');
+goog.require('game.controls.action');
 goog.require('game.world');
 
 (function(platformer){
