@@ -188,13 +188,13 @@ goog.require('game.animations');
     world.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         bodyArgs = bodyArgs || {};
         bodyArgs.type = Box2D.Dynamics.b2Body.b2_staticBody;
-        return b2World.createBox(size, position, visible, bodyArgs, fixtureArgs);
+        return world.createBox(size, position, visible, bodyArgs, fixtureArgs);
     };
     
     world.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         var shape = new Box2D.Collision.Shapes.b2PolygonShape();
         shape.SetAsBox(size.x / 2, size.y / 2);
-        return b2World.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
+        return world.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
     };
     
     world.createObject = function(size, position, visible, bodyArgs, fixtureArgs, shape) {
