@@ -1,7 +1,7 @@
-9
+10
 
 dir
-1048
+1205
 http://closure-library.googlecode.com/svn/trunk/closure/goog/dom/pattern
 http://closure-library.googlecode.com/svn
 
@@ -12,7 +12,7 @@ http://closure-library.googlecode.com/svn
 diegosalas@google.com
 
 
-svn:special svn:externals svn:needs-lock
+
 
 
 
@@ -230,6 +230,9 @@ has-props
 
 5506
 
+callback
+dir
+
 allchildren.js
 file
 
@@ -263,9 +266,6 @@ has-props
 
 
 2043
-
-callback
-dir
 
 matcher.js
 file
