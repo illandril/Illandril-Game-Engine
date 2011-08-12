@@ -1,9 +1,9 @@
+game = game || {};
 goog.provide('game.animations');
+game.animations = game.animations || {};
 
 goog.require('game.ai');
 
-game = game || {};
-game.animations = {};
 (function(animations) {
     var E = 0;
     var W = 1;
@@ -28,16 +28,16 @@ game.animations = {};
     };
     
     animations.setAsFourDirectionalAnimation = function(object, size, url, offset, frameSize, frames, frameSpeed) {
-        game.animations.setSpriteSheet(object, size, url, offset, frameSize, frames, frameSpeed );
+        animations.setSpriteSheet(object, size, url, offset, frameSize, frames, frameSpeed );
         if (object.think) {
             var oldThink = object.think;
             object.think = function(time, tick) {
                 oldThink(time, tick);
-                game.animations.fourDirectionalAnimation(time, tick, object);
+                animations.fourDirectionalAnimation(time, tick, object);
             };
         } else {
             object.think = function(time, tick) {
-                game.animations.fourDirectionalAnimation(time, tick, object);
+                animations.fourDirectionalAnimation(time, tick, object);
             };
             game.ai.addThinker(object);
         }

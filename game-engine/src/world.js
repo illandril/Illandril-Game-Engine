@@ -1,10 +1,10 @@
+game = game || {};
 goog.provide('game.world');
+game.world = game.world || {};
 
 goog.require('game.animations');
 
-game = game || {};
-
-(function(game){
+(function(world){
     var fixtureDefinition = new Box2D.Dynamics.b2FixtureDef();
     var bodyDefinition = new Box2D.Dynamics.b2BodyDef();
     var world = null;
@@ -50,27 +50,25 @@ game = game || {};
         return argsOrDefaults(args, bodyDefaults);
     };
     
-    game.world = {};
-    
-    game.world.init = function(worldSize, gravity) {
+    world.init = function(worldSize, gravity) {
         world = new Box2D.Dynamics.b2World( gravity, true /* allow sleep */ );
-        world.SetContactFilter(game.world);
-        world.SetContactListener(game.world);
+        world.SetContactFilter(world);
+        world.SetContactListener(world);
         
         worldWidth = worldSize.x;
         worldHeight = worldSize.y;
         // Add in the boundries
-        world.top = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, 0), true, null, { friction: 0} );
+        world.top = world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, 0), true, null, { friction: 0} );
         game.ui.setImage(world.top.body, 'graphics/border.png');
-        world.bottom = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, worldHeight), true, null, { friction: 0});
+        world.bottom = world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, worldHeight), true, null, { friction: 0});
         game.ui.setImage(world.bottom.body, 'graphics/border.png');
-        world.left = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(0, worldHeight / 2), true, null, { friction: 0});
+        world.left = world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(0, worldHeight / 2), true, null, { friction: 0});
         game.ui.setImage(world.left.body, 'graphics/border.png');
-        world.right = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(worldWidth, worldHeight / 2), true, null, { friction: 0});
+        world.right = world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(worldWidth, worldHeight / 2), true, null, { friction: 0});
         game.ui.setImage(world.right.body, 'graphics/border.png');
     };
     
-    game.world.update = function(time, tick) {
+    world.update = function(time, tick) {
         world.Step(tick /* time delta (sec) */, frameSteps /* Velocity Iterations */, frameSteps /* Position Iterations */);
         world.DrawDebugData();
         world.ClearForces();
@@ -82,16 +80,16 @@ game = game || {};
         }
     };
     
-    game.world.getBox2DWorld = function() {
+    world.getBox2DWorld = function() {
         return world;
     };
     
-    game.world.addCollisionFilter = function(filter) {
+    world.addCollisionFilter = function(filter) {
         collisionFilters.push(filter);
     };
     
     // Return true if the given fixture should be considered for ray intersection.
-    game.world.RayCollide = function(userData, fixture) {
+    world.RayCollide = function(userData, fixture) {
         // Sensors should always collide
         if (!fixture.IsSensor()) {
             for( var i = 0; i < collisionFilters.length; i++ ) {
@@ -106,7 +104,7 @@ game = game || {};
     };
     
     // Return true if contact calculations should be performed between these two fixtures.
-    game.world.ShouldCollide = function(fixtureA, fixtureB) {
+    world.ShouldCollide = function(fixtureA, fixtureB) {
         // Sensors should always collide
         if(!(fixtureA.IsSensor() || fixtureB.IsSensor())) {
             for( var i = 0; i < collisionFilters.length; i++ ) {
@@ -121,7 +119,7 @@ game = game || {};
     };
     
     //Called when two fixtures begin to touch.
-    game.world.BeginContact = function(contact) {
+    world.BeginContact = function(contact) {
         for( var i = 0; i < collisionFilters.length; i++ ) {
             // Called when two fixtures begin to touch, before BeginContact
             // Should be actions that can disable contact - contact may already be disabled
@@ -140,7 +138,7 @@ game = game || {};
     };
     
     //Called when two fixtures cease to touch.
-    game.world.EndContact = function(contact) {
+    world.EndContact = function(contact) {
         for( var i = 0; i < collisionFilters.length; i++ ) {
             if (collisionFilters[i].EndContact) {
                 collisionFilters[i].EndContact(contact);
@@ -151,7 +149,7 @@ game = game || {};
     };
     
     // This is called after a contact is updated.
-    game.world.PreSolve = function(contact, oldManifold) {
+    world.PreSolve = function(contact, oldManifold) {
         if(contact.disabled) {
             contact.SetEnabled(false);
         }
@@ -163,7 +161,7 @@ game = game || {};
     };
     
     // This lets you inspect a contact after the solver is finished.
-    game.world.PostSolve = function(contact, impulse) {
+    world.PostSolve = function(contact, impulse) {
         for( var i = 0; i < collisionFilters.length; i++ ) {
             if (collisionFilters[i].PostSolve) {
                 collisionFilters[i].PostSolve(contact, impulse);
@@ -171,42 +169,42 @@ game = game || {};
         }
     };
     
-    game.world.getBox2DBodyDefinition = function() {
+    world.getBox2DBodyDefinition = function() {
         return bodyDefinition;
     };
     
-    game.world.getBox2DFixtureDefinition = function() {
+    world.getBox2DFixtureDefinition = function() {
         return fixtureDefinition;
     };
     
-    game.world.getWorldWidth = function() {
+    world.getWorldWidth = function() {
         return worldWidth;
     };
     
-    game.world.getWorldHeight = function() {
+    world.getWorldHeight = function() {
         return worldHeight;
     };
     
-    game.world.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+    world.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         bodyArgs = bodyArgs || {};
         bodyArgs.type = Box2D.Dynamics.b2Body.b2_staticBody;
-        return game.world.createBox(size, position, visible, bodyArgs, fixtureArgs);
+        return world.createBox(size, position, visible, bodyArgs, fixtureArgs);
     };
     
-    game.world.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+    world.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         var shape = new Box2D.Collision.Shapes.b2PolygonShape();
         shape.SetAsBox(size.x / 2, size.y / 2);
-        return game.world.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
+        return world.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
     };
     
-    game.world.createObject = function(size, position, visible, bodyArgs, fixtureArgs, shape) {
+    world.createObject = function(size, position, visible, bodyArgs, fixtureArgs, shape) {
         bodyArgs = argsOrBodyDefaults(bodyArgs);
         bodyDefinition.type = bodyArgs.type;
         bodyDefinition.angle = bodyArgs.angle;
         bodyDefinition.fixedRotation = bodyArgs.fixedRotation;
         bodyDefinition.position = position;
         var body = world.CreateBody(bodyDefinition);
-        fixture = game.world.addFixture(body, fixtureArgs, shape);
+        fixture = world.addFixture(body, fixtureArgs, shape);
         if (visible) {
             game.ui.setDisplaySize(body, new Box2D.Common.Math.b2Vec2(size.x, size.y));
         }
@@ -215,7 +213,7 @@ game = game || {};
         return object;
     };
     
-    game.world.addFixture = function(body, fixtureArgs, shape) {
+    world.addFixture = function(body, fixtureArgs, shape) {
         fixtureArgs = argsOrFixtureDefaults(fixtureArgs);
         fixtureDefinition.density = fixtureArgs.density;
         fixtureDefinition.friction = fixtureArgs.friction;
@@ -226,7 +224,7 @@ game = game || {};
         return fixture;
     };
     
-    game.world.destroyObject = function(object) {
+    world.destroyObject = function(object) {
         objectsToDestroy.push(object);
     };
-})(game);
+})(game.world);

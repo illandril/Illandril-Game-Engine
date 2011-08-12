@@ -3,8 +3,6 @@ goog.require('game.platformer');
 
 goog.provide('test');
 
-var test = {};
-
 var player;
 var ramp;
 (function(test){

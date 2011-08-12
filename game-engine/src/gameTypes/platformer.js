@@ -10,14 +10,14 @@ Known issues:
 
 */
 
+game = game || {};
 goog.provide('game.platformer');
+game.platformer = game.platformer || {};
 
 goog.require('game.animations');
 goog.require('game.ai');
 goog.require('game.world');
 
-game = game || {};
-game.platformer = {};
 (function(platformer){
     platformer.DEFAULT_GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
     platformer.DEFAULTS = {

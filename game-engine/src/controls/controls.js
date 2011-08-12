@@ -3,7 +3,7 @@
  * See https://github.com/illandril/Illandril-Game-Engine.
  */
 
-
+game = game || {};
 goog.provide('game.controls');
 
 goog.require('goog.events');
@@ -12,8 +12,6 @@ goog.require('goog.events.KeyCodes');
 goog.require('goog.events.KeyHandler');
 goog.require('goog.events.KeyNames');
 goog.require('goog.userAgent');
-
-game = game || {};
 
 /**
  * @constructor

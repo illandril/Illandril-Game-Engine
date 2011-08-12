@@ -1,13 +1,11 @@
-goog.provide('game.ai');
-
 game = game || {};
+goog.provide('game.ai');
+game.ai = game.ai || {};
 
-(function(game){
+(function(ai){
     var thinkers = [];
     
-    game.ai = {};
-    
-    game.ai.addThinker = function(thinker) {
+    ai.addThinker = function(thinker) {
         if (typeof(thinker.think) != "function") {
             throw "Thinker can't think!";
         }
@@ -17,7 +15,7 @@ game = game || {};
         thinker.tIdx = thinkers.push( thinker );
     };
     
-    game.ai.removeThinker = function(thinker) {
+    ai.removeThinker = function(thinker) {
         if (thinker.tIdx != null) {
             throw "Thinker not added (or already removed)!";
         }
@@ -25,7 +23,7 @@ game = game || {};
         thinker.tIdx = null;
     };
     
-    game.ai.think = function(time, tick) {
+    ai.think = function(time, tick) {
         var newThinkers = [];
         for (var tIdx = 0; tIdx < thinkers.length; tIdx++) {
             var thinker = thinkers[tIdx];
@@ -38,4 +36,4 @@ game = game || {};
         thinkers = newThinkers;
     };
 
-})(game);
+})(game.ai);
