@@ -7,7 +7,7 @@ goog.require('game.animations');
 (function(world){
     var fixtureDefinition = new Box2D.Dynamics.b2FixtureDef();
     var bodyDefinition = new Box2D.Dynamics.b2BodyDef();
-    var world = null;
+    var b2World = null;
     var worldWidth = null;
     var worldHeight = null;
     var frameSteps = 10;
@@ -51,9 +51,9 @@ goog.require('game.animations');
     };
     
     world.init = function(worldSize, gravity) {
-        world = new Box2D.Dynamics.b2World( gravity, true /* allow sleep */ );
-        world.SetContactFilter(world);
-        world.SetContactListener(world);
+        b2World = new Box2D.Dynamics.b2World( gravity, true /* allow sleep */ );
+        b2World.SetContactFilter(world);
+        b2World.SetContactListener(world);
         
         worldWidth = worldSize.x;
         worldHeight = worldSize.y;
@@ -69,19 +69,19 @@ goog.require('game.animations');
     };
     
     world.update = function(time, tick) {
-        world.Step(tick /* time delta (sec) */, frameSteps /* Velocity Iterations */, frameSteps /* Position Iterations */);
-        world.DrawDebugData();
-        world.ClearForces();
+        b2World.Step(tick /* time delta (sec) */, frameSteps /* Velocity Iterations */, frameSteps /* Position Iterations */);
+        b2World.DrawDebugData();
+        b2World.ClearForces();
         if (objectsToDestroy.length > 0) {
             for (var i = 0; i < objectsToDestroy.length; i++) {
-                world.DestroyBody(objectsToDestroy[i].body);
+                b2World.DestroyBody(objectsToDestroy[i].body);
             }
             objectsToDestroy = [];
         }
     };
     
     world.getBox2DWorld = function() {
-        return world;
+        return b2World;
     };
     
     world.addCollisionFilter = function(filter) {
@@ -188,13 +188,13 @@ goog.require('game.animations');
     world.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         bodyArgs = bodyArgs || {};
         bodyArgs.type = Box2D.Dynamics.b2Body.b2_staticBody;
-        return world.createBox(size, position, visible, bodyArgs, fixtureArgs);
+        return b2World.createBox(size, position, visible, bodyArgs, fixtureArgs);
     };
     
     world.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         var shape = new Box2D.Collision.Shapes.b2PolygonShape();
         shape.SetAsBox(size.x / 2, size.y / 2);
-        return world.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
+        return b2World.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
     };
     
     world.createObject = function(size, position, visible, bodyArgs, fixtureArgs, shape) {
@@ -203,7 +203,7 @@ goog.require('game.animations');
         bodyDefinition.angle = bodyArgs.angle;
         bodyDefinition.fixedRotation = bodyArgs.fixedRotation;
         bodyDefinition.position = position;
-        var body = world.CreateBody(bodyDefinition);
+        var body = b2World.CreateBody(bodyDefinition);
         fixture = world.addFixture(body, fixtureArgs, shape);
         if (visible) {
             game.ui.setDisplaySize(body, new Box2D.Common.Math.b2Vec2(size.x, size.y));
