@@ -2,6 +2,7 @@
  * See Box2D.js
  */
 goog.provide('Box2D.Dynamics');
+goog.require('Box2D.base');
 
 Box2D.Dynamics.b2World = function(gravity, doSleep) {
     this.m_contactManager = new Box2D.Dynamics.b2ContactManager();

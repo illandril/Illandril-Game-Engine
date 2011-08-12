@@ -2,6 +2,7 @@
  * See Box2D.js
  */
 goog.provide('Box2D.Dynamics.Contacts');
+goog.require('Box2D.base');
 
 Box2D.Dynamics.Contacts.b2Contact = function() {
     this.m_nodeA = new Box2D.Dynamics.Contacts.b2ContactEdge();

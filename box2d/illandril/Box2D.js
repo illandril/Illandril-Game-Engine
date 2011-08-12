@@ -20,11 +20,13 @@
  * This copy includes modifications by Illandril for performance optimizations and readability
  * It is split into multiple files:
  *   Box2D (this file - include first)
- *   base 
- *   collision
- *   dynamics
- *   unopped (temporary file, containing everything not yet optimized - include second to last)
- *   post (include last)
+ *   base (include second)
+ *   optimized files (order unimportant, make sure they require base)
+ *     collision
+ *     dynamics
+ *     contacts
+ *   unopped (temporary file, containing everything not yet optimized - include second to last - make sure it requires all optimized files)
+ *   post (include last, make sure it requires unopped)
  */
  
 goog.provide('Box2D');

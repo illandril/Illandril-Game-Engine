@@ -2,9 +2,7 @@
  * See Box2D.js
  */
 goog.provide('Box2D.Post');
-goog.require('Box2D.base');
-goog.require('Box2D.Collision');
-goog.require('Box2D.Dynamics');
+
 goog.require('Box2D.unopped');
 
 var i;

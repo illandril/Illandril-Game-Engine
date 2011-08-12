@@ -2,6 +2,7 @@
  * See Box2D.js
  */
 goog.provide('Box2D.Collision');
+goog.require('Box2D.base');
 
 Box2D.Collision.IBroadPhase = 'Box2D.Collision.IBroadPhase';
 

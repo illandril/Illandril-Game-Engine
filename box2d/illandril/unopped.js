@@ -2,6 +2,9 @@
  * See Box2D.js
  */
 goog.provide('Box2D.unopped');
+goog.require('Box2D.Collision');
+goog.require('Box2D.Dynamics');
+goog.require('Box2D.Dynamics.Contacts');
 
 //package structure
 if (typeof(Box2D.Collision.Shapes) === "undefined") Box2D.Collision.Shapes = {};
