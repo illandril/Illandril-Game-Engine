@@ -1,6 +1,4 @@
-game = game || {};
 goog.provide('game.ai');
-game.ai = game.ai || {};
 
 (function(ai){
     var thinkers = [];

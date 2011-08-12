@@ -10,9 +10,7 @@ Known issues:
 
 */
 
-game = game || {};
 goog.provide('game.platformer');
-game.platformer = game.platformer || {};
 
 goog.require('game.animations');
 goog.require('game.ai');

@@ -62,7 +62,7 @@ test.createWorld = function() {
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 34.5));
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 38));
     game.platformer.createBlock(new Box2D.Common.Math.b2Vec2(worldSize.x - 14, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2) + 7, worldSize.y - 25));
-    //test.createBallPit(new Box2D.Common.Math.b2Vec2(worldSize.x - 30, 5), new Box2D.Common.Math.b2Vec2(20, worldSize.y - 25));
+    test.createBallPit(new Box2D.Common.Math.b2Vec2(30, 5), new Box2D.Common.Math.b2Vec2(20, worldSize.y - 25));
 };
 
 test.createBallPit = function(size, bottomLeft) {
@@ -316,3 +316,5 @@ test.preDraw = function(time, tick) {
 };
 
 })(test);
+
+goog.exportSymbol('test.init', test.init);

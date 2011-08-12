@@ -1,6 +1,4 @@
-game = game || {};
 goog.provide('game.animations');
-game.animations = game.animations || {};
 
 goog.require('game.ai');
 

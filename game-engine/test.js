@@ -10174,6 +10174,7 @@ var test = {}, player, ramp;
     game.platformer.init();
     var f = new Box2D.Common.Math.b2Vec2(13, d.y - 45);
     a.createWorld();
+    a.createBallPit(new Box2D.Common.Math.b2Vec2(30, 5), new Box2D.Common.Math.b2Vec2(20, d.y - 25));
     a.createSpinners();
     a.createDebugObjects();
     a.createPlayer(f);

@@ -1,6 +1,5 @@
 goog.provide('game.ui');
 
-game = game || {};
 (function(game){
     var b2dDebugFlags = 0;
     b2dDebugFlags = b2dDebugFlags | Box2D.Dynamics.b2DebugDraw.e_aabbBit;

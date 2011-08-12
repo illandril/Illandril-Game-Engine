@@ -3,7 +3,6 @@
  * See https://github.com/illandril/Illandril-Game-Engine.
  */
 
-game = game || {};
 goog.provide('game.controls');
 
 goog.require('goog.events');
