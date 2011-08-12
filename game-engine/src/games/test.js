@@ -10,7 +10,7 @@ var ramp;
 (function(test){
 
 var testObjects = 0;
-var worldSize = new Box2D.Common.Math.b2Vec2(60, 80); // Meters
+var worldSize = new Box2D.Common.Math.b2Vec2(200, 80); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(600, 400); // Pixels
 var viewportScale = 20; // Pixels per Meter
 
@@ -19,7 +19,7 @@ var controls;
 test.init = function(gameContainerID, doDebug) {
     game.init(test, gameContainerID, worldSize, game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
     game.platformer.init();
-    var position = new Box2D.Common.Math.b2Vec2(13, worldSize.y - 25);
+    var position = new Box2D.Common.Math.b2Vec2(13, worldSize.y - 45);
     test.createWorld();
     test.createSpinners();
     test.createDebugObjects();
@@ -61,8 +61,8 @@ test.createWorld = function() {
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 31));
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 34.5));
     game.platformer.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 38));
-    game.platformer.createPlatform(new Box2D.Common.Math.b2Vec2(worldSize.x - 14, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2) + 7, worldSize.y - 25), true, true, true);
-    test.createBallPit(new Box2D.Common.Math.b2Vec2(worldSize.x - 30, 5), new Box2D.Common.Math.b2Vec2(20, worldSize.y - 25));
+    game.platformer.createBlock(new Box2D.Common.Math.b2Vec2(worldSize.x - 14, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2) + 7, worldSize.y - 25));
+    //test.createBallPit(new Box2D.Common.Math.b2Vec2(worldSize.x - 30, 5), new Box2D.Common.Math.b2Vec2(20, worldSize.y - 25));
 };
 
 test.createBallPit = function(size, bottomLeft) {
@@ -179,7 +179,7 @@ test.createDebugObjects = function() {
 };
 
 test.createMario = function(offset) {
-    var tileSize = new Box2D.Common.Math.b2Vec2(2, 2);
+    var tileSize = new Box2D.Common.Math.b2Vec2(1.5, 1.5);
     var start = new Box2D.Common.Math.b2Vec2(offset.x + tileSize.x / 2, offset.y + tileSize.y / 2);
     //http://ian-albert.com/games/super_mario_bros_maps/mario-1-1.gif
     game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x, start.y));
@@ -196,6 +196,115 @@ test.createMario = function(offset) {
     game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 11, start.y));
     game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 12, start.y));
     game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 13, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 14, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 15, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 16, start.y));
+    /* COIN */ game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 16, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 17, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 18, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 19, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 20, start.y));
+    game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 20, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 21, start.y));
+    /* SHROOM */ game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 21, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 22, start.y));
+    game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 22, start.y - tileSize.y * 4));
+    /* COIN */ game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 22, start.y - tileSize.y * 8));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 23, start.y));
+    /* COIN */ game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 23, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 24, start.y));
+    game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 24, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 25, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 26, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 27, start.y));
+    // goomba
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 28, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 28, start.y - tileSize.y * 1));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 28, start.y - tileSize.y * 2));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 29, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 29, start.y - tileSize.y * 1));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 29, start.y - tileSize.y * 2));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 30, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 31, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 32, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 33, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 34, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 35, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 36, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 37, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 38, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 38, start.y - tileSize.y * 1));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 38, start.y - tileSize.y * 2));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 38, start.y - tileSize.y * 3));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 39, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 39, start.y - tileSize.y * 1));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 39, start.y - tileSize.y * 2));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 39, start.y - tileSize.y * 3));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 40, start.y));
+    // goomba
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 41, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 42, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 43, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 44, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 45, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 46, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 46, start.y - tileSize.y * 1));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 46, start.y - tileSize.y * 2));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 46, start.y - tileSize.y * 3));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 46, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 47, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 47, start.y - tileSize.y * 1));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 47, start.y - tileSize.y * 2));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 47, start.y - tileSize.y * 3));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 47, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 48, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 49, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 50, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 51, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 52, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 53, start.y));
+    // goomba
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 54, start.y));
+    // goomba
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 55, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 56, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 57, start.y));
+    /* ALLOWS DOWN */ game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 57, start.y - tileSize.y * 1));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 57, start.y - tileSize.y * 2));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 57, start.y - tileSize.y * 3));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 57, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 58, start.y));
+    /* ALLOWS DOWN */ game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 58, start.y - tileSize.y * 1));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 58, start.y - tileSize.y * 2));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 58, start.y - tileSize.y * 3));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 58, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 59, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 60, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 61, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 62, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 63, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 64, start.y));
+    /* hidden 1up */ game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 64, start.y - tileSize.y * 5));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 65, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 66, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 67, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 68, start.y));
+    
+    // gap of 2
+    
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 71, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 72, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 73, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 74, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 75, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 76, start.y));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 77, start.y));
+    game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 77, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 78, start.y));
+    /* SHROOM */ game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 78, start.y - tileSize.y * 4));
+    game.platformer.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 79, start.y));
+    game.platformer.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 79, start.y - tileSize.y * 4));
+    // goomba (above blocK)
 };
 
 test.preThink = function(time, tick) {

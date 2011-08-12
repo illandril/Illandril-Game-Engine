@@ -22,7 +22,7 @@ game.platformer = {};
     platformer.DEFAULT_GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
     platformer.DEFAULTS = {
         GRAVITY: new Box2D.Common.Math.b2Vec2( 0, 9.8 ),
-        JUMP_IMPULSE_MODIFIER: 1.75,
+        JUMP_IMPULSE_MODIFIER: 2.25,
         PLAYER_SPEED: 5,
         PLAYER_ACCELERATION: 1
     };
@@ -30,21 +30,29 @@ game.platformer = {};
     platformer.RULE_TYPES = {
         DIRECTIONAL_SIDING: 0x01,
         JUMPER: 0x02,
-        MOVER: 0x04
+        MOVER: 0x04,
+        BREAKABLE: 0x08
+    };
+    
+    platformer.SIDES = {
+        TOP: 0x01,
+        LEFT: 0x02,
+        BOTTOM: 0x04,
+        RIGHT: 0x08
     };
     
     platformer.init = function() {
         game.world.addCollisionFilter(platformer);
     };
     
-    platformer.initializeDirectionalSiding = function(platform, noTop, noBottom, noLeft, noRight) {
+    platformer.initializeDirectionalSiding = function(platform, falseSides) {
         platform.platformerRules = platform.platformerRules || {};
         platform.platformerRules.type |= platformer.RULE_TYPES.DIRECTIONAL_SIDING;
         platform.platformerRules.directionalSiding = {
-            noTop: noTop,
-            noBottom: noBottom,
-            noLeft: noLeft,
-            noRight: noRight
+            noTop: falseSides & platformer.SIDES.TOP,
+            noBottom: falseSides & platformer.SIDES.BOTTOM,
+            noLeft: falseSides & platformer.SIDES.LEFT,
+            noRight: falseSides & platformer.SIDES.RIGHT
         };
 
     };
@@ -100,6 +108,18 @@ game.platformer = {};
                 }
             }
         };
+    };
+    
+    platformer.initializeBreakable = function(platform, weakSides) {
+        platform.platformerRules = platform.platformerRules || {};
+        platform.platformerRules.type |= platformer.RULE_TYPES.BREAKABLE;
+        platform.platformerRules.breakable = {
+            top: weakSides & platformer.SIDES.TOP,
+            bottom: weakSides & platformer.SIDES.BOTTOM,
+            left: weakSides & platformer.SIDES.LEFT,
+            right: weakSides & platformer.SIDES.RIGHT
+        };
+
     };
     
     platformer.createPlayer = function(size, position) {
@@ -254,6 +274,20 @@ game.platformer = {};
                 contact.platformerGrounds.push({jumper: objectA, ground: bodyB});
             }
         }
+        if (objectA.platformerRules.type & platformer.RULE_TYPES.BREAKABLE) {
+            var m = new Box2D.Collision.b2WorldManifold();
+            contact.GetWorldManifold(m);
+            var normal = m.m_normal;
+            if (normal.y > 0 && objectA.platformerRules.breakable.top) {
+                game.world.destroyObject(objectA);
+            } else if (normal.y < 0 && objectA.platformerRules.breakable.bottom) {
+                game.world.destroyObject(objectA);
+            } else if (normal.x > 0 && objectA.platformerRules.breakable.left) {
+                game.world.destroyObject(objectA);
+            } else if (normal.x < 0 && objectA.platformerRules.breakable.right) {
+                game.world.destroyObject(objectA);
+            }
+        }
     };
     
     //Called when two fixtures cease to touch.
@@ -291,9 +325,21 @@ game.platformer = {};
         return game.world.createStaticBox(size, position, true /* visible */ );
     };
     
-    platformer.createPlatform = function(size, position, solidBottom, solidLeft, solidRight) {
+    platformer.createPlatform = function(size, position, falseSides) {
         var platform = game.world.createStaticBox(size, position, true /* visible */, { angle: Math.PI * Math.random() * 0 }, null );
-        platformer.initializeDirectionalSiding(platform, false /* top */, !solidBottom, !solidLeft, !solidRight);
+        if ( falseSides === undefined || falseSides === null ) {
+            falseSides = platformer.SIDES.BOTTOM | platformer.SIDES.LEFT | platformer.SIDES.RIGHT;
+        }
+        platformer.initializeDirectionalSiding(platform, falseSides);
+        return platform;
+    };
+    
+    platformer.createBreakableBlock = function(size, position, weakSides) {
+        var platform = game.world.createStaticBox(size, position, true /* visible */, { angle: Math.PI * Math.random() * 0 }, null );
+        if ( weakSides === undefined || weakSides === null ) {
+            weakSides = platformer.SIDES.BOTTOM;
+        }
+        platformer.initializeBreakable(platform, weakSides);
         return platform;
     };
     

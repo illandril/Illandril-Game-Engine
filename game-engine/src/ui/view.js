@@ -98,6 +98,10 @@ game = game || {};
             display.style.top = "-" + ( camera.y * scale ) + "px";
         }
         
+        var undisplayedDOMObjects = {};
+        for (var i in domObjects) {
+            undisplayedDOMObjects[i] = domObjects[i];
+        }
         var body = game.world.getBox2DWorld().GetBodyList();
         while( body != null ) {
             if ( body.display != null ) {
@@ -106,6 +110,7 @@ game = game || {};
                 if ( body.display.viewID == null ) {
                     body.display.viewID = nextID++;
                 }
+                delete undisplayedDOMObjects[body.display.viewID];
                 if ( domObjects[body.display.viewID] == null ) {
                     domObjects[body.display.viewID] = document.createElement('span');
                     domObjects[body.display.viewID].className = 'gameObject';
@@ -154,6 +159,11 @@ game = game || {};
                 }
             }
             body = body.GetNext();
+        }
+        for (var i in undisplayedDOMObjects) {
+            var domObject = undisplayedDOMObjects[i];
+            display.removeChild(domObject);
+            delete domObjects[i];
         }
     };
     

@@ -14,6 +14,8 @@ game = game || {};
     
     var collisionFilters = [];
     
+    var objectsToDestroy = [];
+    
     var fixtureDefaults = {
         density: 0.10,
         friction: 0.5,
@@ -72,6 +74,12 @@ game = game || {};
         world.Step(tick /* time delta (sec) */, frameSteps /* Velocity Iterations */, frameSteps /* Position Iterations */);
         world.DrawDebugData();
         world.ClearForces();
+        if (objectsToDestroy.length > 0) {
+            for (var i = 0; i < objectsToDestroy.length; i++) {
+                world.DestroyBody(objectsToDestroy[i].body);
+            }
+            objectsToDestroy = [];
+        }
     };
     
     game.world.getBox2DWorld = function() {
@@ -216,5 +224,9 @@ game = game || {};
         fixtureDefinition.shape = shape;
         var fixture = body.CreateFixture(fixtureDefinition);
         return fixture;
+    };
+    
+    game.world.destroyObject = function(object) {
+        objectsToDestroy.push(object);
     };
 })(game);
