@@ -1,3 +1,5 @@
+// If this isn't here, the built version fails for some reason
+var game = game || {};
 goog.provide('game.ai');
 
 (function(ai){

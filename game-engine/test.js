@@ -1,3844 +1,2893 @@
-var COMPILED = !0, goog = goog || {};
-goog.global = this;
-goog.DEBUG = !0;
-goog.LOCALE = "en";
-goog.provide = function(a) {
-  if(!COMPILED) {
-    if(goog.isProvided_(a)) {
-      throw Error('Namespace "' + a + '" already declared.');
-    }
-    delete goog.implicitNamespaces_[a];
-    for(var d = a;d = d.substring(0, d.lastIndexOf("."));) {
-      if(goog.getObjectByName(d)) {
-        break
-      }
-      goog.implicitNamespaces_[d] = !0
-    }
+var f = void 0, p = null;
+function q() {
+  return function() {
   }
-  goog.exportPath_(a)
-};
-goog.setTestOnly = function(a) {
-  if(COMPILED && !goog.DEBUG) {
-    throw a = a || "", Error("Importing test-only code into non-debug environment" + a ? ": " + a : ".");
-  }
-};
-if(!COMPILED) {
-  goog.isProvided_ = function(a) {
-    return!goog.implicitNamespaces_[a] && !!goog.getObjectByName(a)
-  }, goog.implicitNamespaces_ = {}
 }
-goog.exportPath_ = function(a, d, b) {
-  a = a.split(".");
-  b = b || goog.global;
-  !(a[0] in b) && b.execScript && b.execScript("var " + a[0]);
-  for(var f;a.length && (f = a.shift());) {
-    !a.length && goog.isDef(d) ? b[f] = d : b = b[f] ? b[f] : b[f] = {}
+function u(a) {
+  return function() {
+    return this[a]
   }
-};
-goog.getObjectByName = function(a, d) {
-  for(var b = a.split("."), f = d || goog.global, e;e = b.shift();) {
-    if(goog.isDefAndNotNull(f[e])) {
-      f = f[e]
-    }else {
-      return null
-    }
-  }
-  return f
-};
-goog.globalize = function(a, d) {
-  var b = d || goog.global, f;
-  for(f in a) {
-    b[f] = a[f]
-  }
-};
-goog.addDependency = function(a, d, b) {
-  if(!COMPILED) {
-    for(var f, a = a.replace(/\\/g, "/"), e = goog.dependencies_, g = 0;f = d[g];g++) {
-      e.nameToPath[f] = a, a in e.pathToNames || (e.pathToNames[a] = {}), e.pathToNames[a][f] = !0
-    }
-    for(f = 0;d = b[f];f++) {
-      a in e.requires || (e.requires[a] = {}), e.requires[a][d] = !0
-    }
-  }
-};
-goog.ENABLE_DEBUG_LOADER = !0;
-goog.require = function(a) {
-  if(!COMPILED && !goog.isProvided_(a)) {
-    if(goog.ENABLE_DEBUG_LOADER) {
-      var d = goog.getPathFromDeps_(a);
-      if(d) {
-        goog.included_[d] = !0;
-        goog.writeScripts_();
-        return
-      }
-    }
-    a = "goog.require could not find: " + a;
-    goog.global.console && goog.global.console.error(a);
-    throw Error(a);
-  }
-};
-goog.basePath = "";
-goog.nullFunction = function() {
-};
-goog.identityFunction = function(a) {
-  return a
-};
-goog.abstractMethod = function() {
-  throw Error("unimplemented abstract method");
-};
-goog.addSingletonGetter = function(a) {
-  a.getInstance = function() {
-    return a.instance_ || (a.instance_ = new a)
-  }
-};
-if(!COMPILED && goog.ENABLE_DEBUG_LOADER) {
-  goog.included_ = {}, goog.dependencies_ = {pathToNames:{}, nameToPath:{}, requires:{}, visited:{}, written:{}}, goog.inHtmlDocument_ = function() {
-    var a = goog.global.document;
-    return typeof a != "undefined" && "write" in a
-  }, goog.findBasePath_ = function() {
-    if(goog.global.CLOSURE_BASE_PATH) {
-      goog.basePath = goog.global.CLOSURE_BASE_PATH
-    }else {
-      if(goog.inHtmlDocument_()) {
-        for(var a = goog.global.document.getElementsByTagName("script"), d = a.length - 1;d >= 0;--d) {
-          var b = a[d].src, f = b.lastIndexOf("?"), f = f == -1 ? b.length : f;
-          if(b.substr(f - 7, 7) == "base.js") {
-            goog.basePath = b.substr(0, f - 7);
-            break
-          }
-        }
-      }
-    }
-  }, goog.importScript_ = function(a) {
-    var d = goog.global.CLOSURE_IMPORT_SCRIPT || goog.writeScriptTag_;
-    !goog.dependencies_.written[a] && d(a) && (goog.dependencies_.written[a] = !0)
-  }, goog.writeScriptTag_ = function(a) {
-    return goog.inHtmlDocument_() ? (goog.global.document.write('<script type="text/javascript" src="' + a + '"><\/script>'), !0) : !1
-  }, goog.writeScripts_ = function() {
-    function a(e) {
-      if(!(e in f.written)) {
-        if(!(e in f.visited) && (f.visited[e] = !0, e in f.requires)) {
-          for(var h in f.requires[e]) {
-            if(!goog.isProvided_(h)) {
-              if(h in f.nameToPath) {
-                a(f.nameToPath[h])
-              }else {
-                throw Error("Undefined nameToPath for " + h);
-              }
-            }
-          }
-        }
-        e in b || (b[e] = !0, d.push(e))
-      }
-    }
-    var d = [], b = {}, f = goog.dependencies_, e;
-    for(e in goog.included_) {
-      f.written[e] || a(e)
-    }
-    for(e = 0;e < d.length;e++) {
-      if(d[e]) {
-        goog.importScript_(goog.basePath + d[e])
-      }else {
-        throw Error("Undefined script input");
-      }
-    }
-  }, goog.getPathFromDeps_ = function(a) {
-    return a in goog.dependencies_.nameToPath ? goog.dependencies_.nameToPath[a] : null
-  }, goog.findBasePath_(), goog.global.CLOSURE_NO_DEPS || goog.importScript_(goog.basePath + "deps.js")
 }
-goog.typeOf = function(a) {
-  var d = typeof a;
-  if(d == "object") {
+function D(a) {
+  return function() {
+    return a
+  }
+}
+var J, O = this;
+function aa() {
+}
+function ba(a) {
+  var g = typeof a;
+  if(g == "object") {
     if(a) {
       if(a instanceof Array) {
         return"array"
       }else {
         if(a instanceof Object) {
-          return d
+          return g
         }
       }
-      var b = Object.prototype.toString.call(a);
-      if(b == "[object Window]") {
+      var e = Object.prototype.toString.call(a);
+      if(e == "[object Window]") {
         return"object"
       }
-      if(b == "[object Array]" || typeof a.length == "number" && typeof a.splice != "undefined" && typeof a.propertyIsEnumerable != "undefined" && !a.propertyIsEnumerable("splice")) {
+      if(e == "[object Array]" || typeof a.length == "number" && typeof a.splice != "undefined" && typeof a.propertyIsEnumerable != "undefined" && !a.propertyIsEnumerable("splice")) {
         return"array"
       }
-      if(b == "[object Function]" || typeof a.call != "undefined" && typeof a.propertyIsEnumerable != "undefined" && !a.propertyIsEnumerable("call")) {
+      if(e == "[object Function]" || typeof a.call != "undefined" && typeof a.propertyIsEnumerable != "undefined" && !a.propertyIsEnumerable("call")) {
         return"function"
       }
     }else {
       return"null"
     }
   }else {
-    if(d == "function" && typeof a.call == "undefined") {
+    if(g == "function" && typeof a.call == "undefined") {
       return"object"
     }
   }
-  return d
-};
-goog.propertyIsEnumerableCustom_ = function(a, d) {
-  if(d in a) {
-    for(var b in a) {
-      if(b == d && Object.prototype.hasOwnProperty.call(a, d)) {
-        return!0
-      }
-    }
+  return g
+}
+var ca = "closure_uid_" + Math.floor(Math.random() * 2147483648).toString(36), da = 0;
+function ea(a, g) {
+  function e() {
   }
-  return!1
-};
-goog.propertyIsEnumerable_ = function(a, d) {
-  return a instanceof Object ? Object.prototype.propertyIsEnumerable.call(a, d) : goog.propertyIsEnumerableCustom_(a, d)
-};
-goog.isDef = function(a) {
-  return a !== void 0
-};
-goog.isNull = function(a) {
-  return a === null
-};
-goog.isDefAndNotNull = function(a) {
-  return a != null
-};
-goog.isArray = function(a) {
-  return goog.typeOf(a) == "array"
-};
-goog.isArrayLike = function(a) {
-  var d = goog.typeOf(a);
-  return d == "array" || d == "object" && typeof a.length == "number"
-};
-goog.isDateLike = function(a) {
-  return goog.isObject(a) && typeof a.getFullYear == "function"
-};
-goog.isString = function(a) {
-  return typeof a == "string"
-};
-goog.isBoolean = function(a) {
-  return typeof a == "boolean"
-};
-goog.isNumber = function(a) {
-  return typeof a == "number"
-};
-goog.isFunction = function(a) {
-  return goog.typeOf(a) == "function"
-};
-goog.isObject = function(a) {
-  a = goog.typeOf(a);
-  return a == "object" || a == "array" || a == "function"
-};
-goog.getUid = function(a) {
-  return a[goog.UID_PROPERTY_] || (a[goog.UID_PROPERTY_] = ++goog.uidCounter_)
-};
-goog.removeUid = function(a) {
-  "removeAttribute" in a && a.removeAttribute(goog.UID_PROPERTY_);
-  try {
-    delete a[goog.UID_PROPERTY_]
-  }catch(d) {
-  }
-};
-goog.UID_PROPERTY_ = "closure_uid_" + Math.floor(Math.random() * 2147483648).toString(36);
-goog.uidCounter_ = 0;
-goog.getHashCode = goog.getUid;
-goog.removeHashCode = goog.removeUid;
-goog.cloneObject = function(a) {
-  var d = goog.typeOf(a);
-  if(d == "object" || d == "array") {
-    if(a.clone) {
-      return a.clone()
-    }
-    var d = d == "array" ? [] : {}, b;
-    for(b in a) {
-      d[b] = goog.cloneObject(a[b])
-    }
-    return d
-  }
-  return a
-};
-goog.bindNative_ = function(a, d, b) {
-  return a.call.apply(a.bind, arguments)
-};
-goog.bindJs_ = function(a, d, b) {
-  if(!a) {
-    throw Error();
-  }
-  if(arguments.length > 2) {
-    var f = Array.prototype.slice.call(arguments, 2);
-    return function() {
-      var e = Array.prototype.slice.call(arguments);
-      Array.prototype.unshift.apply(e, f);
-      return a.apply(d, e)
-    }
-  }else {
-    return function() {
-      return a.apply(d, arguments)
-    }
-  }
-};
-goog.bind = function(a, d, b) {
-  goog.bind = Function.prototype.bind && Function.prototype.bind.toString().indexOf("native code") != -1 ? goog.bindNative_ : goog.bindJs_;
-  return goog.bind.apply(null, arguments)
-};
-goog.partial = function(a, d) {
-  var b = Array.prototype.slice.call(arguments, 1);
-  return function() {
-    var d = Array.prototype.slice.call(arguments);
-    d.unshift.apply(d, b);
-    return a.apply(this, d)
-  }
-};
-goog.mixin = function(a, d) {
-  for(var b in d) {
-    a[b] = d[b]
-  }
-};
-goog.now = Date.now || function() {
-  return+new Date
-};
-goog.globalEval = function(a) {
-  if(goog.global.execScript) {
-    goog.global.execScript(a, "JavaScript")
-  }else {
-    if(goog.global.eval) {
-      if(goog.evalWorksForGlobals_ == null) {
-        goog.global.eval("var _et_ = 1;"), typeof goog.global._et_ != "undefined" ? (delete goog.global._et_, goog.evalWorksForGlobals_ = !0) : goog.evalWorksForGlobals_ = !1
-      }
-      if(goog.evalWorksForGlobals_) {
-        goog.global.eval(a)
-      }else {
-        var d = goog.global.document, b = d.createElement("script");
-        b.type = "text/javascript";
-        b.defer = !1;
-        b.appendChild(d.createTextNode(a));
-        d.body.appendChild(b);
-        d.body.removeChild(b)
-      }
-    }else {
-      throw Error("goog.globalEval not available");
-    }
-  }
-};
-goog.evalWorksForGlobals_ = null;
-goog.getCssName = function(a, d) {
-  var b = function(a) {
-    return goog.cssNameMapping_[a] || a
-  }, f;
-  f = goog.cssNameMapping_ ? goog.cssNameMappingStyle_ == "BY_WHOLE" ? b : function(a) {
-    for(var a = a.split("-"), d = [], f = 0;f < a.length;f++) {
-      d.push(b(a[f]))
-    }
-    return d.join("-")
-  } : function(a) {
-    return a
-  };
-  return d ? a + "-" + f(d) : f(a)
-};
-goog.setCssNameMapping = function(a, d) {
-  goog.cssNameMapping_ = a;
-  goog.cssNameMappingStyle_ = d
-};
-goog.getMsg = function(a, d) {
-  var b = d || {}, f;
-  for(f in b) {
-    var e = ("" + b[f]).replace(/\$/g, "$$$$"), a = a.replace(RegExp("\\{\\$" + f + "\\}", "gi"), e)
-  }
-  return a
-};
-goog.exportSymbol = function(a, d, b) {
-  goog.exportPath_(a, d, b)
-};
-goog.exportProperty = function(a, d, b) {
-  a[d] = b
-};
-goog.inherits = function(a, d) {
-  function b() {
-  }
-  b.prototype = d.prototype;
-  a.superClass_ = d.prototype;
-  a.prototype = new b;
+  e.prototype = g.prototype;
+  a.Pm = g.prototype;
+  a.prototype = new e;
   a.prototype.constructor = a
-};
-goog.base = function(a, d, b) {
-  var f = arguments.callee.caller;
-  if(f.superClass_) {
-    return f.superClass_.constructor.apply(a, Array.prototype.slice.call(arguments, 1))
+}
+;var P = P || {};
+P.Fo = P.Fo || {};
+(function(a, g) {
+  function e() {
   }
-  for(var e = Array.prototype.slice.call(arguments, 2), g = !1, h = a.constructor;h;h = h.superClass_ && h.superClass_.constructor) {
-    if(h.prototype[d] === f) {
-      g = !0
-    }else {
-      if(g) {
-        return h.prototype[d].apply(a, e)
-      }
-    }
-  }
-  if(a[d] === f) {
-    return a.constructor.prototype[d].apply(a, e)
-  }else {
-    throw Error("goog.base called from a method of one name to a method of a different name");
-  }
-};
-goog.scope = function(a) {
-  a.call(goog.global)
-};
-var Box2D = Box2D || {};
-Box2D.base = Box2D.base || {};
-(function(a, d) {
   if(!(Object.prototype.defineProperty instanceof Function) && Object.prototype.__defineGetter__ instanceof Function && Object.prototype.__defineSetter__ instanceof Function) {
-    Object.defineProperty = function(a, d, b) {
-      b.get instanceof Function && a.__defineGetter__(d, b.get);
-      b.set instanceof Function && a.__defineSetter__(d, b.set)
+    Object.defineProperty = function(a, c, b) {
+      b.get instanceof Function && a.__defineGetter__(c, b.get);
+      b.set instanceof Function && a.__defineSetter__(c, b.set)
     }
   }
-  var b = function() {
-  };
-  a.inherit = function(a, d) {
-    b.prototype = d.prototype;
-    a.prototype = new b;
+  a.ya = function(a, c) {
+    e.prototype = c.prototype;
+    a.prototype = new e;
     a.prototype.constructor = a
   };
-  a.generateCallback = function(a, d) {
+  a.ap = function(a, c) {
     return function() {
-      d.apply(a, arguments)
+      c.apply(a, arguments)
     }
   };
-  a.NVector = function(a) {
-    a === d && (a = 0);
-    for(var e = Array(a || 0), b = 0;b < a;++b) {
-      e[b] = 0
+  a.ij = function(a) {
+    a === g && (a = 0);
+    for(var c = Array(a || 0), b = 0;b < a;++b) {
+      c[b] = 0
     }
-    return e
+    return c
   };
-  a.is = function(a, e) {
-    return a === null ? !1 : e instanceof Function && a instanceof e ? !0 : a.constructor.__implements !== d && a.constructor.__implements[e] ? !0 : !1
+  a.hm = function(a, c) {
+    return a === p ? !1 : c instanceof Function && a instanceof c ? !0 : a.constructor.rj !== g && a.constructor.rj[c] ? !0 : !1
   };
-  a.parseUInt = function(a) {
+  a.$c = function(a) {
     return Math.abs(a)
   }
-})(Box2D);
-Box2D.Queue = function() {
-  this.queue = [];
+})(P);
+P.Fn = function() {
+  this.Bk = [];
   this.start = this.size = 0
 };
-Box2D.Queue.prototype.enqueue = function(a) {
-  this.queue[this.start + this.size] = a;
-  this.size++
-};
-Box2D.Queue.prototype.dequeue = function() {
-  var a = this.queue[this.start];
-  this.queue[this.start] = null;
-  this.size--;
-  this.start++;
-  return a
-};
-Box2D.postDefs = [];
-Box2D.Collision = {};
-Box2D.Collision.IBroadPhase = "Box2D.Collision.IBroadPhase";
-Box2D.Collision.b2AABB = function() {
-  this.lowerBound = new Box2D.Common.Math.b2Vec2;
-  this.upperBound = new Box2D.Common.Math.b2Vec2
+function fa(a, g) {
+  a.Bk[a.start + a.size] = g;
+  a.size++
+}
+P.Wa = [];
+P.i = {};
+P.i.wn = "Box2D.Collision.IBroadPhase";
+P.i.yj = function() {
+  this.lowerBound = new P.a.f.g;
+  this.upperBound = new P.a.f.g
 };
 (function(a) {
-  a.prototype.IsValid = function() {
-    return this.upperBound.x - this.lowerBound.x < 0 ? !1 : this.upperBound.y - this.lowerBound.y < 0 ? !1 : this.lowerBound.IsValid() && this.upperBound.IsValid()
+  a.prototype.Jf = function() {
+    return this.upperBound.x - this.lowerBound.x < 0 ? !1 : this.upperBound.y - this.lowerBound.y < 0 ? !1 : this.lowerBound.Jf() && this.upperBound.Jf()
   };
-  a.prototype.GetCenter = function() {
-    return new Box2D.Common.Math.b2Vec2((this.lowerBound.x + this.upperBound.x) / 2, (this.lowerBound.y + this.upperBound.y) / 2)
+  a.prototype.Zi = function() {
+    return new P.a.f.g((this.lowerBound.x + this.upperBound.x) / 2, (this.lowerBound.y + this.upperBound.y) / 2)
   };
-  a.prototype.GetExtents = function() {
-    return new Box2D.Common.Math.b2Vec2((this.upperBound.x - this.lowerBound.x) / 2, (this.upperBound.y - this.lowerBound.y) / 2)
+  a.prototype.Ti = function(a) {
+    var e;
+    return e = (e = (e = (e = this.lowerBound.x <= a.lowerBound.x) && this.lowerBound.y <= a.lowerBound.y) && a.upperBound.x <= this.upperBound.x) && a.upperBound.y <= this.upperBound.y
   };
-  a.prototype.Contains = function(a) {
-    var b;
-    return b = (b = (b = (b = this.lowerBound.x <= a.lowerBound.x) && this.lowerBound.y <= a.lowerBound.y) && a.upperBound.x <= this.upperBound.x) && a.upperBound.y <= this.upperBound.y
-  };
-  a.prototype.RayCast = function(a, b) {
-    var f = -Number.MAX_VALUE, e = Number.MAX_VALUE, g = b.p2.x - b.p1.x;
-    if(Math.abs(g) < Number.MIN_VALUE) {
-      if(b.p1.x < this.lowerBound.x || this.upperBound.x < b.p1.x) {
-        return!1
-      }
-    }else {
-      var h = 1 / g, g = (this.lowerBound.x - b.p1.x) * h;
-      h *= this.upperBound.x - b.p1.x;
-      var j = -1;
-      g > h && (j = g, g = h, h = j, j = 1);
-      if(g > f) {
-        a.normal.x = j, a.normal.y = 0, f = g
-      }
-      e = Math.min(e, h);
-      if(f > e) {
-        return!1
-      }
-    }
-    g = b.p2.y - b.p1.y;
-    if(Math.abs(g) < Number.MIN_VALUE) {
-      if(b.p1.y < this.lowerBound.y || this.upperBound.y < b.p1.y) {
-        return!1
-      }
-    }else {
-      h = 1 / g;
-      g = (this.lowerBound.y - b.p1.y) * h;
-      h *= this.upperBound.y - b.p1.y;
-      j = -1;
-      g > h && (j = g, g = h, h = j, j = 1);
-      if(g > f) {
-        a.normal.y = j, a.normal.x = 0, f = g
-      }
-      e = Math.min(e, h);
-      if(f > e) {
-        return!1
-      }
-    }
-    a.fraction = f;
-    return!0
-  };
-  a.prototype.TestOverlap = function(a) {
+  a.prototype.ie = function(a) {
     return a.lowerBound.x - this.upperBound.x > 0 ? !1 : a.lowerBound.y - this.upperBound.y > 0 ? !1 : this.lowerBound.x - a.upperBound.x > 0 ? !1 : this.lowerBound.y - a.upperBound.y > 0 ? !1 : !0
   };
-  a.Combine = function(d, b) {
-    var f = new a;
-    f.Combine(d, b);
-    return f
+  a.Cf = function(g, e) {
+    var d = new a;
+    d.Cf(g, e);
+    return d
   };
-  a.prototype.Combine = function(a, b) {
-    this.lowerBound.x = Math.min(a.lowerBound.x, b.lowerBound.x);
-    this.lowerBound.y = Math.min(a.lowerBound.y, b.lowerBound.y);
-    this.upperBound.x = Math.max(a.upperBound.x, b.upperBound.x);
-    this.upperBound.y = Math.max(a.upperBound.y, b.upperBound.y)
+  a.prototype.Cf = function(a, e) {
+    this.lowerBound.x = Math.min(a.lowerBound.x, e.lowerBound.x);
+    this.lowerBound.y = Math.min(a.lowerBound.y, e.lowerBound.y);
+    this.upperBound.x = Math.max(a.upperBound.x, e.upperBound.x);
+    this.upperBound.y = Math.max(a.upperBound.y, e.upperBound.y)
   }
-})(Box2D.Collision.b2AABB);
-Box2D.Collision.b2Collision = function() {
-};
+})(P.i.yj);
+P.i.Wb = q();
 (function(a) {
-  a.ClipSegmentToLine = function(a, b, f, e) {
-    e === void 0 && (e = 0);
-    var g = 0, h = b[0].v, j = b[1].v, l = f.x * h.x + f.y * h.y - e, f = f.x * j.x + f.y * j.y - e;
-    l <= 0 && a[g++].Set(b[0]);
-    f <= 0 && a[g++].Set(b[1]);
-    if(l * f < 0) {
-      f = l / (l - f), e = a[g].v, e.x = h.x + f * (j.x - h.x), e.y = h.y + f * (j.y - h.y), a[g].id = l > 0 ? b[0].id : b[1].id, g++
+  a.Vk = function(a, e, d, c) {
+    c === f && (c = 0);
+    var b = 0, h = e[0].Oc, i = e[1].Oc, j = d.x * h.x + d.y * h.y - c, d = d.x * i.x + d.y * i.y - c;
+    j <= 0 && a[b++].s(e[0]);
+    d <= 0 && a[b++].s(e[1]);
+    if(j * d < 0) {
+      d = j / (j - d), c = a[b].Oc, c.x = h.x + d * (i.x - h.x), c.y = h.y + d * (i.y - h.y), a[b].id = j > 0 ? e[0].id : e[1].id, b++
     }
-    return g
+    return b
   };
-  a.EdgeSeparation = function(a, b, f, e, g) {
-    f === void 0 && (f = 0);
-    for(var h = a.m_vertices, j = a.m_normals, a = e.m_vertices, l = b.R.col1.x * j[f].x + b.R.col2.x * j[f].y, j = b.R.col1.y * j[f].x + b.R.col2.y * j[f].y, k = g.R.col1.x * l + g.R.col1.y * j, o = g.R.col2.x * l + g.R.col2.y * j, m = 0, s = Number.MAX_VALUE, q = 0;q < e.m_vertexCount;++q) {
-      var w = a[q].x * k + a[q].y * o;
-      w < s && (s = w, m = q)
+  a.Oh = function(a, e, d, c, b) {
+    d === f && (d = 0);
+    for(var h = a.u, i = a.na, a = c.u, j = e.h.b.x * i[d].x + e.h.d.x * i[d].y, i = e.h.b.y * i[d].x + e.h.d.y * i[d].y, k = b.h.b.x * j + b.h.b.y * i, m = b.h.d.x * j + b.h.d.y * i, l = 0, s = Number.MAX_VALUE, n = 0;n < c.ja;++n) {
+      var x = a[n].x * k + a[n].y * m;
+      x < s && (s = x, l = n)
     }
-    return(g.position.x + (g.R.col1.x * a[m].x + g.R.col2.x * a[m].y) - (b.position.x + (b.R.col1.x * h[f].x + b.R.col2.x * h[f].y))) * l + (g.position.y + (g.R.col1.y * a[m].x + g.R.col2.y * a[m].y) - (b.position.y + (b.R.col1.y * h[f].x + b.R.col2.y * h[f].y))) * j
+    return(b.position.x + (b.h.b.x * a[l].x + b.h.d.x * a[l].y) - (e.position.x + (e.h.b.x * h[d].x + e.h.d.x * h[d].y))) * j + (b.position.y + (b.h.b.y * a[l].x + b.h.d.y * a[l].y) - (e.position.y + (e.h.b.y * h[d].x + e.h.d.y * h[d].y))) * i
   };
-  a.FindMaxSeparation = function(d, b, f, e, g) {
-    var h = b.m_normals, j = g.position.x + (g.R.col1.x * e.m_centroid.x + g.R.col2.x * e.m_centroid.y), l = g.position.y + (g.R.col1.y * e.m_centroid.x + g.R.col2.y * e.m_centroid.y);
-    j -= f.position.x + (f.R.col1.x * b.m_centroid.x + f.R.col2.x * b.m_centroid.y);
-    l -= f.position.y + (f.R.col1.y * b.m_centroid.x + f.R.col2.y * b.m_centroid.y);
-    for(var k = j * f.R.col1.x + l * f.R.col1.y, l = j * f.R.col2.x + l * f.R.col2.y, j = 0, o = -Number.MAX_VALUE, m = 0;m < b.m_vertexCount;++m) {
-      var s = h[m].x * k + h[m].y * l;
-      s > o && (o = s, j = m)
+  a.Zk = function(g, e, d, c, b) {
+    var h = e.na, i = b.position.x + (b.h.b.x * c.gc.x + b.h.d.x * c.gc.y), j = b.position.y + (b.h.b.y * c.gc.x + b.h.d.y * c.gc.y);
+    i -= d.position.x + (d.h.b.x * e.gc.x + d.h.d.x * e.gc.y);
+    j -= d.position.y + (d.h.b.y * e.gc.x + d.h.d.y * e.gc.y);
+    for(var k = i * d.h.b.x + j * d.h.b.y, j = i * d.h.d.x + j * d.h.d.y, i = 0, m = -Number.MAX_VALUE, l = 0;l < e.ja;++l) {
+      var s = h[l].x * k + h[l].y * j;
+      s > m && (m = s, i = l)
     }
-    h = a.EdgeSeparation(b, f, j, e, g);
-    k = j - 1;
-    k < 0 && (k = b.m_vertexCount - 1);
-    l = a.EdgeSeparation(b, f, k, e, g);
-    o = j + 1;
-    o >= b.m_vertexCount && (o = 0);
-    var m = a.EdgeSeparation(b, f, o, e, g), q = s = 0, w = 0;
-    if(l > h && l > m) {
-      w = -1, s = k, q = l
+    h = a.Oh(e, d, i, c, b);
+    k = i - 1;
+    k < 0 && (k = e.ja - 1);
+    j = a.Oh(e, d, k, c, b);
+    m = i + 1;
+    m >= e.ja && (m = 0);
+    var l = a.Oh(e, d, m, c, b), n = s = 0, x = 0;
+    if(j > h && j > l) {
+      x = -1, s = k, n = j
     }else {
-      if(m > h) {
-        w = 1, s = o, q = m
+      if(l > h) {
+        x = 1, s = m, n = l
       }else {
-        return d[0] = j, h
+        return g[0] = i, h
       }
     }
     for(;;) {
-      if(w == -1 ? (j = s - 1, j < 0 && (j = b.m_vertexCount - 1)) : (j = s + 1, j >= b.m_vertexCount && (j = 0)), h = a.EdgeSeparation(b, f, j, e, g), h > q) {
-        s = j, q = h
+      if(x == -1 ? (i = s - 1, i < 0 && (i = e.ja - 1)) : (i = s + 1, i >= e.ja && (i = 0)), h = a.Oh(e, d, i, c, b), h > n) {
+        s = i, n = h
       }else {
         break
       }
     }
-    d[0] = s;
-    return q
+    g[0] = s;
+    return n
   };
-  a.FindIncidentEdge = function(a, b, f, e, g, h) {
-    e === void 0 && (e = 0);
-    for(var j = f.R.col1.x * b.m_normals[e].x + f.R.col2.x * b.m_normals[e].y, b = f.R.col1.y * b.m_normals[e].x + f.R.col2.y * b.m_normals[e].y, f = h.R.col1.x * j + h.R.col1.y * b, b = h.R.col2.x * j + h.R.col2.y * b, j = f, f = 0, l = Number.MAX_VALUE, k = 0;k < g.m_vertexCount;k++) {
-      var o = j * g.m_normals[k].x + b * g.m_normals[k].y;
-      o < l && (l = o, f = k)
+  a.rn = function(a, e, d, c, b, h) {
+    c === f && (c = 0);
+    for(var i = d.h.b.x * e.na[c].x + d.h.d.x * e.na[c].y, e = d.h.b.y * e.na[c].x + d.h.d.y * e.na[c].y, d = h.h.b.x * i + h.h.b.y * e, e = h.h.d.x * i + h.h.d.y * e, i = d, d = 0, j = Number.MAX_VALUE, k = 0;k < b.ja;k++) {
+      var m = i * b.na[k].x + e * b.na[k].y;
+      m < j && (j = m, d = k)
     }
-    j = f + 1;
-    j >= g.m_vertexCount && (j = 0);
-    a[0].v.x = h.position.x + (h.R.col1.x * g.m_vertices[f].x + h.R.col2.x * g.m_vertices[f].y);
-    a[0].v.y = h.position.y + (h.R.col1.y * g.m_vertices[f].x + h.R.col2.y * g.m_vertices[f].y);
-    a[0].id.features.referenceEdge = e;
-    a[0].id.features.incidentEdge = f;
-    a[0].id.features.incidentVertex = 0;
-    a[1].v.x = h.position.x + (h.R.col1.x * g.m_vertices[j].x + h.R.col2.x * g.m_vertices[j].y);
-    a[1].v.y = h.position.y + (h.R.col1.y * g.m_vertices[j].x + h.R.col2.y * g.m_vertices[j].y);
-    a[1].id.features.referenceEdge = e;
-    a[1].id.features.incidentEdge = j;
-    a[1].id.features.incidentVertex = 1
+    i = d + 1;
+    i >= b.ja && (i = 0);
+    a[0].Oc.x = h.position.x + (h.h.b.x * b.u[d].x + h.h.d.x * b.u[d].y);
+    a[0].Oc.y = h.position.y + (h.h.b.y * b.u[d].x + h.h.d.y * b.u[d].y);
+    a[0].id.Sc.eq = c;
+    a[0].id.Sc.gp = d;
+    a[0].id.Sc.hp = 0;
+    a[1].Oc.x = h.position.x + (h.h.b.x * b.u[i].x + h.h.d.x * b.u[i].y);
+    a[1].Oc.y = h.position.y + (h.h.b.y * b.u[i].x + h.h.d.y * b.u[i].y);
+    a[1].id.Sc.eq = c;
+    a[1].id.Sc.gp = i;
+    a[1].id.Sc.hp = 1
   };
-  a.MakeClipPointVector = function() {
-    return[new Box2D.Collision.ClipVertex, new Box2D.Collision.ClipVertex]
+  a.gj = function() {
+    return[new P.i.Bf, new P.i.Bf]
   };
-  a.CollidePolygons = function(d, b, f, e, g) {
-    d.m_pointCount = 0;
-    var h = b.m_radius + e.m_radius;
-    a.s_edgeAO[0] = 0;
-    var j = a.FindMaxSeparation(a.s_edgeAO, b, f, e, g);
-    if(!(j > h)) {
-      a.s_edgeBO[0] = 0;
-      var l = a.FindMaxSeparation(a.s_edgeBO, e, g, b, f);
-      if(!(l > h)) {
-        var k = b, o = e, m = f, s = g, q = a.s_edgeAO[0], w = 0;
-        d.m_type = Box2D.Collision.b2Manifold.e_faceA;
-        if(l > 0.98 * j + 0.001) {
-          k = e, o = b, m = g, s = f, q = a.s_edgeBO[0], d.m_type = Box2D.Collision.b2Manifold.e_faceB, w = 1
+  a.cn = function(g, e, d, c, b) {
+    g.Za = 0;
+    var h = e.ba + c.ba;
+    a.Fk[0] = 0;
+    var i = a.Zk(a.Fk, e, d, c, b);
+    if(!(i > h)) {
+      a.Gk[0] = 0;
+      var j = a.Zk(a.Gk, c, b, e, d);
+      if(!(j > h)) {
+        var k = e, m = c, l = d, s = b, n = a.Fk[0], x = 0;
+        g.ca = P.i.pb.kd;
+        if(j > 0.98 * i + 0.001) {
+          k = c, m = e, l = b, s = d, n = a.Gk[0], g.ca = P.i.pb.cf, x = 1
         }
-        b = a.s_incidentEdge;
-        a.FindIncidentEdge(b, k, m, q, o, s);
-        o = k.m_vertices[q];
-        k = q + 1 < k.m_vertexCount ? k.m_vertices[q + 1] : k.m_vertices[0];
-        a.s_localTangent.Set(k.x - o.x, k.y - o.y);
-        a.s_localTangent.Normalize();
-        a.s_localNormal.x = a.s_localTangent.y;
-        a.s_localNormal.y = -a.s_localTangent.x;
-        a.s_planePoint.Set(0.5 * (o.x + k.x), 0.5 * (o.y + k.y));
-        a.s_tangent.x = m.R.col1.x * a.s_localTangent.x + m.R.col2.x * a.s_localTangent.y;
-        a.s_tangent.y = m.R.col1.y * a.s_localTangent.x + m.R.col2.y * a.s_localTangent.y;
-        a.s_tangent2.x = -a.s_tangent.x;
-        a.s_tangent2.y = -a.s_tangent.y;
-        a.s_normal.x = a.s_tangent.y;
-        a.s_normal.y = -a.s_tangent.x;
-        a.s_v11.x = m.position.x + (m.R.col1.x * o.x + m.R.col2.x * o.y);
-        a.s_v11.y = m.position.y + (m.R.col1.y * o.x + m.R.col2.y * o.y);
-        a.s_v12.x = m.position.x + (m.R.col1.x * k.x + m.R.col2.x * k.y);
-        a.s_v12.y = m.position.y + (m.R.col1.y * k.x + m.R.col2.y * k.y);
-        if(!(a.ClipSegmentToLine(a.s_clipPoints1, b, a.s_tangent2, -a.s_tangent.x * a.s_v11.x - a.s_tangent.y * a.s_v11.y + h) < 2) && !(a.ClipSegmentToLine(a.s_clipPoints2, a.s_clipPoints1, a.s_tangent, a.s_tangent.x * a.s_v12.x + a.s_tangent.y * a.s_v12.y + h) < 2)) {
-          d.m_localPlaneNormal.SetV(a.s_localNormal);
-          d.m_localPoint.SetV(a.s_planePoint);
-          m = a.s_normal.x * a.s_v11.x + a.s_normal.y * a.s_v11.y;
-          for(q = k = 0;q < Box2D.Common.b2Settings.b2_maxManifoldPoints;++q) {
-            if(a.s_normal.x * a.s_clipPoints2[q].v.x + a.s_normal.y * a.s_clipPoints2[q].v.y - m <= h) {
-              o = a.s_clipPoints2[q].v.x - s.position.x, b = a.s_clipPoints2[q].v.y - s.position.y, d.m_points[k].m_localPoint.x = o * s.R.col1.x + b * s.R.col1.y, d.m_points[k].m_localPoint.y = o * s.R.col2.x + b * s.R.col2.y, d.m_points[k].m_id.Set(a.s_clipPoints2[q].id), d.m_points[k].m_id.features.flip = w, k++
+        e = a.gq;
+        a.rn(e, k, l, n, m, s);
+        m = k.u[n];
+        k = n + 1 < k.ja ? k.u[n + 1] : k.u[0];
+        a.Ce.s(k.x - m.x, k.y - m.y);
+        a.Ce.dc();
+        a.Ik.x = a.Ce.y;
+        a.Ik.y = -a.Ce.x;
+        a.Nm.s(0.5 * (m.x + k.x), 0.5 * (m.y + k.y));
+        a.sd.x = l.h.b.x * a.Ce.x + l.h.d.x * a.Ce.y;
+        a.sd.y = l.h.b.y * a.Ce.x + l.h.d.y * a.Ce.y;
+        a.Jk.x = -a.sd.x;
+        a.Jk.y = -a.sd.y;
+        a.rg.x = a.sd.y;
+        a.rg.y = -a.sd.x;
+        a.sg.x = l.position.x + (l.h.b.x * m.x + l.h.d.x * m.y);
+        a.sg.y = l.position.y + (l.h.b.y * m.x + l.h.d.y * m.y);
+        a.Li.x = l.position.x + (l.h.b.x * k.x + l.h.d.x * k.y);
+        a.Li.y = l.position.y + (l.h.b.y * k.x + l.h.d.y * k.y);
+        if(!(a.Vk(a.Lm, e, a.Jk, -a.sd.x * a.sg.x - a.sd.y * a.sg.y + h) < 2) && !(a.Vk(a.og, a.Lm, a.sd, a.sd.x * a.Li.x + a.sd.y * a.Li.y + h) < 2)) {
+          g.yb.p(a.Ik);
+          g.ia.p(a.Nm);
+          l = a.rg.x * a.sg.x + a.rg.y * a.sg.y;
+          for(n = k = 0;n < P.a.$.Dc;++n) {
+            if(a.rg.x * a.og[n].Oc.x + a.rg.y * a.og[n].Oc.y - l <= h) {
+              m = a.og[n].Oc.x - s.position.x, e = a.og[n].Oc.y - s.position.y, g.aa[k].ia.x = m * s.h.b.x + e * s.h.b.y, g.aa[k].ia.y = m * s.h.d.x + e * s.h.d.y, g.aa[k].Ud.s(a.og[n].id), g.aa[k].Ud.Sc.Yq = x, k++
             }
           }
-          d.m_pointCount = k
+          g.Za = k
         }
       }
     }
   };
-  a.CollideCircles = function(a, b, f, e, g) {
-    a.m_pointCount = 0;
-    var h = g.position.x + (g.R.col1.x * e.m_p.x + g.R.col2.x * e.m_p.y) - (f.position.x + (f.R.col1.x * b.m_p.x + f.R.col2.x * b.m_p.y)), f = g.position.y + (g.R.col1.y * e.m_p.x + g.R.col2.y * e.m_p.y) - (f.position.y + (f.R.col1.y * b.m_p.x + f.R.col2.y * b.m_p.y)), g = b.m_radius + e.m_radius;
-    if(!(h * h + f * f > g * g)) {
-      a.m_type = Box2D.Collision.b2Manifold.e_circles, a.m_localPoint.SetV(b.m_p), a.m_localPlaneNormal.SetZero(), a.m_pointCount = 1, a.m_points[0].m_localPoint.SetV(e.m_p), a.m_points[0].m_id.key = 0
+  a.an = function(a, e, d, c, b) {
+    a.Za = 0;
+    var h = b.position.x + (b.h.b.x * c.Fa.x + b.h.d.x * c.Fa.y) - (d.position.x + (d.h.b.x * e.Fa.x + d.h.d.x * e.Fa.y)), d = b.position.y + (b.h.b.y * c.Fa.x + b.h.d.y * c.Fa.y) - (d.position.y + (d.h.b.y * e.Fa.x + d.h.d.y * e.Fa.y)), b = e.ba + c.ba;
+    if(!(h * h + d * d > b * b)) {
+      a.ca = P.i.pb.Tj, a.ia.p(e.Fa), a.yb.V(), a.Za = 1, a.aa[0].ia.p(c.Fa), a.aa[0].Ud.key = 0
     }
   };
-  a.CollidePolygonAndCircle = function(a, b, f, e, g) {
-    a.m_pointCount = 0;
-    for(var h = g.position.x + (g.R.col1.x * e.m_p.x + g.R.col2.x * e.m_p.y) - f.position.x, j = g.position.y + (g.R.col1.y * e.m_p.x + g.R.col2.y * e.m_p.y) - f.position.y, g = h * f.R.col1.x + j * f.R.col1.y, f = h * f.R.col2.x + j * f.R.col2.y, h = 0, j = -Number.MAX_VALUE, l = b.m_radius + e.m_radius, k = 0;k < b.m_vertexCount;++k) {
-      var o = b.m_normals[k].x * (g - b.m_vertices[k].x) + b.m_normals[k].y * (f - b.m_vertices[k].y);
-      if(o > l) {
+  a.bn = function(a, e, d, c, b) {
+    a.Za = 0;
+    for(var h = b.position.x + (b.h.b.x * c.Fa.x + b.h.d.x * c.Fa.y) - d.position.x, i = b.position.y + (b.h.b.y * c.Fa.x + b.h.d.y * c.Fa.y) - d.position.y, b = h * d.h.b.x + i * d.h.b.y, d = h * d.h.d.x + i * d.h.d.y, h = 0, i = -Number.MAX_VALUE, j = e.ba + c.ba, k = 0;k < e.ja;++k) {
+      var m = e.na[k].x * (b - e.u[k].x) + e.na[k].y * (d - e.u[k].y);
+      if(m > j) {
         return
       }
-      o > j && (j = o, h = k)
+      m > i && (i = m, h = k)
     }
-    o = h + 1;
-    o >= b.m_vertexCount && (o = 0);
-    var k = b.m_vertices[h], m = b.m_vertices[o];
-    if(j < Number.MIN_VALUE) {
-      a.m_pointCount = 1, a.m_type = Box2D.Collision.b2Manifold.e_faceA, a.m_localPlaneNormal.SetV(b.m_normals[h]), a.m_localPoint.x = 0.5 * (k.x + m.x), a.m_localPoint.y = 0.5 * (k.y + m.y)
+    m = h + 1;
+    m >= e.ja && (m = 0);
+    var k = e.u[h], l = e.u[m];
+    if(i < Number.MIN_VALUE) {
+      a.Za = 1, a.ca = P.i.pb.kd, a.yb.p(e.na[h]), a.ia.x = 0.5 * (k.x + l.x), a.ia.y = 0.5 * (k.y + l.y)
     }else {
-      if((g - k.x) * (m.x - k.x) + (f - k.y) * (m.y - k.y) <= 0) {
-        if((g - k.x) * (g - k.x) + (f - k.y) * (f - k.y) > l * l) {
+      if((b - k.x) * (l.x - k.x) + (d - k.y) * (l.y - k.y) <= 0) {
+        if((b - k.x) * (b - k.x) + (d - k.y) * (d - k.y) > j * j) {
           return
         }
-        a.m_pointCount = 1;
-        a.m_type = Box2D.Collision.b2Manifold.e_faceA;
-        a.m_localPlaneNormal.x = g - k.x;
-        a.m_localPlaneNormal.y = f - k.y;
-        a.m_localPlaneNormal.Normalize();
-        a.m_localPoint.SetV(k)
+        a.Za = 1;
+        a.ca = P.i.pb.kd;
+        a.yb.x = b - k.x;
+        a.yb.y = d - k.y;
+        a.yb.dc();
+        a.ia.p(k)
       }else {
-        if((g - m.x) * (k.x - m.x) + (f - m.y) * (k.y - m.y) <= 0) {
-          if((g - m.x) * (g - m.x) + (f - m.y) * (f - m.y) > l * l) {
+        if((b - l.x) * (k.x - l.x) + (d - l.y) * (k.y - l.y) <= 0) {
+          if((b - l.x) * (b - l.x) + (d - l.y) * (d - l.y) > j * j) {
             return
           }
-          a.m_pointCount = 1;
-          a.m_type = Box2D.Collision.b2Manifold.e_faceA;
-          a.m_localPlaneNormal.x = g - m.x;
-          a.m_localPlaneNormal.y = f - m.y;
-          a.m_localPlaneNormal.Normalize();
-          a.m_localPoint.SetV(m)
+          a.Za = 1;
+          a.ca = P.i.pb.kd;
+          a.yb.x = b - l.x;
+          a.yb.y = d - l.y;
+          a.yb.dc();
+          a.ia.p(l)
         }else {
-          o = 0.5 * (k.x + m.x);
-          k = 0.5 * (k.y + m.y);
-          j = (g - o) * b.m_normals[h].x + (f - k) * b.m_normals[h].y;
-          if(j > l) {
+          m = 0.5 * (k.x + l.x);
+          k = 0.5 * (k.y + l.y);
+          i = (b - m) * e.na[h].x + (d - k) * e.na[h].y;
+          if(i > j) {
             return
           }
-          a.m_pointCount = 1;
-          a.m_type = Box2D.Collision.b2Manifold.e_faceA;
-          a.m_localPlaneNormal.x = b.m_normals[h].x;
-          a.m_localPlaneNormal.y = b.m_normals[h].y;
-          a.m_localPlaneNormal.Normalize();
-          a.m_localPoint.Set(o, k)
+          a.Za = 1;
+          a.ca = P.i.pb.kd;
+          a.yb.x = e.na[h].x;
+          a.yb.y = e.na[h].y;
+          a.yb.dc();
+          a.ia.s(m, k)
         }
       }
     }
-    a.m_points[0].m_localPoint.SetV(e.m_p);
-    a.m_points[0].m_id.key = 0
+    a.aa[0].ia.p(c.Fa);
+    a.aa[0].Ud.key = 0
   };
-  a.TestOverlap = function(a, b) {
-    return b.lowerBound.x - a.upperBound.x > 0 ? !1 : b.lowerBound.y - a.upperBound.y > 0 ? !1 : a.lowerBound.x - b.upperBound.x > 0 ? !1 : a.lowerBound.y - b.upperBound.y > 0 ? !1 : !0
+  a.ie = function(a, e) {
+    return e.lowerBound.x - a.upperBound.x > 0 ? !1 : e.lowerBound.y - a.upperBound.y > 0 ? !1 : a.lowerBound.x - e.upperBound.x > 0 ? !1 : a.lowerBound.y - e.upperBound.y > 0 ? !1 : !0
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Collision.b2Collision.s_incidentEdge = a.MakeClipPointVector();
-    Box2D.Collision.b2Collision.s_clipPoints1 = a.MakeClipPointVector();
-    Box2D.Collision.b2Collision.s_clipPoints2 = a.MakeClipPointVector();
-    Box2D.Collision.b2Collision.s_edgeAO = [0];
-    Box2D.Collision.b2Collision.s_edgeBO = [0];
-    Box2D.Collision.b2Collision.s_localTangent = new Box2D.Common.Math.b2Vec2;
-    Box2D.Collision.b2Collision.s_localNormal = new Box2D.Common.Math.b2Vec2;
-    Box2D.Collision.b2Collision.s_planePoint = new Box2D.Common.Math.b2Vec2;
-    Box2D.Collision.b2Collision.s_normal = new Box2D.Common.Math.b2Vec2;
-    Box2D.Collision.b2Collision.s_tangent = new Box2D.Common.Math.b2Vec2;
-    Box2D.Collision.b2Collision.s_tangent2 = new Box2D.Common.Math.b2Vec2;
-    Box2D.Collision.b2Collision.s_v11 = new Box2D.Common.Math.b2Vec2;
-    Box2D.Collision.b2Collision.s_v12 = new Box2D.Common.Math.b2Vec2
+  P.Wa.push(function() {
+    P.i.Wb.gq = a.gj();
+    P.i.Wb.Lm = a.gj();
+    P.i.Wb.og = a.gj();
+    P.i.Wb.Fk = [0];
+    P.i.Wb.Gk = [0];
+    P.i.Wb.Ce = new P.a.f.g;
+    P.i.Wb.Ik = new P.a.f.g;
+    P.i.Wb.Nm = new P.a.f.g;
+    P.i.Wb.rg = new P.a.f.g;
+    P.i.Wb.sd = new P.a.f.g;
+    P.i.Wb.Jk = new P.a.f.g;
+    P.i.Wb.sg = new P.a.f.g;
+    P.i.Wb.Li = new P.a.f.g
   })
-})(Box2D.Collision.b2Collision);
-Box2D.Collision.b2ContactID = function() {
-  this.features = new Box2D.Collision.Features;
-  this.constructor === Box2D.Collision.b2ContactID && this.b2ContactID.apply(this, arguments)
+})(P.i.Wb);
+P.i.Qe = function() {
+  this.Sc = new P.i.Wi;
+  this.constructor === P.i.Qe && this.Qe.apply(this, arguments)
 };
 (function(a) {
-  a.prototype.b2ContactID = function() {
-    this.features._m_id = this
+  a.prototype.Qe = function() {
+    this.Sc.ke = this
   };
-  a.prototype.Set = function(a) {
-    this.key = a._key
+  a.prototype.s = function(a) {
+    this.key = a.qc
   };
-  a.prototype.Copy = function() {
-    var d = new a;
-    d.key = this.key;
-    return d
+  a.prototype.mb = function() {
+    var g = new a;
+    g.key = this.key;
+    return g
   };
-  Object.defineProperty(a.prototype, "key", {enumerable:!1, configurable:!0, get:function() {
-    return this._key
-  }, set:function(a) {
-    a === void 0 && (a = 0);
-    this._key = a;
-    this.features._referenceEdge = this._key & 255;
-    this.features._incidentEdge = (this._key & 65280) >> 8 & 255;
-    this.features._incidentVertex = (this._key & 16711680) >> 16 & 255;
-    this.features._flip = (this._key & 4278190080) >> 24 & 255
+  Object.defineProperty(a.prototype, "key", {enumerable:!1, configurable:!0, get:u("qc"), set:function(a) {
+    a === f && (a = 0);
+    this.qc = a;
+    this.Sc.vj = this.qc & 255;
+    this.Sc.tj = (this.qc & 65280) >> 8 & 255;
+    this.Sc.uj = (this.qc & 16711680) >> 16 & 255;
+    this.Sc.sj = (this.qc & 4278190080) >> 24 & 255
   }})
-})(Box2D.Collision.b2ContactID);
-Box2D.Collision.b2ContactPoint = function() {
-  this.position = new Box2D.Common.Math.b2Vec2;
-  this.velocity = new Box2D.Common.Math.b2Vec2;
-  this.normal = new Box2D.Common.Math.b2Vec2;
-  this.id = new Box2D.Collision.b2ContactID
+})(P.i.Qe);
+P.i.ro = function() {
+  this.position = new P.a.f.g;
+  this.Vm = new P.a.f.g;
+  this.kb = new P.a.f.g;
+  this.id = new P.i.Qe
 };
-Box2D.Collision.b2Distance = function() {
-};
+P.i.ci = q();
 (function(a) {
-  a.Distance = function(d, b, f) {
-    a.s_simplex.ReadCache(b, f.proxyA, f.transformA, f.proxyB, f.transformB);
-    (a.s_simplex.m_count < 1 || a.s_simplex.m_count > 3) && Box2D.Common.b2Settings.b2Assert(!1);
-    for(var e = 0;e < 20;) {
-      for(var g = [], h = 0;h < a.s_simplex.m_count;h++) {
-        g[h] = {}, g[h].indexA = a.s_simplex.m_vertices[h].indexA, g[h].indexB = a.s_simplex.m_vertices[h].indexB
+  a.Vi = function(g, e, d) {
+    a.ka.Gn(e, d.Lc, d.Oi, d.Mc, d.Pi);
+    (a.ka.Y < 1 || a.ka.Y > 3) && P.a.$.Ra(!1);
+    for(var c = 0;c < 20;) {
+      for(var b = [], h = 0;h < a.ka.Y;h++) {
+        b[h] = {}, b[h].bb = a.ka.u[h].bb, b[h].cb = a.ka.u[h].cb
       }
-      a.s_simplex.m_count == 2 ? a.s_simplex.Solve2() : a.s_simplex.m_count == 3 && a.s_simplex.Solve3();
-      if(a.s_simplex.m_count == 3) {
+      a.ka.Y == 2 ? a.ka.Xn() : a.ka.Y == 3 && a.ka.Yn();
+      if(a.ka.Y == 3) {
         break
       }
-      h = a.s_simplex.GetSearchDirection();
-      if(h.LengthSquared() < Box2D.MIN_VALUE_SQUARED) {
+      h = a.ka.un();
+      if(h.Vh() < P.fj) {
         break
       }
-      a.s_simplex.m_vertices[a.s_simplex.m_count].indexA = f.proxyA.GetSupport(Box2D.Common.Math.b2Math.MulTMV(f.transformA.R, h.GetNegative()));
-      a.s_simplex.m_vertices[a.s_simplex.m_count].wA = Box2D.Common.Math.b2Math.MulX(f.transformA, f.proxyA.GetVertex(a.s_simplex.m_vertices[a.s_simplex.m_count].indexA));
-      a.s_simplex.m_vertices[a.s_simplex.m_count].indexB = f.proxyB.GetSupport(Box2D.Common.Math.b2Math.MulTMV(f.transformB.R, h));
-      a.s_simplex.m_vertices[a.s_simplex.m_count].wB = Box2D.Common.Math.b2Math.MulX(f.transformB, f.proxyB.GetVertex(a.s_simplex.m_vertices[a.s_simplex.m_count].indexB));
-      a.s_simplex.m_vertices[a.s_simplex.m_count].w = Box2D.Common.Math.b2Math.SubtractVV(a.s_simplex.m_vertices[a.s_simplex.m_count].wB, a.s_simplex.m_vertices[a.s_simplex.m_count].wA);
-      e++;
-      for(var j = !1, h = 0;h < g.length;h++) {
-        if(a.s_simplex.m_vertices[a.s_simplex.m_count].indexA == g[h].indexA && a.s_simplex.m_vertices[a.s_simplex.m_count].indexB == g[h].indexB) {
-          j = !0;
+      a.ka.u[a.ka.Y].bb = d.Lc.Sh(P.a.f.Xa.ge(d.Oi.h, h.fe()));
+      a.ka.u[a.ka.Y].Jb = P.a.f.Xa.Oa(d.Oi, d.Lc.Cb(a.ka.u[a.ka.Y].bb));
+      a.ka.u[a.ka.Y].cb = d.Mc.Sh(P.a.f.Xa.ge(d.Pi.h, h));
+      a.ka.u[a.ka.Y].ad = P.a.f.Xa.Oa(d.Pi, d.Mc.Cb(a.ka.u[a.ka.Y].cb));
+      a.ka.u[a.ka.Y].Ab = P.a.f.Xa.Pa(a.ka.u[a.ka.Y].ad, a.ka.u[a.ka.Y].Jb);
+      c++;
+      for(var i = !1, h = 0;h < b.length;h++) {
+        if(a.ka.u[a.ka.Y].bb == b[h].bb && a.ka.u[a.ka.Y].cb == b[h].cb) {
+          i = !0;
           break
         }
       }
-      if(j) {
+      if(i) {
         break
       }
-      a.s_simplex.m_count++
+      a.ka.Y++
     }
-    a.s_simplex.GetWitnessPoints(d.pointA, d.pointB);
-    d.distance = Box2D.Common.Math.b2Math.SubtractVV(d.pointA, d.pointB).Length();
-    d.iterations = e;
-    a.s_simplex.WriteCache(b);
-    if(f.useRadii) {
-      b = f.proxyA.m_radius, f = f.proxyB.m_radius, d.distance > b + f && d.distance > Number.MIN_VALUE ? (d.distance -= b + f, e = Box2D.Common.Math.b2Math.SubtractVV(d.pointB, d.pointA), e.Normalize(), d.pointA.x += b * e.x, d.pointA.y += b * e.y, d.pointB.x -= f * e.x, d.pointB.y -= f * e.y) : (f = new Box2D.Common.Math.b2Vec2, f.x = 0.5 * (d.pointA.x + d.pointB.x), f.y = 0.5 * (d.pointA.y + d.pointB.y), d.pointA.x = d.pointB.x = f.x, d.pointA.y = d.pointB.y = f.y, d.distance = 0)
+    a.ka.vn(g.Zd, g.$d);
+    g.Yf = P.a.f.Xa.Pa(g.Zd, g.$d).Ld();
+    g.ar = c;
+    a.ka.eo(e);
+    if(d.Um) {
+      e = d.Lc.ba, d = d.Mc.ba, g.Yf > e + d && g.Yf > Number.MIN_VALUE ? (g.Yf -= e + d, c = P.a.f.Xa.Pa(g.$d, g.Zd), c.dc(), g.Zd.x += e * c.x, g.Zd.y += e * c.y, g.$d.x -= d * c.x, g.$d.y -= d * c.y) : (d = new P.a.f.g, d.x = 0.5 * (g.Zd.x + g.$d.x), d.y = 0.5 * (g.Zd.y + g.$d.y), g.Zd.x = g.$d.x = d.x, g.Zd.y = g.$d.y = d.y, g.Yf = 0)
     }
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Collision.b2Distance.s_simplex = new Box2D.Collision.b2Simplex
+  P.Wa.push(function() {
+    P.i.ci.ka = new P.i.oe
   })
-})(Box2D.Collision.b2Distance);
-Box2D.Collision.b2DistanceInput = function() {
+})(P.i.ci);
+P.i.Al = q();
+P.i.Bl = function() {
+  this.Zd = new P.a.f.g;
+  this.$d = new P.a.f.g
 };
-Box2D.Collision.b2DistanceOutput = function() {
-  this.pointA = new Box2D.Common.Math.b2Vec2;
-  this.pointB = new Box2D.Common.Math.b2Vec2
-};
-Box2D.Collision.b2DistanceProxy = function() {
-};
+P.i.Hj = q();
 (function(a) {
-  a.prototype.Set = function(a) {
-    var b = a.GetType();
-    b == Box2D.Collision.Shapes.b2Shape.e_circleShape ? (this.m_vertices = [a.m_p], this.m_count = 1, this.m_radius = a.m_radius) : b == Box2D.Collision.Shapes.b2Shape.e_polygonShape ? (this.m_vertices = a.m_vertices, this.m_count = a.m_vertexCount, this.m_radius = a.m_radius) : Box2D.Common.b2Settings.b2Assert(!1)
+  a.prototype.s = function(a) {
+    var e = a.la();
+    e == P.i.H.O.qe ? (this.u = [a.Fa], this.Y = 1, this.ba = a.ba) : e == P.i.H.O.Pd ? (this.u = a.u, this.Y = a.ja, this.ba = a.ba) : P.a.$.Ra(!1)
   };
-  a.prototype.GetSupport = function(a) {
-    for(var b = 0, f = this.m_vertices[0].x * a.x + this.m_vertices[0].y * a.y, e = 1;e < this.m_count;e++) {
-      var g = this.m_vertices[e].x * a.x + this.m_vertices[e].y * a.y;
-      g > f && (b = e, f = g)
+  a.prototype.Sh = function(a) {
+    for(var e = 0, d = this.u[0].x * a.x + this.u[0].y * a.y, c = 1;c < this.Y;c++) {
+      var b = this.u[c].x * a.x + this.u[c].y * a.y;
+      b > d && (e = c, d = b)
     }
-    return b
+    return e
   };
-  a.prototype.GetSupportVertex = function(a) {
-    return this.m_vertices[this.GetSupport(a)]
+  a.prototype.Eg = function(a) {
+    return this.u[this.Sh(a)]
   };
-  a.prototype.GetVertexCount = function() {
-    return this.m_count
-  };
-  a.prototype.GetVertex = function(a) {
-    a === void 0 && (a = 0);
-    Box2D.Common.b2Settings.b2Assert(0 <= a && a < this.m_count);
-    return this.m_vertices[a]
+  a.prototype.gl = u("Y");
+  a.prototype.Cb = function(a) {
+    a === f && (a = 0);
+    P.a.$.Ra(0 <= a && a < this.Y);
+    return this.u[a]
   }
-})(Box2D.Collision.b2DistanceProxy);
-Box2D.Dynamics = {};
-Box2D.Dynamics.b2World = function(a, d) {
-  this.m_contactManager = new Box2D.Dynamics.b2ContactManager;
-  this.m_contactSolver = new Box2D.Dynamics.Contacts.b2ContactSolver;
-  this.m_island = new Box2D.Dynamics.b2Island;
-  if(this.constructor === Box2D.Dynamics.b2World) {
-    this.m_newFixture = this.m_isLocked = !1, this.m_controllerList = this.m_jointList = this.m_contactList = this.m_bodyList = this.m_debugDraw = this.m_destructionListener = null, this.m_controllerCount = this.m_jointCount = this.m_contactCount = this.m_bodyCount = 0, Box2D.Dynamics.b2World.m_warmStarting = !0, Box2D.Dynamics.b2World.m_continuousPhysics = !0, this.m_allowSleep = d, this.m_gravity = a, this.m_inv_dt0 = 0, this.m_contactManager.m_world = this, this.m_groundBody = this.CreateBody(new Box2D.Dynamics.b2BodyDef)
+})(P.i.Hj);
+P.c = {};
+P.c.Nd = function(a, g) {
+  this.Fb = new P.c.Re;
+  this.kf = new P.c.D.me;
+  this.Ea = new P.c.Ue;
+  if(this.constructor === P.c.Nd) {
+    this.qk = this.dg = !1, this.Sd = this.Na = this.za = this.Da = this.Gb = this.dr = p, this.fk = this.hc = this.Xc = this.Lb = 0, P.c.Nd.Op = !0, P.c.Nd.vp = !0, this.ck = g, this.sm = a, this.tm = 0, this.Fb.zb = this, this.jk = this.Ef(new P.c.Pe)
   }
 };
 (function(a) {
-  a.MAX_TOI = 1 - 100 * Number.MIN_VALUE;
-  a.prototype.SetDestructionListener = function(a) {
-    this.m_destructionListener = a
+  a.zn = 1 - 100 * Number.MIN_VALUE;
+  a.prototype.Nn = function(a) {
+    this.Fb.ek = a
   };
-  a.prototype.SetContactFilter = function(a) {
-    this.m_contactManager.m_contactFilter = a
+  a.prototype.On = function(a) {
+    this.Fb.bg = a
   };
-  a.prototype.SetContactListener = function(a) {
-    this.m_contactManager.m_contactListener = a
+  a.prototype.Pn = function(a) {
+    this.Gb = a
   };
-  a.prototype.SetDebugDraw = function(a) {
-    this.m_debugDraw = a
-  };
-  a.prototype.SetBroadPhase = function(a) {
-    var b = this.m_contactManager.m_broadPhase;
-    this.m_contactManager.m_broadPhase = a;
-    for(var f = this.m_bodyList;f;f = f.m_next) {
-      for(var e = f.m_fixtureList;e;e = e.m_next) {
-        e.m_proxy = a.CreateProxy(b.GetFatAABB(e.m_proxy), e)
-      }
+  a.prototype.Ef = function(a) {
+    if(this.dg) {
+      return p
     }
-  };
-  a.prototype.Validate = function() {
-    this.m_contactManager.m_broadPhase.Validate()
-  };
-  a.prototype.GetProxyCount = function() {
-    return this.m_contactManager.m_broadPhase.GetProxyCount()
-  };
-  a.prototype.CreateBody = function(a) {
-    if(this.IsLocked()) {
-      return null
+    a = new P.c.sa(a, this);
+    a.rb = p;
+    if(a.L = this.Da) {
+      this.Da.rb = a
     }
-    a = new Box2D.Dynamics.b2Body(a, this);
-    a.m_prev = null;
-    if(a.m_next = this.m_bodyList) {
-      this.m_bodyList.m_prev = a
-    }
-    this.m_bodyList = a;
-    this.m_bodyCount++;
+    this.Da = a;
+    this.Lb++;
     return a
   };
-  a.prototype.DestroyBody = function(a) {
-    if(!this.IsLocked()) {
-      for(var b = a.m_jointList;b;) {
-        var f = b, b = b.next;
-        this.m_destructionListener && this.m_destructionListener.SayGoodbyeJoint(f.joint);
-        this.DestroyJoint(f.joint)
+  a.prototype.hn = function(a) {
+    if(!this.dg) {
+      for(var e = a.Na;e;) {
+        var d = e, e = e.next;
+        this.jn(d.Rd)
       }
-      for(b = a.m_controllerList;b;) {
-        f = b, b = b.nextController, f.controller.RemoveBody(a)
+      for(e = a.Sd;e;) {
+        d = e, e = e.Yd, d.Ol.nl(a)
       }
-      for(b = a.m_contactList;b;) {
-        f = b, b = b.next, this.m_contactManager.Destroy(f.contact)
+      for(e = a.za;e;) {
+        d = e, e = e.next, this.Fb.nb(d.ib)
       }
-      a.m_contactList = null;
-      for(b = a.m_fixtureList;b;) {
-        f = b, b = b.m_next, this.m_destructionListener && this.m_destructionListener.SayGoodbyeFixture(f), f.DestroyProxy(this.m_contactManager.m_broadPhase), f.Destroy()
+      a.za = p;
+      for(e = a.Bd;e;) {
+        d = e, e = e.L, d.Ag(this.Fb.jf), d.nb()
       }
-      a.m_fixtureList = null;
-      a.m_fixtureCount = 0;
-      if(a.m_prev) {
-        a.m_prev.m_next = a.m_next
+      a.Bd = p;
+      a.rm = 0;
+      if(a.rb) {
+        a.rb.L = a.L
       }
-      if(a.m_next) {
-        a.m_next.m_prev = a.m_prev
+      if(a.L) {
+        a.L.rb = a.rb
       }
-      if(a == this.m_bodyList) {
-        this.m_bodyList = a.m_next
+      if(a == this.Da) {
+        this.Da = a.L
       }
-      this.m_bodyCount--
+      this.Lb--
     }
   };
-  a.prototype.CreateJoint = function(a) {
-    var b = Box2D.Dynamics.Joints.b2Joint.Create(a, null);
-    b.m_prev = null;
-    if(b.m_next = this.m_jointList) {
-      this.m_jointList.m_prev = b
+  a.prototype.Ui = function(a) {
+    var e = P.c.o.F.Rb(a, p);
+    e.rb = p;
+    if(e.L = this.Na) {
+      this.Na.rb = e
     }
-    this.m_jointList = b;
-    this.m_jointCount++;
-    b.m_edgeA.joint = b;
-    b.m_edgeA.other = b.m_bodyB;
-    b.m_edgeA.prev = null;
-    if(b.m_edgeA.next = b.m_bodyA.m_jointList) {
-      b.m_bodyA.m_jointList.prev = b.m_edgeA
+    this.Na = e;
+    this.hc++;
+    e.$b.Rd = e;
+    e.$b.Ja = e.N;
+    e.$b.La = p;
+    if(e.$b.next = e.S.Na) {
+      e.S.Na.La = e.$b
     }
-    b.m_bodyA.m_jointList = b.m_edgeA;
-    b.m_edgeB.joint = b;
-    b.m_edgeB.other = b.m_bodyA;
-    b.m_edgeB.prev = null;
-    if(b.m_edgeB.next = b.m_bodyB.m_jointList) {
-      b.m_bodyB.m_jointList.prev = b.m_edgeB
+    e.S.Na = e.$b;
+    e.ac.Rd = e;
+    e.ac.Ja = e.S;
+    e.ac.La = p;
+    if(e.ac.next = e.N.Na) {
+      e.N.Na.La = e.ac
     }
-    b.m_bodyB.m_jointList = b.m_edgeB;
-    var f = a.bodyA, e = a.bodyB;
-    if(!a.collideConnected) {
-      for(a = e.GetContactList();a;) {
-        a.other == f && a.contact.FlagForFiltering(), a = a.next
-      }
-    }
-    return b
-  };
-  a.prototype.DestroyJoint = function(a) {
-    var b = a.m_collideConnected;
-    if(a.m_prev) {
-      a.m_prev.m_next = a.m_next
-    }
-    if(a.m_next) {
-      a.m_next.m_prev = a.m_prev
-    }
-    if(a == this.m_jointList) {
-      this.m_jointList = a.m_next
-    }
-    var f = a.m_bodyA, e = a.m_bodyB;
-    f.SetAwake(!0);
-    e.SetAwake(!0);
-    if(a.m_edgeA.prev) {
-      a.m_edgeA.prev.next = a.m_edgeA.next
-    }
-    if(a.m_edgeA.next) {
-      a.m_edgeA.next.prev = a.m_edgeA.prev
-    }
-    if(a.m_edgeA == f.m_jointList) {
-      f.m_jointList = a.m_edgeA.next
-    }
-    a.m_edgeA.prev = null;
-    a.m_edgeA.next = null;
-    if(a.m_edgeB.prev) {
-      a.m_edgeB.prev.next = a.m_edgeB.next
-    }
-    if(a.m_edgeB.next) {
-      a.m_edgeB.next.prev = a.m_edgeB.prev
-    }
-    if(a.m_edgeB == e.m_jointList) {
-      e.m_jointList = a.m_edgeB.next
-    }
-    a.m_edgeB.prev = null;
-    a.m_edgeB.next = null;
-    Box2D.Dynamics.Joints.b2Joint.Destroy(a, null);
-    this.m_jointCount--;
-    if(!b) {
-      for(a = e.GetContactList();a;) {
-        a.other == f && a.contact.FlagForFiltering(), a = a.next
+    e.N.Na = e.ac;
+    var e = a.ma, d = a.qa;
+    if(!a.Oj) {
+      for(a = d.za;a;) {
+        a.Ja == e && a.ib.$k(), a = a.next
       }
     }
   };
-  a.prototype.AddController = function(a) {
-    a.m_next = this.m_controllerList;
-    a.m_prev = null;
-    this.m_controllerList = a;
-    a.m_world = this;
-    this.m_controllerCount++;
-    return a
-  };
-  a.prototype.RemoveController = function(a) {
-    if(a.m_prev) {
-      a.m_prev.m_next = a.m_next
+  a.prototype.jn = function(a) {
+    var e = a.nm;
+    if(a.rb) {
+      a.rb.L = a.L
     }
-    if(a.m_next) {
-      a.m_next.m_prev = a.m_prev
+    if(a.L) {
+      a.L.rb = a.rb
     }
-    if(this.m_controllerList == a) {
-      this.m_controllerList = a.m_next
+    if(a == this.Na) {
+      this.Na = a.L
     }
-    this.m_controllerCount--
-  };
-  a.prototype.CreateController = function(a) {
-    if(a.m_world != this) {
-      throw Error("Controller can only be a member of one world");
+    var d = a.S, c = a.N;
+    d.nc(!0);
+    c.nc(!0);
+    if(a.$b.La) {
+      a.$b.La.next = a.$b.next
     }
-    a.m_next = this.m_controllerList;
-    a.m_prev = null;
-    if(this.m_controllerList) {
-      this.m_controllerList.m_prev = a
+    if(a.$b.next) {
+      a.$b.next.La = a.$b.La
     }
-    this.m_controllerList = a;
-    this.m_controllerCount++;
-    a.m_world = this;
-    return a
-  };
-  a.prototype.DestroyController = function(a) {
-    a.Clear();
-    if(a.m_next) {
-      a.m_next.m_prev = a.m_prev
+    if(a.$b == d.Na) {
+      d.Na = a.$b.next
     }
-    if(a.m_prev) {
-      a.m_prev.m_next = a.m_next
+    a.$b.La = p;
+    a.$b.next = p;
+    if(a.ac.La) {
+      a.ac.La.next = a.ac.next
     }
-    if(a == this.m_controllerList) {
-      this.m_controllerList = a.m_next
+    if(a.ac.next) {
+      a.ac.next.La = a.ac.La
     }
-    this.m_controllerCount--
-  };
-  a.prototype.SetWarmStarting = function(d) {
-    a.m_warmStarting = d
-  };
-  a.prototype.SetContinuousPhysics = function(d) {
-    a.m_continuousPhysics = d
-  };
-  a.prototype.GetBodyCount = function() {
-    return this.m_bodyCount
-  };
-  a.prototype.GetJointCount = function() {
-    return this.m_jointCount
-  };
-  a.prototype.GetContactCount = function() {
-    return this.m_contactCount
-  };
-  a.prototype.SetGravity = function(a) {
-    this.m_gravity = a
-  };
-  a.prototype.GetGravity = function() {
-    return this.m_gravity
-  };
-  a.prototype.GetGroundBody = function() {
-    return this.m_groundBody
-  };
-  a.prototype.Step = function(d, b, f) {
-    d === void 0 && (d = 0);
-    b === void 0 && (b = 0);
-    f === void 0 && (f = 0);
-    if(this.m_newFixture) {
-      this.m_contactManager.FindNewContacts(), this.m_newFixture = !1
+    if(a.ac == c.Na) {
+      c.Na = a.ac.next
     }
-    this.m_isLocked = !0;
-    var e = new Box2D.Dynamics.b2TimeStep;
-    e.dt = d;
-    e.velocityIterations = b;
-    e.positionIterations = f;
-    e.inv_dt = d > 0 ? 1 / d : 0;
-    e.dtRatio = this.m_inv_dt0 * d;
-    e.warmStarting = a.m_warmStarting;
-    this.m_contactManager.Collide();
-    if(e.dt > 0) {
-      this.Solve(e), a.m_continuousPhysics && e.dt > 0 && this.SolveTOI(e), this.m_inv_dt0 = e.inv_dt
-    }
-    this.m_isLocked = !1
-  };
-  a.prototype.ClearForces = function() {
-    for(var a = this.m_bodyList;a;a = a.m_next) {
-      a.m_force.SetZero(), a.m_torque = 0
+    a.ac.La = p;
+    a.ac.next = p;
+    P.c.o.F.nb(a, p);
+    this.hc--;
+    if(!e) {
+      for(a = c.za;a;) {
+        a.Ja == d && a.ib.$k(), a = a.next
+      }
     }
   };
-  a.prototype.DrawDebugData = function() {
-    if(this.m_debugDraw !== null) {
-      this.m_debugDraw.m_sprite.graphics.clear();
-      var d = this.m_debugDraw.GetFlags();
-      if(d & Box2D.Dynamics.b2DebugDraw.e_shapeBit) {
-        for(var b = new Box2D.Common.b2Color(0.5, 0.5, 0.3), f = new Box2D.Common.b2Color(0.5, 0.9, 0.5), e = new Box2D.Common.b2Color(0.5, 0.5, 0.9), g = new Box2D.Common.b2Color(0.6, 0.6, 0.6), h = new Box2D.Common.b2Color(0.9, 0.7, 0.7), j = this.m_bodyList;j;j = j.m_next) {
-          for(var l = j.GetFixtureList();l;l = l.m_next) {
-            var k = l.GetShape();
-            j.IsActive() ? j.GetType() == Box2D.Dynamics.b2Body.b2_staticBody ? this.DrawShape(k, j.m_xf, f) : j.GetType() == Box2D.Dynamics.b2Body.b2_kinematicBody ? this.DrawShape(k, j.m_xf, e) : j.IsAwake() ? this.DrawShape(k, j.m_xf, h) : this.DrawShape(k, j.m_xf, g) : this.DrawShape(k, j.m_xf, b)
+  a.prototype.he = function(g, e, d) {
+    g === f && (g = 0);
+    e === f && (e = 0);
+    d === f && (d = 0);
+    if(this.qk) {
+      this.Fb.Ph(), this.qk = !1
+    }
+    this.dg = !0;
+    var c = new P.c.Rf;
+    c.da = g;
+    c.tg = e;
+    c.lg = d;
+    c.Wc = g > 0 ? 1 / g : 0;
+    c.Ya = this.tm * g;
+    c.bd = a.Op;
+    this.Fb.$m();
+    if(c.da > 0) {
+      this.Me(c), a.vp && c.da > 0 && this.qj(c), this.tm = c.Wc
+    }
+    this.dg = !1
+  };
+  a.prototype.Zm = function() {
+    for(var a = this.Da;a;a = a.L) {
+      a.mf.V(), a.Dh = 0
+    }
+  };
+  a.prototype.kn = function() {
+    if(this.Gb !== p) {
+      this.Gb.Mp.dp.clear();
+      var g = this.Gb.pm;
+      if(g & P.c.Db.$l) {
+        for(var e = new P.a.sc(0.5, 0.5, 0.3), d = new P.a.sc(0.5, 0.9, 0.5), c = new P.a.sc(0.5, 0.5, 0.9), b = new P.a.sc(0.6, 0.6, 0.6), h = new P.a.sc(0.9, 0.7, 0.7), i = this.Da;i;i = i.L) {
+          for(var j = i.Bd;j;j = j.L) {
+            var k = j.Ga;
+            i.Kd() ? i.la() == P.c.sa.vc ? this.Bg(k, i.n, d) : i.la() == P.c.sa.Gl ? this.Bg(k, i.n, c) : i.gb ? this.Bg(k, i.n, h) : this.Bg(k, i.n, b) : this.Bg(k, i.n, e)
           }
         }
       }
-      if(d & Box2D.Dynamics.b2DebugDraw.e_jointBit) {
-        for(j = this.m_jointList;j;j = j.m_next) {
-          this.DrawJoint(j)
+      if(g & P.c.Db.Uo) {
+        for(i = this.Na;i;i = i.L) {
+          this.ln(i)
         }
       }
-      if(d & Box2D.Dynamics.b2DebugDraw.e_controllerBit) {
-        for(j = this.m_controllerList;j;j = j.m_next) {
-          j.Draw(this.m_debugDraw)
+      if(g & P.c.Db.To) {
+        for(i = this.Sd;i;i = i.L) {
+          i.Yk(this.Gb)
         }
       }
-      if(d & Box2D.Dynamics.b2DebugDraw.e_pairBit) {
-        j = new Box2D.Common.b2Color(0.3, 0.9, 0.9);
-        for(l = this.m_contactManager.m_contactList;l;l = l.GetNext()) {
-          f = l.GetFixtureA(), b = l.GetFixtureB(), f = f.GetAABB().GetCenter(), b = b.GetAABB().GetCenter(), this.m_debugDraw.DrawSegment(f, b, j)
+      if(g & P.c.Db.Xl) {
+        i = new P.a.sc(0.3, 0.9, 0.9);
+        for(j = this.Fb.za;j;j = j.L) {
+          d = j.ha, e = j.fa.te.Zi(), d = d.te.Zi(), this.Gb.ud(e, d, i)
         }
       }
-      if(d & Box2D.Dynamics.b2DebugDraw.e_aabbBit) {
-        b = new Box2D.Common.b2Color(0, 0, 0.8);
-        for(j = this.m_bodyList;j;j = j.GetNext()) {
-          if(j.IsActive()) {
-            for(l = j.GetFixtureList();l;l = l.GetNext()) {
-              f = this.m_contactManager.m_broadPhase.GetFatAABB(l.m_proxy), this.m_debugDraw.DrawPolygon([new Box2D.Common.Math.b2Vec2(f.lowerBound.x, f.lowerBound.y), new Box2D.Common.Math.b2Vec2(f.upperBound.x, f.lowerBound.y), new Box2D.Common.Math.b2Vec2(f.upperBound.x, f.upperBound.y), new Box2D.Common.Math.b2Vec2(f.lowerBound.x, f.upperBound.y)], 4, b)
+      if(g & P.c.Db.Sl) {
+        e = new P.a.sc(0, 0, 0.8);
+        for(i = this.Da;i;i = i.L) {
+          if(i.Kd()) {
+            for(j = i.Bd;j;j = j.L) {
+              d = this.Fb.jf.Hf(j.ye), this.Gb.mn([new P.a.f.g(d.lowerBound.x, d.lowerBound.y), new P.a.f.g(d.upperBound.x, d.lowerBound.y), new P.a.f.g(d.upperBound.x, d.upperBound.y), new P.a.f.g(d.lowerBound.x, d.upperBound.y)], e)
             }
           }
         }
       }
-      if(d & Box2D.Dynamics.b2DebugDraw.e_centerOfMassBit) {
-        for(j = this.m_bodyList;j;j = j.m_next) {
-          a.s_xf.R = j.m_xf.R, a.s_xf.position = j.GetWorldCenter(), this.m_debugDraw.DrawTransform(a.s_xf)
+      if(g & P.c.Db.So) {
+        for(i = this.Da;i;i = i.L) {
+          a.Kk.h = i.n.h, a.Kk.position = i.e.k, this.Gb.pn(a.Kk)
         }
       }
     }
   };
-  a.prototype.QueryAABB = function(a, b) {
-    var f = this.m_contactManager.m_broadPhase;
-    f.Query(function(e) {
-      return a(f.GetUserData(e))
-    }, b)
-  };
-  a.prototype.QueryShape = function(a, b, f) {
-    if(f === void 0 || f === null) {
-      f = new Box2D.Common.Math.b2Transform, f.SetIdentity()
+  a.prototype.Me = function(a) {
+    for(var e = this.Sd;e;e = e.L) {
+      e.he(a)
     }
-    var e = this.m_contactManager.m_broadPhase, g = new Box2D.Collision.b2AABB;
-    b.ComputeAABB(g, f);
-    e.Query(function(g) {
-      g = e.GetUserData(g);
-      g instanceof Box2D.Dynamics.b2Fixture || (g = null);
-      return Box2D.Collision.Shapes.b2Shape.TestOverlap(b, f, g.GetShape(), g.GetBody().GetTransform()) ? a(g) : !0
-    }, g)
-  };
-  a.prototype.QueryPoint = function(a, b) {
-    var f = this.m_contactManager.m_broadPhase, e = new Box2D.Collision.b2AABB;
-    e.lowerBound.Set(b.x - Box2D.Common.b2Settings.b2_linearSlop, b.y - Box2D.Common.b2Settings.b2_linearSlop);
-    e.upperBound.Set(b.x + Box2D.Common.b2Settings.b2_linearSlop, b.y + Box2D.Common.b2Settings.b2_linearSlop);
-    f.Query(function(e) {
-      e = f.GetUserData(e);
-      e instanceof Box2D.Dynamics.b2Fixture || (e = null);
-      return e.TestPoint(b) ? a(e) : !0
-    }, e)
-  };
-  a.prototype.RayCast = function(a, b, f) {
-    var e = this.m_contactManager.m_broadPhase, g = new Box2D.Collision.b2RayCastOutput, h = new Box2D.Collision.b2RayCastInput(b, f);
-    e.RayCast(function(j, h) {
-      var k = e.GetUserData(h);
-      k instanceof Box2D.Dynamics.b2Fixture || (k = null);
-      if(k.RayCast(g, j)) {
-        var o = 1 - g.fraction, o = new Box2D.Common.Math.b2Vec2(o * b.x + g.fraction * f.x, o * b.y + g.fraction * f.y);
-        return a(k, o, g.normal, g.fraction)
-      }else {
-        return j.maxFraction
-      }
-    }, h)
-  };
-  a.prototype.RayCastOne = function(a, b) {
-    var f;
-    this.RayCast(function(a, d, b, j) {
-      j === void 0 && (j = 0);
-      f = a;
-      return j
-    }, a, b);
-    return f
-  };
-  a.prototype.RayCastAll = function(a, b) {
-    var f = [];
-    this.RayCast(function(a) {
-      f[f.length] = a;
-      return 1
-    }, a, b);
-    return f
-  };
-  a.prototype.GetBodyList = function() {
-    return this.m_bodyList
-  };
-  a.prototype.GetJointList = function() {
-    return this.m_jointList
-  };
-  a.prototype.GetContactList = function() {
-    return this.m_contactList
-  };
-  a.prototype.IsLocked = function() {
-    return this.m_isLocked
-  };
-  a.prototype.Solve = function(a) {
-    for(var b = this.m_controllerList;b;b = b.m_next) {
-      b.Step(a)
+    this.Ea.$a(this.Lb, this.Xc, this.hc, this.Fb.bg, this.kf);
+    for(var d = this.Da;d;d = d.L) {
+      d.Ka = !1
     }
-    this.m_island.Initialize(this.m_bodyCount, this.m_contactCount, this.m_jointCount, this.m_contactManager.m_contactListener, this.m_contactSolver);
-    for(var f = this.m_bodyList;f;f = f.m_next) {
-      f.m_islandFlag = !1
+    for(e = this.za;e;e = e.L) {
+      e.Ka = !1
     }
-    for(b = this.m_contactList;b;b = b.m_next) {
-      b.m_islandFlag = !1
+    for(e = this.Na;e;e = e.L) {
+      e.Ka = !1
     }
-    for(b = this.m_jointList;b;b = b.m_next) {
-      b.m_islandFlag = !1
-    }
-    for(b = this.m_bodyList;b;b = b.m_next) {
-      if(!b.m_islandFlag && b.IsAwake() && b.IsActive() && b.GetType() != Box2D.Dynamics.b2Body.b2_staticBody) {
-        this.m_island.Clear();
-        var e = [];
-        e.push(b);
-        for(b.m_islandFlag = !0;e.length > 0;) {
-          if(f = e.pop(), this.m_island.AddBody(f), f.IsAwake() || f.SetAwake(!0), f.GetType() != Box2D.Dynamics.b2Body.b2_staticBody) {
-            for(var g = f.m_contactList;g;g = g.next) {
-              if(!g.contact.m_islandFlag && !g.contact.IsSensor() && g.contact.IsEnabled() != !1 && g.contact.IsTouching() && (this.m_island.AddContact(g.contact), g.contact.m_islandFlag = !0, !g.other.m_islandFlag)) {
-                e.push(g.other), g.other.m_islandFlag = !0
+    for(e = this.Da;e;e = e.L) {
+      if(!e.Ka && e.gb && e.Kd() && e.la() != P.c.sa.vc) {
+        this.Ea.Si();
+        var c = [];
+        c.push(e);
+        for(e.Ka = !0;c.length > 0;) {
+          if(d = c.pop(), this.Ea.Ri(d), d.gb || d.nc(!0), d.la() != P.c.sa.vc) {
+            for(var b = d.za;b;b = b.next) {
+              if(!b.ib.Ka && !b.ib.vd() && b.ib.enabled != !1 && b.ib.Af && (this.Ea.Pk(b.ib), b.ib.Ka = !0, !b.Ja.Ka)) {
+                c.push(b.Ja), b.Ja.Ka = !0
               }
             }
-            for(f = f.m_jointList;f;f = f.next) {
-              if(!f.joint.m_islandFlag && f.other.IsActive() && (this.m_island.AddJoint(f.joint), f.joint.m_islandFlag = !0, !f.other.m_islandFlag)) {
-                e.push(f.other), f.other.m_islandFlag = !0
+            for(d = d.Na;d;d = d.next) {
+              if(!d.Rd.Ka && d.Ja.Kd() && (this.Ea.Qk(d.Rd), d.Rd.Ka = !0, !d.Ja.Ka)) {
+                c.push(d.Ja), d.Ja.Ka = !0
               }
             }
           }
         }
-        this.m_island.Solve(a, this.m_gravity, this.m_allowSleep);
-        for(e = 0;e < this.m_island.m_bodyCount;++e) {
-          if(this.m_island.m_bodies[e].GetType() == Box2D.Dynamics.b2Body.b2_staticBody) {
-            this.m_island.m_bodies[e].m_islandFlag = !1
+        this.Ea.Me(a, this.sm, this.ck);
+        for(c = 0;c < this.Ea.Lb;++c) {
+          if(this.Ea.fc[c].la() == P.c.sa.vc) {
+            this.Ea.fc[c].Ka = !1
           }
         }
       }
     }
-    for(f = this.m_bodyList;f;f = f.m_next) {
-      f.IsAwake() && f.IsActive() && f.GetType() != Box2D.Dynamics.b2Body.b2_staticBody && f.SynchronizeFixtures()
+    for(d = this.Da;d;d = d.L) {
+      d.gb && d.Kd() && d.la() != P.c.sa.vc && d.tl()
     }
-    this.m_contactManager.FindNewContacts()
+    this.Fb.Ph()
   };
-  a.prototype.SolveTOI = function(d) {
-    this.m_island.Initialize(this.m_bodyCount, Box2D.Common.b2Settings.b2_maxTOIContactsPerIsland, Box2D.Common.b2Settings.b2_maxTOIJointsPerIsland, this.m_contactManager.m_contactListener, this.m_contactSolver);
-    for(var b = this.m_bodyList;b;b = b.m_next) {
-      b.m_islandFlag = !1, b.m_sweep.t0 = 0
+  a.prototype.qj = function(g) {
+    this.Ea.$a(this.Lb, P.a.$.yo, P.a.$.zo, this.Fb.bg, this.kf);
+    for(var e = this.Da;e;e = e.L) {
+      e.Ka = !1, e.e.tb = 0
     }
-    for(var f = this.m_contactList;f;f = f.m_next) {
-      f.m_islandFlag = !1, f.m_toi = null
+    for(var d = this.za;d;d = d.L) {
+      d.Ka = !1, d.hg = p
     }
-    for(f = this.m_jointList;f;f = f.m_next) {
-      f.m_islandFlag = !1
+    for(d = this.Na;d;d = d.L) {
+      d.Ka = !1
     }
     for(;;) {
-      var f = this._SolveTOI2(d), e = f.minContact, f = f.minTOI;
-      if(e === null || a.MAX_TOI < f) {
+      var d = this.fo(), c = d.Tp, d = d.Up;
+      if(c === p || a.zn < d) {
         break
       }
-      a.s_backupA.Set(e.m_fixtureA.m_body.m_sweep);
-      a.s_backupB.Set(e.m_fixtureB.m_body.m_sweep);
-      e.m_fixtureA.m_body.Advance(f);
-      e.m_fixtureB.m_body.Advance(f);
-      e.Update(this.m_contactManager.m_contactListener);
-      e.m_toi = null;
-      if(e.IsSensor() || e.IsEnabled() == !1) {
-        e.m_fixtureA.m_body.m_sweep.Set(a.s_backupA), e.m_fixtureB.m_body.m_sweep.Set(a.s_backupB), e.m_fixtureA.m_body.SynchronizeTransform(), e.m_fixtureB.m_body.SynchronizeTransform()
+      a.Jm.s(c.fa.M.e);
+      a.Km.s(c.ha.M.e);
+      c.fa.M.de(d);
+      c.ha.M.de(d);
+      c.vl(this.Fb.bg);
+      c.hg = p;
+      if(c.vd() || c.enabled == !1) {
+        c.fa.M.e.s(a.Jm), c.ha.M.e.s(a.Km), c.fa.M.Qa(), c.ha.M.Qa()
       }else {
-        if(e.IsTouching()) {
-          var g = e.m_fixtureA.m_body;
-          if(g.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody) {
-            g = e.m_fixtureB.m_body
+        if(c.Af) {
+          var b = c.fa.M;
+          if(b.la() != P.c.sa.Eb) {
+            b = c.ha.M
           }
-          this.m_island.Clear();
-          e = new Box2D.Queue;
-          e.enqueue(g);
-          for(g.m_islandFlag = !0;e.size > 0;) {
-            if(b = e.dequeue(), this.m_island.AddBody(b), b.IsAwake() || b.SetAwake(!0), b.GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody) {
-              for(g = b.m_contactList;g;g = g.next) {
-                if(this.m_island.m_contactCount == this.m_island.m_contactCapacity) {
+          this.Ea.Si();
+          c = new P.Fn;
+          fa(c, b);
+          for(b.Ka = !0;c.size > 0;) {
+            if(b = c, e = b.Bk[b.start], b.Bk[b.start] = p, b.size--, b.start++, this.Ea.Ri(e), e.gb || e.nc(!0), e.la() == P.c.sa.Eb) {
+              for(b = e.za;b;b = b.next) {
+                if(this.Ea.Xc == this.Ea.up) {
                   break
                 }
-                if(!g.contact.m_islandFlag && !g.contact.IsSensor() && g.contact.IsEnabled() != !1 && g.contact.IsTouching() && (this.m_island.AddContact(g.contact), g.contact.m_islandFlag = !0, !g.other.m_islandFlag)) {
-                  g.other.GetType() != Box2D.Dynamics.b2Body.b2_staticBody && (g.other.Advance(f), g.other.SetAwake(!0)), e.enqueue(g.other), g.other.m_islandFlag = !0
+                if(!b.ib.Ka && !b.ib.vd() && b.ib.enabled != !1 && b.ib.Af && (this.Ea.Pk(b.ib), b.ib.Ka = !0, !b.Ja.Ka)) {
+                  b.Ja.la() != P.c.sa.vc && (b.Ja.de(d), b.Ja.nc(!0)), fa(c, b.Ja), b.Ja.Ka = !0
                 }
               }
-              for(g = b.m_jointList;g;g = g.next) {
-                if(this.m_island.m_jointCount != this.m_island.m_jointCapacity && !g.joint.m_islandFlag && g.other.IsActive() && (this.m_island.AddJoint(g.joint), g.joint.m_islandFlag = !0, !g.other.m_islandFlag)) {
-                  g.other.GetType() != Box2D.Dynamics.b2Body.b2_staticBody && (g.other.Advance(f), g.other.SetAwake(!0)), e.enqueue(g.other), g.other.m_islandFlag = !0
+              for(b = e.Na;b;b = b.next) {
+                if(this.Ea.hc != this.Ea.Fp && !b.Rd.Ka && b.Ja.Kd() && (this.Ea.Qk(b.Rd), b.Rd.Ka = !0, !b.Ja.Ka)) {
+                  b.Ja.la() != P.c.sa.vc && (b.Ja.de(d), b.Ja.nc(!0)), fa(c, b.Ja), b.Ja.Ka = !0
                 }
               }
             }
           }
-          e = new Box2D.Dynamics.b2TimeStep;
-          e.warmStarting = !1;
-          e.dt = (1 - f) * d.dt;
-          e.inv_dt = 1 / e.dt;
-          e.dtRatio = 0;
-          e.velocityIterations = d.velocityIterations;
-          e.positionIterations = d.positionIterations;
-          this.m_island.SolveTOI(e);
-          for(f = 0;f < this.m_island.m_bodyCount;f++) {
-            if(this.m_island.m_bodies[f].m_islandFlag = !1, this.m_island.m_bodies[f].IsAwake() && this.m_island.m_bodies[f].GetType() == Box2D.Dynamics.b2Body.b2_dynamicBody) {
-              this.m_island.m_bodies[f].SynchronizeFixtures();
-              for(g = this.m_island.m_bodies[f].m_contactList;g;g = g.next) {
-                g.contact.m_toi = null
+          c = new P.c.Rf;
+          c.bd = !1;
+          c.da = (1 - d) * g.da;
+          c.Wc = 1 / c.da;
+          c.Ya = 0;
+          c.tg = g.tg;
+          c.lg = g.lg;
+          this.Ea.qj(c);
+          for(d = 0;d < this.Ea.Lb;d++) {
+            if(this.Ea.fc[d].Ka = !1, this.Ea.fc[d].gb && this.Ea.fc[d].la() == P.c.sa.Eb) {
+              this.Ea.fc[d].tl();
+              for(b = this.Ea.fc[d].za;b;b = b.next) {
+                b.ib.hg = p
               }
             }
           }
-          for(f = 0;f < this.m_island.m_contactCount;f++) {
-            this.m_island.m_contacts[f].m_islandFlag = !1, this.m_island.m_contacts[f].m_toi = null
+          for(d = 0;d < this.Ea.Xc;d++) {
+            this.Ea.ve[d].Ka = !1, this.Ea.ve[d].hg = p
           }
-          for(f = 0;f < this.m_island.m_jointCount;f++) {
-            this.m_island.m_joints[f].m_islandFlag = !1
+          for(d = 0;d < this.Ea.hc;d++) {
+            this.Ea.pd[d].Ka = !1
           }
-          this.m_contactManager.FindNewContacts()
+          this.Fb.Ph()
         }
       }
     }
   };
-  a.prototype._SolveTOI2 = function(a) {
-    for(var b = null, f = 1, e = this.m_contactList;e;e = e.m_next) {
-      if(!this._SolveTOI2SkipContact(a, e)) {
-        var g = 1;
-        if(e.m_toi != null) {
-          g = e.m_toi
+  a.prototype.fo = function() {
+    for(var a = p, e = 1, d = this.za;d;d = d.L) {
+      if(!this.ho(d)) {
+        var c = 1;
+        if(d.hg != p) {
+          c = d.hg
         }else {
-          if(e.IsTouching()) {
-            g = 1
+          if(d.Af) {
+            c = 1
           }else {
-            var h = e.m_fixtureA.m_body.m_sweep.t0;
-            if(e.m_fixtureA.m_body.m_sweep.t0 < e.m_fixtureB.m_body.m_sweep.t0) {
-              h = e.m_fixtureB.m_body.m_sweep.t0, e.m_fixtureA.m_body.m_sweep.Advance(h)
+            var b = d.fa.M.e.tb;
+            if(d.fa.M.e.tb < d.ha.M.e.tb) {
+              b = d.ha.M.e.tb, d.fa.M.e.de(b)
             }else {
-              if(e.m_fixtureB.m_body.m_sweep.t0 < e.m_fixtureA.m_body.m_sweep.t0) {
-                h = e.m_fixtureA.m_body.m_sweep.t0, e.m_fixtureB.m_body.m_sweep.Advance(h)
+              if(d.ha.M.e.tb < d.fa.M.e.tb) {
+                b = d.fa.M.e.tb, d.ha.M.e.de(b)
               }
             }
-            g = e.ComputeTOI(e.m_fixtureA.m_body.m_sweep, e.m_fixtureB.m_body.m_sweep);
-            Box2D.Common.b2Settings.b2Assert(0 <= g && g <= 1);
-            g > 0 && g < 1 && (g = (1 - g) * h + g)
+            c = d.fn(d.fa.M.e, d.ha.M.e);
+            P.a.$.Ra(0 <= c && c <= 1);
+            c > 0 && c < 1 && (c = (1 - c) * b + c)
           }
-          e.m_toi = g
+          d.hg = c
         }
-        Number.MIN_VALUE < g && g < f && (b = e, f = g)
+        Number.MIN_VALUE < c && c < e && (a = d, e = c)
       }
     }
-    return{minContact:b, minTOI:f}
+    return{Tp:a, Up:e}
   };
-  a.prototype._SolveTOI2SkipContact = function(a, b) {
-    return b.IsSensor() || b.IsEnabled() == !1 || !b.IsContinuous() ? !0 : (b.m_fixtureA.m_body.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody || !b.m_fixtureA.m_body.IsAwake()) && (b.m_fixtureB.m_body.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody || !b.m_fixtureB.m_body.IsAwake()) ? !0 : !1
+  a.prototype.ho = function(a) {
+    return a.vd() || a.enabled == !1 || !a.Pj ? !0 : (a.fa.M.la() != P.c.sa.Eb || !a.fa.M.gb) && (a.ha.M.la() != P.c.sa.Eb || !a.ha.M.gb) ? !0 : !1
   };
-  a.prototype.DrawJoint = function(d) {
-    d.m_type == Box2D.Dynamics.Joints.b2Joint.e_distanceJoint || d.m_type == Box2D.Dynamics.Joints.b2Joint.e_mouseJoint ? this.m_debugDraw.DrawSegment(d.GetAnchorA(), d.GetAnchorB(), a.s_jointColor) : d.m_type == Box2D.Dynamics.Joints.b2Joint.e_pulleyJoint ? (this.m_debugDraw.DrawSegment(d.GetGroundAnchorA(), d.GetAnchorA(), a.s_jointColor), this.m_debugDraw.DrawSegment(d.GetGroundAnchorB(), d.GetAnchorB(), a.s_jointColor), this.m_debugDraw.DrawSegment(d.GetGroundAnchorA(), d.GetGroundAnchorB(), 
-    a.s_jointColor)) : (d.GetBodyA() != this.m_groundBody && this.m_debugDraw.DrawSegment(d.GetBodyA().m_xf.position, d.GetAnchorA(), a.s_jointColor), this.m_debugDraw.DrawSegment(d.GetAnchorA(), d.GetAnchorB(), a.s_jointColor), d.GetBodyB() != this.m_groundBody && this.m_debugDraw.DrawSegment(d.GetBodyB().m_xf.position, d.GetAnchorB(), a.s_jointColor))
+  a.prototype.ln = function(g) {
+    g.ca == P.c.o.F.Uj || g.ca == P.c.o.F.Vj ? this.Gb.ud(g.zc(), g.Ac(), a.xf) : g.ca == P.c.o.F.Wj ? (this.Gb.ud(g.cl(), g.zc(), a.xf), this.Gb.ud(g.dl(), g.Ac(), a.xf), this.Gb.ud(g.cl(), g.dl(), a.xf)) : (g.S != this.jk && this.Gb.ud(g.S.n.position, g.zc(), a.xf), this.Gb.ud(g.zc(), g.Ac(), a.xf), g.N != this.jk && this.Gb.ud(g.N.n.position, g.Ac(), a.xf))
   };
-  a.prototype.DrawShape = function(a, b, f) {
-    switch(a.m_type) {
-      case Box2D.Collision.Shapes.b2Shape.e_circleShape:
-        var e = a instanceof Box2D.Collision.Shapes.b2CircleShape ? a : null;
-        this.m_debugDraw.DrawSolidCircle(Box2D.Common.Math.b2Math.MulX(b, e.m_p), e.m_radius, b.R.col1, f);
+  a.prototype.Bg = function(a, e, d) {
+    switch(a.ca) {
+      case P.i.H.O.qe:
+        var c = a instanceof P.i.H.Cc ? a : p;
+        this.Gb.nn(P.a.f.Xa.Oa(e, c.Fa), c.ba, e.h.b, d);
         break;
-      case Box2D.Collision.Shapes.b2Shape.e_polygonShape:
-        for(var e = 0, e = a instanceof Box2D.Collision.Shapes.b2PolygonShape ? a : null, a = parseInt(e.GetVertexCount()), g = e.GetVertices(), h = Array(a), e = 0;e < a;++e) {
-          h[e] = Box2D.Common.Math.b2Math.MulX(b, g[e])
+      case P.i.H.O.Pd:
+        for(var c = 0, c = a instanceof P.i.H.ec ? a : p, a = parseInt(c.gl()), b = c.u, h = Array(a), c = 0;c < a;++c) {
+          h[c] = P.a.f.Xa.Oa(e, b[c])
         }
-        this.m_debugDraw.DrawSolidPolygon(h, a, f);
+        this.Gb.on(h, a, d);
         break;
-      case Box2D.Collision.Shapes.b2Shape.e_edgeShape:
-        e = a instanceof Box2D.Collision.Shapes.b2EdgeShape ? a : null, this.m_debugDraw.DrawSegment(Box2D.Common.Math.b2Math.MulX(b, e.GetVertex1()), Box2D.Common.Math.b2Math.MulX(b, e.GetVertex2()), f)
+      case P.i.H.O.oh:
+        c = a instanceof P.i.H.ne ? a : p, this.Gb.ud(P.a.f.Xa.Oa(e, c.U), P.a.f.Xa.Oa(e, c.ga), d)
     }
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.b2World.s_xf = new Box2D.Common.Math.b2Transform;
-    Box2D.Dynamics.b2World.s_backupA = new Box2D.Common.Math.b2Sweep;
-    Box2D.Dynamics.b2World.s_backupB = new Box2D.Common.Math.b2Sweep;
-    Box2D.Dynamics.b2World.s_jointColor = new Box2D.Common.b2Color(0.5, 0.8, 0.8)
+  P.Wa.push(function() {
+    P.c.Nd.Kk = new P.a.f.Md;
+    P.c.Nd.Jm = new P.a.f.Ze;
+    P.c.Nd.Km = new P.a.f.Ze;
+    P.c.Nd.xf = new P.a.sc(0.5, 0.8, 0.8)
   })
-})(Box2D.Dynamics.b2World);
-Box2D.Dynamics.b2DebugDraw = function() {
-  this.m_xformScale = this.m_fillAlpha = this.m_alpha = this.m_lineThickness = this.m_drawScale = 1;
+})(P.c.Nd);
+P.c.Db = function() {
+  this.Hi = this.hk = this.$f = this.Gp = this.cg = 1;
   var a = this;
-  this.m_sprite = {graphics:{clear:function() {
-    a.m_ctx.clearRect(0, 0, a.m_ctx.canvas.width, a.m_ctx.canvas.height)
+  this.Mp = {dp:{clear:function() {
+    a.Td.clearRect(0, 0, a.Td.canvas.width, a.Td.canvas.height)
   }}};
-  if(this.constructor === Box2D.Dynamics.b2DebugDraw) {
-    this.m_drawFlags = 0
+  if(this.constructor === P.c.Db) {
+    this.pm = 0
   }
 };
 (function(a) {
-  a.prototype._color = function(a, b) {
-    return"rgba(" + ((a & 16711680) >> 16) + "," + ((a & 65280) >> 8) + "," + (a & 255) + "," + b + ")"
+  a.prototype.je = function(a, e) {
+    return"rgba(" + ((a & 16711680) >> 16) + "," + ((a & 65280) >> 8) + "," + (a & 255) + "," + e + ")"
   };
-  a.prototype.SetFlags = function(a) {
-    a === void 0 && (a = 0);
-    this.m_drawFlags = a
+  a.prototype.Sn = function(a) {
+    a === f && (a = 0);
+    this.pm = a
   };
-  a.prototype.GetFlags = function() {
-    return this.m_drawFlags
+  a.prototype.Vn = function(a) {
+    this.Td = a
   };
-  a.prototype.AppendFlags = function(a) {
-    a === void 0 && (a = 0);
-    this.m_drawFlags |= a
+  a.prototype.Qn = function(a) {
+    a === f && (a = 0);
+    this.cg = a
   };
-  a.prototype.ClearFlags = function(a) {
-    a === void 0 && (a = 0);
-    this.m_drawFlags &= ~a
+  a.prototype.Tn = function() {
+    var a = 1;
+    a === f && (a = 0);
+    this.Gp = a;
+    this.Td.ur = a
   };
-  a.prototype.SetSprite = function(a) {
-    this.m_ctx = a
+  a.prototype.Rn = function() {
+    var a = 0.3;
+    a === f && (a = 0);
+    this.hk = a
   };
-  a.prototype.GetSprite = function() {
-    return this.m_ctx
+  a.prototype.mn = function(a, e) {
+    var d = this.Td, c = this.cg;
+    d.beginPath();
+    d.strokeStyle = this.je(e.color, this.$f);
+    d.moveTo(a[0].x * c, a[0].y * c);
+    for(var b = 1;b < 4;b++) {
+      d.lineTo(a[b].x * c, a[b].y * c)
+    }
+    d.lineTo(a[0].x * c, a[0].y * c);
+    d.closePath();
+    d.stroke()
   };
-  a.prototype.SetDrawScale = function(a) {
-    a === void 0 && (a = 0);
-    this.m_drawScale = a
-  };
-  a.prototype.GetDrawScale = function() {
-    return this.m_drawScale
-  };
-  a.prototype.SetLineThickness = function(a) {
-    a === void 0 && (a = 0);
-    this.m_lineThickness = a;
-    this.m_ctx.strokeWidth = a
-  };
-  a.prototype.GetLineThickness = function() {
-    return this.m_lineThickness
-  };
-  a.prototype.SetAlpha = function(a) {
-    a === void 0 && (a = 0);
-    this.m_alpha = a
-  };
-  a.prototype.GetAlpha = function() {
-    return this.m_alpha
-  };
-  a.prototype.SetFillAlpha = function(a) {
-    a === void 0 && (a = 0);
-    this.m_fillAlpha = a
-  };
-  a.prototype.GetFillAlpha = function() {
-    return this.m_fillAlpha
-  };
-  a.prototype.SetXFormScale = function(a) {
-    a === void 0 && (a = 0);
-    this.m_xformScale = a
-  };
-  a.prototype.GetXFormScale = function() {
-    return this.m_xformScale
-  };
-  a.prototype.DrawPolygon = function(a, b, f) {
-    if(b) {
-      var e = this.m_ctx, g = this.m_drawScale;
-      e.beginPath();
-      e.strokeStyle = this._color(f.color, this.m_alpha);
-      e.moveTo(a[0].x * g, a[0].y * g);
-      for(f = 1;f < b;f++) {
-        e.lineTo(a[f].x * g, a[f].y * g)
+  a.prototype.on = function(a, e, d) {
+    if(e) {
+      var c = this.Td, b = this.cg;
+      c.beginPath();
+      c.strokeStyle = this.je(d.color, this.$f);
+      c.fillStyle = this.je(d.color, this.hk);
+      c.moveTo(a[0].x * b, a[0].y * b);
+      for(d = 1;d < e;d++) {
+        c.lineTo(a[d].x * b, a[d].y * b)
       }
-      e.lineTo(a[0].x * g, a[0].y * g);
-      e.closePath();
-      e.stroke()
+      c.lineTo(a[0].x * b, a[0].y * b);
+      c.closePath();
+      c.fill();
+      c.stroke()
     }
   };
-  a.prototype.DrawSolidPolygon = function(a, b, f) {
-    if(b) {
-      var e = this.m_ctx, g = this.m_drawScale;
-      e.beginPath();
-      e.strokeStyle = this._color(f.color, this.m_alpha);
-      e.fillStyle = this._color(f.color, this.m_fillAlpha);
-      e.moveTo(a[0].x * g, a[0].y * g);
-      for(f = 1;f < b;f++) {
-        e.lineTo(a[f].x * g, a[f].y * g)
-      }
-      e.lineTo(a[0].x * g, a[0].y * g);
-      e.closePath();
-      e.fill();
-      e.stroke()
+  a.prototype.nn = function(a, e, d, c) {
+    if(e) {
+      var b = this.Td, h = this.cg, i = a.x * h, j = a.y * h;
+      b.moveTo(0, 0);
+      b.beginPath();
+      b.strokeStyle = this.je(c.color, this.$f);
+      b.fillStyle = this.je(c.color, this.hk);
+      b.arc(i, j, e * h, 0, Math.PI * 2, !0);
+      b.moveTo(i, j);
+      b.lineTo((a.x + d.x * e) * h, (a.y + d.y * e) * h);
+      b.closePath();
+      b.fill();
+      b.stroke()
     }
   };
-  a.prototype.DrawCircle = function(a, b, f) {
-    if(b) {
-      var e = this.m_ctx, g = this.m_drawScale;
-      e.beginPath();
-      e.strokeStyle = this._color(f.color, this.m_alpha);
-      e.arc(a.x * g, a.y * g, b * g, 0, Math.PI * 2, !0);
-      e.closePath();
-      e.stroke()
-    }
+  a.prototype.ud = function(a, e, d) {
+    var c = this.Td, b = this.cg;
+    c.strokeStyle = this.je(d.color, this.$f);
+    c.beginPath();
+    c.moveTo(a.x * b, a.y * b);
+    c.lineTo(e.x * b, e.y * b);
+    c.closePath();
+    c.stroke()
   };
-  a.prototype.DrawSolidCircle = function(a, b, f, e) {
-    if(b) {
-      var g = this.m_ctx, h = this.m_drawScale, j = a.x * h, l = a.y * h;
-      g.moveTo(0, 0);
-      g.beginPath();
-      g.strokeStyle = this._color(e.color, this.m_alpha);
-      g.fillStyle = this._color(e.color, this.m_fillAlpha);
-      g.arc(j, l, b * h, 0, Math.PI * 2, !0);
-      g.moveTo(j, l);
-      g.lineTo((a.x + f.x * b) * h, (a.y + f.y * b) * h);
-      g.closePath();
-      g.fill();
-      g.stroke()
-    }
-  };
-  a.prototype.DrawSegment = function(a, b, f) {
-    var e = this.m_ctx, g = this.m_drawScale;
-    e.strokeStyle = this._color(f.color, this.m_alpha);
+  a.prototype.pn = function(a) {
+    var e = this.Td, d = this.cg;
     e.beginPath();
-    e.moveTo(a.x * g, a.y * g);
-    e.lineTo(b.x * g, b.y * g);
+    e.strokeStyle = this.je(16711680, this.$f);
+    e.moveTo(a.position.x * d, a.position.y * d);
+    e.lineTo((a.position.x + this.Hi * a.h.b.x) * d, (a.position.y + this.Hi * a.h.b.y) * d);
+    e.strokeStyle = this.je(65280, this.$f);
+    e.moveTo(a.position.x * d, a.position.y * d);
+    e.lineTo((a.position.x + this.Hi * a.h.d.x) * d, (a.position.y + this.Hi * a.h.d.y) * d);
     e.closePath();
     e.stroke()
   };
-  a.prototype.DrawTransform = function(a) {
-    var b = this.m_ctx, f = this.m_drawScale;
-    b.beginPath();
-    b.strokeStyle = this._color(16711680, this.m_alpha);
-    b.moveTo(a.position.x * f, a.position.y * f);
-    b.lineTo((a.position.x + this.m_xformScale * a.R.col1.x) * f, (a.position.y + this.m_xformScale * a.R.col1.y) * f);
-    b.strokeStyle = this._color(65280, this.m_alpha);
-    b.moveTo(a.position.x * f, a.position.y * f);
-    b.lineTo((a.position.x + this.m_xformScale * a.R.col2.x) * f, (a.position.y + this.m_xformScale * a.R.col2.y) * f);
-    b.closePath();
-    b.stroke()
-  };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.b2DebugDraw.e_shapeBit = 1;
-    Box2D.Dynamics.b2DebugDraw.e_jointBit = 2;
-    Box2D.Dynamics.b2DebugDraw.e_aabbBit = 4;
-    Box2D.Dynamics.b2DebugDraw.e_pairBit = 8;
-    Box2D.Dynamics.b2DebugDraw.e_centerOfMassBit = 16;
-    Box2D.Dynamics.b2DebugDraw.e_controllerBit = 32
+  P.Wa.push(function() {
+    P.c.Db.$l = 1;
+    P.c.Db.Uo = 2;
+    P.c.Db.Sl = 4;
+    P.c.Db.Xl = 8;
+    P.c.Db.So = 16;
+    P.c.Db.To = 32
   })
-})(Box2D.Dynamics.b2DebugDraw);
-Box2D.Dynamics.Contacts = {};
-Box2D.Dynamics.Contacts.b2Contact = function() {
-  this.m_nodeA = new Box2D.Dynamics.Contacts.b2ContactEdge;
-  this.m_nodeB = new Box2D.Dynamics.Contacts.b2ContactEdge;
-  this.m_manifold = new Box2D.Collision.b2Manifold;
-  this.m_oldManifold = new Box2D.Collision.b2Manifold;
-  this.constructor === Box2D.Dynamics.Contacts.b2Contact && this.b2Contact.apply(this, arguments)
+})(P.c.Db);
+P.c.D = {};
+P.c.D.Sa = function() {
+  this.Hb = new P.c.D.zl;
+  this.Ib = new P.c.D.zl;
+  this.xc = new P.i.pb;
+  this.Ah = new P.i.pb;
+  this.constructor === P.c.D.Sa && this.Sa.apply(this, arguments)
 };
 (function(a) {
-  a.b2Contact = function() {
+  a.Sa = q();
+  a.prototype.bj = function(a) {
+    var e = this.ha.M, d = this.fa.Ga, c = this.ha.Ga;
+    a.$a(this.xc, this.fa.M.Tb(), d.ba, e.Tb(), c.ba)
   };
-  a.prototype.GetManifold = function() {
-    return this.m_manifold
-  };
-  a.prototype.GetWorldManifold = function(a) {
-    var b = this.m_fixtureA.GetBody(), f = this.m_fixtureB.GetBody(), e = this.m_fixtureA.GetShape(), g = this.m_fixtureB.GetShape();
-    a.Initialize(this.m_manifold, b.GetTransform(), e.m_radius, f.GetTransform(), g.m_radius)
-  };
-  a.prototype.IsTouching = function() {
-    return this.touching
-  };
-  a.prototype.IsContinuous = function() {
-    return this.continuous
-  };
-  a.prototype.SetSensor = function(a) {
-    this.sensor = a
-  };
-  a.prototype.IsSensor = function() {
-    return this.sensor
-  };
-  a.prototype.SetEnabled = function(a) {
+  a.prototype.vd = u("Mi");
+  a.prototype.oj = function(a) {
     this.enabled = a
   };
-  a.prototype.IsEnabled = function() {
-    return this.enabled
+  a.prototype.$k = function() {
+    this.Xj = !0
   };
-  a.prototype.GetNext = function() {
-    return this.m_next
+  a.prototype.Ym = function() {
+    this.Xj = !1
   };
-  a.prototype.GetFixtureA = function() {
-    return this.m_fixtureA
-  };
-  a.prototype.GetFixtureB = function() {
-    return this.m_fixtureB
-  };
-  a.prototype.FlagForFiltering = function() {
-    this.filtering = !0
-  };
-  a.prototype.ClearFiltering = function() {
-    this.filtering = !1
-  };
-  a.prototype.IsFiltering = function() {
-    return this.filtering
-  };
-  a.prototype.b2Contact = function() {
-  };
-  a.prototype.Reset = function(a, b) {
-    a === void 0 && (a = null);
-    b === void 0 && (b = null);
+  a.prototype.Sa = q();
+  a.prototype.ob = function(a, e) {
+    a === f && (a = p);
+    e === f && (e = p);
     this.enabled = !0;
-    this.filtering = this.touching = this.continuous = this.sensor = !1;
-    if(!a || !b) {
-      this.m_fixtureB = this.m_fixtureA = null
+    this.Xj = this.Af = this.Pj = this.Mi = !1;
+    if(!a || !e) {
+      this.ha = this.fa = p
     }else {
-      if(a.IsSensor() || b.IsSensor()) {
-        this.sensor = !0
+      if(a.vd() || e.vd()) {
+        this.Mi = !0
       }
-      var f = a.GetBody(), e = b.GetBody();
-      if(f.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody || f.IsBullet() || e.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody || e.IsBullet()) {
-        this.continuous = !0
+      var d = a.M, c = e.M;
+      if(d.la() != P.c.sa.Eb || d.Th() || c.la() != P.c.sa.Eb || c.Th()) {
+        this.Pj = !0
       }
-      this.m_fixtureA = a;
-      this.m_fixtureB = b;
-      this.m_manifold.m_pointCount = 0;
-      this.m_next = this.m_prev = null;
-      this.m_nodeA.contact = null;
-      this.m_nodeA.prev = null;
-      this.m_nodeA.next = null;
-      this.m_nodeA.other = null;
-      this.m_nodeB.contact = null;
-      this.m_nodeB.prev = null;
-      this.m_nodeB.next = null;
-      this.m_nodeB.other = null
+      this.fa = a;
+      this.ha = e;
+      this.xc.Za = 0;
+      this.L = this.rb = p;
+      this.Hb.ib = p;
+      this.Hb.La = p;
+      this.Hb.next = p;
+      this.Hb.Ja = p;
+      this.Ib.ib = p;
+      this.Ib.La = p;
+      this.Ib.next = p;
+      this.Ib.Ja = p
     }
   };
-  a.prototype.Update = function(a) {
-    var b = this.m_oldManifold;
-    this.m_oldManifold = this.m_manifold;
-    this.m_manifold = b;
+  a.prototype.vl = function(a) {
+    var e = this.Ah;
+    this.Ah = this.xc;
+    this.xc = e;
     this.enabled = !0;
-    var f = !1, b = this.IsTouching(), e = this.m_fixtureA.m_body, g = this.m_fixtureB.m_body, h = this.m_fixtureA.m_aabb.TestOverlap(this.m_fixtureB.m_aabb);
-    if(this.sensor) {
-      h && (f = this.m_fixtureA.GetShape(), h = this.m_fixtureB.GetShape(), e = e.GetTransform(), g = g.GetTransform(), f = Box2D.Collision.Shapes.b2Shape.TestOverlap(f, e, h, g)), this.m_manifold.m_pointCount = 0
-    }else {
-      this.continuous = e.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody || e.IsBullet() || g.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody || g.IsBullet() ? !0 : !1;
+    var d = !1, e = this.Af, c = this.fa.M, b = this.ha.M, h = this.fa.te.ie(this.ha.te);
+    if(this.Mi) {
       if(h) {
-        this.Evaluate();
-        f = this.m_manifold.m_pointCount > 0;
-        for(h = 0;h < this.m_manifold.m_pointCount;++h) {
-          var j = this.m_manifold.m_points[h];
-          j.m_normalImpulse = 0;
-          j.m_tangentImpulse = 0;
-          for(var l = j.m_id, k = 0;k < this.m_oldManifold.m_pointCount;++k) {
-            var o = this.m_oldManifold.m_points[k];
-            if(o.m_id.key == l.key) {
-              j.m_normalImpulse = o.m_normalImpulse;
-              j.m_tangentImpulse = o.m_tangentImpulse;
+        d = this.fa.Ga, h = this.ha.Ga, c = c.Tb(), b = b.Tb(), d = P.i.H.O.ie(d, c, h, b)
+      }
+      this.xc.Za = 0
+    }else {
+      this.Pj = c.la() != P.c.sa.Eb || c.Th() || b.la() != P.c.sa.Eb || b.Th() ? !0 : !1;
+      if(h) {
+        this.cd();
+        d = this.xc.Za > 0;
+        for(h = 0;h < this.xc.Za;++h) {
+          var i = this.xc.aa[h];
+          i.pf = 0;
+          i.tf = 0;
+          for(var j = i.Ud, k = 0;k < this.Ah.Za;++k) {
+            var m = this.Ah.aa[k];
+            if(m.Ud.key == j.key) {
+              i.pf = m.pf;
+              i.tf = m.tf;
               break
             }
           }
         }
       }else {
-        this.m_manifold.m_pointCount = 0
+        this.xc.Za = 0
       }
-      f != b && (e.SetAwake(!0), g.SetAwake(!0))
+      d != e && (c.nc(!0), b.nc(!0))
     }
-    this.touching = f;
-    !b && f && a.BeginContact(this);
-    b && !f && a.EndContact(this);
-    this.sensor || a.PreSolve(this, this.m_oldManifold)
+    this.Af = d;
+    !e && d && a.vg(this);
+    e && !d && a.Gf(this);
+    this.Mi || a.Hg(this, this.Ah)
   };
-  a.prototype.Evaluate = function() {
+  a.prototype.cd = q();
+  a.prototype.fn = function(g, e) {
+    a.qg.Lc.s(this.fa.Ga);
+    a.qg.Mc.s(this.ha.Ga);
+    a.qg.Qm = g;
+    a.qg.Rm = e;
+    a.qg.nq = P.a.$.ta;
+    return P.i.tc.$n(a.qg)
   };
-  a.prototype.ComputeTOI = function(d, b) {
-    a.s_input.proxyA.Set(this.m_fixtureA.GetShape());
-    a.s_input.proxyB.Set(this.m_fixtureB.GetShape());
-    a.s_input.sweepA = d;
-    a.s_input.sweepB = b;
-    a.s_input.tolerance = Box2D.Common.b2Settings.b2_linearSlop;
-    return Box2D.Collision.b2TimeOfImpact.TimeOfImpact(a.s_input)
-  };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.Contacts.b2Contact.s_input = new Box2D.Collision.b2TOIInput
+  P.Wa.push(function() {
+    P.c.D.Sa.qg = new P.i.jh
   })
-})(Box2D.Dynamics.Contacts.b2Contact);
-Box2D.Dynamics.Contacts.b2CircleContact = function() {
-  Box2D.Dynamics.Contacts.b2Contact.apply(this, arguments)
+})(P.c.D.Sa);
+P.c.D.Aj = function() {
+  P.c.D.Sa.apply(this, arguments)
 };
 (function(a) {
-  Box2D.inherit(a, Box2D.Dynamics.Contacts.b2Contact);
-  a.prototype.__super = Box2D.Dynamics.Contacts.b2Contact.prototype;
-  a.Create = function() {
+  P.ya(a, P.c.D.Sa);
+  a.prototype.I = P.c.D.Sa.prototype;
+  a.Rb = function() {
     return new a
   };
-  a.Destroy = function() {
+  a.nb = q();
+  a.prototype.ob = function(a, e) {
+    this.I.ob.call(this, a, e)
   };
-  a.prototype.Reset = function(a, b) {
-    this.__super.Reset.call(this, a, b)
-  };
-  a.prototype.Evaluate = function() {
-    var a = this.m_fixtureA.GetBody(), b = this.m_fixtureB.GetBody();
-    Box2D.Collision.b2Collision.CollideCircles(this.m_manifold, this.m_fixtureA.GetShape() instanceof Box2D.Collision.Shapes.b2CircleShape ? this.m_fixtureA.GetShape() : null, a.m_xf, this.m_fixtureB.GetShape() instanceof Box2D.Collision.Shapes.b2CircleShape ? this.m_fixtureB.GetShape() : null, b.m_xf)
+  a.prototype.cd = function() {
+    P.i.Wb.an(this.xc, this.fa.Ga instanceof P.i.H.Cc ? this.fa.Ga : p, this.fa.M.n, this.ha.Ga instanceof P.i.H.Cc ? this.ha.Ga : p, this.ha.M.n)
   }
-})(Box2D.Dynamics.Contacts.b2CircleContact);
-Box2D.Dynamics.Contacts.b2ContactConstraint = function() {
-  this.localPlaneNormal = new Box2D.Common.Math.b2Vec2;
-  this.localPoint = new Box2D.Common.Math.b2Vec2;
-  this.normal = new Box2D.Common.Math.b2Vec2;
-  this.normalMass = new Box2D.Common.Math.b2Mat22;
-  this.K = new Box2D.Common.Math.b2Mat22;
-  this.constructor === Box2D.Dynamics.Contacts.b2ContactConstraint && this.b2ContactConstraint.apply(this, arguments)
+})(P.c.D.Aj);
+P.c.D.Lg = function() {
+  this.zi = new P.a.f.g;
+  this.yd = new P.a.f.g;
+  this.kb = new P.a.f.g;
+  this.kg = new P.a.f.wd;
+  this.Kb = new P.a.f.wd;
+  this.constructor === P.c.D.Lg && this.Lg.apply(this, arguments)
 };
 (function(a) {
-  a.prototype.b2ContactConstraint = function() {
-    this.points = Array(Box2D.Common.b2Settings.b2_maxManifoldPoints);
-    for(var a = 0;a < Box2D.Common.b2Settings.b2_maxManifoldPoints;a++) {
-      this.points[a] = new Box2D.Dynamics.Contacts.b2ContactConstraintPoint
+  a.prototype.Lg = function() {
+    this.Pb = Array(P.a.$.Dc);
+    for(var a = 0;a < P.a.$.Dc;a++) {
+      this.Pb[a] = new P.c.D.qo
     }
   }
-})(Box2D.Dynamics.Contacts.b2ContactConstraint);
-Box2D.Dynamics.Contacts.b2ContactConstraintPoint = function() {
-  this.localPoint = new Box2D.Common.Math.b2Vec2;
-  this.rA = new Box2D.Common.Math.b2Vec2;
-  this.rB = new Box2D.Common.Math.b2Vec2
+})(P.c.D.Lg);
+P.c.D.qo = function() {
+  this.yd = new P.a.f.g;
+  this.oa = new P.a.f.g;
+  this.pa = new P.a.f.g
 };
-Box2D.Dynamics.Contacts.b2ContactEdge = function() {
-};
-Box2D.Dynamics.Contacts.b2ContactFactory = function() {
-  this.constructor === Box2D.Dynamics.Contacts.b2ContactFactory && this.b2ContactFactory.apply(this, arguments)
+P.c.D.zl = q();
+P.c.D.Mg = function() {
+  this.constructor === P.c.D.Mg && this.Mg.apply(this, arguments)
 };
 (function(a) {
-  a.prototype.b2ContactFactory = function() {
-    this.InitializeRegisters()
+  a.prototype.Mg = function() {
+    this.xn()
   };
-  a.prototype.AddType = function(a, b, f, e) {
-    f === void 0 && (f = 0);
-    e === void 0 && (e = 0);
-    this.m_registers[f][e].createFcn = a;
-    this.m_registers[f][e].destroyFcn = b;
-    this.m_registers[f][e].primary = !0;
-    if(f != e) {
-      this.m_registers[e][f].createFcn = a, this.m_registers[e][f].destroyFcn = b, this.m_registers[e][f].primary = !1
+  a.prototype.ug = function(a, e, d, c) {
+    d === f && (d = 0);
+    c === f && (c = 0);
+    this.rd[d][c].Qj = a;
+    this.rd[d][c].Pl = e;
+    this.rd[d][c].zk = !0;
+    if(d != c) {
+      this.rd[c][d].Qj = a, this.rd[c][d].Pl = e, this.rd[c][d].zk = !1
     }
   };
-  a.prototype.InitializeRegisters = function() {
-    this.m_registers = Array(Box2D.Collision.Shapes.b2Shape.e_shapeTypeCount);
-    for(var a = 0;a < Box2D.Collision.Shapes.b2Shape.e_shapeTypeCount;a++) {
-      this.m_registers[a] = Array(Box2D.Collision.Shapes.b2Shape.e_shapeTypeCount);
-      for(var b = 0;b < Box2D.Collision.Shapes.b2Shape.e_shapeTypeCount;b++) {
-        this.m_registers[a][b] = new Box2D.Dynamics.Contacts.b2ContactRegister
+  a.prototype.xn = function() {
+    this.rd = Array(P.i.H.O.ti);
+    for(var a = 0;a < P.i.H.O.ti;a++) {
+      this.rd[a] = Array(P.i.H.O.ti);
+      for(var e = 0;e < P.i.H.O.ti;e++) {
+        this.rd[a][e] = new P.c.D.bi
       }
     }
-    this.AddType(Box2D.Dynamics.Contacts.b2CircleContact.Create, Box2D.Dynamics.Contacts.b2CircleContact.Destroy, Box2D.Collision.Shapes.b2Shape.e_circleShape, Box2D.Collision.Shapes.b2Shape.e_circleShape);
-    this.AddType(Box2D.Dynamics.Contacts.b2PolyAndCircleContact.Create, Box2D.Dynamics.Contacts.b2PolyAndCircleContact.Destroy, Box2D.Collision.Shapes.b2Shape.e_polygonShape, Box2D.Collision.Shapes.b2Shape.e_circleShape);
-    this.AddType(Box2D.Dynamics.Contacts.b2PolygonContact.Create, Box2D.Dynamics.Contacts.b2PolygonContact.Destroy, Box2D.Collision.Shapes.b2Shape.e_polygonShape, Box2D.Collision.Shapes.b2Shape.e_polygonShape);
-    this.AddType(Box2D.Dynamics.Contacts.b2EdgeAndCircleContact.Create, Box2D.Dynamics.Contacts.b2EdgeAndCircleContact.Destroy, Box2D.Collision.Shapes.b2Shape.e_edgeShape, Box2D.Collision.Shapes.b2Shape.e_circleShape);
-    this.AddType(Box2D.Dynamics.Contacts.b2PolyAndEdgeContact.Create, Box2D.Dynamics.Contacts.b2PolyAndEdgeContact.Destroy, Box2D.Collision.Shapes.b2Shape.e_polygonShape, Box2D.Collision.Shapes.b2Shape.e_edgeShape)
+    this.ug(P.c.D.Aj.Rb, P.c.D.Aj.nb, P.i.H.O.qe, P.i.H.O.qe);
+    this.ug(P.c.D.bh.Rb, P.c.D.bh.nb, P.i.H.O.Pd, P.i.H.O.qe);
+    this.ug(P.c.D.eh.Rb, P.c.D.eh.nb, P.i.H.O.Pd, P.i.H.O.Pd);
+    this.ug(P.c.D.Qg.Rb, P.c.D.Qg.nb, P.i.H.O.oh, P.i.H.O.qe);
+    this.ug(P.c.D.dh.Rb, P.c.D.dh.nb, P.i.H.O.Pd, P.i.H.O.oh)
   };
-  a.prototype.Create = function(a, b) {
-    var f = a.GetType(), e = b.GetType(), f = this.m_registers[f][e];
-    if(f.pool) {
-      return e = f.pool, f.pool = e.m_next, f.poolCount--, e.Reset(a, b), e
+  a.prototype.Rb = function(a, e) {
+    var d = this.rd[a.la()][e.la()], c;
+    if(d.vf) {
+      return c = d.vf, d.vf = c.L, d.Em--, c.ob(a, e), c
     }
-    e = f.createFcn;
-    return e != null ? (f.primary ? (e = e(), e.Reset(a, b)) : (e = e(), e.Reset(b, a)), e) : null
+    c = d.Qj;
+    return c != p ? (d.zk ? (c = c(), c.ob(a, e)) : (c = c(), c.ob(e, a)), c) : p
   };
-  a.prototype.Create = function(a, b) {
-    var f = a.GetType(), e = b.GetType(), f = this.m_registers[f][e];
-    if(f.pool) {
-      return e = f.pool, f.pool = e.m_next, f.poolCount--, e.Reset(a, b), e
+  a.prototype.Rb = function(a, e) {
+    var d = this.rd[a.la()][e.la()], c;
+    if(d.vf) {
+      return c = d.vf, d.vf = c.L, d.Em--, c.ob(a, e), c
     }
-    e = f.createFcn;
-    return e != null ? (f.primary ? (e = e(), e.Reset(a, b)) : (e = e(), e.Reset(b, a)), e) : null
+    c = d.Qj;
+    return c != p ? (d.zk ? (c = c(), c.ob(a, e)) : (c = c(), c.ob(e, a)), c) : p
   };
-  a.prototype.Destroy = function(a) {
-    a.m_manifold.m_pointCount > 0 && (a.m_fixtureA.m_body.SetAwake(!0), a.m_fixtureB.m_body.SetAwake(!0));
-    var b = a.m_fixtureA.GetType(), f = a.m_fixtureB.GetType(), b = this.m_registers[b][f];
-    b.poolCount++;
-    a.m_next = b.pool;
-    b.pool = a;
-    b = b.destroyFcn;
-    b(a)
+  a.prototype.nb = function(a) {
+    a.xc.Za > 0 && (a.fa.M.nc(!0), a.ha.M.nc(!0));
+    var e = this.rd[a.fa.la()][a.ha.la()];
+    e.Em++;
+    a.L = e.vf;
+    e.vf = a;
+    e = e.Pl;
+    e(a)
   }
-})(Box2D.Dynamics.Contacts.b2ContactFactory);
-function b2ContactRegister() {
-  b2ContactRegister.b2ContactRegister.apply(this, arguments)
+})(P.c.D.Mg);
+function ga() {
+  ga.bi.apply(this, arguments)
 }
-Box2D.Dynamics.Contacts.b2ContactRegister = b2ContactRegister;
-function b2ContactResult() {
-  b2ContactResult.b2ContactResult.apply(this, arguments)
+P.c.D.bi = ga;
+function ha() {
+  ha.Ej.apply(this, arguments)
 }
-Box2D.Dynamics.Contacts.b2ContactResult = b2ContactResult;
-function b2ContactSolver() {
-  b2ContactSolver.b2ContactSolver.apply(this, arguments);
-  this.constructor === b2ContactSolver && this.b2ContactSolver.apply(this, arguments)
+P.c.D.Ej = ha;
+function ia() {
+  ia.me.apply(this, arguments);
+  this.constructor === ia && this.me.apply(this, arguments)
 }
-Box2D.Dynamics.Contacts.b2ContactSolver = b2ContactSolver;
-function b2EdgeAndCircleContact() {
-  b2EdgeAndCircleContact.b2EdgeAndCircleContact.apply(this, arguments)
+P.c.D.me = ia;
+function ja() {
+  ja.Qg.apply(this, arguments)
 }
-Box2D.Dynamics.Contacts.b2EdgeAndCircleContact = b2EdgeAndCircleContact;
-function b2NullContact() {
-  b2NullContact.b2NullContact.apply(this, arguments);
-  this.constructor === b2NullContact && this.b2NullContact.apply(this, arguments)
+P.c.D.Qg = ja;
+function ka() {
+  ka.ah.apply(this, arguments);
+  this.constructor === ka && this.ah.apply(this, arguments)
 }
-Box2D.Dynamics.Contacts.b2NullContact = b2NullContact;
-function b2PolyAndCircleContact() {
-  b2PolyAndCircleContact.b2PolyAndCircleContact.apply(this, arguments)
+P.c.D.ah = ka;
+function la() {
+  la.bh.apply(this, arguments)
 }
-Box2D.Dynamics.Contacts.b2PolyAndCircleContact = b2PolyAndCircleContact;
-function b2PolyAndEdgeContact() {
-  b2PolyAndEdgeContact.b2PolyAndEdgeContact.apply(this, arguments)
+P.c.D.bh = la;
+function ma() {
+  ma.dh.apply(this, arguments)
 }
-Box2D.Dynamics.Contacts.b2PolyAndEdgeContact = b2PolyAndEdgeContact;
-function b2PolygonContact() {
-  b2PolygonContact.b2PolygonContact.apply(this, arguments)
+P.c.D.dh = ma;
+function na() {
+  na.eh.apply(this, arguments)
 }
-Box2D.Dynamics.Contacts.b2PolygonContact = b2PolygonContact;
-function b2PositionSolverManifold() {
-  b2PositionSolverManifold.b2PositionSolverManifold.apply(this, arguments);
-  this.constructor === b2PositionSolverManifold && this.b2PositionSolverManifold.apply(this, arguments)
+P.c.D.eh = na;
+function oa() {
+  oa.We.apply(this, arguments);
+  this.constructor === oa && this.We.apply(this, arguments)
 }
-Box2D.Dynamics.Contacts.b2PositionSolverManifold = b2PositionSolverManifold;
-Box2D.unopped = {};
-if(typeof Box2D.Collision.Shapes === "undefined") {
-  Box2D.Collision.Shapes = {}
+P.c.D.We = oa;
+P.vr = {};
+if(typeof P.i.H === "undefined") {
+  P.i.H = {}
 }
-if(typeof Box2D.Common === "undefined") {
-  Box2D.Common = {}
+if(typeof P.a === "undefined") {
+  P.a = {}
 }
-if(typeof Box2D.Common.Math === "undefined") {
-  Box2D.Common.Math = {}
+if(typeof P.a.f === "undefined") {
+  P.a.f = {}
 }
-if(typeof Box2D.Dynamics.Controllers === "undefined") {
-  Box2D.Dynamics.Controllers = {}
+if(typeof P.c.Ca === "undefined") {
+  P.c.Ca = {}
 }
-if(typeof Box2D.Dynamics.Joints === "undefined") {
-  Box2D.Dynamics.Joints = {}
+if(typeof P.c.o === "undefined") {
+  P.c.o = {}
 }
-var c = Box2D.Collision;
-Box2D.Collision.b2DynamicTree = function() {
-  c.b2DynamicTree.b2DynamicTree.apply(this, arguments);
-  this.constructor === c.b2DynamicTree && this.b2DynamicTree.apply(this, arguments)
+var R = P.i;
+P.i.Se = function() {
+  R.Se.Se.apply(this, arguments);
+  this.constructor === R.Se && this.Se.apply(this, arguments)
 };
-(function() {
-})(Box2D.Collision.b2DynamicTree);
-Box2D.Collision.b2DynamicTreeBroadPhase = function() {
-  c.b2DynamicTreeBroadPhase.b2DynamicTreeBroadPhase.apply(this, arguments)
+P.i.Pg = function() {
+  R.Pg.Pg.apply(this, arguments)
 };
-(function() {
-})(Box2D.Collision.b2DynamicTreeBroadPhase);
-Box2D.Collision.b2DynamicTreeNode = function() {
-  c.b2DynamicTreeNode.b2DynamicTreeNode.apply(this, arguments)
+P.i.di = function() {
+  R.di.di.apply(this, arguments)
 };
-(function() {
-})(Box2D.Collision.b2DynamicTreeNode);
-Box2D.Collision.b2DynamicTreePair = function() {
-  c.b2DynamicTreePair.b2DynamicTreePair.apply(this, arguments)
+P.i.Cl = q();
+P.i.pb = function() {
+  R.pb.pb.apply(this, arguments);
+  this.constructor === R.pb && this.pb.apply(this, arguments)
 };
-(function() {
-})(Box2D.Collision.b2DynamicTreePair);
-Box2D.Collision.b2Manifold = function() {
-  c.b2Manifold.b2Manifold.apply(this, arguments);
-  this.constructor === c.b2Manifold && this.b2Manifold.apply(this, arguments)
+P.i.Ve = function() {
+  R.Ve.Ve.apply(this, arguments);
+  this.constructor === R.Ve && this.Ve.apply(this, arguments)
 };
-(function() {
-})(Box2D.Collision.b2Manifold);
-Box2D.Collision.b2ManifoldPoint = function() {
-  c.b2ManifoldPoint.b2ManifoldPoint.apply(this, arguments);
-  this.constructor === c.b2ManifoldPoint && this.b2ManifoldPoint.apply(this, arguments)
+P.i.ei = function() {
+  R.ei.ei.apply(this, arguments)
 };
-(function() {
-})(Box2D.Collision.b2ManifoldPoint);
-Box2D.Collision.b2Point = function() {
-  c.b2Point.b2Point.apply(this, arguments)
+P.i.Xe = function() {
+  R.Xe.Xe.apply(this, arguments);
+  this.constructor === R.Xe && this.Xe.apply(this, arguments)
 };
-(function() {
-})(Box2D.Collision.b2Point);
-Box2D.Collision.b2RayCastInput = function() {
-  c.b2RayCastInput.b2RayCastInput.apply(this, arguments);
-  this.constructor === c.b2RayCastInput && this.b2RayCastInput.apply(this, arguments)
+P.i.fi = function() {
+  R.fi.fi.apply(this, arguments)
 };
-(function() {
-})(Box2D.Collision.b2RayCastInput);
-Box2D.Collision.b2RayCastOutput = function() {
-  c.b2RayCastOutput.b2RayCastOutput.apply(this, arguments)
+P.i.gi = function() {
+  R.gi.gi.apply(this, arguments)
 };
-(function() {
-})(Box2D.Collision.b2RayCastOutput);
-Box2D.Collision.b2Segment = function() {
-  c.b2Segment.b2Segment.apply(this, arguments)
+P.i.Ye = function() {
+  R.Ye.Ye.apply(this, arguments)
 };
-(function() {
-})(Box2D.Collision.b2Segment);
-Box2D.Collision.b2SeparationFunction = function() {
-  c.b2SeparationFunction.b2SeparationFunction.apply(this, arguments)
-};
-(function() {
-})(Box2D.Collision.b2SeparationFunction);
 (function(a) {
-  a.b2Simplex = function() {
-    a.b2Simplex.b2Simplex.apply(this, arguments);
-    this.constructor === a.b2Simplex && this.b2Simplex.apply(this, arguments)
+  a.oe = function() {
+    a.oe.oe.apply(this, arguments);
+    this.constructor === a.oe && this.oe.apply(this, arguments)
   };
-  a.b2SimplexCache = function() {
-    a.b2SimplexCache.b2SimplexCache.apply(this, arguments)
+  a.ih = function() {
+    a.ih.ih.apply(this, arguments)
   };
-  a.b2SimplexVertex = function() {
-    a.b2SimplexVertex.b2SimplexVertex.apply(this, arguments)
+  a.Dl = q();
+  a.tc = q();
+  a.jh = function() {
+    a.jh.jh.apply(this, arguments)
   };
-  a.b2TimeOfImpact = function() {
-    a.b2TimeOfImpact.b2TimeOfImpact.apply(this, arguments)
+  a.gd = function() {
+    a.gd.gd.apply(this, arguments);
+    this.constructor === a.gd && this.gd.apply(this, arguments)
   };
-  a.b2TOIInput = function() {
-    a.b2TOIInput.b2TOIInput.apply(this, arguments)
+  a.Bf = function() {
+    a.Bf.Bf.apply(this, arguments)
   };
-  a.b2WorldManifold = function() {
-    a.b2WorldManifold.b2WorldManifold.apply(this, arguments);
-    this.constructor === a.b2WorldManifold && this.b2WorldManifold.apply(this, arguments)
-  };
-  a.ClipVertex = function() {
-    a.ClipVertex.ClipVertex.apply(this, arguments)
-  };
-  a.Features = function() {
-    a.Features.Features.apply(this, arguments)
-  }
-})(Box2D.Collision);
+  a.Wi = q()
+})(P.i);
 (function(a) {
-  a.b2CircleShape = function() {
-    a.b2CircleShape.b2CircleShape.apply(this, arguments);
-    this.constructor === a.b2CircleShape && this.b2CircleShape.apply(this, arguments)
+  a.Cc = function() {
+    a.Cc.Cc.apply(this, arguments);
+    this.constructor === a.Cc && this.Cc.apply(this, arguments)
   };
-  a.b2EdgeChainDef = function() {
-    a.b2EdgeChainDef.b2EdgeChainDef.apply(this, arguments);
-    this.constructor === a.b2EdgeChainDef && this.b2EdgeChainDef.apply(this, arguments)
+  a.Te = function() {
+    a.Te.Te.apply(this, arguments);
+    this.constructor === a.Te && this.Te.apply(this, arguments)
   };
-  a.b2EdgeShape = function() {
-    a.b2EdgeShape.b2EdgeShape.apply(this, arguments);
-    this.constructor === a.b2EdgeShape && this.b2EdgeShape.apply(this, arguments)
+  a.ne = function() {
+    a.ne.ne.apply(this, arguments);
+    this.constructor === a.ne && this.ne.apply(this, arguments)
   };
-  a.b2MassData = function() {
-    a.b2MassData.b2MassData.apply(this, arguments)
+  a.Yg = function() {
+    a.Yg.Yg.apply(this, arguments)
   };
-  a.b2PolygonShape = function() {
-    a.b2PolygonShape.b2PolygonShape.apply(this, arguments);
-    this.constructor === a.b2PolygonShape && this.b2PolygonShape.apply(this, arguments)
+  a.ec = function() {
+    a.ec.ec.apply(this, arguments);
+    this.constructor === a.ec && this.ec.apply(this, arguments)
   };
-  a.b2Shape = function() {
-    a.b2Shape.b2Shape.apply(this, arguments);
-    this.constructor === a.b2Shape && this.b2Shape.apply(this, arguments)
+  a.O = function() {
+    a.O.O.apply(this, arguments);
+    this.constructor === a.O && this.O.apply(this, arguments)
   }
-})(Box2D.Collision.Shapes);
+})(P.i.H);
 (function() {
   function a() {
-    a.b2Color.apply(this, arguments);
-    this.constructor === a && this.b2Color.apply(this, arguments)
-  }
-  function d() {
-    d.b2Settings.apply(this, arguments)
-  }
-  function b() {
-    b.b2Mat22.apply(this, arguments);
-    this.constructor === b && this.b2Mat22.apply(this, arguments)
-  }
-  function f() {
-    f.b2Mat33.apply(this, arguments);
-    this.constructor === f && this.b2Mat33.apply(this, arguments)
-  }
-  function e() {
-    e.b2Math.apply(this, arguments)
+    a.sc.apply(this, arguments);
+    this.constructor === a && this.sc.apply(this, arguments)
   }
   function g() {
-    g.b2Sweep.apply(this, arguments)
+    g.$.apply(this, arguments)
+  }
+  function e() {
+    e.wd.apply(this, arguments);
+    this.constructor === e && this.wd.apply(this, arguments)
+  }
+  function d() {
+    d.Nf.apply(this, arguments);
+    this.constructor === d && this.Nf.apply(this, arguments)
+  }
+  function c() {
+    c.Xa.apply(this, arguments)
+  }
+  function b() {
+    b.Ze.apply(this, arguments)
   }
   function h() {
-    h.b2Transform.apply(this, arguments);
-    this.constructor === h && this.b2Transform.apply(this, arguments)
+    h.Md.apply(this, arguments);
+    this.constructor === h && this.Md.apply(this, arguments)
+  }
+  function i() {
+    i.g.apply(this, arguments);
+    this.constructor === i && this.g.apply(this, arguments)
   }
   function j() {
-    j.b2Vec2.apply(this, arguments);
-    this.constructor === j && this.b2Vec2.apply(this, arguments)
-  }
-  function l() {
-    l.b2Vec3.apply(this, arguments);
-    this.constructor === l && this.b2Vec3.apply(this, arguments)
+    j.Sf.apply(this, arguments);
+    this.constructor === j && this.Sf.apply(this, arguments)
   }
   function k() {
-    k.b2Body.apply(this, arguments);
-    this.constructor === k && this.b2Body.apply(this, arguments)
-  }
-  function o() {
-    o.b2BodyDef.apply(this, arguments);
-    this.constructor === o && this.b2BodyDef.apply(this, arguments)
+    k.sa.apply(this, arguments);
+    this.constructor === k && this.sa.apply(this, arguments)
   }
   function m() {
-    m.b2ContactFilter.apply(this, arguments)
+    m.Pe.apply(this, arguments);
+    this.constructor === m && this.Pe.apply(this, arguments)
+  }
+  function l() {
+    l.Lf.apply(this, arguments)
   }
   function s() {
-    s.b2ContactImpulse.apply(this, arguments)
-  }
-  function q() {
-    q.b2ContactListener.apply(this, arguments)
-  }
-  function w() {
-    w.b2ContactManager.apply(this, arguments);
-    this.constructor === w && this.b2ContactManager.apply(this, arguments)
-  }
-  function I() {
-    I.b2DestructionListener.apply(this, arguments)
-  }
-  function A() {
-    A.b2FilterData.apply(this, arguments)
-  }
-  function y() {
-    y.b2Fixture.apply(this, arguments);
-    this.constructor === y && this.b2Fixture.apply(this, arguments)
-  }
-  function x() {
-    x.b2FixtureDef.apply(this, arguments);
-    this.constructor === x && this.b2FixtureDef.apply(this, arguments)
-  }
-  function F() {
-    F.b2Island.apply(this, arguments);
-    this.constructor === F && this.b2Island.apply(this, arguments)
-  }
-  function E() {
-    E.b2TimeStep.apply(this, arguments)
-  }
-  function J() {
-    J.b2BuoyancyController.apply(this, arguments)
+    s.Dj.apply(this, arguments)
   }
   function n() {
-    n.b2ConstantAccelController.apply(this, arguments)
+    n.ai.apply(this, arguments)
   }
-  function G() {
-    G.b2ConstantForceController.apply(this, arguments)
+  function x() {
+    x.Re.apply(this, arguments);
+    this.constructor === x && this.Re.apply(this, arguments)
   }
-  function t() {
-    t.b2Controller.apply(this, arguments)
-  }
-  function D() {
-    D.b2ControllerEdge.apply(this, arguments)
-  }
-  function M() {
-    M.b2GravityController.apply(this, arguments)
-  }
-  function N() {
-    N.b2TensorDampingController.apply(this, arguments)
-  }
-  function p() {
-    p.b2DistanceJoint.apply(this, arguments);
-    this.constructor === p && this.b2DistanceJoint.apply(this, arguments)
-  }
-  function r() {
-    r.b2DistanceJointDef.apply(this, arguments);
-    this.constructor === r && this.b2DistanceJointDef.apply(this, arguments)
-  }
-  function v() {
-    v.b2FrictionJoint.apply(this, arguments);
-    this.constructor === v && this.b2FrictionJoint.apply(this, arguments)
-  }
-  function H() {
-    H.b2FrictionJointDef.apply(this, arguments);
-    this.constructor === H && this.b2FrictionJointDef.apply(this, arguments)
-  }
-  function K() {
-    K.b2GearJoint.apply(this, arguments);
-    this.constructor === K && this.b2GearJoint.apply(this, arguments)
-  }
-  function O() {
-    O.b2GearJointDef.apply(this, arguments);
-    this.constructor === O && this.b2GearJointDef.apply(this, arguments)
-  }
-  function C() {
-    C.b2Jacobian.apply(this, arguments)
-  }
-  function B() {
-    B.b2Joint.apply(this, arguments);
-    this.constructor === B && this.b2Joint.apply(this, arguments)
-  }
-  function u() {
-    u.b2JointDef.apply(this, arguments);
-    this.constructor === u && this.b2JointDef.apply(this, arguments)
-  }
-  function L() {
-    L.b2JointEdge.apply(this, arguments)
-  }
-  function P() {
-    P.b2LineJoint.apply(this, arguments);
-    this.constructor === P && this.b2LineJoint.apply(this, arguments)
-  }
-  function Q() {
-    Q.b2LineJointDef.apply(this, arguments);
-    this.constructor === Q && this.b2LineJointDef.apply(this, arguments)
-  }
-  function R() {
-    R.b2MouseJoint.apply(this, arguments);
-    this.constructor === R && this.b2MouseJoint.apply(this, arguments)
-  }
-  function S() {
-    S.b2MouseJointDef.apply(this, arguments);
-    this.constructor === S && this.b2MouseJointDef.apply(this, arguments)
+  function w() {
+    w.Gj.apply(this, arguments)
   }
   function z() {
-    z.b2PrismaticJoint.apply(this, arguments);
-    this.constructor === z && this.b2PrismaticJoint.apply(this, arguments)
+    z.Ij.apply(this, arguments)
+  }
+  function C() {
+    C.Rg.apply(this, arguments);
+    this.constructor === C && this.Rg.apply(this, arguments)
+  }
+  function v() {
+    v.Mf.apply(this, arguments);
+    this.constructor === v && this.Mf.apply(this, arguments)
+  }
+  function I() {
+    I.Ue.apply(this, arguments);
+    this.constructor === I && this.Ue.apply(this, arguments)
+  }
+  function L() {
+    L.Rf.apply(this, arguments)
+  }
+  function M() {
+    M.zj.apply(this, arguments)
+  }
+  function o() {
+    o.Bj.apply(this, arguments)
+  }
+  function F() {
+    F.Cj.apply(this, arguments)
+  }
+  function K() {
+    K.ab.apply(this, arguments)
+  }
+  function B() {
+    B.Fj.apply(this, arguments)
+  }
+  function Q() {
+    Q.Jj.apply(this, arguments)
   }
   function T() {
-    T.b2PrismaticJointDef.apply(this, arguments);
-    this.constructor === T && this.b2PrismaticJointDef.apply(this, arguments)
+    T.Mj.apply(this, arguments)
   }
-  function U() {
-    U.b2PulleyJoint.apply(this, arguments);
-    this.constructor === U && this.b2PulleyJoint.apply(this, arguments)
+  function t() {
+    t.Ng.apply(this, arguments);
+    this.constructor === t && this.Ng.apply(this, arguments)
+  }
+  function r() {
+    r.Og.apply(this, arguments);
+    this.constructor === r && this.Og.apply(this, arguments)
+  }
+  function y() {
+    y.Sg.apply(this, arguments);
+    this.constructor === y && this.Sg.apply(this, arguments)
+  }
+  function G() {
+    G.Tg.apply(this, arguments);
+    this.constructor === G && this.Tg.apply(this, arguments)
+  }
+  function Ka() {
+    Ka.Ug.apply(this, arguments);
+    this.constructor === Ka && this.Ug.apply(this, arguments)
+  }
+  function S() {
+    S.Vg.apply(this, arguments);
+    this.constructor === S && this.Vg.apply(this, arguments)
+  }
+  function H() {
+    H.Kj.apply(this, arguments)
+  }
+  function E() {
+    E.F.apply(this, arguments);
+    this.constructor === E && this.F.apply(this, arguments)
+  }
+  function N() {
+    N.R.apply(this, arguments);
+    this.constructor === N && this.R.apply(this, arguments)
   }
   function V() {
-    V.b2PulleyJointDef.apply(this, arguments);
-    this.constructor === V && this.b2PulleyJointDef.apply(this, arguments)
+    V.Lj.apply(this, arguments)
   }
-  function W() {
-    W.b2RevoluteJoint.apply(this, arguments);
-    this.constructor === W && this.b2RevoluteJoint.apply(this, arguments)
+  function La() {
+    La.Wg.apply(this, arguments);
+    this.constructor === La && this.Wg.apply(this, arguments)
   }
-  function X() {
-    X.b2RevoluteJointDef.apply(this, arguments);
-    this.constructor === X && this.b2RevoluteJointDef.apply(this, arguments)
+  function Ma() {
+    Ma.Xg.apply(this, arguments);
+    this.constructor === Ma && this.Xg.apply(this, arguments)
   }
-  function Y() {
-    Y.b2WeldJoint.apply(this, arguments);
-    this.constructor === Y && this.b2WeldJoint.apply(this, arguments)
+  function Na() {
+    Na.Zg.apply(this, arguments);
+    this.constructor === Na && this.Zg.apply(this, arguments)
   }
-  function Z() {
-    Z.b2WeldJointDef.apply(this, arguments);
-    this.constructor === Z && this.b2WeldJointDef.apply(this, arguments)
+  function A() {
+    A.$g.apply(this, arguments);
+    this.constructor === A && this.$g.apply(this, arguments)
   }
-  Box2D.MIN_VALUE_SQUARED = Number.MIN_VALUE * Number.MIN_VALUE;
-  Box2D.Common.b2internal = "Box2D.Common.b2internal";
-  Box2D.Common.b2Color = a;
-  Box2D.Common.b2Settings = d;
-  Box2D.Common.Math.b2Mat22 = b;
-  Box2D.Common.Math.b2Mat33 = f;
-  Box2D.Common.Math.b2Math = e;
-  Box2D.Common.Math.b2Sweep = g;
-  Box2D.Common.Math.b2Transform = h;
-  Box2D.Common.Math.b2Vec2 = j;
-  Box2D.Common.Math.b2Vec3 = l;
-  Box2D.Dynamics.b2Body = k;
-  Box2D.Dynamics.b2BodyDef = o;
-  Box2D.Dynamics.b2ContactFilter = m;
-  Box2D.Dynamics.b2ContactImpulse = s;
-  Box2D.Dynamics.b2ContactListener = q;
-  Box2D.Dynamics.b2ContactManager = w;
-  Box2D.Dynamics.b2DestructionListener = I;
-  Box2D.Dynamics.b2FilterData = A;
-  Box2D.Dynamics.b2Fixture = y;
-  Box2D.Dynamics.b2FixtureDef = x;
-  Box2D.Dynamics.b2Island = F;
-  Box2D.Dynamics.b2TimeStep = E;
-  Box2D.Dynamics.Controllers.b2BuoyancyController = J;
-  Box2D.Dynamics.Controllers.b2ConstantAccelController = n;
-  Box2D.Dynamics.Controllers.b2ConstantForceController = G;
-  Box2D.Dynamics.Controllers.b2Controller = t;
-  Box2D.Dynamics.Controllers.b2ControllerEdge = D;
-  Box2D.Dynamics.Controllers.b2GravityController = M;
-  Box2D.Dynamics.Controllers.b2TensorDampingController = N;
-  Box2D.Dynamics.Joints.b2DistanceJoint = p;
-  Box2D.Dynamics.Joints.b2DistanceJointDef = r;
-  Box2D.Dynamics.Joints.b2FrictionJoint = v;
-  Box2D.Dynamics.Joints.b2FrictionJointDef = H;
-  Box2D.Dynamics.Joints.b2GearJoint = K;
-  Box2D.Dynamics.Joints.b2GearJointDef = O;
-  Box2D.Dynamics.Joints.b2Jacobian = C;
-  Box2D.Dynamics.Joints.b2Joint = B;
-  Box2D.Dynamics.Joints.b2JointDef = u;
-  Box2D.Dynamics.Joints.b2JointEdge = L;
-  Box2D.Dynamics.Joints.b2LineJoint = P;
-  Box2D.Dynamics.Joints.b2LineJointDef = Q;
-  Box2D.Dynamics.Joints.b2MouseJoint = R;
-  Box2D.Dynamics.Joints.b2MouseJointDef = S;
-  Box2D.Dynamics.Joints.b2PrismaticJoint = z;
-  Box2D.Dynamics.Joints.b2PrismaticJointDef = T;
-  Box2D.Dynamics.Joints.b2PulleyJoint = U;
-  Box2D.Dynamics.Joints.b2PulleyJointDef = V;
-  Box2D.Dynamics.Joints.b2RevoluteJoint = W;
-  Box2D.Dynamics.Joints.b2RevoluteJointDef = X;
-  Box2D.Dynamics.Joints.b2WeldJoint = Y;
-  Box2D.Dynamics.Joints.b2WeldJointDef = Z
+  function Oa() {
+    Oa.fh.apply(this, arguments);
+    this.constructor === Oa && this.fh.apply(this, arguments)
+  }
+  function Pa() {
+    Pa.gh.apply(this, arguments);
+    this.constructor === Pa && this.gh.apply(this, arguments)
+  }
+  function Qa() {
+    Qa.Of.apply(this, arguments);
+    this.constructor === Qa && this.Of.apply(this, arguments)
+  }
+  function Ra() {
+    Ra.hh.apply(this, arguments);
+    this.constructor === Ra && this.hh.apply(this, arguments)
+  }
+  function Sa() {
+    Sa.Pf.apply(this, arguments);
+    this.constructor === Sa && this.Pf.apply(this, arguments)
+  }
+  function Ta() {
+    Ta.Qf.apply(this, arguments);
+    this.constructor === Ta && this.Qf.apply(this, arguments)
+  }
+  function Ua() {
+    Ua.kh.apply(this, arguments);
+    this.constructor === Ua && this.kh.apply(this, arguments)
+  }
+  function Va() {
+    Va.Tf.apply(this, arguments);
+    this.constructor === Va && this.Tf.apply(this, arguments)
+  }
+  P.fj = Number.MIN_VALUE * Number.MIN_VALUE;
+  P.a.Qq = "Box2D.Common.b2internal";
+  P.a.sc = a;
+  P.a.$ = g;
+  P.a.f.wd = e;
+  P.a.f.Nf = d;
+  P.a.f.Xa = c;
+  P.a.f.Ze = b;
+  P.a.f.Md = h;
+  P.a.f.g = i;
+  P.a.f.Sf = j;
+  P.c.sa = k;
+  P.c.Pe = m;
+  P.c.Lf = l;
+  P.c.Dj = s;
+  P.c.ai = n;
+  P.c.Re = x;
+  P.c.Gj = w;
+  P.c.Ij = z;
+  P.c.Rg = C;
+  P.c.Mf = v;
+  P.c.Ue = I;
+  P.c.Rf = L;
+  P.c.Ca.zj = M;
+  P.c.Ca.Bj = o;
+  P.c.Ca.Cj = F;
+  P.c.Ca.ab = K;
+  P.c.Ca.Fj = B;
+  P.c.Ca.Jj = Q;
+  P.c.Ca.Mj = T;
+  P.c.o.Ng = t;
+  P.c.o.Og = r;
+  P.c.o.Sg = y;
+  P.c.o.Tg = G;
+  P.c.o.Ug = Ka;
+  P.c.o.Vg = S;
+  P.c.o.Kj = H;
+  P.c.o.F = E;
+  P.c.o.R = N;
+  P.c.o.Lj = V;
+  P.c.o.Wg = La;
+  P.c.o.Xg = Ma;
+  P.c.o.Zg = Na;
+  P.c.o.$g = A;
+  P.c.o.fh = Oa;
+  P.c.o.gh = Pa;
+  P.c.o.Of = Qa;
+  P.c.o.hh = Ra;
+  P.c.o.Pf = Sa;
+  P.c.o.Qf = Ta;
+  P.c.o.kh = Ua;
+  P.c.o.Tf = Va
 })();
 (function() {
-  var a = Box2D.Common.b2Settings, d = Box2D.Common.Math.b2Math, b = Box2D.Common.Math.b2Sweep, f = Box2D.Common.Math.b2Transform, e = Box2D.Common.Math.b2Vec2, g = Box2D.Collision.b2AABB, h = Box2D.Collision.b2ContactID, j = Box2D.Collision.b2Distance, l = Box2D.Collision.b2DistanceInput, k = Box2D.Collision.b2DistanceOutput, o = Box2D.Collision.b2DistanceProxy, m = Box2D.Collision.b2DynamicTree, s = Box2D.Collision.b2DynamicTreeBroadPhase, q = Box2D.Collision.b2DynamicTreeNode, w = Box2D.Collision.b2DynamicTreePair, 
-  I = Box2D.Collision.b2Manifold, A = Box2D.Collision.b2ManifoldPoint, y = Box2D.Collision.b2Point, x = Box2D.Collision.b2RayCastInput, F = Box2D.Collision.b2RayCastOutput, E = Box2D.Collision.b2Segment, J = Box2D.Collision.b2SeparationFunction, n = Box2D.Collision.b2Simplex, G = Box2D.Collision.b2SimplexCache, t = Box2D.Collision.b2SimplexVertex, D = Box2D.Collision.b2TimeOfImpact, M = Box2D.Collision.b2TOIInput, N = Box2D.Collision.b2WorldManifold, p = Box2D.Collision.ClipVertex, r = Box2D.Collision.Features, 
-  v = Box2D.Collision.IBroadPhase;
-  m.b2DynamicTree = function() {
+  var a = P.a.$, g = P.a.f.Xa, e = P.a.f.Ze, d = P.a.f.Md, c = P.a.f.g, b = P.i.yj, h = P.i.Qe, i = P.i.ci, j = P.i.Al, k = P.i.Bl, m = P.i.Hj, l = P.i.Se, s = P.i.Pg, n = P.i.di, x = P.i.Cl, w = P.i.pb, z = P.i.Ve, C = P.i.ei, v = P.i.Xe, I = P.i.fi, L = P.i.gi, M = P.i.Ye, o = P.i.oe, F = P.i.ih, K = P.i.Dl, B = P.i.tc, Q = P.i.jh, T = P.i.gd, t = P.i.Bf, r = P.i.Wi, y = P.i.wn;
+  l.Se = q();
+  l.prototype.Se = function() {
+    this.vh = this.Gd = p;
+    this.Dp = this.gr = 0
   };
-  m.prototype.b2DynamicTree = function() {
-    this.m_freeList = this.m_root = null;
-    this.m_insertionCount = this.m_path = 0
+  l.prototype.yg = function(c, b) {
+    var d = this.Sk(), t = a.hi, i = a.hi;
+    d.ra.lowerBound.x = c.lowerBound.x - t;
+    d.ra.lowerBound.y = c.lowerBound.y - i;
+    d.ra.upperBound.x = c.upperBound.x + t;
+    d.ra.upperBound.y = c.upperBound.y + i;
+    d.Fe = b;
+    this.hl(d);
+    return d
   };
-  m.prototype.CreateProxy = function(e, d) {
-    var b = this.AllocateNode(), f = a.b2_aabbExtension, g = a.b2_aabbExtension;
-    b.aabb.lowerBound.x = e.lowerBound.x - f;
-    b.aabb.lowerBound.y = e.lowerBound.y - g;
-    b.aabb.upperBound.x = e.upperBound.x + f;
-    b.aabb.upperBound.y = e.upperBound.y + g;
-    b.userData = d;
-    this.InsertLeaf(b);
-    return b
+  l.prototype.Ag = function(a) {
+    this.ol(a);
+    this.Yi(a)
   };
-  m.prototype.DestroyProxy = function(a) {
-    this.RemoveLeaf(a);
-    this.FreeNode(a)
-  };
-  m.prototype.MoveProxy = function(e, d, b) {
-    a.b2Assert(e.IsLeaf());
-    if(e.aabb.Contains(d)) {
+  l.prototype.hj = function(c, b, d) {
+    a.Ra(c.Uh());
+    if(c.ra.Ti(b)) {
       return!1
     }
-    this.RemoveLeaf(e);
-    var f = a.b2_aabbExtension + a.b2_aabbMultiplier * (b.x > 0 ? b.x : -b.x), b = a.b2_aabbExtension + a.b2_aabbMultiplier * (b.y > 0 ? b.y : -b.y);
-    e.aabb.lowerBound.x = d.lowerBound.x - f;
-    e.aabb.lowerBound.y = d.lowerBound.y - b;
-    e.aabb.upperBound.x = d.upperBound.x + f;
-    e.aabb.upperBound.y = d.upperBound.y + b;
-    this.InsertLeaf(e);
+    this.ol(c);
+    var t = a.hi + a.El * (d.x > 0 ? d.x : -d.x), d = a.hi + a.El * (d.y > 0 ? d.y : -d.y);
+    c.ra.lowerBound.x = b.lowerBound.x - t;
+    c.ra.lowerBound.y = b.lowerBound.y - d;
+    c.ra.upperBound.x = b.upperBound.x + t;
+    c.ra.upperBound.y = b.upperBound.y + d;
+    this.hl(c);
     return!0
   };
-  m.prototype.Rebalance = function(a) {
-    a === void 0 && (a = 0);
-    if(this.m_root != null) {
-      for(var e = 0;e < a;e++) {
-        for(var d = this.m_root, b = 0;d.IsLeaf() == !1;) {
-          d = this.m_path >> b & 1 ? d.child2 : d.child1, b = b + 1 & 31
-        }
-        ++this.m_path;
-        this.RemoveLeaf(d);
-        this.InsertLeaf(d)
-      }
-    }
+  l.prototype.Hf = function(a) {
+    return a.ra
   };
-  m.prototype.GetFatAABB = function(a) {
-    return a.aabb
+  l.prototype.Ie = function(a) {
+    return a.Fe
   };
-  m.prototype.GetUserData = function(a) {
-    return a.userData
-  };
-  m.prototype.Query = function(a, e) {
-    if(this.m_root != null) {
-      var d = [], b = 0;
-      for(d[b++] = this.m_root;b > 0;) {
-        var f = d[--b];
-        if(f.aabb.TestOverlap(e)) {
-          if(f.IsLeaf()) {
-            if(!a(f)) {
+  l.prototype.jj = function(a, c) {
+    if(this.Gd != p) {
+      var b = [], d = 0;
+      for(b[d++] = this.Gd;d > 0;) {
+        var t = b[--d];
+        if(t.ra.ie(c)) {
+          if(t.Uh()) {
+            if(!a(t)) {
               break
             }
           }else {
-            d[b++] = f.child1, d[b++] = f.child2
+            b[d++] = t.Ec, b[d++] = t.Od
           }
         }
       }
     }
   };
-  m.prototype.RayCast = function(a, e) {
-    if(this.m_root != null) {
-      var b = e.p1, f = e.p2, p = d.SubtractVV(b, f);
-      p.Normalize();
-      var p = d.CrossFV(1, p), n = d.AbsV(p), j = e.maxFraction, r = new g, v = 0, h = 0, v = b.x + j * (f.x - b.x), h = b.y + j * (f.y - b.y);
-      r.lowerBound.x = Math.min(b.x, v);
-      r.lowerBound.y = Math.min(b.y, h);
-      r.upperBound.x = Math.max(b.x, v);
-      r.upperBound.y = Math.max(b.y, h);
-      var G = [], t = 0;
-      for(G[t++] = this.m_root;t > 0;) {
-        if(j = G[--t], j.aabb.TestOverlap(r) != !1 && (v = j.aabb.GetCenter(), h = j.aabb.GetExtents(), !(Math.abs(p.x * (b.x - v.x) + p.y * (b.y - v.y)) - n.x * h.x - n.y * h.y > 0))) {
-          if(j.IsLeaf()) {
-            v = new x;
-            v.p1 = e.p1;
-            v.p2 = e.p2;
-            v.maxFraction = e.maxFraction;
-            j = a(v, j);
-            if(j == 0) {
-              break
-            }
-            if(j > 0) {
-              v = b.x + j * (f.x - b.x), h = b.y + j * (f.y - b.y), r.lowerBound.x = Math.min(b.x, v), r.lowerBound.y = Math.min(b.y, h), r.upperBound.x = Math.max(b.x, v), r.upperBound.y = Math.max(b.y, h)
-            }
-          }else {
-            G[t++] = j.child1, G[t++] = j.child2
-          }
-        }
-      }
-    }
-  };
-  m.prototype.AllocateNode = function() {
-    if(this.m_freeList) {
-      var a = this.m_freeList;
-      this.m_freeList = a.parent;
-      a.parent = null;
-      a.child1 = null;
-      a.child2 = null;
+  l.prototype.Sk = function() {
+    if(this.vh) {
+      var a = this.vh;
+      this.vh = a.parent;
+      a.parent = p;
+      a.Ec = p;
+      a.Od = p;
       return a
     }
-    return new q
+    return new n
   };
-  m.prototype.FreeNode = function(a) {
-    a.parent = this.m_freeList;
-    this.m_freeList = a
+  l.prototype.Yi = function(a) {
+    a.parent = this.vh;
+    this.vh = a
   };
-  m.prototype.InsertLeaf = function(a) {
-    ++this.m_insertionCount;
-    if(this.m_root == null) {
-      this.m_root = a, this.m_root.parent = null
+  l.prototype.hl = function(a) {
+    ++this.Dp;
+    if(this.Gd == p) {
+      this.Gd = a, this.Gd.parent = p
     }else {
-      var e = a.aabb.GetCenter(), b = this.m_root;
-      if(b.IsLeaf() == !1) {
+      var c = a.ra.Zi(), b = this.Gd;
+      if(b.Uh() == !1) {
         do {
-          var d = b.child1, b = b.child2, f = Math.abs((d.aabb.lowerBound.x + d.aabb.upperBound.x) / 2 - e.x) + Math.abs((d.aabb.lowerBound.y + d.aabb.upperBound.y) / 2 - e.y), g = Math.abs((b.aabb.lowerBound.x + b.aabb.upperBound.x) / 2 - e.x) + Math.abs((b.aabb.lowerBound.y + b.aabb.upperBound.y) / 2 - e.y), b = f < g ? d : b
-        }while(b.IsLeaf() == !1)
+          var d = b.Ec, b = b.Od, b = Math.abs((d.ra.lowerBound.x + d.ra.upperBound.x) / 2 - c.x) + Math.abs((d.ra.lowerBound.y + d.ra.upperBound.y) / 2 - c.y) < Math.abs((b.ra.lowerBound.x + b.ra.upperBound.x) / 2 - c.x) + Math.abs((b.ra.lowerBound.y + b.ra.upperBound.y) / 2 - c.y) ? d : b
+        }while(b.Uh() == !1)
       }
-      e = b.parent;
-      d = this.AllocateNode();
-      d.parent = e;
-      d.userData = null;
-      d.aabb.Combine(a.aabb, b.aabb);
-      if(e) {
-        b.parent.child1 == b ? e.child1 = d : e.child2 = d;
-        d.child1 = b;
-        d.child2 = a;
+      c = b.parent;
+      d = this.Sk();
+      d.parent = c;
+      d.Fe = p;
+      d.ra.Cf(a.ra, b.ra);
+      if(c) {
+        b.parent.Ec == b ? c.Ec = d : c.Od = d;
+        d.Ec = b;
+        d.Od = a;
         b.parent = d;
         a.parent = d;
         do {
-          if(e.aabb.Contains(d.aabb)) {
+          if(c.ra.Ti(d.ra)) {
             break
           }
-          e.aabb.Combine(e.child1.aabb, e.child2.aabb);
-          d = e;
-          e = e.parent
-        }while(e)
+          c.ra.Cf(c.Ec.ra, c.Od.ra);
+          d = c;
+          c = c.parent
+        }while(c)
       }else {
-        d.child1 = b, d.child2 = a, b.parent = d, this.m_root = a.parent = d
+        d.Ec = b, d.Od = a, b.parent = d, this.Gd = a.parent = d
       }
     }
   };
-  m.prototype.RemoveLeaf = function(a) {
-    if(a == this.m_root) {
-      this.m_root = null
+  l.prototype.ol = function(a) {
+    if(a == this.Gd) {
+      this.Gd = p
     }else {
-      var e = a.parent, b = e.parent, a = e.child1 == a ? e.child2 : e.child1;
-      if(b) {
-        b.child1 == e ? b.child1 = a : b.child2 = a;
-        a.parent = b;
-        for(this.FreeNode(e);b;) {
-          e = b.aabb;
-          b.aabb = g.Combine(b.child1.aabb, b.child2.aabb);
-          if(e.Contains(b.aabb)) {
+      var c = a.parent, d = c.parent, a = c.Ec == a ? c.Od : c.Ec;
+      if(d) {
+        d.Ec == c ? d.Ec = a : d.Od = a;
+        a.parent = d;
+        for(this.Yi(c);d;) {
+          c = d.ra;
+          d.ra = b.Cf(d.Ec.ra, d.Od.ra);
+          if(c.Ti(d.ra)) {
             break
           }
-          b = b.parent
+          d = d.parent
         }
       }else {
-        this.m_root = a, a.parent = null, this.FreeNode(e)
+        this.Gd = a, a.parent = p, this.Yi(c)
       }
     }
   };
-  s.b2DynamicTreeBroadPhase = function() {
-    this.m_tree = new m;
-    this.m_moveBuffer = [];
-    this.m_pairBuffer = [];
-    this.m_pairCount = 0
+  s.Pg = function() {
+    this.Yc = new l;
+    this.of = [];
+    this.Bh = [];
+    this.qf = 0
   };
-  s.prototype.CreateProxy = function(a, e) {
-    var b = this.m_tree.CreateProxy(a, e);
-    ++this.m_proxyCount;
-    this.BufferMove(b);
+  s.prototype.yg = function(a, c) {
+    var b = this.Yc.yg(a, c);
+    ++this.Kp;
+    this.Uk(b);
     return b
   };
-  s.prototype.DestroyProxy = function(a) {
-    this.UnBufferMove(a);
-    --this.m_proxyCount;
-    this.m_tree.DestroyProxy(a)
+  s.prototype.Ag = function(a) {
+    this.ao(a);
+    --this.Kp;
+    this.Yc.Ag(a)
   };
-  s.prototype.MoveProxy = function(a, e, b) {
-    this.m_tree.MoveProxy(a, e, b) && this.BufferMove(a)
+  s.prototype.hj = function(a, c, b) {
+    this.Yc.hj(a, c, b) && this.Uk(a)
   };
-  s.prototype.TestOverlap = function(a, e) {
-    var b = this.m_tree.GetFatAABB(a), d = this.m_tree.GetFatAABB(e);
-    return b.TestOverlap(d)
+  s.prototype.ie = function(a, c) {
+    return this.Yc.Hf(a).ie(this.Yc.Hf(c))
   };
-  s.prototype.GetUserData = function(a) {
-    return this.m_tree.GetUserData(a)
+  s.prototype.Ie = function(a) {
+    return this.Yc.Ie(a)
   };
-  s.prototype.GetFatAABB = function(a) {
-    return this.m_tree.GetFatAABB(a)
+  s.prototype.Hf = function(a) {
+    return this.Yc.Hf(a)
   };
-  s.prototype.GetProxyCount = function() {
-    return this.m_proxyCount
-  };
-  s.prototype.UpdatePairs = function(a) {
-    for(var e = this, b = e.m_pairCount = 0, d, b = 0;b < e.m_moveBuffer.length;++b) {
-      d = e.m_moveBuffer[b];
-      var f = e.m_tree.GetFatAABB(d);
-      e.m_tree.Query(function(a) {
+  s.prototype.bo = function(a) {
+    for(var c = this, b = c.qf = 0, d, b = 0;b < c.of.length;++b) {
+      d = c.of[b], c.Yc.jj(function(a) {
         if(a == d) {
           return!0
         }
-        e.m_pairCount == e.m_pairBuffer.length && (e.m_pairBuffer[e.m_pairCount] = new w);
-        var b = e.m_pairBuffer[e.m_pairCount];
-        b.proxyA = a < d ? a : d;
-        b.proxyB = a >= d ? a : d;
-        ++e.m_pairCount;
+        c.qf == c.Bh.length && (c.Bh[c.qf] = new x);
+        var b = c.Bh[c.qf];
+        b.Lc = a < d ? a : d;
+        b.Mc = a >= d ? a : d;
+        ++c.qf;
         return!0
-      }, f)
+      }, c.Yc.Hf(d))
     }
-    for(b = e.m_moveBuffer.length = 0;b < e.m_pairCount;) {
-      var f = e.m_pairBuffer[b], g = e.m_tree.GetUserData(f.proxyA), p = e.m_tree.GetUserData(f.proxyB);
-      a(g, p);
-      for(++b;b < e.m_pairCount;) {
-        g = e.m_pairBuffer[b];
-        if(g.proxyA != f.proxyA || g.proxyB != f.proxyB) {
+    for(b = c.of.length = 0;b < c.qf;) {
+      var t = c.Bh[b];
+      a(c.Yc.Ie(t.Lc), c.Yc.Ie(t.Mc));
+      for(++b;b < c.qf;) {
+        var i = c.Bh[b];
+        if(i.Lc != t.Lc || i.Mc != t.Mc) {
           break
         }
         ++b
       }
     }
   };
-  s.prototype.Query = function(a, e) {
-    this.m_tree.Query(a, e)
+  s.prototype.jj = function(a, c) {
+    this.Yc.jj(a, c)
   };
-  s.prototype.RayCast = function(a, e) {
-    this.m_tree.RayCast(a, e)
+  s.prototype.Uk = function(a) {
+    this.of[this.of.length] = a
   };
-  s.prototype.Validate = function() {
+  s.prototype.ao = function(a) {
+    this.of.splice(this.of.indexOf(a), 1)
   };
-  s.prototype.Rebalance = function(a) {
-    a === void 0 && (a = 0);
-    this.m_tree.Rebalance(a)
+  s.rj = {};
+  s.rj[y] = !0;
+  n.di = function() {
+    this.ra = new b
   };
-  s.prototype.BufferMove = function(a) {
-    this.m_moveBuffer[this.m_moveBuffer.length] = a
+  n.prototype.Uh = function() {
+    return this.Ec == p
   };
-  s.prototype.UnBufferMove = function(a) {
-    this.m_moveBuffer.splice(this.m_moveBuffer.indexOf(a), 1)
+  x.Cl = q();
+  w.pb = function() {
+    this.Za = 0
   };
-  s.prototype.ComparePairs = function() {
-    return 0
-  };
-  s.__implements = {};
-  s.__implements[v] = !0;
-  q.b2DynamicTreeNode = function() {
-    this.aabb = new g
-  };
-  q.prototype.IsLeaf = function() {
-    return this.child1 == null
-  };
-  w.b2DynamicTreePair = function() {
-  };
-  I.b2Manifold = function() {
-    this.m_pointCount = 0
-  };
-  I.prototype.b2Manifold = function() {
-    this.m_points = [];
-    for(var b = 0;b < a.b2_maxManifoldPoints;b++) {
-      this.m_points[b] = new A
+  w.prototype.pb = function() {
+    this.aa = [];
+    for(var b = 0;b < a.Dc;b++) {
+      this.aa[b] = new z
     }
-    this.m_localPlaneNormal = new e;
-    this.m_localPoint = new e
+    this.yb = new c;
+    this.ia = new c
   };
-  I.prototype.Reset = function() {
-    for(var e = 0;e < a.b2_maxManifoldPoints;e++) {
-      (this.m_points[e] instanceof A ? this.m_points[e] : null).Reset()
+  w.prototype.ob = function() {
+    for(var c = 0;c < a.Dc;c++) {
+      (this.aa[c] instanceof z ? this.aa[c] : p).ob()
     }
-    this.m_localPlaneNormal.SetZero();
-    this.m_localPoint.SetZero();
-    this.m_pointCount = this.m_type = 0
+    this.yb.V();
+    this.ia.V();
+    this.Za = this.ca = 0
   };
-  I.prototype.Set = function(e) {
-    this.m_pointCount = e.m_pointCount;
-    for(var b = 0;b < a.b2_maxManifoldPoints;b++) {
-      (this.m_points[b] instanceof A ? this.m_points[b] : null).Set(e.m_points[b])
+  w.prototype.s = function(c) {
+    this.Za = c.Za;
+    for(var b = 0;b < a.Dc;b++) {
+      (this.aa[b] instanceof z ? this.aa[b] : p).s(c.aa[b])
     }
-    this.m_localPlaneNormal.SetV(e.m_localPlaneNormal);
-    this.m_localPoint.SetV(e.m_localPoint);
-    this.m_type = e.m_type
+    this.yb.p(c.yb);
+    this.ia.p(c.ia);
+    this.ca = c.ca
   };
-  I.prototype.Copy = function() {
-    var a = new I;
-    a.Set(this);
+  w.prototype.mb = function() {
+    var a = new w;
+    a.s(this);
     return a
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Collision.b2Manifold.e_circles = 1;
-    Box2D.Collision.b2Manifold.e_faceA = 2;
-    Box2D.Collision.b2Manifold.e_faceB = 4
+  P.Wa.push(function() {
+    P.i.pb.Tj = 1;
+    P.i.pb.kd = 2;
+    P.i.pb.cf = 4
   });
-  A.b2ManifoldPoint = function() {
-    this.m_localPoint = new e;
-    this.m_id = new h
+  z.Ve = function() {
+    this.ia = new c;
+    this.Ud = new h
   };
-  A.prototype.b2ManifoldPoint = function() {
-    this.Reset()
+  z.prototype.Ve = function() {
+    this.ob()
   };
-  A.prototype.Reset = function() {
-    this.m_localPoint.SetZero();
-    this.m_tangentImpulse = this.m_normalImpulse = 0;
-    this.m_id.key = 0
+  z.prototype.ob = function() {
+    this.ia.V();
+    this.tf = this.pf = 0;
+    this.Ud.key = 0
   };
-  A.prototype.Set = function(a) {
-    this.m_localPoint.SetV(a.m_localPoint);
-    this.m_normalImpulse = a.m_normalImpulse;
-    this.m_tangentImpulse = a.m_tangentImpulse;
-    this.m_id.Set(a.m_id)
+  z.prototype.s = function(a) {
+    this.ia.p(a.ia);
+    this.pf = a.pf;
+    this.tf = a.tf;
+    this.Ud.s(a.Ud)
   };
-  y.b2Point = function() {
-    this.p = new e
+  C.ei = function() {
+    this.mr = new c
   };
-  y.prototype.Support = function() {
-    return this.p
+  v.Xe = function() {
+    this.Cm = new c;
+    this.Dm = new c
   };
-  y.prototype.GetFirstVertex = function() {
-    return this.p
+  v.prototype.Xe = function(a, c, b) {
+    a === f && (a = p);
+    c === f && (c = p);
+    b === f && (b = 1);
+    a && this.Cm.p(a);
+    c && this.Dm.p(c);
+    this.ir = b
   };
-  x.b2RayCastInput = function() {
-    this.p1 = new e;
-    this.p2 = new e
+  I.fi = function() {
+    this.kb = new c
   };
-  x.prototype.b2RayCastInput = function(a, e, b) {
-    a === void 0 && (a = null);
-    e === void 0 && (e = null);
-    b === void 0 && (b = 1);
-    a && this.p1.SetV(a);
-    e && this.p2.SetV(e);
-    this.maxFraction = b
+  L.gi = function() {
+    this.Cm = new c;
+    this.Dm = new c
   };
-  F.b2RayCastOutput = function() {
-    this.normal = new e
+  M.Ye = function() {
+    this.ia = new c;
+    this.B = new c
   };
-  E.b2Segment = function() {
-    this.p1 = new e;
-    this.p2 = new e
+  M.prototype.$a = function(b, d, t, i, e) {
+    this.ze = d;
+    this.Ae = i;
+    var r = b.count;
+    a.Ra(0 < r && r < 3);
+    var y, o, j, h, F = h = j = i = d = 0, k = 0, F = 0;
+    r == 1 ? (this.ca = M.Yl, y = this.ze.Cb(b.bb[0]), o = this.Ae.Cb(b.cb[0]), r = y, b = t.h, d = t.position.x + (b.b.x * r.x + b.d.x * r.y), i = t.position.y + (b.b.y * r.x + b.d.y * r.y), r = o, b = e.h, j = e.position.x + (b.b.x * r.x + b.d.x * r.y), h = e.position.y + (b.b.y * r.x + b.d.y * r.y), this.B.x = j - d, this.B.y = h - i, this.B.dc()) : (b.cb[0] == b.cb[1] ? (this.ca = M.kd, d = this.ze.Cb(b.bb[0]), i = this.ze.Cb(b.bb[1]), o = this.Ae.Cb(b.cb[0]), this.ia.x = 0.5 * (d.x + i.x), this.ia.y = 
+    0.5 * (d.y + i.y), this.B = g.ee(g.Pa(i, d), 1), this.B.dc(), r = this.B, b = t.h, F = b.b.x * r.x + b.d.x * r.y, k = b.b.y * r.x + b.d.y * r.y, r = this.ia, b = t.h, d = t.position.x + (b.b.x * r.x + b.d.x * r.y), i = t.position.y + (b.b.y * r.x + b.d.y * r.y), r = o, b = e.h, j = e.position.x + (b.b.x * r.x + b.d.x * r.y), h = e.position.y + (b.b.y * r.x + b.d.y * r.y), F = (j - d) * F + (h - i) * k) : b.bb[0] == b.bb[0] ? (this.ca = M.cf, j = this.Ae.Cb(b.cb[0]), h = this.Ae.Cb(b.cb[1]), y = 
+    this.ze.Cb(b.bb[0]), this.ia.x = 0.5 * (j.x + h.x), this.ia.y = 0.5 * (j.y + h.y), this.B = g.ee(g.Pa(h, j), 1), this.B.dc(), r = this.B, b = e.h, F = b.b.x * r.x + b.d.x * r.y, k = b.b.y * r.x + b.d.y * r.y, r = this.ia, b = e.h, j = e.position.x + (b.b.x * r.x + b.d.x * r.y), h = e.position.y + (b.b.y * r.x + b.d.y * r.y), r = y, b = t.h, d = t.position.x + (b.b.x * r.x + b.d.x * r.y), i = t.position.y + (b.b.y * r.x + b.d.y * r.y), F = (d - j) * F + (i - h) * k) : (d = this.ze.Cb(b.bb[0]), 
+    i = this.ze.Cb(b.bb[1]), j = this.Ae.Cb(b.cb[0]), h = this.Ae.Cb(b.cb[1]), g.Oa(t, y), y = g.ub(t.h, g.Pa(i, d)), g.Oa(e, o), F = g.ub(e.h, g.Pa(h, j)), e = y.x * y.x + y.y * y.y, o = F.x * F.x + F.y * F.y, b = g.Pa(F, y), t = y.x * b.x + y.y * b.y, b = F.x * b.x + F.y * b.y, y = y.x * F.x + y.y * F.y, k = e * o - y * y, F = 0, k != 0 && (F = g.xa((y * b - t * o) / k, 0, 1)), (y * F + b) / o < 0 && (F = g.xa((y - t) / e, 0, 1)), y = new c, y.x = d.x + F * (i.x - d.x), y.y = d.y + F * (i.y - d.y), 
+    o = new c, o.x = j.x + F * (h.x - j.x), o.y = j.y + F * (h.y - j.y), F == 0 || F == 1 ? (this.ca = M.cf, this.B = g.ee(g.Pa(h, j), 1), this.B.dc(), this.ia = o) : (this.ca = M.kd, this.B = g.ee(g.Pa(i, d), 1), this.ia = y)), F < 0 && this.B.ll())
   };
-  E.prototype.TestSegment = function(a, e, b, d) {
-    d === void 0 && (d = 0);
-    var f = b.p1, g = b.p2.x - f.x, p = b.p2.y - f.y, b = this.p2.y - this.p1.y, n = -(this.p2.x - this.p1.x), j = 100 * Number.MIN_VALUE, r = -(g * b + p * n);
-    if(r > j) {
-      var v = f.x - this.p1.x, h = f.y - this.p1.y, f = v * b + h * n;
-      if(0 <= f && f <= d * r && (d = -g * h + p * v, -j * r <= d && d <= r * (1 + j))) {
-        return f /= r, d = Math.sqrt(b * b + n * n), b /= d, n /= d, a[0] = f, e.Set(b, n), !0
-      }
-    }
-    return!1
-  };
-  E.prototype.Extend = function(a) {
-    this.ExtendForward(a);
-    this.ExtendBackward(a)
-  };
-  E.prototype.ExtendForward = function(a) {
-    var e = this.p2.x - this.p1.x, b = this.p2.y - this.p1.y, a = Math.min(e > 0 ? (a.upperBound.x - this.p1.x) / e : e < 0 ? (a.lowerBound.x - this.p1.x) / e : Number.POSITIVE_INFINITY, b > 0 ? (a.upperBound.y - this.p1.y) / b : b < 0 ? (a.lowerBound.y - this.p1.y) / b : Number.POSITIVE_INFINITY);
-    this.p2.x = this.p1.x + e * a;
-    this.p2.y = this.p1.y + b * a
-  };
-  E.prototype.ExtendBackward = function(a) {
-    var e = -this.p2.x + this.p1.x, b = -this.p2.y + this.p1.y, a = Math.min(e > 0 ? (a.upperBound.x - this.p2.x) / e : e < 0 ? (a.lowerBound.x - this.p2.x) / e : Number.POSITIVE_INFINITY, b > 0 ? (a.upperBound.y - this.p2.y) / b : b < 0 ? (a.lowerBound.y - this.p2.y) / b : Number.POSITIVE_INFINITY);
-    this.p1.x = this.p2.x + e * a;
-    this.p1.y = this.p2.y + b * a
-  };
-  J.b2SeparationFunction = function() {
-    this.m_localPoint = new e;
-    this.m_axis = new e
-  };
-  J.prototype.Initialize = function(b, f, g, p, n) {
-    this.m_proxyA = f;
-    this.m_proxyB = p;
-    var j = b.count;
-    a.b2Assert(0 < j && j < 3);
-    var r, v, h, G, t = G = h = p = f = 0, l = 0, t = 0;
-    j == 1 ? (this.m_type = J.e_points, r = this.m_proxyA.GetVertex(b.indexA[0]), v = this.m_proxyB.GetVertex(b.indexB[0]), j = r, b = g.R, f = g.position.x + (b.col1.x * j.x + b.col2.x * j.y), p = g.position.y + (b.col1.y * j.x + b.col2.y * j.y), j = v, b = n.R, h = n.position.x + (b.col1.x * j.x + b.col2.x * j.y), G = n.position.y + (b.col1.y * j.x + b.col2.y * j.y), this.m_axis.x = h - f, this.m_axis.y = G - p, this.m_axis.Normalize()) : (b.indexB[0] == b.indexB[1] ? (this.m_type = J.e_faceA, 
-    f = this.m_proxyA.GetVertex(b.indexA[0]), p = this.m_proxyA.GetVertex(b.indexA[1]), v = this.m_proxyB.GetVertex(b.indexB[0]), this.m_localPoint.x = 0.5 * (f.x + p.x), this.m_localPoint.y = 0.5 * (f.y + p.y), this.m_axis = d.CrossVF(d.SubtractVV(p, f), 1), this.m_axis.Normalize(), j = this.m_axis, b = g.R, t = b.col1.x * j.x + b.col2.x * j.y, l = b.col1.y * j.x + b.col2.y * j.y, j = this.m_localPoint, b = g.R, f = g.position.x + (b.col1.x * j.x + b.col2.x * j.y), p = g.position.y + (b.col1.y * 
-    j.x + b.col2.y * j.y), j = v, b = n.R, h = n.position.x + (b.col1.x * j.x + b.col2.x * j.y), G = n.position.y + (b.col1.y * j.x + b.col2.y * j.y), t = (h - f) * t + (G - p) * l) : b.indexA[0] == b.indexA[0] ? (this.m_type = J.e_faceB, h = this.m_proxyB.GetVertex(b.indexB[0]), G = this.m_proxyB.GetVertex(b.indexB[1]), r = this.m_proxyA.GetVertex(b.indexA[0]), this.m_localPoint.x = 0.5 * (h.x + G.x), this.m_localPoint.y = 0.5 * (h.y + G.y), this.m_axis = d.CrossVF(d.SubtractVV(G, h), 1), this.m_axis.Normalize(), 
-    j = this.m_axis, b = n.R, t = b.col1.x * j.x + b.col2.x * j.y, l = b.col1.y * j.x + b.col2.y * j.y, j = this.m_localPoint, b = n.R, h = n.position.x + (b.col1.x * j.x + b.col2.x * j.y), G = n.position.y + (b.col1.y * j.x + b.col2.y * j.y), j = r, b = g.R, f = g.position.x + (b.col1.x * j.x + b.col2.x * j.y), p = g.position.y + (b.col1.y * j.x + b.col2.y * j.y), t = (f - h) * t + (p - G) * l) : (f = this.m_proxyA.GetVertex(b.indexA[0]), p = this.m_proxyA.GetVertex(b.indexA[1]), h = this.m_proxyB.GetVertex(b.indexB[0]), 
-    G = this.m_proxyB.GetVertex(b.indexB[1]), d.MulX(g, r), r = d.MulMV(g.R, d.SubtractVV(p, f)), d.MulX(n, v), t = d.MulMV(n.R, d.SubtractVV(G, h)), n = r.x * r.x + r.y * r.y, v = t.x * t.x + t.y * t.y, b = d.SubtractVV(t, r), g = r.x * b.x + r.y * b.y, b = t.x * b.x + t.y * b.y, r = r.x * t.x + r.y * t.y, l = n * v - r * r, t = 0, l != 0 && (t = d.Clamp((r * b - g * v) / l, 0, 1)), (r * t + b) / v < 0 && (t = d.Clamp((r - g) / n, 0, 1)), r = new e, r.x = f.x + t * (p.x - f.x), r.y = f.y + t * (p.y - 
-    f.y), v = new e, v.x = h.x + t * (G.x - h.x), v.y = h.y + t * (G.y - h.y), t == 0 || t == 1 ? (this.m_type = J.e_faceB, this.m_axis = d.CrossVF(d.SubtractVV(G, h), 1), this.m_axis.Normalize(), this.m_localPoint = v) : (this.m_type = J.e_faceA, this.m_axis = d.CrossVF(d.SubtractVV(p, f), 1), this.m_localPoint = r)), t < 0 && this.m_axis.NegativeSelf())
-  };
-  J.prototype.Evaluate = function(b, e) {
-    var f, g, p = 0;
-    switch(this.m_type) {
-      case J.e_points:
-        return f = d.MulTMV(b.R, this.m_axis), g = d.MulTMV(e.R, this.m_axis.GetNegative()), f = this.m_proxyA.GetSupportVertex(f), g = this.m_proxyB.GetSupportVertex(g), f = d.MulX(b, f), g = d.MulX(e, g), p = (g.x - f.x) * this.m_axis.x + (g.y - f.y) * this.m_axis.y;
-      case J.e_faceA:
-        return p = d.MulMV(b.R, this.m_axis), f = d.MulX(b, this.m_localPoint), g = d.MulTMV(e.R, p.GetNegative()), g = this.m_proxyB.GetSupportVertex(g), g = d.MulX(e, g), p = (g.x - f.x) * p.x + (g.y - f.y) * p.y;
-      case J.e_faceB:
-        return p = d.MulMV(e.R, this.m_axis), g = d.MulX(e, this.m_localPoint), f = d.MulTMV(b.R, p.GetNegative()), f = this.m_proxyA.GetSupportVertex(f), f = d.MulX(b, f), p = (f.x - g.x) * p.x + (f.y - g.y) * p.y;
+  M.prototype.cd = function(c, b) {
+    var d, t, i = 0;
+    switch(this.ca) {
+      case M.Yl:
+        return d = g.ge(c.h, this.B), t = g.ge(b.h, this.B.fe()), d = this.ze.Eg(d), t = this.Ae.Eg(t), d = g.Oa(c, d), t = g.Oa(b, t), i = (t.x - d.x) * this.B.x + (t.y - d.y) * this.B.y;
+      case M.kd:
+        return i = g.ub(c.h, this.B), d = g.Oa(c, this.ia), t = g.ge(b.h, i.fe()), t = this.Ae.Eg(t), t = g.Oa(b, t), i = (t.x - d.x) * i.x + (t.y - d.y) * i.y;
+      case M.cf:
+        return i = g.ub(b.h, this.B), t = g.Oa(b, this.ia), d = g.ge(c.h, i.fe()), d = this.ze.Eg(d), d = g.Oa(c, d), i = (d.x - t.x) * i.x + (d.y - t.y) * i.y;
       default:
-        return a.b2Assert(!1), 0
+        return a.Ra(!1), 0
     }
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Collision.b2SeparationFunction.e_points = 1;
-    Box2D.Collision.b2SeparationFunction.e_faceA = 2;
-    Box2D.Collision.b2SeparationFunction.e_faceB = 4
+  P.Wa.push(function() {
+    P.i.Ye.Yl = 1;
+    P.i.Ye.kd = 2;
+    P.i.Ye.cf = 4
   });
-  n.b2Simplex = function() {
-    this.m_v1 = new t;
-    this.m_v2 = new t;
-    this.m_v3 = new t;
-    this.m_vertices = Array(3)
+  o.oe = function() {
+    this.U = new K;
+    this.ga = new K;
+    this.yc = new K;
+    this.u = Array(3)
   };
-  n.prototype.b2Simplex = function() {
-    this.m_vertices[0] = this.m_v1;
-    this.m_vertices[1] = this.m_v2;
-    this.m_vertices[2] = this.m_v3
+  o.prototype.oe = function() {
+    this.u[0] = this.U;
+    this.u[1] = this.ga;
+    this.u[2] = this.yc
   };
-  n.prototype.ReadCache = function(b, e, f, g, p) {
-    a.b2Assert(0 <= b.count && b.count <= 3);
-    var n, j;
-    this.m_count = b.count;
-    for(var r = this.m_vertices, v = 0;v < this.m_count;v++) {
-      var h = r[v];
-      h.indexA = b.indexA[v];
-      h.indexB = b.indexB[v];
-      n = e.GetVertex(h.indexA);
-      j = g.GetVertex(h.indexB);
-      h.wA = d.MulX(f, n);
-      h.wB = d.MulX(p, j);
-      h.w = d.SubtractVV(h.wB, h.wA);
-      h.a = 0
+  o.prototype.Gn = function(c, b, d, t, i) {
+    a.Ra(0 <= c.count && c.count <= 3);
+    var e, r;
+    this.Y = c.count;
+    for(var y = this.u, o = 0;o < this.Y;o++) {
+      var j = y[o];
+      j.bb = c.bb[o];
+      j.cb = c.cb[o];
+      e = b.Cb(j.bb);
+      r = t.Cb(j.cb);
+      j.Jb = g.Oa(d, e);
+      j.ad = g.Oa(i, r);
+      j.Ab = g.Pa(j.ad, j.Jb);
+      j.z = 0
     }
-    if(this.m_count > 1 && (b = b.metric, n = this.GetMetric(), n < 0.5 * b || 2 * b < n || n < Number.MIN_VALUE)) {
-      this.m_count = 0
+    if(this.Y > 1 && (c = c.Sp, e = this.fl(), e < 0.5 * c || 2 * c < e || e < Number.MIN_VALUE)) {
+      this.Y = 0
     }
-    if(this.m_count == 0) {
-      h = r[0], h.indexA = 0, h.indexB = 0, n = e.GetVertex(0), j = g.GetVertex(0), h.wA = d.MulX(f, n), h.wB = d.MulX(p, j), h.w = d.SubtractVV(h.wB, h.wA), this.m_count = 1
-    }
-  };
-  n.prototype.WriteCache = function(a) {
-    a.metric = this.GetMetric();
-    a.count = Box2D.parseUInt(this.m_count);
-    for(var b = this.m_vertices, e = 0;e < this.m_count;e++) {
-      a.indexA[e] = Box2D.parseUInt(b[e].indexA), a.indexB[e] = Box2D.parseUInt(b[e].indexB)
+    if(this.Y == 0) {
+      j = y[0], j.bb = 0, j.cb = 0, e = b.Cb(0), r = t.Cb(0), j.Jb = g.Oa(d, e), j.ad = g.Oa(i, r), j.Ab = g.Pa(j.ad, j.Jb), this.Y = 1
     }
   };
-  n.prototype.GetSearchDirection = function() {
-    switch(this.m_count) {
+  o.prototype.eo = function(a) {
+    a.Sp = this.fl();
+    a.count = P.$c(this.Y);
+    for(var c = this.u, b = 0;b < this.Y;b++) {
+      a.bb[b] = P.$c(c[b].bb), a.cb[b] = P.$c(c[b].cb)
+    }
+  };
+  o.prototype.un = function() {
+    switch(this.Y) {
       case 1:
-        return this.m_v1.w.GetNegative();
+        return this.U.Ab.fe();
       case 2:
-        var b = d.SubtractVV(this.m_v2.w, this.m_v1.w);
-        return d.CrossVV(b, this.m_v1.w.GetNegative()) > 0 ? d.CrossFV(1, b) : d.CrossVF(b, 1);
+        var b = g.Pa(this.ga.Ab, this.U.Ab);
+        return g.Ff(b, this.U.Ab.fe()) > 0 ? g.Wk(1, b) : g.ee(b, 1);
       default:
-        return a.b2Assert(!1), new e
+        return a.Ra(!1), new c
     }
   };
-  n.prototype.GetClosestPoint = function() {
-    switch(this.m_count) {
+  o.prototype.vn = function(c, b) {
+    switch(this.Y) {
       case 0:
-        return a.b2Assert(!1), new e;
-      case 1:
-        return this.m_v1.w;
-      case 2:
-        return new e(this.m_v1.a * this.m_v1.w.x + this.m_v2.a * this.m_v2.w.x, this.m_v1.a * this.m_v1.w.y + this.m_v2.a * this.m_v2.w.y);
-      default:
-        return a.b2Assert(!1), new e
-    }
-  };
-  n.prototype.GetWitnessPoints = function(b, e) {
-    switch(this.m_count) {
-      case 0:
-        a.b2Assert(!1);
+        a.Ra(!1);
         break;
       case 1:
-        b.SetV(this.m_v1.wA);
-        e.SetV(this.m_v1.wB);
+        c.p(this.U.Jb);
+        b.p(this.U.ad);
         break;
       case 2:
-        b.x = this.m_v1.a * this.m_v1.wA.x + this.m_v2.a * this.m_v2.wA.x;
-        b.y = this.m_v1.a * this.m_v1.wA.y + this.m_v2.a * this.m_v2.wA.y;
-        e.x = this.m_v1.a * this.m_v1.wB.x + this.m_v2.a * this.m_v2.wB.x;
-        e.y = this.m_v1.a * this.m_v1.wB.y + this.m_v2.a * this.m_v2.wB.y;
+        c.x = this.U.z * this.U.Jb.x + this.ga.z * this.ga.Jb.x;
+        c.y = this.U.z * this.U.Jb.y + this.ga.z * this.ga.Jb.y;
+        b.x = this.U.z * this.U.ad.x + this.ga.z * this.ga.ad.x;
+        b.y = this.U.z * this.U.ad.y + this.ga.z * this.ga.ad.y;
         break;
       case 3:
-        e.x = b.x = this.m_v1.a * this.m_v1.wA.x + this.m_v2.a * this.m_v2.wA.x + this.m_v3.a * this.m_v3.wA.x;
-        e.y = b.y = this.m_v1.a * this.m_v1.wA.y + this.m_v2.a * this.m_v2.wA.y + this.m_v3.a * this.m_v3.wA.y;
+        b.x = c.x = this.U.z * this.U.Jb.x + this.ga.z * this.ga.Jb.x + this.yc.z * this.yc.Jb.x;
+        b.y = c.y = this.U.z * this.U.Jb.y + this.ga.z * this.ga.Jb.y + this.yc.z * this.yc.Jb.y;
         break;
       default:
-        a.b2Assert(!1)
+        a.Ra(!1)
     }
   };
-  n.prototype.GetMetric = function() {
-    switch(this.m_count) {
+  o.prototype.fl = function() {
+    switch(this.Y) {
       case 0:
-        return a.b2Assert(!1), 0;
+        return a.Ra(!1), 0;
       case 1:
         return 0;
       case 2:
-        return d.SubtractVV(this.m_v1.w, this.m_v2.w).Length();
+        return g.Pa(this.U.Ab, this.ga.Ab).Ld();
       case 3:
-        return d.CrossVV(d.SubtractVV(this.m_v2.w, this.m_v1.w), d.SubtractVV(this.m_v3.w, this.m_v1.w));
+        return g.Ff(g.Pa(this.ga.Ab, this.U.Ab), g.Pa(this.yc.Ab, this.U.Ab));
       default:
-        return a.b2Assert(!1), 0
+        return a.Ra(!1), 0
     }
   };
-  n.prototype.Solve2 = function() {
-    var a = this.m_v1.w, b = this.m_v2.w, e = d.SubtractVV(b, a), a = -(a.x * e.x + a.y * e.y);
-    a <= 0 ? this.m_count = this.m_v1.a = 1 : (b = b.x * e.x + b.y * e.y, b <= 0 ? (this.m_count = this.m_v2.a = 1, this.m_v1.Set(this.m_v2)) : (e = 1 / (b + a), this.m_v1.a = b * e, this.m_v2.a = a * e, this.m_count = 2))
+  o.prototype.Xn = function() {
+    var a = this.U.Ab, c = this.ga.Ab, b = g.Pa(c, a), a = -(a.x * b.x + a.y * b.y);
+    a <= 0 ? this.Y = this.U.z = 1 : (c = c.x * b.x + c.y * b.y, c <= 0 ? (this.Y = this.ga.z = 1, this.U.s(this.ga)) : (b = 1 / (c + a), this.U.z = c * b, this.ga.z = a * b, this.Y = 2))
   };
-  n.prototype.Solve3 = function() {
-    var a = this.m_v1.w, b = this.m_v2.w, e = this.m_v3.w, f = d.SubtractVV(b, a), g = d.Dot(a, f), p = d.Dot(b, f), g = -g, n = d.SubtractVV(e, a), j = d.Dot(a, n), r = d.Dot(e, n), j = -j, v = d.SubtractVV(e, b), h = d.Dot(b, v), v = d.Dot(e, v), h = -h, n = d.CrossVV(f, n), f = n * d.CrossVV(b, e), e = n * d.CrossVV(e, a), a = n * d.CrossVV(a, b);
-    g <= 0 && j <= 0 ? this.m_count = this.m_v1.a = 1 : p > 0 && g > 0 && a <= 0 ? (r = 1 / (p + g), this.m_v1.a = p * r, this.m_v2.a = g * r, this.m_count = 2) : r > 0 && j > 0 && e <= 0 ? (p = 1 / (r + j), this.m_v1.a = r * p, this.m_v3.a = j * p, this.m_count = 2, this.m_v2.Set(this.m_v3)) : p <= 0 && h <= 0 ? (this.m_count = this.m_v2.a = 1, this.m_v1.Set(this.m_v2)) : r <= 0 && v <= 0 ? (this.m_count = this.m_v3.a = 1, this.m_v1.Set(this.m_v3)) : v > 0 && h > 0 && f <= 0 ? (p = 1 / (v + h), 
-    this.m_v2.a = v * p, this.m_v3.a = h * p, this.m_count = 2, this.m_v1.Set(this.m_v3)) : (p = 1 / (f + e + a), this.m_v1.a = f * p, this.m_v2.a = e * p, this.m_v3.a = a * p, this.m_count = 3)
+  o.prototype.Yn = function() {
+    var a = this.U.Ab, c = this.ga.Ab, b = this.yc.Ab, d = g.Pa(c, a), t = g.Bb(c, d), i = -g.Bb(a, d), e = g.Pa(b, a), r = g.Bb(b, e), y = -g.Bb(a, e), o = g.Pa(b, c), j = g.Bb(b, o), o = -g.Bb(c, o), e = g.Ff(d, e), d = e * g.Ff(c, b), b = e * g.Ff(b, a), a = e * g.Ff(a, c);
+    i <= 0 && y <= 0 ? this.Y = this.U.z = 1 : t > 0 && i > 0 && a <= 0 ? (r = 1 / (t + i), this.U.z = t * r, this.ga.z = i * r, this.Y = 2) : r > 0 && y > 0 && b <= 0 ? (t = 1 / (r + y), this.U.z = r * t, this.yc.z = y * t, this.Y = 2, this.ga.s(this.yc)) : t <= 0 && o <= 0 ? (this.Y = this.ga.z = 1, this.U.s(this.ga)) : r <= 0 && j <= 0 ? (this.Y = this.yc.z = 1, this.U.s(this.yc)) : j > 0 && o > 0 && d <= 0 ? (t = 1 / (j + o), this.ga.z = j * t, this.yc.z = o * t, this.Y = 2, this.U.s(this.yc)) : 
+    (t = 1 / (d + b + a), this.U.z = d * t, this.ga.z = b * t, this.yc.z = a * t, this.Y = 3)
   };
-  G.b2SimplexCache = function() {
-    this.indexA = [0, 0, 0];
-    this.indexB = [0, 0, 0]
+  F.ih = function() {
+    this.bb = [0, 0, 0];
+    this.cb = [0, 0, 0]
   };
-  t.b2SimplexVertex = function() {
+  K.Dl = q();
+  K.prototype.s = function(a) {
+    this.Jb.p(a.Jb);
+    this.ad.p(a.ad);
+    this.Ab.p(a.Ab);
+    this.z = a.z;
+    this.bb = a.bb;
+    this.cb = a.cb
   };
-  t.prototype.Set = function(a) {
-    this.wA.SetV(a.wA);
-    this.wB.SetV(a.wB);
-    this.w.SetV(a.w);
-    this.a = a.a;
-    this.indexA = a.indexA;
-    this.indexB = a.indexB
-  };
-  D.b2TimeOfImpact = function() {
-  };
-  D.TimeOfImpact = function(b) {
-    ++D.b2_toiCalls;
-    var e = b.proxyA, f = b.proxyB, g = b.sweepA, p = b.sweepB;
-    a.b2Assert(g.t0 == p.t0);
-    a.b2Assert(1 - g.t0 > Number.MIN_VALUE);
-    var n = e.m_radius + f.m_radius, b = b.tolerance, r = 0, v = 0, h = 0;
-    D.s_cache.count = 0;
-    for(D.s_distanceInput.useRadii = !1;;) {
-      g.GetTransform(D.s_xfA, r);
-      p.GetTransform(D.s_xfB, r);
-      D.s_distanceInput.proxyA = e;
-      D.s_distanceInput.proxyB = f;
-      D.s_distanceInput.transformA = D.s_xfA;
-      D.s_distanceInput.transformB = D.s_xfB;
-      j.Distance(D.s_distanceOutput, D.s_cache, D.s_distanceInput);
-      if(D.s_distanceOutput.distance <= 0) {
-        r = 1;
+  B.tc = q();
+  B.$n = function(b) {
+    ++B.Bo;
+    var c = b.Lc, d = b.Mc, t = b.Qm, e = b.Rm;
+    a.Ra(t.tb == e.tb);
+    a.Ra(1 - t.tb > Number.MIN_VALUE);
+    var r = c.ba + d.ba, b = b.nq, y = 0, o = 0, j = 0;
+    B.Ek.count = 0;
+    for(B.pg.Um = !1;;) {
+      t.Tb(B.De, y);
+      e.Tb(B.Ee, y);
+      B.pg.Lc = c;
+      B.pg.Mc = d;
+      B.pg.Oi = B.De;
+      B.pg.Pi = B.Ee;
+      i.Vi(B.Mm, B.Ek, B.pg);
+      if(B.Mm.Yf <= 0) {
+        y = 1;
         break
       }
-      D.s_fcn.Initialize(D.s_cache, e, D.s_xfA, f, D.s_xfB);
-      var t = D.s_fcn.Evaluate(D.s_xfA, D.s_xfB);
-      if(t <= 0) {
-        r = 1;
+      B.Ji.$a(B.Ek, c, B.De, d, B.Ee);
+      var h = B.Ji.cd(B.De, B.Ee);
+      if(h <= 0) {
+        y = 1;
         break
       }
-      v == 0 && (h = t > n ? d.Max(n - b, 0.75 * n) : d.Max(t - b, 0.02 * n));
-      if(t - h < 0.5 * b) {
-        if(v == 0) {
-          r = 1;
+      o == 0 && (j = h > r ? g.Ub(r - b, 0.75 * r) : g.Ub(h - b, 0.02 * r));
+      if(h - j < 0.5 * b) {
+        if(o == 0) {
+          y = 1;
           break
         }
         break
       }
-      var G = r, l = r, k = 1;
-      g.GetTransform(D.s_xfA, k);
-      p.GetTransform(D.s_xfB, k);
-      var A = D.s_fcn.Evaluate(D.s_xfA, D.s_xfB);
-      if(A >= h) {
-        r = 1;
+      var F = y, k = y, K = 1;
+      t.Tb(B.De, K);
+      e.Tb(B.Ee, K);
+      var n = B.Ji.cd(B.De, B.Ee);
+      if(n >= j) {
+        y = 1;
         break
       }
-      for(var y = 0;;) {
-        var x = 0, x = y & 1 ? l + (h - t) * (k - l) / (A - t) : 0.5 * (l + k);
-        g.GetTransform(D.s_xfA, x);
-        p.GetTransform(D.s_xfB, x);
-        var q = D.s_fcn.Evaluate(D.s_xfA, D.s_xfB);
-        if(d.Abs(q - h) < 0.025 * b) {
-          G = x;
+      for(var z = 0;;) {
+        var l = 0, l = z & 1 ? k + (j - h) * (K - k) / (n - h) : 0.5 * (k + K);
+        t.Tb(B.De, l);
+        e.Tb(B.Ee, l);
+        var s = B.Ji.cd(B.De, B.Ee);
+        if(g.lb(s - j) < 0.025 * b) {
+          F = l;
           break
         }
-        q > h ? (l = x, t = q) : (k = x, A = q);
-        ++y;
-        ++D.b2_toiRootIters;
-        if(y == 50) {
+        s > j ? (k = l, h = s) : (K = l, n = s);
+        ++z;
+        ++B.Do;
+        if(z == 50) {
           break
         }
       }
-      D.b2_toiMaxRootIters = d.Max(D.b2_toiMaxRootIters, y);
-      if(G < (1 + 100 * Number.MIN_VALUE) * r) {
+      B.Ll = g.Ub(B.Ll, z);
+      if(F < (1 + 100 * Number.MIN_VALUE) * y) {
         break
       }
-      r = G;
-      v++;
-      ++D.b2_toiIters;
-      if(v == 1E3) {
+      y = F;
+      o++;
+      ++B.Co;
+      if(o == 1E3) {
         break
       }
     }
-    D.b2_toiMaxIters = d.Max(D.b2_toiMaxIters, v);
-    return r
+    B.Kl = g.Ub(B.Kl, o);
+    return y
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Collision.b2TimeOfImpact.b2_toiCalls = 0;
-    Box2D.Collision.b2TimeOfImpact.b2_toiIters = 0;
-    Box2D.Collision.b2TimeOfImpact.b2_toiMaxIters = 0;
-    Box2D.Collision.b2TimeOfImpact.b2_toiRootIters = 0;
-    Box2D.Collision.b2TimeOfImpact.b2_toiMaxRootIters = 0;
-    Box2D.Collision.b2TimeOfImpact.s_cache = new G;
-    Box2D.Collision.b2TimeOfImpact.s_distanceInput = new l;
-    Box2D.Collision.b2TimeOfImpact.s_xfA = new f;
-    Box2D.Collision.b2TimeOfImpact.s_xfB = new f;
-    Box2D.Collision.b2TimeOfImpact.s_fcn = new J;
-    Box2D.Collision.b2TimeOfImpact.s_distanceOutput = new k
+  P.Wa.push(function() {
+    P.i.tc.Bo = 0;
+    P.i.tc.Co = 0;
+    P.i.tc.Kl = 0;
+    P.i.tc.Do = 0;
+    P.i.tc.Ll = 0;
+    P.i.tc.Ek = new F;
+    P.i.tc.pg = new j;
+    P.i.tc.De = new d;
+    P.i.tc.Ee = new d;
+    P.i.tc.Ji = new M;
+    P.i.tc.Mm = new k
   });
-  M.b2TOIInput = function() {
-    this.proxyA = new o;
-    this.proxyB = new o;
-    this.sweepA = new b;
-    this.sweepB = new b
+  Q.jh = function() {
+    this.Lc = new m;
+    this.Mc = new m;
+    this.Qm = new e;
+    this.Rm = new e
   };
-  N.b2WorldManifold = function() {
-    this.m_normal = new e
+  T.gd = function() {
+    this.W = new c
   };
-  N.prototype.b2WorldManifold = function() {
-    this.m_points = Array(a.b2_maxManifoldPoints);
-    for(var b = 0;b < a.b2_maxManifoldPoints;b++) {
-      this.m_points[b] = new e
+  T.prototype.gd = function() {
+    this.aa = Array(a.Dc);
+    for(var b = 0;b < a.Dc;b++) {
+      this.aa[b] = new c
     }
   };
-  N.prototype.Initialize = function(a, b, e, d, f) {
-    e === void 0 && (e = 0);
-    f === void 0 && (f = 0);
-    if(a.m_pointCount != 0) {
-      var g = 0, p, n, j = 0, r = 0, v = 0, h = 0, t = 0;
-      p = 0;
-      switch(a.m_type) {
-        case I.e_circles:
-          n = b.R;
-          p = a.m_localPoint;
-          g = b.position.x + n.col1.x * p.x + n.col2.x * p.y;
-          b = b.position.y + n.col1.y * p.x + n.col2.y * p.y;
-          n = d.R;
-          p = a.m_points[0].m_localPoint;
-          a = d.position.x + n.col1.x * p.x + n.col2.x * p.y;
-          d = d.position.y + n.col1.y * p.x + n.col2.y * p.y;
-          p = a - g;
-          n = d - b;
-          j = p * p + n * n;
-          j > Box2D.MIN_VALUE_SQUARED ? (j = Math.sqrt(j), this.m_normal.x = p / j, this.m_normal.y = n / j) : (this.m_normal.x = 1, this.m_normal.y = 0);
-          p = b + e * this.m_normal.y;
-          d -= f * this.m_normal.y;
-          this.m_points[0].x = 0.5 * (g + e * this.m_normal.x + (a - f * this.m_normal.x));
-          this.m_points[0].y = 0.5 * (p + d);
+  T.prototype.$a = function(a, b, c, d, t) {
+    c === f && (c = 0);
+    t === f && (t = 0);
+    if(a.Za != 0) {
+      var i = 0, e, r, y = 0, o = 0, g = 0, j = 0, h = 0;
+      e = 0;
+      switch(a.ca) {
+        case w.Tj:
+          r = b.h;
+          e = a.ia;
+          i = b.position.x + r.b.x * e.x + r.d.x * e.y;
+          b = b.position.y + r.b.y * e.x + r.d.y * e.y;
+          r = d.h;
+          e = a.aa[0].ia;
+          a = d.position.x + r.b.x * e.x + r.d.x * e.y;
+          d = d.position.y + r.b.y * e.x + r.d.y * e.y;
+          e = a - i;
+          r = d - b;
+          y = e * e + r * r;
+          y > P.fj ? (y = Math.sqrt(y), this.W.x = e / y, this.W.y = r / y) : (this.W.x = 1, this.W.y = 0);
+          e = b + c * this.W.y;
+          d -= t * this.W.y;
+          this.aa[0].x = 0.5 * (i + c * this.W.x + (a - t * this.W.x));
+          this.aa[0].y = 0.5 * (e + d);
           break;
-        case I.e_faceA:
-          n = b.R;
-          p = a.m_localPlaneNormal;
-          j = n.col1.x * p.x + n.col2.x * p.y;
-          r = n.col1.y * p.x + n.col2.y * p.y;
-          n = b.R;
-          p = a.m_localPoint;
-          v = b.position.x + n.col1.x * p.x + n.col2.x * p.y;
-          h = b.position.y + n.col1.y * p.x + n.col2.y * p.y;
-          this.m_normal.x = j;
-          this.m_normal.y = r;
-          for(g = 0;g < a.m_pointCount;g++) {
-            n = d.R, p = a.m_points[g].m_localPoint, t = d.position.x + n.col1.x * p.x + n.col2.x * p.y, p = d.position.y + n.col1.y * p.x + n.col2.y * p.y, this.m_points[g].x = t + 0.5 * (e - (t - v) * j - (p - h) * r - f) * j, this.m_points[g].y = p + 0.5 * (e - (t - v) * j - (p - h) * r - f) * r
+        case w.kd:
+          r = b.h;
+          e = a.yb;
+          y = r.b.x * e.x + r.d.x * e.y;
+          o = r.b.y * e.x + r.d.y * e.y;
+          r = b.h;
+          e = a.ia;
+          g = b.position.x + r.b.x * e.x + r.d.x * e.y;
+          j = b.position.y + r.b.y * e.x + r.d.y * e.y;
+          this.W.x = y;
+          this.W.y = o;
+          for(i = 0;i < a.Za;i++) {
+            r = d.h, e = a.aa[i].ia, h = d.position.x + r.b.x * e.x + r.d.x * e.y, e = d.position.y + r.b.y * e.x + r.d.y * e.y, this.aa[i].x = h + 0.5 * (c - (h - g) * y - (e - j) * o - t) * y, this.aa[i].y = e + 0.5 * (c - (h - g) * y - (e - j) * o - t) * o
           }
           break;
-        case I.e_faceB:
-          n = d.R;
-          p = a.m_localPlaneNormal;
-          j = n.col1.x * p.x + n.col2.x * p.y;
-          r = n.col1.y * p.x + n.col2.y * p.y;
-          n = d.R;
-          p = a.m_localPoint;
-          v = d.position.x + n.col1.x * p.x + n.col2.x * p.y;
-          h = d.position.y + n.col1.y * p.x + n.col2.y * p.y;
-          this.m_normal.x = -j;
-          this.m_normal.y = -r;
-          for(g = 0;g < a.m_pointCount;g++) {
-            n = b.R, p = a.m_points[g].m_localPoint, t = b.position.x + n.col1.x * p.x + n.col2.x * p.y, p = b.position.y + n.col1.y * p.x + n.col2.y * p.y, this.m_points[g].x = t + 0.5 * (f - (t - v) * j - (p - h) * r - e) * j, this.m_points[g].y = p + 0.5 * (f - (t - v) * j - (p - h) * r - e) * r
+        case w.cf:
+          r = d.h;
+          e = a.yb;
+          y = r.b.x * e.x + r.d.x * e.y;
+          o = r.b.y * e.x + r.d.y * e.y;
+          r = d.h;
+          e = a.ia;
+          g = d.position.x + r.b.x * e.x + r.d.x * e.y;
+          j = d.position.y + r.b.y * e.x + r.d.y * e.y;
+          this.W.x = -y;
+          this.W.y = -o;
+          for(i = 0;i < a.Za;i++) {
+            r = b.h, e = a.aa[i].ia, h = b.position.x + r.b.x * e.x + r.d.x * e.y, e = b.position.y + r.b.y * e.x + r.d.y * e.y, this.aa[i].x = h + 0.5 * (t - (h - g) * y - (e - j) * o - c) * y, this.aa[i].y = e + 0.5 * (t - (h - g) * y - (e - j) * o - c) * o
           }
       }
     }
   };
-  p.ClipVertex = function() {
-    this.v = new e;
+  t.Bf = function() {
+    this.Oc = new c;
     this.id = new h
   };
-  p.prototype.Set = function(a) {
-    this.v.SetV(a.v);
-    this.id.Set(a.id)
+  t.prototype.s = function(a) {
+    this.Oc.p(a.Oc);
+    this.id.s(a.id)
   };
-  r.Features = function() {
-  };
-  Object.defineProperty(r.prototype, "referenceEdge", {enumerable:!1, configurable:!0, get:function() {
-    return this._referenceEdge
-  }});
+  r.Wi = q();
+  Object.defineProperty(r.prototype, "referenceEdge", {enumerable:!1, configurable:!0, get:u("vj")});
   Object.defineProperty(r.prototype, "referenceEdge", {enumerable:!1, configurable:!0, set:function(a) {
-    a === void 0 && (a = 0);
-    this._referenceEdge = a;
-    this._m_id._key = this._m_id._key & 4294967040 | this._referenceEdge & 255
+    a === f && (a = 0);
+    this.vj = a;
+    this.ke.qc = this.ke.qc & 4294967040 | this.vj & 255
   }});
-  Object.defineProperty(r.prototype, "incidentEdge", {enumerable:!1, configurable:!0, get:function() {
-    return this._incidentEdge
-  }});
+  Object.defineProperty(r.prototype, "incidentEdge", {enumerable:!1, configurable:!0, get:u("tj")});
   Object.defineProperty(r.prototype, "incidentEdge", {enumerable:!1, configurable:!0, set:function(a) {
-    a === void 0 && (a = 0);
-    this._incidentEdge = a;
-    this._m_id._key = this._m_id._key & 4294902015 | this._incidentEdge << 8 & 65280
+    a === f && (a = 0);
+    this.tj = a;
+    this.ke.qc = this.ke.qc & 4294902015 | this.tj << 8 & 65280
   }});
-  Object.defineProperty(r.prototype, "incidentVertex", {enumerable:!1, configurable:!0, get:function() {
-    return this._incidentVertex
-  }});
+  Object.defineProperty(r.prototype, "incidentVertex", {enumerable:!1, configurable:!0, get:u("uj")});
   Object.defineProperty(r.prototype, "incidentVertex", {enumerable:!1, configurable:!0, set:function(a) {
-    a === void 0 && (a = 0);
-    this._incidentVertex = a;
-    this._m_id._key = this._m_id._key & 4278255615 | this._incidentVertex << 16 & 16711680
+    a === f && (a = 0);
+    this.uj = a;
+    this.ke.qc = this.ke.qc & 4278255615 | this.uj << 16 & 16711680
   }});
-  Object.defineProperty(r.prototype, "flip", {enumerable:!1, configurable:!0, get:function() {
-    return this._flip
-  }});
+  Object.defineProperty(r.prototype, "flip", {enumerable:!1, configurable:!0, get:u("sj")});
   Object.defineProperty(r.prototype, "flip", {enumerable:!1, configurable:!0, set:function(a) {
-    a === void 0 && (a = 0);
-    this._flip = a;
-    this._m_id._key = this._m_id._key & 16777215 | this._flip << 24 & 4278190080
+    a === f && (a = 0);
+    this.sj = a;
+    this.ke.qc = this.ke.qc & 16777215 | this.sj << 24 & 4278190080
   }})
 })();
 (function() {
-  var a = Box2D.Common.b2Settings, d = Box2D.Collision.Shapes.b2CircleShape, b = Box2D.Collision.Shapes.b2EdgeChainDef, f = Box2D.Collision.Shapes.b2EdgeShape, e = Box2D.Collision.Shapes.b2MassData, g = Box2D.Collision.Shapes.b2PolygonShape, h = Box2D.Collision.Shapes.b2Shape, j = Box2D.Common.Math.b2Mat22, l = Box2D.Common.Math.b2Math, k = Box2D.Common.Math.b2Transform, o = Box2D.Common.Math.b2Vec2, m = Box2D.Collision.b2Distance, s = Box2D.Collision.b2DistanceInput, q = Box2D.Collision.b2DistanceOutput, 
-  w = Box2D.Collision.b2DistanceProxy, I = Box2D.Collision.b2SimplexCache;
-  Box2D.inherit(d, Box2D.Collision.Shapes.b2Shape);
-  d.prototype.__super = Box2D.Collision.Shapes.b2Shape.prototype;
-  d.b2CircleShape = function() {
-    Box2D.Collision.Shapes.b2Shape.b2Shape.apply(this, arguments);
-    this.m_p = new o
+  var a = P.a.$, g = P.i.H.Cc, e = P.i.H.Te, d = P.i.H.ne, c = P.i.H.Yg, b = P.i.H.ec, h = P.i.H.O, i = P.a.f.wd, j = P.a.f.Xa, k = P.a.f.Md, m = P.a.f.g, l = P.i.ci, s = P.i.Al, n = P.i.Bl, x = P.i.Hj, w = P.i.ih;
+  P.ya(g, P.i.H.O);
+  g.prototype.I = P.i.H.O.prototype;
+  g.Cc = function() {
+    P.i.H.O.O.apply(this, arguments);
+    this.Fa = new m
   };
-  d.prototype.Copy = function() {
-    var a = new d;
-    a.Set(this);
+  g.prototype.mb = function() {
+    var a = new g;
+    a.s(this);
     return a
   };
-  d.prototype.Set = function(a) {
-    this.__super.Set.call(this, a);
-    Box2D.is(a, d) && this.m_p.SetV((a instanceof d ? a : null).m_p)
+  g.prototype.s = function(a) {
+    this.I.s.call(this, a);
+    P.hm(a, g) && this.Fa.p((a instanceof g ? a : p).Fa)
   };
-  d.prototype.TestPoint = function(a, b) {
-    var e = a.R, d = a.position.x + (e.col1.x * this.m_p.x + e.col2.x * this.m_p.y), e = a.position.y + (e.col1.y * this.m_p.x + e.col2.y * this.m_p.y), d = b.x - d, e = b.y - e;
-    return d * d + e * e <= this.m_radius * this.m_radius
+  g.prototype.Df = function(a, b) {
+    var c = b.h, d = b.position.x + (c.b.x * this.Fa.x + c.d.x * this.Fa.y), c = b.position.y + (c.b.y * this.Fa.x + c.d.y * this.Fa.y);
+    a.lowerBound.s(d - this.ba, c - this.ba);
+    a.upperBound.s(d + this.ba, c + this.ba)
   };
-  d.prototype.RayCast = function(a, b, e) {
-    var d = e.R, f = b.p1.x - (e.position.x + (d.col1.x * this.m_p.x + d.col2.x * this.m_p.y)), e = b.p1.y - (e.position.y + (d.col1.y * this.m_p.x + d.col2.y * this.m_p.y)), d = b.p2.x - b.p1.x, g = b.p2.y - b.p1.y, n = f * d + e * g, j = d * d + g * g, h = n * n - j * (f * f + e * e - this.m_radius * this.m_radius);
-    if(h < 0 || j < Number.MIN_VALUE) {
-      return!1
-    }
-    n = -(n + Math.sqrt(h));
-    return 0 <= n && n <= b.maxFraction * j ? (n /= j, a.fraction = n, a.normal.x = f + n * d, a.normal.y = e + n * g, a.normal.Normalize(), !0) : !1
+  g.prototype.wg = function(b, c) {
+    c === f && (c = 0);
+    b.Hd = c * a.lh * this.ba * this.ba;
+    b.hd.p(this.Fa);
+    b.If = b.Hd * (0.5 * this.ba * this.ba + (this.Fa.x * this.Fa.x + this.Fa.y * this.Fa.y))
   };
-  d.prototype.ComputeAABB = function(a, b) {
-    var e = b.R, d = b.position.x + (e.col1.x * this.m_p.x + e.col2.x * this.m_p.y), e = b.position.y + (e.col1.y * this.m_p.x + e.col2.y * this.m_p.y);
-    a.lowerBound.Set(d - this.m_radius, e - this.m_radius);
-    a.upperBound.Set(d + this.m_radius, e + this.m_radius)
-  };
-  d.prototype.ComputeMass = function(b, e) {
-    e === void 0 && (e = 0);
-    b.mass = e * a.b2_pi * this.m_radius * this.m_radius;
-    b.center.SetV(this.m_p);
-    b.I = b.mass * (0.5 * this.m_radius * this.m_radius + (this.m_p.x * this.m_p.x + this.m_p.y * this.m_p.y))
-  };
-  d.prototype.ComputeSubmergedArea = function(a, b, e, d) {
-    b === void 0 && (b = 0);
-    var e = l.MulX(e, this.m_p), f = -(l.Dot(a, e) - b);
-    if(f < -this.m_radius + Number.MIN_VALUE) {
+  g.prototype.Nh = function(a, b, c, d) {
+    b === f && (b = 0);
+    var c = j.Oa(c, this.Fa), e = -(j.Bb(a, c) - b);
+    if(e < -this.ba + Number.MIN_VALUE) {
       return 0
     }
-    if(f > this.m_radius) {
-      return d.SetV(e), Math.PI * this.m_radius * this.m_radius
+    if(e > this.ba) {
+      return d.p(c), Math.PI * this.ba * this.ba
     }
-    var b = this.m_radius * this.m_radius, g = f * f, f = b * (Math.asin(f / this.m_radius) + Math.PI / 2) + f * Math.sqrt(b - g), b = -2 / 3 * Math.pow(b - g, 1.5) / f;
-    d.x = e.x + a.x * b;
-    d.y = e.y + a.y * b;
-    return f
+    var b = this.ba * this.ba, i = e * e, e = b * (Math.asin(e / this.ba) + Math.PI / 2) + e * Math.sqrt(b - i), b = -2 / 3 * Math.pow(b - i, 1.5) / e;
+    d.x = c.x + a.x * b;
+    d.y = c.y + a.y * b;
+    return e
   };
-  d.prototype.GetLocalPosition = function() {
-    return this.m_p
+  g.prototype.Cc = function(a) {
+    a === f && (a = 0);
+    this.I.O.call(this);
+    this.ca = h.qe;
+    this.ba = a
   };
-  d.prototype.SetLocalPosition = function(a) {
-    this.m_p.SetV(a)
+  e.Te = q();
+  e.prototype.Te = function() {
+    this.xr = 0;
+    this.$q = !0;
+    this.yr = []
   };
-  d.prototype.GetRadius = function() {
-    return this.m_radius
+  P.ya(d, P.i.H.O);
+  d.prototype.I = P.i.H.O.prototype;
+  d.ne = function() {
+    P.i.H.O.O.apply(this, arguments);
+    this.sr = new m;
+    this.U = new m;
+    this.ga = new m;
+    this.wp = new m;
+    this.xp = new m;
+    this.W = new m;
+    this.we = new m;
+    this.yp = new m;
+    this.zp = new m
   };
-  d.prototype.SetRadius = function(a) {
-    a === void 0 && (a = 0);
-    this.m_radius = a
+  d.prototype.Df = function(a, b) {
+    var c = b.h, d = b.position.x + (c.b.x * this.U.x + c.d.x * this.U.y), e = b.position.y + (c.b.y * this.U.x + c.d.y * this.U.y), i = b.position.x + (c.b.x * this.ga.x + c.d.x * this.ga.y), c = b.position.y + (c.b.y * this.ga.x + c.d.y * this.ga.y);
+    d < i ? (a.lowerBound.x = d, a.upperBound.x = i) : (a.lowerBound.x = i, a.upperBound.x = d);
+    e < c ? (a.lowerBound.y = e, a.upperBound.y = c) : (a.lowerBound.y = c, a.upperBound.y = e)
   };
-  d.prototype.b2CircleShape = function(a) {
-    a === void 0 && (a = 0);
-    this.__super.b2Shape.call(this);
-    this.m_type = h.e_circleShape;
-    this.m_radius = a
+  d.prototype.wg = function(a) {
+    a.Hd = 0;
+    a.hd.p(this.U);
+    a.If = 0
   };
-  b.b2EdgeChainDef = function() {
-  };
-  b.prototype.b2EdgeChainDef = function() {
-    this.vertexCount = 0;
-    this.isALoop = !0;
-    this.vertices = []
-  };
-  Box2D.inherit(f, Box2D.Collision.Shapes.b2Shape);
-  f.prototype.__super = Box2D.Collision.Shapes.b2Shape.prototype;
-  f.b2EdgeShape = function() {
-    Box2D.Collision.Shapes.b2Shape.b2Shape.apply(this, arguments);
-    this.s_supportVec = new o;
-    this.m_v1 = new o;
-    this.m_v2 = new o;
-    this.m_coreV1 = new o;
-    this.m_coreV2 = new o;
-    this.m_normal = new o;
-    this.m_direction = new o;
-    this.m_cornerDir1 = new o;
-    this.m_cornerDir2 = new o
-  };
-  f.prototype.TestPoint = function() {
-    return!1
-  };
-  f.prototype.RayCast = function(a, b, e) {
-    var d, f = b.p2.x - b.p1.x, g = b.p2.y - b.p1.y;
-    d = e.R;
-    var n = e.position.x + (d.col1.x * this.m_v1.x + d.col2.x * this.m_v1.y), j = e.position.y + (d.col1.y * this.m_v1.x + d.col2.y * this.m_v1.y), h = e.position.y + (d.col1.y * this.m_v2.x + d.col2.y * this.m_v2.y) - j, e = -(e.position.x + (d.col1.x * this.m_v2.x + d.col2.x * this.m_v2.y) - n);
-    d = 100 * Number.MIN_VALUE;
-    var l = -(f * h + g * e);
-    if(l > d) {
-      var n = b.p1.x - n, k = b.p1.y - j, j = n * h + k * e;
-      if(0 <= j && j <= b.maxFraction * l && (b = -f * k + g * n, -d * l <= b && b <= l * (1 + d))) {
-        return j /= l, a.fraction = j, b = Math.sqrt(h * h + e * e), a.normal.x = h / b, a.normal.y = e / b, !0
-      }
-    }
-    return!1
-  };
-  f.prototype.ComputeAABB = function(a, b) {
-    var e = b.R, d = b.position.x + (e.col1.x * this.m_v1.x + e.col2.x * this.m_v1.y), f = b.position.y + (e.col1.y * this.m_v1.x + e.col2.y * this.m_v1.y), g = b.position.x + (e.col1.x * this.m_v2.x + e.col2.x * this.m_v2.y), e = b.position.y + (e.col1.y * this.m_v2.x + e.col2.y * this.m_v2.y);
-    d < g ? (a.lowerBound.x = d, a.upperBound.x = g) : (a.lowerBound.x = g, a.upperBound.x = d);
-    f < e ? (a.lowerBound.y = f, a.upperBound.y = e) : (a.lowerBound.y = e, a.upperBound.y = f)
-  };
-  f.prototype.ComputeMass = function(a) {
-    a.mass = 0;
-    a.center.SetV(this.m_v1);
-    a.I = 0
-  };
-  f.prototype.ComputeSubmergedArea = function(a, b, e, d) {
-    b === void 0 && (b = 0);
-    var f = new o(a.x * b, a.y * b), g = l.MulX(e, this.m_v1), e = l.MulX(e, this.m_v2), n = l.Dot(a, g) - b, a = l.Dot(a, e) - b;
-    if(n > 0) {
+  d.prototype.Nh = function(a, b, c, d) {
+    b === f && (b = 0);
+    var e = new m(a.x * b, a.y * b), i = j.Oa(c, this.U), c = j.Oa(c, this.ga), o = j.Bb(a, i) - b, a = j.Bb(a, c) - b;
+    if(o > 0) {
       if(a > 0) {
         return 0
       }else {
-        g.x = -a / (n - a) * g.x + n / (n - a) * e.x, g.y = -a / (n - a) * g.y + n / (n - a) * e.y
+        i.x = -a / (o - a) * i.x + o / (o - a) * c.x, i.y = -a / (o - a) * i.y + o / (o - a) * c.y
       }
     }else {
       if(a > 0) {
-        e.x = -a / (n - a) * g.x + n / (n - a) * e.x, e.y = -a / (n - a) * g.y + n / (n - a) * e.y
+        c.x = -a / (o - a) * i.x + o / (o - a) * c.x, c.y = -a / (o - a) * i.y + o / (o - a) * c.y
       }
     }
-    d.x = (f.x + g.x + e.x) / 3;
-    d.y = (f.y + g.y + e.y) / 3;
-    return 0.5 * ((g.x - f.x) * (e.y - f.y) - (g.y - f.y) * (e.x - f.x))
+    d.x = (e.x + i.x + c.x) / 3;
+    d.y = (e.y + i.y + c.y) / 3;
+    return 0.5 * ((i.x - e.x) * (c.y - e.y) - (i.y - e.y) * (c.x - e.x))
   };
-  f.prototype.GetLength = function() {
-    return this.m_length
+  d.prototype.ne = function(b, c) {
+    this.I.O.call(this);
+    this.ca = h.oh;
+    this.fr = this.hr = p;
+    this.U = b;
+    this.ga = c;
+    this.we.s(this.ga.x - this.U.x, this.ga.y - this.U.y);
+    this.kk = this.we.dc();
+    this.W.s(this.we.y, -this.we.x);
+    this.wp.s(-a.ki * (this.W.x - this.we.x) + this.U.x, -a.ki * (this.W.y - this.we.y) + this.U.y);
+    this.xp.s(-a.ki * (this.W.x + this.we.x) + this.ga.x, -a.ki * (this.W.y + this.we.y) + this.ga.y);
+    this.yp = this.W;
+    this.zp.s(-this.W.x, -this.W.y)
   };
-  f.prototype.GetVertex1 = function() {
-    return this.m_v1
+  c.Yg = function() {
+    this.Hd = 0;
+    this.hd = new m(0, 0);
+    this.If = 0
   };
-  f.prototype.GetVertex2 = function() {
-    return this.m_v2
+  P.ya(b, P.i.H.O);
+  b.prototype.I = P.i.H.O.prototype;
+  b.ec = function() {
+    P.i.H.O.O.apply(this, arguments)
   };
-  f.prototype.GetCoreVertex1 = function() {
-    return this.m_coreV1
-  };
-  f.prototype.GetCoreVertex2 = function() {
-    return this.m_coreV2
-  };
-  f.prototype.GetNormalVector = function() {
-    return this.m_normal
-  };
-  f.prototype.GetDirectionVector = function() {
-    return this.m_direction
-  };
-  f.prototype.GetCorner1Vector = function() {
-    return this.m_cornerDir1
-  };
-  f.prototype.GetCorner2Vector = function() {
-    return this.m_cornerDir2
-  };
-  f.prototype.Corner1IsConvex = function() {
-    return this.m_cornerConvex1
-  };
-  f.prototype.Corner2IsConvex = function() {
-    return this.m_cornerConvex2
-  };
-  f.prototype.GetFirstVertex = function(a) {
-    var b = a.R;
-    return new o(a.position.x + (b.col1.x * this.m_coreV1.x + b.col2.x * this.m_coreV1.y), a.position.y + (b.col1.y * this.m_coreV1.x + b.col2.y * this.m_coreV1.y))
-  };
-  f.prototype.GetNextEdge = function() {
-    return this.m_nextEdge
-  };
-  f.prototype.GetPrevEdge = function() {
-    return this.m_prevEdge
-  };
-  f.prototype.Support = function(a, b, e) {
-    b === void 0 && (b = 0);
-    e === void 0 && (e = 0);
-    var d = a.R, f = a.position.x + (d.col1.x * this.m_coreV1.x + d.col2.x * this.m_coreV1.y), g = a.position.y + (d.col1.y * this.m_coreV1.x + d.col2.y * this.m_coreV1.y), n = a.position.x + (d.col1.x * this.m_coreV2.x + d.col2.x * this.m_coreV2.y), a = a.position.y + (d.col1.y * this.m_coreV2.x + d.col2.y * this.m_coreV2.y);
-    f * b + g * e > n * b + a * e ? (this.s_supportVec.x = f, this.s_supportVec.y = g) : (this.s_supportVec.x = n, this.s_supportVec.y = a);
-    return this.s_supportVec
-  };
-  f.prototype.b2EdgeShape = function(b, e) {
-    this.__super.b2Shape.call(this);
-    this.m_type = h.e_edgeShape;
-    this.m_nextEdge = this.m_prevEdge = null;
-    this.m_v1 = b;
-    this.m_v2 = e;
-    this.m_direction.Set(this.m_v2.x - this.m_v1.x, this.m_v2.y - this.m_v1.y);
-    this.m_length = this.m_direction.Normalize();
-    this.m_normal.Set(this.m_direction.y, -this.m_direction.x);
-    this.m_coreV1.Set(-a.b2_toiSlop * (this.m_normal.x - this.m_direction.x) + this.m_v1.x, -a.b2_toiSlop * (this.m_normal.y - this.m_direction.y) + this.m_v1.y);
-    this.m_coreV2.Set(-a.b2_toiSlop * (this.m_normal.x + this.m_direction.x) + this.m_v2.x, -a.b2_toiSlop * (this.m_normal.y + this.m_direction.y) + this.m_v2.y);
-    this.m_cornerDir1 = this.m_normal;
-    this.m_cornerDir2.Set(-this.m_normal.x, -this.m_normal.y)
-  };
-  f.prototype.SetPrevEdge = function(a, b, e, d) {
-    this.m_prevEdge = a;
-    this.m_coreV1 = b;
-    this.m_cornerDir1 = e;
-    this.m_cornerConvex1 = d
-  };
-  f.prototype.SetNextEdge = function(a, b, e, d) {
-    this.m_nextEdge = a;
-    this.m_coreV2 = b;
-    this.m_cornerDir2 = e;
-    this.m_cornerConvex2 = d
-  };
-  e.b2MassData = function() {
-    this.mass = 0;
-    this.center = new o(0, 0);
-    this.I = 0
-  };
-  Box2D.inherit(g, Box2D.Collision.Shapes.b2Shape);
-  g.prototype.__super = Box2D.Collision.Shapes.b2Shape.prototype;
-  g.b2PolygonShape = function() {
-    Box2D.Collision.Shapes.b2Shape.b2Shape.apply(this, arguments)
-  };
-  g.prototype.Copy = function() {
-    var a = new g;
-    a.Set(this);
+  b.prototype.mb = function() {
+    var a = new b;
+    a.s(this);
     return a
   };
-  g.prototype.Set = function(a) {
-    this.__super.Set.call(this, a);
-    if(Box2D.is(a, g)) {
-      a = a instanceof g ? a : null;
-      this.m_centroid.SetV(a.m_centroid);
-      this.m_vertexCount = a.m_vertexCount;
-      this.Reserve(this.m_vertexCount);
-      for(var b = 0;b < this.m_vertexCount;b++) {
-        this.m_vertices[b].SetV(a.m_vertices[b]), this.m_normals[b].SetV(a.m_normals[b])
+  b.prototype.s = function(a) {
+    this.I.s.call(this, a);
+    if(P.hm(a, b)) {
+      a = a instanceof b ? a : p;
+      this.gc.p(a.gc);
+      this.ja = a.ja;
+      this.Jg(this.ja);
+      for(var c = 0;c < this.ja;c++) {
+        this.u[c].p(a.u[c]), this.na[c].p(a.na[c])
       }
     }
   };
-  g.prototype.SetAsArray = function(a, b) {
-    b === void 0 && (b = 0);
-    for(var e = [], d = 0, f, d = 0;d < a.length;++d) {
-      f = a[d], e.push(f)
+  b.prototype.lj = function(a, c) {
+    c === f && (c = 0);
+    for(var b = [], d = 0, e, d = 0;d < a.length;++d) {
+      e = a[d], b.push(e)
     }
-    this.SetAsVector(e, b)
+    this.ql(b, c)
   };
-  g.AsArray = function(a, b) {
-    b === void 0 && (b = 0);
-    var e = new g;
-    e.SetAsArray(a, b);
-    return e
+  b.tq = function(a, c) {
+    c === f && (c = 0);
+    var d = new b;
+    d.lj(a, c);
+    return d
   };
-  g.prototype.SetAsVector = function(b, e) {
-    e === void 0 && (e = 0);
-    if(e == 0) {
-      e = b.length
+  b.prototype.ql = function(c, d) {
+    d === f && (d = 0);
+    if(d == 0) {
+      d = c.length
     }
-    a.b2Assert(2 <= e);
-    this.m_vertexCount = e;
-    this.Reserve(e);
-    for(var d = 0, d = 0;d < this.m_vertexCount;d++) {
-      this.m_vertices[d].SetV(b[d])
+    a.Ra(2 <= d);
+    this.ja = d;
+    this.Jg(d);
+    for(var e = 0, e = 0;e < this.ja;e++) {
+      this.u[e].p(c[e])
     }
-    for(d = 0;d < this.m_vertexCount;++d) {
-      var f = l.SubtractVV(this.m_vertices[d + 1 < this.m_vertexCount ? d + 1 : 0], this.m_vertices[d]);
-      a.b2Assert(f.LengthSquared() > Number.MIN_VALUE);
-      this.m_normals[d].SetV(l.CrossVF(f, 1));
-      this.m_normals[d].Normalize()
+    for(e = 0;e < this.ja;++e) {
+      var i = j.Pa(this.u[e + 1 < this.ja ? e + 1 : 0], this.u[e]);
+      a.Ra(i.Vh() > Number.MIN_VALUE);
+      this.na[e].p(j.ee(i, 1));
+      this.na[e].dc()
     }
-    this.m_centroid = g.ComputeCentroid(this.m_vertices, this.m_vertexCount)
+    this.gc = b.en(this.u, this.ja)
   };
-  g.AsVector = function(a, b) {
-    b === void 0 && (b = 0);
-    var e = new g;
-    e.SetAsVector(a, b);
-    return e
+  b.xq = function(a, c) {
+    c === f && (c = 0);
+    var d = new b;
+    d.ql(a, c);
+    return d
   };
-  g.prototype.SetAsBox = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    this.m_vertexCount = 4;
-    this.Reserve(4);
-    this.m_vertices[0].Set(-a, -b);
-    this.m_vertices[1].Set(a, -b);
-    this.m_vertices[2].Set(a, b);
-    this.m_vertices[3].Set(-a, b);
-    this.m_normals[0].Set(0, -1);
-    this.m_normals[1].Set(1, 0);
-    this.m_normals[2].Set(0, 1);
-    this.m_normals[3].Set(-1, 0);
-    this.m_centroid.SetZero()
+  b.prototype.mj = function(a, c) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    this.ja = 4;
+    this.Jg(4);
+    this.u[0].s(-a, -c);
+    this.u[1].s(a, -c);
+    this.u[2].s(a, c);
+    this.u[3].s(-a, c);
+    this.na[0].s(0, -1);
+    this.na[1].s(1, 0);
+    this.na[2].s(0, 1);
+    this.na[3].s(-1, 0);
+    this.gc.V()
   };
-  g.AsBox = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    var e = new g;
-    e.SetAsBox(a, b);
-    return e
+  b.uq = function(a, c) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    var d = new b;
+    d.mj(a, c);
+    return d
   };
-  g.prototype.SetAsOrientedBox = function(a, b, e, d) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    e === void 0 && (e = null);
-    d === void 0 && (d = 0);
-    this.m_vertexCount = 4;
-    this.Reserve(4);
-    this.m_vertices[0].Set(-a, -b);
-    this.m_vertices[1].Set(a, -b);
-    this.m_vertices[2].Set(a, b);
-    this.m_vertices[3].Set(-a, b);
-    this.m_normals[0].Set(0, -1);
-    this.m_normals[1].Set(1, 0);
-    this.m_normals[2].Set(0, 1);
-    this.m_normals[3].Set(-1, 0);
-    this.m_centroid = e;
+  b.prototype.nj = function(a, c, b, d) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    b === f && (b = p);
+    d === f && (d = 0);
+    this.ja = 4;
+    this.Jg(4);
+    this.u[0].s(-a, -c);
+    this.u[1].s(a, -c);
+    this.u[2].s(a, c);
+    this.u[3].s(-a, c);
+    this.na[0].s(0, -1);
+    this.na[1].s(1, 0);
+    this.na[2].s(0, 1);
+    this.na[3].s(-1, 0);
+    this.gc = b;
     a = new k;
-    a.position = e;
-    a.R.Set(d);
-    for(e = 0;e < this.m_vertexCount;++e) {
-      this.m_vertices[e] = l.MulX(a, this.m_vertices[e]), this.m_normals[e] = l.MulMV(a.R, this.m_normals[e])
+    a.position = b;
+    a.h.s(d);
+    for(b = 0;b < this.ja;++b) {
+      this.u[b] = j.Oa(a, this.u[b]), this.na[b] = j.ub(a.h, this.na[b])
     }
   };
-  g.AsOrientedBox = function(a, b, e, d) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    e === void 0 && (e = null);
-    d === void 0 && (d = 0);
-    var f = new g;
-    f.SetAsOrientedBox(a, b, e, d);
-    return f
+  b.wq = function(a, c, d, e) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    d === f && (d = p);
+    e === f && (e = 0);
+    var i = new b;
+    i.nj(a, c, d, e);
+    return i
   };
-  g.prototype.SetAsEdge = function(a, b) {
-    this.m_vertexCount = 2;
-    this.Reserve(2);
-    this.m_vertices[0].SetV(a);
-    this.m_vertices[1].SetV(b);
-    this.m_centroid.x = 0.5 * (a.x + b.x);
-    this.m_centroid.y = 0.5 * (a.y + b.y);
-    this.m_normals[0] = l.CrossVF(l.SubtractVV(b, a), 1);
-    this.m_normals[0].Normalize();
-    this.m_normals[1].x = -this.m_normals[0].x;
-    this.m_normals[1].y = -this.m_normals[0].y
+  b.prototype.Mn = function(a, c) {
+    this.ja = 2;
+    this.Jg(2);
+    this.u[0].p(a);
+    this.u[1].p(c);
+    this.gc.x = 0.5 * (a.x + c.x);
+    this.gc.y = 0.5 * (a.y + c.y);
+    this.na[0] = j.ee(j.Pa(c, a), 1);
+    this.na[0].dc();
+    this.na[1].x = -this.na[0].x;
+    this.na[1].y = -this.na[0].y
   };
-  g.AsEdge = function(a, b) {
-    var e = new g;
-    e.SetAsEdge(a, b);
-    return e
+  b.vq = function(a, c) {
+    var d = new b;
+    d.Mn(a, c);
+    return d
   };
-  g.prototype.TestPoint = function(a, b) {
-    var e;
-    e = a.R;
-    for(var d = b.x - a.position.x, f = b.y - a.position.y, g = d * e.col1.x + f * e.col1.y, n = d * e.col2.x + f * e.col2.y, j = 0;j < this.m_vertexCount;++j) {
-      if(e = this.m_vertices[j], d = g - e.x, f = n - e.y, e = this.m_normals[j], e.x * d + e.y * f > 0) {
-        return!1
-      }
+  b.prototype.Df = function(a, c) {
+    for(var b = c.h, d = this.u[0], e = c.position.x + (b.b.x * d.x + b.d.x * d.y), i = c.position.y + (b.b.y * d.x + b.d.y * d.y), o = e, g = i, j = 1;j < this.ja;++j) {
+      var d = this.u[j], h = c.position.x + (b.b.x * d.x + b.d.x * d.y), d = c.position.y + (b.b.y * d.x + b.d.y * d.y), e = e < h ? e : h, i = i < d ? i : d, o = o > h ? o : h, g = g > d ? g : d
     }
-    return!0
+    a.lowerBound.x = e - this.ba;
+    a.lowerBound.y = i - this.ba;
+    a.upperBound.x = o + this.ba;
+    a.upperBound.y = g + this.ba
   };
-  g.prototype.RayCast = function(a, b, e) {
-    var d = 0, f = b.maxFraction, g = 0, n = 0, j, h, g = b.p1.x - e.position.x, n = b.p1.y - e.position.y;
-    j = e.R;
-    var l = g * j.col1.x + n * j.col1.y, k = g * j.col2.x + n * j.col2.y, g = b.p2.x - e.position.x, n = b.p2.y - e.position.y;
-    j = e.R;
-    b = g * j.col1.x + n * j.col1.y - l;
-    j = g * j.col2.x + n * j.col2.y - k;
-    for(var q = -1, p = 0;p < this.m_vertexCount;++p) {
-      h = this.m_vertices[p];
-      g = h.x - l;
-      n = h.y - k;
-      h = this.m_normals[p];
-      g = h.x * g + h.y * n;
-      n = h.x * b + h.y * j;
-      if(n == 0) {
-        if(g < 0) {
-          return!1
-        }
-      }else {
-        n < 0 && g < d * n ? (d = g / n, q = p) : n > 0 && g < f * n && (f = g / n)
-      }
-      if(f < d - Number.MIN_VALUE) {
-        return!1
-      }
-    }
-    return q >= 0 ? (a.fraction = d, j = e.R, h = this.m_normals[q], a.normal.x = j.col1.x * h.x + j.col2.x * h.y, a.normal.y = j.col1.y * h.x + j.col2.y * h.y, !0) : !1
-  };
-  g.prototype.ComputeAABB = function(a, b) {
-    for(var e = b.R, d = this.m_vertices[0], f = b.position.x + (e.col1.x * d.x + e.col2.x * d.y), g = b.position.y + (e.col1.y * d.x + e.col2.y * d.y), n = f, j = g, h = 1;h < this.m_vertexCount;++h) {
-      var d = this.m_vertices[h], l = b.position.x + (e.col1.x * d.x + e.col2.x * d.y), d = b.position.y + (e.col1.y * d.x + e.col2.y * d.y), f = f < l ? f : l, g = g < d ? g : d, n = n > l ? n : l, j = j > d ? j : d
-    }
-    a.lowerBound.x = f - this.m_radius;
-    a.lowerBound.y = g - this.m_radius;
-    a.upperBound.x = n + this.m_radius;
-    a.upperBound.y = j + this.m_radius
-  };
-  g.prototype.ComputeMass = function(a, b) {
-    b === void 0 && (b = 0);
-    if(this.m_vertexCount == 2) {
-      a.center.x = 0.5 * (this.m_vertices[0].x + this.m_vertices[1].x), a.center.y = 0.5 * (this.m_vertices[0].y + this.m_vertices[1].y), a.mass = 0, a.I = 0
+  b.prototype.wg = function(a, c) {
+    c === f && (c = 0);
+    if(this.ja == 2) {
+      a.hd.x = 0.5 * (this.u[0].x + this.u[1].x), a.hd.y = 0.5 * (this.u[0].y + this.u[1].y), a.Hd = 0, a.If = 0
     }else {
-      for(var e = 0, d = 0, f = 0, g = 0, n = 1 / 3, j = 0;j < this.m_vertexCount;++j) {
-        var h = this.m_vertices[j], l = j + 1 < this.m_vertexCount ? this.m_vertices[j + 1] : this.m_vertices[0], k = h.x - 0, q = h.y - 0, p = l.x - 0, r = l.y - 0, v = k * r - q * p, H = 0.5 * v;
-        f += H;
-        e += H * n * (0 + h.x + l.x);
-        d += H * n * (0 + h.y + l.y);
-        h = k;
-        g += v * (n * (0.25 * (h * h + p * h + p * p) + (0 * h + 0 * p)) + 0 + (n * (0.25 * (q * q + r * q + r * r) + (0 * q + 0 * r)) + 0))
+      for(var b = 0, d = 0, e = 0, i = 0, o = 1 / 3, g = 0;g < this.ja;++g) {
+        var j = this.u[g], h = g + 1 < this.ja ? this.u[g + 1] : this.u[0], k = j.x - 0, n = j.y - 0, t = h.x - 0, r = h.y - 0, y = k * r - n * t, G = 0.5 * y;
+        e += G;
+        b += G * o * (0 + j.x + h.x);
+        d += G * o * (0 + j.y + h.y);
+        j = k;
+        i += y * (o * (0.25 * (j * j + t * j + t * t) + (0 * j + 0 * t)) + 0 + (o * (0.25 * (n * n + r * n + r * r) + (0 * n + 0 * r)) + 0))
       }
-      a.mass = b * f;
-      e *= 1 / f;
-      d *= 1 / f;
-      a.center.Set(e, d);
-      a.I = b * g
+      a.Hd = c * e;
+      b *= 1 / e;
+      d *= 1 / e;
+      a.hd.s(b, d);
+      a.If = c * i
     }
   };
-  g.prototype.ComputeSubmergedArea = function(a, b, d, f) {
-    b === void 0 && (b = 0);
-    for(var g = l.MulTMV(d.R, a), j = b - l.Dot(a, d.position), n = [], h = 0, t = -1, b = -1, k = !1, a = a = 0;a < this.m_vertexCount;++a) {
-      n[a] = l.Dot(g, this.m_vertices[a]) - j;
-      var q = n[a] < -Number.MIN_VALUE;
-      a > 0 && (q ? k || (t = a - 1, h++) : k && (b = a - 1, h++));
-      k = q
+  b.prototype.Nh = function(a, b, d, e) {
+    b === f && (b = 0);
+    for(var i = j.ge(d.h, a), g = b - j.Bb(a, d.position), o = [], h = 0, k = -1, b = -1, n = !1, a = a = 0;a < this.ja;++a) {
+      o[a] = j.Bb(i, this.u[a]) - g;
+      var l = o[a] < -Number.MIN_VALUE;
+      a > 0 && (l ? n || (k = a - 1, h++) : n && (b = a - 1, h++));
+      n = l
     }
     switch(h) {
       case 0:
-        return k ? (a = new e, this.ComputeMass(a, 1), f.SetV(l.MulX(d, a.center)), a.mass) : 0;
+        return n ? (a = new c, this.wg(a, 1), e.p(j.Oa(d, a.hd)), a.Hd) : 0;
       case 1:
-        t == -1 ? t = this.m_vertexCount - 1 : b = this.m_vertexCount - 1
+        k == -1 ? k = this.ja - 1 : b = this.ja - 1
     }
-    a = (t + 1) % this.m_vertexCount;
-    g = (b + 1) % this.m_vertexCount;
-    j = (0 - n[t]) / (n[a] - n[t]);
-    n = (0 - n[b]) / (n[g] - n[b]);
-    t = new o(this.m_vertices[t].x * (1 - j) + this.m_vertices[a].x * j, this.m_vertices[t].y * (1 - j) + this.m_vertices[a].y * j);
-    b = new o(this.m_vertices[b].x * (1 - n) + this.m_vertices[g].x * n, this.m_vertices[b].y * (1 - n) + this.m_vertices[g].y * n);
-    n = 0;
-    j = new o;
-    for(h = this.m_vertices[a];a != g;) {
-      a = (a + 1) % this.m_vertexCount, k = a == g ? b : this.m_vertices[a], q = 0.5 * ((h.x - t.x) * (k.y - t.y) - (h.y - t.y) * (k.x - t.x)), n += q, j.x += q * (t.x + h.x + k.x) / 3, j.y += q * (t.y + h.y + k.y) / 3, h = k
+    a = (k + 1) % this.ja;
+    i = (b + 1) % this.ja;
+    g = (0 - o[k]) / (o[a] - o[k]);
+    o = (0 - o[b]) / (o[i] - o[b]);
+    k = new m(this.u[k].x * (1 - g) + this.u[a].x * g, this.u[k].y * (1 - g) + this.u[a].y * g);
+    b = new m(this.u[b].x * (1 - o) + this.u[i].x * o, this.u[b].y * (1 - o) + this.u[i].y * o);
+    o = 0;
+    g = new m;
+    for(h = this.u[a];a != i;) {
+      a = (a + 1) % this.ja, n = a == i ? b : this.u[a], l = 0.5 * ((h.x - k.x) * (n.y - k.y) - (h.y - k.y) * (n.x - k.x)), o += l, g.x += l * (k.x + h.x + n.x) / 3, g.y += l * (k.y + h.y + n.y) / 3, h = n
     }
-    j.Multiply(1 / n);
-    f.SetV(l.MulX(d, j));
-    return n
+    g.Vb(1 / o);
+    e.p(j.Oa(d, g));
+    return o
   };
-  g.prototype.GetVertexCount = function() {
-    return this.m_vertexCount
-  };
-  g.prototype.GetVertices = function() {
-    return this.m_vertices
-  };
-  g.prototype.GetNormals = function() {
-    return this.m_normals
-  };
-  g.prototype.GetSupport = function(a) {
-    for(var b = 0, e = this.m_vertices[0].x * a.x + this.m_vertices[0].y * a.y, d = 1;d < this.m_vertexCount;++d) {
-      var f = this.m_vertices[d].x * a.x + this.m_vertices[d].y * a.y;
-      f > e && (b = d, e = f)
+  b.prototype.gl = u("ja");
+  b.prototype.Sh = function(a) {
+    for(var c = 0, b = this.u[0].x * a.x + this.u[0].y * a.y, d = 1;d < this.ja;++d) {
+      var e = this.u[d].x * a.x + this.u[d].y * a.y;
+      e > b && (c = d, b = e)
     }
+    return c
+  };
+  b.prototype.Eg = function(a) {
+    for(var c = 0, b = this.u[0].x * a.x + this.u[0].y * a.y, d = 1;d < this.ja;++d) {
+      var e = this.u[d].x * a.x + this.u[d].y * a.y;
+      e > b && (c = d, b = e)
+    }
+    return this.u[c]
+  };
+  b.prototype.ec = function() {
+    this.I.O.call(this);
+    this.ca = h.Pd;
+    this.gc = new m;
+    this.u = [];
+    this.na = []
+  };
+  b.prototype.Jg = function(a) {
+    a === f && (a = 0);
+    for(var c = this.u.length;c < a;c++) {
+      this.u[c] = new m, this.na[c] = new m
+    }
+  };
+  b.en = function(a, c) {
+    c === f && (c = 0);
+    for(var b = new m, d = 0, e = 1 / 3, i = 0;i < c;++i) {
+      var o = a[i], g = i + 1 < c ? a[i + 1] : a[0], j = 0.5 * ((o.x - 0) * (g.y - 0) - (o.y - 0) * (g.x - 0));
+      d += j;
+      b.x += j * e * (0 + o.x + g.x);
+      b.y += j * e * (0 + o.y + g.y)
+    }
+    b.x *= 1 / d;
+    b.y *= 1 / d;
     return b
   };
-  g.prototype.GetSupportVertex = function(a) {
-    for(var b = 0, e = this.m_vertices[0].x * a.x + this.m_vertices[0].y * a.y, d = 1;d < this.m_vertexCount;++d) {
-      var f = this.m_vertices[d].x * a.x + this.m_vertices[d].y * a.y;
-      f > e && (b = d, e = f)
+  b.zq = function(a, c, b) {
+    b === f && (b = 0);
+    for(var d = 0, e = Array(b + 1), d = 0;d < b;++d) {
+      e[d] = c[d]
     }
-    return this.m_vertices[b]
-  };
-  g.prototype.Validate = function() {
-    return!1
-  };
-  g.prototype.b2PolygonShape = function() {
-    this.__super.b2Shape.call(this);
-    this.m_type = h.e_polygonShape;
-    this.m_centroid = new o;
-    this.m_vertices = [];
-    this.m_normals = []
-  };
-  g.prototype.Reserve = function(a) {
-    a === void 0 && (a = 0);
-    for(var b = this.m_vertices.length;b < a;b++) {
-      this.m_vertices[b] = new o, this.m_normals[b] = new o
-    }
-  };
-  g.ComputeCentroid = function(a, b) {
-    b === void 0 && (b = 0);
-    for(var e = new o, d = 0, f = 1 / 3, g = 0;g < b;++g) {
-      var n = a[g], j = g + 1 < b ? a[g + 1] : a[0], h = 0.5 * ((n.x - 0) * (j.y - 0) - (n.y - 0) * (j.x - 0));
-      d += h;
-      e.x += h * f * (0 + n.x + j.x);
-      e.y += h * f * (0 + n.y + j.y)
-    }
-    e.x *= 1 / d;
-    e.y *= 1 / d;
-    return e
-  };
-  g.ComputeOBB = function(a, b, e) {
-    e === void 0 && (e = 0);
-    for(var d = 0, f = Array(e + 1), d = 0;d < e;++d) {
-      f[d] = b[d]
-    }
-    f[e] = f[0];
-    b = Number.MAX_VALUE;
-    for(d = 1;d <= e;++d) {
-      var g = f[d - 1], j = f[d].x - g.x, h = f[d].y - g.y, t = Math.sqrt(j * j + h * h);
-      j /= t;
-      h /= t;
-      for(var l = -h, k = j, q = t = Number.MAX_VALUE, p = -Number.MAX_VALUE, r = -Number.MAX_VALUE, v = 0;v < e;++v) {
-        var H = f[v].x - g.x, K = f[v].y - g.y, O = j * H + h * K, H = l * H + k * K;
-        O < t && (t = O);
-        H < q && (q = H);
-        O > p && (p = O);
-        H > r && (r = H)
+    e[b] = e[0];
+    c = Number.MAX_VALUE;
+    for(d = 1;d <= b;++d) {
+      var i = e[d - 1], o = e[d].x - i.x, g = e[d].y - i.y, j = Math.sqrt(o * o + g * g);
+      o /= j;
+      g /= j;
+      for(var h = -g, k = o, n = j = Number.MAX_VALUE, t = -Number.MAX_VALUE, r = -Number.MAX_VALUE, y = 0;y < b;++y) {
+        var G = e[y].x - i.x, l = e[y].y - i.y, S = o * G + g * l, G = h * G + k * l;
+        S < j && (j = S);
+        G < n && (n = G);
+        S > t && (t = S);
+        G > r && (r = G)
       }
-      v = (p - t) * (r - q);
-      if(v < 0.95 * b) {
-        b = v, a.R.col1.x = j, a.R.col1.y = h, a.R.col2.x = l, a.R.col2.y = k, j = 0.5 * (t + p), h = 0.5 * (q + r), l = a.R, a.center.x = g.x + (l.col1.x * j + l.col2.x * h), a.center.y = g.y + (l.col1.y * j + l.col2.y * h), a.extents.x = 0.5 * (p - t), a.extents.y = 0.5 * (r - q)
+      y = (t - j) * (r - n);
+      if(y < 0.95 * c) {
+        c = y, a.h.b.x = o, a.h.b.y = g, a.h.d.x = h, a.h.d.y = k, o = 0.5 * (j + t), g = 0.5 * (n + r), h = a.h, a.hd.x = i.x + (h.b.x * o + h.d.x * g), a.hd.y = i.y + (h.b.y * o + h.d.y * g), a.Zo.x = 0.5 * (t - j), a.Zo.y = 0.5 * (r - n)
       }
     }
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Collision.Shapes.b2PolygonShape.s_mat = new j
+  P.Wa.push(function() {
+    P.i.H.ec.rr = new i
   });
-  h.b2Shape = function() {
+  h.O = q();
+  h.prototype.mb = D(p);
+  h.prototype.s = function(a) {
+    this.ba = a.ba
   };
-  h.prototype.Copy = function() {
-    return null
-  };
-  h.prototype.Set = function(a) {
-    this.m_radius = a.m_radius
-  };
-  h.prototype.GetType = function() {
-    return this.m_type
-  };
-  h.prototype.TestPoint = function() {
-    return!1
-  };
-  h.prototype.RayCast = function() {
-    return!1
-  };
-  h.prototype.ComputeAABB = function() {
-  };
-  h.prototype.ComputeMass = function() {
-  };
-  h.prototype.ComputeSubmergedArea = function() {
-    return 0
-  };
-  h.TestOverlap = function(a, b, e, d) {
-    var f = new s;
-    f.proxyA = new w;
-    f.proxyA.Set(a);
-    f.proxyB = new w;
-    f.proxyB.Set(e);
-    f.transformA = b;
-    f.transformB = d;
-    f.useRadii = !0;
-    a = new I;
+  h.prototype.la = u("ca");
+  h.prototype.Df = q();
+  h.prototype.wg = q();
+  h.prototype.Nh = D(0);
+  h.ie = function(a, c, b, d) {
+    var e = new s;
+    e.Lc = new x;
+    e.Lc.s(a);
+    e.Mc = new x;
+    e.Mc.s(b);
+    e.Oi = c;
+    e.Pi = d;
+    e.Um = !0;
+    a = new w;
     a.count = 0;
-    b = new q;
-    m.Distance(b, a, f);
-    return b.distance < 10 * Number.MIN_VALUE
+    c = new n;
+    l.Vi(c, a, e);
+    return c.Yf < 10 * Number.MIN_VALUE
   };
-  h.prototype.b2Shape = function() {
-    this.m_type = h.e_unknownShape;
-    this.m_radius = a.b2_linearSlop
+  h.prototype.O = function() {
+    this.ca = h.Wo;
+    this.ba = a.ta
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Collision.Shapes.b2Shape.e_unknownShape = -1;
-    Box2D.Collision.Shapes.b2Shape.e_circleShape = 0;
-    Box2D.Collision.Shapes.b2Shape.e_polygonShape = 1;
-    Box2D.Collision.Shapes.b2Shape.e_edgeShape = 2;
-    Box2D.Collision.Shapes.b2Shape.e_shapeTypeCount = 3;
-    Box2D.Collision.Shapes.b2Shape.e_hitCollide = 1;
-    Box2D.Collision.Shapes.b2Shape.e_missCollide = 0;
-    Box2D.Collision.Shapes.b2Shape.e_startsInsideCollide = -1
+  P.Wa.push(function() {
+    P.i.H.O.Wo = -1;
+    P.i.H.O.qe = 0;
+    P.i.H.O.Pd = 1;
+    P.i.H.O.oh = 2;
+    P.i.H.O.ti = 3;
+    P.i.H.O.Tq = 1;
+    P.i.H.O.Uq = 0;
+    P.i.H.O.Vq = -1
   })
 })();
 (function() {
-  var a = Box2D.Common.b2Color, d = Box2D.Common.b2Settings, b = Box2D.Common.Math.b2Math;
-  a.b2Color = function() {
-    this._b = this._g = this._r = 0
+  var a = P.a.sc, g = P.a.$, e = P.a.f.Xa;
+  a.sc = function() {
+    this.Xh = this.Yh = this.Zh = 0
   };
-  a.prototype.b2Color = function(a, e, d) {
-    a === void 0 && (a = 0);
-    e === void 0 && (e = 0);
-    d === void 0 && (d = 0);
-    this._r = Box2D.parseUInt(255 * b.Clamp(a, 0, 1));
-    this._g = Box2D.parseUInt(255 * b.Clamp(e, 0, 1));
-    this._b = Box2D.parseUInt(255 * b.Clamp(d, 0, 1))
+  a.prototype.sc = function(a, c, b) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    b === f && (b = 0);
+    this.Zh = P.$c(255 * e.xa(a, 0, 1));
+    this.Yh = P.$c(255 * e.xa(c, 0, 1));
+    this.Xh = P.$c(255 * e.xa(b, 0, 1))
   };
-  a.prototype.Set = function(a, e, d) {
-    a === void 0 && (a = 0);
-    e === void 0 && (e = 0);
-    d === void 0 && (d = 0);
-    this._r = Box2D.parseUInt(255 * b.Clamp(a, 0, 1));
-    this._g = Box2D.parseUInt(255 * b.Clamp(e, 0, 1));
-    this._b = Box2D.parseUInt(255 * b.Clamp(d, 0, 1))
+  a.prototype.s = function(a, c, b) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    b === f && (b = 0);
+    this.Zh = P.$c(255 * e.xa(a, 0, 1));
+    this.Yh = P.$c(255 * e.xa(c, 0, 1));
+    this.Xh = P.$c(255 * e.xa(b, 0, 1))
   };
   Object.defineProperty(a.prototype, "r", {enumerable:!1, configurable:!0, set:function(a) {
-    a === void 0 && (a = 0);
-    this._r = Box2D.parseUInt(255 * b.Clamp(a, 0, 1))
+    a === f && (a = 0);
+    this.Zh = P.$c(255 * e.xa(a, 0, 1))
   }});
   Object.defineProperty(a.prototype, "g", {enumerable:!1, configurable:!0, set:function(a) {
-    a === void 0 && (a = 0);
-    this._g = Box2D.parseUInt(255 * b.Clamp(a, 0, 1))
+    a === f && (a = 0);
+    this.Yh = P.$c(255 * e.xa(a, 0, 1))
   }});
   Object.defineProperty(a.prototype, "b", {enumerable:!1, configurable:!0, set:function(a) {
-    a === void 0 && (a = 0);
-    this._b = Box2D.parseUInt(255 * b.Clamp(a, 0, 1))
+    a === f && (a = 0);
+    this.Xh = P.$c(255 * e.xa(a, 0, 1))
   }});
   Object.defineProperty(a.prototype, "color", {enumerable:!1, configurable:!0, get:function() {
-    return this._r << 16 | this._g << 8 | this._b
+    return this.Zh << 16 | this.Yh << 8 | this.Xh
   }});
-  d.b2Settings = function() {
+  g.$ = q();
+  g.to = function(a, c) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    return Math.sqrt(a * c)
   };
-  d.b2MixFriction = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    return Math.sqrt(a * b)
+  g.uo = function(a, c) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    return a > c ? a : c
   };
-  d.b2MixRestitution = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    return a > b ? a : b
-  };
-  d.b2Assert = function(a) {
+  g.Ra = function(a) {
     if(!a) {
       throw"Assertion Failed";
     }
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Common.b2Settings.VERSION = "2.1alpha";
-    Box2D.Common.b2Settings.USHRT_MAX = 65535;
-    Box2D.Common.b2Settings.b2_pi = Math.PI;
-    Box2D.Common.b2Settings.b2_maxManifoldPoints = 2;
-    Box2D.Common.b2Settings.b2_aabbExtension = 0.1;
-    Box2D.Common.b2Settings.b2_aabbMultiplier = 2;
-    Box2D.Common.b2Settings.b2_polygonRadius = 2 * d.b2_linearSlop;
-    Box2D.Common.b2Settings.b2_linearSlop = 0.005;
-    Box2D.Common.b2Settings.b2_angularSlop = 2 / 180 * d.b2_pi;
-    Box2D.Common.b2Settings.b2_toiSlop = 8 * d.b2_linearSlop;
-    Box2D.Common.b2Settings.b2_maxTOIContactsPerIsland = 32;
-    Box2D.Common.b2Settings.b2_maxTOIJointsPerIsland = 32;
-    Box2D.Common.b2Settings.b2_velocityThreshold = 1;
-    Box2D.Common.b2Settings.b2_maxLinearCorrection = 0.2;
-    Box2D.Common.b2Settings.b2_maxAngularCorrection = 8 / 180 * d.b2_pi;
-    Box2D.Common.b2Settings.b2_maxTranslation = 2;
-    Box2D.Common.b2Settings.b2_maxTranslationSquared = d.b2_maxTranslation * d.b2_maxTranslation;
-    Box2D.Common.b2Settings.b2_maxRotation = 0.5 * d.b2_pi;
-    Box2D.Common.b2Settings.b2_maxRotationSquared = d.b2_maxRotation * d.b2_maxRotation;
-    Box2D.Common.b2Settings.b2_contactBaumgarte = 0.2;
-    Box2D.Common.b2Settings.b2_timeToSleep = 0.5;
-    Box2D.Common.b2Settings.b2_linearSleepTolerance = 0.01;
-    Box2D.Common.b2Settings.b2_angularSleepTolerance = 2 / 180 * d.b2_pi
+  P.Wa.push(function() {
+    P.a.$.VERSION = "2.1alpha";
+    P.a.$.Nq = 65535;
+    P.a.$.lh = Math.PI;
+    P.a.$.Dc = 2;
+    P.a.$.hi = 0.1;
+    P.a.$.El = 2;
+    P.a.$.Pq = 2 * g.ta;
+    P.a.$.ta = 0.005;
+    P.a.$.$e = 2 / 180 * g.lh;
+    P.a.$.ki = 8 * g.ta;
+    P.a.$.yo = 32;
+    P.a.$.zo = 32;
+    P.a.$.Eo = 1;
+    P.a.$.uc = 0.2;
+    P.a.$.ii = 8 / 180 * g.lh;
+    P.a.$.Vf = 2;
+    P.a.$.Jl = g.Vf * g.Vf;
+    P.a.$.Uf = 0.5 * g.lh;
+    P.a.$.Il = g.Uf * g.Uf;
+    P.a.$.Nj = 0.2;
+    P.a.$.Ao = 0.5;
+    P.a.$.Hl = 0.01;
+    P.a.$.Fl = 2 / 180 * g.lh
   })
 })();
 (function() {
-  var a = Box2D.Common.Math.b2Mat22, d = Box2D.Common.Math.b2Mat33, b = Box2D.Common.Math.b2Math, f = Box2D.Common.Math.b2Sweep, e = Box2D.Common.Math.b2Transform, g = Box2D.Common.Math.b2Vec2, h = Box2D.Common.Math.b2Vec3;
-  a.b2Mat22 = function() {
-    this.col1 = new g;
-    this.col2 = new g
+  var a = P.a.f.wd, g = P.a.f.Nf, e = P.a.f.Xa, d = P.a.f.Ze, c = P.a.f.Md, b = P.a.f.g, h = P.a.f.Sf;
+  a.wd = function() {
+    this.b = new b;
+    this.d = new b
   };
-  a.prototype.b2Mat22 = function() {
-    this.SetIdentity()
+  a.prototype.wd = function() {
+    this.Wh()
   };
-  a.FromAngle = function(b) {
-    b === void 0 && (b = 0);
-    var e = new a;
-    e.Set(b);
-    return e
-  };
-  a.FromVV = function(b, e) {
-    var d = new a;
-    d.SetVV(b, e);
-    return d
-  };
-  a.prototype.Set = function(a) {
-    a === void 0 && (a = 0);
-    var b = Math.cos(a), a = Math.sin(a);
-    this.col1.x = b;
-    this.col2.x = -a;
-    this.col1.y = a;
-    this.col2.y = b
-  };
-  a.prototype.SetVV = function(a, b) {
-    this.col1.SetV(a);
-    this.col2.SetV(b)
-  };
-  a.prototype.Copy = function() {
+  a.Qh = function(c) {
+    c === f && (c = 0);
     var b = new a;
-    b.SetM(this);
+    b.s(c);
     return b
   };
-  a.prototype.SetM = function(a) {
-    this.col1.SetV(a.col1);
-    this.col2.SetV(a.col2)
+  a.Cg = function(c, b) {
+    var d = new a;
+    d.Wn(c, b);
+    return d
   };
-  a.prototype.AddM = function(a) {
-    this.col1.x += a.col1.x;
-    this.col1.y += a.col1.y;
-    this.col2.x += a.col2.x;
-    this.col2.y += a.col2.y
+  a.prototype.s = function(a) {
+    a === f && (a = 0);
+    var c = Math.cos(a), a = Math.sin(a);
+    this.b.x = c;
+    this.d.x = -a;
+    this.b.y = a;
+    this.d.y = c
   };
-  a.prototype.SetIdentity = function() {
-    this.col1.x = 1;
-    this.col2.x = 0;
-    this.col1.y = 0;
-    this.col2.y = 1
+  a.prototype.Wn = function(a, c) {
+    this.b.p(a);
+    this.d.p(c)
   };
-  a.prototype.SetZero = function() {
-    this.col1.x = 0;
-    this.col2.x = 0;
-    this.col1.y = 0;
-    this.col2.y = 0
+  a.prototype.mb = function() {
+    var c = new a;
+    c.Le(this);
+    return c
   };
-  a.prototype.GetAngle = function() {
-    return Math.atan2(this.col1.y, this.col1.x)
+  a.prototype.Le = function(a) {
+    this.b.p(a.b);
+    this.d.p(a.d)
   };
-  a.prototype.GetInverse = function(a) {
-    var b = this.col1.x, e = this.col2.x, d = this.col1.y, f = this.col2.y, g = b * f - e * d;
+  a.prototype.Kh = function(a) {
+    this.b.x += a.b.x;
+    this.b.y += a.b.y;
+    this.d.x += a.d.x;
+    this.d.y += a.d.y
+  };
+  a.prototype.Wh = function() {
+    this.b.x = 1;
+    this.d.x = 0;
+    this.b.y = 0;
+    this.d.y = 1
+  };
+  a.prototype.V = function() {
+    this.b.x = 0;
+    this.d.x = 0;
+    this.b.y = 0;
+    this.d.y = 0
+  };
+  a.prototype.Jd = function() {
+    return Math.atan2(this.b.y, this.b.x)
+  };
+  a.prototype.$i = function(a) {
+    var c = this.b.x, b = this.d.x, d = this.b.y, e = this.d.y, g = c * e - b * d;
     g != 0 && (g = 1 / g);
-    a.col1.x = g * f;
-    a.col2.x = -g * e;
-    a.col1.y = -g * d;
-    a.col2.y = g * b;
+    a.b.x = g * e;
+    a.d.x = -g * b;
+    a.b.y = -g * d;
+    a.d.y = g * c
+  };
+  a.prototype.Me = function(a, c, b) {
+    c === f && (c = 0);
+    b === f && (b = 0);
+    var d = this.b.x, e = this.d.x, g = this.b.y, h = this.d.y, x = d * h - e * g;
+    x != 0 && (x = 1 / x);
+    a.x = x * (h * c - e * b);
+    a.y = x * (d * b - g * c);
     return a
   };
-  a.prototype.Solve = function(a, b, e) {
-    b === void 0 && (b = 0);
-    e === void 0 && (e = 0);
-    var d = this.col1.x, f = this.col2.x, g = this.col1.y, h = this.col2.y, w = d * h - f * g;
-    w != 0 && (w = 1 / w);
-    a.x = w * (h * b - f * e);
-    a.y = w * (d * e - g * b);
+  a.prototype.lb = function() {
+    this.b.lb();
+    this.d.lb()
+  };
+  g.Nf = function() {
+    this.b = new h;
+    this.d = new h;
+    this.X = new h
+  };
+  g.prototype.Nf = function(a, c, b) {
+    a === f && (a = p);
+    c === f && (c = p);
+    b === f && (b = p);
+    !a && !c && !b ? (this.b.V(), this.d.V(), this.X.V()) : (this.b.p(a), this.d.p(c), this.X.p(b))
+  };
+  g.prototype.mb = function() {
+    return new g(this.b, this.d, this.X)
+  };
+  g.prototype.Le = function(a) {
+    this.b.p(a.b);
+    this.d.p(a.d);
+    this.X.p(a.X)
+  };
+  g.prototype.Kh = function(a) {
+    this.b.x += a.b.x;
+    this.b.y += a.b.y;
+    this.b.t += a.b.t;
+    this.d.x += a.d.x;
+    this.d.y += a.d.y;
+    this.d.t += a.d.t;
+    this.X.x += a.X.x;
+    this.X.y += a.X.y;
+    this.X.t += a.X.t
+  };
+  g.prototype.Wh = function() {
+    this.b.x = 1;
+    this.d.x = 0;
+    this.X.x = 0;
+    this.b.y = 0;
+    this.d.y = 1;
+    this.X.y = 0;
+    this.b.t = 0;
+    this.d.t = 0;
+    this.X.t = 1
+  };
+  g.prototype.V = function() {
+    this.b.x = 0;
+    this.d.x = 0;
+    this.X.x = 0;
+    this.b.y = 0;
+    this.d.y = 0;
+    this.X.y = 0;
+    this.b.t = 0;
+    this.d.t = 0;
+    this.X.t = 0
+  };
+  g.prototype.Kf = function(a, c, b) {
+    c === f && (c = 0);
+    b === f && (b = 0);
+    var d = this.b.x, e = this.d.x, g = this.b.y, h = this.d.y, x = d * h - e * g;
+    x != 0 && (x = 1 / x);
+    a.x = x * (h * c - e * b);
+    a.y = x * (d * b - g * c);
     return a
   };
-  a.prototype.Abs = function() {
-    this.col1.Abs();
-    this.col2.Abs()
-  };
-  d.b2Mat33 = function() {
-    this.col1 = new h;
-    this.col2 = new h;
-    this.col3 = new h
-  };
-  d.prototype.b2Mat33 = function(a, b, e) {
-    a === void 0 && (a = null);
-    b === void 0 && (b = null);
-    e === void 0 && (e = null);
-    !a && !b && !e ? (this.col1.SetZero(), this.col2.SetZero(), this.col3.SetZero()) : (this.col1.SetV(a), this.col2.SetV(b), this.col3.SetV(e))
-  };
-  d.prototype.SetVVV = function(a, b, e) {
-    this.col1.SetV(a);
-    this.col2.SetV(b);
-    this.col3.SetV(e)
-  };
-  d.prototype.Copy = function() {
-    return new d(this.col1, this.col2, this.col3)
-  };
-  d.prototype.SetM = function(a) {
-    this.col1.SetV(a.col1);
-    this.col2.SetV(a.col2);
-    this.col3.SetV(a.col3)
-  };
-  d.prototype.AddM = function(a) {
-    this.col1.x += a.col1.x;
-    this.col1.y += a.col1.y;
-    this.col1.z += a.col1.z;
-    this.col2.x += a.col2.x;
-    this.col2.y += a.col2.y;
-    this.col2.z += a.col2.z;
-    this.col3.x += a.col3.x;
-    this.col3.y += a.col3.y;
-    this.col3.z += a.col3.z
-  };
-  d.prototype.SetIdentity = function() {
-    this.col1.x = 1;
-    this.col2.x = 0;
-    this.col3.x = 0;
-    this.col1.y = 0;
-    this.col2.y = 1;
-    this.col3.y = 0;
-    this.col1.z = 0;
-    this.col2.z = 0;
-    this.col3.z = 1
-  };
-  d.prototype.SetZero = function() {
-    this.col1.x = 0;
-    this.col2.x = 0;
-    this.col3.x = 0;
-    this.col1.y = 0;
-    this.col2.y = 0;
-    this.col3.y = 0;
-    this.col1.z = 0;
-    this.col2.z = 0;
-    this.col3.z = 0
-  };
-  d.prototype.Solve22 = function(a, b, e) {
-    b === void 0 && (b = 0);
-    e === void 0 && (e = 0);
-    var d = this.col1.x, f = this.col2.x, g = this.col1.y, h = this.col2.y, w = d * h - f * g;
-    w != 0 && (w = 1 / w);
-    a.x = w * (h * b - f * e);
-    a.y = w * (d * e - g * b);
+  g.prototype.Kg = function(a, c, b, d) {
+    c === f && (c = 0);
+    b === f && (b = 0);
+    d === f && (d = 0);
+    var e = this.b.x, g = this.b.y, h = this.b.t, x = this.d.x, w = this.d.y, z = this.d.t, C = this.X.x, v = this.X.y, I = this.X.t, L = e * (w * I - z * v) + g * (z * C - x * I) + h * (x * v - w * C);
+    L != 0 && (L = 1 / L);
+    a.x = L * (c * (w * I - z * v) + b * (z * C - x * I) + d * (x * v - w * C));
+    a.y = L * (e * (b * I - d * v) + g * (d * C - c * I) + h * (c * v - b * C));
+    a.t = L * (e * (w * d - z * b) + g * (z * c - x * d) + h * (x * b - w * c));
     return a
   };
-  d.prototype.Solve33 = function(a, b, e, d) {
-    b === void 0 && (b = 0);
-    e === void 0 && (e = 0);
-    d === void 0 && (d = 0);
-    var f = this.col1.x, g = this.col1.y, h = this.col1.z, w = this.col2.x, I = this.col2.y, A = this.col2.z, y = this.col3.x, x = this.col3.y, F = this.col3.z, E = f * (I * F - A * x) + g * (A * y - w * F) + h * (w * x - I * y);
-    E != 0 && (E = 1 / E);
-    a.x = E * (b * (I * F - A * x) + e * (A * y - w * F) + d * (w * x - I * y));
-    a.y = E * (f * (e * F - d * x) + g * (d * y - b * F) + h * (b * x - e * y));
-    a.z = E * (f * (I * d - A * e) + g * (A * b - w * d) + h * (w * e - I * b));
-    return a
-  };
-  b.b2Math = function() {
-  };
-  b.IsValid = function(a) {
-    a === void 0 && (a = 0);
+  e.Xa = q();
+  e.Jf = function(a) {
+    a === f && (a = 0);
     return isFinite(a)
   };
-  b.Dot = function(a, b) {
-    return a.x * b.x + a.y * b.y
+  e.Bb = function(a, c) {
+    return a.x * c.x + a.y * c.y
   };
-  b.CrossVV = function(a, b) {
-    return a.x * b.y - a.y * b.x
+  e.Ff = function(a, c) {
+    return a.x * c.y - a.y * c.x
   };
-  b.CrossVF = function(a, b) {
-    b === void 0 && (b = 0);
-    return new g(b * a.y, -b * a.x)
+  e.ee = function(a, c) {
+    c === f && (c = 0);
+    return new b(c * a.y, -c * a.x)
   };
-  b.CrossFV = function(a, b) {
-    a === void 0 && (a = 0);
-    return new g(-a * b.y, a * b.x)
+  e.Wk = function(a, c) {
+    a === f && (a = 0);
+    return new b(-a * c.y, a * c.x)
   };
-  b.MulMV = function(a, b) {
-    return new g(a.col1.x * b.x + a.col2.x * b.y, a.col1.y * b.x + a.col2.y * b.y)
+  e.ub = function(a, c) {
+    return new b(a.b.x * c.x + a.d.x * c.y, a.b.y * c.x + a.d.y * c.y)
   };
-  b.MulTMV = function(a, e) {
-    return new g(b.Dot(e, a.col1), b.Dot(e, a.col2))
+  e.ge = function(a, c) {
+    return new b(e.Bb(c, a.b), e.Bb(c, a.d))
   };
-  b.MulX = function(a, e) {
-    var d = b.MulMV(a.R, e);
-    d.x += a.position.x;
-    d.y += a.position.y;
-    return d
+  e.Oa = function(a, c) {
+    var b = e.ub(a.h, c);
+    b.x += a.position.x;
+    b.y += a.position.y;
+    return b
   };
-  b.MulXT = function(a, e) {
-    var d = b.SubtractVV(e, a.position), f = d.x * a.R.col1.x + d.y * a.R.col1.y;
-    d.y = d.x * a.R.col2.x + d.y * a.R.col2.y;
-    d.x = f;
-    return d
+  e.Bn = function(a, c) {
+    var b = e.Pa(c, a.position), d = b.x * a.h.b.x + b.y * a.h.b.y;
+    b.y = b.x * a.h.d.x + b.y * a.h.d.y;
+    b.x = d;
+    return b
   };
-  b.AddVV = function(a, b) {
-    return new g(a.x + b.x, a.y + b.y)
+  e.Rk = function(a, c) {
+    return new b(a.x + c.x, a.y + c.y)
   };
-  b.SubtractVV = function(a, b) {
-    return new g(a.x - b.x, a.y - b.y)
+  e.Pa = function(a, c) {
+    return new b(a.x - c.x, a.y - c.y)
   };
-  b.Distance = function(a, b) {
-    var e = a.x - b.x, d = a.y - b.y;
-    return Math.sqrt(e * e + d * d)
+  e.Vi = function(a, c) {
+    var b = a.x - c.x, d = a.y - c.y;
+    return Math.sqrt(b * b + d * d)
   };
-  b.DistanceSquared = function(a, b) {
-    var e = a.x - b.x, d = a.y - b.y;
-    return e * e + d * d
+  e.Bq = function(a, c) {
+    var b = a.x - c.x, d = a.y - c.y;
+    return b * b + d * d
   };
-  b.MulFV = function(a, b) {
-    a === void 0 && (a = 0);
-    return new g(a * b.x, a * b.y)
+  e.Fq = function(a, c) {
+    a === f && (a = 0);
+    return new b(a * c.x, a * c.y)
   };
-  b.AddMM = function(e, d) {
-    return a.FromVV(b.AddVV(e.col1, d.col1), b.AddVV(e.col2, d.col2))
+  e.sq = function(c, b) {
+    return a.Cg(e.Rk(c.b, b.b), e.Rk(c.d, b.d))
   };
-  b.MulMM = function(e, d) {
-    return a.FromVV(b.MulMV(e, d.col1), b.MulMV(e, d.col2))
+  e.Gq = function(c, b) {
+    return a.Cg(e.ub(c, b.b), e.ub(c, b.d))
   };
-  b.MulTMM = function(e, d) {
-    var f = new g(b.Dot(e.col1, d.col1), b.Dot(e.col2, d.col1)), h = new g(b.Dot(e.col1, d.col2), b.Dot(e.col2, d.col2));
-    return a.FromVV(f, h)
+  e.Hq = function(c, d) {
+    var g = new b(e.Bb(c.b, d.b), e.Bb(c.d, d.b)), h = new b(e.Bb(c.b, d.d), e.Bb(c.d, d.d));
+    return a.Cg(g, h)
   };
-  b.Abs = function(a) {
-    a === void 0 && (a = 0);
+  e.lb = function(a) {
+    a === f && (a = 0);
     return a > 0 ? a : -a
   };
-  b.AbsV = function(a) {
-    return new g(b.Abs(a.x), b.Abs(a.y))
+  e.Ok = function(a) {
+    return new b(e.lb(a.x), e.lb(a.y))
   };
-  b.AbsM = function(e) {
-    return a.FromVV(b.AbsV(e.col1), b.AbsV(e.col2))
+  e.rq = function(c) {
+    return a.Cg(e.Ok(c.b), e.Ok(c.d))
   };
-  b.Min = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    return a < b ? a : b
+  e.Je = function(a, c) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    return a < c ? a : c
   };
-  b.MinV = function(a, e) {
-    return new g(b.Min(a.x, e.x), b.Min(a.y, e.y))
+  e.jl = function(a, c) {
+    return new b(e.Je(a.x, c.x), e.Je(a.y, c.y))
   };
-  b.Max = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    return a > b ? a : b
+  e.Ub = function(a, c) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    return a > c ? a : c
   };
-  b.MaxV = function(a, e) {
-    return new g(b.Max(a.x, e.x), b.Max(a.y, e.y))
+  e.il = function(a, c) {
+    return new b(e.Ub(a.x, c.x), e.Ub(a.y, c.y))
   };
-  b.Clamp = function(a, b, e) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    e === void 0 && (e = 0);
-    return a < b ? b : a > e ? e : a
+  e.xa = function(a, c, b) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    b === f && (b = 0);
+    return a < c ? c : a > b ? b : a
   };
-  b.ClampV = function(a, e, d) {
-    return b.MaxV(e, b.MinV(a, d))
+  e.yq = function(a, c, b) {
+    return e.il(c, e.jl(a, b))
   };
-  b.Swap = function(a, b) {
-    var e = a[0];
-    a[0] = b[0];
-    b[0] = e
+  e.Mq = function(a, c) {
+    var b = a[0];
+    a[0] = c[0];
+    c[0] = b
   };
-  b.Random = function() {
+  e.Kq = function() {
     return Math.random() * 2 - 1
   };
-  b.RandomRange = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    var e = Math.random();
-    return(b - a) * e + a
+  e.Lq = function(a, c) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    var b = Math.random();
+    return(c - a) * b + a
   };
-  b.NextPowerOfTwo = function(a) {
-    a === void 0 && (a = 0);
+  e.Iq = function(a) {
+    a === f && (a = 0);
     a |= a >> 1 & 2147483647;
     a |= a >> 2 & 1073741823;
     a |= a >> 4 & 268435455;
@@ -3846,161 +2895,151 @@ Box2D.Collision.b2SeparationFunction = function() {
     a |= a >> 16 & 65535;
     return a + 1
   };
-  b.IsPowerOfTwo = function(a) {
-    a === void 0 && (a = 0);
+  e.Cq = function(a) {
+    a === f && (a = 0);
     return a > 0 && (a & a - 1) == 0
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Common.Math.b2Math.b2Vec2_zero = new g(0, 0);
-    Box2D.Common.Math.b2Math.b2Mat22_identity = a.FromVV(new g(1, 0), new g(0, 1));
-    Box2D.Common.Math.b2Math.b2Transform_identity = new e(b.b2Vec2_zero, b.b2Mat22_identity)
+  P.Wa.push(function() {
+    P.a.f.Xa.vo = new b(0, 0);
+    P.a.f.Xa.so = a.Cg(new b(1, 0), new b(0, 1));
+    P.a.f.Xa.Oq = new c(e.vo, e.so)
   });
-  f.b2Sweep = function() {
-    this.localCenter = new g;
-    this.c0 = new g;
-    this.c = new g
+  d.Ze = function() {
+    this.v = new b;
+    this.vb = new b;
+    this.k = new b
   };
-  f.prototype.Set = function(a) {
-    this.localCenter.SetV(a.localCenter);
-    this.c0.SetV(a.c0);
-    this.c.SetV(a.c);
-    this.a0 = a.a0;
-    this.a = a.a;
-    this.t0 = a.t0
+  d.prototype.s = function(a) {
+    this.v.p(a.v);
+    this.vb.p(a.vb);
+    this.k.p(a.k);
+    this.Qc = a.Qc;
+    this.z = a.z;
+    this.tb = a.tb
   };
-  f.prototype.Copy = function() {
-    var a = new f;
-    a.localCenter.SetV(this.localCenter);
-    a.c0.SetV(this.c0);
-    a.c.SetV(this.c);
-    a.a0 = this.a0;
-    a.a = this.a;
-    a.t0 = this.t0;
+  d.prototype.mb = function() {
+    var a = new d;
+    a.v.p(this.v);
+    a.vb.p(this.vb);
+    a.k.p(this.k);
+    a.Qc = this.Qc;
+    a.z = this.z;
+    a.tb = this.tb;
     return a
   };
-  f.prototype.GetTransform = function(a, b) {
-    b === void 0 && (b = 0);
-    a.position.x = (1 - b) * this.c0.x + b * this.c.x;
-    a.position.y = (1 - b) * this.c0.y + b * this.c.y;
-    a.R.Set((1 - b) * this.a0 + b * this.a);
-    var e = a.R;
-    a.position.x -= e.col1.x * this.localCenter.x + e.col2.x * this.localCenter.y;
-    a.position.y -= e.col1.y * this.localCenter.x + e.col2.y * this.localCenter.y
+  d.prototype.Tb = function(a, c) {
+    c === f && (c = 0);
+    a.position.x = (1 - c) * this.vb.x + c * this.k.x;
+    a.position.y = (1 - c) * this.vb.y + c * this.k.y;
+    a.h.s((1 - c) * this.Qc + c * this.z);
+    var b = a.h;
+    a.position.x -= b.b.x * this.v.x + b.d.x * this.v.y;
+    a.position.y -= b.b.y * this.v.x + b.d.y * this.v.y
   };
-  f.prototype.Advance = function(a) {
-    a === void 0 && (a = 0);
-    if(this.t0 < a && 1 - this.t0 > Number.MIN_VALUE) {
-      var b = (a - this.t0) / (1 - this.t0);
-      this.c0.x = (1 - b) * this.c0.x + b * this.c.x;
-      this.c0.y = (1 - b) * this.c0.y + b * this.c.y;
-      this.a0 = (1 - b) * this.a0 + b * this.a;
-      this.t0 = a
+  d.prototype.de = function(a) {
+    a === f && (a = 0);
+    if(this.tb < a && 1 - this.tb > Number.MIN_VALUE) {
+      var c = (a - this.tb) / (1 - this.tb);
+      this.vb.x = (1 - c) * this.vb.x + c * this.k.x;
+      this.vb.y = (1 - c) * this.vb.y + c * this.k.y;
+      this.Qc = (1 - c) * this.Qc + c * this.z;
+      this.tb = a
     }
   };
-  e.b2Transform = function() {
-    this.position = new g;
-    this.R = new a
+  c.Md = function() {
+    this.position = new b;
+    this.h = new a
   };
-  e.prototype.b2Transform = function(a, b) {
-    a === void 0 && (a = null);
-    b === void 0 && (b = null);
-    a && (this.position.SetV(a), this.R.SetM(b))
+  c.prototype.Md = function(a, c) {
+    a === f && (a = p);
+    c === f && (c = p);
+    a && (this.position.p(a), this.h.Le(c))
   };
-  e.prototype.Initialize = function(a, b) {
-    this.position.SetV(a);
-    this.R.SetM(b)
+  c.prototype.$a = function(a, c) {
+    this.position.p(a);
+    this.h.Le(c)
   };
-  e.prototype.SetIdentity = function() {
-    this.position.SetZero();
-    this.R.SetIdentity()
+  c.prototype.Wh = function() {
+    this.position.V();
+    this.h.Wh()
   };
-  e.prototype.Set = function(a) {
-    this.position.SetV(a.position);
-    this.R.SetM(a.R)
+  c.prototype.s = function(a) {
+    this.position.p(a.position);
+    this.h.Le(a.h)
   };
-  e.prototype.GetAngle = function() {
-    return Math.atan2(this.R.col1.y, this.R.col1.x)
+  c.prototype.Jd = function() {
+    return Math.atan2(this.h.b.y, this.h.b.x)
   };
-  g.b2Vec2 = function() {
-  };
-  g.prototype.b2Vec2 = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
+  b.g = q();
+  b.prototype.g = function(a, c) {
+    a === f && (a = 0);
+    c === f && (c = 0);
     this.x = a;
-    this.y = b
+    this.y = c
   };
-  g.prototype.SetZero = function() {
+  b.prototype.V = function() {
     this.y = this.x = 0
   };
-  g.prototype.Set = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
+  b.prototype.s = function(a, c) {
+    a === f && (a = 0);
+    c === f && (c = 0);
     this.x = a;
-    this.y = b
+    this.y = c
   };
-  g.prototype.SetV = function(a) {
+  b.prototype.p = function(a) {
     this.x = a.x;
     this.y = a.y
   };
-  g.prototype.GetNegative = function() {
-    return new g(-this.x, -this.y)
+  b.prototype.fe = function() {
+    return new b(-this.x, -this.y)
   };
-  g.prototype.NegativeSelf = function() {
+  b.prototype.ll = function() {
     this.x = -this.x;
     this.y = -this.y
   };
-  g.Make = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    return new g(a, b)
+  b.An = function() {
+    var a = 0, c = 0;
+    a === f && (a = 0);
+    c === f && (c = 0);
+    return new b(a, c)
   };
-  g.prototype.Copy = function() {
-    return new g(this.x, this.y)
+  b.prototype.mb = function() {
+    return new b(this.x, this.y)
   };
-  g.prototype.Add = function(a) {
+  b.prototype.ce = function(a) {
     this.x += a.x;
     this.y += a.y
   };
-  g.prototype.Subtract = function(a) {
+  b.prototype.rl = function(a) {
     this.x -= a.x;
     this.y -= a.y
   };
-  g.prototype.Multiply = function(a) {
-    a === void 0 && (a = 0);
+  b.prototype.Vb = function(a) {
+    a === f && (a = 0);
     this.x *= a;
     this.y *= a
   };
-  g.prototype.MulM = function(a) {
-    var b = this.x;
-    this.x = a.col1.x * b + a.col2.x * this.y;
-    this.y = a.col1.y * b + a.col2.y * this.y
-  };
-  g.prototype.MulTM = function(a) {
-    var e = b.Dot(this, a.col1);
-    this.y = b.Dot(this, a.col2);
-    this.x = e
-  };
-  g.prototype.CrossVF = function(a) {
-    a === void 0 && (a = 0);
-    var b = this.x;
+  b.prototype.ee = function(a) {
+    a === f && (a = 0);
+    var c = this.x;
     this.x = a * this.y;
-    this.y = -a * b
+    this.y = -a * c
   };
-  g.prototype.CrossFV = function(a) {
-    a === void 0 && (a = 0);
-    var b = this.x;
+  b.prototype.Wk = function(a) {
+    a === f && (a = 0);
+    var c = this.x;
     this.x = -a * this.y;
-    this.y = a * b
+    this.y = a * c
   };
-  g.prototype.MinV = function(a) {
+  b.prototype.jl = function(a) {
     this.x = this.x < a.x ? this.x : a.x;
     this.y = this.y < a.y ? this.y : a.y
   };
-  g.prototype.MaxV = function(a) {
+  b.prototype.il = function(a) {
     this.x = this.x > a.x ? this.x : a.x;
     this.y = this.y > a.y ? this.y : a.y
   };
-  g.prototype.Abs = function() {
+  b.prototype.lb = function() {
     if(this.x < 0) {
       this.x = -this.x
     }
@@ -4008,6392 +3047,4050 @@ Box2D.Collision.b2SeparationFunction = function() {
       this.y = -this.y
     }
   };
-  g.prototype.Length = function() {
+  b.prototype.Ld = function() {
     return Math.sqrt(this.x * this.x + this.y * this.y)
   };
-  g.prototype.LengthSquared = function() {
+  b.prototype.Vh = function() {
     return this.x * this.x + this.y * this.y
   };
-  g.prototype.Normalize = function() {
+  b.prototype.dc = function() {
     var a = Math.sqrt(this.x * this.x + this.y * this.y);
     if(a < Number.MIN_VALUE) {
       return 0
     }
-    var b = 1 / a;
-    this.x *= b;
-    this.y *= b;
+    var c = 1 / a;
+    this.x *= c;
+    this.y *= c;
     return a
   };
-  g.prototype.IsValid = function() {
-    return b.IsValid(this.x) && b.IsValid(this.y)
+  b.prototype.Jf = function() {
+    return e.Jf(this.x) && e.Jf(this.y)
   };
-  h.b2Vec3 = function() {
-  };
-  h.prototype.b2Vec3 = function(a, b, e) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    e === void 0 && (e = 0);
+  h.Sf = q();
+  h.prototype.Sf = function(a, c, b) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    b === f && (b = 0);
     this.x = a;
-    this.y = b;
-    this.z = e
+    this.y = c;
+    this.t = b
   };
-  h.prototype.SetZero = function() {
-    this.x = this.y = this.z = 0
+  h.prototype.V = function() {
+    this.x = this.y = this.t = 0
   };
-  h.prototype.Set = function(a, b, e) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    e === void 0 && (e = 0);
+  h.prototype.s = function(a, c, b) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    b === f && (b = 0);
     this.x = a;
-    this.y = b;
-    this.z = e
+    this.y = c;
+    this.t = b
   };
-  h.prototype.SetV = function(a) {
+  h.prototype.p = function(a) {
     this.x = a.x;
     this.y = a.y;
-    this.z = a.z
+    this.t = a.t
   };
-  h.prototype.GetNegative = function() {
-    return new h(-this.x, -this.y, -this.z)
+  h.prototype.fe = function() {
+    return new h(-this.x, -this.y, -this.t)
   };
-  h.prototype.NegativeSelf = function() {
+  h.prototype.ll = function() {
     this.x = -this.x;
     this.y = -this.y;
-    this.z = -this.z
+    this.t = -this.t
   };
-  h.prototype.Copy = function() {
-    return new h(this.x, this.y, this.z)
+  h.prototype.mb = function() {
+    return new h(this.x, this.y, this.t)
   };
-  h.prototype.Add = function(a) {
+  h.prototype.ce = function(a) {
     this.x += a.x;
     this.y += a.y;
-    this.z += a.z
+    this.t += a.t
   };
-  h.prototype.Subtract = function(a) {
+  h.prototype.rl = function(a) {
     this.x -= a.x;
     this.y -= a.y;
-    this.z -= a.z
+    this.t -= a.t
   };
-  h.prototype.Multiply = function(a) {
-    a === void 0 && (a = 0);
+  h.prototype.Vb = function(a) {
+    a === f && (a = 0);
     this.x *= a;
     this.y *= a;
-    this.z *= a
+    this.t *= a
   }
 })();
 (function() {
-  var a = Box2D.Common.Math.b2Math, d = Box2D.Common.Math.b2Sweep, b = Box2D.Common.Math.b2Transform, f = Box2D.Common.Math.b2Vec2, e = Box2D.Common.b2Settings, g = Box2D.Collision.b2AABB, h = Box2D.Collision.b2ContactPoint, j = Box2D.Collision.b2DynamicTreeBroadPhase, l = Box2D.Collision.Shapes.b2MassData, k = Box2D.Dynamics.b2Body, o = Box2D.Dynamics.b2BodyDef, m = Box2D.Dynamics.b2ContactFilter, s = Box2D.Dynamics.b2ContactImpulse, q = Box2D.Dynamics.b2ContactListener, w = Box2D.Dynamics.b2ContactManager, 
-  I = Box2D.Dynamics.b2DestructionListener, A = Box2D.Dynamics.b2FilterData, y = Box2D.Dynamics.b2Fixture, x = Box2D.Dynamics.b2FixtureDef, F = Box2D.Dynamics.b2Island, E = Box2D.Dynamics.b2TimeStep, J = Box2D.Dynamics.Contacts.b2ContactFactory;
-  k.b2Body = function() {
-    this.m_xf = new b;
-    this.m_sweep = new d;
-    this.m_linearVelocity = new f;
-    this.m_force = new f
+  var a = P.a.f.Xa, g = P.a.f.Ze, e = P.a.f.Md, d = P.a.f.g, c = P.a.$, b = P.i.yj, h = P.i.ro, i = P.i.Pg, j = P.i.H.Yg, k = P.c.sa, m = P.c.Pe, l = P.c.Lf, s = P.c.Dj, n = P.c.ai, x = P.c.Re, w = P.c.Gj, z = P.c.Ij, C = P.c.Rg, v = P.c.Mf, I = P.c.Ue, L = P.c.Rf, M = P.c.D.Mg;
+  k.sa = function() {
+    this.n = new e;
+    this.e = new g;
+    this.m = new d;
+    this.mf = new d
   };
-  k.prototype.connectEdges = function(b, d, f) {
-    f === void 0 && (f = 0);
-    var g = Math.atan2(d.GetDirectionVector().y, d.GetDirectionVector().x), f = Math.tan((g - f) * 0.5), f = a.MulFV(f, d.GetDirectionVector()), f = a.SubtractVV(f, d.GetNormalVector()), f = a.MulFV(e.b2_toiSlop, f), f = a.AddVV(f, d.GetVertex1()), h = a.AddVV(b.GetDirectionVector(), d.GetDirectionVector());
-    h.Normalize();
-    var j = a.Dot(b.GetDirectionVector(), d.GetNormalVector()) > 0;
-    b.SetNextEdge(d, f, h, j);
-    d.SetPrevEdge(b, f, h, j);
-    return g
-  };
-  k.prototype.CreateFixture = function(a) {
-    if(this.m_world.IsLocked() == !0) {
-      return null
+  k.prototype.xg = function(a) {
+    if(this.zb.dg == !0) {
+      return p
     }
-    var b = new y;
-    b.Create(this, this.m_xf, a);
-    this.m_flags & k.e_activeFlag && b.CreateProxy(this.m_world.m_contactManager.m_broadPhase, this.m_xf);
-    b.m_next = this.m_fixtureList;
-    this.m_fixtureList = b;
-    ++this.m_fixtureCount;
-    b.m_body = this;
-    b.m_density > 0 && this.ResetMassData();
-    this.m_world.m_newFixture = !0;
-    return b
+    var c = new C;
+    c.Rb(this, this.n, a);
+    this.lf & k.ri && c.yg(this.zb.Fb.jf, this.n);
+    c.L = this.Bd;
+    this.Bd = c;
+    ++this.rm;
+    c.M = this;
+    c.Ci > 0 && this.Hn();
+    this.zb.qk = !0;
+    return c
   };
-  k.prototype.CreateFixture2 = function(a, b) {
-    b === void 0 && (b = 0);
-    var e = new x;
-    e.shape = a;
-    e.density = b;
-    return this.CreateFixture(e)
-  };
-  k.prototype.DestroyFixture = function(a) {
-    if(this.m_world.IsLocked() != !0) {
-      for(var b = this.m_fixtureList, e = null;b != null;) {
-        if(b == a) {
-          e ? e.m_next = a.m_next : this.m_fixtureList = a.m_next;
-          break
-        }
-        e = b;
-        b = b.m_next
-      }
-      for(b = this.m_contactList;b;) {
-        var e = b.contact, b = b.next, d = e.GetFixtureA(), f = e.GetFixtureB();
-        (a == d || a == f) && this.m_world.m_contactManager.Destroy(e)
-      }
-      this.m_flags & k.e_activeFlag && a.DestroyProxy(this.m_world.m_contactManager.m_broadPhase);
-      a.Destroy();
-      a.m_body = null;
-      a.m_next = null;
-      --this.m_fixtureCount;
-      this.ResetMassData()
-    }
-  };
-  k.prototype.SetPositionAndAngle = function(a, b) {
-    b === void 0 && (b = 0);
-    var e;
-    if(this.m_world.IsLocked() != !0) {
-      this.m_xf.R.Set(b);
-      this.m_xf.position.SetV(a);
-      e = this.m_xf.R;
-      var d = this.m_sweep.localCenter;
-      this.m_sweep.c.x = e.col1.x * d.x + e.col2.x * d.y;
-      this.m_sweep.c.y = e.col1.y * d.x + e.col2.y * d.y;
-      this.m_sweep.c.x += this.m_xf.position.x;
-      this.m_sweep.c.y += this.m_xf.position.y;
-      this.m_sweep.c0.SetV(this.m_sweep.c);
-      this.m_sweep.a0 = this.m_sweep.a = b;
-      d = this.m_world.m_contactManager.m_broadPhase;
-      for(e = this.m_fixtureList;e;e = e.m_next) {
-        e.Synchronize(d, this.m_xf, this.m_xf)
-      }
-      this.m_world.m_contactManager.FindNewContacts()
-    }
-  };
-  k.prototype.SetTransform = function(a) {
-    this.SetPositionAndAngle(a.position, a.GetAngle())
-  };
-  k.prototype.GetTransform = function() {
-    return this.m_xf
-  };
-  k.prototype.GetPosition = function() {
-    return this.m_xf.position
-  };
-  k.prototype.SetPosition = function(a) {
-    this.SetPositionAndAngle(a, this.GetAngle())
-  };
-  k.prototype.GetAngle = function() {
-    return this.m_sweep.a
-  };
-  k.prototype.SetAngle = function(a) {
-    a === void 0 && (a = 0);
-    this.SetPositionAndAngle(this.GetPosition(), a)
-  };
-  k.prototype.GetWorldCenter = function() {
-    return this.m_sweep.c
-  };
-  k.prototype.GetLocalCenter = function() {
-    return this.m_sweep.localCenter
-  };
-  k.prototype.SetLinearVelocity = function(a) {
-    this.m_type != k.b2_staticBody && this.m_linearVelocity.SetV(a)
-  };
-  k.prototype.GetLinearVelocity = function() {
-    return this.m_linearVelocity
-  };
-  k.prototype.SetAngularVelocity = function(a) {
-    a === void 0 && (a = 0);
-    if(this.m_type != k.b2_staticBody) {
-      this.m_angularVelocity = a
-    }
-  };
-  k.prototype.GetAngularVelocity = function() {
-    return this.m_angularVelocity
-  };
-  k.prototype.GetDefinition = function() {
-    var a = new o;
-    a.type = this.GetType();
-    a.allowSleep = this.m_allowSleep;
-    a.angle = this.GetAngle();
-    a.angularDamping = this.m_angularDamping;
-    a.angularVelocity = this.m_angularVelocity;
-    a.fixedRotation = (this.m_flags & k.e_fixedRotationFlag) == k.e_fixedRotationFlag;
-    a.bullet = (this.m_flags & k.e_bulletFlag) == k.e_bulletFlag;
-    a.awake = this.m_awake;
-    a.linearDamping = this.m_linearDamping;
-    a.linearVelocity.SetV(this.GetLinearVelocity());
-    a.position = this.GetPosition();
-    a.userData = this.GetUserData();
-    return a
-  };
-  k.prototype.ApplyForce = function(a, b) {
-    this.m_type == k.b2_dynamicBody && (this.IsAwake() == !1 && this.SetAwake(!0), this.m_force.x += a.x, this.m_force.y += a.y, this.m_torque += (b.x - this.m_sweep.c.x) * a.y - (b.y - this.m_sweep.c.y) * a.x)
-  };
-  k.prototype.ApplyTorque = function(a) {
-    a === void 0 && (a = 0);
-    this.m_type == k.b2_dynamicBody && (this.IsAwake() == !1 && this.SetAwake(!0), this.m_torque += a)
-  };
-  k.prototype.ApplyImpulse = function(a, b) {
-    this.m_type == k.b2_dynamicBody && (this.IsAwake() == !1 && this.SetAwake(!0), this.m_linearVelocity.x += this.m_invMass * a.x, this.m_linearVelocity.y += this.m_invMass * a.y, this.m_angularVelocity += this.m_invI * ((b.x - this.m_sweep.c.x) * a.y - (b.y - this.m_sweep.c.y) * a.x))
-  };
-  k.prototype.Split = function(b) {
-    for(var e = this.GetLinearVelocity().Copy(), d = this.GetAngularVelocity(), f = this.GetWorldCenter(), g = this.m_world.CreateBody(this.GetDefinition()), h, p = this.m_fixtureList;p;) {
-      if(b(p)) {
-        var r = p.m_next;
-        h ? h.m_next = r : this.m_fixtureList = r;
-        this.m_fixtureCount--;
-        p.m_next = g.m_fixtureList;
-        g.m_fixtureList = p;
-        g.m_fixtureCount++;
-        p.m_body = g;
-        p = r
-      }else {
-        h = p, p = p.m_next
-      }
-    }
-    this.ResetMassData();
-    g.ResetMassData();
-    h = this.GetWorldCenter();
-    b = g.GetWorldCenter();
-    h = a.AddVV(e, a.CrossFV(d, a.SubtractVV(h, f)));
-    e = a.AddVV(e, a.CrossFV(d, a.SubtractVV(b, f)));
-    this.SetLinearVelocity(h);
-    g.SetLinearVelocity(e);
-    this.SetAngularVelocity(d);
-    g.SetAngularVelocity(d);
-    this.SynchronizeFixtures();
-    g.SynchronizeFixtures();
-    return g
-  };
-  k.prototype.Merge = function(a) {
+  k.prototype.Un = function(a, c) {
+    c === f && (c = 0);
     var b;
-    for(b = a.m_fixtureList;b;) {
-      var e = b.m_next;
-      a.m_fixtureCount--;
-      b.m_next = this.m_fixtureList;
-      this.m_fixtureList = b;
-      this.m_fixtureCount++;
-      b.m_body = f;
-      b = e
-    }
-    d.m_fixtureCount = 0;
-    var d = this, f = a;
-    d.GetWorldCenter();
-    f.GetWorldCenter();
-    d.GetLinearVelocity().Copy();
-    f.GetLinearVelocity().Copy();
-    d.GetAngularVelocity();
-    f.GetAngularVelocity();
-    d.ResetMassData();
-    this.SynchronizeFixtures()
-  };
-  k.prototype.GetMass = function() {
-    return this.m_mass
-  };
-  k.prototype.GetInertia = function() {
-    return this.m_I
-  };
-  k.prototype.GetMassData = function(a) {
-    a.mass = this.m_mass;
-    a.I = this.m_I;
-    a.center.SetV(this.m_sweep.localCenter)
-  };
-  k.prototype.SetMassData = function(b) {
-    e.b2Assert(this.m_world.IsLocked() == !1);
-    if(this.m_world.IsLocked() != !0 && this.m_type == k.b2_dynamicBody) {
-      this.m_invI = this.m_I = this.m_invMass = 0;
-      this.m_mass = b.mass;
-      if(this.m_mass <= 0) {
-        this.m_mass = 1
+    if(this.zb.dg != !0) {
+      this.n.h.s(c);
+      this.n.position.p(a);
+      b = this.n.h;
+      var d = this.e.v;
+      this.e.k.x = b.b.x * d.x + b.d.x * d.y;
+      this.e.k.y = b.b.y * d.x + b.d.y * d.y;
+      this.e.k.x += this.n.position.x;
+      this.e.k.y += this.n.position.y;
+      this.e.vb.p(this.e.k);
+      this.e.Qc = this.e.z = c;
+      d = this.zb.Fb.jf;
+      for(b = this.Bd;b;b = b.L) {
+        b.sl(d, this.n, this.n)
       }
-      this.m_invMass = 1 / this.m_mass;
-      if(b.I > 0 && (this.m_flags & k.e_fixedRotationFlag) == 0) {
-        this.m_I = b.I - this.m_mass * (b.center.x * b.center.x + b.center.y * b.center.y), this.m_invI = 1 / this.m_I
-      }
-      var d = this.m_sweep.c.Copy();
-      this.m_sweep.localCenter.SetV(b.center);
-      this.m_sweep.c0.SetV(a.MulX(this.m_xf, this.m_sweep.localCenter));
-      this.m_sweep.c.SetV(this.m_sweep.c0);
-      this.m_linearVelocity.x += this.m_angularVelocity * -(this.m_sweep.c.y - d.y);
-      this.m_linearVelocity.y += this.m_angularVelocity * +(this.m_sweep.c.x - d.x)
+      this.zb.Fb.Ph()
     }
   };
-  k.prototype.ResetMassData = function() {
-    this.m_invI = this.m_I = this.m_invMass = this.m_mass = 0;
-    this.m_sweep.localCenter.SetZero();
-    if(!(this.m_type == k.b2_staticBody || this.m_type == k.b2_kinematicBody)) {
-      for(var b = f.Make(0, 0), d = this.m_fixtureList;d;d = d.m_next) {
-        if(d.m_density != 0) {
-          var g = d.GetMassData();
-          this.m_mass += g.mass;
-          b.x += g.center.x * g.mass;
-          b.y += g.center.y * g.mass;
-          this.m_I += g.I
+  k.prototype.Tb = u("n");
+  k.prototype.Jd = function() {
+    return this.e.z
+  };
+  k.prototype.Ln = function() {
+    var a = U.G.xb().rc + Math.PI / 2;
+    a === f && (a = 0);
+    this.Un(this.n.position, a)
+  };
+  k.prototype.pj = function(a) {
+    this.ca != k.vc && this.m.p(a)
+  };
+  k.prototype.He = function(a, c) {
+    this.ca == k.Eb && (this.gb == !1 && this.nc(!0), this.mf.x += a.x, this.mf.y += a.y, this.Dh += (c.x - this.e.k.x) * a.y - (c.y - this.e.k.y) * a.x)
+  };
+  k.prototype.Xm = function(a) {
+    a === f && (a = 0);
+    this.ca == k.Eb && (this.gb == !1 && this.nc(!0), this.Dh += a)
+  };
+  k.prototype.Lh = function(a, c) {
+    this.ca == k.Eb && (this.gb == !1 && this.nc(!0), this.m.x += this.r * a.x, this.m.y += this.r * a.y, this.w += this.C * ((c.x - this.e.k.x) * a.y - (c.y - this.e.k.y) * a.x))
+  };
+  k.prototype.el = function(a) {
+    a.Hd = this.A;
+    a.If = this.zd;
+    a.hd.p(this.e.v)
+  };
+  k.prototype.Hn = function() {
+    this.C = this.zd = this.r = this.A = 0;
+    this.e.v.V();
+    if(!(this.ca == k.vc || this.ca == k.Gl)) {
+      for(var b = d.An(), e = this.Bd;e;e = e.L) {
+        if(e.Ci != 0) {
+          var g = e.el();
+          this.A += g.Hd;
+          b.x += g.hd.x * g.Hd;
+          b.y += g.hd.y * g.Hd;
+          this.zd += g.If
         }
       }
-      this.m_mass > 0 ? (this.m_invMass = 1 / this.m_mass, b.x *= this.m_invMass, b.y *= this.m_invMass) : this.m_invMass = this.m_mass = 1;
-      this.m_I > 0 && (this.m_flags & k.e_fixedRotationFlag) == 0 ? (this.m_I -= this.m_mass * (b.x * b.x + b.y * b.y), this.m_I *= this.m_inertiaScale, e.b2Assert(this.m_I > 0), this.m_invI = 1 / this.m_I) : this.m_invI = this.m_I = 0;
-      d = this.m_sweep.c.Copy();
-      this.m_sweep.localCenter.SetV(b);
-      this.m_sweep.c0.SetV(a.MulX(this.m_xf, this.m_sweep.localCenter));
-      this.m_sweep.c.SetV(this.m_sweep.c0);
-      this.m_linearVelocity.x += this.m_angularVelocity * -(this.m_sweep.c.y - d.y);
-      this.m_linearVelocity.y += this.m_angularVelocity * +(this.m_sweep.c.x - d.x)
+      this.A > 0 ? (this.r = 1 / this.A, b.x *= this.r, b.y *= this.r) : this.r = this.A = 1;
+      this.zd > 0 && (this.lf & k.Tl) == 0 ? (this.zd -= this.A * (b.x * b.x + b.y * b.y), this.zd *= this.Cp, c.Ra(this.zd > 0), this.C = 1 / this.zd) : this.C = this.zd = 0;
+      e = this.e.k.mb();
+      this.e.v.p(b);
+      this.e.vb.p(a.Oa(this.n, this.e.v));
+      this.e.k.p(this.e.vb);
+      this.m.x += this.w * -(this.e.k.y - e.y);
+      this.m.y += this.w * +(this.e.k.x - e.x)
     }
   };
-  k.prototype.GetWorldPoint = function(a) {
-    var b = this.m_xf.R, a = new f(b.col1.x * a.x + b.col2.x * a.y, b.col1.y * a.x + b.col2.y * a.y);
-    a.x += this.m_xf.position.x;
-    a.y += this.m_xf.position.y;
+  k.prototype.hb = function(a) {
+    var c = this.n.h, a = new d(c.b.x * a.x + c.d.x * a.y, c.b.y * a.x + c.d.y * a.y);
+    a.x += this.n.position.x;
+    a.y += this.n.position.y;
     return a
   };
-  k.prototype.GetWorldVector = function(b) {
-    return a.MulMV(this.m_xf.R, b)
+  k.prototype.cj = function(c) {
+    return a.ub(this.n.h, c)
   };
-  k.prototype.GetLocalPoint = function(b) {
-    return a.MulXT(this.m_xf, b)
+  k.prototype.mc = function(c) {
+    return a.Bn(this.n, c)
   };
-  k.prototype.GetLocalVector = function(b) {
-    return a.MulTMV(this.m_xf.R, b)
+  k.prototype.aj = function(c) {
+    return a.ge(this.n.h, c)
   };
-  k.prototype.GetLinearVelocityFromWorldPoint = function(a) {
-    return new f(this.m_linearVelocity.x - this.m_angularVelocity * (a.y - this.m_sweep.c.y), this.m_linearVelocity.y + this.m_angularVelocity * (a.x - this.m_sweep.c.x))
+  k.prototype.tn = function(a) {
+    return new d(this.m.x - this.w * (a.y - this.e.k.y), this.m.y + this.w * (a.x - this.e.k.x))
   };
-  k.prototype.GetLinearVelocityFromLocalPoint = function(a) {
-    var b = this.m_xf.R, a = new f(b.col1.x * a.x + b.col2.x * a.y, b.col1.y * a.x + b.col2.y * a.y);
-    a.x += this.m_xf.position.x;
-    a.y += this.m_xf.position.y;
-    return new f(this.m_linearVelocity.x - this.m_angularVelocity * (a.y - this.m_sweep.c.y), this.m_linearVelocity.y + this.m_angularVelocity * (a.x - this.m_sweep.c.x))
+  k.prototype.la = u("ca");
+  k.prototype.Th = function() {
+    return(this.lf & k.Sj) == k.Sj
   };
-  k.prototype.GetLinearDamping = function() {
-    return this.m_linearDamping
-  };
-  k.prototype.SetLinearDamping = function(a) {
-    a === void 0 && (a = 0);
-    this.m_linearDamping = a
-  };
-  k.prototype.GetAngularDamping = function() {
-    return this.m_angularDamping
-  };
-  k.prototype.SetAngularDamping = function(a) {
-    a === void 0 && (a = 0);
-    this.m_angularDamping = a
-  };
-  k.prototype.SetType = function(a) {
-    a === void 0 && (a = 0);
-    if(this.m_type != a) {
-      this.m_type = a;
-      this.ResetMassData();
-      if(this.m_type == k.b2_staticBody) {
-        this.m_linearVelocity.SetZero(), this.m_angularVelocity = 0
-      }
-      this.SetAwake(!0);
-      this.m_force.SetZero();
-      this.m_torque = 0;
-      for(a = this.m_contactList;a;a = a.next) {
-        a.contact.FlagForFiltering()
-      }
-    }
-  };
-  k.prototype.GetType = function() {
-    return this.m_type
-  };
-  k.prototype.SetBullet = function(a) {
-    a ? this.m_flags |= k.e_bulletFlag : this.m_flags &= ~k.e_bulletFlag
-  };
-  k.prototype.IsBullet = function() {
-    return(this.m_flags & k.e_bulletFlag) == k.e_bulletFlag
-  };
-  k.prototype.SetSleepingAllowed = function(a) {
-    (this.m_allowSleep = a) || this.SetAwake(!0)
-  };
-  k.prototype.SetAwake = function(a) {
-    this.m_awake = a;
-    this.m_sleepTime = 0;
+  k.prototype.nc = function(a) {
+    this.gb = a;
+    this.Gi = 0;
     if(!a) {
-      this.m_linearVelocity.SetZero(), this.m_angularVelocity = 0, this.m_force.SetZero(), this.m_torque = 0
+      this.m.V(), this.w = 0, this.mf.V(), this.Dh = 0
     }
   };
-  k.prototype.IsAwake = function() {
-    return this.m_awake
+  k.prototype.Kd = function() {
+    return(this.lf & k.ri) == k.ri
   };
-  k.prototype.SetFixedRotation = function(a) {
-    a ? this.m_flags |= k.e_fixedRotationFlag : this.m_flags &= ~k.e_fixedRotationFlag;
-    this.ResetMassData()
+  k.prototype.Ie = u("ig");
+  k.prototype.sa = function(a, c) {
+    this.lf = 0;
+    a.Jo && (this.lf |= k.Sj);
+    a.Zf && (this.lf |= k.Tl);
+    this.ck = a.lo;
+    this.gb = a.po;
+    a.io && (this.lf |= k.ri);
+    this.zb = c;
+    this.n.position.p(a.position);
+    this.n.h.s(a.rc);
+    this.e.v.V();
+    this.e.tb = 1;
+    this.e.Qc = this.e.z = a.rc;
+    var b = this.n.h, d = this.e.v;
+    this.e.k.x = b.b.x * d.x + b.d.x * d.y;
+    this.e.k.y = b.b.y * d.x + b.d.y * d.y;
+    this.e.k.x += this.n.position.x;
+    this.e.k.y += this.n.position.y;
+    this.e.vb.p(this.e.k);
+    this.za = this.Sd = this.Na = p;
+    this.fk = 0;
+    this.L = this.rb = p;
+    this.m.p(a.km);
+    this.w = a.oo;
+    this.Hp = a.qp;
+    this.tp = a.mo;
+    this.mf.s(0, 0);
+    this.Gi = this.Dh = 0;
+    this.ca = a.type;
+    this.r = this.ca == k.Eb ? this.A = 1 : this.A = 0;
+    this.C = this.zd = 0;
+    this.Cp = a.ip;
+    this.ig = a.Fe;
+    this.Bd = p;
+    this.rm = 0
   };
-  k.prototype.IsFixedRotation = function() {
-    return(this.m_flags & k.e_fixedRotationFlag) == k.e_fixedRotationFlag
-  };
-  k.prototype.SetActive = function(a) {
-    if(a != this.IsActive()) {
-      var b;
-      if(a) {
-        this.m_flags |= k.e_activeFlag;
-        a = this.m_world.m_contactManager.m_broadPhase;
-        for(b = this.m_fixtureList;b;b = b.m_next) {
-          b.CreateProxy(a, this.m_xf)
-        }
-      }else {
-        this.m_flags &= ~k.e_activeFlag;
-        a = this.m_world.m_contactManager.m_broadPhase;
-        for(b = this.m_fixtureList;b;b = b.m_next) {
-          b.DestroyProxy(a)
-        }
-        for(a = this.m_contactList;a;) {
-          b = a, a = a.next, this.m_world.m_contactManager.Destroy(b.contact)
-        }
-        this.m_contactList = null
-      }
+  k.prototype.tl = function() {
+    var a = k.hq;
+    a.h.s(this.e.Qc);
+    var c = a.h, b = this.e.v;
+    a.position.x = this.e.vb.x - (c.b.x * b.x + c.d.x * b.y);
+    a.position.y = this.e.vb.y - (c.b.y * b.x + c.d.y * b.y);
+    b = this.zb.Fb.jf;
+    for(c = this.Bd;c;c = c.L) {
+      c.sl(b, a, this.n)
     }
   };
-  k.prototype.IsActive = function() {
-    return(this.m_flags & k.e_activeFlag) == k.e_activeFlag
+  k.prototype.Qa = function() {
+    this.n.h.s(this.e.z);
+    var a = this.n.h, c = this.e.v;
+    this.n.position.x = this.e.k.x - (a.b.x * c.x + a.d.x * c.y);
+    this.n.position.y = this.e.k.y - (a.b.y * c.x + a.d.y * c.y)
   };
-  k.prototype.IsSleepingAllowed = function() {
-    return this.m_allowSleep
-  };
-  k.prototype.GetFixtureList = function() {
-    return this.m_fixtureList
-  };
-  k.prototype.GetJointList = function() {
-    return this.m_jointList
-  };
-  k.prototype.GetControllerList = function() {
-    return this.m_controllerList
-  };
-  k.prototype.GetContactList = function() {
-    return this.m_contactList
-  };
-  k.prototype.GetNext = function() {
-    return this.m_next
-  };
-  k.prototype.GetUserData = function() {
-    return this.m_userData
-  };
-  k.prototype.SetUserData = function(a) {
-    this.m_userData = a
-  };
-  k.prototype.GetWorld = function() {
-    return this.m_world
-  };
-  k.prototype.b2Body = function(a, b) {
-    this.m_flags = 0;
-    a.bullet && (this.m_flags |= k.e_bulletFlag);
-    a.fixedRotation && (this.m_flags |= k.e_fixedRotationFlag);
-    this.m_allowSleep = a.allowSleep;
-    this.m_awake = a.awake;
-    a.active && (this.m_flags |= k.e_activeFlag);
-    this.m_world = b;
-    this.m_xf.position.SetV(a.position);
-    this.m_xf.R.Set(a.angle);
-    this.m_sweep.localCenter.SetZero();
-    this.m_sweep.t0 = 1;
-    this.m_sweep.a0 = this.m_sweep.a = a.angle;
-    var e = this.m_xf.R, d = this.m_sweep.localCenter;
-    this.m_sweep.c.x = e.col1.x * d.x + e.col2.x * d.y;
-    this.m_sweep.c.y = e.col1.y * d.x + e.col2.y * d.y;
-    this.m_sweep.c.x += this.m_xf.position.x;
-    this.m_sweep.c.y += this.m_xf.position.y;
-    this.m_sweep.c0.SetV(this.m_sweep.c);
-    this.m_contactList = this.m_controllerList = this.m_jointList = null;
-    this.m_controllerCount = 0;
-    this.m_next = this.m_prev = null;
-    this.m_linearVelocity.SetV(a.linearVelocity);
-    this.m_angularVelocity = a.angularVelocity;
-    this.m_linearDamping = a.linearDamping;
-    this.m_angularDamping = a.angularDamping;
-    this.m_force.Set(0, 0);
-    this.m_sleepTime = this.m_torque = 0;
-    this.m_type = a.type;
-    this.m_invMass = this.m_type == k.b2_dynamicBody ? this.m_mass = 1 : this.m_mass = 0;
-    this.m_invI = this.m_I = 0;
-    this.m_inertiaScale = a.inertiaScale;
-    this.m_userData = a.userData;
-    this.m_fixtureList = null;
-    this.m_fixtureCount = 0
-  };
-  k.prototype.SynchronizeFixtures = function() {
-    var a = k.s_xf1;
-    a.R.Set(this.m_sweep.a0);
-    var b = a.R, e = this.m_sweep.localCenter;
-    a.position.x = this.m_sweep.c0.x - (b.col1.x * e.x + b.col2.x * e.y);
-    a.position.y = this.m_sweep.c0.y - (b.col1.y * e.x + b.col2.y * e.y);
-    e = this.m_world.m_contactManager.m_broadPhase;
-    for(b = this.m_fixtureList;b;b = b.m_next) {
-      b.Synchronize(e, a, this.m_xf)
-    }
-  };
-  k.prototype.SynchronizeTransform = function() {
-    this.m_xf.R.Set(this.m_sweep.a);
-    var a = this.m_xf.R, b = this.m_sweep.localCenter;
-    this.m_xf.position.x = this.m_sweep.c.x - (a.col1.x * b.x + a.col2.x * b.y);
-    this.m_xf.position.y = this.m_sweep.c.y - (a.col1.y * b.x + a.col2.y * b.y)
-  };
-  k.prototype.ShouldCollide = function(a) {
-    if(this.m_type != k.b2_dynamicBody && a.m_type != k.b2_dynamicBody) {
+  k.prototype.fd = function(a) {
+    if(this.ca != k.Eb && a.ca != k.Eb) {
       return!1
     }
-    for(var b = this.m_jointList;b;b = b.next) {
-      if(b.other == a && b.joint.m_collideConnected == !1) {
+    for(var c = this.Na;c;c = c.next) {
+      if(c.Ja == a && c.Rd.nm == !1) {
         return!1
       }
     }
     return!0
   };
-  k.prototype.Advance = function(a) {
-    a === void 0 && (a = 0);
-    this.m_sweep.Advance(a);
-    this.m_sweep.c.SetV(this.m_sweep.c0);
-    this.m_sweep.a = this.m_sweep.a0;
-    this.SynchronizeTransform()
+  k.prototype.de = function(a) {
+    a === f && (a = 0);
+    this.e.de(a);
+    this.e.k.p(this.e.vb);
+    this.e.z = this.e.Qc;
+    this.Qa()
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.b2Body.s_xf1 = new b;
-    Box2D.Dynamics.b2Body.e_bulletFlag = 8;
-    Box2D.Dynamics.b2Body.e_fixedRotationFlag = 16;
-    Box2D.Dynamics.b2Body.e_activeFlag = 32;
-    Box2D.Dynamics.b2Body.b2_staticBody = 0;
-    Box2D.Dynamics.b2Body.b2_kinematicBody = 1;
-    Box2D.Dynamics.b2Body.b2_dynamicBody = 2
+  P.Wa.push(function() {
+    P.c.sa.hq = new e;
+    P.c.sa.Sj = 8;
+    P.c.sa.Tl = 16;
+    P.c.sa.ri = 32;
+    P.c.sa.vc = 0;
+    P.c.sa.Gl = 1;
+    P.c.sa.Eb = 2
   });
-  o.b2BodyDef = function() {
-    this.position = new f;
-    this.linearVelocity = new f
+  m.Pe = function() {
+    this.position = new d;
+    this.km = new d
   };
-  o.prototype.b2BodyDef = function() {
-    this.userData = null;
-    this.position.Set(0, 0);
-    this.angle = 0;
-    this.linearVelocity.Set(0, 0);
-    this.angularDamping = this.linearDamping = this.angularVelocity = 0;
-    this.awake = this.allowSleep = !0;
-    this.bullet = this.fixedRotation = !1;
-    this.type = k.b2_staticBody;
-    this.active = !0;
-    this.inertiaScale = 1
+  m.prototype.Pe = function() {
+    this.Fe = p;
+    this.position.s(0, 0);
+    this.rc = 0;
+    this.km.s(0, 0);
+    this.mo = this.qp = this.oo = 0;
+    this.po = this.lo = !0;
+    this.Jo = this.Zf = !1;
+    this.type = k.vc;
+    this.io = !0;
+    this.ip = 1
   };
-  m.b2ContactFilter = function() {
+  l.Lf = q();
+  l.prototype.fd = function(a, c) {
+    var b = a.bl(), d = c.bl();
+    return b.ef == d.ef && b.ef != 0 ? b.ef > 0 : (b.Eh & d.mh) != 0 && (b.mh & d.Eh) != 0
   };
-  m.prototype.ShouldCollide = function(a, b) {
-    var e = a.GetFilterData(), d = b.GetFilterData();
-    return e.groupIndex == d.groupIndex && e.groupIndex != 0 ? e.groupIndex > 0 : (e.maskBits & d.categoryBits) != 0 && (e.categoryBits & d.maskBits) != 0
+  l.prototype.Ig = function(a, c) {
+    return!a ? !0 : this.fd(a instanceof C ? a : p, c)
   };
-  m.prototype.RayCollide = function(a, b) {
-    return!a ? !0 : this.ShouldCollide(a instanceof y ? a : null, b)
-  };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.b2ContactFilter.b2_defaultFilter = new m
+  P.Wa.push(function() {
+    P.c.Lf.wo = new l
   });
-  s.b2ContactImpulse = function() {
-    this.normalImpulses = new Box2D.NVector(e.b2_maxManifoldPoints);
-    this.tangentImpulses = new Box2D.NVector(e.b2_maxManifoldPoints)
+  s.Dj = function() {
+    this.aq = new P.ij(c.Dc);
+    this.lq = new P.ij(c.Dc)
   };
-  q.b2ContactListener = function() {
-  };
-  q.prototype.BeginContact = function() {
-  };
-  q.prototype.EndContact = function() {
-  };
-  q.prototype.PreSolve = function() {
-  };
-  q.prototype.PostSolve = function() {
-  };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.b2ContactListener.b2_defaultListener = new q
+  n.ai = q();
+  n.prototype.vg = q();
+  n.prototype.Gf = q();
+  n.prototype.Hg = q();
+  n.prototype.Gg = q();
+  P.Wa.push(function() {
+    P.c.ai.xo = new n
   });
-  w.b2ContactManager = function() {
+  x.Re = q();
+  x.prototype.Re = function() {
+    this.zb = p;
+    this.Xc = 0;
+    this.ek = l.wo;
+    this.bg = n.xo;
+    this.om = new M;
+    this.jf = new i
   };
-  w.prototype.b2ContactManager = function() {
-    this.m_world = null;
-    this.m_contactCount = 0;
-    this.m_contactFilter = m.b2_defaultFilter;
-    this.m_contactListener = q.b2_defaultListener;
-    this.m_contactFactory = new J;
-    this.m_broadPhase = new j
-  };
-  w.prototype.AddPair = function(a, b) {
-    var e = a instanceof y ? a : null, d = b instanceof y ? b : null, f = e.GetBody(), g = d.GetBody();
-    if(f != g && g.ShouldCollide(f) != !1 && this.m_contactFilter.ShouldCollide(e, d) != !1) {
-      for(g = g.GetContactList();g;) {
-        if(g.other == f) {
-          var p = g.contact.GetFixtureA(), r = g.contact.GetFixtureB();
-          if(p == e && r == d) {
+  x.prototype.Wm = function(a, c) {
+    var b = a instanceof C ? a : p, d = c instanceof C ? c : p, e = b.M, g = d.M;
+    if(e != g && g.fd(e) != !1 && this.ek.fd(b, d) != !1) {
+      for(g = g.za;g;) {
+        if(g.Ja == e) {
+          var t = g.ib.fa, r = g.ib.ha;
+          if(t == b && r == d) {
             return
           }
-          if(p == d && r == e) {
+          if(t == d && r == b) {
             return
           }
         }
         g = g.next
       }
-      p = this.m_contactFactory.Create(e, d);
-      e = p.GetFixtureA();
-      d = p.GetFixtureB();
-      f = e.m_body;
-      g = d.m_body;
-      p.m_prev = null;
-      p.m_next = this.m_world.m_contactList;
-      if(this.m_world.m_contactList != null) {
-        this.m_world.m_contactList.m_prev = p
+      t = this.om.Rb(b, d);
+      b = t.fa;
+      d = t.ha;
+      e = b.M;
+      g = d.M;
+      t.rb = p;
+      t.L = this.zb.za;
+      if(this.zb.za != p) {
+        this.zb.za.rb = t
       }
-      this.m_world.m_contactList = p;
-      p.m_nodeA.contact = p;
-      p.m_nodeA.other = g;
-      p.m_nodeA.prev = null;
-      p.m_nodeA.next = f.m_contactList;
-      if(f.m_contactList != null) {
-        f.m_contactList.prev = p.m_nodeA
+      this.zb.za = t;
+      t.Hb.ib = t;
+      t.Hb.Ja = g;
+      t.Hb.La = p;
+      t.Hb.next = e.za;
+      if(e.za != p) {
+        e.za.La = t.Hb
       }
-      f.m_contactList = p.m_nodeA;
-      p.m_nodeB.contact = p;
-      p.m_nodeB.other = f;
-      p.m_nodeB.prev = null;
-      p.m_nodeB.next = g.m_contactList;
-      if(g.m_contactList != null) {
-        g.m_contactList.prev = p.m_nodeB
+      e.za = t.Hb;
+      t.Ib.ib = t;
+      t.Ib.Ja = e;
+      t.Ib.La = p;
+      t.Ib.next = g.za;
+      if(g.za != p) {
+        g.za.La = t.Ib
       }
-      g.m_contactList = p.m_nodeB;
-      ++this.m_world.m_contactCount
+      g.za = t.Ib;
+      ++this.zb.Xc
     }
   };
-  w.prototype.FindNewContacts = function() {
-    this.m_broadPhase.UpdatePairs(Box2D.generateCallback(this, this.AddPair))
+  x.prototype.Ph = function() {
+    this.jf.bo(P.ap(this, this.Wm))
   };
-  w.prototype.Destroy = function(a) {
-    var b = a.GetFixtureA(), e = a.GetFixtureB(), b = b.GetBody(), e = e.GetBody();
-    a.IsTouching() && this.m_contactListener.EndContact(a);
-    if(a.m_prev) {
-      a.m_prev.m_next = a.m_next
+  x.prototype.nb = function(a) {
+    var c = a.fa.M, b = a.ha.M;
+    a.Af && this.bg.Gf(a);
+    if(a.rb) {
+      a.rb.L = a.L
     }
-    if(a.m_next) {
-      a.m_next.m_prev = a.m_prev
+    if(a.L) {
+      a.L.rb = a.rb
     }
-    if(a == this.m_world.m_contactList) {
-      this.m_world.m_contactList = a.m_next
+    if(a == this.zb.za) {
+      this.zb.za = a.L
     }
-    if(a.m_nodeA.prev) {
-      a.m_nodeA.prev.next = a.m_nodeA.next
+    if(a.Hb.La) {
+      a.Hb.La.next = a.Hb.next
     }
-    if(a.m_nodeA.next) {
-      a.m_nodeA.next.prev = a.m_nodeA.prev
+    if(a.Hb.next) {
+      a.Hb.next.La = a.Hb.La
     }
-    if(a.m_nodeA == b.m_contactList) {
-      b.m_contactList = a.m_nodeA.next
+    if(a.Hb == c.za) {
+      c.za = a.Hb.next
     }
-    if(a.m_nodeB.prev) {
-      a.m_nodeB.prev.next = a.m_nodeB.next
+    if(a.Ib.La) {
+      a.Ib.La.next = a.Ib.next
     }
-    if(a.m_nodeB.next) {
-      a.m_nodeB.next.prev = a.m_nodeB.prev
+    if(a.Ib.next) {
+      a.Ib.next.La = a.Ib.La
     }
-    if(a.m_nodeB == e.m_contactList) {
-      e.m_contactList = a.m_nodeB.next
+    if(a.Ib == b.za) {
+      b.za = a.Ib.next
     }
-    this.m_contactFactory.Destroy(a);
-    --this.m_contactCount
+    this.om.nb(a);
+    --this.Xc
   };
-  w.prototype.Collide = function() {
-    for(var a = this.m_world.m_contactList;a;) {
-      var b = a.GetFixtureA(), e = a.GetFixtureB(), d = b.GetBody(), f = e.GetBody();
-      if(d.IsAwake() == !1 && f.IsAwake() == !1) {
-        a = a.GetNext()
+  x.prototype.$m = function() {
+    for(var a = this.zb.za;a;) {
+      var c = a.fa, b = a.ha, d = c.M, e = b.M;
+      if(d.gb == !1 && e.gb == !1) {
+        a = a.L
       }else {
-        if(a.IsFiltering()) {
-          if(f.ShouldCollide(d) == !1) {
-            b = a;
-            a = b.GetNext();
-            this.Destroy(b);
+        if(a.Xj) {
+          if(e.fd(d) == !1) {
+            c = a;
+            a = c.L;
+            this.nb(c);
             continue
           }
-          if(this.m_contactFilter.ShouldCollide(b, e) == !1) {
-            b = a;
-            a = b.GetNext();
-            this.Destroy(b);
+          if(this.ek.fd(c, b) == !1) {
+            c = a;
+            a = c.L;
+            this.nb(c);
             continue
           }
-          a.ClearFiltering()
+          a.Ym()
         }
-        this.m_broadPhase.TestOverlap(b.m_proxy, e.m_proxy) == !1 ? (b = a, a = b.GetNext(), this.Destroy(b)) : (a.Update(this.m_contactListener), a = a.GetNext())
+        this.jf.ie(c.ye, b.ye) == !1 ? (c = a, a = c.L, this.nb(c)) : (a.vl(this.bg), a = a.L)
       }
     }
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.b2ContactManager.s_evalCP = new h
+  P.Wa.push(function() {
+    P.c.Re.qr = new h
   });
-  I.b2DestructionListener = function() {
+  w.Gj = q();
+  z.Ij = function() {
+    this.mh = 1;
+    this.Eh = 65535;
+    this.ef = 0
   };
-  I.prototype.SayGoodbyeJoint = function() {
-  };
-  I.prototype.SayGoodbyeFixture = function() {
-  };
-  A.b2FilterData = function() {
-    this.categoryBits = 1;
-    this.maskBits = 65535;
-    this.groupIndex = 0
-  };
-  A.prototype.Copy = function() {
-    var a = new A;
-    a.categoryBits = this.categoryBits;
-    a.maskBits = this.maskBits;
-    a.groupIndex = this.groupIndex;
+  z.prototype.mb = function() {
+    var a = new z;
+    a.mh = this.mh;
+    a.Eh = this.Eh;
+    a.ef = this.ef;
     return a
   };
-  y.b2Fixture = function() {
-    this.m_filter = new A
+  C.Rg = function() {
+    this.qm = new z
   };
-  y.prototype.GetType = function() {
-    return this.m_shape.GetType()
+  C.prototype.la = function() {
+    return this.Ga.la()
   };
-  y.prototype.GetShape = function() {
-    return this.m_shape
+  C.prototype.vd = u("Ep");
+  C.prototype.bl = function() {
+    return this.qm.mb()
   };
-  y.prototype.SetSensor = function(a) {
-    if(this.m_isSensor != a && (this.m_isSensor = a, this.m_body != null)) {
-      for(a = this.m_body.GetContactList();a;) {
-        var b = a.contact, e = b.GetFixtureA(), d = b.GetFixtureB();
-        if(e == this || d == this) {
-          b.SetSensor(e.IsSensor() || d.IsSensor())
-        }
-        a = a.next
-      }
-    }
-  };
-  y.prototype.IsSensor = function() {
-    return this.m_isSensor
-  };
-  y.prototype.SetFilterData = function(a) {
-    this.m_filter = a.Copy();
-    if(!this.m_body) {
-      for(a = this.m_body.GetContactList();a;) {
-        var b = a.contact, e = b.GetFixtureA(), d = b.GetFixtureB();
-        (e == this || d == this) && b.FlagForFiltering();
-        a = a.next
-      }
-    }
-  };
-  y.prototype.GetFilterData = function() {
-    return this.m_filter.Copy()
-  };
-  y.prototype.GetBody = function() {
-    return this.m_body
-  };
-  y.prototype.GetNext = function() {
-    return this.m_next
-  };
-  y.prototype.GetUserData = function() {
-    return this.m_userData
-  };
-  y.prototype.SetUserData = function(a) {
-    this.m_userData = a
-  };
-  y.prototype.TestPoint = function(a) {
-    return this.m_shape.TestPoint(this.m_body.GetTransform(), a)
-  };
-  y.prototype.RayCast = function(a, b) {
-    return this.m_shape.RayCast(a, b, this.m_body.GetTransform())
-  };
-  y.prototype.GetMassData = function(a) {
-    a === void 0 && (a = null);
-    a == null && (a = new l);
-    this.m_shape.ComputeMass(a, this.m_density);
+  C.prototype.Ie = u("ig");
+  C.prototype.el = function(a) {
+    a === f && (a = p);
+    a == p && (a = new j);
+    this.Ga.wg(a, this.Ci);
     return a
   };
-  y.prototype.SetDensity = function(a) {
-    a === void 0 && (a = 0);
-    this.m_density = a
+  C.prototype.Rg = function() {
+    this.te = new b;
+    this.Ga = this.L = this.M = this.ig = p;
+    this.rk = this.ik = this.Ci = 0
   };
-  y.prototype.GetDensity = function() {
-    return this.m_density
+  C.prototype.Rb = function(a, c, b) {
+    this.ig = b.Fe;
+    this.ik = b.Hc;
+    this.rk = b.ae;
+    this.M = a;
+    this.L = p;
+    this.qm = b.filter.mb();
+    this.Ep = b.yi;
+    this.Ga = b.shape.mb();
+    this.Ci = b.bf
   };
-  y.prototype.GetFriction = function() {
-    return this.m_friction
+  C.prototype.nb = function() {
+    this.Ga = p
   };
-  y.prototype.SetFriction = function(a) {
-    a === void 0 && (a = 0);
-    this.m_friction = a
+  C.prototype.yg = function(a, c) {
+    this.Ga.Df(this.te, c);
+    this.ye = a.yg(this.te, this)
   };
-  y.prototype.GetRestitution = function() {
-    return this.m_restitution
-  };
-  y.prototype.SetRestitution = function(a) {
-    a === void 0 && (a = 0);
-    this.m_restitution = a
-  };
-  y.prototype.GetAABB = function() {
-    return this.m_aabb
-  };
-  y.prototype.b2Fixture = function() {
-    this.m_aabb = new g;
-    this.m_shape = this.m_next = this.m_body = this.m_userData = null;
-    this.m_restitution = this.m_friction = this.m_density = 0
-  };
-  y.prototype.Create = function(a, b, e) {
-    this.m_userData = e.userData;
-    this.m_friction = e.friction;
-    this.m_restitution = e.restitution;
-    this.m_body = a;
-    this.m_next = null;
-    this.m_filter = e.filter.Copy();
-    this.m_isSensor = e.isSensor;
-    this.m_shape = e.shape.Copy();
-    this.m_density = e.density
-  };
-  y.prototype.Destroy = function() {
-    this.m_shape = null
-  };
-  y.prototype.CreateProxy = function(a, b) {
-    this.m_shape.ComputeAABB(this.m_aabb, b);
-    this.m_proxy = a.CreateProxy(this.m_aabb, this)
-  };
-  y.prototype.DestroyProxy = function(a) {
-    if(this.m_proxy != null) {
-      a.DestroyProxy(this.m_proxy), this.m_proxy = null
+  C.prototype.Ag = function(a) {
+    if(this.ye != p) {
+      a.Ag(this.ye), this.ye = p
     }
   };
-  y.prototype.Synchronize = function(b, e, d) {
-    if(this.m_proxy) {
-      var f = new g, h = new g;
-      this.m_shape.ComputeAABB(f, e);
-      this.m_shape.ComputeAABB(h, d);
-      this.m_aabb.Combine(f, h);
-      e = a.SubtractVV(d.position, e.position);
-      b.MoveProxy(this.m_proxy, this.m_aabb, e)
+  C.prototype.sl = function(c, d, e) {
+    if(this.ye) {
+      var g = new b, h = new b;
+      this.Ga.Df(g, d);
+      this.Ga.Df(h, e);
+      this.te.Cf(g, h);
+      d = a.Pa(e.position, d.position);
+      c.hj(this.ye, this.te, d)
     }
   };
-  x.b2FixtureDef = function() {
-    this.filter = new A
+  v.Mf = function() {
+    this.filter = new z
   };
-  x.prototype.b2FixtureDef = function() {
-    this.userData = this.shape = null;
-    this.friction = 0.2;
-    this.density = this.restitution = 0;
-    this.filter.categoryBits = 1;
-    this.filter.maskBits = 65535;
-    this.filter.groupIndex = 0;
-    this.isSensor = !1
+  v.prototype.Mf = function() {
+    this.Fe = this.shape = p;
+    this.Hc = 0.2;
+    this.bf = this.ae = 0;
+    this.filter.mh = 1;
+    this.filter.Eh = 65535;
+    this.filter.ef = 0;
+    this.yi = !1
   };
-  F.b2Island = function() {
+  I.Ue = q();
+  I.prototype.Ue = function() {
+    this.fc = [];
+    this.ve = [];
+    this.pd = []
   };
-  F.prototype.b2Island = function() {
-    this.m_bodies = [];
-    this.m_contacts = [];
-    this.m_joints = []
-  };
-  F.prototype.Initialize = function(a, b, e, d, f) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    e === void 0 && (e = 0);
+  I.prototype.$a = function(a, c, b, d, e) {
+    a === f && (a = 0);
+    c === f && (c = 0);
+    b === f && (b = 0);
     var g = 0;
-    this.m_bodyCapacity = a;
-    this.m_contactCapacity = b;
-    this.m_jointCapacity = e;
-    this.m_jointCount = this.m_contactCount = this.m_bodyCount = 0;
-    this.m_listener = d;
-    this.m_contactSolver = f;
-    for(g = this.m_bodies.length;g < a;g++) {
-      this.m_bodies[g] = null
+    this.cr = a;
+    this.up = c;
+    this.Fp = b;
+    this.hc = this.Xc = this.Lb = 0;
+    this.um = d;
+    this.kf = e;
+    for(g = this.fc.length;g < a;g++) {
+      this.fc[g] = p
     }
-    for(g = this.m_contacts.length;g < b;g++) {
-      this.m_contacts[g] = null
+    for(g = this.ve.length;g < c;g++) {
+      this.ve[g] = p
     }
-    for(g = this.m_joints.length;g < e;g++) {
-      this.m_joints[g] = null
+    for(g = this.pd.length;g < b;g++) {
+      this.pd[g] = p
     }
   };
-  F.prototype.Clear = function() {
-    this.m_jointCount = this.m_contactCount = this.m_bodyCount = 0
+  I.prototype.Si = function() {
+    this.hc = this.Xc = this.Lb = 0
   };
-  F.prototype.Solve = function(b, d, f) {
-    for(var g = 0, h = 0, j, g = 0;g < this.m_bodyCount;++g) {
-      h = this.m_bodies[g], h.GetType() == k.b2_dynamicBody && (h.m_linearVelocity.x += b.dt * (d.x + h.m_invMass * h.m_force.x), h.m_linearVelocity.y += b.dt * (d.y + h.m_invMass * h.m_force.y), h.m_angularVelocity += b.dt * h.m_invI * h.m_torque, h.m_linearVelocity.Multiply(a.Clamp(1 - b.dt * h.m_linearDamping, 0, 1)), h.m_angularVelocity *= a.Clamp(1 - b.dt * h.m_angularDamping, 0, 1))
+  I.prototype.Me = function(b, d, e) {
+    for(var g = 0, h = 0, i, g = 0;g < this.Lb;++g) {
+      h = this.fc[g], h.la() == k.Eb && (h.m.x += b.da * (d.x + h.r * h.mf.x), h.m.y += b.da * (d.y + h.r * h.mf.y), h.w += b.da * h.C * h.Dh, h.m.Vb(a.xa(1 - b.da * h.Hp, 0, 1)), h.w *= a.xa(1 - b.da * h.tp, 0, 1))
     }
-    this.m_contactSolver.Initialize(b, this.m_contacts, this.m_contactCount);
-    d = this.m_contactSolver;
-    d.InitVelocityConstraints(b);
-    for(g = 0;g < this.m_jointCount;++g) {
-      j = this.m_joints[g], j.InitVelocityConstraints(b)
+    this.kf.$a(b, this.ve, this.Xc);
+    d = this.kf;
+    d.Bc(b);
+    for(g = 0;g < this.hc;++g) {
+      i = this.pd[g], i.Bc(b)
     }
-    for(g = 0;g < b.velocityIterations;++g) {
-      for(h = 0;h < this.m_jointCount;++h) {
-        j = this.m_joints[h], j.SolveVelocityConstraints(b)
+    for(g = 0;g < b.tg;++g) {
+      for(h = 0;h < this.hc;++h) {
+        i = this.pd[h], i.pc(b)
       }
-      d.SolveVelocityConstraints()
+      d.pc()
     }
-    for(g = 0;g < this.m_jointCount;++g) {
-      j = this.m_joints[g], j.FinalizeVelocityConstraints()
+    for(g = 0;g < this.hc;++g) {
+      i = this.pd[g], i.Xi()
     }
-    d.FinalizeVelocityConstraints();
-    for(g = 0;g < this.m_bodyCount;++g) {
-      if(h = this.m_bodies[g], h.GetType() != k.b2_staticBody) {
-        var p = b.dt * h.m_linearVelocity.x, r = b.dt * h.m_linearVelocity.y;
-        p * p + r * r > e.b2_maxTranslationSquared && (h.m_linearVelocity.Normalize(), h.m_linearVelocity.x *= e.b2_maxTranslation * b.inv_dt, h.m_linearVelocity.y *= e.b2_maxTranslation * b.inv_dt);
-        p = b.dt * h.m_angularVelocity;
-        if(p * p > e.b2_maxRotationSquared) {
-          h.m_angularVelocity = h.m_angularVelocity < 0 ? -e.b2_maxRotation * b.inv_dt : e.b2_maxRotation * b.inv_dt
+    d.Xi();
+    for(g = 0;g < this.Lb;++g) {
+      if(h = this.fc[g], h.la() != k.vc) {
+        var t = b.da * h.m.x, r = b.da * h.m.y;
+        t * t + r * r > c.Jl && (h.m.dc(), h.m.x *= c.Vf * b.Wc, h.m.y *= c.Vf * b.Wc);
+        t = b.da * h.w;
+        if(t * t > c.Il) {
+          h.w = h.w < 0 ? -c.Uf * b.Wc : c.Uf * b.Wc
         }
-        h.m_sweep.c0.SetV(h.m_sweep.c);
-        h.m_sweep.a0 = h.m_sweep.a;
-        h.m_sweep.c.x += b.dt * h.m_linearVelocity.x;
-        h.m_sweep.c.y += b.dt * h.m_linearVelocity.y;
-        h.m_sweep.a += b.dt * h.m_angularVelocity;
-        h.SynchronizeTransform()
+        h.e.vb.p(h.e.k);
+        h.e.Qc = h.e.z;
+        h.e.k.x += b.da * h.m.x;
+        h.e.k.y += b.da * h.m.y;
+        h.e.z += b.da * h.w;
+        h.Qa()
       }
     }
-    for(g = 0;g < b.positionIterations;++g) {
-      p = d.SolvePositionConstraints(e.b2_contactBaumgarte);
+    for(g = 0;g < b.lg;++g) {
+      t = d.oc(c.Nj);
       r = !0;
-      for(h = 0;h < this.m_jointCount;++h) {
-        j = this.m_joints[h], j = j.SolvePositionConstraints(e.b2_contactBaumgarte), r = r && j
+      for(h = 0;h < this.hc;++h) {
+        i = this.pd[h], i = i.oc(c.Nj), r = r && i
       }
-      if(p && r) {
+      if(t && r) {
         break
       }
     }
-    this.Report(d.m_constraints);
-    if(f) {
-      f = Number.MAX_VALUE;
-      d = e.b2_linearSleepTolerance * e.b2_linearSleepTolerance;
-      p = e.b2_angularSleepTolerance * e.b2_angularSleepTolerance;
-      for(g = 0;g < this.m_bodyCount;++g) {
-        if(h = this.m_bodies[g], h.GetType() != k.b2_staticBody) {
-          !h.m_allowSleep || h.m_angularVelocity * h.m_angularVelocity > p || a.Dot(h.m_linearVelocity, h.m_linearVelocity) > d ? f = h.m_sleepTime = 0 : (h.m_sleepTime += b.dt, f = a.Min(f, h.m_sleepTime))
+    this.pl(d.Ad);
+    if(e) {
+      e = Number.MAX_VALUE;
+      d = c.Hl * c.Hl;
+      t = c.Fl * c.Fl;
+      for(g = 0;g < this.Lb;++g) {
+        if(h = this.fc[g], h.la() != k.vc) {
+          !h.ck || h.w * h.w > t || a.Bb(h.m, h.m) > d ? e = h.Gi = 0 : (h.Gi += b.da, e = a.Je(e, h.Gi))
         }
       }
-      if(f >= e.b2_timeToSleep) {
-        for(g = 0;g < this.m_bodyCount;++g) {
-          h = this.m_bodies[g], h.SetAwake(!1)
+      if(e >= c.Ao) {
+        for(g = 0;g < this.Lb;++g) {
+          h = this.fc[g], h.nc(!1)
         }
       }
     }
   };
-  F.prototype.SolveTOI = function(a) {
+  I.prototype.qj = function(a) {
     var b = 0, d = 0;
-    this.m_contactSolver.Initialize(a, this.m_contacts, this.m_contactCount);
-    for(var f = this.m_contactSolver, b = 0;b < this.m_jointCount;++b) {
-      this.m_joints[b].InitVelocityConstraints(a)
+    this.kf.$a(a, this.ve, this.Xc);
+    for(var e = this.kf, b = 0;b < this.hc;++b) {
+      this.pd[b].Bc(a)
     }
-    for(b = 0;b < a.velocityIterations;++b) {
-      f.SolveVelocityConstraints();
-      for(d = 0;d < this.m_jointCount;++d) {
-        this.m_joints[d].SolveVelocityConstraints(a)
+    for(b = 0;b < a.tg;++b) {
+      e.pc();
+      for(d = 0;d < this.hc;++d) {
+        this.pd[d].pc(a)
       }
     }
-    for(b = 0;b < this.m_bodyCount;++b) {
-      if(d = this.m_bodies[b], d.GetType() != k.b2_staticBody) {
-        var g = a.dt * d.m_linearVelocity.x, h = a.dt * d.m_linearVelocity.y;
-        g * g + h * h > e.b2_maxTranslationSquared && (d.m_linearVelocity.Normalize(), d.m_linearVelocity.x *= e.b2_maxTranslation * a.inv_dt, d.m_linearVelocity.y *= e.b2_maxTranslation * a.inv_dt);
-        g = a.dt * d.m_angularVelocity;
-        if(g * g > e.b2_maxRotationSquared) {
-          d.m_angularVelocity = d.m_angularVelocity < 0 ? -e.b2_maxRotation * a.inv_dt : e.b2_maxRotation * a.inv_dt
+    for(b = 0;b < this.Lb;++b) {
+      if(d = this.fc[b], d.la() != k.vc) {
+        var g = a.da * d.m.x, h = a.da * d.m.y;
+        g * g + h * h > c.Jl && (d.m.dc(), d.m.x *= c.Vf * a.Wc, d.m.y *= c.Vf * a.Wc);
+        g = a.da * d.w;
+        if(g * g > c.Il) {
+          d.w = d.w < 0 ? -c.Uf * a.Wc : c.Uf * a.Wc
         }
-        d.m_sweep.c0.SetV(d.m_sweep.c);
-        d.m_sweep.a0 = d.m_sweep.a;
-        d.m_sweep.c.x += a.dt * d.m_linearVelocity.x;
-        d.m_sweep.c.y += a.dt * d.m_linearVelocity.y;
-        d.m_sweep.a += a.dt * d.m_angularVelocity;
-        d.SynchronizeTransform()
+        d.e.vb.p(d.e.k);
+        d.e.Qc = d.e.z;
+        d.e.k.x += a.da * d.m.x;
+        d.e.k.y += a.da * d.m.y;
+        d.e.z += a.da * d.w;
+        d.Qa()
       }
     }
-    for(b = 0;b < a.positionIterations;++b) {
-      g = f.SolvePositionConstraints(0.75);
+    for(b = 0;b < a.lg;++b) {
+      g = e.oc(0.75);
       h = !0;
-      for(d = 0;d < this.m_jointCount;++d) {
-        var p = this.m_joints[d].SolvePositionConstraints(e.b2_contactBaumgarte), h = h && p
+      for(d = 0;d < this.hc;++d) {
+        var t = this.pd[d].oc(c.Nj), h = h && t
       }
       if(g && h) {
         break
       }
     }
-    this.Report(f.m_constraints)
+    this.pl(e.Ad)
   };
-  F.prototype.Report = function(a) {
-    if(this.m_listener != null) {
-      for(var b = 0;b < this.m_contactCount;++b) {
-        for(var e = this.m_contacts[b], d = a[b], f = 0;f < d.pointCount;++f) {
-          F.s_impulse.normalImpulses[f] = d.points[f].normalImpulse, F.s_impulse.tangentImpulses[f] = d.points[f].tangentImpulse
+  I.prototype.pl = function(a) {
+    if(this.um != p) {
+      for(var c = 0;c < this.Xc;++c) {
+        for(var b = this.ve[c], d = a[c], e = 0;e < d.Kc;++e) {
+          I.Hk.aq[e] = d.Pb[e].sb, I.Hk.lq[e] = d.Pb[e].be
         }
-        this.m_listener.PostSolve(e, F.s_impulse)
+        this.um.Gg(b, I.Hk)
       }
     }
   };
-  F.prototype.AddBody = function(a) {
-    a.m_islandIndex = this.m_bodyCount;
-    this.m_bodies[this.m_bodyCount++] = a
+  I.prototype.Ri = function(a) {
+    a.er = this.Lb;
+    this.fc[this.Lb++] = a
   };
-  F.prototype.AddContact = function(a) {
-    this.m_contacts[this.m_contactCount++] = a
+  I.prototype.Pk = function(a) {
+    this.ve[this.Xc++] = a
   };
-  F.prototype.AddJoint = function(a) {
-    this.m_joints[this.m_jointCount++] = a
+  I.prototype.Qk = function(a) {
+    this.pd[this.hc++] = a
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.b2Island.s_impulse = new s
+  P.Wa.push(function() {
+    P.c.Ue.Hk = new s
   });
-  E.b2TimeStep = function() {
-  };
-  E.prototype.Set = function(a) {
-    this.dt = a.dt;
-    this.inv_dt = a.inv_dt;
-    this.positionIterations = a.positionIterations;
-    this.velocityIterations = a.velocityIterations;
-    this.warmStarting = a.warmStarting
+  L.Rf = q();
+  L.prototype.s = function(a) {
+    this.da = a.da;
+    this.Wc = a.Wc;
+    this.lg = a.lg;
+    this.tg = a.tg;
+    this.bd = a.bd
   }
 })();
 (function() {
-  var a = Box2D.Collision.Shapes.b2CircleShape, d = Box2D.Collision.Shapes.b2EdgeShape, b = Box2D.Collision.Shapes.b2PolygonShape, f = Box2D.Collision.Shapes.b2Shape, e = Box2D.Dynamics.Contacts.b2ContactConstraint, g = Box2D.Dynamics.Contacts.b2ContactResult, h = Box2D.Dynamics.Contacts.b2ContactSolver, j = Box2D.Dynamics.Contacts.b2EdgeAndCircleContact, l = Box2D.Dynamics.Contacts.b2NullContact, k = Box2D.Dynamics.Contacts.b2PolyAndCircleContact, o = Box2D.Dynamics.Contacts.b2PolyAndEdgeContact, 
-  m = Box2D.Dynamics.Contacts.b2PolygonContact, s = Box2D.Dynamics.Contacts.b2PositionSolverManifold, q = Box2D.Dynamics.b2TimeStep, w = Box2D.Common.b2Settings, I = Box2D.Common.Math.b2Math, A = Box2D.Common.Math.b2Vec2, y = Box2D.Collision.b2Collision, x = Box2D.Collision.b2ContactID, F = Box2D.Collision.b2Manifold, E = Box2D.Collision.b2WorldManifold;
-  Box2D.Dynamics.Contacts.b2ContactRegister.b2ContactRegister = function() {
+  var a = P.i.H.Cc, g = P.i.H.ec, e = P.i.H.O, d = P.c.D.Lg, c = P.c.D.Ej, b = P.c.D.me, h = P.c.D.Qg, i = P.c.D.ah, j = P.c.D.bh, k = P.c.D.dh, m = P.c.D.eh, l = P.c.D.We, s = P.c.Rf, n = P.a.$, x = P.a.f.Xa, w = P.a.f.g, z = P.i.Wb, C = P.i.Qe, v = P.i.pb, I = P.i.gd;
+  P.c.D.bi.bi = q();
+  c.Ej = function() {
+    this.position = new w;
+    this.kb = new w;
+    this.id = new C
   };
-  g.b2ContactResult = function() {
-    this.position = new A;
-    this.normal = new A;
-    this.id = new x
+  b.me = function() {
+    this.Np = new s;
+    this.Ad = []
   };
-  h.b2ContactSolver = function() {
-    this.m_step = new q;
-    this.m_constraints = []
-  };
-  h.prototype.b2ContactSolver = function() {
-  };
-  h.prototype.Initialize = function(a, b, d) {
-    d === void 0 && (d = 0);
-    var f;
-    this.m_step.Set(a);
+  b.prototype.me = q();
+  b.prototype.$a = function(a, c, e) {
+    e === f && (e = 0);
+    var g;
+    this.Np.s(a);
     a = 0;
-    for(this.m_constraintCount = d;this.m_constraints.length < this.m_constraintCount;) {
-      this.m_constraints[this.m_constraints.length] = new e
+    for(this.uh = e;this.Ad.length < this.uh;) {
+      this.Ad[this.Ad.length] = new d
     }
-    for(a = 0;a < d;++a) {
-      f = b[a];
-      var g = f.m_fixtureA, j = f.m_fixtureB, k = g.m_shape.m_radius, p = j.m_shape.m_radius, r = g.m_body, v = j.m_body, H = f.GetManifold(), K = w.b2MixFriction(g.GetFriction(), j.GetFriction()), q = w.b2MixRestitution(g.GetRestitution(), j.GetRestitution()), C = r.m_linearVelocity.x, B = r.m_linearVelocity.y, u = v.m_linearVelocity.x, L = v.m_linearVelocity.y, m = r.m_angularVelocity, l = v.m_angularVelocity;
-      w.b2Assert(H.m_pointCount > 0);
-      h.s_worldManifold.Initialize(H, r.m_xf, k, v.m_xf, p);
-      j = h.s_worldManifold.m_normal.x;
-      f = h.s_worldManifold.m_normal.y;
-      g = this.m_constraints[a];
-      g.bodyA = r;
-      g.bodyB = v;
-      g.manifold = H;
-      g.normal.x = j;
-      g.normal.y = f;
-      g.pointCount = H.m_pointCount;
-      g.friction = K;
-      g.restitution = q;
-      g.localPlaneNormal.x = H.m_localPlaneNormal.x;
-      g.localPlaneNormal.y = H.m_localPlaneNormal.y;
-      g.localPoint.x = H.m_localPoint.x;
-      g.localPoint.y = H.m_localPoint.y;
-      g.radius = k + p;
-      g.type = H.m_type;
-      for(k = 0;k < g.pointCount;++k) {
-        K = H.m_points[k];
-        p = g.points[k];
-        p.normalImpulse = K.m_normalImpulse;
-        p.tangentImpulse = K.m_tangentImpulse;
-        p.localPoint.SetV(K.m_localPoint);
-        var K = p.rA.x = h.s_worldManifold.m_points[k].x - r.m_sweep.c.x, q = p.rA.y = h.s_worldManifold.m_points[k].y - r.m_sweep.c.y, s = p.rB.x = h.s_worldManifold.m_points[k].x - v.m_sweep.c.x, o = p.rB.y = h.s_worldManifold.m_points[k].y - v.m_sweep.c.y, z = K * f - q * j, x = s * f - o * j;
-        z *= z;
-        x *= x;
-        p.normalMass = 1 / (r.m_invMass + v.m_invMass + r.m_invI * z + v.m_invI * x);
-        var y = r.m_mass * r.m_invMass + v.m_mass * v.m_invMass;
-        y += r.m_mass * r.m_invI * z + v.m_mass * v.m_invI * x;
-        p.equalizedMass = 1 / y;
-        x = f;
-        y = -j;
-        z = K * y - q * x;
-        x = s * y - o * x;
-        z *= z;
-        x *= x;
-        p.tangentMass = 1 / (r.m_invMass + v.m_invMass + r.m_invI * z + v.m_invI * x);
-        p.velocityBias = 0;
-        K = g.normal.x * (u + -l * o - C - -m * q) + g.normal.y * (L + l * s - B - m * K);
-        K < -w.b2_velocityThreshold && (p.velocityBias += -g.restitution * K)
+    for(a = 0;a < e;++a) {
+      g = c[a];
+      var h = g.fa, i = g.ha, j = h.Ga.ba, l = i.Ga.ba, t = h.M, r = i.M, y = g.xc, G = n.to(h.ik, i.ik), k = n.uo(h.rk, i.rk), S = t.m.x, H = t.m.y, E = r.m.x, N = r.m.y, V = t.w, s = r.w;
+      n.Ra(y.Za > 0);
+      b.yf.$a(y, t.n, j, r.n, l);
+      i = b.yf.W.x;
+      g = b.yf.W.y;
+      h = this.Ad[a];
+      h.ma = t;
+      h.qa = r;
+      h.Pp = y;
+      h.kb.x = i;
+      h.kb.y = g;
+      h.Kc = y.Za;
+      h.Hc = G;
+      h.ae = k;
+      h.zi.x = y.yb.x;
+      h.zi.y = y.yb.y;
+      h.yd.x = y.ia.x;
+      h.yd.y = y.ia.y;
+      h.Ck = j + l;
+      h.type = y.ca;
+      for(j = 0;j < h.Kc;++j) {
+        G = y.aa[j];
+        l = h.Pb[j];
+        l.sb = G.pf;
+        l.be = G.tf;
+        l.yd.p(G.ia);
+        var G = l.oa.x = b.yf.aa[j].x - t.e.k.x, k = l.oa.y = b.yf.aa[j].y - t.e.k.y, m = l.pa.x = b.yf.aa[j].x - r.e.k.x, x = l.pa.y = b.yf.aa[j].y - r.e.k.y, A = G * g - k * i, w = m * g - x * i;
+        A *= A;
+        w *= w;
+        l.kg = 1 / (t.r + r.r + t.C * A + r.C * w);
+        var v = t.A * t.r + r.A * r.r;
+        v += t.A * t.C * A + r.A * r.C * w;
+        l.Xo = 1 / v;
+        w = g;
+        v = -i;
+        A = G * v - k * w;
+        w = m * v - x * w;
+        A *= A;
+        w *= w;
+        l.mq = 1 / (t.r + r.r + t.C * A + r.C * w);
+        l.Qi = 0;
+        G = h.kb.x * (E + -s * x - S - -V * k) + h.kb.y * (N + s * m - H - V * G);
+        G < -n.Eo && (l.Qi += -h.ae * G)
       }
-      if(g.pointCount == 2) {
-        L = g.points[0], u = g.points[1], H = r.m_invMass, r = r.m_invI, C = v.m_invMass, v = v.m_invI, B = L.rA.x * f - L.rA.y * j, L = L.rB.x * f - L.rB.y * j, m = u.rA.x * f - u.rA.y * j, u = u.rB.x * f - u.rB.y * j, j = H + C + r * B * B + v * L * L, f = H + C + r * m * m + v * u * u, v = H + C + r * B * m + v * L * u, j * j < 100 * (j * f - v * v) ? (g.K.col1.Set(j, v), g.K.col2.Set(v, f), g.K.GetInverse(g.normalMass)) : g.pointCount = 1
+      if(h.Kc == 2) {
+        N = h.Pb[0], E = h.Pb[1], y = t.r, t = t.C, S = r.r, r = r.C, H = N.oa.x * g - N.oa.y * i, N = N.pa.x * g - N.pa.y * i, V = E.oa.x * g - E.oa.y * i, E = E.pa.x * g - E.pa.y * i, i = y + S + t * H * H + r * N * N, g = y + S + t * V * V + r * E * E, r = y + S + t * H * V + r * N * E, i * i < 100 * (i * g - r * r) ? (h.Kb.b.s(i, r), h.Kb.d.s(r, g), h.Kb.$i(h.kg)) : h.Kc = 1
       }
     }
   };
-  h.prototype.InitVelocityConstraints = function(a) {
-    for(var b = 0;b < this.m_constraintCount;++b) {
-      var e = this.m_constraints[b], d = e.bodyA, f = e.bodyB, g = d.m_invMass, h = d.m_invI, p = f.m_invMass, r = f.m_invI, v = e.normal.x, j = e.normal.y, k = j, q = -v, C = 0, B = 0;
-      if(a.warmStarting) {
-        B = e.pointCount;
-        for(C = 0;C < B;++C) {
-          var u = e.points[C];
-          u.normalImpulse *= a.dtRatio;
-          u.tangentImpulse *= a.dtRatio;
-          var L = u.normalImpulse * v + u.tangentImpulse * k, m = u.normalImpulse * j + u.tangentImpulse * q;
-          d.m_angularVelocity -= h * (u.rA.x * m - u.rA.y * L);
-          d.m_linearVelocity.x -= g * L;
-          d.m_linearVelocity.y -= g * m;
-          f.m_angularVelocity += r * (u.rB.x * m - u.rB.y * L);
-          f.m_linearVelocity.x += p * L;
-          f.m_linearVelocity.y += p * m
+  b.prototype.Bc = function(a) {
+    for(var c = 0;c < this.uh;++c) {
+      var b = this.Ad[c], d = b.ma, e = b.qa, g = d.r, h = d.C, i = e.r, t = e.C, r = b.kb.x, y = b.kb.y, G = y, n = -r, j = 0, H = 0;
+      if(a.bd) {
+        H = b.Kc;
+        for(j = 0;j < H;++j) {
+          var E = b.Pb[j];
+          E.sb *= a.Ya;
+          E.be *= a.Ya;
+          var N = E.sb * r + E.be * G, l = E.sb * y + E.be * n;
+          d.w -= h * (E.oa.x * l - E.oa.y * N);
+          d.m.x -= g * N;
+          d.m.y -= g * l;
+          e.w += t * (E.pa.x * l - E.pa.y * N);
+          e.m.x += i * N;
+          e.m.y += i * l
         }
       }else {
-        B = e.pointCount;
-        for(C = 0;C < B;++C) {
-          d = e.points[C], d.normalImpulse = 0, d.tangentImpulse = 0
+        H = b.Kc;
+        for(j = 0;j < H;++j) {
+          d = b.Pb[j], d.sb = 0, d.be = 0
         }
       }
     }
   };
-  h.prototype._SVCA = function(a, b, e, d, f, g, h, p, r, v, j, k, q, C) {
-    var b = a - b, B = e - d, d = b * f;
-    b *= g;
-    f *= B;
-    g *= B;
-    q.x -= h * (d + f);
-    q.y -= h * (b + g);
-    h = -r * (j.rA.x * b - j.rA.y * d + k.rA.x * g - k.rA.y * f);
-    C.x += p * (d + f);
-    C.y += p * (b + g);
-    p = v * (j.rB.x * b - j.rB.y * d + k.rB.x * g - k.rB.y * f);
-    j.normalImpulse = a;
-    k.normalImpulse = e;
-    return{wad:h, wbd:p}
-  };
-  h.prototype.SolveVelocityConstraints_NEW = function() {
-    for(var a = 0, b = 0, e = b = 0, d = e = 0, f = b = 0;f < this.m_constraintCount;++f) {
-      for(var a = this.m_constraints[f], g = a.bodyA, h = a.bodyB, p = g.m_angularVelocity, r = h.m_angularVelocity, v = g.m_linearVelocity, j = h.m_linearVelocity, k = g.m_invMass, q = g.m_invI, C = h.m_invMass, B = h.m_invI, u = a.normal.x, m = a.normal.y, l = m, s = -u, o = a.friction, w = 0;w < a.pointCount;w++) {
-        var z = a.points[w], b = j.x - r * z.rB.y - v.x + p * z.rA.y, e = j.y + r * z.rB.x - v.y - p * z.rA.x, b = b * l + e * s, b = z.tangentMass * -b, e = o * z.normalImpulse, e = I.Clamp(z.tangentImpulse + b, -e, e), b = e - z.tangentImpulse, d = b * l;
-        b *= s;
-        v.x -= k * d;
-        v.y -= k * b;
-        p -= q * (z.rA.x * b - z.rA.y * d);
-        j.x += C * d;
-        j.y += C * b;
-        r += B * (z.rB.x * b - z.rB.y * d);
-        z.tangentImpulse = e
+  b.prototype.pc = function() {
+    for(var a = 0, c, b = 0, d = 0, e = 0, g = d = d = b = b = 0, h = b = b = 0, i = b = e = 0, t = 0, r, y = 0;y < this.uh;++y) {
+      var e = this.Ad[y], G = e.ma, n = e.qa, j = G.w, H = n.w, E = G.m, l = n.m, k = G.r, s = G.C, m = n.r, w = n.C, i = e.kb.x, A = t = e.kb.y;
+      r = -i;
+      h = e.Hc;
+      for(a = 0;a < e.Kc;a++) {
+        c = e.Pb[a], b = l.x - H * c.pa.y - E.x + j * c.oa.y, d = l.y + H * c.pa.x - E.y - j * c.oa.x, b = b * A + d * r, b = c.mq * -b, d = h * c.sb, d = x.xa(c.be + b, -d, d), b = d - c.be, g = b * A, b *= r, E.x -= k * g, E.y -= k * b, j -= s * (c.oa.x * b - c.oa.y * g), l.x += m * g, l.y += m * b, H += w * (c.pa.x * b - c.pa.y * g), c.be = d
       }
-      a.pointCount == 1 ? (z = a.points[0], b = j.x - r * z.rB.y - v.x + p * z.rA.y, e = j.y + r * z.rB.x - v.y - p * z.rA.x, a = b * u + e * m, b = -z.normalMass * (a - z.velocityBias), e = z.normalImpulse + b, e < 0 && (e = 0), b = e - z.normalImpulse, d = b * u, b *= m, v.x -= k * d, v.y -= k * b, p -= q * (z.rA.x * b - z.rA.y * d), j.x += C * d, j.y += C * b, r += B * (z.rB.x * b - z.rB.y * d), z.normalImpulse = e) : (z = a.points[0], l = a.points[1], s = z.normalImpulse, o = l.normalImpulse, 
-      b = j.x - v.x, e = j.y - v.y, w = (b - r * z.rB.y + p * z.rA.y) * u + (e + r * z.rB.x - p * z.rA.x) * m - z.velocityBias - (a.K.col1.x * s + a.K.col2.x * o), b = (b - r * l.rB.y + p * l.rA.y) * u + (e + r * l.rB.x - p * l.rA.x) * m - l.velocityBias - (a.K.col1.y * s + a.K.col2.y * o), e = -(a.normalMass.col1.x * w + a.normalMass.col2.x * b), d = -1, e >= 0 && (d = -(a.normalMass.col1.y * w + a.normalMass.col2.y * b)), d >= 0 ? (v = this._SVCA(e, s, d, o, u, m, k, C, q, B, z, l, v, j), p += 
-      v.wad, r += v.wbd) : (e = -z.normalMass * w, d = 0, e >= 0 && a.K.col1.y * e + b >= 0 ? (v = this._SVCA(e, s, d, o, u, m, k, C, q, B, z, l, v, j), p += v.wad, r += v.wbd) : (e = 0, d = -l.normalMass * b, d >= 0 && a.K.col2.x * d + w >= 0 ? (v = this._SVCA(e, s, d, o, u, m, k, C, q, B, z, l, v, j), p += v.wad, r += v.wbd) : (d = 0, w >= 0 && b >= 0 && (v = this._SVCA(e, s, d, o, u, m, k, C, q, B, z, l, v, j), p += v.wad, r += v.wbd)))));
-      g.m_angularVelocity = p;
-      h.m_angularVelocity = r
-    }
-  };
-  h.prototype.SolveVelocityConstraints = function() {
-    for(var a = 0, b, e = 0, d = 0, f = 0, g = d = d = e = e = 0, h = e = e = 0, p = e = f = 0, r = 0, v, j = 0;j < this.m_constraintCount;++j) {
-      var f = this.m_constraints[j], k = f.bodyA, q = f.bodyB, C = k.m_angularVelocity, B = q.m_angularVelocity, u = k.m_linearVelocity, m = q.m_linearVelocity, l = k.m_invMass, s = k.m_invI, o = q.m_invMass, w = q.m_invI, p = f.normal.x, z = r = f.normal.y;
-      v = -p;
-      h = f.friction;
-      for(a = 0;a < f.pointCount;a++) {
-        b = f.points[a], e = m.x - B * b.rB.y - u.x + C * b.rA.y, d = m.y + B * b.rB.x - u.y - C * b.rA.x, e = e * z + d * v, e = b.tangentMass * -e, d = h * b.normalImpulse, d = I.Clamp(b.tangentImpulse + e, -d, d), e = d - b.tangentImpulse, g = e * z, e *= v, u.x -= l * g, u.y -= l * e, C -= s * (b.rA.x * e - b.rA.y * g), m.x += o * g, m.y += o * e, B += w * (b.rB.x * e - b.rB.y * g), b.tangentImpulse = d
-      }
-      if(f.pointCount == 1) {
-        b = f.points[0], e = m.x + -B * b.rB.y - u.x - -C * b.rA.y, d = m.y + B * b.rB.x - u.y - C * b.rA.x, f = e * p + d * r, e = -b.normalMass * (f - b.velocityBias), d = b.normalImpulse + e, d = d > 0 ? d : 0, e = d - b.normalImpulse, g = e * p, e *= r, u.x -= l * g, u.y -= l * e, C -= s * (b.rA.x * e - b.rA.y * g), m.x += o * g, m.y += o * e, B += w * (b.rB.x * e - b.rB.y * g), b.normalImpulse = d
+      if(e.Kc == 1) {
+        c = e.Pb[0], b = l.x + -H * c.pa.y - E.x - -j * c.oa.y, d = l.y + H * c.pa.x - E.y - j * c.oa.x, e = b * i + d * t, b = -c.kg * (e - c.Qi), d = c.sb + b, d = d > 0 ? d : 0, b = d - c.sb, g = b * i, b *= t, E.x -= k * g, E.y -= k * b, j -= s * (c.oa.x * b - c.oa.y * g), l.x += m * g, l.y += m * b, H += w * (c.pa.x * b - c.pa.y * g), c.sb = d
       }else {
-        b = f.points[0];
-        var a = f.points[1], e = b.normalImpulse, h = a.normalImpulse, x = (m.x - B * b.rB.y - u.x + C * b.rA.y) * p + (m.y + B * b.rB.x - u.y - C * b.rA.x) * r, y = (m.x - B * a.rB.y - u.x + C * a.rA.y) * p + (m.y + B * a.rB.x - u.y - C * a.rA.x) * r, d = x - b.velocityBias, g = y - a.velocityBias;
-        v = f.K;
-        d -= v.col1.x * e + v.col2.x * h;
-        for(g -= v.col1.y * e + v.col2.y * h;;) {
-          v = f.normalMass;
-          z = -(v.col1.x * d + v.col2.x * g);
-          v = -(v.col1.y * d + v.col2.y * g);
-          if(z >= 0 && v >= 0) {
-            e = z - e;
-            h = v - h;
-            f = e * p;
-            e *= r;
-            p *= h;
-            r *= h;
-            u.x -= l * (f + p);
-            u.y -= l * (e + r);
-            C -= s * (b.rA.x * e - b.rA.y * f + a.rA.x * r - a.rA.y * p);
-            m.x += o * (f + p);
-            m.y += o * (e + r);
-            B += w * (b.rB.x * e - b.rB.y * f + a.rB.x * r - a.rB.y * p);
-            b.normalImpulse = z;
-            a.normalImpulse = v;
+        c = e.Pb[0];
+        var a = e.Pb[1], b = c.sb, h = a.sb, v = (l.x - H * c.pa.y - E.x + j * c.oa.y) * i + (l.y + H * c.pa.x - E.y - j * c.oa.x) * t, z = (l.x - H * a.pa.y - E.x + j * a.oa.y) * i + (l.y + H * a.pa.x - E.y - j * a.oa.x) * t, d = v - c.Qi, g = z - a.Qi;
+        r = e.Kb;
+        d -= r.b.x * b + r.d.x * h;
+        for(g -= r.b.y * b + r.d.y * h;;) {
+          r = e.kg;
+          A = -(r.b.x * d + r.d.x * g);
+          r = -(r.b.y * d + r.d.y * g);
+          if(A >= 0 && r >= 0) {
+            b = A - b;
+            h = r - h;
+            e = b * i;
+            b *= t;
+            i *= h;
+            t *= h;
+            E.x -= k * (e + i);
+            E.y -= k * (b + t);
+            j -= s * (c.oa.x * b - c.oa.y * e + a.oa.x * t - a.oa.y * i);
+            l.x += m * (e + i);
+            l.y += m * (b + t);
+            H += w * (c.pa.x * b - c.pa.y * e + a.pa.x * t - a.pa.y * i);
+            c.sb = A;
+            a.sb = r;
             break
           }
-          z = -b.normalMass * d;
-          v = 0;
-          y = f.K.col1.y * z + g;
-          if(z >= 0 && y >= 0) {
-            e = z - e;
-            h = v - h;
-            f = e * p;
-            e *= r;
-            p *= h;
-            r *= h;
-            u.x -= l * (f + p);
-            u.y -= l * (e + r);
-            C -= s * (b.rA.x * e - b.rA.y * f + a.rA.x * r - a.rA.y * p);
-            m.x += o * (f + p);
-            m.y += o * (e + r);
-            B += w * (b.rB.x * e - b.rB.y * f + a.rB.x * r - a.rB.y * p);
-            b.normalImpulse = z;
-            a.normalImpulse = v;
+          A = -c.kg * d;
+          r = 0;
+          z = e.Kb.b.y * A + g;
+          if(A >= 0 && z >= 0) {
+            b = A - b;
+            h = r - h;
+            e = b * i;
+            b *= t;
+            i *= h;
+            t *= h;
+            E.x -= k * (e + i);
+            E.y -= k * (b + t);
+            j -= s * (c.oa.x * b - c.oa.y * e + a.oa.x * t - a.oa.y * i);
+            l.x += m * (e + i);
+            l.y += m * (b + t);
+            H += w * (c.pa.x * b - c.pa.y * e + a.pa.x * t - a.pa.y * i);
+            c.sb = A;
+            a.sb = r;
             break
           }
-          z = 0;
-          v = -a.normalMass * g;
-          x = f.K.col2.x * v + d;
-          if(v >= 0 && x >= 0) {
-            e = z - e;
-            h = v - h;
-            f = e * p;
-            e *= r;
-            p *= h;
-            r *= h;
-            u.x -= l * (f + p);
-            u.y -= l * (e + r);
-            C -= s * (b.rA.x * e - b.rA.y * f + a.rA.x * r - a.rA.y * p);
-            m.x += o * (f + p);
-            m.y += o * (e + r);
-            B += w * (b.rB.x * e - b.rB.y * f + a.rB.x * r - a.rB.y * p);
-            b.normalImpulse = z;
-            a.normalImpulse = v;
+          A = 0;
+          r = -a.kg * g;
+          v = e.Kb.d.x * r + d;
+          if(r >= 0 && v >= 0) {
+            b = A - b;
+            h = r - h;
+            e = b * i;
+            b *= t;
+            i *= h;
+            t *= h;
+            E.x -= k * (e + i);
+            E.y -= k * (b + t);
+            j -= s * (c.oa.x * b - c.oa.y * e + a.oa.x * t - a.oa.y * i);
+            l.x += m * (e + i);
+            l.y += m * (b + t);
+            H += w * (c.pa.x * b - c.pa.y * e + a.pa.x * t - a.pa.y * i);
+            c.sb = A;
+            a.sb = r;
             break
           }
-          v = z = 0;
-          x = d;
-          y = g;
-          if(x >= 0 && y >= 0) {
-            e = z - e;
-            h = v - h;
-            f = e * p;
-            e *= r;
-            p *= h;
-            r *= h;
-            u.x -= l * (f + p);
-            u.y -= l * (e + r);
-            C -= s * (b.rA.x * e - b.rA.y * f + a.rA.x * r - a.rA.y * p);
-            m.x += o * (f + p);
-            m.y += o * (e + r);
-            B += w * (b.rB.x * e - b.rB.y * f + a.rB.x * r - a.rB.y * p);
-            b.normalImpulse = z;
-            a.normalImpulse = v;
+          r = A = 0;
+          v = d;
+          z = g;
+          if(v >= 0 && z >= 0) {
+            b = A - b;
+            h = r - h;
+            e = b * i;
+            b *= t;
+            i *= h;
+            t *= h;
+            E.x -= k * (e + i);
+            E.y -= k * (b + t);
+            j -= s * (c.oa.x * b - c.oa.y * e + a.oa.x * t - a.oa.y * i);
+            l.x += m * (e + i);
+            l.y += m * (b + t);
+            H += w * (c.pa.x * b - c.pa.y * e + a.pa.x * t - a.pa.y * i);
+            c.sb = A;
+            a.sb = r;
             break
           }
           break
         }
       }
-      k.m_angularVelocity = C;
-      q.m_angularVelocity = B
+      G.w = j;
+      n.w = H
     }
   };
-  h.prototype.FinalizeVelocityConstraints = function() {
-    for(var a = 0;a < this.m_constraintCount;++a) {
-      for(var b = this.m_constraints[a], e = b.manifold, d = 0;d < b.pointCount;++d) {
-        var f = e.m_points[d], g = b.points[d];
-        f.m_normalImpulse = g.normalImpulse;
-        f.m_tangentImpulse = g.tangentImpulse
+  b.prototype.Xi = function() {
+    for(var a = 0;a < this.uh;++a) {
+      for(var c = this.Ad[a], b = c.Pp, d = 0;d < c.Kc;++d) {
+        var e = b.aa[d], g = c.Pb[d];
+        e.pf = g.sb;
+        e.tf = g.be
       }
     }
   };
-  h.prototype.SolvePositionConstraints = function(a) {
-    a === void 0 && (a = 0);
-    for(var b = 0, e = 0;e < this.m_constraintCount;e++) {
-      var d = this.m_constraints[e], f = d.bodyA, g = d.bodyB, j = f.m_mass * f.m_invMass, p = f.m_mass * f.m_invI, r = g.m_mass * g.m_invMass, v = g.m_mass * g.m_invI;
-      h.s_psm.Initialize(d);
-      for(var H = h.s_psm.m_normal, k = 0;k < d.pointCount;k++) {
-        var q = d.points[k], C = h.s_psm.m_points[k], B = h.s_psm.m_separations[k], u = C.x - f.m_sweep.c.x, m = C.y - f.m_sweep.c.y, l = C.x - g.m_sweep.c.x, C = C.y - g.m_sweep.c.y, b = b < B ? b : B, B = I.Clamp(a * (B + w.b2_linearSlop), -w.b2_maxLinearCorrection, 0);
-        B *= -q.equalizedMass;
-        q = B * H.x;
-        B *= H.y;
-        f.m_sweep.c.x -= j * q;
-        f.m_sweep.c.y -= j * B;
-        f.m_sweep.a -= p * (u * B - m * q);
-        f.SynchronizeTransform();
-        g.m_sweep.c.x += r * q;
-        g.m_sweep.c.y += r * B;
-        g.m_sweep.a += v * (l * B - C * q);
-        g.SynchronizeTransform()
+  b.prototype.oc = function(a) {
+    a === f && (a = 0);
+    for(var c = 0, d = 0;d < this.uh;d++) {
+      var e = this.Ad[d], g = e.ma, h = e.qa, i = g.A * g.r, j = g.A * g.C, t = h.A * h.r, r = h.A * h.C;
+      b.Ki.$a(e);
+      for(var y = b.Ki.W, G = 0;G < e.Kc;G++) {
+        var l = e.Pb[G], k = b.Ki.aa[G], H = b.Ki.Fi[G], E = k.x - g.e.k.x, N = k.y - g.e.k.y, s = k.x - h.e.k.x, k = k.y - h.e.k.y, c = c < H ? c : H, H = -l.Xo * x.xa(a * (H + n.ta), -n.uc, 0), l = H * y.x;
+        H *= y.y;
+        g.e.k.x -= i * l;
+        g.e.k.y -= i * H;
+        g.e.z -= j * (E * H - N * l);
+        g.Qa();
+        h.e.k.x += t * l;
+        h.e.k.y += t * H;
+        h.e.z += r * (s * H - k * l);
+        h.Qa()
       }
     }
-    return b > -1.5 * w.b2_linearSlop
+    return c > -1.5 * n.ta
   };
-  h.prototype.SolvePositionConstraints_NEW = function(a) {
-    a === void 0 && (a = 0);
-    for(var b = 0, e = 0;e < this.m_constraintCount;e++) {
-      var d = this.m_constraints[e], f = d.bodyA, g = d.bodyB, j = f.m_mass * f.m_invMass, p = f.m_mass * f.m_invI, r = g.m_mass * g.m_invMass, v = g.m_mass * g.m_invI;
-      h.s_psm.Initialize(d);
-      for(var H = h.s_psm.m_normal, k = 0;k < d.pointCount;k++) {
-        var q = d.points[k], C = h.s_psm.m_points[k], B = h.s_psm.m_separations[k], u = C.x - f.m_sweep.c.x, m = C.y - f.m_sweep.c.y, l = C.x - g.m_sweep.c.x, C = C.y - g.m_sweep.c.y;
-        B < b && (b = B);
-        a != 0 && I.Clamp(a * (B + w.b2_linearSlop), -w.b2_maxLinearCorrection, 0);
-        B = -q.equalizedMass * 0;
-        q = B * H.x;
-        B *= H.y;
-        f.m_sweep.c.x -= j * q;
-        f.m_sweep.c.y -= j * B;
-        f.m_sweep.a -= p * (u * B - m * q);
-        f.SynchronizeTransform();
-        g.m_sweep.c.x += r * q;
-        g.m_sweep.c.y += r * B;
-        g.m_sweep.a += v * (l * B - C * q);
-        g.SynchronizeTransform()
-      }
-    }
-    return b > -1.5 * w.b2_linearSlop
-  };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.Contacts.b2ContactSolver.s_worldManifold = new E;
-    Box2D.Dynamics.Contacts.b2ContactSolver.s_psm = new s
+  P.Wa.push(function() {
+    P.c.D.me.yf = new I;
+    P.c.D.me.Ki = new l
   });
-  Box2D.inherit(j, Box2D.Dynamics.Contacts.b2Contact);
-  j.prototype.__super = Box2D.Dynamics.Contacts.b2Contact.prototype;
-  j.b2EdgeAndCircleContact = function() {
-    Box2D.Dynamics.Contacts.b2Contact.apply(this, arguments)
+  P.ya(h, P.c.D.Sa);
+  h.prototype.I = P.c.D.Sa.prototype;
+  h.Qg = function() {
+    P.c.D.Sa.apply(this, arguments)
   };
-  j.Create = function() {
+  h.Rb = function() {
+    return new h
+  };
+  h.nb = q();
+  h.prototype.ob = function(a, c) {
+    this.I.ob.call(this, a, c)
+  };
+  h.prototype.cd = q();
+  P.ya(i, P.c.D.Sa);
+  i.prototype.I = P.c.D.Sa.prototype;
+  i.ah = function() {
+    P.c.D.Sa.apply(this, arguments)
+  };
+  i.prototype.ah = function() {
+    this.I.Sa.call(this)
+  };
+  i.prototype.cd = q();
+  P.ya(j, P.c.D.Sa);
+  j.prototype.I = P.c.D.Sa.prototype;
+  j.bh = function() {
+    P.c.D.Sa.apply(this, arguments)
+  };
+  j.Rb = function() {
     return new j
   };
-  j.Destroy = function() {
+  j.nb = q();
+  j.prototype.ob = function(a, c) {
+    this.I.ob.call(this, a, c);
+    n.Ra(a.la() == e.Pd);
+    n.Ra(c.la() == e.qe)
   };
-  j.prototype.Reset = function(a, b) {
-    this.__super.Reset.call(this, a, b)
+  j.prototype.cd = function() {
+    z.bn(this.xc, this.fa.Ga instanceof g ? this.fa.Ga : p, this.fa.M.n, this.ha.Ga instanceof a ? this.ha.Ga : p, this.ha.M.n)
   };
-  j.prototype.Evaluate = function() {
-    var b = this.m_fixtureA.GetBody(), e = this.m_fixtureB.GetBody();
-    this.b2CollideEdgeAndCircle(this.m_manifold, this.m_fixtureA.GetShape() instanceof d ? this.m_fixtureA.GetShape() : null, b.m_xf, this.m_fixtureB.GetShape() instanceof a ? this.m_fixtureB.GetShape() : null, e.m_xf)
+  P.ya(k, P.c.D.Sa);
+  k.prototype.I = P.c.D.Sa.prototype;
+  k.dh = function() {
+    P.c.D.Sa.apply(this, arguments)
   };
-  j.prototype.b2CollideEdgeAndCircle = function() {
-  };
-  Box2D.inherit(l, Box2D.Dynamics.Contacts.b2Contact);
-  l.prototype.__super = Box2D.Dynamics.Contacts.b2Contact.prototype;
-  l.b2NullContact = function() {
-    Box2D.Dynamics.Contacts.b2Contact.apply(this, arguments)
-  };
-  l.prototype.b2NullContact = function() {
-    this.__super.b2Contact.call(this)
-  };
-  l.prototype.Evaluate = function() {
-  };
-  Box2D.inherit(k, Box2D.Dynamics.Contacts.b2Contact);
-  k.prototype.__super = Box2D.Dynamics.Contacts.b2Contact.prototype;
-  k.b2PolyAndCircleContact = function() {
-    Box2D.Dynamics.Contacts.b2Contact.apply(this, arguments)
-  };
-  k.Create = function() {
+  k.Rb = function() {
     return new k
   };
-  k.Destroy = function() {
+  k.nb = q();
+  k.prototype.ob = function(a, c) {
+    this.I.ob.call(this, a, c);
+    n.Ra(a.la() == e.Pd);
+    n.Ra(c.la() == e.oh)
   };
-  k.prototype.Reset = function(a, b) {
-    this.__super.Reset.call(this, a, b);
-    w.b2Assert(a.GetType() == f.e_polygonShape);
-    w.b2Assert(b.GetType() == f.e_circleShape)
+  k.prototype.cd = q();
+  P.ya(m, P.c.D.Sa);
+  m.prototype.I = P.c.D.Sa.prototype;
+  m.eh = function() {
+    P.c.D.Sa.apply(this, arguments)
   };
-  k.prototype.Evaluate = function() {
-    var e = this.m_fixtureA.m_body, d = this.m_fixtureB.m_body;
-    y.CollidePolygonAndCircle(this.m_manifold, this.m_fixtureA.GetShape() instanceof b ? this.m_fixtureA.GetShape() : null, e.m_xf, this.m_fixtureB.GetShape() instanceof a ? this.m_fixtureB.GetShape() : null, d.m_xf)
-  };
-  Box2D.inherit(o, Box2D.Dynamics.Contacts.b2Contact);
-  o.prototype.__super = Box2D.Dynamics.Contacts.b2Contact.prototype;
-  o.b2PolyAndEdgeContact = function() {
-    Box2D.Dynamics.Contacts.b2Contact.apply(this, arguments)
-  };
-  o.Create = function() {
-    return new o
-  };
-  o.Destroy = function() {
-  };
-  o.prototype.Reset = function(a, b) {
-    this.__super.Reset.call(this, a, b);
-    w.b2Assert(a.GetType() == f.e_polygonShape);
-    w.b2Assert(b.GetType() == f.e_edgeShape)
-  };
-  o.prototype.Evaluate = function() {
-    var a = this.m_fixtureA.GetBody(), e = this.m_fixtureB.GetBody();
-    this.b2CollidePolyAndEdge(this.m_manifold, this.m_fixtureA.GetShape() instanceof b ? this.m_fixtureA.GetShape() : null, a.m_xf, this.m_fixtureB.GetShape() instanceof d ? this.m_fixtureB.GetShape() : null, e.m_xf)
-  };
-  o.prototype.b2CollidePolyAndEdge = function() {
-  };
-  Box2D.inherit(m, Box2D.Dynamics.Contacts.b2Contact);
-  m.prototype.__super = Box2D.Dynamics.Contacts.b2Contact.prototype;
-  m.b2PolygonContact = function() {
-    Box2D.Dynamics.Contacts.b2Contact.apply(this, arguments)
-  };
-  m.Create = function() {
+  m.Rb = function() {
     return new m
   };
-  m.Destroy = function() {
+  m.nb = q();
+  m.prototype.ob = function(a, c) {
+    this.I.ob.call(this, a, c)
   };
-  m.prototype.Reset = function(a, b) {
-    this.__super.Reset.call(this, a, b)
+  m.prototype.cd = function() {
+    z.cn(this.xc, this.fa.Ga instanceof g ? this.fa.Ga : p, this.fa.M.n, this.ha.Ga instanceof g ? this.ha.Ga : p, this.ha.M.n)
   };
-  m.prototype.Evaluate = function() {
-    var a = this.m_fixtureA.GetBody(), e = this.m_fixtureB.GetBody();
-    y.CollidePolygons(this.m_manifold, this.m_fixtureA.GetShape() instanceof b ? this.m_fixtureA.GetShape() : null, a.m_xf, this.m_fixtureB.GetShape() instanceof b ? this.m_fixtureB.GetShape() : null, e.m_xf)
-  };
-  s.b2PositionSolverManifold = function() {
-  };
-  s.prototype.b2PositionSolverManifold = function() {
-    this.m_normal = new A;
-    this.m_separations = new Box2D.NVector(w.b2_maxManifoldPoints);
-    this.m_points = Array(w.b2_maxManifoldPoints);
-    for(var a = 0;a < w.b2_maxManifoldPoints;a++) {
-      this.m_points[a] = new A
+  l.We = q();
+  l.prototype.We = function() {
+    this.W = new w;
+    this.Fi = new P.ij(n.Dc);
+    this.aa = Array(n.Dc);
+    for(var a = 0;a < n.Dc;a++) {
+      this.aa[a] = new w
     }
   };
-  s.prototype.Initialize = function(a) {
-    w.b2Assert(a.pointCount > 0);
-    var b = 0, e = 0, d = 0, f = 0, g = 0;
+  l.prototype.$a = function(a) {
+    n.Ra(a.Kc > 0);
+    var c = 0, b = 0, d = 0, e = 0, g = 0;
     switch(a.type) {
-      case F.e_circles:
-        var h = a.bodyA.m_xf.R, d = a.localPoint, b = a.bodyA.m_xf.position.x + (h.col1.x * d.x + h.col2.x * d.y), e = a.bodyA.m_xf.position.y + (h.col1.y * d.x + h.col2.y * d.y), h = a.bodyB.m_xf.R, d = a.points[0].localPoint, f = a.bodyB.m_xf.position.x + (h.col1.x * d.x + h.col2.x * d.y), h = a.bodyB.m_xf.position.y + (h.col1.y * d.x + h.col2.y * d.y), d = f - b, g = h - e, p = d * d + g * g;
-        p > Box2D.MIN_VALUE_SQUARED ? (p = Math.sqrt(p), this.m_normal.x = d / p, this.m_normal.y = g / p) : (this.m_normal.x = 1, this.m_normal.y = 0);
-        this.m_points[0].x = 0.5 * (b + f);
-        this.m_points[0].y = 0.5 * (e + h);
-        this.m_separations[0] = d * this.m_normal.x + g * this.m_normal.y - a.radius;
+      case v.Tj:
+        var h = a.ma.n.h, d = a.yd, c = a.ma.n.position.x + (h.b.x * d.x + h.d.x * d.y), b = a.ma.n.position.y + (h.b.y * d.x + h.d.y * d.y), h = a.qa.n.h, d = a.Pb[0].yd, e = a.qa.n.position.x + (h.b.x * d.x + h.d.x * d.y), h = a.qa.n.position.y + (h.b.y * d.x + h.d.y * d.y), d = e - c, g = h - b, i = d * d + g * g;
+        i > P.fj ? (i = Math.sqrt(i), this.W.x = d / i, this.W.y = g / i) : (this.W.x = 1, this.W.y = 0);
+        this.aa[0].x = 0.5 * (c + e);
+        this.aa[0].y = 0.5 * (b + h);
+        this.Fi[0] = d * this.W.x + g * this.W.y - a.Ck;
         break;
-      case F.e_faceA:
-        h = a.bodyA.m_xf.R;
-        d = a.localPlaneNormal;
-        this.m_normal.x = h.col1.x * d.x + h.col2.x * d.y;
-        this.m_normal.y = h.col1.y * d.x + h.col2.y * d.y;
-        h = a.bodyA.m_xf.R;
-        d = a.localPoint;
-        f = a.bodyA.m_xf.position.x + (h.col1.x * d.x + h.col2.x * d.y);
-        g = a.bodyA.m_xf.position.y + (h.col1.y * d.x + h.col2.y * d.y);
-        h = a.bodyB.m_xf.R;
-        for(b = 0;b < a.pointCount;++b) {
-          d = a.points[b].localPoint, e = a.bodyB.m_xf.position.x + (h.col1.x * d.x + h.col2.x * d.y), d = a.bodyB.m_xf.position.y + (h.col1.y * d.x + h.col2.y * d.y), this.m_separations[b] = (e - f) * this.m_normal.x + (d - g) * this.m_normal.y - a.radius, this.m_points[b].x = e, this.m_points[b].y = d
+      case v.kd:
+        h = a.ma.n.h;
+        d = a.zi;
+        this.W.x = h.b.x * d.x + h.d.x * d.y;
+        this.W.y = h.b.y * d.x + h.d.y * d.y;
+        h = a.ma.n.h;
+        d = a.yd;
+        e = a.ma.n.position.x + (h.b.x * d.x + h.d.x * d.y);
+        g = a.ma.n.position.y + (h.b.y * d.x + h.d.y * d.y);
+        h = a.qa.n.h;
+        for(c = 0;c < a.Kc;++c) {
+          d = a.Pb[c].yd, b = a.qa.n.position.x + (h.b.x * d.x + h.d.x * d.y), d = a.qa.n.position.y + (h.b.y * d.x + h.d.y * d.y), this.Fi[c] = (b - e) * this.W.x + (d - g) * this.W.y - a.Ck, this.aa[c].x = b, this.aa[c].y = d
         }
         break;
-      case F.e_faceB:
-        h = a.bodyB.m_xf.R;
-        d = a.localPlaneNormal;
-        this.m_normal.x = h.col1.x * d.x + h.col2.x * d.y;
-        this.m_normal.y = h.col1.y * d.x + h.col2.y * d.y;
-        h = a.bodyB.m_xf.R;
-        d = a.localPoint;
-        f = a.bodyB.m_xf.position.x + (h.col1.x * d.x + h.col2.x * d.y);
-        g = a.bodyB.m_xf.position.y + (h.col1.y * d.x + h.col2.y * d.y);
-        h = a.bodyA.m_xf.R;
-        for(b = 0;b < a.pointCount;++b) {
-          d = a.points[b].localPoint, e = a.bodyA.m_xf.position.x + (h.col1.x * d.x + h.col2.x * d.y), d = a.bodyA.m_xf.position.y + (h.col1.y * d.x + h.col2.y * d.y), this.m_separations[b] = (e - f) * this.m_normal.x + (d - g) * this.m_normal.y - a.radius, this.m_points[b].Set(e, d)
+      case v.cf:
+        h = a.qa.n.h;
+        d = a.zi;
+        this.W.x = h.b.x * d.x + h.d.x * d.y;
+        this.W.y = h.b.y * d.x + h.d.y * d.y;
+        h = a.qa.n.h;
+        d = a.yd;
+        e = a.qa.n.position.x + (h.b.x * d.x + h.d.x * d.y);
+        g = a.qa.n.position.y + (h.b.y * d.x + h.d.y * d.y);
+        h = a.ma.n.h;
+        for(c = 0;c < a.Kc;++c) {
+          d = a.Pb[c].yd, b = a.ma.n.position.x + (h.b.x * d.x + h.d.x * d.y), d = a.ma.n.position.y + (h.b.y * d.x + h.d.y * d.y), this.Fi[c] = (b - e) * this.W.x + (d - g) * this.W.y - a.Ck, this.aa[c].s(b, d)
         }
-        this.m_normal.x *= -1;
-        this.m_normal.y *= -1
+        this.W.x *= -1;
+        this.W.y *= -1
     }
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.Contacts.b2PositionSolverManifold.circlePointA = new A;
-    Box2D.Dynamics.Contacts.b2PositionSolverManifold.circlePointB = new A
+  P.Wa.push(function() {
+    P.c.D.We.Rq = new w;
+    P.c.D.We.Sq = new w
   })
 })();
 (function() {
-  var a = Box2D.Common.Math.b2Mat22, d = Box2D.Common.Math.b2Math, b = Box2D.Common.Math.b2Vec2, f = Box2D.Common.b2Color, e = Box2D.Dynamics.Controllers.b2BuoyancyController, g = Box2D.Dynamics.Controllers.b2ConstantAccelController, h = Box2D.Dynamics.Controllers.b2ConstantForceController, j = Box2D.Dynamics.Controllers.b2Controller, l = Box2D.Dynamics.Controllers.b2ControllerEdge, k = Box2D.Dynamics.Controllers.b2GravityController, o = Box2D.Dynamics.Controllers.b2TensorDampingController;
-  Box2D.inherit(e, Box2D.Dynamics.Controllers.b2Controller);
-  e.prototype.__super = Box2D.Dynamics.Controllers.b2Controller.prototype;
-  e.b2BuoyancyController = function() {
-    Box2D.Dynamics.Controllers.b2Controller.b2Controller.apply(this, arguments);
-    this.normal = new b(0, -1);
-    this.density = this.offset = 0;
-    this.velocity = new b(0, 0);
-    this.linearDrag = 2;
-    this.angularDrag = 1;
-    this.useDensity = !1;
-    this.useWorldGravity = !0;
-    this.gravity = null
+  var a = P.a.f.wd, g = P.a.f.Xa, e = P.a.f.g, d = P.a.sc, c = P.c.Ca.zj, b = P.c.Ca.Bj, h = P.c.Ca.Cj, i = P.c.Ca.ab, j = P.c.Ca.Fj, k = P.c.Ca.Jj, m = P.c.Ca.Mj;
+  P.ya(c, P.c.Ca.ab);
+  c.prototype.I = P.c.Ca.ab.prototype;
+  c.zj = function() {
+    P.c.Ca.ab.ab.apply(this, arguments);
+    this.kb = new e(0, -1);
+    this.bf = this.Zc = 0;
+    this.Vm = new e(0, 0);
+    this.rp = 2;
+    this.no = 1;
+    this.wr = !1;
+    this.pq = !0;
+    this.em = p
   };
-  e.prototype.Step = function() {
-    if(this.m_bodyList) {
-      if(this.useWorldGravity) {
-        this.gravity = this.GetWorld().GetGravity().Copy()
+  c.prototype.he = function() {
+    if(this.Da) {
+      if(this.pq) {
+        this.em = this.zb.sm.mb()
       }
-      for(var a = this.m_bodyList;a;a = a.nextBody) {
-        var e = a.body;
-        if(e.IsAwake() != !1) {
-          for(var d = new b, f = new b, g = 0, h = 0, j = e.GetFixtureList();j;j = j.GetNext()) {
-            var k = new b, l = j.GetShape().ComputeSubmergedArea(this.normal, this.offset, e.GetTransform(), k);
-            g += l;
-            d.x += l * k.x;
-            d.y += l * k.y;
-            var o = 0, o = 1;
-            h += l * o;
-            f.x += l * k.x * o;
-            f.y += l * k.y * o
+      for(var a = this.Da;a;a = a.lc) {
+        var c = a.body;
+        if(c.gb != !1) {
+          for(var b = new e, d = new e, g = 0, h = 0, i = c.Bd;i;i = i.L) {
+            var j = new e, k = i.Ga.Nh(this.kb, this.Zc, c.Tb(), j);
+            g += k;
+            b.x += k * j.x;
+            b.y += k * j.y;
+            var m = 0, m = 1;
+            h += k * m;
+            d.x += k * j.x * m;
+            d.y += k * j.y * m
           }
-          d.x /= g;
-          d.y /= g;
-          f.x /= h;
-          f.y /= h;
-          g < Number.MIN_VALUE || (h = this.gravity.GetNegative(), h.Multiply(this.density * g), e.ApplyForce(h, f), f = e.GetLinearVelocityFromWorldPoint(d), f.Subtract(this.velocity), f.Multiply(-this.linearDrag * g), e.ApplyForce(f, d), e.ApplyTorque(-e.GetInertia() / e.GetMass() * g * e.GetAngularVelocity() * this.angularDrag))
+          b.x /= g;
+          b.y /= g;
+          d.x /= h;
+          d.y /= h;
+          g < Number.MIN_VALUE || (h = this.em.fe(), h.Vb(this.bf * g), c.He(h, d), d = c.tn(b), d.rl(this.Vm), d.Vb(-this.rp * g), c.He(d, b), c.Xm(-c.zd / c.A * g * c.w * this.no))
         }
       }
     }
   };
-  e.prototype.Draw = function(a) {
-    var e = new b, d = new b;
-    e.x = this.normal.x * this.offset + this.normal.y * 1E3;
-    e.y = this.normal.y * this.offset - this.normal.x * 1E3;
-    d.x = this.normal.x * this.offset - this.normal.y * 1E3;
-    d.y = this.normal.y * this.offset + this.normal.x * 1E3;
-    var g = new f(0, 0, 1);
-    a.DrawSegment(e, d, g)
+  c.prototype.Yk = function(a) {
+    var c = new e, b = new e;
+    c.x = this.kb.x * this.Zc + this.kb.y * 1E3;
+    c.y = this.kb.y * this.Zc - this.kb.x * 1E3;
+    b.x = this.kb.x * this.Zc - this.kb.y * 1E3;
+    b.y = this.kb.y * this.Zc + this.kb.x * 1E3;
+    var g = new d(0, 0, 1);
+    a.ud(c, b, g)
   };
-  Box2D.inherit(g, Box2D.Dynamics.Controllers.b2Controller);
-  g.prototype.__super = Box2D.Dynamics.Controllers.b2Controller.prototype;
-  g.b2ConstantAccelController = function() {
-    Box2D.Dynamics.Controllers.b2Controller.b2Controller.apply(this, arguments);
-    this.A = new b(0, 0)
+  P.ya(b, P.c.Ca.ab);
+  b.prototype.I = P.c.Ca.ab.prototype;
+  b.Bj = function() {
+    P.c.Ca.ab.ab.apply(this, arguments);
+    this.Nk = new e(0, 0)
   };
-  g.prototype.Step = function(a) {
-    for(var a = new b(this.A.x * a.dt, this.A.y * a.dt), e = this.m_bodyList;e;e = e.nextBody) {
-      var d = e.body;
-      d.IsAwake() && d.SetLinearVelocity(new b(d.GetLinearVelocity().x + a.x, d.GetLinearVelocity().y + a.y))
+  b.prototype.he = function(a) {
+    for(var a = new e(this.Nk.x * a.da, this.Nk.y * a.da), c = this.Da;c;c = c.lc) {
+      var b = c.body;
+      b.gb && b.pj(new e(b.m.x + a.x, b.m.y + a.y))
     }
   };
-  Box2D.inherit(h, Box2D.Dynamics.Controllers.b2Controller);
-  h.prototype.__super = Box2D.Dynamics.Controllers.b2Controller.prototype;
-  h.b2ConstantForceController = function() {
-    Box2D.Dynamics.Controllers.b2Controller.b2Controller.apply(this, arguments);
-    this.F = new b(0, 0)
+  P.ya(h, P.c.Ca.ab);
+  h.prototype.I = P.c.Ca.ab.prototype;
+  h.Cj = function() {
+    P.c.Ca.ab.ab.apply(this, arguments);
+    this.qn = new e(0, 0)
   };
-  h.prototype.Step = function() {
-    for(var a = this.m_bodyList;a;a = a.nextBody) {
-      var b = a.body;
-      b.IsAwake() && b.ApplyForce(this.F, b.GetWorldCenter())
+  h.prototype.he = function() {
+    for(var a = this.Da;a;a = a.lc) {
+      var c = a.body;
+      c.gb && c.He(this.qn, c.e.k)
     }
   };
-  j.b2Controller = function() {
+  i.ab = q();
+  i.prototype.he = q();
+  i.prototype.Yk = q();
+  i.prototype.Ri = function(a) {
+    var c = new j;
+    c.Ol = this;
+    c.body = a;
+    c.lc = this.Da;
+    c.Gh = p;
+    this.Da = c;
+    if(c.lc) {
+      c.lc.Gh = c
+    }
+    this.Lb++;
+    c.Yd = a.Sd;
+    c.Hh = p;
+    a.Sd = c;
+    if(c.Yd) {
+      c.Yd.Hh = c
+    }
+    a.fk++
   };
-  j.prototype.Step = function() {
+  i.prototype.nl = function(a) {
+    for(var c = a.Sd;c && c.Ol != this;) {
+      c = c.Yd
+    }
+    if(c.Gh) {
+      c.Gh.lc = c.lc
+    }
+    if(c.lc) {
+      c.lc.Gh = c.Gh
+    }
+    if(c.Yd) {
+      c.Yd.Hh = c.Hh
+    }
+    if(c.Hh) {
+      c.Hh.Yd = c.Yd
+    }
+    if(this.Da == c) {
+      this.Da = c.lc
+    }
+    if(a.Sd == c) {
+      a.Sd = c.Yd
+    }
+    a.fk--;
+    this.Lb--
   };
-  j.prototype.Draw = function() {
-  };
-  j.prototype.AddBody = function(a) {
-    var b = new l;
-    b.controller = this;
-    b.body = a;
-    b.nextBody = this.m_bodyList;
-    b.prevBody = null;
-    this.m_bodyList = b;
-    if(b.nextBody) {
-      b.nextBody.prevBody = b
-    }
-    this.m_bodyCount++;
-    b.nextController = a.m_controllerList;
-    b.prevController = null;
-    a.m_controllerList = b;
-    if(b.nextController) {
-      b.nextController.prevController = b
-    }
-    a.m_controllerCount++
-  };
-  j.prototype.RemoveBody = function(a) {
-    for(var b = a.m_controllerList;b && b.controller != this;) {
-      b = b.nextController
-    }
-    if(b.prevBody) {
-      b.prevBody.nextBody = b.nextBody
-    }
-    if(b.nextBody) {
-      b.nextBody.prevBody = b.prevBody
-    }
-    if(b.nextController) {
-      b.nextController.prevController = b.prevController
-    }
-    if(b.prevController) {
-      b.prevController.nextController = b.nextController
-    }
-    if(this.m_bodyList == b) {
-      this.m_bodyList = b.nextBody
-    }
-    if(a.m_controllerList == b) {
-      a.m_controllerList = b.nextController
-    }
-    a.m_controllerCount--;
-    this.m_bodyCount--
-  };
-  j.prototype.Clear = function() {
-    for(;this.m_bodyList;) {
-      this.RemoveBody(this.m_bodyList.body)
+  i.prototype.Si = function() {
+    for(;this.Da;) {
+      this.nl(this.Da.body)
     }
   };
-  j.prototype.GetNext = function() {
-    return this.m_next
+  j.Fj = q();
+  P.ya(k, P.c.Ca.ab);
+  k.prototype.I = P.c.Ca.ab.prototype;
+  k.Jj = function() {
+    P.c.Ca.ab.ab.apply(this, arguments);
+    this.al = 1;
+    this.np = !0
   };
-  j.prototype.GetWorld = function() {
-    return this.m_world
-  };
-  j.prototype.GetBodyList = function() {
-    return this.m_bodyList
-  };
-  l.b2ControllerEdge = function() {
-  };
-  Box2D.inherit(k, Box2D.Dynamics.Controllers.b2Controller);
-  k.prototype.__super = Box2D.Dynamics.Controllers.b2Controller.prototype;
-  k.b2GravityController = function() {
-    Box2D.Dynamics.Controllers.b2Controller.b2Controller.apply(this, arguments);
-    this.G = 1;
-    this.invSqr = !0
-  };
-  k.prototype.Step = function() {
-    var a = null, e = null, d = null, f = 0, g = null, h = null, j = null, k = 0, l = 0, o = 0, k = null;
-    if(this.invSqr) {
-      for(a = this.m_bodyList;a;a = a.nextBody) {
-        e = a.body;
-        d = e.GetWorldCenter();
-        f = e.GetMass();
-        for(g = this.m_bodyList;g != a;g = g.nextBody) {
-          h = g.body, j = h.GetWorldCenter(), k = j.x - d.x, l = j.y - d.y, o = k * k + l * l, o < Number.MIN_VALUE || (k = new b(k, l), k.Multiply(this.G / o / Math.sqrt(o) * f * h.GetMass()), e.IsAwake() && e.ApplyForce(k, d), k.Multiply(-1), h.IsAwake() && h.ApplyForce(k, j))
+  k.prototype.he = function() {
+    var a = p, c = p, b = p, d = 0, g = p, h = p, i = p, j = 0, k = 0, m = 0, j = p;
+    if(this.np) {
+      for(a = this.Da;a;a = a.lc) {
+        c = a.body;
+        b = c.e.k;
+        d = c.A;
+        for(g = this.Da;g != a;g = g.lc) {
+          h = g.body, i = h.e.k, j = i.x - b.x, k = i.y - b.y, m = j * j + k * k, m < Number.MIN_VALUE || (j = new e(j, k), j.Vb(this.al / m / Math.sqrt(m) * d * h.A), c.gb && c.He(j, b), j.Vb(-1), h.gb && h.He(j, i))
         }
       }
     }else {
-      for(a = this.m_bodyList;a;a = a.nextBody) {
-        e = a.body;
-        d = e.GetWorldCenter();
-        f = e.GetMass();
-        for(g = this.m_bodyList;g != a;g = g.nextBody) {
-          h = g.body, j = h.GetWorldCenter(), k = j.x - d.x, l = j.y - d.y, o = k * k + l * l, o < Number.MIN_VALUE || (k = new b(k, l), k.Multiply(this.G / o * f * h.GetMass()), e.IsAwake() && e.ApplyForce(k, d), k.Multiply(-1), h.IsAwake() && h.ApplyForce(k, j))
+      for(a = this.Da;a;a = a.lc) {
+        c = a.body;
+        b = c.e.k;
+        d = c.A;
+        for(g = this.Da;g != a;g = g.lc) {
+          h = g.body, i = h.e.k, j = i.x - b.x, k = i.y - b.y, m = j * j + k * k, m < Number.MIN_VALUE || (j = new e(j, k), j.Vb(this.al / m * d * h.A), c.gb && c.He(j, b), j.Vb(-1), h.gb && h.He(j, i))
         }
       }
     }
   };
-  Box2D.inherit(o, Box2D.Dynamics.Controllers.b2Controller);
-  o.prototype.__super = Box2D.Dynamics.Controllers.b2Controller.prototype;
-  o.b2TensorDampingController = function() {
-    Box2D.Dynamics.Controllers.b2Controller.b2Controller.apply(this, arguments);
-    this.T = new a;
-    this.maxTimestep = 0
+  P.ya(m, P.c.Ca.ab);
+  m.prototype.I = P.c.Ca.ab.prototype;
+  m.Mj = function() {
+    P.c.Ca.ab.ab.apply(this, arguments);
+    this.Zn = new a;
+    this.wk = 0
   };
-  o.prototype.SetAxisAligned = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    this.T.col1.x = -a;
-    this.T.col1.y = 0;
-    this.T.col2.x = 0;
-    this.T.col2.y = -b;
-    this.maxTimestep = a > 0 || b > 0 ? 1 / Math.max(a, b) : 0
-  };
-  o.prototype.Step = function(a) {
-    a = a.dt;
+  m.prototype.he = function(a) {
+    a = a.da;
     if(!(a <= Number.MIN_VALUE)) {
-      if(a > this.maxTimestep && this.maxTimestep > 0) {
-        a = this.maxTimestep
+      if(a > this.wk && this.wk > 0) {
+        a = this.wk
       }
-      for(var e = this.m_bodyList;e;e = e.nextBody) {
-        var f = e.body;
-        if(f.IsAwake()) {
-          var g = f.GetWorldVector(d.MulMV(this.T, f.GetLocalVector(f.GetLinearVelocity())));
-          f.SetLinearVelocity(new b(f.GetLinearVelocity().x + g.x * a, f.GetLinearVelocity().y + g.y * a))
+      for(var c = this.Da;c;c = c.lc) {
+        var b = c.body;
+        if(b.gb) {
+          var d = b.cj(g.ub(this.Zn, b.aj(b.m)));
+          b.pj(new e(b.m.x + d.x * a, b.m.y + d.y * a))
         }
       }
     }
   }
 })();
 (function() {
-  var a = Box2D.Common.b2Settings, d = Box2D.Common.Math.b2Mat22, b = Box2D.Common.Math.b2Mat33, f = Box2D.Common.Math.b2Math, e = Box2D.Common.Math.b2Vec2, g = Box2D.Common.Math.b2Vec3, h = Box2D.Dynamics.Joints.b2DistanceJoint, j = Box2D.Dynamics.Joints.b2DistanceJointDef, l = Box2D.Dynamics.Joints.b2FrictionJoint, k = Box2D.Dynamics.Joints.b2FrictionJointDef, o = Box2D.Dynamics.Joints.b2GearJoint, m = Box2D.Dynamics.Joints.b2GearJointDef, s = Box2D.Dynamics.Joints.b2Jacobian, q = Box2D.Dynamics.Joints.b2Joint, 
-  w = Box2D.Dynamics.Joints.b2JointDef, I = Box2D.Dynamics.Joints.b2JointEdge, A = Box2D.Dynamics.Joints.b2LineJoint, y = Box2D.Dynamics.Joints.b2LineJointDef, x = Box2D.Dynamics.Joints.b2MouseJoint, F = Box2D.Dynamics.Joints.b2MouseJointDef, E = Box2D.Dynamics.Joints.b2PrismaticJoint, J = Box2D.Dynamics.Joints.b2PrismaticJointDef, n = Box2D.Dynamics.Joints.b2PulleyJoint, G = Box2D.Dynamics.Joints.b2PulleyJointDef, t = Box2D.Dynamics.Joints.b2RevoluteJoint, D = Box2D.Dynamics.Joints.b2RevoluteJointDef, 
-  M = Box2D.Dynamics.Joints.b2WeldJoint, N = Box2D.Dynamics.Joints.b2WeldJointDef;
-  Box2D.inherit(h, Box2D.Dynamics.Joints.b2Joint);
-  h.prototype.__super = Box2D.Dynamics.Joints.b2Joint.prototype;
-  h.b2DistanceJoint = function() {
-    Box2D.Dynamics.Joints.b2Joint.b2Joint.apply(this, arguments);
-    this.m_localAnchor1 = new e;
-    this.m_localAnchor2 = new e;
-    this.m_u = new e
+  var a = P.a.$, g = P.a.f.wd, e = P.a.f.Nf, d = P.a.f.Xa, c = P.a.f.g, b = P.a.f.Sf, h = P.c.o.Ng, i = P.c.o.Og, j = P.c.o.Sg, k = P.c.o.Tg, m = P.c.o.Ug, l = P.c.o.Vg, s = P.c.o.Kj, n = P.c.o.F, x = P.c.o.R, w = P.c.o.Lj, z = P.c.o.Wg, C = P.c.o.Xg, v = P.c.o.Zg, I = P.c.o.$g, L = P.c.o.fh, M = P.c.o.gh, o = P.c.o.Of, F = P.c.o.hh, K = P.c.o.Pf, B = P.c.o.Qf, Q = P.c.o.kh, T = P.c.o.Tf;
+  P.ya(h, P.c.o.F);
+  h.prototype.I = P.c.o.F.prototype;
+  h.Ng = function() {
+    P.c.o.F.F.apply(this, arguments);
+    this.J = new c;
+    this.K = new c;
+    this.jb = new c
   };
-  h.prototype.GetAnchorA = function() {
-    return this.m_bodyA.GetWorldPoint(this.m_localAnchor1)
+  h.prototype.zc = function() {
+    return this.S.hb(this.J)
   };
-  h.prototype.GetAnchorB = function() {
-    return this.m_bodyB.GetWorldPoint(this.m_localAnchor2)
+  h.prototype.Ac = function() {
+    return this.N.hb(this.K)
   };
-  h.prototype.GetReactionForce = function(a) {
-    a === void 0 && (a = 0);
-    return new e(a * this.m_impulse * this.m_u.x, a * this.m_impulse * this.m_u.y)
+  h.prototype.Ng = function(a) {
+    this.I.F.call(this, a);
+    this.J.p(a.eb);
+    this.K.p(a.fb);
+    this.kk = a.length;
+    this.wh = a.vi;
+    this.gk = a.ni;
+    this.mm = this.Mb = this.j = 0
   };
-  h.prototype.GetReactionTorque = function() {
-    return 0
-  };
-  h.prototype.GetLength = function() {
-    return this.m_length
-  };
-  h.prototype.SetLength = function(a) {
-    a === void 0 && (a = 0);
-    this.m_length = a
-  };
-  h.prototype.GetFrequency = function() {
-    return this.m_frequencyHz
-  };
-  h.prototype.SetFrequency = function(a) {
-    a === void 0 && (a = 0);
-    this.m_frequencyHz = a
-  };
-  h.prototype.GetDampingRatio = function() {
-    return this.m_dampingRatio
-  };
-  h.prototype.SetDampingRatio = function(a) {
-    a === void 0 && (a = 0);
-    this.m_dampingRatio = a
-  };
-  h.prototype.b2DistanceJoint = function(a) {
-    this.__super.b2Joint.call(this, a);
-    this.m_localAnchor1.SetV(a.localAnchorA);
-    this.m_localAnchor2.SetV(a.localAnchorB);
-    this.m_length = a.length;
-    this.m_frequencyHz = a.frequencyHz;
-    this.m_dampingRatio = a.dampingRatio;
-    this.m_bias = this.m_gamma = this.m_impulse = 0
-  };
-  h.prototype.InitVelocityConstraints = function(b) {
-    var e, d = 0, f = this.m_bodyA, g = this.m_bodyB;
-    e = f.m_xf.R;
-    var h = this.m_localAnchor1.x - f.m_sweep.localCenter.x, j = this.m_localAnchor1.y - f.m_sweep.localCenter.y, d = e.col1.x * h + e.col2.x * j, j = e.col1.y * h + e.col2.y * j, h = d;
-    e = g.m_xf.R;
-    var k = this.m_localAnchor2.x - g.m_sweep.localCenter.x, u = this.m_localAnchor2.y - g.m_sweep.localCenter.y, d = e.col1.x * k + e.col2.x * u, u = e.col1.y * k + e.col2.y * u, k = d;
-    this.m_u.x = g.m_sweep.c.x + k - f.m_sweep.c.x - h;
-    this.m_u.y = g.m_sweep.c.y + u - f.m_sweep.c.y - j;
-    d = Math.sqrt(this.m_u.x * this.m_u.x + this.m_u.y * this.m_u.y);
-    d > a.b2_linearSlop ? this.m_u.Multiply(1 / d) : this.m_u.SetZero();
-    e = h * this.m_u.y - j * this.m_u.x;
-    var l = k * this.m_u.y - u * this.m_u.x;
-    e = f.m_invMass + f.m_invI * e * e + g.m_invMass + g.m_invI * l * l;
-    this.m_mass = e != 0 ? 1 / e : 0;
-    if(this.m_frequencyHz > 0) {
-      d -= this.m_length;
-      var l = 2 * Math.PI * this.m_frequencyHz, q = this.m_mass * l * l;
-      this.m_gamma = b.dt * (2 * this.m_mass * this.m_dampingRatio * l + b.dt * q);
-      this.m_gamma = this.m_gamma != 0 ? 1 / this.m_gamma : 0;
-      this.m_bias = d * b.dt * q * this.m_gamma;
-      this.m_mass = e + this.m_gamma;
-      this.m_mass = this.m_mass != 0 ? 1 / this.m_mass : 0
+  h.prototype.Bc = function(c) {
+    var b, d = 0, e = this.S, g = this.N;
+    b = e.n.h;
+    var h = this.J.x - e.e.v.x, i = this.J.y - e.e.v.y, d = b.b.x * h + b.d.x * i, i = b.b.y * h + b.d.y * i, h = d;
+    b = g.n.h;
+    var j = this.K.x - g.e.v.x, k = this.K.y - g.e.v.y, d = b.b.x * j + b.d.x * k, k = b.b.y * j + b.d.y * k, j = d;
+    this.jb.x = g.e.k.x + j - e.e.k.x - h;
+    this.jb.y = g.e.k.y + k - e.e.k.y - i;
+    d = Math.sqrt(this.jb.x * this.jb.x + this.jb.y * this.jb.y);
+    d > a.ta ? this.jb.Vb(1 / d) : this.jb.V();
+    b = h * this.jb.y - i * this.jb.x;
+    var n = j * this.jb.y - k * this.jb.x;
+    b = e.r + e.C * b * b + g.r + g.C * n * n;
+    this.A = b != 0 ? 1 / b : 0;
+    if(this.wh > 0) {
+      d -= this.kk;
+      var n = 2 * Math.PI * this.wh, l = this.A * n * n;
+      this.Mb = c.da * (2 * this.A * this.gk * n + c.da * l);
+      this.Mb = this.Mb != 0 ? 1 / this.Mb : 0;
+      this.mm = d * c.da * l * this.Mb;
+      this.A = b + this.Mb;
+      this.A = this.A != 0 ? 1 / this.A : 0
     }
-    b.warmStarting ? (this.m_impulse *= b.dtRatio, b = this.m_impulse * this.m_u.x, e = this.m_impulse * this.m_u.y, f.m_linearVelocity.x -= f.m_invMass * b, f.m_linearVelocity.y -= f.m_invMass * e, f.m_angularVelocity -= f.m_invI * (h * e - j * b), g.m_linearVelocity.x += g.m_invMass * b, g.m_linearVelocity.y += g.m_invMass * e, g.m_angularVelocity += g.m_invI * (k * e - u * b)) : this.m_impulse = 0
+    c.bd ? (this.j *= c.Ya, c = this.j * this.jb.x, b = this.j * this.jb.y, e.m.x -= e.r * c, e.m.y -= e.r * b, e.w -= e.C * (h * b - i * c), g.m.x += g.r * c, g.m.y += g.r * b, g.w += g.C * (j * b - k * c)) : this.j = 0
   };
-  h.prototype.SolveVelocityConstraints = function() {
-    var a, b = this.m_bodyA, e = this.m_bodyB;
-    a = b.m_xf.R;
-    var d = this.m_localAnchor1.x - b.m_sweep.localCenter.x, f = this.m_localAnchor1.y - b.m_sweep.localCenter.y, g = a.col1.x * d + a.col2.x * f, f = a.col1.y * d + a.col2.y * f, d = g;
-    a = e.m_xf.R;
-    var h = this.m_localAnchor2.x - e.m_sweep.localCenter.x, j = this.m_localAnchor2.y - e.m_sweep.localCenter.y, g = a.col1.x * h + a.col2.x * j, j = a.col1.y * h + a.col2.y * j, h = g, g = -this.m_mass * (this.m_u.x * (e.m_linearVelocity.x + -e.m_angularVelocity * j - (b.m_linearVelocity.x + -b.m_angularVelocity * f)) + this.m_u.y * (e.m_linearVelocity.y + e.m_angularVelocity * h - (b.m_linearVelocity.y + b.m_angularVelocity * d)) + this.m_bias + this.m_gamma * this.m_impulse);
-    this.m_impulse += g;
-    a = g * this.m_u.x;
-    g *= this.m_u.y;
-    b.m_linearVelocity.x -= b.m_invMass * a;
-    b.m_linearVelocity.y -= b.m_invMass * g;
-    b.m_angularVelocity -= b.m_invI * (d * g - f * a);
-    e.m_linearVelocity.x += e.m_invMass * a;
-    e.m_linearVelocity.y += e.m_invMass * g;
-    e.m_angularVelocity += e.m_invI * (h * g - j * a)
+  h.prototype.pc = function() {
+    var a, c = this.S, b = this.N;
+    a = c.n.h;
+    var d = this.J.x - c.e.v.x, e = this.J.y - c.e.v.y, g = a.b.x * d + a.d.x * e, e = a.b.y * d + a.d.y * e, d = g;
+    a = b.n.h;
+    var h = this.K.x - b.e.v.x, i = this.K.y - b.e.v.y, g = a.b.x * h + a.d.x * i, i = a.b.y * h + a.d.y * i, h = g, g = -this.A * (this.jb.x * (b.m.x + -b.w * i - (c.m.x + -c.w * e)) + this.jb.y * (b.m.y + b.w * h - (c.m.y + c.w * d)) + this.mm + this.Mb * this.j);
+    this.j += g;
+    a = g * this.jb.x;
+    g *= this.jb.y;
+    c.m.x -= c.r * a;
+    c.m.y -= c.r * g;
+    c.w -= c.C * (d * g - e * a);
+    b.m.x += b.r * a;
+    b.m.y += b.r * g;
+    b.w += b.C * (h * g - i * a)
   };
-  h.prototype.SolvePositionConstraints = function() {
-    var b;
-    if(this.m_frequencyHz > 0) {
+  h.prototype.oc = function() {
+    var c;
+    if(this.wh > 0) {
       return!0
     }
-    var e = this.m_bodyA, d = this.m_bodyB;
-    b = e.m_xf.R;
-    var g = this.m_localAnchor1.x - e.m_sweep.localCenter.x, h = this.m_localAnchor1.y - e.m_sweep.localCenter.y, j = b.col1.x * g + b.col2.x * h, h = b.col1.y * g + b.col2.y * h, g = j;
-    b = d.m_xf.R;
-    var k = this.m_localAnchor2.x - d.m_sweep.localCenter.x, B = this.m_localAnchor2.y - d.m_sweep.localCenter.y, j = b.col1.x * k + b.col2.x * B, B = b.col1.y * k + b.col2.y * B, k = j, j = d.m_sweep.c.x + k - e.m_sweep.c.x - g, u = d.m_sweep.c.y + B - e.m_sweep.c.y - h;
-    b = Math.sqrt(j * j + u * u);
-    j /= b;
-    u /= b;
-    b -= this.m_length;
-    b = f.Clamp(b, -a.b2_maxLinearCorrection, a.b2_maxLinearCorrection);
-    var l = -this.m_mass * b;
-    this.m_u.Set(j, u);
-    j = l * this.m_u.x;
-    u = l * this.m_u.y;
-    e.m_sweep.c.x -= e.m_invMass * j;
-    e.m_sweep.c.y -= e.m_invMass * u;
-    e.m_sweep.a -= e.m_invI * (g * u - h * j);
-    d.m_sweep.c.x += d.m_invMass * j;
-    d.m_sweep.c.y += d.m_invMass * u;
-    d.m_sweep.a += d.m_invI * (k * u - B * j);
-    e.SynchronizeTransform();
-    d.SynchronizeTransform();
-    return f.Abs(b) < a.b2_linearSlop
+    var b = this.S, e = this.N;
+    c = b.n.h;
+    var g = this.J.x - b.e.v.x, h = this.J.y - b.e.v.y, i = c.b.x * g + c.d.x * h, h = c.b.y * g + c.d.y * h, g = i;
+    c = e.n.h;
+    var j = this.K.x - e.e.v.x, k = this.K.y - e.e.v.y, i = c.b.x * j + c.d.x * k, k = c.b.y * j + c.d.y * k, j = i, i = e.e.k.x + j - b.e.k.x - g, n = e.e.k.y + k - b.e.k.y - h;
+    c = Math.sqrt(i * i + n * n);
+    i /= c;
+    n /= c;
+    c -= this.kk;
+    c = d.xa(c, -a.uc, a.uc);
+    var l = -this.A * c;
+    this.jb.s(i, n);
+    i = l * this.jb.x;
+    n = l * this.jb.y;
+    b.e.k.x -= b.r * i;
+    b.e.k.y -= b.r * n;
+    b.e.z -= b.C * (g * n - h * i);
+    e.e.k.x += e.r * i;
+    e.e.k.y += e.r * n;
+    e.e.z += e.C * (j * n - k * i);
+    b.Qa();
+    e.Qa();
+    return d.lb(c) < a.ta
   };
-  Box2D.inherit(j, Box2D.Dynamics.Joints.b2JointDef);
-  j.prototype.__super = Box2D.Dynamics.Joints.b2JointDef.prototype;
-  j.b2DistanceJointDef = function() {
-    Box2D.Dynamics.Joints.b2JointDef.b2JointDef.apply(this, arguments);
-    this.localAnchorA = new e;
-    this.localAnchorB = new e
+  P.ya(i, P.c.o.R);
+  i.prototype.I = P.c.o.R.prototype;
+  i.Og = function() {
+    P.c.o.R.R.apply(this, arguments);
+    this.eb = new c;
+    this.fb = new c
   };
-  j.prototype.b2DistanceJointDef = function() {
-    this.__super.b2JointDef.call(this);
-    this.type = q.e_distanceJoint;
+  i.prototype.Og = function() {
+    this.I.R.call(this);
+    this.type = n.Uj;
     this.length = 1;
-    this.dampingRatio = this.frequencyHz = 0
+    this.ni = this.vi = 0
   };
-  j.prototype.Initialize = function(a, b, e, d) {
-    this.bodyA = a;
-    this.bodyB = b;
-    this.localAnchorA.SetV(this.bodyA.GetLocalPoint(e));
-    this.localAnchorB.SetV(this.bodyB.GetLocalPoint(d));
-    a = d.x - e.x;
-    e = d.y - e.y;
-    this.length = Math.sqrt(a * a + e * e);
-    this.dampingRatio = this.frequencyHz = 0
+  i.prototype.$a = function(a, c, b, d) {
+    this.ma = a;
+    this.qa = c;
+    this.eb.p(this.ma.mc(b));
+    this.fb.p(this.qa.mc(d));
+    a = d.x - b.x;
+    b = d.y - b.y;
+    this.length = Math.sqrt(a * a + b * b);
+    this.ni = this.vi = 0
   };
-  Box2D.inherit(l, Box2D.Dynamics.Joints.b2Joint);
-  l.prototype.__super = Box2D.Dynamics.Joints.b2Joint.prototype;
-  l.b2FrictionJoint = function() {
-    Box2D.Dynamics.Joints.b2Joint.b2Joint.apply(this, arguments);
-    this.m_localAnchorA = new e;
-    this.m_localAnchorB = new e;
-    this.m_linearMass = new d;
-    this.m_linearImpulse = new e
+  P.ya(j, P.c.o.F);
+  j.prototype.I = P.c.o.F.prototype;
+  j.Sg = function() {
+    P.c.o.F.F.apply(this, arguments);
+    this.ic = new c;
+    this.jc = new c;
+    this.nk = new g;
+    this.qd = new c
   };
-  l.prototype.GetAnchorA = function() {
-    return this.m_bodyA.GetWorldPoint(this.m_localAnchorA)
+  j.prototype.zc = function() {
+    return this.S.hb(this.ic)
   };
-  l.prototype.GetAnchorB = function() {
-    return this.m_bodyB.GetWorldPoint(this.m_localAnchorB)
+  j.prototype.Ac = function() {
+    return this.N.hb(this.jc)
   };
-  l.prototype.GetReactionForce = function(a) {
-    a === void 0 && (a = 0);
-    return new e(a * this.m_linearImpulse.x, a * this.m_linearImpulse.y)
+  j.prototype.Sg = function(a) {
+    this.I.F.call(this, a);
+    this.ic.p(a.eb);
+    this.jc.p(a.fb);
+    this.nk.V();
+    this.th = 0;
+    this.qd.V();
+    this.ue = 0;
+    this.ok = a.uk;
+    this.Jp = a.Rp
   };
-  l.prototype.GetReactionTorque = function(a) {
-    a === void 0 && (a = 0);
-    return a * this.m_angularImpulse
-  };
-  l.prototype.SetMaxForce = function(a) {
-    a === void 0 && (a = 0);
-    this.m_maxForce = a
-  };
-  l.prototype.GetMaxForce = function() {
-    return this.m_maxForce
-  };
-  l.prototype.SetMaxTorque = function(a) {
-    a === void 0 && (a = 0);
-    this.m_maxTorque = a
-  };
-  l.prototype.GetMaxTorque = function() {
-    return this.m_maxTorque
-  };
-  l.prototype.b2FrictionJoint = function(a) {
-    this.__super.b2Joint.call(this, a);
-    this.m_localAnchorA.SetV(a.localAnchorA);
-    this.m_localAnchorB.SetV(a.localAnchorB);
-    this.m_linearMass.SetZero();
-    this.m_angularMass = 0;
-    this.m_linearImpulse.SetZero();
-    this.m_angularImpulse = 0;
-    this.m_maxForce = a.maxForce;
-    this.m_maxTorque = a.maxTorque
-  };
-  l.prototype.InitVelocityConstraints = function(a) {
-    var b, e = 0, f = this.m_bodyA, g = this.m_bodyB;
-    b = f.m_xf.R;
-    var h = this.m_localAnchorA.x - f.m_sweep.localCenter.x, j = this.m_localAnchorA.y - f.m_sweep.localCenter.y, e = b.col1.x * h + b.col2.x * j, j = b.col1.y * h + b.col2.y * j, h = e;
-    b = g.m_xf.R;
-    var k = this.m_localAnchorB.x - g.m_sweep.localCenter.x, u = this.m_localAnchorB.y - g.m_sweep.localCenter.y, e = b.col1.x * k + b.col2.x * u, u = b.col1.y * k + b.col2.y * u, k = e;
-    b = f.m_invMass;
-    var e = g.m_invMass, l = f.m_invI, q = g.m_invI, m = new d;
-    m.col1.x = b + e;
-    m.col2.x = 0;
-    m.col1.y = 0;
-    m.col2.y = b + e;
-    m.col1.x += l * j * j;
-    m.col2.x += -l * h * j;
-    m.col1.y += -l * h * j;
-    m.col2.y += l * h * h;
-    m.col1.x += q * u * u;
-    m.col2.x += -q * k * u;
-    m.col1.y += -q * k * u;
-    m.col2.y += q * k * k;
-    m.GetInverse(this.m_linearMass);
-    this.m_angularMass = l + q;
-    if(this.m_angularMass > 0) {
-      this.m_angularMass = 1 / this.m_angularMass
+  j.prototype.Bc = function(a) {
+    var c, b = 0, d = this.S, e = this.N;
+    c = d.n.h;
+    var h = this.ic.x - d.e.v.x, i = this.ic.y - d.e.v.y, b = c.b.x * h + c.d.x * i, i = c.b.y * h + c.d.y * i, h = b;
+    c = e.n.h;
+    var j = this.jc.x - e.e.v.x, k = this.jc.y - e.e.v.y, b = c.b.x * j + c.d.x * k, k = c.b.y * j + c.d.y * k, j = b;
+    c = d.r;
+    var b = e.r, n = d.C, l = e.C, m = new g;
+    m.b.x = c + b;
+    m.d.x = 0;
+    m.b.y = 0;
+    m.d.y = c + b;
+    m.b.x += n * i * i;
+    m.d.x += -n * h * i;
+    m.b.y += -n * h * i;
+    m.d.y += n * h * h;
+    m.b.x += l * k * k;
+    m.d.x += -l * j * k;
+    m.b.y += -l * j * k;
+    m.d.y += l * j * j;
+    m.$i(this.nk);
+    this.th = n + l;
+    if(this.th > 0) {
+      this.th = 1 / this.th
     }
-    a.warmStarting ? (this.m_linearImpulse.x *= a.dtRatio, this.m_linearImpulse.y *= a.dtRatio, this.m_angularImpulse *= a.dtRatio, a = this.m_linearImpulse, f.m_linearVelocity.x -= b * a.x, f.m_linearVelocity.y -= b * a.y, f.m_angularVelocity -= l * (h * a.y - j * a.x + this.m_angularImpulse), g.m_linearVelocity.x += e * a.x, g.m_linearVelocity.y += e * a.y, g.m_angularVelocity += q * (k * a.y - u * a.x + this.m_angularImpulse)) : (this.m_linearImpulse.SetZero(), this.m_angularImpulse = 0)
+    a.bd ? (this.qd.x *= a.Ya, this.qd.y *= a.Ya, this.ue *= a.Ya, a = this.qd, d.m.x -= c * a.x, d.m.y -= c * a.y, d.w -= n * (h * a.y - i * a.x + this.ue), e.m.x += b * a.x, e.m.y += b * a.y, e.w += l * (j * a.y - k * a.x + this.ue)) : (this.qd.V(), this.ue = 0)
   };
-  l.prototype.SolveVelocityConstraints = function(a) {
-    var b, d = 0, g = this.m_bodyA, h = this.m_bodyB, j = g.m_linearVelocity, k = g.m_angularVelocity, l = h.m_linearVelocity, u = h.m_angularVelocity, q = g.m_invMass, m = h.m_invMass, n = g.m_invI, o = h.m_invI;
-    b = g.m_xf.R;
-    var s = this.m_localAnchorA.x - g.m_sweep.localCenter.x, z = this.m_localAnchorA.y - g.m_sweep.localCenter.y, d = b.col1.x * s + b.col2.x * z, z = b.col1.y * s + b.col2.y * z, s = d;
-    b = h.m_xf.R;
-    var w = this.m_localAnchorB.x - h.m_sweep.localCenter.x, t = this.m_localAnchorB.y - h.m_sweep.localCenter.y, d = b.col1.x * w + b.col2.x * t, t = b.col1.y * w + b.col2.y * t, w = d;
+  j.prototype.pc = function(a) {
+    var b, e = 0, g = this.S, h = this.N, i = g.m, j = g.w, k = h.m, n = h.w, l = g.r, m = h.r, s = g.C, o = h.C;
+    b = g.n.h;
+    var A = this.ic.x - g.e.v.x, x = this.ic.y - g.e.v.y, e = b.b.x * A + b.d.x * x, x = b.b.y * A + b.d.y * x, A = e;
+    b = h.n.h;
+    var w = this.jc.x - h.e.v.x, v = this.jc.y - h.e.v.y, e = b.b.x * w + b.d.x * v, v = b.b.y * w + b.d.y * v, w = e;
     b = 0;
-    var d = -this.m_angularMass * (u - k), y = this.m_angularImpulse;
-    b = a.dt * this.m_maxTorque;
-    this.m_angularImpulse = f.Clamp(this.m_angularImpulse + d, -b, b);
-    d = this.m_angularImpulse - y;
-    k -= n * d;
-    u += o * d;
-    b = f.MulMV(this.m_linearMass, new e(-(l.x - u * t - j.x + k * z), -(l.y + u * w - j.y - k * s)));
-    d = this.m_linearImpulse.Copy();
-    this.m_linearImpulse.Add(b);
-    b = a.dt * this.m_maxForce;
-    this.m_linearImpulse.LengthSquared() > b * b && (this.m_linearImpulse.Normalize(), this.m_linearImpulse.Multiply(b));
-    b = f.SubtractVV(this.m_linearImpulse, d);
-    j.x -= q * b.x;
-    j.y -= q * b.y;
-    k -= n * (s * b.y - z * b.x);
-    l.x += m * b.x;
-    l.y += m * b.y;
-    u += o * (w * b.y - t * b.x);
-    g.m_angularVelocity = k;
-    h.m_angularVelocity = u
+    var e = -this.th * (n - j), z = this.ue;
+    b = a.da * this.Jp;
+    this.ue = d.xa(this.ue + e, -b, b);
+    e = this.ue - z;
+    j -= s * e;
+    n += o * e;
+    b = d.ub(this.nk, new c(-(k.x - n * v - i.x + j * x), -(k.y + n * w - i.y - j * A)));
+    e = this.qd.mb();
+    this.qd.ce(b);
+    b = a.da * this.ok;
+    this.qd.Vh() > b * b && (this.qd.dc(), this.qd.Vb(b));
+    b = d.Pa(this.qd, e);
+    i.x -= l * b.x;
+    i.y -= l * b.y;
+    j -= s * (A * b.y - x * b.x);
+    k.x += m * b.x;
+    k.y += m * b.y;
+    n += o * (w * b.y - v * b.x);
+    g.w = j;
+    h.w = n
   };
-  l.prototype.SolvePositionConstraints = function() {
-    return!0
+  j.prototype.oc = D(!0);
+  P.ya(k, P.c.o.R);
+  k.prototype.I = P.c.o.R.prototype;
+  k.Tg = function() {
+    P.c.o.R.R.apply(this, arguments);
+    this.eb = new c;
+    this.fb = new c
   };
-  Box2D.inherit(k, Box2D.Dynamics.Joints.b2JointDef);
-  k.prototype.__super = Box2D.Dynamics.Joints.b2JointDef.prototype;
-  k.b2FrictionJointDef = function() {
-    Box2D.Dynamics.Joints.b2JointDef.b2JointDef.apply(this, arguments);
-    this.localAnchorA = new e;
-    this.localAnchorB = new e
+  k.prototype.Tg = function() {
+    this.I.R.call(this);
+    this.type = n.Ul;
+    this.Rp = this.uk = 0
   };
-  k.prototype.b2FrictionJointDef = function() {
-    this.__super.b2JointDef.call(this);
-    this.type = q.e_frictionJoint;
-    this.maxTorque = this.maxForce = 0
+  k.prototype.$a = function(a, c, b) {
+    this.ma = a;
+    this.qa = c;
+    this.eb.p(this.ma.mc(b));
+    this.fb.p(this.qa.mc(b))
   };
-  k.prototype.Initialize = function(a, b, e) {
-    this.bodyA = a;
-    this.bodyB = b;
-    this.localAnchorA.SetV(this.bodyA.GetLocalPoint(e));
-    this.localAnchorB.SetV(this.bodyB.GetLocalPoint(e))
+  P.ya(m, P.c.o.F);
+  m.prototype.I = P.c.o.F.prototype;
+  m.Ug = function() {
+    P.c.o.F.F.apply(this, arguments);
+    this.Cd = new c;
+    this.Dd = new c;
+    this.J = new c;
+    this.K = new c;
+    this.Ma = new s
   };
-  Box2D.inherit(o, Box2D.Dynamics.Joints.b2Joint);
-  o.prototype.__super = Box2D.Dynamics.Joints.b2Joint.prototype;
-  o.b2GearJoint = function() {
-    Box2D.Dynamics.Joints.b2Joint.b2Joint.apply(this, arguments);
-    this.m_groundAnchor1 = new e;
-    this.m_groundAnchor2 = new e;
-    this.m_localAnchor1 = new e;
-    this.m_localAnchor2 = new e;
-    this.m_J = new s
+  m.prototype.zc = function() {
+    return this.S.hb(this.J)
   };
-  o.prototype.GetAnchorA = function() {
-    return this.m_bodyA.GetWorldPoint(this.m_localAnchor1)
+  m.prototype.Ac = function() {
+    return this.N.hb(this.K)
   };
-  o.prototype.GetAnchorB = function() {
-    return this.m_bodyB.GetWorldPoint(this.m_localAnchor2)
+  m.prototype.Ug = function(a) {
+    this.I.F.call(this, a);
+    var c = a.ff.ca, b = a.gf.ca;
+    this.fg = this.sf = this.eg = this.rf = p;
+    var d = 0, e = 0;
+    this.Ap = a.ff.S;
+    this.S = a.ff.N;
+    c == n.si ? (this.rf = a.ff instanceof K ? a.ff : p, this.Cd.p(this.rf.J), this.J.p(this.rf.K), d = this.rf.Rh()) : (this.eg = a.ff instanceof L ? a.ff : p, this.Cd.p(this.eg.J), this.J.p(this.eg.K), d = this.eg.Dg());
+    this.Bp = a.gf.S;
+    this.N = a.gf.N;
+    b == n.si ? (this.sf = a.gf instanceof K ? a.gf : p, this.Dd.p(this.sf.J), this.K.p(this.sf.K), e = this.sf.Rh()) : (this.fg = a.gf instanceof L ? a.gf : p, this.Dd.p(this.fg.J), this.K.p(this.fg.K), e = this.fg.Dg());
+    this.Va = a.wf;
+    this.ag = d + this.Va * e;
+    this.j = 0
   };
-  o.prototype.GetReactionForce = function(a) {
-    a === void 0 && (a = 0);
-    return new e(a * this.m_impulse * this.m_J.linearB.x, a * this.m_impulse * this.m_J.linearB.y)
+  m.prototype.Bc = function(a) {
+    var c = this.Ap, b = this.Bp, d = this.S, e = this.N, g = 0, h = 0, i = 0, j = 0, k = i = 0, n = 0;
+    this.Ma.V();
+    this.rf ? (this.Ma.Ne = -1, n += d.C) : (c = c.n.h, h = this.eg.kc, g = c.b.x * h.x + c.d.x * h.y, h = c.b.y * h.x + c.d.y * h.y, c = d.n.h, i = this.J.x - d.e.v.x, j = this.J.y - d.e.v.y, k = c.b.x * i + c.d.x * j, j = c.b.y * i + c.d.y * j, i = k * h - j * g, this.Ma.md.s(-g, -h), this.Ma.Ne = -i, n += d.r + d.C * i * i);
+    this.sf ? (this.Ma.Oe = -this.Va, n += this.Va * this.Va * e.C) : (c = b.n.h, h = this.fg.kc, g = c.b.x * h.x + c.d.x * h.y, h = c.b.y * h.x + c.d.y * h.y, c = e.n.h, i = this.K.x - e.e.v.x, j = this.K.y - e.e.v.y, k = c.b.x * i + c.d.x * j, j = c.b.y * i + c.d.y * j, i = k * h - j * g, this.Ma.nd.s(-this.Va * g, -this.Va * h), this.Ma.Oe = -this.Va * i, n += this.Va * this.Va * (e.r + e.C * i * i));
+    this.A = n > 0 ? 1 / n : 0;
+    a.bd ? (d.m.x += d.r * this.j * this.Ma.md.x, d.m.y += d.r * this.j * this.Ma.md.y, d.w += d.C * this.j * this.Ma.Ne, e.m.x += e.r * this.j * this.Ma.nd.x, e.m.y += e.r * this.j * this.Ma.nd.y, e.w += e.C * this.j * this.Ma.Oe) : this.j = 0
   };
-  o.prototype.GetReactionTorque = function(a) {
-    a === void 0 && (a = 0);
-    var b = this.m_bodyB.m_xf.R, e = this.m_localAnchor1.x - this.m_bodyB.m_sweep.localCenter.x, d = this.m_localAnchor1.y - this.m_bodyB.m_sweep.localCenter.y, f = b.col1.x * e + b.col2.x * d, d = b.col1.y * e + b.col2.y * d;
-    return a * (this.m_impulse * this.m_J.angularB - f * this.m_impulse * this.m_J.linearB.y + d * this.m_impulse * this.m_J.linearB.x)
+  m.prototype.pc = function() {
+    var a = this.S, c = this.N, b = -this.A * this.Ma.dn(a.m, a.w, c.m, c.w);
+    this.j += b;
+    a.m.x += a.r * b * this.Ma.md.x;
+    a.m.y += a.r * b * this.Ma.md.y;
+    a.w += a.C * b * this.Ma.Ne;
+    c.m.x += c.r * b * this.Ma.nd.x;
+    c.m.y += c.r * b * this.Ma.nd.y;
+    c.w += c.C * b * this.Ma.Oe
   };
-  o.prototype.GetRatio = function() {
-    return this.m_ratio
+  m.prototype.oc = function() {
+    var c = this.S, b = this.N, d = 0, e = 0, d = this.rf ? this.rf.Rh() : this.eg.Dg(), e = this.sf ? this.sf.Rh() : this.fg.Dg(), d = -this.A * (this.ag - (d + this.Va * e));
+    c.e.k.x += c.r * d * this.Ma.md.x;
+    c.e.k.y += c.r * d * this.Ma.md.y;
+    c.e.z += c.C * d * this.Ma.Ne;
+    b.e.k.x += b.r * d * this.Ma.nd.x;
+    b.e.k.y += b.r * d * this.Ma.nd.y;
+    b.e.z += b.C * d * this.Ma.Oe;
+    c.Qa();
+    b.Qa();
+    return 0 < a.ta
   };
-  o.prototype.SetRatio = function(a) {
-    a === void 0 && (a = 0);
-    this.m_ratio = a
+  P.ya(l, P.c.o.R);
+  l.prototype.I = P.c.o.R.prototype;
+  l.Vg = function() {
+    P.c.o.R.R.apply(this, arguments)
   };
-  o.prototype.b2GearJoint = function(a) {
-    this.__super.b2Joint.call(this, a);
-    var b = a.joint1.m_type, e = a.joint2.m_type;
-    this.m_prismatic2 = this.m_revolute2 = this.m_prismatic1 = this.m_revolute1 = null;
-    var d = 0, f = 0;
-    this.m_ground1 = a.joint1.GetBodyA();
-    this.m_bodyA = a.joint1.GetBodyB();
-    b == q.e_revoluteJoint ? (this.m_revolute1 = a.joint1 instanceof t ? a.joint1 : null, this.m_groundAnchor1.SetV(this.m_revolute1.m_localAnchor1), this.m_localAnchor1.SetV(this.m_revolute1.m_localAnchor2), d = this.m_revolute1.GetJointAngle()) : (this.m_prismatic1 = a.joint1 instanceof E ? a.joint1 : null, this.m_groundAnchor1.SetV(this.m_prismatic1.m_localAnchor1), this.m_localAnchor1.SetV(this.m_prismatic1.m_localAnchor2), d = this.m_prismatic1.GetJointTranslation());
-    this.m_ground2 = a.joint2.GetBodyA();
-    this.m_bodyB = a.joint2.GetBodyB();
-    e == q.e_revoluteJoint ? (this.m_revolute2 = a.joint2 instanceof t ? a.joint2 : null, this.m_groundAnchor2.SetV(this.m_revolute2.m_localAnchor1), this.m_localAnchor2.SetV(this.m_revolute2.m_localAnchor2), f = this.m_revolute2.GetJointAngle()) : (this.m_prismatic2 = a.joint2 instanceof E ? a.joint2 : null, this.m_groundAnchor2.SetV(this.m_prismatic2.m_localAnchor1), this.m_localAnchor2.SetV(this.m_prismatic2.m_localAnchor2), f = this.m_prismatic2.GetJointTranslation());
-    this.m_ratio = a.ratio;
-    this.m_constant = d + this.m_ratio * f;
-    this.m_impulse = 0
+  l.prototype.Vg = function() {
+    this.I.R.call(this);
+    this.type = n.Vl;
+    this.gf = this.ff = p;
+    this.wf = 1
   };
-  o.prototype.InitVelocityConstraints = function(a) {
-    var b = this.m_ground1, e = this.m_ground2, d = this.m_bodyA, f = this.m_bodyB, g = 0, h = 0, j = 0, k = 0, l = j = 0, q = 0;
-    this.m_J.SetZero();
-    this.m_revolute1 ? (this.m_J.angularA = -1, q += d.m_invI) : (b = b.m_xf.R, h = this.m_prismatic1.m_localXAxis1, g = b.col1.x * h.x + b.col2.x * h.y, h = b.col1.y * h.x + b.col2.y * h.y, b = d.m_xf.R, j = this.m_localAnchor1.x - d.m_sweep.localCenter.x, k = this.m_localAnchor1.y - d.m_sweep.localCenter.y, l = b.col1.x * j + b.col2.x * k, k = b.col1.y * j + b.col2.y * k, j = l * h - k * g, this.m_J.linearA.Set(-g, -h), this.m_J.angularA = -j, q += d.m_invMass + d.m_invI * j * j);
-    this.m_revolute2 ? (this.m_J.angularB = -this.m_ratio, q += this.m_ratio * this.m_ratio * f.m_invI) : (b = e.m_xf.R, h = this.m_prismatic2.m_localXAxis1, g = b.col1.x * h.x + b.col2.x * h.y, h = b.col1.y * h.x + b.col2.y * h.y, b = f.m_xf.R, j = this.m_localAnchor2.x - f.m_sweep.localCenter.x, k = this.m_localAnchor2.y - f.m_sweep.localCenter.y, l = b.col1.x * j + b.col2.x * k, k = b.col1.y * j + b.col2.y * k, j = l * h - k * g, this.m_J.linearB.Set(-this.m_ratio * g, -this.m_ratio * h), this.m_J.angularB = 
-    -this.m_ratio * j, q += this.m_ratio * this.m_ratio * (f.m_invMass + f.m_invI * j * j));
-    this.m_mass = q > 0 ? 1 / q : 0;
-    a.warmStarting ? (d.m_linearVelocity.x += d.m_invMass * this.m_impulse * this.m_J.linearA.x, d.m_linearVelocity.y += d.m_invMass * this.m_impulse * this.m_J.linearA.y, d.m_angularVelocity += d.m_invI * this.m_impulse * this.m_J.angularA, f.m_linearVelocity.x += f.m_invMass * this.m_impulse * this.m_J.linearB.x, f.m_linearVelocity.y += f.m_invMass * this.m_impulse * this.m_J.linearB.y, f.m_angularVelocity += f.m_invI * this.m_impulse * this.m_J.angularB) : this.m_impulse = 0
+  s.Kj = function() {
+    this.md = new c;
+    this.nd = new c
   };
-  o.prototype.SolveVelocityConstraints = function() {
-    var a = this.m_bodyA, b = this.m_bodyB, e = -this.m_mass * this.m_J.Compute(a.m_linearVelocity, a.m_angularVelocity, b.m_linearVelocity, b.m_angularVelocity);
-    this.m_impulse += e;
-    a.m_linearVelocity.x += a.m_invMass * e * this.m_J.linearA.x;
-    a.m_linearVelocity.y += a.m_invMass * e * this.m_J.linearA.y;
-    a.m_angularVelocity += a.m_invI * e * this.m_J.angularA;
-    b.m_linearVelocity.x += b.m_invMass * e * this.m_J.linearB.x;
-    b.m_linearVelocity.y += b.m_invMass * e * this.m_J.linearB.y;
-    b.m_angularVelocity += b.m_invI * e * this.m_J.angularB
+  s.prototype.V = function() {
+    this.md.V();
+    this.Ne = 0;
+    this.nd.V();
+    this.Oe = 0
   };
-  o.prototype.SolvePositionConstraints = function() {
-    var b = this.m_bodyA, e = this.m_bodyB, d = 0, f = 0, d = this.m_revolute1 ? this.m_revolute1.GetJointAngle() : this.m_prismatic1.GetJointTranslation(), f = this.m_revolute2 ? this.m_revolute2.GetJointAngle() : this.m_prismatic2.GetJointTranslation(), d = -this.m_mass * (this.m_constant - (d + this.m_ratio * f));
-    b.m_sweep.c.x += b.m_invMass * d * this.m_J.linearA.x;
-    b.m_sweep.c.y += b.m_invMass * d * this.m_J.linearA.y;
-    b.m_sweep.a += b.m_invI * d * this.m_J.angularA;
-    e.m_sweep.c.x += e.m_invMass * d * this.m_J.linearB.x;
-    e.m_sweep.c.y += e.m_invMass * d * this.m_J.linearB.y;
-    e.m_sweep.a += e.m_invI * d * this.m_J.angularB;
-    b.SynchronizeTransform();
-    e.SynchronizeTransform();
-    return 0 < a.b2_linearSlop
+  s.prototype.s = function(a, c, b, d) {
+    c === f && (c = 0);
+    d === f && (d = 0);
+    this.md.p(a);
+    this.Ne = c;
+    this.nd.p(b);
+    this.Oe = d
   };
-  Box2D.inherit(m, Box2D.Dynamics.Joints.b2JointDef);
-  m.prototype.__super = Box2D.Dynamics.Joints.b2JointDef.prototype;
-  m.b2GearJointDef = function() {
-    Box2D.Dynamics.Joints.b2JointDef.b2JointDef.apply(this, arguments)
+  s.prototype.dn = function(a, c, b, d) {
+    c === f && (c = 0);
+    d === f && (d = 0);
+    return this.md.x * a.x + this.md.y * a.y + this.Ne * c + (this.nd.x * b.x + this.nd.y * b.y) + this.Oe * d
   };
-  m.prototype.b2GearJointDef = function() {
-    this.__super.b2JointDef.call(this);
-    this.type = q.e_gearJoint;
-    this.joint2 = this.joint1 = null;
-    this.ratio = 1
+  n.F = function() {
+    this.$b = new w;
+    this.ac = new w;
+    this.Ed = new c;
+    this.Fd = new c
   };
-  s.b2Jacobian = function() {
-    this.linearA = new e;
-    this.linearB = new e
+  n.prototype.la = u("ca");
+  n.prototype.zc = D(p);
+  n.prototype.Ac = D(p);
+  n.prototype.Ie = u("ig");
+  n.prototype.Kd = function() {
+    return this.S.Kd() && this.N.Kd()
   };
-  s.prototype.SetZero = function() {
-    this.linearA.SetZero();
-    this.angularA = 0;
-    this.linearB.SetZero();
-    this.angularB = 0
-  };
-  s.prototype.Set = function(a, b, e, d) {
-    b === void 0 && (b = 0);
-    d === void 0 && (d = 0);
-    this.linearA.SetV(a);
-    this.angularA = b;
-    this.linearB.SetV(e);
-    this.angularB = d
-  };
-  s.prototype.Compute = function(a, b, e, d) {
-    b === void 0 && (b = 0);
-    d === void 0 && (d = 0);
-    return this.linearA.x * a.x + this.linearA.y * a.y + this.angularA * b + (this.linearB.x * e.x + this.linearB.y * e.y) + this.angularB * d
-  };
-  q.b2Joint = function() {
-    this.m_edgeA = new I;
-    this.m_edgeB = new I;
-    this.m_localCenterA = new e;
-    this.m_localCenterB = new e
-  };
-  q.prototype.GetType = function() {
-    return this.m_type
-  };
-  q.prototype.GetAnchorA = function() {
-    return null
-  };
-  q.prototype.GetAnchorB = function() {
-    return null
-  };
-  q.prototype.GetReactionForce = function() {
-    return null
-  };
-  q.prototype.GetReactionTorque = function() {
-    return 0
-  };
-  q.prototype.GetBodyA = function() {
-    return this.m_bodyA
-  };
-  q.prototype.GetBodyB = function() {
-    return this.m_bodyB
-  };
-  q.prototype.GetNext = function() {
-    return this.m_next
-  };
-  q.prototype.GetUserData = function() {
-    return this.m_userData
-  };
-  q.prototype.SetUserData = function(a) {
-    this.m_userData = a
-  };
-  q.prototype.IsActive = function() {
-    return this.m_bodyA.IsActive() && this.m_bodyB.IsActive()
-  };
-  q.Create = function(a) {
-    var b = null;
+  n.Rb = function(a) {
+    var c = p;
     switch(a.type) {
-      case q.e_distanceJoint:
-        b = new h(a instanceof j ? a : null);
+      case n.Uj:
+        c = new h(a instanceof i ? a : p);
         break;
-      case q.e_mouseJoint:
-        b = new x(a instanceof F ? a : null);
+      case n.Vj:
+        c = new v(a instanceof I ? a : p);
         break;
-      case q.e_prismaticJoint:
-        b = new E(a instanceof J ? a : null);
+      case n.Zl:
+        c = new L(a instanceof M ? a : p);
         break;
-      case q.e_revoluteJoint:
-        b = new t(a instanceof D ? a : null);
+      case n.si:
+        c = new K(a instanceof B ? a : p);
         break;
-      case q.e_pulleyJoint:
-        b = new n(a instanceof G ? a : null);
+      case n.Wj:
+        c = new o(a instanceof F ? a : p);
         break;
-      case q.e_gearJoint:
-        b = new o(a instanceof m ? a : null);
+      case n.Vl:
+        c = new m(a instanceof l ? a : p);
         break;
-      case q.e_lineJoint:
-        b = new A(a instanceof y ? a : null);
+      case n.Wl:
+        c = new z(a instanceof C ? a : p);
         break;
-      case q.e_weldJoint:
-        b = new M(a instanceof N ? a : null);
+      case n.am:
+        c = new Q(a instanceof T ? a : p);
         break;
-      case q.e_frictionJoint:
-        b = new l(a instanceof k ? a : null)
+      case n.Ul:
+        c = new j(a instanceof k ? a : p)
     }
-    return b
+    return c
   };
-  q.Destroy = function() {
+  n.nb = q();
+  n.prototype.F = function(c) {
+    a.Ra(c.ma != c.qa);
+    this.ca = c.type;
+    this.L = this.rb = p;
+    this.S = c.ma;
+    this.N = c.qa;
+    this.nm = c.Oj;
+    this.ig = c.Fe
   };
-  q.prototype.b2Joint = function(b) {
-    a.b2Assert(b.bodyA != b.bodyB);
-    this.m_type = b.type;
-    this.m_next = this.m_prev = null;
-    this.m_bodyA = b.bodyA;
-    this.m_bodyB = b.bodyB;
-    this.m_collideConnected = b.collideConnected;
-    this.m_userData = b.userData
-  };
-  q.prototype.InitVelocityConstraints = function() {
-  };
-  q.prototype.SolveVelocityConstraints = function() {
-  };
-  q.prototype.FinalizeVelocityConstraints = function() {
-  };
-  q.prototype.SolvePositionConstraints = function() {
-    return!1
-  };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.Joints.b2Joint.e_unknownJoint = 0;
-    Box2D.Dynamics.Joints.b2Joint.e_revoluteJoint = 1;
-    Box2D.Dynamics.Joints.b2Joint.e_prismaticJoint = 2;
-    Box2D.Dynamics.Joints.b2Joint.e_distanceJoint = 3;
-    Box2D.Dynamics.Joints.b2Joint.e_pulleyJoint = 4;
-    Box2D.Dynamics.Joints.b2Joint.e_mouseJoint = 5;
-    Box2D.Dynamics.Joints.b2Joint.e_gearJoint = 6;
-    Box2D.Dynamics.Joints.b2Joint.e_lineJoint = 7;
-    Box2D.Dynamics.Joints.b2Joint.e_weldJoint = 8;
-    Box2D.Dynamics.Joints.b2Joint.e_frictionJoint = 9;
-    Box2D.Dynamics.Joints.b2Joint.e_inactiveLimit = 0;
-    Box2D.Dynamics.Joints.b2Joint.e_atLowerLimit = 1;
-    Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit = 2;
-    Box2D.Dynamics.Joints.b2Joint.e_equalLimits = 3
+  n.prototype.Bc = q();
+  n.prototype.pc = q();
+  n.prototype.Xi = q();
+  n.prototype.oc = D(!1);
+  P.Wa.push(function() {
+    P.c.o.F.Vo = 0;
+    P.c.o.F.si = 1;
+    P.c.o.F.Zl = 2;
+    P.c.o.F.Uj = 3;
+    P.c.o.F.Wj = 4;
+    P.c.o.F.Vj = 5;
+    P.c.o.F.Vl = 6;
+    P.c.o.F.Wl = 7;
+    P.c.o.F.am = 8;
+    P.c.o.F.Ul = 9;
+    P.c.o.F.Xb = 0;
+    P.c.o.F.xd = 1;
+    P.c.o.F.wb = 2;
+    P.c.o.F.re = 3
   });
-  w.b2JointDef = function() {
+  x.R = q();
+  x.prototype.R = function() {
+    this.type = n.Vo;
+    this.qa = this.ma = this.Fe = p;
+    this.Oj = !1
   };
-  w.prototype.b2JointDef = function() {
-    this.type = q.e_unknownJoint;
-    this.bodyB = this.bodyA = this.userData = null;
-    this.collideConnected = !1
+  w.Lj = q();
+  P.ya(z, P.c.o.F);
+  z.prototype.I = P.c.o.F.prototype;
+  z.Wg = function() {
+    P.c.o.F.F.apply(this, arguments);
+    this.J = new c;
+    this.K = new c;
+    this.kc = new c;
+    this.Xd = new c;
+    this.B = new c;
+    this.T = new c;
+    this.P = new g;
+    this.j = new c
   };
-  I.b2JointEdge = function() {
+  z.prototype.zc = function() {
+    return this.S.hb(this.J)
   };
-  Box2D.inherit(A, Box2D.Dynamics.Joints.b2Joint);
-  A.prototype.__super = Box2D.Dynamics.Joints.b2Joint.prototype;
-  A.b2LineJoint = function() {
-    Box2D.Dynamics.Joints.b2Joint.b2Joint.apply(this, arguments);
-    this.m_localAnchor1 = new e;
-    this.m_localAnchor2 = new e;
-    this.m_localXAxis1 = new e;
-    this.m_localYAxis1 = new e;
-    this.m_axis = new e;
-    this.m_perp = new e;
-    this.m_K = new d;
-    this.m_impulse = new e
+  z.prototype.Ac = function() {
+    return this.N.hb(this.K)
   };
-  A.prototype.GetAnchorA = function() {
-    return this.m_bodyA.GetWorldPoint(this.m_localAnchor1)
+  z.prototype.Dg = function() {
+    var a = this.S, c = this.N, b = a.hb(this.J), d = c.hb(this.K), c = d.x - b.x, b = d.y - b.y, a = a.cj(this.kc);
+    return a.x * c + a.y * b
   };
-  A.prototype.GetAnchorB = function() {
-    return this.m_bodyB.GetWorldPoint(this.m_localAnchor2)
+  z.prototype.Wg = function(a) {
+    this.I.F.call(this, a);
+    this.J.p(a.eb);
+    this.K.p(a.fb);
+    this.kc.p(a.hf);
+    this.Xd.x = -this.kc.y;
+    this.Xd.y = this.kc.x;
+    this.j.V();
+    this.wa = this.bc = 0;
+    this.Ic = a.bk;
+    this.Jc = a.Mk;
+    this.pk = a.vk;
+    this.zh = a.Fh;
+    this.od = a.ph;
+    this.xe = a.qh;
+    this.ea = n.Xb;
+    this.B.V();
+    this.T.V()
   };
-  A.prototype.GetReactionForce = function(a) {
-    a === void 0 && (a = 0);
-    return new e(a * (this.m_impulse.x * this.m_perp.x + (this.m_motorImpulse + this.m_impulse.y) * this.m_axis.x), a * (this.m_impulse.x * this.m_perp.y + (this.m_motorImpulse + this.m_impulse.y) * this.m_axis.y))
-  };
-  A.prototype.GetReactionTorque = function(a) {
-    a === void 0 && (a = 0);
-    return a * this.m_impulse.y
-  };
-  A.prototype.GetJointTranslation = function() {
-    var a = this.m_bodyA, b = this.m_bodyB, e = a.GetWorldPoint(this.m_localAnchor1), d = b.GetWorldPoint(this.m_localAnchor2), b = d.x - e.x, e = d.y - e.y, a = a.GetWorldVector(this.m_localXAxis1);
-    return a.x * b + a.y * e
-  };
-  A.prototype.GetJointSpeed = function() {
-    var a = this.m_bodyA, b = this.m_bodyB, e;
-    e = a.m_xf.R;
-    var d = this.m_localAnchor1.x - a.m_sweep.localCenter.x, f = this.m_localAnchor1.y - a.m_sweep.localCenter.y, g = e.col1.x * d + e.col2.x * f, f = e.col1.y * d + e.col2.y * f, d = g;
-    e = b.m_xf.R;
-    var h = this.m_localAnchor2.x - b.m_sweep.localCenter.x, j = this.m_localAnchor2.y - b.m_sweep.localCenter.y, g = e.col1.x * h + e.col2.x * j, j = e.col1.y * h + e.col2.y * j, h = g;
-    e = b.m_sweep.c.x + h - (a.m_sweep.c.x + d);
-    var g = b.m_sweep.c.y + j - (a.m_sweep.c.y + f), k = a.GetWorldVector(this.m_localXAxis1), l = a.m_linearVelocity, q = b.m_linearVelocity, a = a.m_angularVelocity, b = b.m_angularVelocity;
-    return e * -a * k.y + g * a * k.x + (k.x * (q.x + -b * j - l.x - -a * f) + k.y * (q.y + b * h - l.y - a * d))
-  };
-  A.prototype.IsLimitEnabled = function() {
-    return this.m_enableLimit
-  };
-  A.prototype.EnableLimit = function(a) {
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_enableLimit = a
-  };
-  A.prototype.GetLowerLimit = function() {
-    return this.m_lowerTranslation
-  };
-  A.prototype.GetUpperLimit = function() {
-    return this.m_upperTranslation
-  };
-  A.prototype.SetLimits = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_lowerTranslation = a;
-    this.m_upperTranslation = b
-  };
-  A.prototype.IsMotorEnabled = function() {
-    return this.m_enableMotor
-  };
-  A.prototype.EnableMotor = function(a) {
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_enableMotor = a
-  };
-  A.prototype.SetMotorSpeed = function(a) {
-    a === void 0 && (a = 0);
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_motorSpeed = a
-  };
-  A.prototype.GetMotorSpeed = function() {
-    return this.m_motorSpeed
-  };
-  A.prototype.SetMaxMotorForce = function(a) {
-    a === void 0 && (a = 0);
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_maxMotorForce = a
-  };
-  A.prototype.GetMaxMotorForce = function() {
-    return this.m_maxMotorForce
-  };
-  A.prototype.GetMotorForce = function() {
-    return this.m_motorImpulse
-  };
-  A.prototype.b2LineJoint = function(a) {
-    this.__super.b2Joint.call(this, a);
-    this.m_localAnchor1.SetV(a.localAnchorA);
-    this.m_localAnchor2.SetV(a.localAnchorB);
-    this.m_localXAxis1.SetV(a.localAxisA);
-    this.m_localYAxis1.x = -this.m_localXAxis1.y;
-    this.m_localYAxis1.y = this.m_localXAxis1.x;
-    this.m_impulse.SetZero();
-    this.m_motorImpulse = this.m_motorMass = 0;
-    this.m_lowerTranslation = a.lowerTranslation;
-    this.m_upperTranslation = a.upperTranslation;
-    this.m_maxMotorForce = a.maxMotorForce;
-    this.m_motorSpeed = a.motorSpeed;
-    this.m_enableLimit = a.enableLimit;
-    this.m_enableMotor = a.enableMotor;
-    this.m_limitState = q.e_inactiveLimit;
-    this.m_axis.SetZero();
-    this.m_perp.SetZero()
-  };
-  A.prototype.InitVelocityConstraints = function(b) {
-    var e = this.m_bodyA, d = this.m_bodyB, g, h = 0;
-    this.m_localCenterA.SetV(e.GetLocalCenter());
-    this.m_localCenterB.SetV(d.GetLocalCenter());
-    var j = e.GetTransform();
-    d.GetTransform();
-    g = e.m_xf.R;
-    var k = this.m_localAnchor1.x - this.m_localCenterA.x, l = this.m_localAnchor1.y - this.m_localCenterA.y, h = g.col1.x * k + g.col2.x * l, l = g.col1.y * k + g.col2.y * l, k = h;
-    g = d.m_xf.R;
-    var u = this.m_localAnchor2.x - this.m_localCenterB.x, m = this.m_localAnchor2.y - this.m_localCenterB.y, h = g.col1.x * u + g.col2.x * m, m = g.col1.y * u + g.col2.y * m, u = h;
-    g = d.m_sweep.c.x + u - e.m_sweep.c.x - k;
-    h = d.m_sweep.c.y + m - e.m_sweep.c.y - l;
-    this.m_invMassA = e.m_invMass;
-    this.m_invMassB = d.m_invMass;
-    this.m_invIA = e.m_invI;
-    this.m_invIB = d.m_invI;
-    this.m_axis.SetV(f.MulMV(j.R, this.m_localXAxis1));
-    this.m_a1 = (g + k) * this.m_axis.y - (h + l) * this.m_axis.x;
-    this.m_a2 = u * this.m_axis.y - m * this.m_axis.x;
-    this.m_motorMass = this.m_invMassA + this.m_invMassB + this.m_invIA * this.m_a1 * this.m_a1 + this.m_invIB * this.m_a2 * this.m_a2;
-    this.m_motorMass = this.m_motorMass > Number.MIN_VALUE ? 1 / this.m_motorMass : 0;
-    this.m_perp.SetV(f.MulMV(j.R, this.m_localYAxis1));
-    this.m_s1 = (g + k) * this.m_perp.y - (h + l) * this.m_perp.x;
-    this.m_s2 = u * this.m_perp.y - m * this.m_perp.x;
-    j = this.m_invMassA;
-    k = this.m_invMassB;
-    l = this.m_invIA;
-    u = this.m_invIB;
-    this.m_K.col1.x = j + k + l * this.m_s1 * this.m_s1 + u * this.m_s2 * this.m_s2;
-    this.m_K.col1.y = l * this.m_s1 * this.m_a1 + u * this.m_s2 * this.m_a2;
-    this.m_K.col2.x = this.m_K.col1.y;
-    this.m_K.col2.y = j + k + l * this.m_a1 * this.m_a1 + u * this.m_a2 * this.m_a2;
-    if(this.m_enableLimit) {
-      if(g = this.m_axis.x * g + this.m_axis.y * h, f.Abs(this.m_upperTranslation - this.m_lowerTranslation) < 2 * a.b2_linearSlop) {
-        this.m_limitState = q.e_equalLimits
+  z.prototype.Bc = function(c) {
+    var b = this.S, e = this.N, g, h = 0;
+    this.Ed.p(b.e.v);
+    this.Fd.p(e.e.v);
+    var i = b.Tb();
+    e.Tb();
+    g = b.n.h;
+    var j = this.J.x - this.Ed.x, k = this.J.y - this.Ed.y, h = g.b.x * j + g.d.x * k, k = g.b.y * j + g.d.y * k, j = h;
+    g = e.n.h;
+    var l = this.K.x - this.Fd.x, m = this.K.y - this.Fd.y, h = g.b.x * l + g.d.x * m, m = g.b.y * l + g.d.y * m, l = h;
+    g = e.e.k.x + l - b.e.k.x - j;
+    h = e.e.k.y + m - b.e.k.y - k;
+    this.Ta = b.r;
+    this.Ua = e.r;
+    this.Nb = b.C;
+    this.Ob = e.C;
+    this.B.p(d.ub(i.h, this.kc));
+    this.ua = (g + j) * this.B.y - (h + k) * this.B.x;
+    this.va = l * this.B.y - m * this.B.x;
+    this.bc = this.Ta + this.Ua + this.Nb * this.ua * this.ua + this.Ob * this.va * this.va;
+    this.bc = this.bc > Number.MIN_VALUE ? 1 / this.bc : 0;
+    this.T.p(d.ub(i.h, this.Xd));
+    this.Aa = (g + j) * this.T.y - (h + k) * this.T.x;
+    this.Ba = l * this.T.y - m * this.T.x;
+    i = this.Ta;
+    j = this.Ua;
+    k = this.Nb;
+    l = this.Ob;
+    this.P.b.x = i + j + k * this.Aa * this.Aa + l * this.Ba * this.Ba;
+    this.P.b.y = k * this.Aa * this.ua + l * this.Ba * this.va;
+    this.P.d.x = this.P.b.y;
+    this.P.d.y = i + j + k * this.ua * this.ua + l * this.va * this.va;
+    if(this.od) {
+      if(g = this.B.x * g + this.B.y * h, d.lb(this.Jc - this.Ic) < 2 * a.ta) {
+        this.ea = n.re
       }else {
-        if(g <= this.m_lowerTranslation) {
-          if(this.m_limitState != q.e_atLowerLimit) {
-            this.m_limitState = q.e_atLowerLimit, this.m_impulse.y = 0
+        if(g <= this.Ic) {
+          if(this.ea != n.xd) {
+            this.ea = n.xd, this.j.y = 0
           }
         }else {
-          if(g >= this.m_upperTranslation) {
-            if(this.m_limitState != q.e_atUpperLimit) {
-              this.m_limitState = q.e_atUpperLimit, this.m_impulse.y = 0
+          if(g >= this.Jc) {
+            if(this.ea != n.wb) {
+              this.ea = n.wb, this.j.y = 0
             }
           }else {
-            this.m_limitState = q.e_inactiveLimit, this.m_impulse.y = 0
+            this.ea = n.Xb, this.j.y = 0
           }
         }
       }
     }else {
-      this.m_limitState = q.e_inactiveLimit
+      this.ea = n.Xb
     }
-    if(this.m_enableMotor == !1) {
-      this.m_motorImpulse = 0
+    if(this.xe == !1) {
+      this.wa = 0
     }
-    b.warmStarting ? (this.m_impulse.x *= b.dtRatio, this.m_impulse.y *= b.dtRatio, this.m_motorImpulse *= b.dtRatio, b = this.m_impulse.x * this.m_perp.x + (this.m_motorImpulse + this.m_impulse.y) * this.m_axis.x, g = this.m_impulse.x * this.m_perp.y + (this.m_motorImpulse + this.m_impulse.y) * this.m_axis.y, h = this.m_impulse.x * this.m_s1 + (this.m_motorImpulse + this.m_impulse.y) * this.m_a1, j = this.m_impulse.x * this.m_s2 + (this.m_motorImpulse + this.m_impulse.y) * this.m_a2, e.m_linearVelocity.x -= 
-    this.m_invMassA * b, e.m_linearVelocity.y -= this.m_invMassA * g, e.m_angularVelocity -= this.m_invIA * h, d.m_linearVelocity.x += this.m_invMassB * b, d.m_linearVelocity.y += this.m_invMassB * g, d.m_angularVelocity += this.m_invIB * j) : (this.m_impulse.SetZero(), this.m_motorImpulse = 0)
+    c.bd ? (this.j.x *= c.Ya, this.j.y *= c.Ya, this.wa *= c.Ya, c = this.j.x * this.T.x + (this.wa + this.j.y) * this.B.x, g = this.j.x * this.T.y + (this.wa + this.j.y) * this.B.y, h = this.j.x * this.Aa + (this.wa + this.j.y) * this.ua, i = this.j.x * this.Ba + (this.wa + this.j.y) * this.va, b.m.x -= this.Ta * c, b.m.y -= this.Ta * g, b.w -= this.Nb * h, e.m.x += this.Ua * c, e.m.y += this.Ua * g, e.w += this.Ob * i) : (this.j.V(), this.wa = 0)
   };
-  A.prototype.SolveVelocityConstraints = function(a) {
-    var b = this.m_bodyA, d = this.m_bodyB, g = b.m_linearVelocity, h = b.m_angularVelocity, j = d.m_linearVelocity, k = d.m_angularVelocity, l = 0, u = 0, m = 0, n = 0;
-    if(this.m_enableMotor && this.m_limitState != q.e_equalLimits) {
-      n = this.m_motorMass * (this.m_motorSpeed - (this.m_axis.x * (j.x - g.x) + this.m_axis.y * (j.y - g.y) + this.m_a2 * k - this.m_a1 * h)), l = this.m_motorImpulse, u = a.dt * this.m_maxMotorForce, this.m_motorImpulse = f.Clamp(this.m_motorImpulse + n, -u, u), n = this.m_motorImpulse - l, l = n * this.m_axis.x, u = n * this.m_axis.y, m = n * this.m_a1, n *= this.m_a2, g.x -= this.m_invMassA * l, g.y -= this.m_invMassA * u, h -= this.m_invIA * m, j.x += this.m_invMassB * l, j.y += this.m_invMassB * 
-      u, k += this.m_invIB * n
+  z.prototype.pc = function(a) {
+    var b = this.S, e = this.N, g = b.m, h = b.w, i = e.m, j = e.w, k = 0, l = 0, m = 0, s = 0;
+    if(this.xe && this.ea != n.re) {
+      s = this.bc * (this.zh - (this.B.x * (i.x - g.x) + this.B.y * (i.y - g.y) + this.va * j - this.ua * h)), k = this.wa, l = a.da * this.pk, this.wa = d.xa(this.wa + s, -l, l), s = this.wa - k, k = s * this.B.x, l = s * this.B.y, m = s * this.ua, s *= this.va, g.x -= this.Ta * k, g.y -= this.Ta * l, h -= this.Nb * m, i.x += this.Ua * k, i.y += this.Ua * l, j += this.Ob * s
     }
-    u = this.m_perp.x * (j.x - g.x) + this.m_perp.y * (j.y - g.y) + this.m_s2 * k - this.m_s1 * h;
-    if(this.m_enableLimit && this.m_limitState != q.e_inactiveLimit) {
-      m = this.m_axis.x * (j.x - g.x) + this.m_axis.y * (j.y - g.y) + this.m_a2 * k - this.m_a1 * h;
-      l = this.m_impulse.Copy();
-      a = this.m_K.Solve(new e, -u, -m);
-      this.m_impulse.Add(a);
-      if(this.m_limitState == q.e_atLowerLimit) {
-        this.m_impulse.y = f.Max(this.m_impulse.y, 0)
+    l = this.T.x * (i.x - g.x) + this.T.y * (i.y - g.y) + this.Ba * j - this.Aa * h;
+    if(this.od && this.ea != n.Xb) {
+      m = this.B.x * (i.x - g.x) + this.B.y * (i.y - g.y) + this.va * j - this.ua * h;
+      k = this.j.mb();
+      a = this.P.Me(new c, -l, -m);
+      this.j.ce(a);
+      if(this.ea == n.xd) {
+        this.j.y = d.Ub(this.j.y, 0)
       }else {
-        if(this.m_limitState == q.e_atUpperLimit) {
-          this.m_impulse.y = f.Min(this.m_impulse.y, 0)
+        if(this.ea == n.wb) {
+          this.j.y = d.Je(this.j.y, 0)
         }
       }
-      u = -u - (this.m_impulse.y - l.y) * this.m_K.col2.x;
+      l = -l - (this.j.y - k.y) * this.P.d.x;
       m = 0;
-      m = this.m_K.col1.x != 0 ? u / this.m_K.col1.x + l.x : l.x;
-      this.m_impulse.x = m;
-      a.x = this.m_impulse.x - l.x;
-      a.y = this.m_impulse.y - l.y;
-      l = a.x * this.m_perp.x + a.y * this.m_axis.x;
-      u = a.x * this.m_perp.y + a.y * this.m_axis.y;
-      m = a.x * this.m_s1 + a.y * this.m_a1;
-      n = a.x * this.m_s2 + a.y * this.m_a2
+      m = this.P.b.x != 0 ? l / this.P.b.x + k.x : k.x;
+      this.j.x = m;
+      a.x = this.j.x - k.x;
+      a.y = this.j.y - k.y;
+      k = a.x * this.T.x + a.y * this.B.x;
+      l = a.x * this.T.y + a.y * this.B.y;
+      m = a.x * this.Aa + a.y * this.ua;
+      s = a.x * this.Ba + a.y * this.va
     }else {
-      a = 0, a = this.m_K.col1.x != 0 ? -u / this.m_K.col1.x : 0, this.m_impulse.x += a, l = a * this.m_perp.x, u = a * this.m_perp.y, m = a * this.m_s1, n = a * this.m_s2
+      a = 0, a = this.P.b.x != 0 ? -l / this.P.b.x : 0, this.j.x += a, k = a * this.T.x, l = a * this.T.y, m = a * this.Aa, s = a * this.Ba
     }
-    g.x -= this.m_invMassA * l;
-    g.y -= this.m_invMassA * u;
-    h -= this.m_invIA * m;
-    j.x += this.m_invMassB * l;
-    j.y += this.m_invMassB * u;
-    k += this.m_invIB * n;
-    b.m_linearVelocity.SetV(g);
-    b.m_angularVelocity = h;
-    d.m_linearVelocity.SetV(j);
-    d.m_angularVelocity = k
+    g.x -= this.Ta * k;
+    g.y -= this.Ta * l;
+    h -= this.Nb * m;
+    i.x += this.Ua * k;
+    i.y += this.Ua * l;
+    j += this.Ob * s;
+    b.m.p(g);
+    b.w = h;
+    e.m.p(i);
+    e.w = j
   };
-  A.prototype.SolvePositionConstraints = function() {
-    var b = this.m_bodyA, g = this.m_bodyB, h = b.m_sweep.c, j = b.m_sweep.a, k = g.m_sweep.c, l = g.m_sweep.a, q, m = 0, u = 0, n = 0, o = 0, s = q = 0, w = 0, u = !1, t = 0, z = d.FromAngle(j), n = d.FromAngle(l);
-    q = z;
-    var w = this.m_localAnchor1.x - this.m_localCenterA.x, y = this.m_localAnchor1.y - this.m_localCenterA.y, m = q.col1.x * w + q.col2.x * y, y = q.col1.y * w + q.col2.y * y, w = m;
-    q = n;
-    n = this.m_localAnchor2.x - this.m_localCenterB.x;
-    o = this.m_localAnchor2.y - this.m_localCenterB.y;
-    m = q.col1.x * n + q.col2.x * o;
-    o = q.col1.y * n + q.col2.y * o;
-    n = m;
-    q = k.x + n - h.x - w;
-    m = k.y + o - h.y - y;
-    if(this.m_enableLimit) {
-      this.m_axis = f.MulMV(z, this.m_localXAxis1);
-      this.m_a1 = (q + w) * this.m_axis.y - (m + y) * this.m_axis.x;
-      this.m_a2 = n * this.m_axis.y - o * this.m_axis.x;
-      var x = this.m_axis.x * q + this.m_axis.y * m;
-      f.Abs(this.m_upperTranslation - this.m_lowerTranslation) < 2 * a.b2_linearSlop ? (t = f.Clamp(x, -a.b2_maxLinearCorrection, a.b2_maxLinearCorrection), s = f.Abs(x), u = !0) : x <= this.m_lowerTranslation ? (t = f.Clamp(x - this.m_lowerTranslation + a.b2_linearSlop, -a.b2_maxLinearCorrection, 0), s = this.m_lowerTranslation - x, u = !0) : x >= this.m_upperTranslation && (t = f.Clamp(x - this.m_upperTranslation + a.b2_linearSlop, 0, a.b2_maxLinearCorrection), s = x - this.m_upperTranslation, 
-      u = !0)
+  z.prototype.oc = function() {
+    var b = this.S, e = this.N, h = b.e.k, i = b.e.z, j = e.e.k, k = e.e.z, n, l = 0, m = 0, s = 0, o = 0, x = n = 0, w = 0, m = !1, A = 0, v = g.Qh(i), s = g.Qh(k);
+    n = v;
+    var w = this.J.x - this.Ed.x, z = this.J.y - this.Ed.y, l = n.b.x * w + n.d.x * z, z = n.b.y * w + n.d.y * z, w = l;
+    n = s;
+    s = this.K.x - this.Fd.x;
+    o = this.K.y - this.Fd.y;
+    l = n.b.x * s + n.d.x * o;
+    o = n.b.y * s + n.d.y * o;
+    s = l;
+    n = j.x + s - h.x - w;
+    l = j.y + o - h.y - z;
+    if(this.od) {
+      this.B = d.ub(v, this.kc);
+      this.ua = (n + w) * this.B.y - (l + z) * this.B.x;
+      this.va = s * this.B.y - o * this.B.x;
+      var C = this.B.x * n + this.B.y * l;
+      d.lb(this.Jc - this.Ic) < 2 * a.ta ? (A = d.xa(C, -a.uc, a.uc), x = d.lb(C), m = !0) : C <= this.Ic ? (A = d.xa(C - this.Ic + a.ta, -a.uc, 0), x = this.Ic - C, m = !0) : C >= this.Jc && (A = d.xa(C - this.Jc + a.ta, 0, a.uc), x = C - this.Jc, m = !0)
     }
-    this.m_perp = f.MulMV(z, this.m_localYAxis1);
-    this.m_s1 = (q + w) * this.m_perp.y - (m + y) * this.m_perp.x;
-    this.m_s2 = n * this.m_perp.y - o * this.m_perp.x;
-    z = new e;
-    y = this.m_perp.x * q + this.m_perp.y * m;
-    s = f.Max(s, f.Abs(y));
+    this.T = d.ub(v, this.Xd);
+    this.Aa = (n + w) * this.T.y - (l + z) * this.T.x;
+    this.Ba = s * this.T.y - o * this.T.x;
+    v = new c;
+    z = this.T.x * n + this.T.y * l;
+    x = d.Ub(x, d.lb(z));
     w = 0;
-    u ? (u = this.m_invMassA, n = this.m_invMassB, o = this.m_invIA, q = this.m_invIB, this.m_K.col1.x = u + n + o * this.m_s1 * this.m_s1 + q * this.m_s2 * this.m_s2, this.m_K.col1.y = o * this.m_s1 * this.m_a1 + q * this.m_s2 * this.m_a2, this.m_K.col2.x = this.m_K.col1.y, this.m_K.col2.y = u + n + o * this.m_a1 * this.m_a1 + q * this.m_a2 * this.m_a2, this.m_K.Solve(z, -y, -t)) : (u = this.m_invMassA, n = this.m_invMassB, o = this.m_invIA, q = this.m_invIB, t = u + n + o * this.m_s1 * this.m_s1 + 
-    q * this.m_s2 * this.m_s2, u = 0, z.x = t != 0 ? -y / t : 0, z.y = 0);
-    t = z.x * this.m_perp.x + z.y * this.m_axis.x;
-    u = z.x * this.m_perp.y + z.y * this.m_axis.y;
-    y = z.x * this.m_s1 + z.y * this.m_a1;
-    z = z.x * this.m_s2 + z.y * this.m_a2;
-    h.x -= this.m_invMassA * t;
-    h.y -= this.m_invMassA * u;
-    j -= this.m_invIA * y;
-    k.x += this.m_invMassB * t;
-    k.y += this.m_invMassB * u;
-    l += this.m_invIB * z;
-    b.m_sweep.a = j;
-    g.m_sweep.a = l;
-    b.SynchronizeTransform();
-    g.SynchronizeTransform();
-    return s <= a.b2_linearSlop && w <= a.b2_angularSlop
+    m ? (m = this.Ta, s = this.Ua, o = this.Nb, n = this.Ob, this.P.b.x = m + s + o * this.Aa * this.Aa + n * this.Ba * this.Ba, this.P.b.y = o * this.Aa * this.ua + n * this.Ba * this.va, this.P.d.x = this.P.b.y, this.P.d.y = m + s + o * this.ua * this.ua + n * this.va * this.va, this.P.Me(v, -z, -A)) : (m = this.Ta, s = this.Ua, o = this.Nb, n = this.Ob, A = m + s + o * this.Aa * this.Aa + n * this.Ba * this.Ba, v.x = A != 0 ? -z / A : 0, v.y = 0);
+    A = v.x * this.T.x + v.y * this.B.x;
+    m = v.x * this.T.y + v.y * this.B.y;
+    z = v.x * this.Aa + v.y * this.ua;
+    v = v.x * this.Ba + v.y * this.va;
+    h.x -= this.Ta * A;
+    h.y -= this.Ta * m;
+    i -= this.Nb * z;
+    j.x += this.Ua * A;
+    j.y += this.Ua * m;
+    k += this.Ob * v;
+    b.e.z = i;
+    e.e.z = k;
+    b.Qa();
+    e.Qa();
+    return x <= a.ta && w <= a.$e
   };
-  Box2D.inherit(y, Box2D.Dynamics.Joints.b2JointDef);
-  y.prototype.__super = Box2D.Dynamics.Joints.b2JointDef.prototype;
-  y.b2LineJointDef = function() {
-    Box2D.Dynamics.Joints.b2JointDef.b2JointDef.apply(this, arguments);
-    this.localAnchorA = new e;
-    this.localAnchorB = new e;
-    this.localAxisA = new e
+  P.ya(C, P.c.o.R);
+  C.prototype.I = P.c.o.R.prototype;
+  C.Xg = function() {
+    P.c.o.R.R.apply(this, arguments);
+    this.eb = new c;
+    this.fb = new c;
+    this.hf = new c
   };
-  y.prototype.b2LineJointDef = function() {
-    this.__super.b2JointDef.call(this);
-    this.type = q.e_lineJoint;
-    this.localAxisA.Set(1, 0);
-    this.enableLimit = !1;
-    this.upperTranslation = this.lowerTranslation = 0;
-    this.enableMotor = !1;
-    this.motorSpeed = this.maxMotorForce = 0
+  C.prototype.Xg = function() {
+    this.I.R.call(this);
+    this.type = n.Wl;
+    this.hf.s(1, 0);
+    this.ph = !1;
+    this.Mk = this.bk = 0;
+    this.qh = !1;
+    this.Fh = this.vk = 0
   };
-  y.prototype.Initialize = function(a, b, e, d) {
-    this.bodyA = a;
-    this.bodyB = b;
-    this.localAnchorA = this.bodyA.GetLocalPoint(e);
-    this.localAnchorB = this.bodyB.GetLocalPoint(e);
-    this.localAxisA = this.bodyA.GetLocalVector(d)
+  C.prototype.$a = function(a, c, b, d) {
+    this.ma = a;
+    this.qa = c;
+    this.eb = this.ma.mc(b);
+    this.fb = this.qa.mc(b);
+    this.hf = this.ma.aj(d)
   };
-  Box2D.inherit(x, Box2D.Dynamics.Joints.b2Joint);
-  x.prototype.__super = Box2D.Dynamics.Joints.b2Joint.prototype;
-  x.b2MouseJoint = function() {
-    Box2D.Dynamics.Joints.b2Joint.b2Joint.apply(this, arguments);
-    this.K = new d;
-    this.K1 = new d;
-    this.K2 = new d;
-    this.m_localAnchor = new e;
-    this.m_target = new e;
-    this.m_impulse = new e;
-    this.m_mass = new d;
-    this.m_C = new e
+  P.ya(v, P.c.o.F);
+  v.prototype.I = P.c.o.F.prototype;
+  v.Zg = function() {
+    P.c.o.F.F.apply(this, arguments);
+    this.Kb = new g;
+    this.dd = new g;
+    this.ed = new g;
+    this.nf = new c;
+    this.gg = new c;
+    this.j = new c;
+    this.A = new g;
+    this.Bi = new c
   };
-  x.prototype.GetAnchorA = function() {
-    return this.m_target
+  v.prototype.zc = u("gg");
+  v.prototype.Ac = function() {
+    return this.N.hb(this.nf)
   };
-  x.prototype.GetAnchorB = function() {
-    return this.m_bodyB.GetWorldPoint(this.m_localAnchor)
+  v.prototype.Zg = function(a) {
+    this.I.F.call(this, a);
+    this.gg.p(a.target);
+    var c = this.gg.x - this.N.n.position.x, b = this.gg.y - this.N.n.position.y, d = this.N.n.h;
+    this.nf.x = c * d.b.x + b * d.b.y;
+    this.nf.y = c * d.d.x + b * d.d.y;
+    this.ok = a.uk;
+    this.j.V();
+    this.wh = a.vi;
+    this.gk = a.ni;
+    this.Mb = this.dk = 0
   };
-  x.prototype.GetReactionForce = function(a) {
-    a === void 0 && (a = 0);
-    return new e(a * this.m_impulse.x, a * this.m_impulse.y)
+  v.prototype.Bc = function(a) {
+    var c = this.N, b = c.A, d = 2 * Math.PI * this.wh, e = b * d * d;
+    this.Mb = a.da * (2 * b * this.gk * d + a.da * e);
+    this.Mb = this.Mb != 0 ? 1 / this.Mb : 0;
+    this.dk = a.da * e * this.Mb;
+    var e = c.n.h, b = this.nf.x - c.e.v.x, d = this.nf.y - c.e.v.y, g = e.b.x * b + e.d.x * d, d = e.b.y * b + e.d.y * d, b = g, e = c.r, g = c.C;
+    this.dd.b.x = e;
+    this.dd.d.x = 0;
+    this.dd.b.y = 0;
+    this.dd.d.y = e;
+    this.ed.b.x = g * d * d;
+    this.ed.d.x = -g * b * d;
+    this.ed.b.y = -g * b * d;
+    this.ed.d.y = g * b * b;
+    this.Kb.Le(this.dd);
+    this.Kb.Kh(this.ed);
+    this.Kb.b.x += this.Mb;
+    this.Kb.d.y += this.Mb;
+    this.Kb.$i(this.A);
+    this.Bi.x = c.e.k.x + b - this.gg.x;
+    this.Bi.y = c.e.k.y + d - this.gg.y;
+    c.w *= 0.98;
+    this.j.x *= a.Ya;
+    this.j.y *= a.Ya;
+    c.m.x += e * this.j.x;
+    c.m.y += e * this.j.y;
+    c.w += g * (b * this.j.y - d * this.j.x)
   };
-  x.prototype.GetReactionTorque = function() {
-    return 0
+  v.prototype.pc = function(a) {
+    var c = this.N, b, d = 0, e = 0;
+    b = c.n.h;
+    var g = this.nf.x - c.e.v.x, h = this.nf.y - c.e.v.y, d = b.b.x * g + b.d.x * h, h = b.b.y * g + b.d.y * h, g = d, d = c.m.x + -c.w * h, i = c.m.y + c.w * g;
+    b = this.A;
+    d = d + this.dk * this.Bi.x + this.Mb * this.j.x;
+    e = i + this.dk * this.Bi.y + this.Mb * this.j.y;
+    i = -(b.b.x * d + b.d.x * e);
+    e = -(b.b.y * d + b.d.y * e);
+    b = this.j.x;
+    d = this.j.y;
+    this.j.x += i;
+    this.j.y += e;
+    a = a.da * this.ok;
+    this.j.Vh() > a * a && this.j.Vb(a / this.j.Ld());
+    i = this.j.x - b;
+    e = this.j.y - d;
+    c.m.x += c.r * i;
+    c.m.y += c.r * e;
+    c.w += c.C * (g * e - h * i)
   };
-  x.prototype.GetTarget = function() {
-    return this.m_target
+  v.prototype.oc = D(!0);
+  P.ya(I, P.c.o.R);
+  I.prototype.I = P.c.o.R.prototype;
+  I.$g = function() {
+    P.c.o.R.R.apply(this, arguments);
+    this.target = new c
   };
-  x.prototype.SetTarget = function(a) {
-    this.m_bodyB.IsAwake() == !1 && this.m_bodyB.SetAwake(!0);
-    this.m_target = a
+  I.prototype.$g = function() {
+    this.I.R.call(this);
+    this.type = n.Vj;
+    this.uk = 0;
+    this.vi = 5;
+    this.ni = 0.7
   };
-  x.prototype.GetMaxForce = function() {
-    return this.m_maxForce
+  P.ya(L, P.c.o.F);
+  L.prototype.I = P.c.o.F.prototype;
+  L.fh = function() {
+    P.c.o.F.F.apply(this, arguments);
+    this.J = new c;
+    this.K = new c;
+    this.kc = new c;
+    this.Xd = new c;
+    this.B = new c;
+    this.T = new c;
+    this.P = new e;
+    this.j = new b
   };
-  x.prototype.SetMaxForce = function(a) {
-    a === void 0 && (a = 0);
-    this.m_maxForce = a
+  L.prototype.zc = function() {
+    return this.S.hb(this.J)
   };
-  x.prototype.GetFrequency = function() {
-    return this.m_frequencyHz
+  L.prototype.Ac = function() {
+    return this.N.hb(this.K)
   };
-  x.prototype.SetFrequency = function(a) {
-    a === void 0 && (a = 0);
-    this.m_frequencyHz = a
+  L.prototype.Dg = function() {
+    var a = this.S, c = this.N, b = a.hb(this.J), d = c.hb(this.K), c = d.x - b.x, b = d.y - b.y, a = a.cj(this.kc);
+    return a.x * c + a.y * b
   };
-  x.prototype.GetDampingRatio = function() {
-    return this.m_dampingRatio
+  L.prototype.fh = function(a) {
+    this.I.F.call(this, a);
+    this.J.p(a.eb);
+    this.K.p(a.fb);
+    this.kc.p(a.hf);
+    this.Xd.x = -this.kc.y;
+    this.Xd.y = this.kc.x;
+    this.Lp = a.Be;
+    this.j.V();
+    this.wa = this.bc = 0;
+    this.Ic = a.bk;
+    this.Jc = a.Mk;
+    this.pk = a.vk;
+    this.zh = a.Fh;
+    this.od = a.ph;
+    this.xe = a.qh;
+    this.ea = n.Xb;
+    this.B.V();
+    this.T.V()
   };
-  x.prototype.SetDampingRatio = function(a) {
-    a === void 0 && (a = 0);
-    this.m_dampingRatio = a
-  };
-  x.prototype.b2MouseJoint = function(a) {
-    this.__super.b2Joint.call(this, a);
-    this.m_target.SetV(a.target);
-    var b = this.m_target.x - this.m_bodyB.m_xf.position.x, e = this.m_target.y - this.m_bodyB.m_xf.position.y, d = this.m_bodyB.m_xf.R;
-    this.m_localAnchor.x = b * d.col1.x + e * d.col1.y;
-    this.m_localAnchor.y = b * d.col2.x + e * d.col2.y;
-    this.m_maxForce = a.maxForce;
-    this.m_impulse.SetZero();
-    this.m_frequencyHz = a.frequencyHz;
-    this.m_dampingRatio = a.dampingRatio;
-    this.m_gamma = this.m_beta = 0
-  };
-  x.prototype.InitVelocityConstraints = function(a) {
-    var b = this.m_bodyB, e = b.GetMass(), d = 2 * Math.PI * this.m_frequencyHz, g = e * d * d;
-    this.m_gamma = a.dt * (2 * e * this.m_dampingRatio * d + a.dt * g);
-    this.m_gamma = this.m_gamma != 0 ? 1 / this.m_gamma : 0;
-    this.m_beta = a.dt * g * this.m_gamma;
-    var g = b.m_xf.R, e = this.m_localAnchor.x - b.m_sweep.localCenter.x, d = this.m_localAnchor.y - b.m_sweep.localCenter.y, f = g.col1.x * e + g.col2.x * d, d = g.col1.y * e + g.col2.y * d, e = f, g = b.m_invMass, f = b.m_invI;
-    this.K1.col1.x = g;
-    this.K1.col2.x = 0;
-    this.K1.col1.y = 0;
-    this.K1.col2.y = g;
-    this.K2.col1.x = f * d * d;
-    this.K2.col2.x = -f * e * d;
-    this.K2.col1.y = -f * e * d;
-    this.K2.col2.y = f * e * e;
-    this.K.SetM(this.K1);
-    this.K.AddM(this.K2);
-    this.K.col1.x += this.m_gamma;
-    this.K.col2.y += this.m_gamma;
-    this.K.GetInverse(this.m_mass);
-    this.m_C.x = b.m_sweep.c.x + e - this.m_target.x;
-    this.m_C.y = b.m_sweep.c.y + d - this.m_target.y;
-    b.m_angularVelocity *= 0.98;
-    this.m_impulse.x *= a.dtRatio;
-    this.m_impulse.y *= a.dtRatio;
-    b.m_linearVelocity.x += g * this.m_impulse.x;
-    b.m_linearVelocity.y += g * this.m_impulse.y;
-    b.m_angularVelocity += f * (e * this.m_impulse.y - d * this.m_impulse.x)
-  };
-  x.prototype.SolveVelocityConstraints = function(a) {
-    var b = this.m_bodyB, e, d = 0, g = 0;
-    e = b.m_xf.R;
-    var f = this.m_localAnchor.x - b.m_sweep.localCenter.x, h = this.m_localAnchor.y - b.m_sweep.localCenter.y, d = e.col1.x * f + e.col2.x * h, h = e.col1.y * f + e.col2.y * h, f = d, d = b.m_linearVelocity.x + -b.m_angularVelocity * h, j = b.m_linearVelocity.y + b.m_angularVelocity * f;
-    e = this.m_mass;
-    d = d + this.m_beta * this.m_C.x + this.m_gamma * this.m_impulse.x;
-    g = j + this.m_beta * this.m_C.y + this.m_gamma * this.m_impulse.y;
-    j = -(e.col1.x * d + e.col2.x * g);
-    g = -(e.col1.y * d + e.col2.y * g);
-    e = this.m_impulse.x;
-    d = this.m_impulse.y;
-    this.m_impulse.x += j;
-    this.m_impulse.y += g;
-    a = a.dt * this.m_maxForce;
-    this.m_impulse.LengthSquared() > a * a && this.m_impulse.Multiply(a / this.m_impulse.Length());
-    j = this.m_impulse.x - e;
-    g = this.m_impulse.y - d;
-    b.m_linearVelocity.x += b.m_invMass * j;
-    b.m_linearVelocity.y += b.m_invMass * g;
-    b.m_angularVelocity += b.m_invI * (f * g - h * j)
-  };
-  x.prototype.SolvePositionConstraints = function() {
-    return!0
-  };
-  Box2D.inherit(F, Box2D.Dynamics.Joints.b2JointDef);
-  F.prototype.__super = Box2D.Dynamics.Joints.b2JointDef.prototype;
-  F.b2MouseJointDef = function() {
-    Box2D.Dynamics.Joints.b2JointDef.b2JointDef.apply(this, arguments);
-    this.target = new e
-  };
-  F.prototype.b2MouseJointDef = function() {
-    this.__super.b2JointDef.call(this);
-    this.type = q.e_mouseJoint;
-    this.maxForce = 0;
-    this.frequencyHz = 5;
-    this.dampingRatio = 0.7
-  };
-  Box2D.inherit(E, Box2D.Dynamics.Joints.b2Joint);
-  E.prototype.__super = Box2D.Dynamics.Joints.b2Joint.prototype;
-  E.b2PrismaticJoint = function() {
-    Box2D.Dynamics.Joints.b2Joint.b2Joint.apply(this, arguments);
-    this.m_localAnchor1 = new e;
-    this.m_localAnchor2 = new e;
-    this.m_localXAxis1 = new e;
-    this.m_localYAxis1 = new e;
-    this.m_axis = new e;
-    this.m_perp = new e;
-    this.m_K = new b;
-    this.m_impulse = new g
-  };
-  E.prototype.GetAnchorA = function() {
-    return this.m_bodyA.GetWorldPoint(this.m_localAnchor1)
-  };
-  E.prototype.GetAnchorB = function() {
-    return this.m_bodyB.GetWorldPoint(this.m_localAnchor2)
-  };
-  E.prototype.GetReactionForce = function(a) {
-    a === void 0 && (a = 0);
-    return new e(a * (this.m_impulse.x * this.m_perp.x + (this.m_motorImpulse + this.m_impulse.z) * this.m_axis.x), a * (this.m_impulse.x * this.m_perp.y + (this.m_motorImpulse + this.m_impulse.z) * this.m_axis.y))
-  };
-  E.prototype.GetReactionTorque = function(a) {
-    a === void 0 && (a = 0);
-    return a * this.m_impulse.y
-  };
-  E.prototype.GetJointTranslation = function() {
-    var a = this.m_bodyA, b = this.m_bodyB, e = a.GetWorldPoint(this.m_localAnchor1), d = b.GetWorldPoint(this.m_localAnchor2), b = d.x - e.x, e = d.y - e.y, a = a.GetWorldVector(this.m_localXAxis1);
-    return a.x * b + a.y * e
-  };
-  E.prototype.GetJointSpeed = function() {
-    var a = this.m_bodyA, b = this.m_bodyB, e;
-    e = a.m_xf.R;
-    var d = this.m_localAnchor1.x - a.m_sweep.localCenter.x, g = this.m_localAnchor1.y - a.m_sweep.localCenter.y, f = e.col1.x * d + e.col2.x * g, g = e.col1.y * d + e.col2.y * g, d = f;
-    e = b.m_xf.R;
-    var h = this.m_localAnchor2.x - b.m_sweep.localCenter.x, j = this.m_localAnchor2.y - b.m_sweep.localCenter.y, f = e.col1.x * h + e.col2.x * j, j = e.col1.y * h + e.col2.y * j, h = f;
-    e = b.m_sweep.c.x + h - (a.m_sweep.c.x + d);
-    var f = b.m_sweep.c.y + j - (a.m_sweep.c.y + g), k = a.GetWorldVector(this.m_localXAxis1), l = a.m_linearVelocity, q = b.m_linearVelocity, a = a.m_angularVelocity, b = b.m_angularVelocity;
-    return e * -a * k.y + f * a * k.x + (k.x * (q.x + -b * j - l.x - -a * g) + k.y * (q.y + b * h - l.y - a * d))
-  };
-  E.prototype.IsLimitEnabled = function() {
-    return this.m_enableLimit
-  };
-  E.prototype.EnableLimit = function(a) {
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_enableLimit = a
-  };
-  E.prototype.GetLowerLimit = function() {
-    return this.m_lowerTranslation
-  };
-  E.prototype.GetUpperLimit = function() {
-    return this.m_upperTranslation
-  };
-  E.prototype.SetLimits = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_lowerTranslation = a;
-    this.m_upperTranslation = b
-  };
-  E.prototype.IsMotorEnabled = function() {
-    return this.m_enableMotor
-  };
-  E.prototype.EnableMotor = function(a) {
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_enableMotor = a
-  };
-  E.prototype.SetMotorSpeed = function(a) {
-    a === void 0 && (a = 0);
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_motorSpeed = a
-  };
-  E.prototype.GetMotorSpeed = function() {
-    return this.m_motorSpeed
-  };
-  E.prototype.SetMaxMotorForce = function(a) {
-    a === void 0 && (a = 0);
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_maxMotorForce = a
-  };
-  E.prototype.GetMotorForce = function() {
-    return this.m_motorImpulse
-  };
-  E.prototype.b2PrismaticJoint = function(a) {
-    this.__super.b2Joint.call(this, a);
-    this.m_localAnchor1.SetV(a.localAnchorA);
-    this.m_localAnchor2.SetV(a.localAnchorB);
-    this.m_localXAxis1.SetV(a.localAxisA);
-    this.m_localYAxis1.x = -this.m_localXAxis1.y;
-    this.m_localYAxis1.y = this.m_localXAxis1.x;
-    this.m_refAngle = a.referenceAngle;
-    this.m_impulse.SetZero();
-    this.m_motorImpulse = this.m_motorMass = 0;
-    this.m_lowerTranslation = a.lowerTranslation;
-    this.m_upperTranslation = a.upperTranslation;
-    this.m_maxMotorForce = a.maxMotorForce;
-    this.m_motorSpeed = a.motorSpeed;
-    this.m_enableLimit = a.enableLimit;
-    this.m_enableMotor = a.enableMotor;
-    this.m_limitState = q.e_inactiveLimit;
-    this.m_axis.SetZero();
-    this.m_perp.SetZero()
-  };
-  E.prototype.InitVelocityConstraints = function(b) {
-    var e = this.m_bodyA, d = this.m_bodyB, g, h = 0;
-    this.m_localCenterA.SetV(e.GetLocalCenter());
-    this.m_localCenterB.SetV(d.GetLocalCenter());
-    var j = e.GetTransform();
-    d.GetTransform();
-    g = e.m_xf.R;
-    var k = this.m_localAnchor1.x - this.m_localCenterA.x, l = this.m_localAnchor1.y - this.m_localCenterA.y, h = g.col1.x * k + g.col2.x * l, l = g.col1.y * k + g.col2.y * l, k = h;
-    g = d.m_xf.R;
-    var m = this.m_localAnchor2.x - this.m_localCenterB.x, n = this.m_localAnchor2.y - this.m_localCenterB.y, h = g.col1.x * m + g.col2.x * n, n = g.col1.y * m + g.col2.y * n, m = h;
-    g = d.m_sweep.c.x + m - e.m_sweep.c.x - k;
-    h = d.m_sweep.c.y + n - e.m_sweep.c.y - l;
-    this.m_invMassA = e.m_invMass;
-    this.m_invMassB = d.m_invMass;
-    this.m_invIA = e.m_invI;
-    this.m_invIB = d.m_invI;
-    this.m_axis.SetV(f.MulMV(j.R, this.m_localXAxis1));
-    this.m_a1 = (g + k) * this.m_axis.y - (h + l) * this.m_axis.x;
-    this.m_a2 = m * this.m_axis.y - n * this.m_axis.x;
-    this.m_motorMass = this.m_invMassA + this.m_invMassB + this.m_invIA * this.m_a1 * this.m_a1 + this.m_invIB * this.m_a2 * this.m_a2;
-    if(this.m_motorMass > Number.MIN_VALUE) {
-      this.m_motorMass = 1 / this.m_motorMass
+  L.prototype.Bc = function(c) {
+    var b = this.S, e = this.N, g, h = 0;
+    this.Ed.p(b.e.v);
+    this.Fd.p(e.e.v);
+    var i = b.Tb();
+    e.Tb();
+    g = b.n.h;
+    var j = this.J.x - this.Ed.x, k = this.J.y - this.Ed.y, h = g.b.x * j + g.d.x * k, k = g.b.y * j + g.d.y * k, j = h;
+    g = e.n.h;
+    var l = this.K.x - this.Fd.x, m = this.K.y - this.Fd.y, h = g.b.x * l + g.d.x * m, m = g.b.y * l + g.d.y * m, l = h;
+    g = e.e.k.x + l - b.e.k.x - j;
+    h = e.e.k.y + m - b.e.k.y - k;
+    this.Ta = b.r;
+    this.Ua = e.r;
+    this.Nb = b.C;
+    this.Ob = e.C;
+    this.B.p(d.ub(i.h, this.kc));
+    this.ua = (g + j) * this.B.y - (h + k) * this.B.x;
+    this.va = l * this.B.y - m * this.B.x;
+    this.bc = this.Ta + this.Ua + this.Nb * this.ua * this.ua + this.Ob * this.va * this.va;
+    if(this.bc > Number.MIN_VALUE) {
+      this.bc = 1 / this.bc
     }
-    this.m_perp.SetV(f.MulMV(j.R, this.m_localYAxis1));
-    this.m_s1 = (g + k) * this.m_perp.y - (h + l) * this.m_perp.x;
-    this.m_s2 = m * this.m_perp.y - n * this.m_perp.x;
-    j = this.m_invMassA;
-    k = this.m_invMassB;
-    l = this.m_invIA;
-    m = this.m_invIB;
-    this.m_K.col1.x = j + k + l * this.m_s1 * this.m_s1 + m * this.m_s2 * this.m_s2;
-    this.m_K.col1.y = l * this.m_s1 + m * this.m_s2;
-    this.m_K.col1.z = l * this.m_s1 * this.m_a1 + m * this.m_s2 * this.m_a2;
-    this.m_K.col2.x = this.m_K.col1.y;
-    this.m_K.col2.y = l + m;
-    this.m_K.col2.z = l * this.m_a1 + m * this.m_a2;
-    this.m_K.col3.x = this.m_K.col1.z;
-    this.m_K.col3.y = this.m_K.col2.z;
-    this.m_K.col3.z = j + k + l * this.m_a1 * this.m_a1 + m * this.m_a2 * this.m_a2;
-    if(this.m_enableLimit) {
-      if(g = this.m_axis.x * g + this.m_axis.y * h, f.Abs(this.m_upperTranslation - this.m_lowerTranslation) < 2 * a.b2_linearSlop) {
-        this.m_limitState = q.e_equalLimits
+    this.T.p(d.ub(i.h, this.Xd));
+    this.Aa = (g + j) * this.T.y - (h + k) * this.T.x;
+    this.Ba = l * this.T.y - m * this.T.x;
+    i = this.Ta;
+    j = this.Ua;
+    k = this.Nb;
+    l = this.Ob;
+    this.P.b.x = i + j + k * this.Aa * this.Aa + l * this.Ba * this.Ba;
+    this.P.b.y = k * this.Aa + l * this.Ba;
+    this.P.b.t = k * this.Aa * this.ua + l * this.Ba * this.va;
+    this.P.d.x = this.P.b.y;
+    this.P.d.y = k + l;
+    this.P.d.t = k * this.ua + l * this.va;
+    this.P.X.x = this.P.b.t;
+    this.P.X.y = this.P.d.t;
+    this.P.X.t = i + j + k * this.ua * this.ua + l * this.va * this.va;
+    if(this.od) {
+      if(g = this.B.x * g + this.B.y * h, d.lb(this.Jc - this.Ic) < 2 * a.ta) {
+        this.ea = n.re
       }else {
-        if(g <= this.m_lowerTranslation) {
-          if(this.m_limitState != q.e_atLowerLimit) {
-            this.m_limitState = q.e_atLowerLimit, this.m_impulse.z = 0
+        if(g <= this.Ic) {
+          if(this.ea != n.xd) {
+            this.ea = n.xd, this.j.t = 0
           }
         }else {
-          if(g >= this.m_upperTranslation) {
-            if(this.m_limitState != q.e_atUpperLimit) {
-              this.m_limitState = q.e_atUpperLimit, this.m_impulse.z = 0
+          if(g >= this.Jc) {
+            if(this.ea != n.wb) {
+              this.ea = n.wb, this.j.t = 0
             }
           }else {
-            this.m_limitState = q.e_inactiveLimit, this.m_impulse.z = 0
+            this.ea = n.Xb, this.j.t = 0
           }
         }
       }
     }else {
-      this.m_limitState = q.e_inactiveLimit
+      this.ea = n.Xb
     }
-    if(this.m_enableMotor == !1) {
-      this.m_motorImpulse = 0
+    if(this.xe == !1) {
+      this.wa = 0
     }
-    b.warmStarting ? (this.m_impulse.x *= b.dtRatio, this.m_impulse.y *= b.dtRatio, this.m_motorImpulse *= b.dtRatio, b = this.m_impulse.x * this.m_perp.x + (this.m_motorImpulse + this.m_impulse.z) * this.m_axis.x, g = this.m_impulse.x * this.m_perp.y + (this.m_motorImpulse + this.m_impulse.z) * this.m_axis.y, h = this.m_impulse.x * this.m_s1 + this.m_impulse.y + (this.m_motorImpulse + this.m_impulse.z) * this.m_a1, j = this.m_impulse.x * this.m_s2 + this.m_impulse.y + (this.m_motorImpulse + this.m_impulse.z) * 
-    this.m_a2, e.m_linearVelocity.x -= this.m_invMassA * b, e.m_linearVelocity.y -= this.m_invMassA * g, e.m_angularVelocity -= this.m_invIA * h, d.m_linearVelocity.x += this.m_invMassB * b, d.m_linearVelocity.y += this.m_invMassB * g, d.m_angularVelocity += this.m_invIB * j) : (this.m_impulse.SetZero(), this.m_motorImpulse = 0)
+    c.bd ? (this.j.x *= c.Ya, this.j.y *= c.Ya, this.wa *= c.Ya, c = this.j.x * this.T.x + (this.wa + this.j.t) * this.B.x, g = this.j.x * this.T.y + (this.wa + this.j.t) * this.B.y, h = this.j.x * this.Aa + this.j.y + (this.wa + this.j.t) * this.ua, i = this.j.x * this.Ba + this.j.y + (this.wa + this.j.t) * this.va, b.m.x -= this.Ta * c, b.m.y -= this.Ta * g, b.w -= this.Nb * h, e.m.x += this.Ua * c, e.m.y += this.Ua * g, e.w += this.Ob * i) : (this.j.V(), this.wa = 0)
   };
-  E.prototype.SolveVelocityConstraints = function(a) {
-    var b = this.m_bodyA, d = this.m_bodyB, h = b.m_linearVelocity, j = b.m_angularVelocity, k = d.m_linearVelocity, l = d.m_angularVelocity, m = 0, u = 0, n = 0, o = 0;
-    if(this.m_enableMotor && this.m_limitState != q.e_equalLimits) {
-      o = this.m_motorMass * (this.m_motorSpeed - (this.m_axis.x * (k.x - h.x) + this.m_axis.y * (k.y - h.y) + this.m_a2 * l - this.m_a1 * j)), m = this.m_motorImpulse, a = a.dt * this.m_maxMotorForce, this.m_motorImpulse = f.Clamp(this.m_motorImpulse + o, -a, a), o = this.m_motorImpulse - m, m = o * this.m_axis.x, u = o * this.m_axis.y, n = o * this.m_a1, o *= this.m_a2, h.x -= this.m_invMassA * m, h.y -= this.m_invMassA * u, j -= this.m_invIA * n, k.x += this.m_invMassB * m, k.y += this.m_invMassB * 
-      u, l += this.m_invIB * o
+  L.prototype.pc = function(a) {
+    var e = this.S, g = this.N, h = e.m, i = e.w, j = g.m, k = g.w, l = 0, m = 0, s = 0, o = 0;
+    if(this.xe && this.ea != n.re) {
+      o = this.bc * (this.zh - (this.B.x * (j.x - h.x) + this.B.y * (j.y - h.y) + this.va * k - this.ua * i)), l = this.wa, a = a.da * this.pk, this.wa = d.xa(this.wa + o, -a, a), o = this.wa - l, l = o * this.B.x, m = o * this.B.y, s = o * this.ua, o *= this.va, h.x -= this.Ta * l, h.y -= this.Ta * m, i -= this.Nb * s, j.x += this.Ua * l, j.y += this.Ua * m, k += this.Ob * o
     }
-    n = this.m_perp.x * (k.x - h.x) + this.m_perp.y * (k.y - h.y) + this.m_s2 * l - this.m_s1 * j;
-    u = l - j;
-    if(this.m_enableLimit && this.m_limitState != q.e_inactiveLimit) {
-      a = this.m_axis.x * (k.x - h.x) + this.m_axis.y * (k.y - h.y) + this.m_a2 * l - this.m_a1 * j;
-      m = this.m_impulse.Copy();
-      a = this.m_K.Solve33(new g, -n, -u, -a);
-      this.m_impulse.Add(a);
-      if(this.m_limitState == q.e_atLowerLimit) {
-        this.m_impulse.z = f.Max(this.m_impulse.z, 0)
+    s = this.T.x * (j.x - h.x) + this.T.y * (j.y - h.y) + this.Ba * k - this.Aa * i;
+    m = k - i;
+    if(this.od && this.ea != n.Xb) {
+      a = this.B.x * (j.x - h.x) + this.B.y * (j.y - h.y) + this.va * k - this.ua * i;
+      l = this.j.mb();
+      a = this.P.Kg(new b, -s, -m, -a);
+      this.j.ce(a);
+      if(this.ea == n.xd) {
+        this.j.t = d.Ub(this.j.t, 0)
       }else {
-        if(this.m_limitState == q.e_atUpperLimit) {
-          this.m_impulse.z = f.Min(this.m_impulse.z, 0)
+        if(this.ea == n.wb) {
+          this.j.t = d.Je(this.j.t, 0)
         }
       }
-      n = -n - (this.m_impulse.z - m.z) * this.m_K.col3.x;
-      u = -u - (this.m_impulse.z - m.z) * this.m_K.col3.y;
-      u = this.m_K.Solve22(new e, n, u);
-      u.x += m.x;
-      u.y += m.y;
-      this.m_impulse.x = u.x;
-      this.m_impulse.y = u.y;
-      a.x = this.m_impulse.x - m.x;
-      a.y = this.m_impulse.y - m.y;
-      a.z = this.m_impulse.z - m.z;
-      m = a.x * this.m_perp.x + a.z * this.m_axis.x;
-      u = a.x * this.m_perp.y + a.z * this.m_axis.y;
-      n = a.x * this.m_s1 + a.y + a.z * this.m_a1;
-      o = a.x * this.m_s2 + a.y + a.z * this.m_a2
+      s = -s - (this.j.t - l.t) * this.P.X.x;
+      m = -m - (this.j.t - l.t) * this.P.X.y;
+      m = this.P.Kf(new c, s, m);
+      m.x += l.x;
+      m.y += l.y;
+      this.j.x = m.x;
+      this.j.y = m.y;
+      a.x = this.j.x - l.x;
+      a.y = this.j.y - l.y;
+      a.t = this.j.t - l.t;
+      l = a.x * this.T.x + a.t * this.B.x;
+      m = a.x * this.T.y + a.t * this.B.y;
+      s = a.x * this.Aa + a.y + a.t * this.ua;
+      o = a.x * this.Ba + a.y + a.t * this.va
     }else {
-      a = this.m_K.Solve22(new e, -n, -u), this.m_impulse.x += a.x, this.m_impulse.y += a.y, m = a.x * this.m_perp.x, u = a.x * this.m_perp.y, n = a.x * this.m_s1 + a.y, o = a.x * this.m_s2 + a.y
+      a = this.P.Kf(new c, -s, -m), this.j.x += a.x, this.j.y += a.y, l = a.x * this.T.x, m = a.x * this.T.y, s = a.x * this.Aa + a.y, o = a.x * this.Ba + a.y
     }
-    h.x -= this.m_invMassA * m;
-    h.y -= this.m_invMassA * u;
-    j -= this.m_invIA * n;
-    k.x += this.m_invMassB * m;
-    k.y += this.m_invMassB * u;
-    l += this.m_invIB * o;
-    b.m_linearVelocity.SetV(h);
-    b.m_angularVelocity = j;
-    d.m_linearVelocity.SetV(k);
-    d.m_angularVelocity = l
+    h.x -= this.Ta * l;
+    h.y -= this.Ta * m;
+    i -= this.Nb * s;
+    j.x += this.Ua * l;
+    j.y += this.Ua * m;
+    k += this.Ob * o;
+    e.m.p(h);
+    e.w = i;
+    g.m.p(j);
+    g.w = k
   };
-  E.prototype.SolvePositionConstraints = function() {
-    var b = this.m_bodyA, h = this.m_bodyB, j = b.m_sweep.c, k = b.m_sweep.a, l = h.m_sweep.c, q = h.m_sweep.a, m, n = 0, u = 0, o = 0, s = n = m = 0, w = 0, u = !1, t = 0, y = d.FromAngle(k), z = d.FromAngle(q);
-    m = y;
-    var w = this.m_localAnchor1.x - this.m_localCenterA.x, x = this.m_localAnchor1.y - this.m_localCenterA.y, n = m.col1.x * w + m.col2.x * x, x = m.col1.y * w + m.col2.y * x, w = n;
-    m = z;
-    z = this.m_localAnchor2.x - this.m_localCenterB.x;
-    o = this.m_localAnchor2.y - this.m_localCenterB.y;
-    n = m.col1.x * z + m.col2.x * o;
-    o = m.col1.y * z + m.col2.y * o;
-    z = n;
-    m = l.x + z - j.x - w;
-    n = l.y + o - j.y - x;
-    if(this.m_enableLimit) {
-      this.m_axis = f.MulMV(y, this.m_localXAxis1);
-      this.m_a1 = (m + w) * this.m_axis.y - (n + x) * this.m_axis.x;
-      this.m_a2 = z * this.m_axis.y - o * this.m_axis.x;
-      var A = this.m_axis.x * m + this.m_axis.y * n;
-      f.Abs(this.m_upperTranslation - this.m_lowerTranslation) < 2 * a.b2_linearSlop ? (t = f.Clamp(A, -a.b2_maxLinearCorrection, a.b2_maxLinearCorrection), s = f.Abs(A), u = !0) : A <= this.m_lowerTranslation ? (t = f.Clamp(A - this.m_lowerTranslation + a.b2_linearSlop, -a.b2_maxLinearCorrection, 0), s = this.m_lowerTranslation - A, u = !0) : A >= this.m_upperTranslation && (t = f.Clamp(A - this.m_upperTranslation + a.b2_linearSlop, 0, a.b2_maxLinearCorrection), s = A - this.m_upperTranslation, 
-      u = !0)
+  L.prototype.oc = function() {
+    var e = this.S, h = this.N, i = e.e.k, j = e.e.z, k = h.e.k, l = h.e.z, n, m = 0, s = 0, o = 0, w = m = n = 0, x = 0, s = !1, v = 0, A = g.Qh(j), z = g.Qh(l);
+    n = A;
+    var x = this.J.x - this.Ed.x, C = this.J.y - this.Ed.y, m = n.b.x * x + n.d.x * C, C = n.b.y * x + n.d.y * C, x = m;
+    n = z;
+    z = this.K.x - this.Fd.x;
+    o = this.K.y - this.Fd.y;
+    m = n.b.x * z + n.d.x * o;
+    o = n.b.y * z + n.d.y * o;
+    z = m;
+    n = k.x + z - i.x - x;
+    m = k.y + o - i.y - C;
+    if(this.od) {
+      this.B = d.ub(A, this.kc);
+      this.ua = (n + x) * this.B.y - (m + C) * this.B.x;
+      this.va = z * this.B.y - o * this.B.x;
+      var B = this.B.x * n + this.B.y * m;
+      d.lb(this.Jc - this.Ic) < 2 * a.ta ? (v = d.xa(B, -a.uc, a.uc), w = d.lb(B), s = !0) : B <= this.Ic ? (v = d.xa(B - this.Ic + a.ta, -a.uc, 0), w = this.Ic - B, s = !0) : B >= this.Jc && (v = d.xa(B - this.Jc + a.ta, 0, a.uc), w = B - this.Jc, s = !0)
     }
-    this.m_perp = f.MulMV(y, this.m_localYAxis1);
-    this.m_s1 = (m + w) * this.m_perp.y - (n + x) * this.m_perp.x;
-    this.m_s2 = z * this.m_perp.y - o * this.m_perp.x;
-    y = new g;
-    x = this.m_perp.x * m + this.m_perp.y * n;
-    z = q - k - this.m_refAngle;
-    s = f.Max(s, f.Abs(x));
-    w = f.Abs(z);
-    u ? (u = this.m_invMassA, o = this.m_invMassB, m = this.m_invIA, n = this.m_invIB, this.m_K.col1.x = u + o + m * this.m_s1 * this.m_s1 + n * this.m_s2 * this.m_s2, this.m_K.col1.y = m * this.m_s1 + n * this.m_s2, this.m_K.col1.z = m * this.m_s1 * this.m_a1 + n * this.m_s2 * this.m_a2, this.m_K.col2.x = this.m_K.col1.y, this.m_K.col2.y = m + n, this.m_K.col2.z = m * this.m_a1 + n * this.m_a2, this.m_K.col3.x = this.m_K.col1.z, this.m_K.col3.y = this.m_K.col2.z, this.m_K.col3.z = u + o + m * this.m_a1 * 
-    this.m_a1 + n * this.m_a2 * this.m_a2, this.m_K.Solve33(y, -x, -z, -t)) : (u = this.m_invMassA, o = this.m_invMassB, m = this.m_invIA, n = this.m_invIB, t = m * this.m_s1 + n * this.m_s2, A = m + n, this.m_K.col1.Set(u + o + m * this.m_s1 * this.m_s1 + n * this.m_s2 * this.m_s2, t, 0), this.m_K.col2.Set(t, A, 0), t = this.m_K.Solve22(new e, -x, -z), y.x = t.x, y.y = t.y, y.z = 0);
-    t = y.x * this.m_perp.x + y.z * this.m_axis.x;
-    u = y.x * this.m_perp.y + y.z * this.m_axis.y;
-    x = y.x * this.m_s1 + y.y + y.z * this.m_a1;
-    y = y.x * this.m_s2 + y.y + y.z * this.m_a2;
-    j.x -= this.m_invMassA * t;
-    j.y -= this.m_invMassA * u;
-    k -= this.m_invIA * x;
-    l.x += this.m_invMassB * t;
-    l.y += this.m_invMassB * u;
-    q += this.m_invIB * y;
-    b.m_sweep.a = k;
-    h.m_sweep.a = q;
-    b.SynchronizeTransform();
-    h.SynchronizeTransform();
-    return s <= a.b2_linearSlop && w <= a.b2_angularSlop
+    this.T = d.ub(A, this.Xd);
+    this.Aa = (n + x) * this.T.y - (m + C) * this.T.x;
+    this.Ba = z * this.T.y - o * this.T.x;
+    A = new b;
+    C = this.T.x * n + this.T.y * m;
+    z = l - j - this.Lp;
+    w = d.Ub(w, d.lb(C));
+    x = d.lb(z);
+    s ? (s = this.Ta, o = this.Ua, n = this.Nb, m = this.Ob, this.P.b.x = s + o + n * this.Aa * this.Aa + m * this.Ba * this.Ba, this.P.b.y = n * this.Aa + m * this.Ba, this.P.b.t = n * this.Aa * this.ua + m * this.Ba * this.va, this.P.d.x = this.P.b.y, this.P.d.y = n + m, this.P.d.t = n * this.ua + m * this.va, this.P.X.x = this.P.b.t, this.P.X.y = this.P.d.t, this.P.X.t = s + o + n * this.ua * this.ua + m * this.va * this.va, this.P.Kg(A, -C, -z, -v)) : (s = this.Ta, o = this.Ua, n = this.Nb, m = 
+    this.Ob, v = n * this.Aa + m * this.Ba, B = n + m, this.P.b.s(s + o + n * this.Aa * this.Aa + m * this.Ba * this.Ba, v, 0), this.P.d.s(v, B, 0), v = this.P.Kf(new c, -C, -z), A.x = v.x, A.y = v.y, A.t = 0);
+    v = A.x * this.T.x + A.t * this.B.x;
+    s = A.x * this.T.y + A.t * this.B.y;
+    C = A.x * this.Aa + A.y + A.t * this.ua;
+    A = A.x * this.Ba + A.y + A.t * this.va;
+    i.x -= this.Ta * v;
+    i.y -= this.Ta * s;
+    j -= this.Nb * C;
+    k.x += this.Ua * v;
+    k.y += this.Ua * s;
+    l += this.Ob * A;
+    e.e.z = j;
+    h.e.z = l;
+    e.Qa();
+    h.Qa();
+    return w <= a.ta && x <= a.$e
   };
-  Box2D.inherit(J, Box2D.Dynamics.Joints.b2JointDef);
-  J.prototype.__super = Box2D.Dynamics.Joints.b2JointDef.prototype;
-  J.b2PrismaticJointDef = function() {
-    Box2D.Dynamics.Joints.b2JointDef.b2JointDef.apply(this, arguments);
-    this.localAnchorA = new e;
-    this.localAnchorB = new e;
-    this.localAxisA = new e
+  P.ya(M, P.c.o.R);
+  M.prototype.I = P.c.o.R.prototype;
+  M.gh = function() {
+    P.c.o.R.R.apply(this, arguments);
+    this.eb = new c;
+    this.fb = new c;
+    this.hf = new c
   };
-  J.prototype.b2PrismaticJointDef = function() {
-    this.__super.b2JointDef.call(this);
-    this.type = q.e_prismaticJoint;
-    this.localAxisA.Set(1, 0);
-    this.referenceAngle = 0;
-    this.enableLimit = !1;
-    this.upperTranslation = this.lowerTranslation = 0;
-    this.enableMotor = !1;
-    this.motorSpeed = this.maxMotorForce = 0
+  M.prototype.gh = function() {
+    this.I.R.call(this);
+    this.type = n.Zl;
+    this.hf.s(1, 0);
+    this.Be = 0;
+    this.ph = !1;
+    this.Mk = this.bk = 0;
+    this.qh = !1;
+    this.Fh = this.vk = 0
   };
-  J.prototype.Initialize = function(a, b, e, d) {
-    this.bodyA = a;
-    this.bodyB = b;
-    this.localAnchorA = this.bodyA.GetLocalPoint(e);
-    this.localAnchorB = this.bodyB.GetLocalPoint(e);
-    this.localAxisA = this.bodyA.GetLocalVector(d);
-    this.referenceAngle = this.bodyB.GetAngle() - this.bodyA.GetAngle()
+  M.prototype.$a = function(a, c, b, d) {
+    this.ma = a;
+    this.qa = c;
+    this.eb = this.ma.mc(b);
+    this.fb = this.qa.mc(b);
+    this.hf = this.ma.aj(d);
+    this.Be = this.qa.Jd() - this.ma.Jd()
   };
-  Box2D.inherit(n, Box2D.Dynamics.Joints.b2Joint);
-  n.prototype.__super = Box2D.Dynamics.Joints.b2Joint.prototype;
-  n.b2PulleyJoint = function() {
-    Box2D.Dynamics.Joints.b2Joint.b2Joint.apply(this, arguments);
-    this.m_groundAnchor1 = new e;
-    this.m_groundAnchor2 = new e;
-    this.m_localAnchor1 = new e;
-    this.m_localAnchor2 = new e;
-    this.m_u1 = new e;
-    this.m_u2 = new e
+  P.ya(o, P.c.o.F);
+  o.prototype.I = P.c.o.F.prototype;
+  o.Of = function() {
+    P.c.o.F.F.apply(this, arguments);
+    this.Cd = new c;
+    this.Dd = new c;
+    this.J = new c;
+    this.K = new c;
+    this.Ha = new c;
+    this.Ia = new c
   };
-  n.prototype.GetAnchorA = function() {
-    return this.m_bodyA.GetWorldPoint(this.m_localAnchor1)
+  o.prototype.zc = function() {
+    return this.S.hb(this.J)
   };
-  n.prototype.GetAnchorB = function() {
-    return this.m_bodyB.GetWorldPoint(this.m_localAnchor2)
+  o.prototype.Ac = function() {
+    return this.N.hb(this.K)
   };
-  n.prototype.GetReactionForce = function(a) {
-    a === void 0 && (a = 0);
-    return new e(a * this.m_impulse * this.m_u2.x, a * this.m_impulse * this.m_u2.y)
-  };
-  n.prototype.GetReactionTorque = function() {
-    return 0
-  };
-  n.prototype.GetGroundAnchorA = function() {
-    var a = this.m_ground.m_xf.position.Copy();
-    a.Add(this.m_groundAnchor1);
+  o.prototype.cl = function() {
+    var a = this.wc.n.position.mb();
+    a.ce(this.Cd);
     return a
   };
-  n.prototype.GetGroundAnchorB = function() {
-    var a = this.m_ground.m_xf.position.Copy();
-    a.Add(this.m_groundAnchor2);
+  o.prototype.dl = function() {
+    var a = this.wc.n.position.mb();
+    a.ce(this.Dd);
     return a
   };
-  n.prototype.GetLength1 = function() {
-    var a = this.m_bodyA.GetWorldPoint(this.m_localAnchor1), b = a.x - (this.m_ground.m_xf.position.x + this.m_groundAnchor1.x), a = a.y - (this.m_ground.m_xf.position.y + this.m_groundAnchor1.y);
-    return Math.sqrt(b * b + a * a)
+  o.prototype.Of = function(a) {
+    this.I.F.call(this, a);
+    this.wc = this.S.zb.jk;
+    this.Cd.x = a.wi.x - this.wc.n.position.x;
+    this.Cd.y = a.wi.y - this.wc.n.position.y;
+    this.Dd.x = a.xi.x - this.wc.n.position.x;
+    this.Dd.y = a.xi.y - this.wc.n.position.y;
+    this.J.p(a.eb);
+    this.K.p(a.fb);
+    this.Va = a.wf;
+    this.ag = a.$j + this.Va * a.ak;
+    this.vm = d.Je(a.ym, this.ag - this.Va * o.ji);
+    this.wm = d.Je(a.zm, (this.ag - o.ji) / this.Va);
+    this.Wd = this.Vd = this.j = 0
   };
-  n.prototype.GetLength2 = function() {
-    var a = this.m_bodyB.GetWorldPoint(this.m_localAnchor2), b = a.x - (this.m_ground.m_xf.position.x + this.m_groundAnchor2.x), a = a.y - (this.m_ground.m_xf.position.y + this.m_groundAnchor2.y);
-    return Math.sqrt(b * b + a * a)
+  o.prototype.Bc = function(c) {
+    var b = this.S, d = this.N, e;
+    e = b.n.h;
+    var g = this.J.x - b.e.v.x, h = this.J.y - b.e.v.y, i = e.b.x * g + e.d.x * h, h = e.b.y * g + e.d.y * h, g = i;
+    e = d.n.h;
+    var j = this.K.x - d.e.v.x, k = this.K.y - d.e.v.y, i = e.b.x * j + e.d.x * k, k = e.b.y * j + e.d.y * k, j = i;
+    e = d.e.k.x + j;
+    var i = d.e.k.y + k, l = this.wc.n.position.x + this.Dd.x, m = this.wc.n.position.y + this.Dd.y;
+    this.Ha.s(b.e.k.x + g - (this.wc.n.position.x + this.Cd.x), b.e.k.y + h - (this.wc.n.position.y + this.Cd.y));
+    this.Ia.s(e - l, i - m);
+    e = this.Ha.Ld();
+    i = this.Ia.Ld();
+    e > a.ta ? this.Ha.Vb(1 / e) : this.Ha.V();
+    i > a.ta ? this.Ia.Vb(1 / i) : this.Ia.V();
+    this.ag - e - this.Va * i > 0 ? (this.sk = n.Xb, this.j = 0) : this.sk = n.wb;
+    e < this.vm ? (this.lk = n.Xb, this.Vd = 0) : this.lk = n.wb;
+    i < this.wm ? (this.mk = n.Xb, this.Wd = 0) : this.mk = n.wb;
+    e = g * this.Ha.y - h * this.Ha.x;
+    i = j * this.Ia.y - k * this.Ia.x;
+    this.xh = b.r + b.C * e * e;
+    this.yh = d.r + d.C * i * i;
+    this.Ei = this.xh + this.Va * this.Va * this.yh;
+    this.xh = 1 / this.xh;
+    this.yh = 1 / this.yh;
+    this.Ei = 1 / this.Ei;
+    c.bd ? (this.j *= c.Ya, this.Vd *= c.Ya, this.Wd *= c.Ya, c = (-this.j - this.Vd) * this.Ha.x, e = (-this.j - this.Vd) * this.Ha.y, i = (-this.Va * this.j - this.Wd) * this.Ia.x, l = (-this.Va * this.j - this.Wd) * this.Ia.y, b.m.x += b.r * c, b.m.y += b.r * e, b.w += b.C * (g * e - h * c), d.m.x += d.r * i, d.m.y += d.r * l, d.w += d.C * (j * l - k * i)) : this.Wd = this.Vd = this.j = 0
   };
-  n.prototype.GetRatio = function() {
-    return this.m_ratio
-  };
-  n.prototype.b2PulleyJoint = function(a) {
-    this.__super.b2Joint.call(this, a);
-    this.m_ground = this.m_bodyA.m_world.m_groundBody;
-    this.m_groundAnchor1.x = a.groundAnchorA.x - this.m_ground.m_xf.position.x;
-    this.m_groundAnchor1.y = a.groundAnchorA.y - this.m_ground.m_xf.position.y;
-    this.m_groundAnchor2.x = a.groundAnchorB.x - this.m_ground.m_xf.position.x;
-    this.m_groundAnchor2.y = a.groundAnchorB.y - this.m_ground.m_xf.position.y;
-    this.m_localAnchor1.SetV(a.localAnchorA);
-    this.m_localAnchor2.SetV(a.localAnchorB);
-    this.m_ratio = a.ratio;
-    this.m_constant = a.lengthA + this.m_ratio * a.lengthB;
-    this.m_maxLength1 = f.Min(a.maxLengthA, this.m_constant - this.m_ratio * n.b2_minPulleyLength);
-    this.m_maxLength2 = f.Min(a.maxLengthB, (this.m_constant - n.b2_minPulleyLength) / this.m_ratio);
-    this.m_limitImpulse2 = this.m_limitImpulse1 = this.m_impulse = 0
-  };
-  n.prototype.InitVelocityConstraints = function(b) {
-    var e = this.m_bodyA, d = this.m_bodyB, g;
-    g = e.m_xf.R;
-    var f = this.m_localAnchor1.x - e.m_sweep.localCenter.x, h = this.m_localAnchor1.y - e.m_sweep.localCenter.y, j = g.col1.x * f + g.col2.x * h, h = g.col1.y * f + g.col2.y * h, f = j;
-    g = d.m_xf.R;
-    var k = this.m_localAnchor2.x - d.m_sweep.localCenter.x, l = this.m_localAnchor2.y - d.m_sweep.localCenter.y, j = g.col1.x * k + g.col2.x * l, l = g.col1.y * k + g.col2.y * l, k = j;
-    g = d.m_sweep.c.x + k;
-    var j = d.m_sweep.c.y + l, m = this.m_ground.m_xf.position.x + this.m_groundAnchor2.x, n = this.m_ground.m_xf.position.y + this.m_groundAnchor2.y;
-    this.m_u1.Set(e.m_sweep.c.x + f - (this.m_ground.m_xf.position.x + this.m_groundAnchor1.x), e.m_sweep.c.y + h - (this.m_ground.m_xf.position.y + this.m_groundAnchor1.y));
-    this.m_u2.Set(g - m, j - n);
-    g = this.m_u1.Length();
-    j = this.m_u2.Length();
-    g > a.b2_linearSlop ? this.m_u1.Multiply(1 / g) : this.m_u1.SetZero();
-    j > a.b2_linearSlop ? this.m_u2.Multiply(1 / j) : this.m_u2.SetZero();
-    this.m_constant - g - this.m_ratio * j > 0 ? (this.m_state = q.e_inactiveLimit, this.m_impulse = 0) : this.m_state = q.e_atUpperLimit;
-    g < this.m_maxLength1 ? (this.m_limitState1 = q.e_inactiveLimit, this.m_limitImpulse1 = 0) : this.m_limitState1 = q.e_atUpperLimit;
-    j < this.m_maxLength2 ? (this.m_limitState2 = q.e_inactiveLimit, this.m_limitImpulse2 = 0) : this.m_limitState2 = q.e_atUpperLimit;
-    g = f * this.m_u1.y - h * this.m_u1.x;
-    j = k * this.m_u2.y - l * this.m_u2.x;
-    this.m_limitMass1 = e.m_invMass + e.m_invI * g * g;
-    this.m_limitMass2 = d.m_invMass + d.m_invI * j * j;
-    this.m_pulleyMass = this.m_limitMass1 + this.m_ratio * this.m_ratio * this.m_limitMass2;
-    this.m_limitMass1 = 1 / this.m_limitMass1;
-    this.m_limitMass2 = 1 / this.m_limitMass2;
-    this.m_pulleyMass = 1 / this.m_pulleyMass;
-    b.warmStarting ? (this.m_impulse *= b.dtRatio, this.m_limitImpulse1 *= b.dtRatio, this.m_limitImpulse2 *= b.dtRatio, b = (-this.m_impulse - this.m_limitImpulse1) * this.m_u1.x, g = (-this.m_impulse - this.m_limitImpulse1) * this.m_u1.y, j = (-this.m_ratio * this.m_impulse - this.m_limitImpulse2) * this.m_u2.x, m = (-this.m_ratio * this.m_impulse - this.m_limitImpulse2) * this.m_u2.y, e.m_linearVelocity.x += e.m_invMass * b, e.m_linearVelocity.y += e.m_invMass * g, e.m_angularVelocity += e.m_invI * 
-    (f * g - h * b), d.m_linearVelocity.x += d.m_invMass * j, d.m_linearVelocity.y += d.m_invMass * m, d.m_angularVelocity += d.m_invI * (k * m - l * j)) : this.m_limitImpulse2 = this.m_limitImpulse1 = this.m_impulse = 0
-  };
-  n.prototype.SolveVelocityConstraints = function() {
-    var a = this.m_bodyA, b = this.m_bodyB, e;
-    e = a.m_xf.R;
-    var d = this.m_localAnchor1.x - a.m_sweep.localCenter.x, g = this.m_localAnchor1.y - a.m_sweep.localCenter.y, h = e.col1.x * d + e.col2.x * g, g = e.col1.y * d + e.col2.y * g, d = h;
-    e = b.m_xf.R;
-    var j = this.m_localAnchor2.x - b.m_sweep.localCenter.x, k = this.m_localAnchor2.y - b.m_sweep.localCenter.y, h = e.col1.x * j + e.col2.x * k, k = e.col1.y * j + e.col2.y * k, j = h, l = h = e = 0, m = 0;
-    e = m = e = m = l = h = e = 0;
-    if(this.m_state == q.e_atUpperLimit) {
-      e = a.m_linearVelocity.x + -a.m_angularVelocity * g, h = a.m_linearVelocity.y + a.m_angularVelocity * d, l = b.m_linearVelocity.x + -b.m_angularVelocity * k, m = b.m_linearVelocity.y + b.m_angularVelocity * j, e = -(this.m_u1.x * e + this.m_u1.y * h) - this.m_ratio * (this.m_u2.x * l + this.m_u2.y * m), m = this.m_pulleyMass * -e, e = this.m_impulse, this.m_impulse = f.Max(0, this.m_impulse + m), m = this.m_impulse - e, e = -m * this.m_u1.x, h = -m * this.m_u1.y, l = -this.m_ratio * m * this.m_u2.x, 
-      m = -this.m_ratio * m * this.m_u2.y, a.m_linearVelocity.x += a.m_invMass * e, a.m_linearVelocity.y += a.m_invMass * h, a.m_angularVelocity += a.m_invI * (d * h - g * e), b.m_linearVelocity.x += b.m_invMass * l, b.m_linearVelocity.y += b.m_invMass * m, b.m_angularVelocity += b.m_invI * (j * m - k * l)
+  o.prototype.pc = function() {
+    var a = this.S, c = this.N, b;
+    b = a.n.h;
+    var e = this.J.x - a.e.v.x, g = this.J.y - a.e.v.y, h = b.b.x * e + b.d.x * g, g = b.b.y * e + b.d.y * g, e = h;
+    b = c.n.h;
+    var i = this.K.x - c.e.v.x, j = this.K.y - c.e.v.y, h = b.b.x * i + b.d.x * j, j = b.b.y * i + b.d.y * j, i = h, k = h = b = 0, l = 0;
+    b = l = b = l = k = h = b = 0;
+    if(this.sk == n.wb) {
+      b = a.m.x + -a.w * g, h = a.m.y + a.w * e, k = c.m.x + -c.w * j, l = c.m.y + c.w * i, b = -(this.Ha.x * b + this.Ha.y * h) - this.Va * (this.Ia.x * k + this.Ia.y * l), l = this.Ei * -b, b = this.j, this.j = d.Ub(0, this.j + l), l = this.j - b, b = -l * this.Ha.x, h = -l * this.Ha.y, k = -this.Va * l * this.Ia.x, l = -this.Va * l * this.Ia.y, a.m.x += a.r * b, a.m.y += a.r * h, a.w += a.C * (e * h - g * b), c.m.x += c.r * k, c.m.y += c.r * l, c.w += c.C * (i * l - j * k)
     }
-    if(this.m_limitState1 == q.e_atUpperLimit) {
-      e = a.m_linearVelocity.x + -a.m_angularVelocity * g, h = a.m_linearVelocity.y + a.m_angularVelocity * d, e = -(this.m_u1.x * e + this.m_u1.y * h), m = -this.m_limitMass1 * e, e = this.m_limitImpulse1, this.m_limitImpulse1 = f.Max(0, this.m_limitImpulse1 + m), m = this.m_limitImpulse1 - e, e = -m * this.m_u1.x, h = -m * this.m_u1.y, a.m_linearVelocity.x += a.m_invMass * e, a.m_linearVelocity.y += a.m_invMass * h, a.m_angularVelocity += a.m_invI * (d * h - g * e)
+    if(this.lk == n.wb) {
+      b = a.m.x + -a.w * g, h = a.m.y + a.w * e, b = -(this.Ha.x * b + this.Ha.y * h), l = -this.xh * b, b = this.Vd, this.Vd = d.Ub(0, this.Vd + l), l = this.Vd - b, b = -l * this.Ha.x, h = -l * this.Ha.y, a.m.x += a.r * b, a.m.y += a.r * h, a.w += a.C * (e * h - g * b)
     }
-    if(this.m_limitState2 == q.e_atUpperLimit) {
-      l = b.m_linearVelocity.x + -b.m_angularVelocity * k, m = b.m_linearVelocity.y + b.m_angularVelocity * j, e = -(this.m_u2.x * l + this.m_u2.y * m), m = -this.m_limitMass2 * e, e = this.m_limitImpulse2, this.m_limitImpulse2 = f.Max(0, this.m_limitImpulse2 + m), m = this.m_limitImpulse2 - e, l = -m * this.m_u2.x, m = -m * this.m_u2.y, b.m_linearVelocity.x += b.m_invMass * l, b.m_linearVelocity.y += b.m_invMass * m, b.m_angularVelocity += b.m_invI * (j * m - k * l)
+    if(this.mk == n.wb) {
+      k = c.m.x + -c.w * j, l = c.m.y + c.w * i, b = -(this.Ia.x * k + this.Ia.y * l), l = -this.yh * b, b = this.Wd, this.Wd = d.Ub(0, this.Wd + l), l = this.Wd - b, k = -l * this.Ia.x, l = -l * this.Ia.y, c.m.x += c.r * k, c.m.y += c.r * l, c.w += c.C * (i * l - j * k)
     }
   };
-  n.prototype.SolvePositionConstraints = function() {
-    var b = this.m_bodyA, e = this.m_bodyB, d, g = this.m_ground.m_xf.position.x + this.m_groundAnchor1.x, h = this.m_ground.m_xf.position.y + this.m_groundAnchor1.y, j = this.m_ground.m_xf.position.x + this.m_groundAnchor2.x, k = this.m_ground.m_xf.position.y + this.m_groundAnchor2.y, l = 0, m = 0, n = 0, o = 0, s = d = 0, t = 0, w = 0, y = s = w = d = s = d = 0;
-    if(this.m_state == q.e_atUpperLimit) {
-      d = b.m_xf.R, l = this.m_localAnchor1.x - b.m_sweep.localCenter.x, m = this.m_localAnchor1.y - b.m_sweep.localCenter.y, s = d.col1.x * l + d.col2.x * m, m = d.col1.y * l + d.col2.y * m, l = s, d = e.m_xf.R, n = this.m_localAnchor2.x - e.m_sweep.localCenter.x, o = this.m_localAnchor2.y - e.m_sweep.localCenter.y, s = d.col1.x * n + d.col2.x * o, o = d.col1.y * n + d.col2.y * o, n = s, d = b.m_sweep.c.x + l, s = b.m_sweep.c.y + m, t = e.m_sweep.c.x + n, w = e.m_sweep.c.y + o, this.m_u1.Set(d - 
-      g, s - h), this.m_u2.Set(t - j, w - k), d = this.m_u1.Length(), s = this.m_u2.Length(), d > a.b2_linearSlop ? this.m_u1.Multiply(1 / d) : this.m_u1.SetZero(), s > a.b2_linearSlop ? this.m_u2.Multiply(1 / s) : this.m_u2.SetZero(), d = this.m_constant - d - this.m_ratio * s, y = f.Max(y, -d), d = f.Clamp(d + a.b2_linearSlop, -a.b2_maxLinearCorrection, 0), w = -this.m_pulleyMass * d, d = -w * this.m_u1.x, s = -w * this.m_u1.y, t = -this.m_ratio * w * this.m_u2.x, w = -this.m_ratio * w * this.m_u2.y, 
-      b.m_sweep.c.x += b.m_invMass * d, b.m_sweep.c.y += b.m_invMass * s, b.m_sweep.a += b.m_invI * (l * s - m * d), e.m_sweep.c.x += e.m_invMass * t, e.m_sweep.c.y += e.m_invMass * w, e.m_sweep.a += e.m_invI * (n * w - o * t), b.SynchronizeTransform(), e.SynchronizeTransform()
+  o.prototype.oc = function() {
+    var c = this.S, b = this.N, e, g = this.wc.n.position.x + this.Cd.x, h = this.wc.n.position.y + this.Cd.y, i = this.wc.n.position.x + this.Dd.x, j = this.wc.n.position.y + this.Dd.y, k = 0, l = 0, m = 0, s = 0, o = e = 0, x = 0, A = 0, w = o = A = e = o = e = 0;
+    if(this.sk == n.wb) {
+      e = c.n.h, k = this.J.x - c.e.v.x, l = this.J.y - c.e.v.y, o = e.b.x * k + e.d.x * l, l = e.b.y * k + e.d.y * l, k = o, e = b.n.h, m = this.K.x - b.e.v.x, s = this.K.y - b.e.v.y, o = e.b.x * m + e.d.x * s, s = e.b.y * m + e.d.y * s, m = o, e = c.e.k.x + k, o = c.e.k.y + l, x = b.e.k.x + m, A = b.e.k.y + s, this.Ha.s(e - g, o - h), this.Ia.s(x - i, A - j), e = this.Ha.Ld(), o = this.Ia.Ld(), e > a.ta ? this.Ha.Vb(1 / e) : this.Ha.V(), o > a.ta ? this.Ia.Vb(1 / o) : this.Ia.V(), e = this.ag - 
+      e - this.Va * o, w = d.Ub(w, -e), e = d.xa(e + a.ta, -a.uc, 0), A = -this.Ei * e, e = -A * this.Ha.x, o = -A * this.Ha.y, x = -this.Va * A * this.Ia.x, A = -this.Va * A * this.Ia.y, c.e.k.x += c.r * e, c.e.k.y += c.r * o, c.e.z += c.C * (k * o - l * e), b.e.k.x += b.r * x, b.e.k.y += b.r * A, b.e.z += b.C * (m * A - s * x), c.Qa(), b.Qa()
     }
-    if(this.m_limitState1 == q.e_atUpperLimit) {
-      d = b.m_xf.R, l = this.m_localAnchor1.x - b.m_sweep.localCenter.x, m = this.m_localAnchor1.y - b.m_sweep.localCenter.y, s = d.col1.x * l + d.col2.x * m, m = d.col1.y * l + d.col2.y * m, l = s, d = b.m_sweep.c.x + l, s = b.m_sweep.c.y + m, this.m_u1.Set(d - g, s - h), d = this.m_u1.Length(), d > a.b2_linearSlop ? (this.m_u1.x *= 1 / d, this.m_u1.y *= 1 / d) : this.m_u1.SetZero(), d = this.m_maxLength1 - d, y = f.Max(y, -d), d = f.Clamp(d + a.b2_linearSlop, -a.b2_maxLinearCorrection, 0), w = 
-      -this.m_limitMass1 * d, d = -w * this.m_u1.x, s = -w * this.m_u1.y, b.m_sweep.c.x += b.m_invMass * d, b.m_sweep.c.y += b.m_invMass * s, b.m_sweep.a += b.m_invI * (l * s - m * d), b.SynchronizeTransform()
+    if(this.lk == n.wb) {
+      e = c.n.h, k = this.J.x - c.e.v.x, l = this.J.y - c.e.v.y, o = e.b.x * k + e.d.x * l, l = e.b.y * k + e.d.y * l, k = o, e = c.e.k.x + k, o = c.e.k.y + l, this.Ha.s(e - g, o - h), e = this.Ha.Ld(), e > a.ta ? (this.Ha.x *= 1 / e, this.Ha.y *= 1 / e) : this.Ha.V(), e = this.vm - e, w = d.Ub(w, -e), e = d.xa(e + a.ta, -a.uc, 0), A = -this.xh * e, e = -A * this.Ha.x, o = -A * this.Ha.y, c.e.k.x += c.r * e, c.e.k.y += c.r * o, c.e.z += c.C * (k * o - l * e), c.Qa()
     }
-    if(this.m_limitState2 == q.e_atUpperLimit) {
-      d = e.m_xf.R, n = this.m_localAnchor2.x - e.m_sweep.localCenter.x, o = this.m_localAnchor2.y - e.m_sweep.localCenter.y, s = d.col1.x * n + d.col2.x * o, o = d.col1.y * n + d.col2.y * o, n = s, t = e.m_sweep.c.x + n, w = e.m_sweep.c.y + o, this.m_u2.Set(t - j, w - k), s = this.m_u2.Length(), s > a.b2_linearSlop ? (this.m_u2.x *= 1 / s, this.m_u2.y *= 1 / s) : this.m_u2.SetZero(), d = this.m_maxLength2 - s, y = f.Max(y, -d), d = f.Clamp(d + a.b2_linearSlop, -a.b2_maxLinearCorrection, 0), w = 
-      -this.m_limitMass2 * d, t = -w * this.m_u2.x, w = -w * this.m_u2.y, e.m_sweep.c.x += e.m_invMass * t, e.m_sweep.c.y += e.m_invMass * w, e.m_sweep.a += e.m_invI * (n * w - o * t), e.SynchronizeTransform()
+    if(this.mk == n.wb) {
+      e = b.n.h, m = this.K.x - b.e.v.x, s = this.K.y - b.e.v.y, o = e.b.x * m + e.d.x * s, s = e.b.y * m + e.d.y * s, m = o, x = b.e.k.x + m, A = b.e.k.y + s, this.Ia.s(x - i, A - j), o = this.Ia.Ld(), o > a.ta ? (this.Ia.x *= 1 / o, this.Ia.y *= 1 / o) : this.Ia.V(), e = this.wm - o, w = d.Ub(w, -e), e = d.xa(e + a.ta, -a.uc, 0), A = -this.yh * e, x = -A * this.Ia.x, A = -A * this.Ia.y, b.e.k.x += b.r * x, b.e.k.y += b.r * A, b.e.z += b.C * (m * A - s * x), b.Qa()
     }
-    return y < a.b2_linearSlop
+    return w < a.ta
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.Joints.b2PulleyJoint.b2_minPulleyLength = 2
+  P.Wa.push(function() {
+    P.c.o.Of.ji = 2
   });
-  Box2D.inherit(G, Box2D.Dynamics.Joints.b2JointDef);
-  G.prototype.__super = Box2D.Dynamics.Joints.b2JointDef.prototype;
-  G.b2PulleyJointDef = function() {
-    Box2D.Dynamics.Joints.b2JointDef.b2JointDef.apply(this, arguments);
-    this.groundAnchorA = new e;
-    this.groundAnchorB = new e;
-    this.localAnchorA = new e;
-    this.localAnchorB = new e
+  P.ya(F, P.c.o.R);
+  F.prototype.I = P.c.o.R.prototype;
+  F.hh = function() {
+    P.c.o.R.R.apply(this, arguments);
+    this.wi = new c;
+    this.xi = new c;
+    this.eb = new c;
+    this.fb = new c
   };
-  G.prototype.b2PulleyJointDef = function() {
-    this.__super.b2JointDef.call(this);
-    this.type = q.e_pulleyJoint;
-    this.groundAnchorA.Set(-1, 1);
-    this.groundAnchorB.Set(1, 1);
-    this.localAnchorA.Set(-1, 0);
-    this.localAnchorB.Set(1, 0);
-    this.maxLengthB = this.lengthB = this.maxLengthA = this.lengthA = 0;
-    this.ratio = 1;
-    this.collideConnected = !0
+  F.prototype.hh = function() {
+    this.I.R.call(this);
+    this.type = n.Wj;
+    this.wi.s(-1, 1);
+    this.xi.s(1, 1);
+    this.eb.s(-1, 0);
+    this.fb.s(1, 0);
+    this.zm = this.ak = this.ym = this.$j = 0;
+    this.wf = 1;
+    this.Oj = !0
   };
-  G.prototype.Initialize = function(a, b, e, d, g, f, h) {
-    h === void 0 && (h = 0);
-    this.bodyA = a;
-    this.bodyB = b;
-    this.groundAnchorA.SetV(e);
-    this.groundAnchorB.SetV(d);
-    this.localAnchorA = this.bodyA.GetLocalPoint(g);
-    this.localAnchorB = this.bodyB.GetLocalPoint(f);
-    a = g.x - e.x;
-    e = g.y - e.y;
-    this.lengthA = Math.sqrt(a * a + e * e);
-    e = f.x - d.x;
-    d = f.y - d.y;
-    this.lengthB = Math.sqrt(e * e + d * d);
-    this.ratio = h;
-    h = this.lengthA + this.ratio * this.lengthB;
-    this.maxLengthA = h - this.ratio * n.b2_minPulleyLength;
-    this.maxLengthB = (h - n.b2_minPulleyLength) / this.ratio
+  F.prototype.$a = function(a, c, b, d, e, g, h) {
+    h === f && (h = 0);
+    this.ma = a;
+    this.qa = c;
+    this.wi.p(b);
+    this.xi.p(d);
+    this.eb = this.ma.mc(e);
+    this.fb = this.qa.mc(g);
+    a = e.x - b.x;
+    b = e.y - b.y;
+    this.$j = Math.sqrt(a * a + b * b);
+    b = g.x - d.x;
+    d = g.y - d.y;
+    this.ak = Math.sqrt(b * b + d * d);
+    this.wf = h;
+    h = this.$j + this.wf * this.ak;
+    this.ym = h - this.wf * o.ji;
+    this.zm = (h - o.ji) / this.wf
   };
-  Box2D.inherit(t, Box2D.Dynamics.Joints.b2Joint);
-  t.prototype.__super = Box2D.Dynamics.Joints.b2Joint.prototype;
-  t.b2RevoluteJoint = function() {
-    Box2D.Dynamics.Joints.b2Joint.b2Joint.apply(this, arguments);
-    this.K = new d;
-    this.K1 = new d;
-    this.K2 = new d;
-    this.K3 = new d;
-    this.impulse3 = new g;
-    this.impulse2 = new e;
-    this.reduced = new e;
-    this.m_localAnchor1 = new e;
-    this.m_localAnchor2 = new e;
-    this.m_impulse = new g;
-    this.m_mass = new b
+  P.ya(K, P.c.o.F);
+  K.prototype.I = P.c.o.F.prototype;
+  K.Pf = function() {
+    P.c.o.F.F.apply(this, arguments);
+    this.Kb = new g;
+    this.dd = new g;
+    this.ed = new g;
+    this.Fg = new g;
+    this.qb = new b;
+    this.ld = new c;
+    this.Id = new c;
+    this.J = new c;
+    this.K = new c;
+    this.j = new b;
+    this.A = new e
   };
-  t.prototype.GetAnchorA = function() {
-    return this.m_bodyA.GetWorldPoint(this.m_localAnchor1)
+  K.prototype.zc = function() {
+    return this.S.hb(this.J)
   };
-  t.prototype.GetAnchorB = function() {
-    return this.m_bodyB.GetWorldPoint(this.m_localAnchor2)
+  K.prototype.Ac = function() {
+    return this.N.hb(this.K)
   };
-  t.prototype.GetReactionForce = function(a) {
-    a === void 0 && (a = 0);
-    return new e(a * this.m_impulse.x, a * this.m_impulse.y)
+  K.prototype.Rh = function() {
+    return this.N.e.z - this.S.e.z - this.Ch
   };
-  t.prototype.GetReactionTorque = function(a) {
-    a === void 0 && (a = 0);
-    return a * this.m_impulse.z
+  K.prototype.Pf = function(a) {
+    this.I.F.call(this, a);
+    this.J.p(a.eb);
+    this.K.p(a.fb);
+    this.Ch = a.Be;
+    this.j.V();
+    this.wa = 0;
+    this.Di = a.sp;
+    this.tk = a.oq;
+    this.Ip = a.Qp;
+    this.zh = a.Fh;
+    this.od = a.ph;
+    this.xe = a.qh;
+    this.ea = n.Xb
   };
-  t.prototype.GetJointAngle = function() {
-    return this.m_bodyB.m_sweep.a - this.m_bodyA.m_sweep.a - this.m_referenceAngle
-  };
-  t.prototype.GetJointSpeed = function() {
-    return this.m_bodyB.m_angularVelocity - this.m_bodyA.m_angularVelocity
-  };
-  t.prototype.IsLimitEnabled = function() {
-    return this.m_enableLimit
-  };
-  t.prototype.EnableLimit = function(a) {
-    this.m_enableLimit = a
-  };
-  t.prototype.GetLowerLimit = function() {
-    return this.m_lowerAngle
-  };
-  t.prototype.GetUpperLimit = function() {
-    return this.m_upperAngle
-  };
-  t.prototype.SetLimits = function(a, b) {
-    a === void 0 && (a = 0);
-    b === void 0 && (b = 0);
-    this.m_lowerAngle = a;
-    this.m_upperAngle = b
-  };
-  t.prototype.IsMotorEnabled = function() {
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    return this.m_enableMotor
-  };
-  t.prototype.EnableMotor = function(a) {
-    this.m_enableMotor = a
-  };
-  t.prototype.SetMotorSpeed = function(a) {
-    a === void 0 && (a = 0);
-    this.m_bodyA.SetAwake(!0);
-    this.m_bodyB.SetAwake(!0);
-    this.m_motorSpeed = a
-  };
-  t.prototype.GetMotorSpeed = function() {
-    return this.m_motorSpeed
-  };
-  t.prototype.SetMaxMotorTorque = function(a) {
-    a === void 0 && (a = 0);
-    this.m_maxMotorTorque = a
-  };
-  t.prototype.GetMotorTorque = function() {
-    return this.m_maxMotorTorque
-  };
-  t.prototype.b2RevoluteJoint = function(a) {
-    this.__super.b2Joint.call(this, a);
-    this.m_localAnchor1.SetV(a.localAnchorA);
-    this.m_localAnchor2.SetV(a.localAnchorB);
-    this.m_referenceAngle = a.referenceAngle;
-    this.m_impulse.SetZero();
-    this.m_motorImpulse = 0;
-    this.m_lowerAngle = a.lowerAngle;
-    this.m_upperAngle = a.upperAngle;
-    this.m_maxMotorTorque = a.maxMotorTorque;
-    this.m_motorSpeed = a.motorSpeed;
-    this.m_enableLimit = a.enableLimit;
-    this.m_enableMotor = a.enableMotor;
-    this.m_limitState = q.e_inactiveLimit
-  };
-  t.prototype.InitVelocityConstraints = function(b) {
-    var e = this.m_bodyA, d = this.m_bodyB, g, h = 0;
-    g = e.m_xf.R;
-    var j = this.m_localAnchor1.x - e.m_sweep.localCenter.x, k = this.m_localAnchor1.y - e.m_sweep.localCenter.y, h = g.col1.x * j + g.col2.x * k, k = g.col1.y * j + g.col2.y * k, j = h;
-    g = d.m_xf.R;
-    var l = this.m_localAnchor2.x - d.m_sweep.localCenter.x, m = this.m_localAnchor2.y - d.m_sweep.localCenter.y, h = g.col1.x * l + g.col2.x * m, m = g.col1.y * l + g.col2.y * m, l = h;
-    g = e.m_invMass;
-    var h = d.m_invMass, n = e.m_invI, o = d.m_invI;
-    this.m_mass.col1.x = g + h + k * k * n + m * m * o;
-    this.m_mass.col2.x = -k * j * n - m * l * o;
-    this.m_mass.col3.x = -k * n - m * o;
-    this.m_mass.col1.y = this.m_mass.col2.x;
-    this.m_mass.col2.y = g + h + j * j * n + l * l * o;
-    this.m_mass.col3.y = j * n + l * o;
-    this.m_mass.col1.z = this.m_mass.col3.x;
-    this.m_mass.col2.z = this.m_mass.col3.y;
-    this.m_mass.col3.z = n + o;
-    this.m_motorMass = 1 / (n + o);
-    if(this.m_enableMotor == !1) {
-      this.m_motorImpulse = 0
+  K.prototype.Bc = function(c) {
+    var b = this.S, e = this.N, g, h = 0;
+    g = b.n.h;
+    var i = this.J.x - b.e.v.x, j = this.J.y - b.e.v.y, h = g.b.x * i + g.d.x * j, j = g.b.y * i + g.d.y * j, i = h;
+    g = e.n.h;
+    var k = this.K.x - e.e.v.x, l = this.K.y - e.e.v.y, h = g.b.x * k + g.d.x * l, l = g.b.y * k + g.d.y * l, k = h;
+    g = b.r;
+    var h = e.r, m = b.C, s = e.C;
+    this.A.b.x = g + h + j * j * m + l * l * s;
+    this.A.d.x = -j * i * m - l * k * s;
+    this.A.X.x = -j * m - l * s;
+    this.A.b.y = this.A.d.x;
+    this.A.d.y = g + h + i * i * m + k * k * s;
+    this.A.X.y = i * m + k * s;
+    this.A.b.t = this.A.X.x;
+    this.A.d.t = this.A.X.y;
+    this.A.X.t = m + s;
+    this.bc = 1 / (m + s);
+    if(this.xe == !1) {
+      this.wa = 0
     }
-    if(this.m_enableLimit) {
-      var s = d.m_sweep.a - e.m_sweep.a - this.m_referenceAngle;
-      if(f.Abs(this.m_upperAngle - this.m_lowerAngle) < 2 * a.b2_angularSlop) {
-        this.m_limitState = q.e_equalLimits
+    if(this.od) {
+      var o = e.e.z - b.e.z - this.Ch;
+      if(d.lb(this.tk - this.Di) < 2 * a.$e) {
+        this.ea = n.re
       }else {
-        if(s <= this.m_lowerAngle) {
-          if(this.m_limitState != q.e_atLowerLimit) {
-            this.m_impulse.z = 0
+        if(o <= this.Di) {
+          if(this.ea != n.xd) {
+            this.j.t = 0
           }
-          this.m_limitState = q.e_atLowerLimit
+          this.ea = n.xd
         }else {
-          if(s >= this.m_upperAngle) {
-            if(this.m_limitState != q.e_atUpperLimit) {
-              this.m_impulse.z = 0
+          if(o >= this.tk) {
+            if(this.ea != n.wb) {
+              this.j.t = 0
             }
-            this.m_limitState = q.e_atUpperLimit
+            this.ea = n.wb
           }else {
-            this.m_limitState = q.e_inactiveLimit, this.m_impulse.z = 0
+            this.ea = n.Xb, this.j.t = 0
           }
         }
       }
     }else {
-      this.m_limitState = q.e_inactiveLimit
+      this.ea = n.Xb
     }
-    b.warmStarting ? (this.m_impulse.x *= b.dtRatio, this.m_impulse.y *= b.dtRatio, this.m_motorImpulse *= b.dtRatio, b = this.m_impulse.x, s = this.m_impulse.y, e.m_linearVelocity.x -= g * b, e.m_linearVelocity.y -= g * s, e.m_angularVelocity -= n * (j * s - k * b + this.m_motorImpulse + this.m_impulse.z), d.m_linearVelocity.x += h * b, d.m_linearVelocity.y += h * s, d.m_angularVelocity += o * (l * s - m * b + this.m_motorImpulse + this.m_impulse.z)) : (this.m_impulse.SetZero(), this.m_motorImpulse = 
-    0)
+    c.bd ? (this.j.x *= c.Ya, this.j.y *= c.Ya, this.wa *= c.Ya, c = this.j.x, o = this.j.y, b.m.x -= g * c, b.m.y -= g * o, b.w -= m * (i * o - j * c + this.wa + this.j.t), e.m.x += h * c, e.m.y += h * o, e.w += s * (k * o - l * c + this.wa + this.j.t)) : (this.j.V(), this.wa = 0)
   };
-  t.prototype.SolveVelocityConstraints = function(a) {
-    var b = this.m_bodyA, e = this.m_bodyB, d = 0, g = d = 0, h = 0, j = 0, k = 0, l = b.m_linearVelocity, m = b.m_angularVelocity, n = e.m_linearVelocity, o = e.m_angularVelocity, s = b.m_invMass, w = e.m_invMass, t = b.m_invI, y = e.m_invI;
-    if(this.m_enableMotor && this.m_limitState != q.e_equalLimits) {
-      g = this.m_motorMass * -(o - m - this.m_motorSpeed), h = this.m_motorImpulse, j = a.dt * this.m_maxMotorTorque, this.m_motorImpulse = f.Clamp(this.m_motorImpulse + g, -j, j), g = this.m_motorImpulse - h, m -= t * g, o += y * g
+  K.prototype.pc = function(a) {
+    var c = this.S, b = this.N, e = 0, g = e = 0, h = 0, i = 0, j = 0, k = c.m, l = c.w, m = b.m, s = b.w, o = c.r, x = b.r, w = c.C, v = b.C;
+    if(this.xe && this.ea != n.re) {
+      g = this.bc * -(s - l - this.zh), h = this.wa, i = a.da * this.Ip, this.wa = d.xa(this.wa + g, -i, i), g = this.wa - h, l -= w * g, s += v * g
     }
-    if(this.m_enableLimit && this.m_limitState != q.e_inactiveLimit) {
-      var a = b.m_xf.R, g = this.m_localAnchor1.x - b.m_sweep.localCenter.x, h = this.m_localAnchor1.y - b.m_sweep.localCenter.y, d = a.col1.x * g + a.col2.x * h, h = a.col1.y * g + a.col2.y * h, g = d, a = e.m_xf.R, j = this.m_localAnchor2.x - e.m_sweep.localCenter.x, k = this.m_localAnchor2.y - e.m_sweep.localCenter.y, d = a.col1.x * j + a.col2.x * k, k = a.col1.y * j + a.col2.y * k, j = d, a = n.x + -o * k - l.x - -m * h, x = n.y + o * j - l.y - m * g;
-      this.m_mass.Solve33(this.impulse3, -a, -x, -(o - m));
-      if(this.m_limitState == q.e_equalLimits) {
-        this.m_impulse.Add(this.impulse3)
+    if(this.od && this.ea != n.Xb) {
+      var a = c.n.h, g = this.J.x - c.e.v.x, h = this.J.y - c.e.v.y, e = a.b.x * g + a.d.x * h, h = a.b.y * g + a.d.y * h, g = e, a = b.n.h, i = this.K.x - b.e.v.x, j = this.K.y - b.e.v.y, e = a.b.x * i + a.d.x * j, j = a.b.y * i + a.d.y * j, i = e, a = m.x + -s * j - k.x - -l * h, z = m.y + s * i - k.y - l * g;
+      this.A.Kg(this.qb, -a, -z, -(s - l));
+      if(this.ea == n.re) {
+        this.j.ce(this.qb)
       }else {
-        if(this.m_limitState == q.e_atLowerLimit) {
-          if(d = this.m_impulse.z + this.impulse3.z, d < 0) {
-            this.m_mass.Solve22(this.reduced, -a, -x), this.impulse3.x = this.reduced.x, this.impulse3.y = this.reduced.y, this.impulse3.z = -this.m_impulse.z, this.m_impulse.x += this.reduced.x, this.m_impulse.y += this.reduced.y, this.m_impulse.z = 0
+        if(this.ea == n.xd) {
+          if(e = this.j.t + this.qb.t, e < 0) {
+            this.A.Kf(this.Id, -a, -z), this.qb.x = this.Id.x, this.qb.y = this.Id.y, this.qb.t = -this.j.t, this.j.x += this.Id.x, this.j.y += this.Id.y, this.j.t = 0
           }
         }else {
-          if(this.m_limitState == q.e_atUpperLimit && (d = this.m_impulse.z + this.impulse3.z, d > 0)) {
-            this.m_mass.Solve22(this.reduced, -a, -x), this.impulse3.x = this.reduced.x, this.impulse3.y = this.reduced.y, this.impulse3.z = -this.m_impulse.z, this.m_impulse.x += this.reduced.x, this.m_impulse.y += this.reduced.y, this.m_impulse.z = 0
+          if(this.ea == n.wb && (e = this.j.t + this.qb.t, e > 0)) {
+            this.A.Kf(this.Id, -a, -z), this.qb.x = this.Id.x, this.qb.y = this.Id.y, this.qb.t = -this.j.t, this.j.x += this.Id.x, this.j.y += this.Id.y, this.j.t = 0
           }
         }
       }
-      l.x -= s * this.impulse3.x;
-      l.y -= s * this.impulse3.y;
-      m -= t * (g * this.impulse3.y - h * this.impulse3.x + this.impulse3.z);
-      n.x += w * this.impulse3.x;
-      n.y += w * this.impulse3.y;
-      o += y * (j * this.impulse3.y - k * this.impulse3.x + this.impulse3.z)
+      k.x -= o * this.qb.x;
+      k.y -= o * this.qb.y;
+      l -= w * (g * this.qb.y - h * this.qb.x + this.qb.t);
+      m.x += x * this.qb.x;
+      m.y += x * this.qb.y;
+      s += v * (i * this.qb.y - j * this.qb.x + this.qb.t)
     }else {
-      a = b.m_xf.R, g = this.m_localAnchor1.x - b.m_sweep.localCenter.x, h = this.m_localAnchor1.y - b.m_sweep.localCenter.y, d = a.col1.x * g + a.col2.x * h, h = a.col1.y * g + a.col2.y * h, g = d, a = e.m_xf.R, j = this.m_localAnchor2.x - e.m_sweep.localCenter.x, k = this.m_localAnchor2.y - e.m_sweep.localCenter.y, d = a.col1.x * j + a.col2.x * k, k = a.col1.y * j + a.col2.y * k, j = d, this.m_mass.Solve22(this.impulse2, -(n.x + -o * k - l.x - -m * h), -(n.y + o * j - l.y - m * g)), this.m_impulse.x += 
-      this.impulse2.x, this.m_impulse.y += this.impulse2.y, l.x -= s * this.impulse2.x, l.y -= s * this.impulse2.y, m -= t * (g * this.impulse2.y - h * this.impulse2.x), n.x += w * this.impulse2.x, n.y += w * this.impulse2.y, o += y * (j * this.impulse2.y - k * this.impulse2.x)
+      a = c.n.h, g = this.J.x - c.e.v.x, h = this.J.y - c.e.v.y, e = a.b.x * g + a.d.x * h, h = a.b.y * g + a.d.y * h, g = e, a = b.n.h, i = this.K.x - b.e.v.x, j = this.K.y - b.e.v.y, e = a.b.x * i + a.d.x * j, j = a.b.y * i + a.d.y * j, i = e, this.A.Kf(this.ld, -(m.x + -s * j - k.x - -l * h), -(m.y + s * i - k.y - l * g)), this.j.x += this.ld.x, this.j.y += this.ld.y, k.x -= o * this.ld.x, k.y -= o * this.ld.y, l -= w * (g * this.ld.y - h * this.ld.x), m.x += x * this.ld.x, m.y += x * this.ld.y, 
+      s += v * (i * this.ld.y - j * this.ld.x)
     }
-    b.m_linearVelocity.SetV(l);
-    b.m_angularVelocity = m;
-    e.m_linearVelocity.SetV(n);
-    e.m_angularVelocity = o
+    c.m.p(k);
+    c.w = l;
+    b.m.p(m);
+    b.w = s
   };
-  t.prototype.SolvePositionConstraints = function() {
-    var b = 0, e, d = this.m_bodyA, g = this.m_bodyB, h = 0, j = e = 0, k = 0, l = 0;
-    if(this.m_enableLimit && this.m_limitState != q.e_inactiveLimit) {
-      var b = g.m_sweep.a - d.m_sweep.a - this.m_referenceAngle, m = 0;
-      this.m_limitState == q.e_equalLimits ? (b = f.Clamp(b - this.m_lowerAngle, -a.b2_maxAngularCorrection, a.b2_maxAngularCorrection), m = -this.m_motorMass * b, h = f.Abs(b)) : this.m_limitState == q.e_atLowerLimit ? (b -= this.m_lowerAngle, h = -b, b = f.Clamp(b + a.b2_angularSlop, -a.b2_maxAngularCorrection, 0), m = -this.m_motorMass * b) : this.m_limitState == q.e_atUpperLimit && (b -= this.m_upperAngle, h = b, b = f.Clamp(b - a.b2_angularSlop, 0, a.b2_maxAngularCorrection), m = -this.m_motorMass * 
-      b);
-      d.m_sweep.a -= d.m_invI * m;
-      g.m_sweep.a += g.m_invI * m;
-      d.SynchronizeTransform();
-      g.SynchronizeTransform()
+  K.prototype.oc = function() {
+    var c = 0, b, e = this.S, g = this.N, h = 0, i = b = 0, j = 0, k = 0;
+    if(this.od && this.ea != n.Xb) {
+      var c = g.e.z - e.e.z - this.Ch, l = 0;
+      this.ea == n.re ? (c = d.xa(c - this.Di, -a.ii, a.ii), l = -this.bc * c, h = d.lb(c)) : this.ea == n.xd ? (c -= this.Di, h = -c, c = d.xa(c + a.$e, -a.ii, 0), l = -this.bc * c) : this.ea == n.wb && (c -= this.tk, h = c, c = d.xa(c - a.$e, 0, a.ii), l = -this.bc * c);
+      e.e.z -= e.C * l;
+      g.e.z += g.C * l;
+      e.Qa();
+      g.Qa()
     }
-    e = d.m_xf.R;
-    m = this.m_localAnchor1.x - d.m_sweep.localCenter.x;
-    b = this.m_localAnchor1.y - d.m_sweep.localCenter.y;
-    j = e.col1.x * m + e.col2.x * b;
-    b = e.col1.y * m + e.col2.y * b;
-    m = j;
-    e = g.m_xf.R;
-    var n = this.m_localAnchor2.x - g.m_sweep.localCenter.x, o = this.m_localAnchor2.y - g.m_sweep.localCenter.y, j = e.col1.x * n + e.col2.x * o, o = e.col1.y * n + e.col2.y * o, n = j, k = g.m_sweep.c.x + n - d.m_sweep.c.x - m, l = g.m_sweep.c.y + o - d.m_sweep.c.y - b, s = k * k + l * l;
-    e = Math.sqrt(s);
-    var j = d.m_invMass, w = g.m_invMass, y = d.m_invI, z = g.m_invI, x = 10 * a.b2_linearSlop;
-    s > x * x && (s = 1 / (j + w), k = s * -k, l = s * -l, d.m_sweep.c.x -= 0.5 * j * k, d.m_sweep.c.y -= 0.5 * j * l, g.m_sweep.c.x += 0.5 * w * k, g.m_sweep.c.y += 0.5 * w * l, k = g.m_sweep.c.x + n - d.m_sweep.c.x - m, l = g.m_sweep.c.y + o - d.m_sweep.c.y - b);
-    this.K1.col1.x = j + w;
-    this.K1.col2.x = 0;
-    this.K1.col1.y = 0;
-    this.K1.col2.y = j + w;
-    this.K2.col1.x = y * b * b;
-    this.K2.col2.x = -y * m * b;
-    this.K2.col1.y = -y * m * b;
-    this.K2.col2.y = y * m * m;
-    this.K3.col1.x = z * o * o;
-    this.K3.col2.x = -z * n * o;
-    this.K3.col1.y = -z * n * o;
-    this.K3.col2.y = z * n * n;
-    this.K.SetM(this.K1);
-    this.K.AddM(this.K2);
-    this.K.AddM(this.K3);
-    this.K.Solve(t.tImpulse, -k, -l);
-    k = t.tImpulse.x;
-    l = t.tImpulse.y;
-    d.m_sweep.c.x -= d.m_invMass * k;
-    d.m_sweep.c.y -= d.m_invMass * l;
-    d.m_sweep.a -= d.m_invI * (m * l - b * k);
-    g.m_sweep.c.x += g.m_invMass * k;
-    g.m_sweep.c.y += g.m_invMass * l;
-    g.m_sweep.a += g.m_invI * (n * l - o * k);
-    d.SynchronizeTransform();
-    g.SynchronizeTransform();
-    return e <= a.b2_linearSlop && h <= a.b2_angularSlop
+    b = e.n.h;
+    l = this.J.x - e.e.v.x;
+    c = this.J.y - e.e.v.y;
+    i = b.b.x * l + b.d.x * c;
+    c = b.b.y * l + b.d.y * c;
+    l = i;
+    b = g.n.h;
+    var m = this.K.x - g.e.v.x, s = this.K.y - g.e.v.y, i = b.b.x * m + b.d.x * s, s = b.b.y * m + b.d.y * s, m = i, j = g.e.k.x + m - e.e.k.x - l, k = g.e.k.y + s - e.e.k.y - c, o = j * j + k * k;
+    b = Math.sqrt(o);
+    var i = e.r, x = g.r, w = e.C, v = g.C, z = 10 * a.ta;
+    o > z * z && (o = 1 / (i + x), j = o * -j, k = o * -k, e.e.k.x -= 0.5 * i * j, e.e.k.y -= 0.5 * i * k, g.e.k.x += 0.5 * x * j, g.e.k.y += 0.5 * x * k, j = g.e.k.x + m - e.e.k.x - l, k = g.e.k.y + s - e.e.k.y - c);
+    this.dd.b.x = i + x;
+    this.dd.d.x = 0;
+    this.dd.b.y = 0;
+    this.dd.d.y = i + x;
+    this.ed.b.x = w * c * c;
+    this.ed.d.x = -w * l * c;
+    this.ed.b.y = -w * l * c;
+    this.ed.d.y = w * l * l;
+    this.Fg.b.x = v * s * s;
+    this.Fg.d.x = -v * m * s;
+    this.Fg.b.y = -v * m * s;
+    this.Fg.d.y = v * m * m;
+    this.Kb.Le(this.dd);
+    this.Kb.Kh(this.ed);
+    this.Kb.Kh(this.Fg);
+    this.Kb.Me(K.Lk, -j, -k);
+    j = K.Lk.x;
+    k = K.Lk.y;
+    e.e.k.x -= e.r * j;
+    e.e.k.y -= e.r * k;
+    e.e.z -= e.C * (l * k - c * j);
+    g.e.k.x += g.r * j;
+    g.e.k.y += g.r * k;
+    g.e.z += g.C * (m * k - s * j);
+    e.Qa();
+    g.Qa();
+    return b <= a.ta && h <= a.$e
   };
-  Box2D.postDefs.push(function() {
-    Box2D.Dynamics.Joints.b2RevoluteJoint.tImpulse = new e
+  P.Wa.push(function() {
+    P.c.o.Pf.Lk = new c
   });
-  Box2D.inherit(D, Box2D.Dynamics.Joints.b2JointDef);
-  D.prototype.__super = Box2D.Dynamics.Joints.b2JointDef.prototype;
-  D.b2RevoluteJointDef = function() {
-    Box2D.Dynamics.Joints.b2JointDef.b2JointDef.apply(this, arguments);
-    this.localAnchorA = new e;
-    this.localAnchorB = new e
+  P.ya(B, P.c.o.R);
+  B.prototype.I = P.c.o.R.prototype;
+  B.Qf = function() {
+    P.c.o.R.R.apply(this, arguments);
+    this.eb = new c;
+    this.fb = new c
   };
-  D.prototype.b2RevoluteJointDef = function() {
-    this.__super.b2JointDef.call(this);
-    this.type = q.e_revoluteJoint;
-    this.localAnchorA.Set(0, 0);
-    this.localAnchorB.Set(0, 0);
-    this.motorSpeed = this.maxMotorTorque = this.upperAngle = this.lowerAngle = this.referenceAngle = 0;
-    this.enableMotor = this.enableLimit = !1
+  B.prototype.Qf = function() {
+    this.I.R.call(this);
+    this.type = n.si;
+    this.eb.s(0, 0);
+    this.fb.s(0, 0);
+    this.Fh = this.Qp = this.oq = this.sp = this.Be = 0;
+    this.qh = this.ph = !1
   };
-  D.prototype.Initialize = function(a, b, e) {
-    this.bodyA = a;
-    this.bodyB = b;
-    this.localAnchorA = this.bodyA.GetLocalPoint(e);
-    this.localAnchorB = this.bodyB.GetLocalPoint(e);
-    this.referenceAngle = this.bodyB.GetAngle() - this.bodyA.GetAngle()
+  B.prototype.$a = function(a, c, b) {
+    this.ma = a;
+    this.qa = c;
+    this.eb = this.ma.mc(b);
+    this.fb = this.qa.mc(b);
+    this.Be = this.qa.Jd() - this.ma.Jd()
   };
-  Box2D.inherit(M, Box2D.Dynamics.Joints.b2Joint);
-  M.prototype.__super = Box2D.Dynamics.Joints.b2Joint.prototype;
-  M.b2WeldJoint = function() {
-    Box2D.Dynamics.Joints.b2Joint.b2Joint.apply(this, arguments);
-    this.m_localAnchorA = new e;
-    this.m_localAnchorB = new e;
-    this.m_impulse = new g;
-    this.m_mass = new b
+  P.ya(Q, P.c.o.F);
+  Q.prototype.I = P.c.o.F.prototype;
+  Q.kh = function() {
+    P.c.o.F.F.apply(this, arguments);
+    this.ic = new c;
+    this.jc = new c;
+    this.j = new b;
+    this.A = new e
   };
-  M.prototype.GetAnchorA = function() {
-    return this.m_bodyA.GetWorldPoint(this.m_localAnchorA)
+  Q.prototype.zc = function() {
+    return this.S.hb(this.ic)
   };
-  M.prototype.GetAnchorB = function() {
-    return this.m_bodyB.GetWorldPoint(this.m_localAnchorB)
+  Q.prototype.Ac = function() {
+    return this.N.hb(this.jc)
   };
-  M.prototype.GetReactionForce = function(a) {
-    a === void 0 && (a = 0);
-    return new e(a * this.m_impulse.x, a * this.m_impulse.y)
+  Q.prototype.kh = function(a) {
+    this.I.F.call(this, a);
+    this.ic.p(a.eb);
+    this.jc.p(a.fb);
+    this.Ch = a.Be;
+    this.j.V();
+    this.A = new e
   };
-  M.prototype.GetReactionTorque = function(a) {
-    a === void 0 && (a = 0);
-    return a * this.m_impulse.z
+  Q.prototype.Bc = function(a) {
+    var c, b = 0, d = this.S, e = this.N;
+    c = d.n.h;
+    var g = this.ic.x - d.e.v.x, h = this.ic.y - d.e.v.y, b = c.b.x * g + c.d.x * h, h = c.b.y * g + c.d.y * h, g = b;
+    c = e.n.h;
+    var i = this.jc.x - e.e.v.x, j = this.jc.y - e.e.v.y, b = c.b.x * i + c.d.x * j, j = c.b.y * i + c.d.y * j, i = b;
+    c = d.r;
+    var b = e.r, k = d.C, l = e.C;
+    this.A.b.x = c + b + h * h * k + j * j * l;
+    this.A.d.x = -h * g * k - j * i * l;
+    this.A.X.x = -h * k - j * l;
+    this.A.b.y = this.A.d.x;
+    this.A.d.y = c + b + g * g * k + i * i * l;
+    this.A.X.y = g * k + i * l;
+    this.A.b.t = this.A.X.x;
+    this.A.d.t = this.A.X.y;
+    this.A.X.t = k + l;
+    a.bd ? (this.j.x *= a.Ya, this.j.y *= a.Ya, this.j.t *= a.Ya, d.m.x -= c * this.j.x, d.m.y -= c * this.j.y, d.w -= k * (g * this.j.y - h * this.j.x + this.j.t), e.m.x += b * this.j.x, e.m.y += b * this.j.y, e.w += l * (i * this.j.y - j * this.j.x + this.j.t)) : this.j.V()
   };
-  M.prototype.b2WeldJoint = function(a) {
-    this.__super.b2Joint.call(this, a);
-    this.m_localAnchorA.SetV(a.localAnchorA);
-    this.m_localAnchorB.SetV(a.localAnchorB);
-    this.m_referenceAngle = a.referenceAngle;
-    this.m_impulse.SetZero();
-    this.m_mass = new b
+  Q.prototype.pc = function() {
+    var a, c = 0, d = this.S, e = this.N, g = d.m, h = d.w, i = e.m, j = e.w, k = d.r, l = e.r, n = d.C, m = e.C;
+    a = d.n.h;
+    var s = this.ic.x - d.e.v.x, o = this.ic.y - d.e.v.y, c = a.b.x * s + a.d.x * o, o = a.b.y * s + a.d.y * o, s = c;
+    a = e.n.h;
+    var x = this.jc.x - e.e.v.x, w = this.jc.y - e.e.v.y, c = a.b.x * x + a.d.x * w, w = a.b.y * x + a.d.y * w, x = c;
+    a = i.x - j * w - g.x + h * o;
+    var c = i.y + j * x - g.y - h * s, v = j - h, z = new b;
+    this.A.Kg(z, -a, -c, -v);
+    this.j.ce(z);
+    g.x -= k * z.x;
+    g.y -= k * z.y;
+    h -= n * (s * z.y - o * z.x + z.t);
+    i.x += l * z.x;
+    i.y += l * z.y;
+    j += m * (x * z.y - w * z.x + z.t);
+    d.w = h;
+    e.w = j
   };
-  M.prototype.InitVelocityConstraints = function(a) {
-    var b, e = 0, d = this.m_bodyA, g = this.m_bodyB;
-    b = d.m_xf.R;
-    var f = this.m_localAnchorA.x - d.m_sweep.localCenter.x, h = this.m_localAnchorA.y - d.m_sweep.localCenter.y, e = b.col1.x * f + b.col2.x * h, h = b.col1.y * f + b.col2.y * h, f = e;
-    b = g.m_xf.R;
-    var j = this.m_localAnchorB.x - g.m_sweep.localCenter.x, k = this.m_localAnchorB.y - g.m_sweep.localCenter.y, e = b.col1.x * j + b.col2.x * k, k = b.col1.y * j + b.col2.y * k, j = e;
-    b = d.m_invMass;
-    var e = g.m_invMass, l = d.m_invI, m = g.m_invI;
-    this.m_mass.col1.x = b + e + h * h * l + k * k * m;
-    this.m_mass.col2.x = -h * f * l - k * j * m;
-    this.m_mass.col3.x = -h * l - k * m;
-    this.m_mass.col1.y = this.m_mass.col2.x;
-    this.m_mass.col2.y = b + e + f * f * l + j * j * m;
-    this.m_mass.col3.y = f * l + j * m;
-    this.m_mass.col1.z = this.m_mass.col3.x;
-    this.m_mass.col2.z = this.m_mass.col3.y;
-    this.m_mass.col3.z = l + m;
-    a.warmStarting ? (this.m_impulse.x *= a.dtRatio, this.m_impulse.y *= a.dtRatio, this.m_impulse.z *= a.dtRatio, d.m_linearVelocity.x -= b * this.m_impulse.x, d.m_linearVelocity.y -= b * this.m_impulse.y, d.m_angularVelocity -= l * (f * this.m_impulse.y - h * this.m_impulse.x + this.m_impulse.z), g.m_linearVelocity.x += e * this.m_impulse.x, g.m_linearVelocity.y += e * this.m_impulse.y, g.m_angularVelocity += m * (j * this.m_impulse.y - k * this.m_impulse.x + this.m_impulse.z)) : this.m_impulse.SetZero()
+  Q.prototype.oc = function() {
+    var c, e = 0, g = this.S, h = this.N;
+    c = g.n.h;
+    var i = this.ic.x - g.e.v.x, j = this.ic.y - g.e.v.y, e = c.b.x * i + c.d.x * j, j = c.b.y * i + c.d.y * j, i = e;
+    c = h.n.h;
+    var k = this.jc.x - h.e.v.x, l = this.jc.y - h.e.v.y, e = c.b.x * k + c.d.x * l, l = c.b.y * k + c.d.y * l, k = e;
+    c = g.r;
+    var e = h.r, n = g.C, m = h.C, s = h.e.k.x + k - g.e.k.x - i, o = h.e.k.y + l - g.e.k.y - j, x = h.e.z - g.e.z - this.Ch, w = 10 * a.ta, v = Math.sqrt(s * s + o * o), z = d.lb(x);
+    v > w && (n *= 1, m *= 1);
+    this.A.b.x = c + e + j * j * n + l * l * m;
+    this.A.d.x = -j * i * n - l * k * m;
+    this.A.X.x = -j * n - l * m;
+    this.A.b.y = this.A.d.x;
+    this.A.d.y = c + e + i * i * n + k * k * m;
+    this.A.X.y = i * n + k * m;
+    this.A.b.t = this.A.X.x;
+    this.A.d.t = this.A.X.y;
+    this.A.X.t = n + m;
+    w = new b;
+    this.A.Kg(w, -s, -o, -x);
+    g.e.k.x -= c * w.x;
+    g.e.k.y -= c * w.y;
+    g.e.z -= n * (i * w.y - j * w.x + w.t);
+    h.e.k.x += e * w.x;
+    h.e.k.y += e * w.y;
+    h.e.z += m * (k * w.y - l * w.x + w.t);
+    g.Qa();
+    h.Qa();
+    return v <= a.ta && z <= a.$e
   };
-  M.prototype.SolveVelocityConstraints = function() {
-    var a, b = 0, e = this.m_bodyA, d = this.m_bodyB, f = e.m_linearVelocity, h = e.m_angularVelocity, j = d.m_linearVelocity, k = d.m_angularVelocity, l = e.m_invMass, m = d.m_invMass, n = e.m_invI, q = d.m_invI;
-    a = e.m_xf.R;
-    var o = this.m_localAnchorA.x - e.m_sweep.localCenter.x, s = this.m_localAnchorA.y - e.m_sweep.localCenter.y, b = a.col1.x * o + a.col2.x * s, s = a.col1.y * o + a.col2.y * s, o = b;
-    a = d.m_xf.R;
-    var w = this.m_localAnchorB.x - d.m_sweep.localCenter.x, t = this.m_localAnchorB.y - d.m_sweep.localCenter.y, b = a.col1.x * w + a.col2.x * t, t = a.col1.y * w + a.col2.y * t, w = b;
-    a = j.x - k * t - f.x + h * s;
-    var b = j.y + k * w - f.y - h * o, y = k - h, x = new g;
-    this.m_mass.Solve33(x, -a, -b, -y);
-    this.m_impulse.Add(x);
-    f.x -= l * x.x;
-    f.y -= l * x.y;
-    h -= n * (o * x.y - s * x.x + x.z);
-    j.x += m * x.x;
-    j.y += m * x.y;
-    k += q * (w * x.y - t * x.x + x.z);
-    e.m_angularVelocity = h;
-    d.m_angularVelocity = k
+  P.ya(T, P.c.o.R);
+  T.prototype.I = P.c.o.R.prototype;
+  T.Tf = function() {
+    P.c.o.R.R.apply(this, arguments);
+    this.eb = new c;
+    this.fb = new c
   };
-  M.prototype.SolvePositionConstraints = function() {
-    var b, e = 0, d = this.m_bodyA, h = this.m_bodyB;
-    b = d.m_xf.R;
-    var j = this.m_localAnchorA.x - d.m_sweep.localCenter.x, k = this.m_localAnchorA.y - d.m_sweep.localCenter.y, e = b.col1.x * j + b.col2.x * k, k = b.col1.y * j + b.col2.y * k, j = e;
-    b = h.m_xf.R;
-    var l = this.m_localAnchorB.x - h.m_sweep.localCenter.x, m = this.m_localAnchorB.y - h.m_sweep.localCenter.y, e = b.col1.x * l + b.col2.x * m, m = b.col1.y * l + b.col2.y * m, l = e;
-    b = d.m_invMass;
-    var e = h.m_invMass, n = d.m_invI, q = h.m_invI, o = h.m_sweep.c.x + l - d.m_sweep.c.x - j, s = h.m_sweep.c.y + m - d.m_sweep.c.y - k, w = h.m_sweep.a - d.m_sweep.a - this.m_referenceAngle, t = 10 * a.b2_linearSlop, y = Math.sqrt(o * o + s * s), x = f.Abs(w);
-    y > t && (n *= 1, q *= 1);
-    this.m_mass.col1.x = b + e + k * k * n + m * m * q;
-    this.m_mass.col2.x = -k * j * n - m * l * q;
-    this.m_mass.col3.x = -k * n - m * q;
-    this.m_mass.col1.y = this.m_mass.col2.x;
-    this.m_mass.col2.y = b + e + j * j * n + l * l * q;
-    this.m_mass.col3.y = j * n + l * q;
-    this.m_mass.col1.z = this.m_mass.col3.x;
-    this.m_mass.col2.z = this.m_mass.col3.y;
-    this.m_mass.col3.z = n + q;
-    t = new g;
-    this.m_mass.Solve33(t, -o, -s, -w);
-    d.m_sweep.c.x -= b * t.x;
-    d.m_sweep.c.y -= b * t.y;
-    d.m_sweep.a -= n * (j * t.y - k * t.x + t.z);
-    h.m_sweep.c.x += e * t.x;
-    h.m_sweep.c.y += e * t.y;
-    h.m_sweep.a += q * (l * t.y - m * t.x + t.z);
-    d.SynchronizeTransform();
-    h.SynchronizeTransform();
-    return y <= a.b2_linearSlop && x <= a.b2_angularSlop
+  T.prototype.Tf = function() {
+    this.I.R.call(this);
+    this.type = n.am;
+    this.Be = 0
   };
-  Box2D.inherit(N, Box2D.Dynamics.Joints.b2JointDef);
-  N.prototype.__super = Box2D.Dynamics.Joints.b2JointDef.prototype;
-  N.b2WeldJointDef = function() {
-    Box2D.Dynamics.Joints.b2JointDef.b2JointDef.apply(this, arguments);
-    this.localAnchorA = new e;
-    this.localAnchorB = new e
-  };
-  N.prototype.b2WeldJointDef = function() {
-    this.__super.b2JointDef.call(this);
-    this.type = q.e_weldJoint;
-    this.referenceAngle = 0
-  };
-  N.prototype.Initialize = function(a, b, e) {
-    this.bodyA = a;
-    this.bodyB = b;
-    this.localAnchorA.SetV(this.bodyA.GetLocalPoint(e));
-    this.localAnchorB.SetV(this.bodyB.GetLocalPoint(e));
-    this.referenceAngle = this.bodyB.GetAngle() - this.bodyA.GetAngle()
+  T.prototype.$a = function(a, c, b) {
+    this.ma = a;
+    this.qa = c;
+    this.eb.p(this.ma.mc(b));
+    this.fb.p(this.qa.mc(b));
+    this.Be = this.qa.Jd() - this.ma.Jd()
   }
 })();
-Box2D.Post = {};
-var i;
-for(i = 0;i < Box2D.postDefs.length;++i) {
-  Box2D.postDefs[i]()
+P.Jq = {};
+var pa;
+for(pa = 0;pa < P.Wa.length;++pa) {
+  P.Wa[pa]()
 }
-delete Box2D.postDefs;
-game = game || {};
-game.ai = game.ai || {};
+delete P.Wa;
+var U = U || {};
+U.xj = {};
 (function(a) {
-  var d = [];
-  a.addThinker = function(a) {
-    if(typeof a.think != "function") {
+  var g = [];
+  a.ko = function(a) {
+    if(typeof a.zf != "function") {
       throw"Thinker can't think!";
     }
-    if(a.tIdx != null) {
+    if(a.Jh != p) {
       throw"Thinker already added!";
     }
-    a.tIdx = d.push(a)
+    a.Jh = g.push(a)
   };
-  a.removeThinker = function(a) {
-    if(a.tIdx != null) {
+  a.nr = function(a) {
+    if(a.Jh != p) {
       throw"Thinker not added (or already removed)!";
     }
-    d[a.tIdx] = null;
-    a.tIdx = null
+    g[a.Jh] = p;
+    a.Jh = p
   };
-  a.think = function(a, f) {
-    for(var e = [], g = 0;g < d.length;g++) {
-      var h = d[g];
-      if(h != null) {
-        h.tIdx = e.push(d[g]), h.think(a, f)
+  a.zf = function(a, d) {
+    for(var c = [], b = 0;b < g.length;b++) {
+      var h = g[b];
+      if(h != p) {
+        h.Jh = c.push(g[b]), h.zf(a, d)
       }
     }
-    d = e
+    g = c
   }
-})(game.ai);
-var game = game || {};
-game.animations = game.animations || {};
+})(U.xj);
+U.yl = {};
 (function(a) {
-  a.setSpriteSheet = function(a, b, f, e, g, h, j) {
-    game.ui.setDisplaySize(a, b);
-    game.ui.setImage(a, f);
-    a.display.spriteSheet.offset = e;
-    a.display.spriteSheet.frameSize = g;
-    a.display.spriteSheet.frames = h;
-    a.display.spriteSheet.frameSpeed = j;
-    a.display.spriteSheet.frameTick = 0;
-    a.display.spriteSheet.frameOffset = new Box2D.Common.Math.b2Vec2(0, 0);
-    a.display.spriteSheet.frameDir = {a:0, x:0, y:2}
+  a.jq = function(a, e, d, c) {
+    U.Z.Om(a, e);
+    U.Z.td(a, "../external-resources/graphics/urbansquall_tileset/characters/princess_AP.png");
+    a.display.Nc.Zc = d;
+    a.display.Nc.ui = c;
+    a.display.Nc.frames = 4;
+    a.display.Nc.$o = 4;
+    a.display.Nc.se = 0;
+    a.display.Nc.rh = new P.a.f.g(0, 0);
+    a.display.Nc.Gc = {z:0, x:0, y:2}
   };
-  a.setAsFourDirectionalAnimation = function(d, b, f, e, g, h, j) {
-    a.setSpriteSheet(d, b, f, e, g, h, j);
-    if(d.think) {
-      var l = d.think;
-      d.think = function(b, e) {
-        l(b, e);
-        a.fourDirectionalAnimation(b, e, d)
+  a.iq = function(g, e, d) {
+    var c = W.body;
+    a.jq(c, g, e, d);
+    if(c.zf) {
+      var b = c.zf;
+      c.zf = function(d, e) {
+        b(d, e);
+        a.cm(e, c)
       }
     }else {
-      d.think = function(b, e) {
-        a.fourDirectionalAnimation(b, e, d)
-      }, game.ai.addThinker(d)
+      c.zf = function(b, d) {
+        a.cm(d, c)
+      }, U.xj.ko(c)
     }
   };
-  a.fourDirectionalAnimation = function(a, b, f) {
-    a = f.display.spriteSheet;
-    a.frameTick += b;
-    var b = f.GetLinearVelocity(), f = Math.abs(b.x), e = Math.abs(b.y);
-    if(e < 0.01 || f >= e) {
-      if(b.x > 0.01) {
-        if(a.frameDir.x = 0, a.frameDir.a != 0) {
-          a.frameDir.a = 0, a.frameTick = 0
+  a.cm = function(a, e) {
+    var d = e.display.Nc;
+    d.se += a;
+    var c = e.m, b = Math.abs(c.x), h = Math.abs(c.y);
+    if(h < 0.01 || b >= h) {
+      if(c.x > 0.01) {
+        if(d.Gc.x = 0, d.Gc.z != 0) {
+          d.Gc.z = 0, d.se = 0
         }
       }else {
-        if(b.x < -0.01) {
-          if(a.frameDir.x = 1, a.frameDir.a != 1) {
-            a.frameDir.a = 1, a.frameTick = 0
+        if(c.x < -0.01) {
+          if(d.Gc.x = 1, d.Gc.z != 1) {
+            d.Gc.z = 1, d.se = 0
           }
         }else {
-          a.frameTick = 0
+          d.se = 0
         }
       }
-      a.frameOffset.y = a.frameDir.x == 1 ? a.frameSize.y * 3 + a.offset.y : a.frameSize.y + a.offset.y
+      d.rh.y = d.Gc.x == 1 ? d.ui.y * 3 + d.Zc.y : d.ui.y + d.Zc.y
     }else {
-      if(b.y > 0.01) {
-        a.frameDir.y = 3;
-        if(a.frameDir.a != 3) {
-          a.frameDir.a = 3, a.frameTick = 0
+      if(c.y > 0.01) {
+        d.Gc.y = 3;
+        if(d.Gc.z != 3) {
+          d.Gc.z = 3, d.se = 0
         }
-        a.frameOffset.y = a.frameSize.y * 2 + a.offset.y
+        d.rh.y = d.ui.y * 2 + d.Zc.y
       }else {
-        a.frameDir.y = 2;
-        if(a.frameDir.a != 2) {
-          a.frameDir.a = 2, a.frameTick = 0
+        d.Gc.y = 2;
+        if(d.Gc.z != 2) {
+          d.Gc.z = 2, d.se = 0
         }
-        a.frameOffset.y = a.offset.y
+        d.rh.y = d.Zc.y
       }
     }
-    a.frameOffset.x = a.frameTick == 0 ? a.offset.x : Math.floor(a.frameTick * a.frameSpeed) % a.frames * a.frameSize.x + a.offset.x
+    d.rh.x = d.se == 0 ? d.Zc.x : Math.floor(d.se * d.$o) % d.frames * d.ui.x + d.Zc.x
   };
-  a.eightDirectionalAnimation = function(a, b, f) {
-    a = f.GetLinearVelocity();
-    Math.abs(a.x);
-    Math.abs(a.y);
-    f = illandril.game.ui.BasicDirectionalAnimation.Direction.N;
-    a = Math.abs(directionVector.x);
-    b = Math.abs(directionVector.y);
-    f = a > 2 * b ? directionVector.x > 0 ? illandril.game.ui.BasicDirectionalAnimation.Direction.E : illandril.game.ui.BasicDirectionalAnimation.Direction.W : b > 2 * a ? directionVector.y < 0 ? illandril.game.ui.BasicDirectionalAnimation.Direction.S : illandril.game.ui.BasicDirectionalAnimation.Direction.N : directionVector.y < 0 ? directionVector.x > 0 ? illandril.game.ui.BasicDirectionalAnimation.Direction.SE : illandril.game.ui.BasicDirectionalAnimation.Direction.SW : directionVector.x > 0 ? 
-    illandril.game.ui.BasicDirectionalAnimation.Direction.NE : illandril.game.ui.BasicDirectionalAnimation.Direction.NW;
-    if(f != this.lastDirection) {
-      this.directionTime = 0, this.lastDirection = f
+  a.Wq = function() {
+    var a = illandril.Yb.Z.Qb.Sb.kl, e = Math.abs(directionVector.x), d = Math.abs(directionVector.y), a = e > 2 * d ? directionVector.x > 0 ? illandril.Yb.Z.Qb.Sb.E : illandril.Yb.Z.Qb.Sb.co : d > 2 * e ? directionVector.y < 0 ? illandril.Yb.Z.Qb.Sb.In : illandril.Yb.Z.Qb.Sb.kl : directionVector.y < 0 ? directionVector.x > 0 ? illandril.Yb.Z.Qb.Sb.Jn : illandril.Yb.Z.Qb.Sb.Kn : directionVector.x > 0 ? illandril.Yb.Z.Qb.Sb.Cn : illandril.Yb.Z.Qb.Sb.Dn;
+    if(a != this.pp) {
+      this.pi = 0, this.pp = a
     }
-    a = 0;
-    b = Math.round((this.directionTime + 1) / this.mspf) % this.frames;
-    speedVector.squaredMagnitude() != 0 || this.lastFrame != 0 ? (this.directionTime += tickTime, this.lastFrame = b) : b = this.lastFrame = this.directionTime = 0;
-    switch(f) {
-      case illandril.game.ui.BasicDirectionalAnimation.Direction.N:
-        a = 0;
+    e = 0;
+    d = Math.round((this.pi + 1) / this.Am) % this.frames;
+    speedVector.tr() != 0 || this.jm != 0 ? (this.pi += tickTime, this.jm = d) : d = this.jm = this.pi = 0;
+    switch(a) {
+      case illandril.Yb.Z.Qb.Sb.kl:
+        e = 0;
         break;
-      case illandril.game.ui.BasicDirectionalAnimation.Direction.NE:
-        a = 0;
-        b += this.frames;
+      case illandril.Yb.Z.Qb.Sb.Cn:
+        e = 0;
+        d += this.frames;
         break;
-      case illandril.game.ui.BasicDirectionalAnimation.Direction.E:
-        a = 1;
+      case illandril.Yb.Z.Qb.Sb.E:
+        e = 1;
         break;
-      case illandril.game.ui.BasicDirectionalAnimation.Direction.SE:
-        a = 1;
-        b += this.frames;
+      case illandril.Yb.Z.Qb.Sb.Jn:
+        e = 1;
+        d += this.frames;
         break;
-      case illandril.game.ui.BasicDirectionalAnimation.Direction.S:
-        a = 2;
+      case illandril.Yb.Z.Qb.Sb.In:
+        e = 2;
         break;
-      case illandril.game.ui.BasicDirectionalAnimation.Direction.SW:
-        a = 2;
-        b += this.frames;
+      case illandril.Yb.Z.Qb.Sb.Kn:
+        e = 2;
+        d += this.frames;
         break;
-      case illandril.game.ui.BasicDirectionalAnimation.Direction.W:
-        a = 3;
+      case illandril.Yb.Z.Qb.Sb.co:
+        e = 3;
         break;
-      case illandril.game.ui.BasicDirectionalAnimation.Direction.NW:
-        a = 3, b += this.frames
+      case illandril.Yb.Z.Qb.Sb.Dn:
+        e = 3, d += this.frames
     }
-    f = a * this.tileHeight;
-    isNaN(b * this.tileWidth) && illandril.DEBUG && illandril.getLogger("game.ui.BasicDirectionalAnimation").shout("BAD SPRITE X -- sX: " + b + "; DT: " + this.directionTime + "; MSPF: " + this.mspf + "; Width: " + this.tileWidth);
-    isNaN(f) && illandril.DEBUG && illandril.getLogger("game.ui.SpriteSheet").shout("BAD SPRITE Y -- sY: " + a + "; GT: " + gameTime + "; MSPF: " + this.mspf + "; Height: " + this.tileHeight);
-    return{src:this.src, x:b * this.tileWidth, y:a * this.tileHeight}
+    a = e * this.Sm;
+    isNaN(d * this.Tm) && illandril.gn && illandril.cp("game.ui.BasicDirectionalAnimation").kq("BAD SPRITE X -- sX: " + d + "; DT: " + this.pi + "; MSPF: " + this.Am + "; Width: " + this.Tm);
+    isNaN(a) && illandril.gn && illandril.cp("game.ui.SpriteSheet").kq("BAD SPRITE Y -- sY: " + e + "; GT: " + gameTime + "; MSPF: " + this.Am + "; Height: " + this.Sm);
+    return{src:this.src, x:d * this.Tm, y:e * this.Sm}
   }
-})(game.animations);
-game = game || {};
-game.world = game.world || {};
+})(U.yl);
+U.G = {};
 (function(a) {
-  var d = new Box2D.Dynamics.b2FixtureDef, b = new Box2D.Dynamics.b2BodyDef, f = null, e = null, g = null, h = [], j = [], l = {density:0.1, friction:0.5, restitution:0.01, isSensor:!1}, k = {fixedRotation:!1, angle:0, type:Box2D.Dynamics.b2Body.b2_dynamicBody}, o = function(a, b) {
-    var a = a || {}, e = {}, d;
-    for(d in b) {
-      e[d] = a[d] === void 0 || a[d] === null ? b[d] : a[d]
+  function g(a, c) {
+    var a = a || {}, b = {}, d;
+    for(d in c) {
+      b[d] = a[d] === f || a[d] === p ? c[d] : a[d]
     }
-    return e
-  };
-  a.init = function(b, d) {
-    f = new Box2D.Dynamics.b2World(d, !0);
-    f.SetContactFilter(a);
-    f.SetContactListener(a);
-    e = b.x;
-    g = b.y;
-    a.top = a.createStaticBox(new Box2D.Common.Math.b2Vec2(e, 1), new Box2D.Common.Math.b2Vec2(e / 2, 0), !0, null, {friction:0});
-    game.ui.setImage(a.top.body, "graphics/border.png");
-    a.bottom = a.createStaticBox(new Box2D.Common.Math.b2Vec2(e, 1), new Box2D.Common.Math.b2Vec2(e / 2, g), !0, null, {friction:0});
-    game.ui.setImage(a.bottom.body, "graphics/border.png");
-    a.left = a.createStaticBox(new Box2D.Common.Math.b2Vec2(1, g), new Box2D.Common.Math.b2Vec2(0, g / 2), !0, null, {friction:0});
-    game.ui.setImage(a.left.body, "graphics/border.png");
-    a.right = a.createStaticBox(new Box2D.Common.Math.b2Vec2(1, g), new Box2D.Common.Math.b2Vec2(e, g / 2), !0, null, {friction:0});
-    game.ui.setImage(a.right.body, "graphics/border.png")
+    return b
+  }
+  var e = new P.c.Mf, d = new P.c.Pe, c = p, b = p, h = p, i = [], j = [], k = {bf:0.1, Hc:0.5, ae:0.01, yi:!1}, m = {Zf:!1, rc:0, type:P.c.sa.Eb};
+  a.Vc = function(d, e) {
+    c = new P.c.Nd(e, !0);
+    c.Nn(a);
+    c.On(a);
+    b = d.x;
+    h = d.y;
+    a.top = a.Rc(new P.a.f.g(b, 1), new P.a.f.g(b / 2, 0), !0, p, {Hc:0});
+    U.Z.td(a.top.body, "graphics/border.png");
+    a.bottom = a.Rc(new P.a.f.g(b, 1), new P.a.f.g(b / 2, h), !0, p, {Hc:0});
+    U.Z.td(a.bottom.body, "graphics/border.png");
+    a.left = a.Rc(new P.a.f.g(1, h), new P.a.f.g(0, h / 2), !0, p, {Hc:0});
+    U.Z.td(a.left.body, "graphics/border.png");
+    a.right = a.Rc(new P.a.f.g(1, h), new P.a.f.g(b, h / 2), !0, p, {Hc:0});
+    U.Z.td(a.right.body, "graphics/border.png")
   };
   a.update = function(a, b) {
-    f.Step(b, 10, 10);
-    f.DrawDebugData();
-    f.ClearForces();
+    c.he(b, 10, 10);
+    c.kn();
+    c.Zm();
     if(j.length > 0) {
-      for(var e = 0;e < j.length;e++) {
-        f.DestroyBody(j[e].body)
+      for(var d = 0;d < j.length;d++) {
+        c.hn(j[d].body)
       }
       j = []
     }
   };
-  a.getBox2DWorld = function() {
-    return f
+  a.Qd = function() {
+    return c
   };
-  a.addCollisionFilter = function(a) {
-    h.push(a)
+  a.jo = function(a) {
+    i.push(a)
   };
-  a.RayCollide = function(a, b) {
-    if(!b.IsSensor()) {
-      for(var e = 0;e < h.length;e++) {
-        if(h[e].RayCollide && !h[e].RayCollide(a, b)) {
+  a.Ig = function(a, c) {
+    if(!c.vd()) {
+      for(var b = 0;b < i.length;b++) {
+        if(i[b].Ig && !i[b].Ig(a, c)) {
           return!1
         }
       }
     }
-    return Box2D.Dynamics.b2ContactFilter.prototype.RayCollide(a, b)
+    return P.c.Lf.prototype.Ig(a, c)
   };
-  a.ShouldCollide = function(a, b) {
-    if(!a.IsSensor() && !b.IsSensor()) {
-      for(var e = 0;e < h.length;e++) {
-        if(h[e].ShouldCollide && !h[e].ShouldCollide(a, b)) {
+  a.fd = function(a, c) {
+    if(!a.vd() && !c.vd()) {
+      for(var b = 0;b < i.length;b++) {
+        if(i[b].fd && !i[b].fd(a, c)) {
           return!1
         }
       }
     }
-    return Box2D.Dynamics.b2ContactFilter.prototype.ShouldCollide(a, b)
+    return P.c.Lf.prototype.fd(a, c)
   };
-  a.BeginContact = function(a) {
-    for(var b = 0;b < h.length;b++) {
-      h[b].ValidateBeginContact && h[b].ValidateBeginContact(a), a.disabled && a.SetEnabled(!1), h[b].BeginContact && h[b].BeginContact(a)
+  a.vg = function(a) {
+    for(var c = 0;c < i.length;c++) {
+      i[c].wl && i[c].wl(a), a.disabled && a.oj(!1), i[c].vg && i[c].vg(a)
     }
   };
-  a.EndContact = function(a) {
-    for(var b = 0;b < h.length;b++) {
-      h[b].EndContact && h[b].EndContact(a)
+  a.Gf = function(a) {
+    for(var c = 0;c < i.length;c++) {
+      i[c].Gf && i[c].Gf(a)
     }
     a.disabled = !1;
-    a.SetEnabled(!0)
+    a.oj(!0)
   };
-  a.PreSolve = function(a, b) {
-    a.disabled && a.SetEnabled(!1);
-    for(var e = 0;e < h.length;e++) {
-      h[e].PreSolve && h[e].PreSolve(a, b)
+  a.Hg = function(a, c) {
+    a.disabled && a.oj(!1);
+    for(var b = 0;b < i.length;b++) {
+      i[b].Hg && i[b].Hg(a, c)
     }
   };
-  a.PostSolve = function(a, b) {
-    for(var e = 0;e < h.length;e++) {
-      h[e].PostSolve && h[e].PostSolve(a, b)
+  a.Gg = function(a, c) {
+    for(var b = 0;b < i.length;b++) {
+      i[b].Gg && i[b].Gg(a, c)
     }
   };
-  a.getBox2DBodyDefinition = function() {
-    return b
-  };
-  a.getBox2DFixtureDefinition = function() {
+  a.xb = function() {
     return d
   };
-  a.getWorldWidth = function() {
+  a.Tc = function() {
     return e
   };
-  a.getWorldHeight = function() {
-    return g
+  a.Zj = function() {
+    return b
   };
-  a.createStaticBox = function(b, e, d, g, f) {
-    g = g || {};
-    g.type = Box2D.Dynamics.b2Body.b2_staticBody;
-    return a.createBox(b, e, d, g, f)
+  a.Yj = function() {
+    return h
   };
-  a.createBox = function(b, e, d, g, f) {
-    var h = new Box2D.Collision.Shapes.b2PolygonShape;
-    h.SetAsBox(b.x / 2, b.y / 2);
-    return a.createObject(b, e, d !== !1, g, f, h)
+  a.Rc = function(c, b, d, e, g) {
+    e = e || {};
+    e.type = P.c.sa.vc;
+    return a.mi(c, b, d, e, g)
   };
-  a.createObject = function(e, d, g, h, j, l) {
-    h = o(h, k);
-    b.type = h.type;
-    b.angle = h.angle;
-    b.fixedRotation = h.fixedRotation;
-    b.position = d;
-    d = f.CreateBody(b);
-    fixture = a.addFixture(d, j, l);
-    g && game.ui.setDisplaySize(d, new Box2D.Common.Math.b2Vec2(e.x, e.y));
-    e = {body:d, fixture:fixture};
-    return d.object = e
+  a.mi = function(c, b, d, e, g) {
+    var h = new P.i.H.ec;
+    h.mj(c.x / 2, c.y / 2);
+    return a.nh(c, b, d !== !1, e, g, h)
   };
-  a.addFixture = function(a, b, e) {
-    b = o(b, l);
-    d.density = b.density;
-    d.friction = b.friction;
-    d.restitution = b.restitution;
-    d.isSensor = b.isSensor;
-    d.shape = e;
-    return a.CreateFixture(d)
+  a.nh = function(b, e, h, i, j, k) {
+    i = g(i, m);
+    d.type = i.type;
+    d.rc = i.rc;
+    d.Zf = i.Zf;
+    d.position = e;
+    e = c.Ef(d);
+    fixture = a.wj(e, j, k);
+    h && U.Z.Om(e, new P.a.f.g(b.x, b.y));
+    b = {body:e, Xq:fixture};
+    return e.object = b
   };
-  a.destroyObject = function(a) {
+  a.wj = function(a, c, b) {
+    c = g(c, k);
+    e.bf = c.bf;
+    e.Hc = c.Hc;
+    e.ae = c.ae;
+    e.yi = c.yi;
+    e.shape = b;
+    return a.xg(e)
+  };
+  a.oi = function(a) {
     j.push(a)
   }
-})(game.world);
-game.ui = {};
-game = game || {};
+})(U.G);
+U.Z = {};
 (function(a) {
-  var d = 0;
-  d |= Box2D.Dynamics.b2DebugDraw.e_aabbBit;
-  d |= Box2D.Dynamics.b2DebugDraw.e_pairBit;
-  d |= Box2D.Dynamics.b2DebugDraw.e_shapeBit;
-  var b = 0, f = {}, e = null, g = null, h = null, j = null, l = null, k = null, o = null, m = new Box2D.Common.Math.b2Vec2(0, 0), s = new Box2D.Common.Math.b2Vec2(0, 0);
-  a.ui = {};
-  a.ui.getDisplayDOMObject = function() {
+  var g = 0;
+  g |= P.c.Db.Sl;
+  g |= P.c.Db.Xl;
+  g |= P.c.Db.$l;
+  var e = 0, d = {}, c = p, b = p, h = p, i = p, j = p, k = p, m = p, l = new P.a.f.g(0, 0), s = new P.a.f.g(0, 0);
+  a.Z = {};
+  a.Z.dm = function() {
     return k
   };
-  a.ui.initDisplay = function(b, f, m, s) {
-    e = f;
-    g = m.x;
-    h = m.y;
-    j = g / e;
-    l = h / e;
-    a.ui.lookAt(new Box2D.Common.Math.b2Vec2(0, 0));
-    f = document.getElementById(b);
-    m = document.createElement("span");
+  a.Z.jp = function(d, e, l, s) {
+    c = e;
+    b = l.x;
+    h = l.y;
+    i = b / c;
+    j = h / c;
+    a.Z.lm(new P.a.f.g(0, 0));
+    e = document.getElementById(d);
+    l = document.createElement("span");
     if(s) {
-      f.innerHTML = '<div style="width: ' + g + "px; height: " + h / 2 + 'px; background-color: #000; opacity: 0.15; position: absolute;"></div><div style="width: ' + g / 2 + "px; height: " + h + 'px; background-color: #FFF; opacity: 0.15; position: absolute;"></div>', m.innerHTML = '<canvas id="' + b + '__DEBUG" class="debugViewport"></canvas>'
+      e.innerHTML = '<div style="width: ' + b + "px; height: " + h / 2 + 'px; background-color: #000; opacity: 0.15; position: absolute;"></div><div style="width: ' + b / 2 + "px; height: " + h + 'px; background-color: #FFF; opacity: 0.15; position: absolute;"></div>', l.innerHTML = '<canvas id="' + d + '__DEBUG" class="debugViewport"></canvas>'
     }
-    m.className = "viewportContainer";
-    m.style.width = g + "px";
-    m.style.height = h + "px";
+    l.className = "viewportContainer";
+    l.style.width = b + "px";
+    l.style.height = h + "px";
     k = document.createElement("span");
     k.className = "viewport";
-    m.appendChild(k);
-    f.appendChild(m);
+    l.appendChild(k);
+    e.appendChild(l);
     if(s) {
-      o = document.getElementById(b + "__DEBUG"), o.width = a.world.getWorldWidth() * e, o.height = a.world.getWorldHeight() * e, o.style.marginRight = "-" + o.width + "px", o.style.marginBottom = "-" + o.height + "px", b = new Box2D.Dynamics.b2DebugDraw, b.SetSprite(o.getContext("2d")), b.SetDrawScale(e), b.SetFillAlpha(0.3), b.SetLineThickness(1), b.SetFlags(d), a.world.getBox2DWorld().SetDebugDraw(b)
+      m = document.getElementById(d + "__DEBUG"), m.width = a.G.Zj() * c, m.height = a.G.Yj() * c, m.style.marginRight = "-" + m.width + "px", m.style.marginBottom = "-" + m.height + "px", d = new P.c.Db, d.Vn(m.getContext("2d")), d.Qn(c), d.Rn(), d.Tn(), d.Sn(g), a.G.Qd().Pn(d)
     }
   };
-  a.ui.lookAt = function(b) {
-    m.x = b.x - j / 2;
-    m.y = b.y - l / 2;
-    if(m.x < 0) {
-      m.x = 0
+  a.Z.lm = function(c) {
+    l.x = c.x - i / 2;
+    l.y = c.y - j / 2;
+    if(l.x < 0) {
+      l.x = 0
     }else {
-      if(m.x > a.world.getWorldWidth() - j) {
-        m.x = a.world.getWorldWidth() - j
+      if(l.x > a.G.Zj() - i) {
+        l.x = a.G.Zj() - i
       }
     }
-    if(m.y < 0) {
-      m.y = 0
+    if(l.y < 0) {
+      l.y = 0
     }else {
-      if(m.y > a.world.getWorldHeight() - l) {
-        m.y = a.world.getWorldHeight() - l
+      if(l.y > a.G.Yj() - j) {
+        l.y = a.G.Yj() - j
       }
     }
   };
-  a.ui.draw = function() {
-    if(k == null) {
+  a.Z.Ro = function() {
+    if(k == p) {
       throw"Display not yet initialized!";
     }
-    if(s.x != m.x || s.y != m.y) {
-      s.x = m.x;
-      s.y = m.y;
-      if(o != null) {
-        o.style.left = "-" + m.x * e + "px", o.style.top = "-" + m.y * e + "px"
+    if(s.x != l.x || s.y != l.y) {
+      s.x = l.x;
+      s.y = l.y;
+      if(m != p) {
+        m.style.left = "-" + l.x * c + "px", m.style.top = "-" + l.y * c + "px"
       }
-      k.style.left = "-" + m.x * e + "px";
-      k.style.top = "-" + m.y * e + "px"
+      k.style.left = "-" + l.x * c + "px";
+      k.style.top = "-" + l.y * c + "px"
     }
-    var d = {}, g;
-    for(g in f) {
-      d[g] = f[g]
-    }
-    for(var h = a.world.getBox2DWorld().GetBodyList();h != null;) {
-      if(h.display != null) {
-        var j = h.GetPosition(), l = h.display.size;
-        if(h.display.viewID == null) {
-          h.display.viewID = b++
-        }
-        delete d[h.display.viewID];
-        if(f[h.display.viewID] == null) {
-          f[h.display.viewID] = document.createElement("span"), f[h.display.viewID].className = "gameObject", f[h.display.viewID].savedStyle = {}, k.appendChild(f[h.display.viewID])
-        }
-        var x = f[h.display.viewID], F = (j.x - l.x / 2) * e;
-        if(x.savedStyle.left != F) {
-          x.savedStyle.left = F, x.style.left = F + "px"
-        }
-        j = (j.y - l.y / 2) * e;
-        if(x.savedStyle.top != j) {
-          x.savedStyle.top = j, x.style.top = j + "px"
-        }
-        j = l.x * e;
-        if(x.savedStyle.width != j) {
-          x.savedStyle.width = j, x.style.width = j + "px"
-        }
-        l = l.y * e;
-        if(x.savedStyle.height != l) {
-          x.savedStyle.height = l, x.style.height = l + "px"
-        }
-        l = h.GetAngle();
-        if(x.savedStyle.rotation != l) {
-          x.savedStyle.rotation = l, x.style.webkitTransform = "rotate(" + l + "rad)"
-        }
-        if(h.display.spriteSheet != null) {
-          l = h.display.spriteSheet.url;
-          if(x.savedStyle.bg != l) {
-            x.savedStyle.bg = l, x.style.backgroundImage = "url(" + l + ")", x.style.backgroundColor = "transparent"
-          }
-          l = h.display.spriteSheet.frameOffset;
-          if(l != null && (x.savedStyle.bgPosX != l.x || x.savedStyle.bgPosY != l.y)) {
-            x.savedStyle.bgPosX = l.x, x.savedStyle.bgPosY = l.y, x.style.backgroundPosition = l.x * -1 + "px " + l.y * -1 + "px"
-          }
-        }
-      }
-      h = h.GetNext()
-    }
+    var b = {}, g;
     for(g in d) {
-      x = d[g], k.removeChild(x), delete f[g]
+      b[g] = d[g]
+    }
+    for(var h = a.G.Qd().Da;h != p;) {
+      if(h.display != p) {
+        var i = h.n.position, j = h.display.size;
+        if(h.display.Ge == p) {
+          h.display.Ge = e++
+        }
+        delete b[h.display.Ge];
+        if(d[h.display.Ge] == p) {
+          d[h.display.Ge] = document.createElement("span"), d[h.display.Ge].className = "gameObject", d[h.display.Ge].cc = {}, k.appendChild(d[h.display.Ge])
+        }
+        var v = d[h.display.Ge], I = (i.x - j.x / 2) * c;
+        if(v.cc.left != I) {
+          v.cc.left = I, v.style.left = I + "px"
+        }
+        i = (i.y - j.y / 2) * c;
+        if(v.cc.top != i) {
+          v.cc.top = i, v.style.top = i + "px"
+        }
+        i = j.x * c;
+        if(v.cc.width != i) {
+          v.cc.width = i, v.style.width = i + "px"
+        }
+        j = j.y * c;
+        if(v.cc.height != j) {
+          v.cc.height = j, v.style.height = j + "px"
+        }
+        j = h.Jd();
+        if(v.cc.rotation != j) {
+          v.cc.rotation = j, v.style.webkitTransform = "rotate(" + j + "rad)"
+        }
+        if(h.display.Nc != p) {
+          j = h.display.Nc.url;
+          if(v.cc.Go != j) {
+            v.cc.Go = j, v.style.backgroundImage = "url(" + j + ")", v.style.backgroundColor = "transparent"
+          }
+          j = h.display.Nc.rh;
+          if(j != p && (v.cc.Ho != j.x || v.cc.Io != j.y)) {
+            v.cc.Ho = j.x, v.cc.Io = j.y, v.style.backgroundPosition = j.x * -1 + "px " + j.y * -1 + "px"
+          }
+        }
+      }
+      h = h.L
+    }
+    for(g in b) {
+      v = b[g], k.removeChild(v), delete d[g]
     }
   };
-  a.ui.setDisplaySize = function(a, b) {
+  a.Z.Om = function(a, c) {
     a.display = a.display || {};
-    a.display.size = b
+    a.display.size = c
   };
-  a.ui.setImage = function(a, b) {
-    if(a.display == null || a.display.size == null) {
+  a.Z.td = function(a, c) {
+    if(a.display == p || a.display.size == p) {
       throw"Attempt to set image of object with no display size!";
     }
-    a.display.spriteSheet = a.display.spriteSheet || {};
-    a.display.spriteSheet.url = b
+    a.display.Nc = a.display.Nc || {};
+    a.display.Nc.url = c
   }
-})(game);
-window.requestAnimFrame = function() {
-  return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(a) {
-    window.setTimeout(a, 1E3 / 60)
-  }
-}();
-game = game || {};
+})(U);
+window.Im = window.or || window.zr || window.jr || window.lr || window.kr || function(a) {
+  window.setTimeout(a, 1E3 / 60)
+};
+U = U || {};
 (function(a) {
-  var d = 0, b = 60, f = 0, e = null;
-  a.init = function(b, g, f, k, o, m, s) {
-    e = b;
-    d = document.getElementById("fps");
-    a.world.init(f, k);
-    a.ui.initDisplay(g, m, o, s)
+  function g(h) {
+    h == p && (h = (new Date).getTime());
+    var i = 0;
+    c != 0 ? i = (h - c) / 1E3 : c = h;
+    if(i > 0.015) {
+      if(e) {
+        var j = 1 / i;
+        d = d * 0.99 + j * 0.01;
+        e.innerHTML = Math.round(j) + " - " + Math.round(d)
+      }
+      i > 0.04 && (i = 0.04);
+      c = h;
+      b.Gm && b.Gm(0, i);
+      a.xj.zf(h, i);
+      b.dq && b.dq(h, i);
+      a.G.update(h, i);
+      b.Fm && b.Fm();
+      a.Z.Ro()
+    }
+    window.Im(g, a.Z.dm())
+  }
+  var e = 0, d = 60, c = 0, b = p;
+  a.Vc = function(c, d, g, k, m, l, s) {
+    b = c;
+    e = document.getElementById("fps");
+    a.G.Vc(g, k);
+    a.Z.jp(d, l, m, s)
   };
   a.start = function() {
-    window.requestAnimFrame(g, a.ui.getDisplayDOMObject())
-  };
-  var g = function(h) {
-    h == null && (h = (new Date).getTime());
-    var j = 0;
-    f != 0 ? j = (h - f) / 1E3 : f = h;
-    if(j > 0.015) {
-      if(d) {
-        var l = 1 / j;
-        b = b * 0.99 + l * 0.01;
-        d.innerHTML = Math.round(l) + " - " + Math.round(b)
-      }
-      j > 0.04 && (j = 0.04);
-      f = h;
-      e.preThink && e.preThink(h, j);
-      a.ai.think(h, j);
-      e.preUpdate && e.preUpdate(h, j);
-      a.world.update(h, j);
-      e.preDraw && e.preDraw(h, j);
-      a.ui.draw(h, j)
-    }
-    window.requestAnimFrame(g, a.ui.getDisplayDOMObject())
+    window.Im(g, a.Z.dm())
   }
-})(game);
-goog.string = {};
-goog.string.Unicode = {NBSP:"\u00a0"};
-goog.string.startsWith = function(a, d) {
-  return a.lastIndexOf(d, 0) == 0
-};
-goog.string.endsWith = function(a, d) {
-  var b = a.length - d.length;
-  return b >= 0 && a.indexOf(d, b) == b
-};
-goog.string.caseInsensitiveStartsWith = function(a, d) {
-  return goog.string.caseInsensitiveCompare(d, a.substr(0, d.length)) == 0
-};
-goog.string.caseInsensitiveEndsWith = function(a, d) {
-  return goog.string.caseInsensitiveCompare(d, a.substr(a.length - d.length, d.length)) == 0
-};
-goog.string.subs = function(a, d) {
-  for(var b = 1;b < arguments.length;b++) {
-    var f = String(arguments[b]).replace(/\$/g, "$$$$"), a = a.replace(/\%s/, f)
-  }
-  return a
-};
-goog.string.collapseWhitespace = function(a) {
-  return a.replace(/[\s\xa0]+/g, " ").replace(/^\s+|\s+$/g, "")
-};
-goog.string.isEmpty = function(a) {
-  return/^[\s\xa0]*$/.test(a)
-};
-goog.string.isEmptySafe = function(a) {
-  return goog.string.isEmpty(goog.string.makeSafe(a))
-};
-goog.string.isBreakingWhitespace = function(a) {
-  return!/[^\t\n\r ]/.test(a)
-};
-goog.string.isAlpha = function(a) {
-  return!/[^a-zA-Z]/.test(a)
-};
-goog.string.isNumeric = function(a) {
-  return!/[^0-9]/.test(a)
-};
-goog.string.isAlphaNumeric = function(a) {
-  return!/[^a-zA-Z0-9]/.test(a)
-};
-goog.string.isSpace = function(a) {
-  return a == " "
-};
-goog.string.isUnicodeChar = function(a) {
-  return a.length == 1 && a >= " " && a <= "~" || a >= "\u0080" && a <= "\ufffd"
-};
-goog.string.stripNewlines = function(a) {
-  return a.replace(/(\r\n|\r|\n)+/g, " ")
-};
-goog.string.canonicalizeNewlines = function(a) {
-  return a.replace(/(\r\n|\r|\n)/g, "\n")
-};
-goog.string.normalizeWhitespace = function(a) {
-  return a.replace(/\xa0|\s/g, " ")
-};
-goog.string.normalizeSpaces = function(a) {
-  return a.replace(/\xa0|[ \t]+/g, " ")
-};
-goog.string.collapseBreakingSpaces = function(a) {
-  return a.replace(/[\t\r\n ]+/g, " ").replace(/^[\t\r\n ]+|[\t\r\n ]+$/g, "")
-};
-goog.string.trim = function(a) {
-  return a.replace(/^[\s\xa0]+|[\s\xa0]+$/g, "")
-};
-goog.string.trimLeft = function(a) {
-  return a.replace(/^[\s\xa0]+/, "")
-};
-goog.string.trimRight = function(a) {
-  return a.replace(/[\s\xa0]+$/, "")
-};
-goog.string.caseInsensitiveCompare = function(a, d) {
-  var b = String(a).toLowerCase(), f = String(d).toLowerCase();
-  return b < f ? -1 : b == f ? 0 : 1
-};
-goog.string.numerateCompareRegExp_ = /(\.\d+)|(\d+)|(\D+)/g;
-goog.string.numerateCompare = function(a, d) {
-  if(a == d) {
-    return 0
-  }
-  if(!a) {
-    return-1
-  }
-  if(!d) {
-    return 1
-  }
-  for(var b = a.toLowerCase().match(goog.string.numerateCompareRegExp_), f = d.toLowerCase().match(goog.string.numerateCompareRegExp_), e = Math.min(b.length, f.length), g = 0;g < e;g++) {
-    var h = b[g], j = f[g];
-    if(h != j) {
-      b = parseInt(h, 10);
-      return!isNaN(b) && (f = parseInt(j, 10), !isNaN(f) && b - f) ? b - f : h < j ? -1 : 1
-    }
-  }
-  return b.length != f.length ? b.length - f.length : a < d ? -1 : 1
-};
-goog.string.encodeUriRegExp_ = /^[a-zA-Z0-9\-_.!~*'()]*$/;
-goog.string.urlEncode = function(a) {
-  a = String(a);
-  return!goog.string.encodeUriRegExp_.test(a) ? encodeURIComponent(a) : a
-};
-goog.string.urlDecode = function(a) {
-  return decodeURIComponent(a.replace(/\+/g, " "))
-};
-goog.string.newLineToBr = function(a, d) {
-  return a.replace(/(\r\n|\r|\n)/g, d ? "<br />" : "<br>")
-};
-goog.string.htmlEscape = function(a, d) {
-  if(d) {
-    return a.replace(goog.string.amperRe_, "&amp;").replace(goog.string.ltRe_, "&lt;").replace(goog.string.gtRe_, "&gt;").replace(goog.string.quotRe_, "&quot;")
-  }else {
-    if(!goog.string.allRe_.test(a)) {
-      return a
-    }
-    a.indexOf("&") != -1 && (a = a.replace(goog.string.amperRe_, "&amp;"));
-    a.indexOf("<") != -1 && (a = a.replace(goog.string.ltRe_, "&lt;"));
-    a.indexOf(">") != -1 && (a = a.replace(goog.string.gtRe_, "&gt;"));
-    a.indexOf('"') != -1 && (a = a.replace(goog.string.quotRe_, "&quot;"));
-    return a
-  }
-};
-goog.string.amperRe_ = /&/g;
-goog.string.ltRe_ = /</g;
-goog.string.gtRe_ = />/g;
-goog.string.quotRe_ = /\"/g;
-goog.string.allRe_ = /[&<>\"]/;
-goog.string.unescapeEntities = function(a) {
-  return goog.string.contains(a, "&") ? "document" in goog.global ? goog.string.unescapeEntitiesUsingDom_(a) : goog.string.unescapePureXmlEntities_(a) : a
-};
-goog.string.unescapeEntitiesUsingDom_ = function(a) {
-  var d = {"&amp;":"&", "&lt;":"<", "&gt;":">", "&quot;":'"'}, b = document.createElement("div");
-  return a.replace(goog.string.HTML_ENTITY_PATTERN_, function(a, e) {
-    var g = d[a];
-    if(g) {
-      return g
-    }
-    if(e.charAt(0) == "#") {
-      var h = Number("0" + e.substr(1));
-      isNaN(h) || (g = String.fromCharCode(h))
-    }
-    if(!g) {
-      b.innerHTML = a + " ", g = b.firstChild.nodeValue.slice(0, -1)
-    }
-    return d[a] = g
-  })
-};
-goog.string.unescapePureXmlEntities_ = function(a) {
-  return a.replace(/&([^;]+);/g, function(a, b) {
-    switch(b) {
-      case "amp":
-        return"&";
-      case "lt":
-        return"<";
-      case "gt":
-        return">";
-      case "quot":
-        return'"';
-      default:
-        if(b.charAt(0) == "#") {
-          var f = Number("0" + b.substr(1));
-          if(!isNaN(f)) {
-            return String.fromCharCode(f)
-          }
-        }
-        return a
-    }
-  })
-};
-goog.string.HTML_ENTITY_PATTERN_ = /&([^;\s<&]+);?/g;
-goog.string.whitespaceEscape = function(a, d) {
-  return goog.string.newLineToBr(a.replace(/  /g, " &#160;"), d)
-};
-goog.string.stripQuotes = function(a, d) {
-  for(var b = d.length, f = 0;f < b;f++) {
-    var e = b == 1 ? d : d.charAt(f);
-    if(a.charAt(0) == e && a.charAt(a.length - 1) == e) {
-      return a.substring(1, a.length - 1)
-    }
-  }
-  return a
-};
-goog.string.truncate = function(a, d, b) {
-  b && (a = goog.string.unescapeEntities(a));
-  a.length > d && (a = a.substring(0, d - 3) + "...");
-  b && (a = goog.string.htmlEscape(a));
-  return a
-};
-goog.string.truncateMiddle = function(a, d, b, f) {
-  b && (a = goog.string.unescapeEntities(a));
-  if(f && a.length > d) {
-    f > d && (f = d);
-    var e = a.length - f, a = a.substring(0, d - f) + "..." + a.substring(e)
-  }else {
-    a.length > d && (f = Math.floor(d / 2), e = a.length - f, f += d % 2, a = a.substring(0, f) + "..." + a.substring(e))
-  }
-  b && (a = goog.string.htmlEscape(a));
-  return a
-};
-goog.string.specialEscapeChars_ = {"\x00":"\\0", "\u0008":"\\b", "\u000c":"\\f", "\n":"\\n", "\r":"\\r", "\t":"\\t", "\u000b":"\\x0B", '"':'\\"', "\\":"\\\\"};
-goog.string.jsEscapeCache_ = {"'":"\\'"};
-goog.string.quote = function(a) {
-  a = String(a);
-  if(a.quote) {
-    return a.quote()
-  }else {
-    for(var d = ['"'], b = 0;b < a.length;b++) {
-      var f = a.charAt(b), e = f.charCodeAt(0);
-      d[b + 1] = goog.string.specialEscapeChars_[f] || (e > 31 && e < 127 ? f : goog.string.escapeChar(f))
-    }
-    d.push('"');
-    return d.join("")
-  }
-};
-goog.string.escapeString = function(a) {
-  for(var d = [], b = 0;b < a.length;b++) {
-    d[b] = goog.string.escapeChar(a.charAt(b))
-  }
-  return d.join("")
-};
-goog.string.escapeChar = function(a) {
-  if(a in goog.string.jsEscapeCache_) {
-    return goog.string.jsEscapeCache_[a]
-  }
-  if(a in goog.string.specialEscapeChars_) {
-    return goog.string.jsEscapeCache_[a] = goog.string.specialEscapeChars_[a]
-  }
-  var d = a, b = a.charCodeAt(0);
-  if(b > 31 && b < 127) {
-    d = a
-  }else {
-    if(b < 256) {
-      if(d = "\\x", b < 16 || b > 256) {
-        d += "0"
-      }
-    }else {
-      d = "\\u", b < 4096 && (d += "0")
-    }
-    d += b.toString(16).toUpperCase()
-  }
-  return goog.string.jsEscapeCache_[a] = d
-};
-goog.string.toMap = function(a) {
-  for(var d = {}, b = 0;b < a.length;b++) {
-    d[a.charAt(b)] = !0
-  }
-  return d
-};
-goog.string.contains = function(a, d) {
-  return a.indexOf(d) != -1
-};
-goog.string.removeAt = function(a, d, b) {
-  var f = a;
-  d >= 0 && d < a.length && b > 0 && (f = a.substr(0, d) + a.substr(d + b, a.length - d - b));
-  return f
-};
-goog.string.remove = function(a, d) {
-  var b = RegExp(goog.string.regExpEscape(d), "");
-  return a.replace(b, "")
-};
-goog.string.removeAll = function(a, d) {
-  var b = RegExp(goog.string.regExpEscape(d), "g");
-  return a.replace(b, "")
-};
-goog.string.regExpEscape = function(a) {
-  return String(a).replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08")
-};
-goog.string.repeat = function(a, d) {
-  return Array(d + 1).join(a)
-};
-goog.string.padNumber = function(a, d, b) {
-  a = goog.isDef(b) ? a.toFixed(b) : String(a);
-  b = a.indexOf(".");
-  if(b == -1) {
-    b = a.length
-  }
-  return goog.string.repeat("0", Math.max(0, d - b)) + a
-};
-goog.string.makeSafe = function(a) {
-  return a == null ? "" : String(a)
-};
-goog.string.buildString = function(a) {
-  return Array.prototype.join.call(arguments, "")
-};
-goog.string.getRandomString = function() {
-  return Math.floor(Math.random() * 2147483648).toString(36) + Math.abs(Math.floor(Math.random() * 2147483648) ^ goog.now()).toString(36)
-};
-goog.string.compareVersions = function(a, d) {
-  for(var b = 0, f = goog.string.trim(String(a)).split("."), e = goog.string.trim(String(d)).split("."), g = Math.max(f.length, e.length), h = 0;b == 0 && h < g;h++) {
-    var j = f[h] || "", l = e[h] || "", k = RegExp("(\\d*)(\\D*)", "g"), o = RegExp("(\\d*)(\\D*)", "g");
+})(U);
+function qa(a, g) {
+  for(var e = 0, d = String(a).replace(/^[\s\xa0]+|[\s\xa0]+$/g, "").split("."), c = String(g).replace(/^[\s\xa0]+|[\s\xa0]+$/g, "").split("."), b = Math.max(d.length, c.length), h = 0;e == 0 && h < b;h++) {
+    var i = d[h] || "", j = c[h] || "", k = RegExp("(\\d*)(\\D*)", "g"), m = RegExp("(\\d*)(\\D*)", "g");
     do {
-      var m = k.exec(j) || ["", "", ""], s = o.exec(l) || ["", "", ""];
-      if(m[0].length == 0 && s[0].length == 0) {
+      var l = k.exec(i) || ["", "", ""], s = m.exec(j) || ["", "", ""];
+      if(l[0].length == 0 && s[0].length == 0) {
         break
       }
-      var b = m[1].length == 0 ? 0 : parseInt(m[1], 10), q = s[1].length == 0 ? 0 : parseInt(s[1], 10), b = goog.string.compareElements_(b, q) || goog.string.compareElements_(m[2].length == 0, s[2].length == 0) || goog.string.compareElements_(m[2], s[2])
-    }while(b == 0)
+      e = ra(l[1].length == 0 ? 0 : parseInt(l[1], 10), s[1].length == 0 ? 0 : parseInt(s[1], 10)) || ra(l[2].length == 0, s[2].length == 0) || ra(l[2], s[2])
+    }while(e == 0)
   }
-  return b
-};
-goog.string.compareElements_ = function(a, d) {
-  if(a < d) {
+  return e
+}
+function ra(a, g) {
+  if(a < g) {
     return-1
   }else {
-    if(a > d) {
+    if(a > g) {
       return 1
     }
   }
   return 0
-};
-goog.string.HASHCODE_MAX_ = 4294967296;
-goog.string.hashCode = function(a) {
-  for(var d = 0, b = 0;b < a.length;++b) {
-    d = 31 * d + a.charCodeAt(b), d %= goog.string.HASHCODE_MAX_
-  }
-  return d
-};
-goog.string.uniqueStringCounter_ = Math.random() * 2147483648 | 0;
-goog.string.createUniqueString = function() {
-  return"goog_" + goog.string.uniqueStringCounter_++
-};
-goog.string.toNumber = function(a) {
-  var d = Number(a);
-  return d == 0 && goog.string.isEmpty(a) ? NaN : d
-};
-goog.string.toCamelCaseCache_ = {};
-goog.string.toCamelCase = function(a) {
-  return goog.string.toCamelCaseCache_[a] || (goog.string.toCamelCaseCache_[a] = String(a).replace(/\-([a-z])/g, function(a, b) {
-    return b.toUpperCase()
-  }))
-};
-goog.string.toSelectorCaseCache_ = {};
-goog.string.toSelectorCase = function(a) {
-  return goog.string.toSelectorCaseCache_[a] || (goog.string.toSelectorCaseCache_[a] = String(a).replace(/([A-Z])/g, "-$1").toLowerCase())
-};
-goog.userAgent = {};
-goog.userAgent.ASSUME_IE = !1;
-goog.userAgent.ASSUME_GECKO = !1;
-goog.userAgent.ASSUME_WEBKIT = !1;
-goog.userAgent.ASSUME_MOBILE_WEBKIT = !1;
-goog.userAgent.ASSUME_OPERA = !1;
-goog.userAgent.BROWSER_KNOWN_ = goog.userAgent.ASSUME_IE || goog.userAgent.ASSUME_GECKO || goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_OPERA;
-goog.userAgent.getUserAgentString = function() {
-  return goog.global.navigator ? goog.global.navigator.userAgent : null
-};
-goog.userAgent.getNavigator = function() {
-  return goog.global.navigator
-};
-goog.userAgent.init_ = function() {
-  goog.userAgent.detectedOpera_ = !1;
-  goog.userAgent.detectedIe_ = !1;
-  goog.userAgent.detectedWebkit_ = !1;
-  goog.userAgent.detectedMobile_ = !1;
-  goog.userAgent.detectedGecko_ = !1;
-  var a;
-  if(!goog.userAgent.BROWSER_KNOWN_ && (a = goog.userAgent.getUserAgentString())) {
-    var d = goog.userAgent.getNavigator();
-    goog.userAgent.detectedOpera_ = a.indexOf("Opera") == 0;
-    goog.userAgent.detectedIe_ = !goog.userAgent.detectedOpera_ && a.indexOf("MSIE") != -1;
-    goog.userAgent.detectedWebkit_ = !goog.userAgent.detectedOpera_ && a.indexOf("WebKit") != -1;
-    goog.userAgent.detectedMobile_ = goog.userAgent.detectedWebkit_ && a.indexOf("Mobile") != -1;
-    goog.userAgent.detectedGecko_ = !goog.userAgent.detectedOpera_ && !goog.userAgent.detectedWebkit_ && d.product == "Gecko"
-  }
-};
-goog.userAgent.BROWSER_KNOWN_ || goog.userAgent.init_();
-goog.userAgent.OPERA = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_OPERA : goog.userAgent.detectedOpera_;
-goog.userAgent.IE = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_IE : goog.userAgent.detectedIe_;
-goog.userAgent.GECKO = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_GECKO : goog.userAgent.detectedGecko_;
-goog.userAgent.WEBKIT = goog.userAgent.BROWSER_KNOWN_ ? goog.userAgent.ASSUME_WEBKIT || goog.userAgent.ASSUME_MOBILE_WEBKIT : goog.userAgent.detectedWebkit_;
-goog.userAgent.MOBILE = goog.userAgent.ASSUME_MOBILE_WEBKIT || goog.userAgent.detectedMobile_;
-goog.userAgent.SAFARI = goog.userAgent.WEBKIT;
-goog.userAgent.determinePlatform_ = function() {
-  var a = goog.userAgent.getNavigator();
-  return a && a.platform || ""
-};
-goog.userAgent.PLATFORM = goog.userAgent.determinePlatform_();
-goog.userAgent.ASSUME_MAC = !1;
-goog.userAgent.ASSUME_WINDOWS = !1;
-goog.userAgent.ASSUME_LINUX = !1;
-goog.userAgent.ASSUME_X11 = !1;
-goog.userAgent.PLATFORM_KNOWN_ = goog.userAgent.ASSUME_MAC || goog.userAgent.ASSUME_WINDOWS || goog.userAgent.ASSUME_LINUX || goog.userAgent.ASSUME_X11;
-goog.userAgent.initPlatform_ = function() {
-  goog.userAgent.detectedMac_ = goog.string.contains(goog.userAgent.PLATFORM, "Mac");
-  goog.userAgent.detectedWindows_ = goog.string.contains(goog.userAgent.PLATFORM, "Win");
-  goog.userAgent.detectedLinux_ = goog.string.contains(goog.userAgent.PLATFORM, "Linux");
-  goog.userAgent.detectedX11_ = !!goog.userAgent.getNavigator() && goog.string.contains(goog.userAgent.getNavigator().appVersion || "", "X11")
-};
-goog.userAgent.PLATFORM_KNOWN_ || goog.userAgent.initPlatform_();
-goog.userAgent.MAC = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_MAC : goog.userAgent.detectedMac_;
-goog.userAgent.WINDOWS = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_WINDOWS : goog.userAgent.detectedWindows_;
-goog.userAgent.LINUX = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_LINUX : goog.userAgent.detectedLinux_;
-goog.userAgent.X11 = goog.userAgent.PLATFORM_KNOWN_ ? goog.userAgent.ASSUME_X11 : goog.userAgent.detectedX11_;
-goog.userAgent.determineVersion_ = function() {
-  var a = "", d;
-  goog.userAgent.OPERA && goog.global.opera ? (a = goog.global.opera.version, a = typeof a == "function" ? a() : a) : (goog.userAgent.GECKO ? d = /rv\:([^\);]+)(\)|;)/ : goog.userAgent.IE ? d = /MSIE\s+([^\);]+)(\)|;)/ : goog.userAgent.WEBKIT && (d = /WebKit\/(\S+)/), d && (a = (a = d.exec(goog.userAgent.getUserAgentString())) ? a[1] : ""));
-  return goog.userAgent.IE && (d = goog.userAgent.getDocumentMode_(), d > parseFloat(a)) ? String(d) : a
-};
-goog.userAgent.getDocumentMode_ = function() {
-  var a = goog.global.document;
-  return a ? a.documentMode : void 0
-};
-goog.userAgent.VERSION = goog.userAgent.determineVersion_();
-goog.userAgent.compare = function(a, d) {
-  return goog.string.compareVersions(a, d)
-};
-goog.userAgent.isVersionCache_ = {};
-goog.userAgent.isVersion = function(a) {
-  return goog.userAgent.isVersionCache_[a] || (goog.userAgent.isVersionCache_[a] = goog.string.compareVersions(goog.userAgent.VERSION, a) >= 0)
-};
-goog.userAgent.isDocumentModeCache_ = {};
-goog.userAgent.isDocumentMode = function(a) {
-  return goog.userAgent.isDocumentModeCache_[a] || (goog.userAgent.isDocumentModeCache_[a] = goog.userAgent.IE && document.documentMode && document.documentMode >= a)
-};
-goog.events = {};
-goog.events.KeyNames = {8:"backspace", 9:"tab", 13:"enter", 16:"shift", 17:"ctrl", 18:"alt", 19:"pause", 20:"caps-lock", 27:"esc", 32:"space", 33:"pg-up", 34:"pg-down", 35:"end", 36:"home", 37:"left", 38:"up", 39:"right", 40:"down", 45:"insert", 46:"delete", 48:"0", 49:"1", 50:"2", 51:"3", 52:"4", 53:"5", 54:"6", 55:"7", 56:"8", 57:"9", 61:"equals", 65:"a", 66:"b", 67:"c", 68:"d", 69:"e", 70:"f", 71:"g", 72:"h", 73:"i", 74:"j", 75:"k", 76:"l", 77:"m", 78:"n", 79:"o", 80:"p", 81:"q", 82:"r", 83:"s", 
-84:"t", 85:"u", 86:"v", 87:"w", 88:"x", 89:"y", 90:"z", 93:"context", 96:"num-0", 97:"num-1", 98:"num-2", 99:"num-3", 100:"num-4", 101:"num-5", 102:"num-6", 103:"num-7", 104:"num-8", 105:"num-9", 106:"num-multiply", 107:"num-plus", 109:"num-minus", 110:"num-period", 111:"num-division", 112:"f1", 113:"f2", 114:"f3", 115:"f4", 116:"f5", 117:"f6", 118:"f7", 119:"f8", 120:"f9", 121:"f10", 122:"f11", 123:"f12", 187:"equals", 188:",", 190:".", 191:"/", 220:"\\", 224:"win"};
-goog.events.KeyCodes = {MAC_ENTER:3, BACKSPACE:8, TAB:9, NUM_CENTER:12, ENTER:13, SHIFT:16, CTRL:17, ALT:18, PAUSE:19, CAPS_LOCK:20, ESC:27, SPACE:32, PAGE_UP:33, PAGE_DOWN:34, END:35, HOME:36, LEFT:37, UP:38, RIGHT:39, DOWN:40, PRINT_SCREEN:44, INSERT:45, DELETE:46, ZERO:48, ONE:49, TWO:50, THREE:51, FOUR:52, FIVE:53, SIX:54, SEVEN:55, EIGHT:56, NINE:57, QUESTION_MARK:63, A:65, B:66, C:67, D:68, E:69, F:70, G:71, H:72, I:73, J:74, K:75, L:76, M:77, N:78, O:79, P:80, Q:81, R:82, S:83, T:84, U:85, 
-V:86, W:87, X:88, Y:89, Z:90, META:91, WIN_KEY_RIGHT:92, CONTEXT_MENU:93, NUM_ZERO:96, NUM_ONE:97, NUM_TWO:98, NUM_THREE:99, NUM_FOUR:100, NUM_FIVE:101, NUM_SIX:102, NUM_SEVEN:103, NUM_EIGHT:104, NUM_NINE:105, NUM_MULTIPLY:106, NUM_PLUS:107, NUM_MINUS:109, NUM_PERIOD:110, NUM_DIVISION:111, F1:112, F2:113, F3:114, F4:115, F5:116, F6:117, F7:118, F8:119, F9:120, F10:121, F11:122, F12:123, NUMLOCK:144, SEMICOLON:186, DASH:189, EQUALS:187, COMMA:188, PERIOD:190, SLASH:191, APOSTROPHE:192, SINGLE_QUOTE:222, 
-OPEN_SQUARE_BRACKET:219, BACKSLASH:220, CLOSE_SQUARE_BRACKET:221, WIN_KEY:224, MAC_FF_META:224, WIN_IME:229, PHANTOM:255};
-goog.events.KeyCodes.isTextModifyingKeyEvent = function(a) {
-  if(a.altKey && !a.ctrlKey || a.metaKey || a.keyCode >= goog.events.KeyCodes.F1 && a.keyCode <= goog.events.KeyCodes.F12) {
-    return!1
-  }
-  switch(a.keyCode) {
-    case goog.events.KeyCodes.ALT:
-    ;
-    case goog.events.KeyCodes.CAPS_LOCK:
-    ;
-    case goog.events.KeyCodes.CONTEXT_MENU:
-    ;
-    case goog.events.KeyCodes.CTRL:
-    ;
-    case goog.events.KeyCodes.DOWN:
-    ;
-    case goog.events.KeyCodes.END:
-    ;
-    case goog.events.KeyCodes.ESC:
-    ;
-    case goog.events.KeyCodes.HOME:
-    ;
-    case goog.events.KeyCodes.INSERT:
-    ;
-    case goog.events.KeyCodes.LEFT:
-    ;
-    case goog.events.KeyCodes.MAC_FF_META:
-    ;
-    case goog.events.KeyCodes.META:
-    ;
-    case goog.events.KeyCodes.NUMLOCK:
-    ;
-    case goog.events.KeyCodes.NUM_CENTER:
-    ;
-    case goog.events.KeyCodes.PAGE_DOWN:
-    ;
-    case goog.events.KeyCodes.PAGE_UP:
-    ;
-    case goog.events.KeyCodes.PAUSE:
-    ;
-    case goog.events.KeyCodes.PHANTOM:
-    ;
-    case goog.events.KeyCodes.PRINT_SCREEN:
-    ;
-    case goog.events.KeyCodes.RIGHT:
-    ;
-    case goog.events.KeyCodes.SHIFT:
-    ;
-    case goog.events.KeyCodes.UP:
-    ;
-    case goog.events.KeyCodes.WIN_KEY:
-    ;
-    case goog.events.KeyCodes.WIN_KEY_RIGHT:
-      return!1;
-    default:
-      return!0
-  }
-};
-goog.events.KeyCodes.firesKeyPressEvent = function(a, d, b, f, e) {
-  if(!goog.userAgent.IE && (!goog.userAgent.WEBKIT || !goog.userAgent.isVersion("525"))) {
-    return!0
-  }
-  if(goog.userAgent.MAC && e) {
-    return goog.events.KeyCodes.isCharacterKey(a)
-  }
-  if(e && !f) {
-    return!1
-  }
-  if(!b && (d == goog.events.KeyCodes.CTRL || d == goog.events.KeyCodes.ALT)) {
-    return!1
-  }
-  if(goog.userAgent.IE && f && d == a) {
-    return!1
-  }
-  switch(a) {
-    case goog.events.KeyCodes.ENTER:
-      return!(goog.userAgent.IE && goog.userAgent.isDocumentMode(9));
-    case goog.events.KeyCodes.ESC:
-      return!goog.userAgent.WEBKIT
-  }
-  return goog.events.KeyCodes.isCharacterKey(a)
-};
-goog.events.KeyCodes.isCharacterKey = function(a) {
-  if(a >= goog.events.KeyCodes.ZERO && a <= goog.events.KeyCodes.NINE) {
-    return!0
-  }
-  if(a >= goog.events.KeyCodes.NUM_ZERO && a <= goog.events.KeyCodes.NUM_MULTIPLY) {
-    return!0
-  }
-  if(a >= goog.events.KeyCodes.A && a <= goog.events.KeyCodes.Z) {
-    return!0
-  }
-  if(goog.userAgent.WEBKIT && a == 0) {
-    return!0
-  }
-  switch(a) {
-    case goog.events.KeyCodes.SPACE:
-    ;
-    case goog.events.KeyCodes.QUESTION_MARK:
-    ;
-    case goog.events.KeyCodes.NUM_PLUS:
-    ;
-    case goog.events.KeyCodes.NUM_MINUS:
-    ;
-    case goog.events.KeyCodes.NUM_PERIOD:
-    ;
-    case goog.events.KeyCodes.NUM_DIVISION:
-    ;
-    case goog.events.KeyCodes.SEMICOLON:
-    ;
-    case goog.events.KeyCodes.DASH:
-    ;
-    case goog.events.KeyCodes.EQUALS:
-    ;
-    case goog.events.KeyCodes.COMMA:
-    ;
-    case goog.events.KeyCodes.PERIOD:
-    ;
-    case goog.events.KeyCodes.SLASH:
-    ;
-    case goog.events.KeyCodes.APOSTROPHE:
-    ;
-    case goog.events.KeyCodes.SINGLE_QUOTE:
-    ;
-    case goog.events.KeyCodes.OPEN_SQUARE_BRACKET:
-    ;
-    case goog.events.KeyCodes.BACKSLASH:
-    ;
-    case goog.events.KeyCodes.CLOSE_SQUARE_BRACKET:
-      return!0;
-    default:
-      return!1
-  }
-};
-goog.events.EventType = {CLICK:"click", DBLCLICK:"dblclick", MOUSEDOWN:"mousedown", MOUSEUP:"mouseup", MOUSEOVER:"mouseover", MOUSEOUT:"mouseout", MOUSEMOVE:"mousemove", SELECTSTART:"selectstart", KEYPRESS:"keypress", KEYDOWN:"keydown", KEYUP:"keyup", BLUR:"blur", FOCUS:"focus", DEACTIVATE:"deactivate", FOCUSIN:goog.userAgent.IE ? "focusin" : "DOMFocusIn", FOCUSOUT:goog.userAgent.IE ? "focusout" : "DOMFocusOut", CHANGE:"change", SELECT:"select", SUBMIT:"submit", INPUT:"input", PROPERTYCHANGE:"propertychange", 
-DRAGSTART:"dragstart", DRAGENTER:"dragenter", DRAGOVER:"dragover", DRAGLEAVE:"dragleave", DROP:"drop", TOUCHSTART:"touchstart", TOUCHMOVE:"touchmove", TOUCHEND:"touchend", TOUCHCANCEL:"touchcancel", CONTEXTMENU:"contextmenu", ERROR:"error", HELP:"help", LOAD:"load", LOSECAPTURE:"losecapture", READYSTATECHANGE:"readystatechange", RESIZE:"resize", SCROLL:"scroll", UNLOAD:"unload", HASHCHANGE:"hashchange", PAGEHIDE:"pagehide", PAGESHOW:"pageshow", POPSTATE:"popstate", COPY:"copy", PASTE:"paste", CUT:"cut", 
-BEFORECOPY:"beforecopy", BEFORECUT:"beforecut", BEFOREPASTE:"beforepaste", MESSAGE:"message", CONNECT:"connect"};
-goog.debug = {};
-goog.debug.errorHandlerWeakDep = {protectEntryPoint:function(a) {
-  return a
-}};
-goog.object = {};
-goog.object.forEach = function(a, d, b) {
-  for(var f in a) {
-    d.call(b, a[f], f, a)
-  }
-};
-goog.object.filter = function(a, d, b) {
-  var f = {}, e;
-  for(e in a) {
-    d.call(b, a[e], e, a) && (f[e] = a[e])
-  }
-  return f
-};
-goog.object.map = function(a, d, b) {
-  var f = {}, e;
-  for(e in a) {
-    f[e] = d.call(b, a[e], e, a)
-  }
-  return f
-};
-goog.object.some = function(a, d, b) {
-  for(var f in a) {
-    if(d.call(b, a[f], f, a)) {
-      return!0
-    }
-  }
-  return!1
-};
-goog.object.every = function(a, d, b) {
-  for(var f in a) {
-    if(!d.call(b, a[f], f, a)) {
-      return!1
-    }
-  }
-  return!0
-};
-goog.object.getCount = function(a) {
-  var d = 0, b;
-  for(b in a) {
-    d++
-  }
-  return d
-};
-goog.object.getAnyKey = function(a) {
-  for(var d in a) {
-    return d
-  }
-};
-goog.object.getAnyValue = function(a) {
-  for(var d in a) {
-    return a[d]
-  }
-};
-goog.object.contains = function(a, d) {
-  return goog.object.containsValue(a, d)
-};
-goog.object.getValues = function(a) {
-  var d = [], b = 0, f;
-  for(f in a) {
-    d[b++] = a[f]
-  }
-  return d
-};
-goog.object.getKeys = function(a) {
-  var d = [], b = 0, f;
-  for(f in a) {
-    d[b++] = f
-  }
-  return d
-};
-goog.object.getValueByKeys = function(a, d) {
-  for(var b = goog.isArrayLike(d), f = b ? d : arguments, b = b ? 0 : 1;b < f.length;b++) {
-    if(a = a[f[b]], !goog.isDef(a)) {
-      break
-    }
-  }
-  return a
-};
-goog.object.containsKey = function(a, d) {
-  return d in a
-};
-goog.object.containsValue = function(a, d) {
-  for(var b in a) {
-    if(a[b] == d) {
-      return!0
-    }
-  }
-  return!1
-};
-goog.object.findKey = function(a, d, b) {
-  for(var f in a) {
-    if(d.call(b, a[f], f, a)) {
-      return f
-    }
-  }
-};
-goog.object.findValue = function(a, d, b) {
-  return(d = goog.object.findKey(a, d, b)) && a[d]
-};
-goog.object.isEmpty = function(a) {
-  for(var d in a) {
-    return!1
-  }
-  return!0
-};
-goog.object.clear = function(a) {
-  for(var d in a) {
-    delete a[d]
-  }
-};
-goog.object.remove = function(a, d) {
-  var b;
-  (b = d in a) && delete a[d];
-  return b
-};
-goog.object.add = function(a, d, b) {
-  if(d in a) {
-    throw Error('The object already contains the key "' + d + '"');
-  }
-  goog.object.set(a, d, b)
-};
-goog.object.get = function(a, d, b) {
-  return d in a ? a[d] : b
-};
-goog.object.set = function(a, d, b) {
-  a[d] = b
-};
-goog.object.setIfUndefined = function(a, d, b) {
-  return d in a ? a[d] : a[d] = b
-};
-goog.object.clone = function(a) {
-  var d = {}, b;
-  for(b in a) {
-    d[b] = a[b]
-  }
-  return d
-};
-goog.object.unsafeClone = function(a) {
-  var d = goog.typeOf(a);
-  if(d == "object" || d == "array") {
-    if(a.clone) {
-      return a.clone()
-    }
-    var d = d == "array" ? [] : {}, b;
-    for(b in a) {
-      d[b] = goog.object.unsafeClone(a[b])
-    }
-    return d
-  }
-  return a
-};
-goog.object.transpose = function(a) {
-  var d = {}, b;
-  for(b in a) {
-    d[a[b]] = b
-  }
-  return d
-};
-goog.object.PROTOTYPE_FIELDS_ = "constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",");
-goog.object.extend = function(a, d) {
-  for(var b, f, e = 1;e < arguments.length;e++) {
-    f = arguments[e];
-    for(b in f) {
-      a[b] = f[b]
-    }
-    for(var g = 0;g < goog.object.PROTOTYPE_FIELDS_.length;g++) {
-      b = goog.object.PROTOTYPE_FIELDS_[g], Object.prototype.hasOwnProperty.call(f, b) && (a[b] = f[b])
-    }
-  }
-};
-goog.object.create = function(a) {
-  var d = arguments.length;
-  if(d == 1 && goog.isArray(arguments[0])) {
-    return goog.object.create.apply(null, arguments[0])
-  }
-  if(d % 2) {
-    throw Error("Uneven number of arguments");
-  }
-  for(var b = {}, f = 0;f < d;f += 2) {
-    b[arguments[f]] = arguments[f + 1]
-  }
-  return b
-};
-goog.object.createSet = function(a) {
-  var d = arguments.length;
-  if(d == 1 && goog.isArray(arguments[0])) {
-    return goog.object.createSet.apply(null, arguments[0])
-  }
-  for(var b = {}, f = 0;f < d;f++) {
-    b[arguments[f]] = !0
-  }
-  return b
-};
-goog.debug.Error = function(a) {
-  this.stack = Error().stack || "";
-  if(a) {
-    this.message = String(a)
-  }
-};
-goog.inherits(goog.debug.Error, Error);
-goog.debug.Error.prototype.name = "CustomError";
-goog.asserts = {};
-goog.asserts.ENABLE_ASSERTS = goog.DEBUG;
-goog.asserts.AssertionError = function(a, d) {
-  d.unshift(a);
-  goog.debug.Error.call(this, goog.string.subs.apply(null, d));
-  d.shift();
-  this.messagePattern = a
-};
-goog.inherits(goog.asserts.AssertionError, goog.debug.Error);
-goog.asserts.AssertionError.prototype.name = "AssertionError";
-goog.asserts.doAssertFailure_ = function(a, d, b, f) {
-  var e = "Assertion failed";
-  if(b) {
-    e += ": " + b;
-    var g = f
+}
+;var sa, ta, ua, va;
+function wa() {
+  return O.navigator ? O.navigator.userAgent : p
+}
+va = ua = ta = sa = !1;
+var xa;
+if(xa = wa()) {
+  var ya = O.navigator;
+  sa = xa.indexOf("Opera") == 0;
+  ta = !sa && xa.indexOf("MSIE") != -1;
+  ua = !sa && xa.indexOf("WebKit") != -1;
+  va = !sa && !ua && ya.product == "Gecko"
+}
+var X = ta, za = va, Aa = ua, Ba = O.navigator, Ca = (Ba && Ba.platform || "").indexOf("Mac") != -1, Da;
+a: {
+  var Ea = "", Fa;
+  if(sa && O.opera) {
+    var Ga = O.opera.version, Ea = typeof Ga == "function" ? Ga() : Ga
   }else {
-    a && (e += ": " + a, g = d)
+    if(za ? Fa = /rv\:([^\);]+)(\)|;)/ : X ? Fa = /MSIE\s+([^\);]+)(\)|;)/ : Aa && (Fa = /WebKit\/(\S+)/), Fa) {
+      var Ha = Fa.exec(wa()), Ea = Ha ? Ha[1] : ""
+    }
   }
-  throw new goog.asserts.AssertionError("" + e, g || []);
-};
-goog.asserts.assert = function(a, d, b) {
-  goog.asserts.ENABLE_ASSERTS && !a && goog.asserts.doAssertFailure_("", null, d, Array.prototype.slice.call(arguments, 2));
-  return a
-};
-goog.asserts.fail = function(a, d) {
-  if(goog.asserts.ENABLE_ASSERTS) {
-    throw new goog.asserts.AssertionError("Failure" + (a ? ": " + a : ""), Array.prototype.slice.call(arguments, 1));
+  if(X) {
+    var Ia, Ja = O.document;
+    Ia = Ja ? Ja.documentMode : f;
+    if(Ia > parseFloat(Ea)) {
+      Da = String(Ia);
+      break a
+    }
   }
-};
-goog.asserts.assertNumber = function(a, d, b) {
-  goog.asserts.ENABLE_ASSERTS && !goog.isNumber(a) && goog.asserts.doAssertFailure_("Expected number but got %s: %s.", [goog.typeOf(a), a], d, Array.prototype.slice.call(arguments, 2));
-  return a
-};
-goog.asserts.assertString = function(a, d, b) {
-  goog.asserts.ENABLE_ASSERTS && !goog.isString(a) && goog.asserts.doAssertFailure_("Expected string but got %s: %s.", [goog.typeOf(a), a], d, Array.prototype.slice.call(arguments, 2));
-  return a
-};
-goog.asserts.assertFunction = function(a, d, b) {
-  goog.asserts.ENABLE_ASSERTS && !goog.isFunction(a) && goog.asserts.doAssertFailure_("Expected function but got %s: %s.", [goog.typeOf(a), a], d, Array.prototype.slice.call(arguments, 2));
-  return a
-};
-goog.asserts.assertObject = function(a, d, b) {
-  goog.asserts.ENABLE_ASSERTS && !goog.isObject(a) && goog.asserts.doAssertFailure_("Expected object but got %s: %s.", [goog.typeOf(a), a], d, Array.prototype.slice.call(arguments, 2));
-  return a
-};
-goog.asserts.assertArray = function(a, d, b) {
-  goog.asserts.ENABLE_ASSERTS && !goog.isArray(a) && goog.asserts.doAssertFailure_("Expected array but got %s: %s.", [goog.typeOf(a), a], d, Array.prototype.slice.call(arguments, 2));
-  return a
-};
-goog.asserts.assertBoolean = function(a, d, b) {
-  goog.asserts.ENABLE_ASSERTS && !goog.isBoolean(a) && goog.asserts.doAssertFailure_("Expected boolean but got %s: %s.", [goog.typeOf(a), a], d, Array.prototype.slice.call(arguments, 2));
-  return a
-};
-goog.asserts.assertInstanceof = function(a, d, b, f) {
-  goog.asserts.ENABLE_ASSERTS && !(a instanceof d) && goog.asserts.doAssertFailure_("instanceof check failed.", null, b, Array.prototype.slice.call(arguments, 3))
-};
-goog.array = {};
-goog.NATIVE_ARRAY_PROTOTYPES = !0;
-goog.array.peek = function(a) {
-  return a[a.length - 1]
-};
-goog.array.ARRAY_PROTOTYPE_ = Array.prototype;
-goog.array.indexOf = goog.NATIVE_ARRAY_PROTOTYPES && goog.array.ARRAY_PROTOTYPE_.indexOf ? function(a, d, b) {
-  goog.asserts.assert(a.length != null);
-  return goog.array.ARRAY_PROTOTYPE_.indexOf.call(a, d, b)
-} : function(a, d, b) {
-  b = b == null ? 0 : b < 0 ? Math.max(0, a.length + b) : b;
-  if(goog.isString(a)) {
-    return!goog.isString(d) || d.length != 1 ? -1 : a.indexOf(d, b)
+  Da = Ea
+}
+var Wa = {}, Xa = {};
+var Ya, Za = {8:"backspace", 9:"tab", 13:"enter", 16:"shift", 17:"ctrl", 18:"alt", 19:"pause", 20:"caps-lock", 27:"esc", 32:"space", 33:"pg-up", 34:"pg-down", 35:"end", 36:"home", 37:"left", 38:"up", 39:"right", 40:"down", 45:"insert", 46:"delete", 48:"0", 49:"1", 50:"2", 51:"3", 52:"4", 53:"5", 54:"6", 55:"7", 56:"8", 57:"9", 61:"equals", 65:"a", 66:"b", 67:"c", 68:"d", 69:"e", 70:"f", 71:"g", 72:"h", 73:"i", 74:"j", 75:"k", 76:"l", 77:"m", 78:"n", 79:"o", 80:"p", 81:"q", 82:"r", 83:"s", 84:"t", 
+85:"u", 86:"v", 87:"w", 88:"x", 89:"y", 90:"z", 93:"context", 96:"num-0", 97:"num-1", 98:"num-2", 99:"num-3", 100:"num-4", 101:"num-5", 102:"num-6", 103:"num-7", 104:"num-8", 105:"num-9", 106:"num-multiply", 107:"num-plus", 109:"num-minus", 110:"num-period", 111:"num-division", 112:"f1", 113:"f2", 114:"f3", 115:"f4", 116:"f5", 117:"f6", 118:"f7", 119:"f8", 120:"f9", 121:"f10", 122:"f11", 123:"f12", 187:"equals", 188:",", 190:".", 191:"/", 220:"\\", 224:"win"};
+var $a = Array.prototype, ab = $a.indexOf ? function(a, g, e) {
+  return $a.indexOf.call(a, g, e)
+} : function(a, g, e) {
+  e = e == p ? 0 : e < 0 ? Math.max(0, a.length + e) : e;
+  if(typeof a == "string") {
+    return typeof g != "string" || g.length != 1 ? -1 : a.indexOf(g, e)
   }
-  for(;b < a.length;b++) {
-    if(b in a && a[b] === d) {
-      return b
+  for(;e < a.length;e++) {
+    if(e in a && a[e] === g) {
+      return e
     }
   }
   return-1
 };
-goog.array.lastIndexOf = goog.NATIVE_ARRAY_PROTOTYPES && goog.array.ARRAY_PROTOTYPE_.lastIndexOf ? function(a, d, b) {
-  goog.asserts.assert(a.length != null);
-  return goog.array.ARRAY_PROTOTYPE_.lastIndexOf.call(a, d, b == null ? a.length - 1 : b)
-} : function(a, d, b) {
-  b = b == null ? a.length - 1 : b;
-  b < 0 && (b = Math.max(0, a.length + b));
-  if(goog.isString(a)) {
-    return!goog.isString(d) || d.length != 1 ? -1 : a.lastIndexOf(d, b)
-  }
-  for(;b >= 0;b--) {
-    if(b in a && a[b] === d) {
-      return b
-    }
-  }
-  return-1
-};
-goog.array.forEach = goog.NATIVE_ARRAY_PROTOTYPES && goog.array.ARRAY_PROTOTYPE_.forEach ? function(a, d, b) {
-  goog.asserts.assert(a.length != null);
-  goog.array.ARRAY_PROTOTYPE_.forEach.call(a, d, b)
-} : function(a, d, b) {
-  for(var f = a.length, e = goog.isString(a) ? a.split("") : a, g = 0;g < f;g++) {
-    g in e && d.call(b, e[g], g, a)
+X && (Xa[9] || (Xa[9] = X && document.documentMode && document.documentMode >= 9));
+X && (Wa["8"] || (Wa["8"] = qa(Da, "8") >= 0));
+function bb() {
+}
+bb.prototype.Rl = !1;
+bb.prototype.Wf = function() {
+  if(!this.Rl) {
+    this.Rl = !0, this.Xf()
   }
 };
-goog.array.forEachRight = function(a, d, b) {
-  var f = a.length, e = goog.isString(a) ? a.split("") : a;
-  for(f -= 1;f >= 0;--f) {
-    f in e && d.call(b, e[f], f, a)
+bb.prototype.Xf = function() {
+  this.Qo && cb.apply(p, this.Qo)
+};
+function cb(a) {
+  for(var g = 0, e = arguments.length;g < e;++g) {
+    var d = arguments[g], c = ba(d);
+    c == "array" || c == "object" && typeof d.length == "number" ? cb.apply(p, d) : d && typeof d.Wf == "function" && d.Wf()
   }
-};
-goog.array.filter = goog.NATIVE_ARRAY_PROTOTYPES && goog.array.ARRAY_PROTOTYPE_.filter ? function(a, d, b) {
-  goog.asserts.assert(a.length != null);
-  return goog.array.ARRAY_PROTOTYPE_.filter.call(a, d, b)
-} : function(a, d, b) {
-  for(var f = a.length, e = [], g = 0, h = goog.isString(a) ? a.split("") : a, j = 0;j < f;j++) {
-    if(j in h) {
-      var l = h[j];
-      d.call(b, l, j, a) && (e[g++] = l)
-    }
-  }
-  return e
-};
-goog.array.map = goog.NATIVE_ARRAY_PROTOTYPES && goog.array.ARRAY_PROTOTYPE_.map ? function(a, d, b) {
-  goog.asserts.assert(a.length != null);
-  return goog.array.ARRAY_PROTOTYPE_.map.call(a, d, b)
-} : function(a, d, b) {
-  for(var f = a.length, e = Array(f), g = goog.isString(a) ? a.split("") : a, h = 0;h < f;h++) {
-    h in g && (e[h] = d.call(b, g[h], h, a))
-  }
-  return e
-};
-goog.array.reduce = function(a, d, b, f) {
-  if(a.reduce) {
-    return f ? a.reduce(goog.bind(d, f), b) : a.reduce(d, b)
-  }
-  var e = b;
-  goog.array.forEach(a, function(b, h) {
-    e = d.call(f, e, b, h, a)
-  });
-  return e
-};
-goog.array.reduceRight = function(a, d, b, f) {
-  if(a.reduceRight) {
-    return f ? a.reduceRight(goog.bind(d, f), b) : a.reduceRight(d, b)
-  }
-  var e = b;
-  goog.array.forEachRight(a, function(b, h) {
-    e = d.call(f, e, b, h, a)
-  });
-  return e
-};
-goog.array.some = goog.NATIVE_ARRAY_PROTOTYPES && goog.array.ARRAY_PROTOTYPE_.some ? function(a, d, b) {
-  goog.asserts.assert(a.length != null);
-  return goog.array.ARRAY_PROTOTYPE_.some.call(a, d, b)
-} : function(a, d, b) {
-  for(var f = a.length, e = goog.isString(a) ? a.split("") : a, g = 0;g < f;g++) {
-    if(g in e && d.call(b, e[g], g, a)) {
-      return!0
-    }
-  }
-  return!1
-};
-goog.array.every = goog.NATIVE_ARRAY_PROTOTYPES && goog.array.ARRAY_PROTOTYPE_.every ? function(a, d, b) {
-  goog.asserts.assert(a.length != null);
-  return goog.array.ARRAY_PROTOTYPE_.every.call(a, d, b)
-} : function(a, d, b) {
-  for(var f = a.length, e = goog.isString(a) ? a.split("") : a, g = 0;g < f;g++) {
-    if(g in e && !d.call(b, e[g], g, a)) {
-      return!1
-    }
-  }
-  return!0
-};
-goog.array.find = function(a, d, b) {
-  d = goog.array.findIndex(a, d, b);
-  return d < 0 ? null : goog.isString(a) ? a.charAt(d) : a[d]
-};
-goog.array.findIndex = function(a, d, b) {
-  for(var f = a.length, e = goog.isString(a) ? a.split("") : a, g = 0;g < f;g++) {
-    if(g in e && d.call(b, e[g], g, a)) {
-      return g
-    }
-  }
-  return-1
-};
-goog.array.findRight = function(a, d, b) {
-  d = goog.array.findIndexRight(a, d, b);
-  return d < 0 ? null : goog.isString(a) ? a.charAt(d) : a[d]
-};
-goog.array.findIndexRight = function(a, d, b) {
-  var f = a.length, e = goog.isString(a) ? a.split("") : a;
-  for(f -= 1;f >= 0;f--) {
-    if(f in e && d.call(b, e[f], f, a)) {
-      return f
-    }
-  }
-  return-1
-};
-goog.array.contains = function(a, d) {
-  return goog.array.indexOf(a, d) >= 0
-};
-goog.array.isEmpty = function(a) {
-  return a.length == 0
-};
-goog.array.clear = function(a) {
-  if(!goog.isArray(a)) {
-    for(var d = a.length - 1;d >= 0;d--) {
-      delete a[d]
-    }
-  }
-  a.length = 0
-};
-goog.array.insert = function(a, d) {
-  goog.array.contains(a, d) || a.push(d)
-};
-goog.array.insertAt = function(a, d, b) {
-  goog.array.splice(a, b, 0, d)
-};
-goog.array.insertArrayAt = function(a, d, b) {
-  goog.partial(goog.array.splice, a, b, 0).apply(null, d)
-};
-goog.array.insertBefore = function(a, d, b) {
-  var f;
-  arguments.length == 2 || (f = goog.array.indexOf(a, b)) < 0 ? a.push(d) : goog.array.insertAt(a, d, f)
-};
-goog.array.remove = function(a, d) {
-  var b = goog.array.indexOf(a, d), f;
-  (f = b >= 0) && goog.array.removeAt(a, b);
-  return f
-};
-goog.array.removeAt = function(a, d) {
-  goog.asserts.assert(a.length != null);
-  return goog.array.ARRAY_PROTOTYPE_.splice.call(a, d, 1).length == 1
-};
-goog.array.removeIf = function(a, d, b) {
-  d = goog.array.findIndex(a, d, b);
-  return d >= 0 ? (goog.array.removeAt(a, d), !0) : !1
-};
-goog.array.concat = function(a) {
-  return goog.array.ARRAY_PROTOTYPE_.concat.apply(goog.array.ARRAY_PROTOTYPE_, arguments)
-};
-goog.array.clone = function(a) {
-  if(goog.isArray(a)) {
-    return goog.array.concat(a)
-  }else {
-    for(var d = [], b = 0, f = a.length;b < f;b++) {
-      d[b] = a[b]
-    }
-    return d
-  }
-};
-goog.array.toArray = function(a) {
-  return goog.isArray(a) ? goog.array.concat(a) : goog.array.clone(a)
-};
-goog.array.extend = function(a, d) {
-  for(var b = 1;b < arguments.length;b++) {
-    var f = arguments[b], e;
-    if(goog.isArray(f) || (e = goog.isArrayLike(f)) && f.hasOwnProperty("callee")) {
-      a.push.apply(a, f)
-    }else {
-      if(e) {
-        for(var g = a.length, h = f.length, j = 0;j < h;j++) {
-          a[g + j] = f[j]
-        }
-      }else {
-        a.push(f)
-      }
-    }
-  }
-};
-goog.array.splice = function(a, d, b, f) {
-  goog.asserts.assert(a.length != null);
-  return goog.array.ARRAY_PROTOTYPE_.splice.apply(a, goog.array.slice(arguments, 1))
-};
-goog.array.slice = function(a, d, b) {
-  goog.asserts.assert(a.length != null);
-  return arguments.length <= 2 ? goog.array.ARRAY_PROTOTYPE_.slice.call(a, d) : goog.array.ARRAY_PROTOTYPE_.slice.call(a, d, b)
-};
-goog.array.removeDuplicates = function(a, d) {
-  for(var b = d || a, f = {}, e = 0, g = 0;g < a.length;) {
-    var h = a[g++], j = goog.isObject(h) ? "o" + goog.getUid(h) : (typeof h).charAt(0) + h;
-    Object.prototype.hasOwnProperty.call(f, j) || (f[j] = !0, b[e++] = h)
-  }
-  b.length = e
-};
-goog.array.binarySearch = function(a, d, b) {
-  return goog.array.binarySearch_(a, b || goog.array.defaultCompare, !1, d)
-};
-goog.array.binarySelect = function(a, d, b) {
-  return goog.array.binarySearch_(a, d, !0, void 0, b)
-};
-goog.array.binarySearch_ = function(a, d, b, f, e) {
-  for(var g = 0, h = a.length, j;g < h;) {
-    var l = g + h >> 1, k;
-    k = b ? d.call(e, a[l], l, a) : d(f, a[l]);
-    k > 0 ? g = l + 1 : (h = l, j = !k)
-  }
-  return j ? g : ~g
-};
-goog.array.sort = function(a, d) {
-  goog.asserts.assert(a.length != null);
-  goog.array.ARRAY_PROTOTYPE_.sort.call(a, d || goog.array.defaultCompare)
-};
-goog.array.stableSort = function(a, d) {
-  for(var b = 0;b < a.length;b++) {
-    a[b] = {index:b, value:a[b]}
-  }
-  var f = d || goog.array.defaultCompare;
-  goog.array.sort(a, function(a, b) {
-    return f(a.value, b.value) || a.index - b.index
-  });
-  for(b = 0;b < a.length;b++) {
-    a[b] = a[b].value
-  }
-};
-goog.array.sortObjectsByKey = function(a, d, b) {
-  var f = b || goog.array.defaultCompare;
-  goog.array.sort(a, function(a, b) {
-    return f(a[d], b[d])
-  })
-};
-goog.array.isSorted = function(a, d, b) {
-  for(var d = d || goog.array.defaultCompare, f = 1;f < a.length;f++) {
-    var e = d(a[f - 1], a[f]);
-    if(e > 0 || e == 0 && b) {
-      return!1
-    }
-  }
-  return!0
-};
-goog.array.equals = function(a, d, b) {
-  if(!goog.isArrayLike(a) || !goog.isArrayLike(d) || a.length != d.length) {
-    return!1
-  }
-  for(var f = a.length, b = b || goog.array.defaultCompareEquality, e = 0;e < f;e++) {
-    if(!b(a[e], d[e])) {
-      return!1
-    }
-  }
-  return!0
-};
-goog.array.compare = function(a, d, b) {
-  return goog.array.equals(a, d, b)
-};
-goog.array.compare3 = function(a, d, b) {
-  for(var b = b || goog.array.defaultCompare, f = Math.min(a.length, d.length), e = 0;e < f;e++) {
-    var g = b(a[e], d[e]);
-    if(g != 0) {
-      return g
-    }
-  }
-  return goog.array.defaultCompare(a.length, d.length)
-};
-goog.array.defaultCompare = function(a, d) {
-  return a > d ? 1 : a < d ? -1 : 0
-};
-goog.array.defaultCompareEquality = function(a, d) {
-  return a === d
-};
-goog.array.binaryInsert = function(a, d, b) {
-  b = goog.array.binarySearch(a, d, b);
-  return b < 0 ? (goog.array.insertAt(a, d, -(b + 1)), !0) : !1
-};
-goog.array.binaryRemove = function(a, d, b) {
-  d = goog.array.binarySearch(a, d, b);
-  return d >= 0 ? goog.array.removeAt(a, d) : !1
-};
-goog.array.bucket = function(a, d) {
-  for(var b = {}, f = 0;f < a.length;f++) {
-    var e = a[f], g = d(e, f, a);
-    goog.isDef(g) && (b[g] || (b[g] = [])).push(e)
-  }
-  return b
-};
-goog.array.repeat = function(a, d) {
-  for(var b = [], f = 0;f < d;f++) {
-    b[f] = a
-  }
-  return b
-};
-goog.array.flatten = function(a) {
-  for(var d = [], b = 0;b < arguments.length;b++) {
-    var f = arguments[b];
-    goog.isArray(f) ? d.push.apply(d, goog.array.flatten.apply(null, f)) : d.push(f)
-  }
-  return d
-};
-goog.array.rotate = function(a, d) {
-  goog.asserts.assert(a.length != null);
-  a.length && (d %= a.length, d > 0 ? goog.array.ARRAY_PROTOTYPE_.unshift.apply(a, a.splice(-d, d)) : d < 0 && goog.array.ARRAY_PROTOTYPE_.push.apply(a, a.splice(0, -d)));
-  return a
-};
-goog.array.zip = function(a) {
-  if(!arguments.length) {
-    return[]
-  }
-  for(var d = [], b = 0;;b++) {
-    for(var f = [], e = 0;e < arguments.length;e++) {
-      var g = arguments[e];
-      if(b >= g.length) {
-        return d
-      }
-      f.push(g[b])
-    }
-    d.push(f)
-  }
-};
-goog.array.shuffle = function(a, d) {
-  for(var b = d || Math.random, f = a.length - 1;f > 0;f--) {
-    var e = Math.floor(b() * (f + 1)), g = a[f];
-    a[f] = a[e];
-    a[e] = g
-  }
-};
-goog.debug.entryPointRegistry = {};
-goog.debug.EntryPointMonitor = function() {
-};
-goog.debug.entryPointRegistry.refList_ = [];
-goog.debug.entryPointRegistry.register = function(a) {
-  goog.debug.entryPointRegistry.refList_[goog.debug.entryPointRegistry.refList_.length] = a
-};
-goog.debug.entryPointRegistry.monitorAll = function(a) {
-  for(var a = goog.bind(a.wrap, a), d = 0;d < goog.debug.entryPointRegistry.refList_.length;d++) {
-    goog.debug.entryPointRegistry.refList_[d](a)
-  }
-};
-goog.debug.entryPointRegistry.unmonitorAllIfPossible = function(a) {
-  for(var a = goog.bind(a.unwrap, a), d = 0;d < goog.debug.entryPointRegistry.refList_.length;d++) {
-    goog.debug.entryPointRegistry.refList_[d](a)
-  }
-};
-goog.events.EventWrapper = function() {
-};
-goog.events.EventWrapper.prototype.listen = function() {
-};
-goog.events.EventWrapper.prototype.unlisten = function() {
-};
-goog.events.BrowserFeature = {HAS_W3C_BUTTON:!goog.userAgent.IE || goog.userAgent.isDocumentMode(9), SET_KEY_CODE_TO_PREVENT_DEFAULT:goog.userAgent.IE && !goog.userAgent.isVersion("8")};
-goog.disposable = {};
-goog.disposable.IDisposable = function() {
-};
-goog.Disposable = function() {
-  goog.Disposable.ENABLE_MONITORING && (goog.Disposable.instances_[goog.getUid(this)] = this)
-};
-goog.Disposable.ENABLE_MONITORING = !1;
-goog.Disposable.instances_ = {};
-goog.Disposable.getUndisposedObjects = function() {
-  var a = [], d;
-  for(d in goog.Disposable.instances_) {
-    goog.Disposable.instances_.hasOwnProperty(d) && a.push(goog.Disposable.instances_[Number(d)])
-  }
-  return a
-};
-goog.Disposable.clearUndisposedObjects = function() {
-  goog.Disposable.instances_ = {}
-};
-goog.Disposable.prototype.disposed_ = !1;
-goog.Disposable.prototype.isDisposed = function() {
-  return this.disposed_
-};
-goog.Disposable.prototype.getDisposed = goog.Disposable.prototype.isDisposed;
-goog.Disposable.prototype.dispose = function() {
-  if(!this.disposed_ && (this.disposed_ = !0, this.disposeInternal(), goog.Disposable.ENABLE_MONITORING)) {
-    var a = goog.getUid(this);
-    if(!goog.Disposable.instances_.hasOwnProperty(a)) {
-      throw Error(this + " did not call the goog.Disposable base constructor or was disposed of after a clearUndisposedObjects call");
-    }
-    delete goog.Disposable.instances_[a]
-  }
-};
-goog.Disposable.prototype.registerDisposable = function(a) {
-  if(!this.dependentDisposables_) {
-    this.dependentDisposables_ = []
-  }
-  this.dependentDisposables_.push(a)
-};
-goog.Disposable.prototype.disposeInternal = function() {
-  this.dependentDisposables_ && goog.disposeAll.apply(null, this.dependentDisposables_)
-};
-goog.dispose = function(a) {
-  a && typeof a.dispose == "function" && a.dispose()
-};
-goog.disposeAll = function(a) {
-  for(var d = 0, b = arguments.length;d < b;++d) {
-    var f = arguments[d];
-    goog.isArrayLike(f) ? goog.disposeAll.apply(null, f) : goog.dispose(f)
-  }
-};
-goog.events.Event = function(a, d) {
-  goog.Disposable.call(this);
+}
+;function db(a, g) {
   this.type = a;
-  this.currentTarget = this.target = d
-};
-goog.inherits(goog.events.Event, goog.Disposable);
-goog.events.Event.prototype.disposeInternal = function() {
+  this.currentTarget = this.target = g
+}
+ea(db, bb);
+db.prototype.Xf = function() {
   delete this.type;
   delete this.target;
   delete this.currentTarget
 };
-goog.events.Event.prototype.propagationStopped_ = !1;
-goog.events.Event.prototype.returnValue_ = !0;
-goog.events.Event.prototype.stopPropagation = function() {
-  this.propagationStopped_ = !0
-};
-goog.events.Event.prototype.preventDefault = function() {
-  this.returnValue_ = !1
-};
-goog.events.Event.stopPropagation = function(a) {
-  a.stopPropagation()
-};
-goog.events.Event.preventDefault = function(a) {
-  a.preventDefault()
-};
-goog.reflect = {};
-goog.reflect.object = function(a, d) {
-  return d
-};
-goog.reflect.sinkValue = function(a) {
-  goog.reflect.sinkValue[" "](a);
+db.prototype.Ak = !1;
+db.prototype.fq = !0;
+function eb(a) {
+  eb[" "](a);
   return a
-};
-goog.reflect.sinkValue[" "] = goog.nullFunction;
-goog.reflect.canAccessProperty = function(a, d) {
-  try {
-    return goog.reflect.sinkValue(a[d]), !0
-  }catch(b) {
-  }
-  return!1
-};
-goog.events.BrowserEvent = function(a, d) {
-  a && this.init(a, d)
-};
-goog.inherits(goog.events.BrowserEvent, goog.events.Event);
-goog.events.BrowserEvent.MouseButton = {LEFT:0, MIDDLE:1, RIGHT:2};
-goog.events.BrowserEvent.IEButtonMap = [1, 4, 2];
-goog.events.BrowserEvent.prototype.target = null;
-goog.events.BrowserEvent.prototype.relatedTarget = null;
-goog.events.BrowserEvent.prototype.offsetX = 0;
-goog.events.BrowserEvent.prototype.offsetY = 0;
-goog.events.BrowserEvent.prototype.clientX = 0;
-goog.events.BrowserEvent.prototype.clientY = 0;
-goog.events.BrowserEvent.prototype.screenX = 0;
-goog.events.BrowserEvent.prototype.screenY = 0;
-goog.events.BrowserEvent.prototype.button = 0;
-goog.events.BrowserEvent.prototype.keyCode = 0;
-goog.events.BrowserEvent.prototype.charCode = 0;
-goog.events.BrowserEvent.prototype.ctrlKey = !1;
-goog.events.BrowserEvent.prototype.altKey = !1;
-goog.events.BrowserEvent.prototype.shiftKey = !1;
-goog.events.BrowserEvent.prototype.metaKey = !1;
-goog.events.BrowserEvent.prototype.platformModifierKey = !1;
-goog.events.BrowserEvent.prototype.event_ = null;
-goog.events.BrowserEvent.prototype.init = function(a, d) {
-  var b = this.type = a.type;
-  goog.events.Event.call(this, b);
+}
+eb[" "] = aa;
+function fb(a, g) {
+  a && this.Vc(a, g)
+}
+ea(fb, db);
+J = fb.prototype;
+J.target = p;
+J.relatedTarget = p;
+J.offsetX = 0;
+J.offsetY = 0;
+J.clientX = 0;
+J.clientY = 0;
+J.screenX = 0;
+J.screenY = 0;
+J.button = 0;
+J.keyCode = 0;
+J.charCode = 0;
+J.ctrlKey = !1;
+J.altKey = !1;
+J.shiftKey = !1;
+J.metaKey = !1;
+J.cq = !1;
+J.bm = p;
+J.Vc = function(a, g) {
+  var e = this.type = a.type;
+  db.call(this, e);
   this.target = a.target || a.srcElement;
-  this.currentTarget = d;
-  var f = a.relatedTarget;
-  if(f) {
-    goog.userAgent.GECKO && (goog.reflect.canAccessProperty(f, "nodeName") || (f = null))
+  this.currentTarget = g;
+  var d = a.relatedTarget;
+  if(d) {
+    if(za) {
+      var c;
+      a: {
+        try {
+          eb(d.nodeName);
+          c = !0;
+          break a
+        }catch(b) {
+        }
+        c = !1
+      }
+      c || (d = p)
+    }
   }else {
-    if(b == goog.events.EventType.MOUSEOVER) {
-      f = a.fromElement
+    if(e == "mouseover") {
+      d = a.fromElement
     }else {
-      if(b == goog.events.EventType.MOUSEOUT) {
-        f = a.toElement
+      if(e == "mouseout") {
+        d = a.toElement
       }
     }
   }
-  this.relatedTarget = f;
-  this.offsetX = a.offsetX !== void 0 ? a.offsetX : a.layerX;
-  this.offsetY = a.offsetY !== void 0 ? a.offsetY : a.layerY;
-  this.clientX = a.clientX !== void 0 ? a.clientX : a.pageX;
-  this.clientY = a.clientY !== void 0 ? a.clientY : a.pageY;
+  this.relatedTarget = d;
+  this.offsetX = a.offsetX !== f ? a.offsetX : a.layerX;
+  this.offsetY = a.offsetY !== f ? a.offsetY : a.layerY;
+  this.clientX = a.clientX !== f ? a.clientX : a.pageX;
+  this.clientY = a.clientY !== f ? a.clientY : a.pageY;
   this.screenX = a.screenX || 0;
   this.screenY = a.screenY || 0;
   this.button = a.button;
   this.keyCode = a.keyCode || 0;
-  this.charCode = a.charCode || (b == "keypress" ? a.keyCode : 0);
+  this.charCode = a.charCode || (e == "keypress" ? a.keyCode : 0);
   this.ctrlKey = a.ctrlKey;
   this.altKey = a.altKey;
   this.shiftKey = a.shiftKey;
   this.metaKey = a.metaKey;
-  this.platformModifierKey = goog.userAgent.MAC ? a.metaKey : a.ctrlKey;
+  this.cq = Ca ? a.metaKey : a.ctrlKey;
   this.state = a.state;
-  this.event_ = a;
-  delete this.returnValue_;
-  delete this.propagationStopped_
+  this.bm = a;
+  delete this.fq;
+  delete this.Ak
 };
-goog.events.BrowserEvent.prototype.isButton = function(a) {
-  return goog.events.BrowserFeature.HAS_W3C_BUTTON ? this.event_.button == a : this.type == "click" ? a == goog.events.BrowserEvent.MouseButton.LEFT : !!(this.event_.button & goog.events.BrowserEvent.IEButtonMap[a])
+J.Xf = function() {
+  fb.Pm.Xf.call(this);
+  this.relatedTarget = this.currentTarget = this.target = this.bm = p
 };
-goog.events.BrowserEvent.prototype.isMouseActionButton = function() {
-  return this.isButton(goog.events.BrowserEvent.MouseButton.LEFT) && !(goog.userAgent.WEBKIT && goog.userAgent.MAC && this.ctrlKey)
-};
-goog.events.BrowserEvent.prototype.stopPropagation = function() {
-  goog.events.BrowserEvent.superClass_.stopPropagation.call(this);
-  this.event_.stopPropagation ? this.event_.stopPropagation() : this.event_.cancelBubble = !0
-};
-goog.events.BrowserEvent.prototype.preventDefault = function() {
-  goog.events.BrowserEvent.superClass_.preventDefault.call(this);
-  var a = this.event_;
-  if(a.preventDefault) {
-    a.preventDefault()
+function gb() {
+}
+var hb = 0;
+J = gb.prototype;
+J.key = 0;
+J.ng = !1;
+J.Ml = !1;
+J.Vc = function(a, g, e, d, c, b) {
+  if(ba(a) == "function") {
+    this.im = !0
   }else {
-    if(a.returnValue = !1, goog.events.BrowserFeature.SET_KEY_CODE_TO_PREVENT_DEFAULT) {
-      try {
-        if(a.ctrlKey || a.keyCode >= 112 && a.keyCode <= 123) {
-          a.keyCode = -1
-        }
-      }catch(d) {
-      }
-    }
-  }
-};
-goog.events.BrowserEvent.prototype.getBrowserEvent = function() {
-  return this.event_
-};
-goog.events.BrowserEvent.prototype.disposeInternal = function() {
-  goog.events.BrowserEvent.superClass_.disposeInternal.call(this);
-  this.relatedTarget = this.currentTarget = this.target = this.event_ = null
-};
-goog.events.Listener = function() {
-};
-goog.events.Listener.counter_ = 0;
-goog.events.Listener.prototype.key = 0;
-goog.events.Listener.prototype.removed = !1;
-goog.events.Listener.prototype.callOnce = !1;
-goog.events.Listener.prototype.init = function(a, d, b, f, e, g) {
-  if(goog.isFunction(a)) {
-    this.isFunctionListener_ = !0
-  }else {
-    if(a && a.handleEvent && goog.isFunction(a.handleEvent)) {
-      this.isFunctionListener_ = !1
+    if(a && a.handleEvent && ba(a.handleEvent) == "function") {
+      this.im = !1
     }else {
       throw Error("Invalid listener argument");
     }
   }
-  this.listener = a;
-  this.proxy = d;
-  this.src = b;
-  this.type = f;
-  this.capture = !!e;
-  this.handler = g;
-  this.callOnce = !1;
-  this.key = ++goog.events.Listener.counter_;
-  this.removed = !1
+  this.sh = a;
+  this.Hm = g;
+  this.src = e;
+  this.type = d;
+  this.capture = !!c;
+  this.fm = b;
+  this.Ml = !1;
+  this.key = ++hb;
+  this.ng = !1
 };
-goog.events.Listener.prototype.handleEvent = function(a) {
-  return this.isFunctionListener_ ? this.listener.call(this.handler || this.src, a) : this.listener.handleEvent.call(this.listener, a)
+J.handleEvent = function(a) {
+  return this.im ? this.sh.call(this.fm || this.src, a) : this.sh.handleEvent.call(this.sh, a)
 };
-goog.userAgent.jscript = {};
-goog.userAgent.jscript.ASSUME_NO_JSCRIPT = !1;
-goog.userAgent.jscript.init_ = function() {
-  goog.userAgent.jscript.DETECTED_HAS_JSCRIPT_ = "ScriptEngine" in goog.global && goog.global.ScriptEngine() == "JScript";
-  goog.userAgent.jscript.DETECTED_VERSION_ = goog.userAgent.jscript.DETECTED_HAS_JSCRIPT_ ? goog.global.ScriptEngineMajorVersion() + "." + goog.global.ScriptEngineMinorVersion() + "." + goog.global.ScriptEngineBuildVersion() : "0"
-};
-goog.userAgent.jscript.ASSUME_NO_JSCRIPT || goog.userAgent.jscript.init_();
-goog.userAgent.jscript.HAS_JSCRIPT = goog.userAgent.jscript.ASSUME_NO_JSCRIPT ? !1 : goog.userAgent.jscript.DETECTED_HAS_JSCRIPT_;
-goog.userAgent.jscript.VERSION = goog.userAgent.jscript.ASSUME_NO_JSCRIPT ? "0" : goog.userAgent.jscript.DETECTED_VERSION_;
-goog.userAgent.jscript.isVersion = function(a) {
-  return goog.string.compareVersions(goog.userAgent.jscript.VERSION, a) >= 0
-};
-goog.structs = {};
-goog.structs.SimplePool = function(a, d) {
-  goog.Disposable.call(this);
-  this.maxCount_ = d;
-  this.freeQueue_ = [];
-  this.createInitial_(a)
-};
-goog.inherits(goog.structs.SimplePool, goog.Disposable);
-goog.structs.SimplePool.prototype.createObjectFn_ = null;
-goog.structs.SimplePool.prototype.disposeObjectFn_ = null;
-goog.structs.SimplePool.prototype.setCreateObjectFn = function(a) {
-  this.createObjectFn_ = a
-};
-goog.structs.SimplePool.prototype.setDisposeObjectFn = function(a) {
-  this.disposeObjectFn_ = a
-};
-goog.structs.SimplePool.prototype.getObject = function() {
-  return this.freeQueue_.length ? this.freeQueue_.pop() : this.createObject()
-};
-goog.structs.SimplePool.prototype.releaseObject = function(a) {
-  this.freeQueue_.length < this.maxCount_ ? this.freeQueue_.push(a) : this.disposeObject(a)
-};
-goog.structs.SimplePool.prototype.createInitial_ = function(a) {
-  if(a > this.maxCount_) {
+var ib, jb = (ib = "ScriptEngine" in O && O.ScriptEngine() == "JScript") ? O.ScriptEngineMajorVersion() + "." + O.ScriptEngineMinorVersion() + "." + O.ScriptEngineBuildVersion() : "0";
+function Y(a, g) {
+  this.xm = g;
+  this.df = [];
+  if(a > this.xm) {
     throw Error("[goog.structs.SimplePool] Initial cannot be greater than max");
   }
-  for(var d = 0;d < a;d++) {
-    this.freeQueue_.push(this.createObject())
+  for(var e = 0;e < a;e++) {
+    this.df.push(this.nh())
   }
+}
+ea(Y, bb);
+J = Y.prototype;
+J.af = p;
+J.Ql = p;
+J.getObject = function() {
+  return this.df.length ? this.df.pop() : this.nh()
 };
-goog.structs.SimplePool.prototype.createObject = function() {
-  return this.createObjectFn_ ? this.createObjectFn_() : {}
+function kb(a, g) {
+  a.df.length < a.xm ? a.df.push(g) : lb(a, g)
+}
+J.nh = function() {
+  return this.af ? this.af() : {}
 };
-goog.structs.SimplePool.prototype.disposeObject = function(a) {
-  if(this.disposeObjectFn_) {
-    this.disposeObjectFn_(a)
+function lb(a, g) {
+  if(a.Ql) {
+    a.Ql(g)
   }else {
-    if(goog.isObject(a)) {
-      if(goog.isFunction(a.dispose)) {
-        a.dispose()
+    var e = ba(g);
+    if(e == "object" || e == "array" || e == "function") {
+      if(ba(g.Wf) == "function") {
+        g.Wf()
       }else {
-        for(var d in a) {
-          delete a[d]
+        for(var d in g) {
+          delete g[d]
         }
       }
     }
   }
-};
-goog.structs.SimplePool.prototype.disposeInternal = function() {
-  goog.structs.SimplePool.superClass_.disposeInternal.call(this);
-  for(var a = this.freeQueue_;a.length;) {
-    this.disposeObject(a.pop())
+}
+J.Xf = function() {
+  Y.Pm.Xf.call(this);
+  for(var a = this.df;a.length;) {
+    lb(this, a.pop())
   }
-  delete this.freeQueue_
+  delete this.df
 };
-goog.events.pools = {};
-goog.events.ASSUME_GOOD_GC = !1;
+var mb, nb, ob, pb, qb, rb, sb, tb, ub, vb, wb;
 (function() {
   function a() {
-    return{count_:0, remaining_:0}
+    return{pe:0, mg:0}
   }
-  function d() {
+  function g() {
     return[]
   }
-  function b() {
-    var a = function(b) {
-      b = h.call(a.src, a.key, b);
-      if(!b) {
-        return b
+  function e() {
+    function a(c) {
+      c = h.call(a.src, a.key, c);
+      if(!c) {
+        return c
       }
-    };
+    }
     return a
   }
-  function f() {
-    return new goog.events.Listener
+  function d() {
+    return new gb
   }
-  function e() {
-    return new goog.events.BrowserEvent
+  function c() {
+    return new fb
   }
-  var g = !goog.events.ASSUME_GOOD_GC && goog.userAgent.jscript.HAS_JSCRIPT && !goog.userAgent.jscript.isVersion("5.7"), h;
-  goog.events.pools.setProxyCallbackFunction = function(a) {
+  var b = ib && !(qa(jb, "5.7") >= 0), h;
+  rb = function(a) {
     h = a
   };
-  if(g) {
-    goog.events.pools.getObject = function() {
+  if(b) {
+    mb = function() {
+      return i.getObject()
+    };
+    nb = function(a) {
+      kb(i, a)
+    };
+    ob = function() {
       return j.getObject()
     };
-    goog.events.pools.releaseObject = function(a) {
-      j.releaseObject(a)
+    pb = function(a) {
+      kb(j, a)
     };
-    goog.events.pools.getArray = function() {
-      return l.getObject()
-    };
-    goog.events.pools.releaseArray = function(a) {
-      l.releaseObject(a)
-    };
-    goog.events.pools.getProxy = function() {
+    qb = function() {
       return k.getObject()
     };
-    goog.events.pools.releaseProxy = function() {
-      k.releaseObject(b())
+    sb = function() {
+      kb(k, e())
     };
-    goog.events.pools.getListener = function() {
-      return o.getObject()
-    };
-    goog.events.pools.releaseListener = function(a) {
-      o.releaseObject(a)
-    };
-    goog.events.pools.getEvent = function() {
+    tb = function() {
       return m.getObject()
     };
-    goog.events.pools.releaseEvent = function(a) {
-      m.releaseObject(a)
+    ub = function(a) {
+      kb(m, a)
     };
-    var j = new goog.structs.SimplePool(0, 600);
-    j.setCreateObjectFn(a);
-    var l = new goog.structs.SimplePool(0, 600);
-    l.setCreateObjectFn(d);
-    var k = new goog.structs.SimplePool(0, 600);
-    k.setCreateObjectFn(b);
-    var o = new goog.structs.SimplePool(0, 600);
-    o.setCreateObjectFn(f);
-    var m = new goog.structs.SimplePool(0, 600);
-    m.setCreateObjectFn(e)
+    vb = function() {
+      return l.getObject()
+    };
+    wb = function(a) {
+      kb(l, a)
+    };
+    var i = new Y(0, 600);
+    i.af = a;
+    var j = new Y(0, 600);
+    j.af = g;
+    var k = new Y(0, 600);
+    k.af = e;
+    var m = new Y(0, 600);
+    m.af = d;
+    var l = new Y(0, 600);
+    l.af = c
   }else {
-    goog.events.pools.getObject = a, goog.events.pools.releaseObject = goog.nullFunction, goog.events.pools.getArray = d, goog.events.pools.releaseArray = goog.nullFunction, goog.events.pools.getProxy = b, goog.events.pools.releaseProxy = goog.nullFunction, goog.events.pools.getListener = f, goog.events.pools.releaseListener = goog.nullFunction, goog.events.pools.getEvent = e, goog.events.pools.releaseEvent = goog.nullFunction
+    mb = a, nb = aa, ob = g, pb = aa, qb = e, sb = aa, tb = d, ub = aa, vb = c, wb = aa
   }
 })();
-goog.events.listeners_ = {};
-goog.events.listenerTree_ = {};
-goog.events.sources_ = {};
-goog.events.onString_ = "on";
-goog.events.onStringMap_ = {};
-goog.events.keySeparator_ = "_";
-goog.events.listen = function(a, d, b, f, e) {
-  if(d) {
-    if(goog.isArray(d)) {
-      for(var g = 0;g < d.length;g++) {
-        goog.events.listen(a, d[g], b, f, e)
+var xb = {}, Z = {}, yb = {}, zb = {};
+function Ab(a, g, e, d, c) {
+  if(g) {
+    if(ba(g) == "array") {
+      for(var b = 0;b < g.length;b++) {
+        Ab(a, g[b], e, d, c)
       }
-      return null
     }else {
-      var f = !!f, h = goog.events.listenerTree_;
-      d in h || (h[d] = goog.events.pools.getObject());
-      h = h[d];
-      f in h || (h[f] = goog.events.pools.getObject(), h.count_++);
-      var h = h[f], j = goog.getUid(a), l;
-      h.remaining_++;
-      if(h[j]) {
-        l = h[j];
-        for(g = 0;g < l.length;g++) {
-          if(h = l[g], h.listener == b && h.handler == e) {
-            if(h.removed) {
+      var d = !!d, h = Z;
+      g in h || (h[g] = mb());
+      h = h[g];
+      d in h || (h[d] = mb(), h.pe++);
+      var h = h[d], i = a[ca] || (a[ca] = ++da), j;
+      h.mg++;
+      if(h[i]) {
+        j = h[i];
+        for(b = 0;b < j.length;b++) {
+          if(h = j[b], h.sh == e && h.fm == c) {
+            if(h.ng) {
               break
             }
-            return l[g].key
+            return
           }
         }
       }else {
-        l = h[j] = goog.events.pools.getArray(), h.count_++
+        j = h[i] = ob(), h.pe++
       }
-      g = goog.events.pools.getProxy();
-      g.src = a;
-      h = goog.events.pools.getListener();
-      h.init(b, g, a, d, f, e);
-      b = h.key;
-      g.key = b;
-      l.push(h);
-      goog.events.listeners_[b] = h;
-      goog.events.sources_[j] || (goog.events.sources_[j] = goog.events.pools.getArray());
-      goog.events.sources_[j].push(h);
-      a.addEventListener ? (a == goog.global || !a.customEvent_) && a.addEventListener(d, g, f) : a.attachEvent(goog.events.getOnString_(d), g);
-      return b
+      b = qb();
+      b.src = a;
+      h = tb();
+      h.Vc(e, b, a, g, d, c);
+      e = h.key;
+      b.key = e;
+      j.push(h);
+      xb[e] = h;
+      yb[i] || (yb[i] = ob());
+      yb[i].push(h);
+      a.addEventListener ? (a == O || !a.Po) && a.addEventListener(g, b, d) : a.attachEvent(g in zb ? zb[g] : zb[g] = "on" + g, b)
     }
   }else {
     throw Error("Invalid event type");
   }
-};
-goog.events.listenOnce = function(a, d, b, f, e) {
-  if(goog.isArray(d)) {
-    for(var g = 0;g < d.length;g++) {
-      goog.events.listenOnce(a, d[g], b, f, e)
-    }
-    return null
-  }
-  a = goog.events.listen(a, d, b, f, e);
-  goog.events.listeners_[a].callOnce = !0;
-  return a
-};
-goog.events.listenWithWrapper = function(a, d, b, f, e) {
-  d.listen(a, b, f, e)
-};
-goog.events.unlisten = function(a, d, b, f, e) {
-  if(goog.isArray(d)) {
-    for(var g = 0;g < d.length;g++) {
-      goog.events.unlisten(a, d[g], b, f, e)
-    }
-    return null
-  }
-  f = !!f;
-  a = goog.events.getListeners_(a, d, f);
-  if(!a) {
-    return!1
-  }
-  for(g = 0;g < a.length;g++) {
-    if(a[g].listener == b && a[g].capture == f && a[g].handler == e) {
-      return goog.events.unlistenByKey(a[g].key)
-    }
-  }
-  return!1
-};
-goog.events.unlistenByKey = function(a) {
-  if(!goog.events.listeners_[a]) {
-    return!1
-  }
-  var d = goog.events.listeners_[a];
-  if(d.removed) {
-    return!1
-  }
-  var b = d.src, f = d.type, e = d.proxy, g = d.capture;
-  b.removeEventListener ? (b == goog.global || !b.customEvent_) && b.removeEventListener(f, e, g) : b.detachEvent && b.detachEvent(goog.events.getOnString_(f), e);
-  b = goog.getUid(b);
-  e = goog.events.listenerTree_[f][g][b];
-  if(goog.events.sources_[b]) {
-    var h = goog.events.sources_[b];
-    goog.array.remove(h, d);
-    h.length == 0 && delete goog.events.sources_[b]
-  }
-  d.removed = !0;
-  e.needsCleanup_ = !0;
-  goog.events.cleanUp_(f, g, b, e);
-  delete goog.events.listeners_[a];
-  return!0
-};
-goog.events.unlistenWithWrapper = function(a, d, b, f, e) {
-  d.unlisten(a, b, f, e)
-};
-goog.events.cleanUp_ = function(a, d, b, f) {
-  if(!f.locked_ && f.needsCleanup_) {
-    for(var e = 0, g = 0;e < f.length;e++) {
-      if(f[e].removed) {
-        var h = f[e].proxy;
-        h.src = null;
-        goog.events.pools.releaseProxy(h);
-        goog.events.pools.releaseListener(f[e])
+}
+function Bb(a, g, e, d) {
+  if(!d.Ai && d.Bm) {
+    for(var c = 0, b = 0;c < d.length;c++) {
+      if(d[c].ng) {
+        var h = d[c].Hm;
+        h.src = p;
+        sb(h);
+        ub(d[c])
       }else {
-        e != g && (f[g] = f[e]), g++
+        c != b && (d[b] = d[c]), b++
       }
     }
-    f.length = g;
-    f.needsCleanup_ = !1;
-    g == 0 && (goog.events.pools.releaseArray(f), delete goog.events.listenerTree_[a][d][b], goog.events.listenerTree_[a][d].count_--, goog.events.listenerTree_[a][d].count_ == 0 && (goog.events.pools.releaseObject(goog.events.listenerTree_[a][d]), delete goog.events.listenerTree_[a][d], goog.events.listenerTree_[a].count_--), goog.events.listenerTree_[a].count_ == 0 && (goog.events.pools.releaseObject(goog.events.listenerTree_[a]), delete goog.events.listenerTree_[a]))
+    d.length = b;
+    d.Bm = !1;
+    b == 0 && (pb(d), delete Z[a][g][e], Z[a][g].pe--, Z[a][g].pe == 0 && (nb(Z[a][g]), delete Z[a][g], Z[a].pe--), Z[a].pe == 0 && (nb(Z[a]), delete Z[a]))
   }
-};
-goog.events.removeAll = function(a, d, b) {
-  var f = 0, e = d == null, g = b == null, b = !!b;
-  if(a == null) {
-    goog.object.forEach(goog.events.sources_, function(a) {
-      for(var h = a.length - 1;h >= 0;h--) {
-        var j = a[h];
-        if((e || d == j.type) && (g || b == j.capture)) {
-          goog.events.unlistenByKey(j.key), f++
-        }
-      }
-    })
-  }else {
-    if(a = goog.getUid(a), goog.events.sources_[a]) {
-      for(var a = goog.events.sources_[a], h = a.length - 1;h >= 0;h--) {
-        var j = a[h];
-        if((e || d == j.type) && (g || b == j.capture)) {
-          goog.events.unlistenByKey(j.key), f++
-        }
-      }
-    }
-  }
-  return f
-};
-goog.events.getListeners = function(a, d, b) {
-  return goog.events.getListeners_(a, d, b) || []
-};
-goog.events.getListeners_ = function(a, d, b) {
-  var f = goog.events.listenerTree_;
-  return d in f && (f = f[d], b in f && (f = f[b], a = goog.getUid(a), f[a])) ? f[a] : null
-};
-goog.events.getListener = function(a, d, b, f, e) {
-  f = !!f;
-  if(a = goog.events.getListeners_(a, d, f)) {
-    for(d = 0;d < a.length;d++) {
-      if(!a[d].removed && a[d].listener == b && a[d].capture == f && a[d].handler == e) {
-        return a[d]
-      }
-    }
-  }
-  return null
-};
-goog.events.hasListener = function(a, d, b) {
-  var a = goog.getUid(a), f = goog.events.sources_[a];
-  if(f) {
-    var e = goog.isDef(d), g = goog.isDef(b);
-    return e && g ? (f = goog.events.listenerTree_[d], !!f && !!f[b] && a in f[b]) : !e && !g ? !0 : goog.array.some(f, function(a) {
-      return e && a.type == d || g && a.capture == b
-    })
-  }
-  return!1
-};
-goog.events.expose = function(a) {
-  var d = [], b;
-  for(b in a) {
-    a[b] && a[b].id ? d.push(b + " = " + a[b] + " (" + a[b].id + ")") : d.push(b + " = " + a[b])
-  }
-  return d.join("\n")
-};
-goog.events.getOnString_ = function(a) {
-  return a in goog.events.onStringMap_ ? goog.events.onStringMap_[a] : goog.events.onStringMap_[a] = goog.events.onString_ + a
-};
-goog.events.fireListeners = function(a, d, b, f) {
-  var e = goog.events.listenerTree_;
-  return d in e && (e = e[d], b in e) ? goog.events.fireListeners_(e[b], a, d, b, f) : !0
-};
-goog.events.fireListeners_ = function(a, d, b, f, e) {
-  var g = 1, d = goog.getUid(d);
-  if(a[d]) {
-    a.remaining_--;
-    a = a[d];
-    a.locked_ ? a.locked_++ : a.locked_ = 1;
+}
+function Cb(a, g, e, d, c) {
+  var b = 1, g = g[ca] || (g[ca] = ++da);
+  if(a[g]) {
+    a.mg--;
+    a = a[g];
+    a.Ai ? a.Ai++ : a.Ai = 1;
     try {
-      for(var h = a.length, j = 0;j < h;j++) {
-        var l = a[j];
-        l && !l.removed && (g &= goog.events.fireListener(l, e) !== !1)
+      for(var h = a.length, i = 0;i < h;i++) {
+        var j = a[i];
+        j && !j.ng && (b &= Db(j, c) !== !1)
       }
     }finally {
-      a.locked_--, goog.events.cleanUp_(b, f, d, a)
+      a.Ai--, Bb(e, d, g, a)
     }
   }
-  return Boolean(g)
-};
-goog.events.fireListener = function(a, d) {
-  var b = a.handleEvent(d);
-  a.callOnce && goog.events.unlistenByKey(a.key);
-  return b
-};
-goog.events.getTotalListenerCount = function() {
-  return goog.object.getCount(goog.events.listeners_)
-};
-goog.events.dispatchEvent = function(a, d) {
-  var b = d.type || d, f = goog.events.listenerTree_;
-  if(!(b in f)) {
-    return!0
-  }
-  if(goog.isString(d)) {
-    d = new goog.events.Event(d, a)
-  }else {
-    if(d instanceof goog.events.Event) {
-      d.target = d.target || a
-    }else {
-      var e = d, d = new goog.events.Event(b, a);
-      goog.object.extend(d, e)
-    }
-  }
-  var e = 1, g, f = f[b], b = !0 in f, h;
-  if(b) {
-    g = [];
-    for(h = a;h;h = h.getParentEventTarget()) {
-      g.push(h)
-    }
-    h = f[!0];
-    h.remaining_ = h.count_;
-    for(var j = g.length - 1;!d.propagationStopped_ && j >= 0 && h.remaining_;j--) {
-      d.currentTarget = g[j], e &= goog.events.fireListeners_(h, g[j], d.type, !0, d) && d.returnValue_ != !1
-    }
-  }
-  if(!1 in f) {
-    if(h = f[!1], h.remaining_ = h.count_, b) {
-      for(j = 0;!d.propagationStopped_ && j < g.length && h.remaining_;j++) {
-        d.currentTarget = g[j], e &= goog.events.fireListeners_(h, g[j], d.type, !1, d) && d.returnValue_ != !1
-      }
-    }else {
-      for(f = a;!d.propagationStopped_ && f && h.remaining_;f = f.getParentEventTarget()) {
-        d.currentTarget = f, e &= goog.events.fireListeners_(h, f, d.type, !1, d) && d.returnValue_ != !1
+  return Boolean(b)
+}
+function Db(a, g) {
+  var e = a.handleEvent(g);
+  if(a.Ml) {
+    var d = a.key;
+    if(xb[d]) {
+      var c = xb[d];
+      if(!c.ng) {
+        var b = c.src, h = c.type, i = c.Hm, j = c.capture;
+        b.removeEventListener ? (b == O || !b.Po) && b.removeEventListener(h, i, j) : b.detachEvent && b.detachEvent(h in zb ? zb[h] : zb[h] = "on" + h, i);
+        b = b[ca] || (b[ca] = ++da);
+        i = Z[h][j][b];
+        if(yb[b]) {
+          var k = yb[b], m = ab(k, c);
+          m >= 0 && $a.splice.call(k, m, 1);
+          k.length == 0 && delete yb[b]
+        }
+        c.ng = !0;
+        i.Bm = !0;
+        Bb(h, j, b, i);
+        delete xb[d]
       }
     }
   }
-  return Boolean(e)
-};
-goog.events.protectBrowserEventEntryPoint = function(a) {
-  goog.events.handleBrowserEvent_ = a.protectEntryPoint(goog.events.handleBrowserEvent_);
-  goog.events.pools.setProxyCallbackFunction(goog.events.handleBrowserEvent_)
-};
-goog.events.handleBrowserEvent_ = function(a, d) {
-  if(!goog.events.listeners_[a]) {
+  return e
+}
+rb(function(a, g) {
+  if(!xb[a]) {
     return!0
   }
-  var b = goog.events.listeners_[a], f = b.type, e = goog.events.listenerTree_;
-  if(!(f in e)) {
+  var e = xb[a], d = e.type, c = Z;
+  if(!(d in c)) {
     return!0
   }
-  var e = e[f], g, h;
-  if(goog.events.synthesizeEventPropagation_()) {
-    g = d || goog.getObjectByName("window.event");
-    var j = !0 in e, l = !1 in e;
-    if(j) {
-      if(goog.events.isMarkedIeEvent_(g)) {
+  var c = c[d], b, h;
+  Ya === f && (Ya = X && !O.addEventListener);
+  if(Ya) {
+    var i;
+    if(!(i = g)) {
+      a: {
+        i = "window.event".split(".");
+        for(var j = O;b = i.shift();) {
+          if(j[b] != p) {
+            j = j[b]
+          }else {
+            i = p;
+            break a
+          }
+        }
+        i = j
+      }
+    }
+    b = i;
+    i = !0 in c;
+    j = !1 in c;
+    if(i) {
+      if(b.keyCode < 0 || b.returnValue != f) {
         return!0
       }
-      goog.events.markIeEvent_(g)
+      a: {
+        var k = !1;
+        if(b.keyCode == 0) {
+          try {
+            b.keyCode = -1;
+            break a
+          }catch(m) {
+            k = !0
+          }
+        }
+        if(k || b.returnValue == f) {
+          b.returnValue = !0
+        }
+      }
     }
-    var k = goog.events.pools.getEvent();
-    k.init(g, this);
-    g = !0;
+    k = vb();
+    k.Vc(b, this);
+    b = !0;
     try {
-      if(j) {
-        for(var o = goog.events.pools.getArray(), m = k.currentTarget;m;m = m.parentNode) {
-          o.push(m)
+      if(i) {
+        for(var l = ob(), s = k.currentTarget;s;s = s.parentNode) {
+          l.push(s)
         }
-        h = e[!0];
-        h.remaining_ = h.count_;
-        for(var s = o.length - 1;!k.propagationStopped_ && s >= 0 && h.remaining_;s--) {
-          k.currentTarget = o[s], g &= goog.events.fireListeners_(h, o[s], f, !0, k)
+        h = c[!0];
+        h.mg = h.pe;
+        for(var n = l.length - 1;!k.Ak && n >= 0 && h.mg;n--) {
+          k.currentTarget = l[n], b &= Cb(h, l[n], d, !0, k)
         }
-        if(l) {
-          h = e[!1];
-          h.remaining_ = h.count_;
-          for(s = 0;!k.propagationStopped_ && s < o.length && h.remaining_;s++) {
-            k.currentTarget = o[s], g &= goog.events.fireListeners_(h, o[s], f, !1, k)
+        if(j) {
+          h = c[!1];
+          h.mg = h.pe;
+          for(n = 0;!k.Ak && n < l.length && h.mg;n++) {
+            k.currentTarget = l[n], b &= Cb(h, l[n], d, !1, k)
           }
         }
       }else {
-        g = goog.events.fireListener(b, k)
+        b = Db(e, k)
       }
     }finally {
-      if(o) {
-        o.length = 0, goog.events.pools.releaseArray(o)
+      if(l) {
+        l.length = 0, pb(l)
       }
-      k.dispose();
-      goog.events.pools.releaseEvent(k)
+      k.Wf();
+      wb(k)
     }
-    return g
+    return b
   }
-  f = new goog.events.BrowserEvent(d, this);
+  d = new fb(g, this);
   try {
-    g = goog.events.fireListener(b, f)
+    b = Db(e, d)
   }finally {
-    f.dispose()
+    d.Wf()
   }
-  return g
-};
-goog.events.pools.setProxyCallbackFunction(goog.events.handleBrowserEvent_);
-goog.events.markIeEvent_ = function(a) {
-  var d = !1;
-  if(a.keyCode == 0) {
-    try {
-      a.keyCode = -1;
-      return
-    }catch(b) {
-      d = !0
-    }
-  }
-  if(d || a.returnValue == void 0) {
-    a.returnValue = !0
-  }
-};
-goog.events.isMarkedIeEvent_ = function(a) {
-  return a.keyCode < 0 || a.returnValue != void 0
-};
-goog.events.uniqueIdCounter_ = 0;
-goog.events.getUniqueId = function(a) {
-  return a + "_" + goog.events.uniqueIdCounter_++
-};
-goog.events.synthesizeEventPropagation_ = function() {
-  if(goog.events.requiresSyntheticEventPropagation_ === void 0) {
-    goog.events.requiresSyntheticEventPropagation_ = goog.userAgent.IE && !goog.global.addEventListener
-  }
-  return goog.events.requiresSyntheticEventPropagation_
-};
-goog.debug.entryPointRegistry.register(function(a) {
-  goog.events.handleBrowserEvent_ = a(goog.events.handleBrowserEvent_);
-  goog.events.pools.setProxyCallbackFunction(goog.events.handleBrowserEvent_)
+  return b
 });
-goog.events.EventTarget = function() {
-  goog.Disposable.call(this)
-};
-goog.inherits(goog.events.EventTarget, goog.Disposable);
-goog.events.EventTarget.prototype.customEvent_ = !0;
-goog.events.EventTarget.prototype.parentEventTarget_ = null;
-goog.events.EventTarget.prototype.getParentEventTarget = function() {
-  return this.parentEventTarget_
-};
-goog.events.EventTarget.prototype.setParentEventTarget = function(a) {
-  this.parentEventTarget_ = a
-};
-goog.events.EventTarget.prototype.addEventListener = function(a, d, b, f) {
-  goog.events.listen(this, a, d, b, f)
-};
-goog.events.EventTarget.prototype.removeEventListener = function(a, d, b, f) {
-  goog.events.unlisten(this, a, d, b, f)
-};
-goog.events.EventTarget.prototype.dispatchEvent = function(a) {
-  return goog.events.dispatchEvent(this, a)
-};
-goog.events.EventTarget.prototype.disposeInternal = function() {
-  goog.events.EventTarget.superClass_.disposeInternal.call(this);
-  goog.events.removeAll(this);
-  this.parentEventTarget_ = null
-};
-goog.events.KeyHandler = function(a, d) {
-  goog.events.EventTarget.call(this);
-  a && this.attach(a, d)
-};
-goog.inherits(goog.events.KeyHandler, goog.events.EventTarget);
-goog.events.KeyHandler.prototype.element_ = null;
-goog.events.KeyHandler.prototype.keyPressKey_ = null;
-goog.events.KeyHandler.prototype.keyDownKey_ = null;
-goog.events.KeyHandler.prototype.keyUpKey_ = null;
-goog.events.KeyHandler.prototype.lastKey_ = -1;
-goog.events.KeyHandler.prototype.keyCode_ = -1;
-goog.events.KeyHandler.EventType = {KEY:"key"};
-goog.events.KeyHandler.safariKey_ = {3:goog.events.KeyCodes.ENTER, 12:goog.events.KeyCodes.NUMLOCK, 63232:goog.events.KeyCodes.UP, 63233:goog.events.KeyCodes.DOWN, 63234:goog.events.KeyCodes.LEFT, 63235:goog.events.KeyCodes.RIGHT, 63236:goog.events.KeyCodes.F1, 63237:goog.events.KeyCodes.F2, 63238:goog.events.KeyCodes.F3, 63239:goog.events.KeyCodes.F4, 63240:goog.events.KeyCodes.F5, 63241:goog.events.KeyCodes.F6, 63242:goog.events.KeyCodes.F7, 63243:goog.events.KeyCodes.F8, 63244:goog.events.KeyCodes.F9, 
-63245:goog.events.KeyCodes.F10, 63246:goog.events.KeyCodes.F11, 63247:goog.events.KeyCodes.F12, 63248:goog.events.KeyCodes.PRINT_SCREEN, 63272:goog.events.KeyCodes.DELETE, 63273:goog.events.KeyCodes.HOME, 63275:goog.events.KeyCodes.END, 63276:goog.events.KeyCodes.PAGE_UP, 63277:goog.events.KeyCodes.PAGE_DOWN, 63289:goog.events.KeyCodes.NUMLOCK, 63302:goog.events.KeyCodes.INSERT};
-goog.events.KeyHandler.keyIdentifier_ = {Up:goog.events.KeyCodes.UP, Down:goog.events.KeyCodes.DOWN, Left:goog.events.KeyCodes.LEFT, Right:goog.events.KeyCodes.RIGHT, Enter:goog.events.KeyCodes.ENTER, F1:goog.events.KeyCodes.F1, F2:goog.events.KeyCodes.F2, F3:goog.events.KeyCodes.F3, F4:goog.events.KeyCodes.F4, F5:goog.events.KeyCodes.F5, F6:goog.events.KeyCodes.F6, F7:goog.events.KeyCodes.F7, F8:goog.events.KeyCodes.F8, F9:goog.events.KeyCodes.F9, F10:goog.events.KeyCodes.F10, F11:goog.events.KeyCodes.F11, 
-F12:goog.events.KeyCodes.F12, "U+007F":goog.events.KeyCodes.DELETE, Home:goog.events.KeyCodes.HOME, End:goog.events.KeyCodes.END, PageUp:goog.events.KeyCodes.PAGE_UP, PageDown:goog.events.KeyCodes.PAGE_DOWN, Insert:goog.events.KeyCodes.INSERT};
-goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_ = {61:187, 59:186};
-goog.events.KeyHandler.USES_KEYDOWN_ = goog.userAgent.IE || goog.userAgent.WEBKIT && goog.userAgent.isVersion("525");
-goog.events.KeyHandler.prototype.handleKeyDown_ = function(a) {
-  if(goog.userAgent.WEBKIT && (this.lastKey_ == goog.events.KeyCodes.CTRL && !a.ctrlKey || this.lastKey_ == goog.events.KeyCodes.ALT && !a.altKey)) {
-    this.keyCode_ = this.lastKey_ = -1
-  }
-  goog.events.KeyHandler.USES_KEYDOWN_ && !goog.events.KeyCodes.firesKeyPressEvent(a.keyCode, this.lastKey_, a.shiftKey, a.ctrlKey, a.altKey) ? this.handleEvent(a) : this.keyCode_ = goog.userAgent.GECKO && a.keyCode in goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_ ? goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_[a.keyCode] : a.keyCode
-};
-goog.events.KeyHandler.prototype.handleKeyup_ = function() {
-  this.keyCode_ = this.lastKey_ = -1
-};
-goog.events.KeyHandler.prototype.handleEvent = function(a) {
-  var d = a.getBrowserEvent(), b, f;
-  if(goog.userAgent.IE && a.type == goog.events.EventType.KEYPRESS) {
-    b = this.keyCode_, f = b != goog.events.KeyCodes.ENTER && b != goog.events.KeyCodes.ESC ? d.keyCode : 0
-  }else {
-    if(goog.userAgent.WEBKIT && a.type == goog.events.EventType.KEYPRESS) {
-      b = this.keyCode_, f = d.charCode >= 0 && d.charCode < 63232 && goog.events.KeyCodes.isCharacterKey(b) ? d.charCode : 0
-    }else {
-      if(goog.userAgent.OPERA) {
-        b = this.keyCode_, f = goog.events.KeyCodes.isCharacterKey(b) ? d.keyCode : 0
-      }else {
-        if(b = d.keyCode || this.keyCode_, f = d.charCode || 0, goog.userAgent.MAC && f == goog.events.KeyCodes.QUESTION_MARK && !b) {
-          b = goog.events.KeyCodes.SLASH
-        }
-      }
-    }
-  }
-  var e = b, g = d.keyIdentifier;
-  b ? b >= 63232 && b in goog.events.KeyHandler.safariKey_ ? e = goog.events.KeyHandler.safariKey_[b] : b == 25 && a.shiftKey && (e = 9) : g && g in goog.events.KeyHandler.keyIdentifier_ && (e = goog.events.KeyHandler.keyIdentifier_[g]);
-  a = e == this.lastKey_;
-  this.lastKey_ = e;
-  d = new goog.events.KeyEvent(e, f, a, d);
-  try {
-    this.dispatchEvent(d)
-  }finally {
-    d.dispose()
-  }
-};
-goog.events.KeyHandler.prototype.getElement = function() {
-  return this.element_
-};
-goog.events.KeyHandler.prototype.attach = function(a, d) {
-  this.keyUpKey_ && this.detach();
-  this.element_ = a;
-  this.keyPressKey_ = goog.events.listen(this.element_, goog.events.EventType.KEYPRESS, this, d);
-  this.keyDownKey_ = goog.events.listen(this.element_, goog.events.EventType.KEYDOWN, this.handleKeyDown_, d, this);
-  this.keyUpKey_ = goog.events.listen(this.element_, goog.events.EventType.KEYUP, this.handleKeyup_, d, this)
-};
-goog.events.KeyHandler.prototype.detach = function() {
-  if(this.keyPressKey_) {
-    goog.events.unlistenByKey(this.keyPressKey_), goog.events.unlistenByKey(this.keyDownKey_), goog.events.unlistenByKey(this.keyUpKey_), this.keyUpKey_ = this.keyDownKey_ = this.keyPressKey_ = null
-  }
-  this.element_ = null;
-  this.keyCode_ = this.lastKey_ = -1
-};
-goog.events.KeyHandler.prototype.disposeInternal = function() {
-  goog.events.KeyHandler.superClass_.disposeInternal.call(this);
-  this.detach()
-};
-goog.events.KeyEvent = function(a, d, b, f) {
-  goog.events.BrowserEvent.call(this, f);
-  this.type = goog.events.KeyHandler.EventType.KEY;
-  this.keyCode = a;
-  this.charCode = d;
-  this.repeat = b
-};
-goog.inherits(goog.events.KeyEvent, goog.events.BrowserEvent);
+var Eb = {61:187, 59:186};
+X || Aa && (Wa["525"] || (Wa["525"] = qa(Da, "525") >= 0));
 /*
  Copyright (c) 2011, Joseph Spandrusyszyn
  See https://github.com/illandril/Illandril-Game-Engine.
 */
-game = game || {};
-game.controls = function(a) {
-  this.id = game.controls.nextID++;
+function Fb(a) {
+  this.id = Gb++;
   this.name = a;
   this.controls = {};
-  this.reverseControls = {};
-  this.controlChangeListeners = [];
-  this.registeringActionTimeout = this.actionToRegister = null
-};
-game.controls.nextID = 0;
-game.controls.actionPendingFor = null;
-game.controls.keyStates = {};
-game.controls.modifierKeyStates = {CTRL:!1, CTRL_LAST:{}, ALT:!1, ALT_LAST:{}, SHIFT:!1, SHIFT_LAST:{}};
-game.controls.rememberCurrentAsLastKeyState = function() {
-  for(var a in game.controls.keyStates) {
-    game.controls.keyStates[a].wasActive = !0
+  this.Dk = {};
+  this.Nl = [];
+  this.Ii = this.$h = p
+}
+var Gb = 0, Hb = {}, Ib = !1, Jb = {}, Kb = !1, Lb = {}, Mb = !1, Nb = {};
+function Ob(a) {
+  var g = a.Dq, g = za && a.keyCode in Eb ? Eb[a.keyCode] : a.keyCode;
+  return{keyCode:g, ctrlKey:a.ctrlKey, altKey:a.altKey, shiftKey:a.shiftKey}
+}
+function Pb(a, g, e, d) {
+  var c = Za[a];
+  c == p && (c = "KEY[" + a + "]");
+  return(g ? "Ctrl + " : "") + (e ? "Alt + " : "") + (d ? "Shift + " : "") + c.toUpperCase()
+}
+Fb.prototype = {fp:function(a) {
+  var g = 0, e = Ib == Jb && Kb == Lb && Mb == Nb, d;
+  for(d in Hb) {
+    var c = e && Hb[d].qq;
+    g++;
+    var b = Pb(d, Ib, Kb, Mb);
+    this.$h == p && this.controls[b] != p && (!c || this.controls[b].Yo) && this.controls[b].execute(a)
   }
-  game.controls.modifierKeyStates.CTRL_LAST = game.controls.modifierKeyStates.CTRL;
-  game.controls.modifierKeyStates.ALT_LAST = game.controls.modifierKeyStates.ALT;
-  game.controls.modifierKeyStates.SHIFT_LAST = game.controls.modifierKeyStates.SHIFT
-};
-game.controls.getKeyState = function(a) {
-  var d = a.KeyCode, d = goog.userAgent.GECKO && a.keyCode in goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_ ? goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_[a.keyCode] : a.keyCode;
-  return{keyCode:d, ctrlKey:a.ctrlKey, altKey:a.altKey, shiftKey:a.shiftKey}
-};
-game.controls.blur = function() {
-  game.controls.keyStates = {};
-  game.controls.modifierKeyStates.CTRL = !1;
-  game.controls.modifierKeyStates.CTRL_LAST = !1;
-  game.controls.modifierKeyStates.ALT = !1;
-  game.controls.modifierKeyStates.ALT_LAST = !1;
-  game.controls.modifierKeyStates.SHIFT = !1;
-  game.controls.modifierKeyStates.SHIFT_LAST = !1
-};
-game.controls.keyDown = function(a) {
-  a = game.controls.getKeyState(a);
-  game.controls.getKeyEventKey(a.keyCode, a.ctrlKey, a.altKey, a.shiftKey);
-  a.keyCode != goog.events.KeyCodes.SHIFT && a.keyCode != goog.events.KeyCodes.CTRL && a.keyCode != goog.events.KeyCodes.ALT && game.controls.keyStates[a.keyCode] == null && (game.controls.keyStates[a.keyCode] = {wasActive:!1});
-  game.controls.modifierKeyStates.CTRL = a.ctrlKey;
-  game.controls.modifierKeyStates.ALT = a.altKey;
-  game.controls.modifierKeyStates.SHIFT = a.shiftKey
-};
-game.controls.keyUp = function(a) {
-  a = game.controls.getKeyState(a);
-  game.controls.getKeyEventKey(a.keyCode, a.ctrlKey, a.altKey, a.shiftKey);
-  delete game.controls.keyStates[a.keyCode];
-  game.controls.modifierKeyStates.CTRL = a.ctrlKey;
-  game.controls.modifierKeyStates.ALT = a.altKey;
-  game.controls.modifierKeyStates.SHIFT = a.shiftKey
-};
-game.controls.getKeyEventKey = function(a, d, b, f) {
-  var e = goog.events.KeyNames[a];
-  e == null && (e = "KEY[" + a + "]");
-  return(d ? "Ctrl + " : "") + (b ? "Alt + " : "") + (f ? "Shift + " : "") + e.toUpperCase()
-};
-game.controls.prototype = {handleKeyEvents:function(a) {
-  var d = 0, b = game.controls.modifierKeyStates.CTRL == game.controls.modifierKeyStates.CTRL_LAST && game.controls.modifierKeyStates.ALT == game.controls.modifierKeyStates.ALT_LAST && game.controls.modifierKeyStates.SHIFT == game.controls.modifierKeyStates.SHIFT_LAST, f;
-  for(f in game.controls.keyStates) {
-    var e = b && game.controls.keyStates[f].wasActive;
-    d++;
-    var g = game.controls.getKeyEventKey(f, game.controls.modifierKeyStates.CTRL, game.controls.modifierKeyStates.ALT, game.controls.modifierKeyStates.SHIFT);
-    this.actionToRegister == null && this.controls[g] != null && (!e || this.controls[g].executeOnRepeat) && this.controls[g].execute(a)
-  }
-  if(d == 1 && this.actionToRegister != null) {
-    this.registeringActionTimeout != null && clearTimeout(this.registeringActionTimeout);
+  if(g == 1 && this.$h != p) {
+    this.Ii != p && clearTimeout(this.Ii);
     var h = this;
-    this.registeringActionTimeout = setTimeout(function() {
-      h.registerAction(h.actionToRegister, g);
-      h.actionToRegister = null;
-      game.controls.actionPendingFor = null;
-      h.registeringActionTimeout = null
+    this.Ii = setTimeout(function() {
+      h.Ih(h.$h, b);
+      h.$h = p;
+      h.Ii = p
     }, 100)
   }
-}, getKeyForAction:function(a) {
-  return this.reverseControls[a]
-}, registerAction:function(a, d, b, f, e) {
-  var g = d;
-  typeof d == "number" && (g = game.controls.getKeyEventKey(d, b, f, e));
-  d = [];
-  b = this.controls[g];
-  f = this.reverseControls[a.name];
-  if(b != null) {
-    if(f != null) {
-      this.controls[f] = b, this.reverseControls[b.name] = f, d.push(new game.controls.exportedAction(f, b))
+}, Ih:function(a, g, e, d, c) {
+  var b = g;
+  typeof g == "number" && (b = Pb(g, e, d, c));
+  g = [];
+  e = this.controls[b];
+  d = this.Dk[a.name];
+  if(e != p) {
+    if(d != p) {
+      this.controls[d] = e, this.Dk[e.name] = d, g.push(new Qb(d, e))
     }else {
       throw"The specified key is already in use for a different function.";
     }
   }else {
-    f != null && delete this.controls[f]
+    d != p && delete this.controls[d]
   }
-  this.controls[g] = a;
-  this.reverseControls[a.name] = g;
-  d.push(new game.controls.exportedAction(g, a));
-  this.notifyControlChangeListeners(d)
-}, registerActionFromInput:function(a) {
-  game.controls.actionPendingFor != null && game.controls.actionPendingFor.notifyControlChangeListeners(null);
-  game.controls.actionPendingFor = this;
-  this.actionToRegister = a
-}, unregisterAction:function(a) {
-  var d = this.reverseControls[a.name];
-  d != null && (delete this.controls[d], delete this.reverseControls[a.name], this.notifyControlChangeListeners([new game.controls.exportedAction(null, a)]))
-}, getActionList:function() {
-  var a = [], d;
-  for(d in this.controls) {
-    a.push(new game.controls.exportedAction(d, this.controls[d]))
+  this.controls[b] = a;
+  this.Dk[a.name] = b;
+  g.push(new Qb(b, a));
+  this.bq(g)
+}, bp:function() {
+  var a = [], g;
+  for(g in this.controls) {
+    a.push(new Qb(g, this.controls[g]))
   }
   return a
-}, registerControlChangeListener:function(a, d, b) {
-  this.controlChangeListeners.push({listener:a, fn:d});
-  b && d.apply(a, null, this.getActionList())
-}, notifyControlChangeListeners:function(a) {
-  for(var d = 0;d < this.controlChangeListeners.length;d++) {
-    var b = this.controlChangeListeners[d];
-    b.fn.apply(b.listener, a || [], this.getActionList())
+}, bq:function(a) {
+  for(var g = 0;g < this.Nl.length;g++) {
+    var e = this.Nl[g];
+    e.Zq.apply(e.sh, a || [], this.bp())
   }
 }};
-goog.events.listen(document, goog.events.EventType.KEYDOWN, game.controls.keyDown);
-goog.events.listen(document, goog.events.EventType.KEYUP, game.controls.keyUp);
-goog.events.listen(document, goog.events.EventType.BLUR, game.controls.blur);
-game.controls.exportedAction = function(a, d) {
+Ab(document, "keydown", function(a) {
+  a = Ob(a);
+  a.keyCode != 16 && a.keyCode != 17 && a.keyCode != 18 && Hb[a.keyCode] == p && (Hb[a.keyCode] = {qq:!1});
+  Ib = a.ctrlKey;
+  Kb = a.altKey;
+  Mb = a.shiftKey
+});
+Ab(document, "keyup", function(a) {
+  a = Ob(a);
+  delete Hb[a.keyCode];
+  Ib = a.ctrlKey;
+  Kb = a.altKey;
+  Mb = a.shiftKey
+});
+Ab(document, "blur", function() {
+  Hb = {};
+  Nb = Mb = Lb = Kb = Jb = Ib = !1
+});
+function Qb(a, g) {
   this.key = this.key = a;
-  this.action = this.action = d
-};
-game.controls.action = function(a, d, b) {
+  this.action = this.action = g
+}
+;function Rb(a, g) {
   this.execute = a;
-  this.name = this.name = d;
-  this.executeOnRepeat = b
-};
-game = game || {};
-game.platformer = game.platformer || {};
+  this.name = this.name = g;
+  this.Yo = !0
+}
+;U.l = {};
 (function(a) {
-  a.DEFAULT_GRAVITY = new Box2D.Common.Math.b2Vec2(0, 9.8);
-  a.DEFAULTS = {GRAVITY:new Box2D.Common.Math.b2Vec2(0, 9.8), JUMP_IMPULSE_MODIFIER:2.25, PLAYER_SPEED:5, PLAYER_ACCELERATION:1};
-  a.RULE_TYPES = {DIRECTIONAL_SIDING:1, JUMPER:2, MOVER:4, BREAKABLE:8};
-  a.SIDES = {TOP:1, LEFT:2, BOTTOM:4, RIGHT:8};
-  a.init = function() {
-    game.world.addCollisionFilter(a)
-  };
-  a.initializeDirectionalSiding = function(b, e) {
-    b.platformerRules = b.platformerRules || {};
-    b.platformerRules.type |= a.RULE_TYPES.DIRECTIONAL_SIDING;
-    b.platformerRules.directionalSiding = {noTop:e & a.SIDES.TOP, noBottom:e & a.SIDES.BOTTOM, noLeft:e & a.SIDES.LEFT, noRight:e & a.SIDES.RIGHT}
-  };
-  a.initializeJumper = function(b, e) {
-    b.platformerRules = b.platformerRules || {};
-    b.platformerRules.type |= a.RULE_TYPES.JUMPER;
-    b.platformerRules.jumper = {grounds:[], speed:e, jump:function() {
-      var e = b.platformerRules.jumper.grounds;
-      if(e.length > 0) {
-        var d = b.body.GetMass() * b.platformerRules.jumper.speed * a.DEFAULTS.JUMP_IMPULSE_MODIFIER, j = b.body.GetWorldCenter(), l = b.body.GetLinearVelocity();
-        l.y = 0;
-        b.body.SetLinearVelocity(l);
-        b.body.ApplyImpulse(new Box2D.Common.Math.b2Vec2(0, -d), j);
-        for(l = 0;l < e.length;l++) {
-          e[l].body.ApplyImpulse(new Box2D.Common.Math.b2Vec2(0, d / e.length), j)
+  function g(d, c, b) {
+    if(c.Q.type & a.Ke.dj) {
+      var e = new P.i.gd;
+      d.bj(e);
+      e = e.W;
+      if(e.y > 0) {
+        for(var e = !1, g = 0;g < c.Q.Zb.Uc.length;g++) {
+          if(c.Q.Zb.Uc[g].body == b) {
+            c.Q.Zb.Uc[g].count++;
+            e = !0;
+            break
+          }
         }
+        e || c.Q.Zb.Uc.push({body:b, count:1});
+        d.uf = d.uf || [];
+        d.uf.push({Zb:c, ep:b})
       }
-    }}
-  };
-  a.initializeMover = function(b, e, d) {
-    b.platformerRules = b.platformerRules || {};
-    b.platformerRules.type |= a.RULE_TYPES.JUMPER;
-    b.platformerRules.mover = {acceleration:d, speed:e, moveRight:function() {
-      var a = b.body.GetLinearVelocity(), a = Math.min(a.x + b.platformerRules.mover.acceleration, b.platformerRules.mover.speed) - a.x;
-      a > 0 && (a *= b.body.GetMass(), b.body.ApplyImpulse(new Box2D.Common.Math.b2Vec2(a, 0), b.body.GetWorldCenter()))
-    }, moveLeft:function() {
-      var a = b.body.GetLinearVelocity(), a = Math.max(a.x - b.platformerRules.mover.acceleration, -b.platformerRules.mover.speed) - a.x;
-      a < 0 && (a *= b.body.GetMass(), b.body.ApplyImpulse(new Box2D.Common.Math.b2Vec2(a, 0), b.body.GetWorldCenter()))
-    }}
-  };
-  a.initializeBreakable = function(b, e) {
-    b.platformerRules = b.platformerRules || {};
-    b.platformerRules.type |= a.RULE_TYPES.BREAKABLE;
-    b.platformerRules.breakable = {top:e & a.SIDES.TOP, bottom:e & a.SIDES.BOTTOM, left:e & a.SIDES.LEFT, right:e & a.SIDES.RIGHT}
-  };
-  a.createPlayer = function(b, e) {
-    var d = game.world.createBox(b, e, !0, {fixedRotation:!0}, {restitution:0});
-    d.platformerRules = {};
-    a.initializeJumper(d, a.DEFAULTS.PLAYER_SPEED);
-    a.initializeMover(d, a.DEFAULTS.PLAYER_SPEED, a.DEFAULTS.PLAYER_ACCELERATION);
-    var h = new Box2D.Collision.Shapes.b2PolygonShape;
-    h.SetAsOrientedBox(0.01, b.y / 2, new Box2D.Common.Math.b2Vec2(-b.x / 2, 0));
-    d.leftEdge = game.world.addFixture(d.body, {friction:0}, h);
-    h.SetAsOrientedBox(0.01, b.y / 2, new Box2D.Common.Math.b2Vec2(b.x / 2, 0));
-    d.rightEdge = game.world.addFixture(d.body, {friction:0}, h);
-    d.actions = {};
-    d.actions.moveUp = new game.controls.action(function() {
-      d.platformerRules.jumper.jump()
-    }, "Move Up", !0);
-    d.actions.moveDown = new game.controls.action(function() {
-    }, "Move Down", !0);
-    d.actions.moveLeft = new game.controls.action(function() {
-      d.platformerRules.mover.moveLeft()
-    }, "Move Left", !0);
-    d.actions.moveRight = new game.controls.action(function() {
-      d.platformerRules.mover.moveRight()
-    }, "Move Right", !0);
-    return d
-  };
-  a.RayCollide = null;
-  a.ShouldCollide = null;
-  a.ValidateBeginContact = function(a) {
-    var b = a.GetFixtureA(), g = b.GetBody(), h = g.object, j = a.GetFixtureB(), l = j.GetBody(), k = l.object;
-    !a.disabled && h.platformerRules && d(a, h, g, b, k, l, j);
-    !a.disabled && k.platformerRules && d(a, k, l, j, h, g, b)
-  };
-  var d = function(b, e) {
-    if(e.platformerRules.type & a.RULE_TYPES.DIRECTIONAL_SIDING) {
-      b.disabled = !0;
-      var d = new Box2D.Collision.b2WorldManifold;
-      b.GetWorldManifold(d);
-      d = d.m_normal;
-      if(!e.platformerRules.directionalSiding.noTop && d.y > 0) {
-        b.disabled = !1
+    }
+    if(c.Q.type & a.Ke.Tk) {
+      e = new P.i.gd, d.bj(e), e = e.W, e.y > 0 && c.Q.li.top ? U.G.oi(c) : e.y < 0 && c.Q.li.bottom ? U.G.oi(c) : e.x > 0 && c.Q.li.left ? U.G.oi(c) : e.x < 0 && c.Q.li.right && U.G.oi(c)
+    }
+  }
+  function e(d, c) {
+    if(c.Q.type & a.Ke.Xk) {
+      d.disabled = !0;
+      var b = new P.i.gd;
+      d.bj(b);
+      b = b.W;
+      if(!c.Q.qi.$p && b.y > 0) {
+        d.disabled = !1
       }else {
-        if(!e.platformerRules.directionalSiding.noBottom && d.y < 0) {
-          b.disabled = !1
+        if(!c.Q.qi.Xp && b.y < 0) {
+          d.disabled = !1
         }else {
-          if(!e.platformerRules.directionalSiding.noRight && d.x > 0) {
-            b.disabled = !1
+          if(!c.Q.qi.Zp && b.x > 0) {
+            d.disabled = !1
           }else {
-            if(!e.platformerRules.directionalSiding.noLeft && d.x < 0) {
-              b.disabled = !1
+            if(!c.Q.qi.Yp && b.x < 0) {
+              d.disabled = !1
             }
           }
         }
       }
     }
+  }
+  a.Aq = new P.a.f.g(0, 9.8);
+  a.zg = {sn:new P.a.f.g(0, 9.8), yn:2.25, ml:5, En:1};
+  a.Ke = {Xk:1, dj:2, Eq:4, Tk:8};
+  a.Pc = {ul:1, ej:2, Mh:4, kj:8};
+  a.Vc = function() {
+    U.G.jo(a)
   };
-  a.BeginContact = function(a) {
+  a.gm = function(d, c) {
+    d.Q = d.Q || {};
+    d.Q.type |= a.Ke.Xk;
+    d.Q.qi = {$p:c & a.Pc.ul, Xp:c & a.Pc.Mh, Yp:c & a.Pc.ej, Zp:c & a.Pc.kj}
+  };
+  a.lp = function(d, c) {
+    d.Q = d.Q || {};
+    d.Q.type |= a.Ke.dj;
+    d.Q.Zb = {Uc:[], Ni:c, op:function() {
+      var c = d.Q.Zb.Uc;
+      if(c.length > 0) {
+        var e = d.body.A * d.Q.Zb.Ni * a.zg.yn, g = d.body.e.k, j = d.body.m;
+        j.y = 0;
+        d.body.pj(j);
+        d.body.Lh(new P.a.f.g(0, -e), g);
+        for(j = 0;j < c.length;j++) {
+          c[j].body.Lh(new P.a.f.g(0, e / c.length), g)
+        }
+      }
+    }}
+  };
+  a.mp = function(d, c, b) {
+    d.Q = d.Q || {};
+    d.Q.type |= a.Ke.dj;
+    d.Q.jg = {xl:b, Ni:c, yk:function() {
+      var a = d.body.m, a = Math.min(a.x + d.Q.jg.xl, d.Q.jg.Ni) - a.x;
+      a > 0 && d.body.Lh(new P.a.f.g(d.body.A * a, 0), d.body.e.k)
+    }, xk:function() {
+      var a = d.body.m, a = Math.max(a.x - d.Q.jg.xl, -d.Q.jg.Ni) - a.x;
+      a < 0 && d.body.Lh(new P.a.f.g(d.body.A * a, 0), d.body.e.k)
+    }}
+  };
+  a.kp = function(d, c) {
+    d.Q = d.Q || {};
+    d.Q.type |= a.Ke.Tk;
+    d.Q.li = {top:c & a.Pc.ul, bottom:c & a.Pc.Mh, left:c & a.Pc.ej, right:c & a.Pc.kj}
+  };
+  a.Rj = function(d, c) {
+    var b = U.G.mi(d, c, !0, {Zf:!0}, {ae:0});
+    b.Q = {};
+    a.lp(b, a.zg.ml);
+    a.mp(b, a.zg.ml, a.zg.En);
+    var e = new P.i.H.ec;
+    e.nj(0.01, d.y / 2, new P.a.f.g(-d.x / 2, 0));
+    b.br = U.G.wj(b.body, {Hc:0}, e);
+    e.nj(0.01, d.y / 2, new P.a.f.g(d.x / 2, 0));
+    b.pr = U.G.wj(b.body, {Hc:0}, e);
+    b.le = {};
+    b.le.Wp = new Rb(function() {
+      b.Q.Zb.op()
+    }, "Move Up");
+    b.le.Vp = new Rb(q(), "Move Down");
+    b.le.xk = new Rb(function() {
+      b.Q.jg.xk()
+    }, "Move Left");
+    b.le.yk = new Rb(function() {
+      b.Q.jg.yk()
+    }, "Move Right");
+    return b
+  };
+  a.Ig = p;
+  a.fd = p;
+  a.wl = function(a) {
+    var c = a.fa.M.object, b = a.ha.M.object;
+    !a.disabled && c.Q && e(a, c);
+    !a.disabled && b.Q && e(a, b)
+  };
+  a.vg = function(a) {
     if(!a.disabled) {
-      var e = a.GetFixtureA(), d = e.GetBody(), h = d.object, j = a.GetFixtureB(), l = j.GetBody(), k = l.object;
-      h.platformerRules && b(a, h, d, e, k, l, j);
-      k.platformerRules && b(a, k, l, j, h, d, e)
+      var c = a.fa.M, b = c.object, e = a.ha.M, i = e.object;
+      b.Q && g(a, b, e);
+      i.Q && g(a, i, c)
     }
   };
-  var b = function(b, e, d, h, j, l) {
-    if(e.platformerRules.type & a.RULE_TYPES.JUMPER && (d = new Box2D.Collision.b2WorldManifold, b.GetWorldManifold(d), d = d.m_normal, d.y > 0)) {
-      d = !1;
-      for(h = 0;h < e.platformerRules.jumper.grounds.length;h++) {
-        if(e.platformerRules.jumper.grounds[h].body == l) {
-          e.platformerRules.jumper.grounds[h].count++;
-          d = !0;
-          break
+  a.Gf = function(a) {
+    if(a.uf) {
+      for(var c = 0;c < a.uf.length;c++) {
+        for(var b = a.uf[c].Zb, e = a.uf[c].ep, g = [], j = 0;j < b.Q.Zb.Uc.length;j++) {
+          b.Q.Zb.Uc[j].body == e ? (b.Q.Zb.Uc[j].count--, b.Q.Zb.Uc[j].count > 0 && g.push(b.Q.Zb.Uc[j])) : g.push(b.Q.Zb.Uc[j])
         }
+        b.Q.Zb.Uc = g
       }
-      d || e.platformerRules.jumper.grounds.push({body:l, count:1});
-      b.platformerGrounds = b.platformerGrounds || [];
-      b.platformerGrounds.push({jumper:e, ground:l})
-    }
-    if(e.platformerRules.type & a.RULE_TYPES.BREAKABLE) {
-      d = new Box2D.Collision.b2WorldManifold, b.GetWorldManifold(d), d = d.m_normal, d.y > 0 && e.platformerRules.breakable.top ? game.world.destroyObject(e) : d.y < 0 && e.platformerRules.breakable.bottom ? game.world.destroyObject(e) : d.x > 0 && e.platformerRules.breakable.left ? game.world.destroyObject(e) : d.x < 0 && e.platformerRules.breakable.right && game.world.destroyObject(e)
+      a.uf = p
     }
   };
-  a.EndContact = function(a) {
-    if(a.platformerGrounds) {
-      for(var b = 0;b < a.platformerGrounds.length;b++) {
-        for(var d = a.platformerGrounds[b].jumper, h = a.platformerGrounds[b].ground, j = [], l = 0;l < d.platformerRules.jumper.grounds.length;l++) {
-          d.platformerRules.jumper.grounds[l].body == h ? (d.platformerRules.jumper.grounds[l].count--, d.platformerRules.jumper.grounds[l].count > 0 && j.push(d.platformerRules.jumper.grounds[l])) : j.push(d.platformerRules.jumper.grounds[l])
-        }
-        d.platformerRules.jumper.grounds = j
-      }
-      a.platformerGrounds = null
-    }
+  a.Hg = p;
+  a.Gg = p;
+  a.q = function(a, c) {
+    U.G.Rc(a, c, !0)
   };
-  a.PreSolve = null;
-  a.PostSolve = null;
-  a.createBlock = function(a, b) {
-    return game.world.createStaticBox(a, b, !0)
-  };
-  a.createPlatform = function(b, e, d) {
-    b = game.world.createStaticBox(b, e, !0, {angle:Math.PI * Math.random() * 0}, null);
-    if(d === void 0 || d === null) {
-      d = a.SIDES.BOTTOM | a.SIDES.LEFT | a.SIDES.RIGHT
+  a.Fc = function(d, c) {
+    var b, e = U.G.Rc(d, c, !0, {rc:Math.PI * Math.random() * 0}, p);
+    if(b === f || b === p) {
+      b = a.Pc.Mh | a.Pc.ej | a.Pc.kj
     }
-    a.initializeDirectionalSiding(b, d);
-    return b
+    a.gm(e, b)
   };
-  a.createBreakableBlock = function(b, e, d) {
-    b = game.world.createStaticBox(b, e, !0, {angle:Math.PI * Math.random() * 0}, null);
-    if(d === void 0 || d === null) {
-      d = a.SIDES.BOTTOM
+  a.jd = function(d, c) {
+    var b, e = U.G.Rc(d, c, !0, {rc:Math.PI * Math.random() * 0}, p);
+    if(b === f || b === p) {
+      b = a.Pc.Mh
     }
-    a.initializeBreakable(b, d);
-    return b
+    a.kp(e, b)
   }
-})(game.platformer);
-var test = {}, player, ramp;
+})(U.l);
+var Sb = {}, W;
 (function(a) {
-  var d = new Box2D.Common.Math.b2Vec2(200, 80), b = new Box2D.Common.Math.b2Vec2(600, 400), f;
-  a.init = function(e, g) {
-    game.init(a, e, d, game.platformer.DEFAULTS.GRAVITY, b, 20, g);
-    game.platformer.init();
-    var f = new Box2D.Common.Math.b2Vec2(13, d.y - 45);
-    a.createWorld();
-    a.createBallPit(new Box2D.Common.Math.b2Vec2(30, 5), new Box2D.Common.Math.b2Vec2(20, d.y - 25));
-    a.createSpinners();
-    a.createDebugObjects();
-    a.createPlayer(f);
-    a.createMario(new Box2D.Common.Math.b2Vec2(13, d.y - 40));
-    game.start()
+  var g = new P.a.f.g(200, 80), e = new P.a.f.g(600, 400), d;
+  a.Vc = function(c, b) {
+    U.Vc(a, c, g, U.l.zg.sn, e, 20, b);
+    U.l.Vc();
+    var d = new P.a.f.g(13, g.y - 45);
+    a.Oo();
+    a.No();
+    a.Lo();
+    a.Rj(d);
+    a.Mo(new P.a.f.g(13, g.y - 40));
+    U.start()
   };
-  a.createPlayer = function(a) {
-    var b = new Box2D.Common.Math.b2Vec2(0, 0), d = new Box2D.Common.Math.b2Vec2(21, 47), j = new Box2D.Common.Math.b2Vec2(d.x / 20, d.y / 20);
-    player = game.platformer.createPlayer(j, a);
-    game.animations.setAsFourDirectionalAnimation(player.body, j, "../external-resources/graphics/urbansquall_tileset/characters/princess_AP.png", b, d, 4, 4);
-    f = new game.controls("main");
-    f.registerAction(player.actions.moveUp, goog.events.KeyCodes.W, !1, !1, !1);
-    f.registerAction(player.actions.moveLeft, goog.events.KeyCodes.A, !1, !1, !1);
-    f.registerAction(player.actions.moveDown, goog.events.KeyCodes.S, !1, !1, !1);
-    f.registerAction(player.actions.moveRight, goog.events.KeyCodes.D, !1, !1, !1)
+  a.Rj = function(a) {
+    var b = new P.a.f.g(0, 0), e = new P.a.f.g(21, 47), g = new P.a.f.g(e.x / 20, e.y / 20);
+    W = U.l.Rj(g, a);
+    U.yl.iq(g, b, e);
+    d = new Fb("main");
+    d.Ih(W.le.Wp, 87, !1, !1, !1);
+    d.Ih(W.le.xk, 65, !1, !1, !1);
+    d.Ih(W.le.Vp, 83, !1, !1, !1);
+    d.Ih(W.le.yk, 68, !1, !1, !1)
   };
-  a.createWorld = function() {
-    var a = new Box2D.Common.Math.b2Vec2(3, 0.25);
-    ramp = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(5, 0.25), new Box2D.Common.Math.b2Vec2(16, d.y - 1.5), !0, {angle:Math.PI / 3}, null);
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(12, d.y - 2.5));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(10, d.y - 5));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(8, d.y - 7.5));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(6, d.y - 10));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(4, d.y - 12.5));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(2, d.y - 15));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(8, d.y - 17.5));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(10, d.y - 20));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(12, d.y - 22.5));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(10, d.y - 27.5));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(10, d.y - 31));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(10, d.y - 34.5));
-    game.platformer.createPlatform(a, new Box2D.Common.Math.b2Vec2(10, d.y - 38));
-    game.platformer.createBlock(new Box2D.Common.Math.b2Vec2(d.x - 14, 0.5), new Box2D.Common.Math.b2Vec2(d.x / 2 + 7, d.y - 25))
+  a.Oo = function() {
+    var c = new P.a.f.g(3, 0.25);
+    U.G.Rc(new P.a.f.g(5, 0.25), new P.a.f.g(16, g.y - 1.5), !0, {rc:Math.PI / 3}, p);
+    U.l.Fc(c, new P.a.f.g(12, g.y - 2.5));
+    U.l.Fc(c, new P.a.f.g(10, g.y - 5));
+    U.l.Fc(c, new P.a.f.g(8, g.y - 7.5));
+    U.l.Fc(c, new P.a.f.g(6, g.y - 10));
+    U.l.Fc(c, new P.a.f.g(4, g.y - 12.5));
+    U.l.Fc(c, new P.a.f.g(2, g.y - 15));
+    U.l.Fc(c, new P.a.f.g(8, g.y - 17.5));
+    U.l.Fc(c, new P.a.f.g(10, g.y - 20));
+    U.l.Fc(c, new P.a.f.g(12, g.y - 22.5));
+    U.l.Fc(c, new P.a.f.g(10, g.y - 27.5));
+    U.l.Fc(c, new P.a.f.g(10, g.y - 31));
+    U.l.Fc(c, new P.a.f.g(10, g.y - 34.5));
+    U.l.Fc(c, new P.a.f.g(10, g.y - 38));
+    U.l.q(new P.a.f.g(g.x - 14, 0.5), new P.a.f.g(g.x / 2 + 7, g.y - 25));
+    a.Ko(new P.a.f.g(30, 5), new P.a.f.g(20, g.y - 25))
   };
-  a.createBallPit = function(a, b) {
-    game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, Math.sqrt(a.y * a.y * 2)), new Box2D.Common.Math.b2Vec2(b.x + a.y / 2, b.y - a.y / 2), !0, {angle:Math.PI / 4}, null);
-    game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, a.y), new Box2D.Common.Math.b2Vec2(b.x + a.y, b.y - a.y / 2), !0, null, null);
-    game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, a.y), new Box2D.Common.Math.b2Vec2(b.x + a.x, b.y - a.y / 2), !0, null, null);
-    for(var d = new Box2D.Collision.Shapes.b2CircleShape(0.15), f = a.y + 1;f < a.x;f += 0.3) {
-      for(var l = 0;l < a.y;l += 1) {
-        var k = game.world.createObject(new Box2D.Common.Math.b2Vec2(0.3, 0.3), new Box2D.Common.Math.b2Vec2(b.x + f + (Math.random() - 0.5) / 2, b.y - a.y), !0, null, {density:0.1, restitution:0, friction:0.1}, d), o = Math.random();
-        o <= 0.25 ? game.ui.setImage(k.body, "graphics/ball-red.png") : o <= 0.5 ? game.ui.setImage(k.body, "graphics/ball-green.png") : o <= 0.75 ? game.ui.setImage(k.body, "graphics/ball-yellow.png") : game.ui.setImage(k.body, "graphics/ball-blue.png")
+  a.Ko = function(a, b) {
+    U.G.Rc(new P.a.f.g(0.25, Math.sqrt(a.y * a.y * 2)), new P.a.f.g(b.x + a.y / 2, b.y - a.y / 2), !0, {rc:Math.PI / 4}, p);
+    U.G.Rc(new P.a.f.g(0.25, a.y), new P.a.f.g(b.x + a.y, b.y - a.y / 2), !0, p, p);
+    U.G.Rc(new P.a.f.g(0.25, a.y), new P.a.f.g(b.x + a.x, b.y - a.y / 2), !0, p, p);
+    for(var d = new P.i.H.Cc(0.15), e = a.y + 1;e < a.x;e += 0.3) {
+      for(var g = 0;g < a.y;g += 1) {
+        var k = U.G.nh(new P.a.f.g(0.3, 0.3), new P.a.f.g(b.x + e + (Math.random() - 0.5) / 2, b.y - a.y), !0, p, {bf:0.1, ae:0, Hc:0.1}, d), m = Math.random();
+        m <= 0.25 ? U.Z.td(k.body, "graphics/ball-red.png") : m <= 0.5 ? U.Z.td(k.body, "graphics/ball-green.png") : m <= 0.75 ? U.Z.td(k.body, "graphics/ball-yellow.png") : U.Z.td(k.body, "graphics/ball-blue.png")
       }
     }
   };
-  a.createSpinners = function() {
-    for(var a = new Box2D.Dynamics.Joints.b2RevoluteJointDef, b = new Box2D.Dynamics.Joints.b2WeldJointDef, f = !1, j = 20;j <= d.x - 10;j += 8) {
-      game.world.getBox2DBodyDefinition().angle = j / d.x * Math.PI;
-      var l = d.y - 14;
-      f && (l += 8);
-      var f = !f, k = game.world.createStaticBox(new Box2D.Common.Math.b2Vec2(0.1, 0.1), new Box2D.Common.Math.b2Vec2(j, l));
-      k.body.display = null;
-      var o = game.world.createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(j, l));
-      game.ui.setImage(o.body, "graphics/spinner.png");
-      game.platformer.initializeDirectionalSiding(o, !1, !0, !1, !1);
-      l = game.world.createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(j, l));
-      l.body.SetAngle(game.world.getBox2DBodyDefinition().angle + Math.PI / 2);
-      game.ui.setImage(l.body, "graphics/spinner.png");
-      a.Initialize(k.body, o.body, k.body.GetWorldCenter());
-      game.world.getBox2DWorld().CreateJoint(a);
-      a.Initialize(k.body, l.body, k.body.GetWorldCenter());
-      game.world.getBox2DWorld().CreateJoint(a);
-      b.Initialize(o.body, l.body, o.body.GetWorldCenter());
-      game.world.getBox2DWorld().CreateJoint(b)
+  a.No = function() {
+    for(var a = new P.c.o.Qf, b = new P.c.o.Tf, d = !1, e = 20;e <= g.x - 10;e += 8) {
+      U.G.xb().rc = e / g.x * Math.PI;
+      var j = g.y - 14;
+      d && (j += 8);
+      var d = !d, k = U.G.Rc(new P.a.f.g(0.1, 0.1), new P.a.f.g(e, j));
+      k.body.display = p;
+      var m = U.G.mi(new P.a.f.g(10, 1), new P.a.f.g(e, j));
+      U.Z.td(m.body, "graphics/spinner.png");
+      U.l.gm(m, !1);
+      j = U.G.mi(new P.a.f.g(10, 1), new P.a.f.g(e, j));
+      j.body.Ln();
+      U.Z.td(j.body, "graphics/spinner.png");
+      a.$a(k.body, m.body, k.body.e.k);
+      U.G.Qd().Ui(a);
+      a.$a(k.body, j.body, k.body.e.k);
+      U.G.Qd().Ui(a);
+      b.$a(m.body, j.body, m.body.e.k);
+      U.G.Qd().Ui(b)
     }
   };
-  a.createDebugObjects = function() {
-    game.world.getBox2DBodyDefinition().type = Box2D.Dynamics.b2Body.b2_dynamicBody;
-    game.world.getBox2DBodyDefinition().fixedRotation = !1;
-    game.world.getBox2DFixtureDefinition().restitution = 2.5;
-    game.world.getBox2DFixtureDefinition().shape = new Box2D.Collision.Shapes.b2CircleShape(0.25);
+  a.Lo = function() {
+    U.G.xb().type = P.c.sa.Eb;
+    U.G.xb().Zf = !1;
+    U.G.Tc().ae = 2.5;
+    U.G.Tc().shape = new P.i.H.Cc(0.25);
     for(var a = 0;a < 0;a++) {
-      var b = a * 5 % (d.x - 10);
-      game.world.getBox2DBodyDefinition().position.y = 15 + a % 20;
-      game.world.getBox2DBodyDefinition().position.x = b + a % 20 / 20 + 4.5;
-      b = game.world.getBox2DWorld().CreateBody(game.world.getBox2DBodyDefinition());
+      var b = a * 5 % (g.x - 10);
+      U.G.xb().position.y = 15 + a % 20;
+      U.G.xb().position.x = b + a % 20 / 20 + 4.5;
+      b = U.G.Qd().Ef(U.G.xb());
       b.display = {};
-      b.display.size = new Box2D.Common.Math.b2Vec2(0.5, 0.5);
-      b.CreateFixture(game.world.getBox2DFixtureDefinition())
+      b.display.size = new P.a.f.g(0.5, 0.5);
+      b.xg(U.G.Tc())
     }
-    game.world.getBox2DFixtureDefinition().shape = new Box2D.Collision.Shapes.b2PolygonShape;
-    game.world.getBox2DFixtureDefinition().shape.SetAsBox(0.25, 0.25);
+    U.G.Tc().shape = new P.i.H.ec;
+    U.G.Tc().shape.mj(0.25, 0.25);
     for(a = 0;a < 0;a++) {
-      b = a * 5 % (d.x - 10), game.world.getBox2DBodyDefinition().position.y = 15 + (a + 5) % 20, game.world.getBox2DBodyDefinition().position.x = b + (a + 5) % 20 / 20 + 4.5, game.world.getBox2DBodyDefinition().angle = a % 17 / 17, b = game.world.getBox2DWorld().CreateBody(game.world.getBox2DBodyDefinition()), b.display = {}, b.display.size = new Box2D.Common.Math.b2Vec2(0.5, 0.5), b.CreateFixture(game.world.getBox2DFixtureDefinition())
+      b = a * 5 % (g.x - 10), U.G.xb().position.y = 15 + (a + 5) % 20, U.G.xb().position.x = b + (a + 5) % 20 / 20 + 4.5, U.G.xb().rc = a % 17 / 17, b = U.G.Qd().Ef(U.G.xb()), b.display = {}, b.display.size = new P.a.f.g(0.5, 0.5), b.xg(U.G.Tc())
     }
-    game.world.getBox2DFixtureDefinition().shape = new Box2D.Collision.Shapes.b2PolygonShape;
-    game.world.getBox2DFixtureDefinition().shape.SetAsArray([new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0.5, -0.5), new Box2D.Common.Math.b2Vec2(-0.5, 0.5)], 3);
+    U.G.Tc().shape = new P.i.H.ec;
+    U.G.Tc().shape.lj([new P.a.f.g(-0.5, -0.5), new P.a.f.g(0.5, -0.5), new P.a.f.g(-0.5, 0.5)], 3);
     for(a = 0;a < 0;a++) {
-      b = a * 5 % (d.x - 10), game.world.getBox2DBodyDefinition().position.y = 15 + (a + 10) % 20, game.world.getBox2DBodyDefinition().position.x = b + (a + 10) % 20 / 20 + 4.5, game.world.getBox2DBodyDefinition().angle = a % 22 / 22, b = game.world.getBox2DWorld().CreateBody(game.world.getBox2DBodyDefinition()), b.display = {}, b.display.size = new Box2D.Common.Math.b2Vec2(0.75, 0.75), b.CreateFixture(game.world.getBox2DFixtureDefinition())
+      b = a * 5 % (g.x - 10), U.G.xb().position.y = 15 + (a + 10) % 20, U.G.xb().position.x = b + (a + 10) % 20 / 20 + 4.5, U.G.xb().rc = a % 22 / 22, b = U.G.Qd().Ef(U.G.xb()), b.display = {}, b.display.size = new P.a.f.g(0.75, 0.75), b.xg(U.G.Tc())
     }
-    game.world.getBox2DFixtureDefinition().shape = new Box2D.Collision.Shapes.b2PolygonShape;
-    game.world.getBox2DFixtureDefinition().shape.SetAsArray([new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0, -0.5), new Box2D.Common.Math.b2Vec2(0.5, 0), new Box2D.Common.Math.b2Vec2(0.5, 0.5), new Box2D.Common.Math.b2Vec2(0, 0.3)], 5);
+    U.G.Tc().shape = new P.i.H.ec;
+    U.G.Tc().shape.lj([new P.a.f.g(-0.5, -0.5), new P.a.f.g(0, -0.5), new P.a.f.g(0.5, 0), new P.a.f.g(0.5, 0.5), new P.a.f.g(0, 0.3)], 5);
     for(a = 0;a < 0;a++) {
-      b = a * 5 % (d.x - 10), game.world.getBox2DBodyDefinition().position.y = 15 + (a + 15) % 20, game.world.getBox2DBodyDefinition().position.x = b + (a + 15) % 20 / 20 + 4.5, game.world.getBox2DBodyDefinition().angle = a % 35 / 35, b = game.world.getBox2DWorld().CreateBody(game.world.getBox2DBodyDefinition()), b.display = {}, b.display.size = new Box2D.Common.Math.b2Vec2(0.75, 0.75), b.CreateFixture(game.world.getBox2DFixtureDefinition())
+      b = a * 5 % (g.x - 10), U.G.xb().position.y = 15 + (a + 15) % 20, U.G.xb().position.x = b + (a + 15) % 20 / 20 + 4.5, U.G.xb().rc = a % 35 / 35, b = U.G.Qd().Ef(U.G.xb()), b.display = {}, b.display.size = new P.a.f.g(0.75, 0.75), b.xg(U.G.Tc())
     }
   };
-  a.createMario = function(a) {
-    var b = new Box2D.Common.Math.b2Vec2(1.5, 1.5), a = new Box2D.Common.Math.b2Vec2(a.x + b.x / 2, a.y + b.y / 2);
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 2, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 3, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 4, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 5, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 6, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 7, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 8, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 9, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 10, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 11, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 12, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 13, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 14, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 15, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 16, a.y));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 16, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 17, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 18, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 19, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 20, a.y));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 20, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 21, a.y));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 21, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 22, a.y));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 22, a.y - b.y * 4));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 22, a.y - b.y * 8));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 23, a.y));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 23, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 24, a.y));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 24, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 25, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 26, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 27, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 28, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 28, a.y - b.y * 1));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 28, a.y - b.y * 2));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 29, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 29, a.y - b.y * 1));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 29, a.y - b.y * 2));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 30, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 31, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 32, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 33, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 34, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 35, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 36, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 37, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 38, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 38, a.y - b.y * 1));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 38, a.y - b.y * 2));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 38, a.y - b.y * 3));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 39, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 39, a.y - b.y * 1));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 39, a.y - b.y * 2));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 39, a.y - b.y * 3));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 40, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 41, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 42, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 43, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 44, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 45, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 46, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 46, a.y - b.y * 1));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 46, a.y - b.y * 2));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 46, a.y - b.y * 3));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 46, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 47, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 47, a.y - b.y * 1));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 47, a.y - b.y * 2));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 47, a.y - b.y * 3));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 47, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 48, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 49, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 50, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 51, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 52, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 53, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 54, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 55, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 56, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 57, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 57, a.y - b.y * 1));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 57, a.y - b.y * 2));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 57, a.y - b.y * 3));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 57, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 58, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 58, a.y - b.y * 1));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 58, a.y - b.y * 2));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 58, a.y - b.y * 3));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 58, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 59, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 60, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 61, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 62, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 63, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 64, a.y));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 64, a.y - b.y * 5));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 65, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 66, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 67, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 68, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 71, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 72, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 73, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 74, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 75, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 76, a.y));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 77, a.y));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 77, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 78, a.y));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 78, a.y - b.y * 4));
-    game.platformer.createBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 79, a.y));
-    game.platformer.createBreakableBlock(b, new Box2D.Common.Math.b2Vec2(a.x + b.x * 79, a.y - b.y * 4))
+  a.Mo = function(a) {
+    var b = new P.a.f.g(1.5, 1.5), a = new P.a.f.g(a.x + b.x / 2, a.y + b.y / 2);
+    U.l.q(b, new P.a.f.g(a.x, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 2, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 3, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 4, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 5, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 6, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 7, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 8, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 9, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 10, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 11, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 12, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 13, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 14, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 15, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 16, a.y));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 16, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 17, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 18, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 19, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 20, a.y));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 20, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 21, a.y));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 21, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 22, a.y));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 22, a.y - b.y * 4));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 22, a.y - b.y * 8));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 23, a.y));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 23, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 24, a.y));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 24, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 25, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 26, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 27, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 28, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 28, a.y - b.y * 1));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 28, a.y - b.y * 2));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 29, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 29, a.y - b.y * 1));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 29, a.y - b.y * 2));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 30, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 31, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 32, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 33, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 34, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 35, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 36, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 37, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 38, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 38, a.y - b.y * 1));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 38, a.y - b.y * 2));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 38, a.y - b.y * 3));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 39, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 39, a.y - b.y * 1));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 39, a.y - b.y * 2));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 39, a.y - b.y * 3));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 40, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 41, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 42, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 43, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 44, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 45, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 46, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 46, a.y - b.y * 1));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 46, a.y - b.y * 2));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 46, a.y - b.y * 3));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 46, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 47, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 47, a.y - b.y * 1));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 47, a.y - b.y * 2));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 47, a.y - b.y * 3));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 47, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 48, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 49, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 50, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 51, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 52, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 53, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 54, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 55, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 56, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 57, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 57, a.y - b.y * 1));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 57, a.y - b.y * 2));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 57, a.y - b.y * 3));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 57, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 58, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 58, a.y - b.y * 1));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 58, a.y - b.y * 2));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 58, a.y - b.y * 3));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 58, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 59, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 60, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 61, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 62, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 63, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 64, a.y));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 64, a.y - b.y * 5));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 65, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 66, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 67, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 68, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 71, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 72, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 73, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 74, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 75, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 76, a.y));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 77, a.y));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 77, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 78, a.y));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 78, a.y - b.y * 4));
+    U.l.q(b, new P.a.f.g(a.x + b.x * 79, a.y));
+    U.l.jd(b, new P.a.f.g(a.x + b.x * 79, a.y - b.y * 4))
   };
-  a.preThink = function(a, b) {
-    f.handleKeyEvents(b)
+  a.Gm = function(a, b) {
+    d.fp(b)
   };
-  a.preDraw = function() {
-    game.ui.lookAt(player.body.GetWorldCenter())
+  a.Fm = function() {
+    U.Z.lm(W.body.e.k)
   }
-})(test);
-
+})(Sb);
+var Tb = Sb.Vc, Ub = "test.init".split("."), $ = O;
+!(Ub[0] in $) && $.execScript && $.execScript("var " + Ub[0]);
+for(var Vb;Ub.length && (Vb = Ub.shift());) {
+  !Ub.length && Tb !== f ? $[Vb] = Tb : $ = $[Vb] ? $[Vb] : $[Vb] = {}
+}
+;

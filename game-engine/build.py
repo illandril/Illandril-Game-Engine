@@ -4,7 +4,7 @@ if ( len( sys.argv ) < 2 ):
   print "Usage: build.py name namespace [namespace]...";
   sys.exit(2);
  
-debug = True
+debug = False
 
 builder = "../closure-library/closure/bin/build/closurebuilder.py"
 args = " --root=../closure-library/"
