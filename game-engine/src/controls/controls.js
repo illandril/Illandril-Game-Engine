@@ -95,7 +95,7 @@ game.controls.getKeyEventKey = function(keyCode, ctrl, alt, shift) {
 };
 
 game.controls.prototype = {
-  handleKeyEvents: function(tickTime) {
+  handleKeyEvents: function(time, tickTime) {
     var activeKeys = 0;
     var modifierRepeat = game.controls.modifierKeyStates.CTRL == game.controls.modifierKeyStates.CTRL_LAST &&
                          game.controls.modifierKeyStates.ALT == game.controls.modifierKeyStates.ALT_LAST &&

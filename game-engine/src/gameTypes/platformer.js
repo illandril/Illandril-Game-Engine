@@ -12,17 +12,64 @@ Known issues:
 
 goog.provide('game.platformer');
 
-goog.require('game.animations');
-goog.require('game.ai');
 goog.require('game.controls.action');
-goog.require('game.world');
+
+game.platformer = function(theGame) {
+    this.game = theGame;
+    this.game.getWorld().addCollisionFilter(this);
+};
+
+
+game.platformer.prototype.createPlayer = function(size, position) {
+    var player = this.game.getWorld().createBox(size, position, true /* visible */, { fixedRotation: true } /* bodyArgs */, { restitution: 0 } /* fixtureArgs */);
+    game.platformer.initializeJumper(player, game.platformer.DEFAULTS.PLAYER_SPEED);
+    game.platformer.initializeMover(player, game.platformer.DEFAULTS.PLAYER_SPEED, game.platformer.DEFAULTS.PLAYER_ACCELERATION);
+    
+    // Add left/right edge to the player so they slide against walls
+    var shape = new Box2D.Collision.Shapes.b2PolygonShape();
+    shape.SetAsOrientedBox(0.01, size.y / 2 - 0.01, new Box2D.Common.Math.b2Vec2(-size.x / 2, 0));
+    player.leftEdge = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
+    shape.SetAsOrientedBox(0.01, size.y / 2 - 0.01, new Box2D.Common.Math.b2Vec2(size.x / 2, 0));
+    player.rightEdge = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
+    
+    player.actions = {};
+    player.actions.moveUp = new game.controls.action(function(tickTime) {
+        player.platformerRules.jumper.jump();
+    }, 'Move Up', true);
+    player.actions.moveDown = new game.controls.action(function(tickTime) {
+        /*
+        var nextContact = player.body.GetContactList();
+        while(nextContact != null) {
+            if (nextContact.contact.IsTouching() && !nextContact.contact.IsSensor()) {
+                if (nextContact.contact.GetFixtureA().softBottom || nextContact.contact.GetFixtureB().softBottom) {
+                    var pos = player.body.GetPosition();
+                    pos.y += 1;
+                    player.body.SetPosition(pos);
+                    player.body.SetAwake(true)
+                    return;
+                }
+            }
+            nextContact = nextContact.next;
+        }
+        */
+        // Duck? Drop down through floor?
+    }, 'Move Down', true);
+    player.actions.moveLeft = new game.controls.action(function(tickTime) {
+        player.platformerRules.mover.moveLeft();
+    }, 'Move Left', true);
+    player.actions.moveRight = new game.controls.action(function(tickTime) {
+        player.platformerRules.mover.moveRight();
+    }, 'Move Right', true);
+    
+    return player;
+};
 
 (function(platformer){
     platformer.DEFAULT_GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
     platformer.DEFAULTS = {
         GRAVITY: new Box2D.Common.Math.b2Vec2( 0, 9.8 ),
-        JUMP_IMPULSE_MODIFIER: 2.25,
-        PLAYER_SPEED: 5,
+        JUMP_IMPULSE_MODIFIER: 1.5,
+        PLAYER_SPEED: 8,
         PLAYER_ACCELERATION: 1
     };
     
@@ -38,10 +85,6 @@ goog.require('game.world');
         LEFT: 0x02,
         BOTTOM: 0x04,
         RIGHT: 0x08
-    };
-    
-    platformer.init = function() {
-        game.world.addCollisionFilter(platformer);
     };
     
     platformer.initializeDirectionalSiding = function(platform, falseSides) {
@@ -121,92 +164,29 @@ goog.require('game.world');
 
     };
     
-    platformer.createPlayer = function(size, position) {
-        var player = game.world.createBox(size, position, true /* visible */, { fixedRotation: true } /* bodyArgs */, { restitution: 0 } /* fixtureArgs */);
-        player.platformerRules = {};
-        platformer.initializeJumper(player, platformer.DEFAULTS.PLAYER_SPEED);
-        platformer.initializeMover(player, platformer.DEFAULTS.PLAYER_SPEED, platformer.DEFAULTS.PLAYER_ACCELERATION);
-        
-        // Add left/right edge to the player so they slide against walls
-        var shape = new Box2D.Collision.Shapes.b2PolygonShape();
-        shape.SetAsOrientedBox(0.01, size.y / 2, new Box2D.Common.Math.b2Vec2(-size.x / 2, 0));
-        player.leftEdge = game.world.addFixture(player.body, { friction: 0 }, shape);
-        shape.SetAsOrientedBox(0.01, size.y / 2, new Box2D.Common.Math.b2Vec2(size.x / 2, 0));
-        player.rightEdge = game.world.addFixture(player.body, { friction: 0 }, shape);
-        
-        player.actions = {};
-        player.actions.moveUp = new game.controls.action(function(tickTime) {
-            player.platformerRules.jumper.jump();
-        }, 'Move Up', true);
-        player.actions.moveDown = new game.controls.action(function(tickTime) {
-            /*
-            var nextContact = player.body.GetContactList();
-            while(nextContact != null) {
-                if (nextContact.contact.IsTouching() && !nextContact.contact.IsSensor()) {
-                    if (nextContact.contact.GetFixtureA().softBottom || nextContact.contact.GetFixtureB().softBottom) {
-                        var pos = player.body.GetPosition();
-                        pos.y += 1;
-                        player.body.SetPosition(pos);
-                        player.body.SetAwake(true)
-                        return;
-                    }
-                }
-                nextContact = nextContact.next;
-            }
-            */
-            // Duck? Drop down through floor?
-        }, 'Move Down', true);
-        player.actions.moveLeft = new game.controls.action(function(tickTime) {
-            player.platformerRules.mover.moveLeft();
-        }, 'Move Left', true);
-        player.actions.moveRight = new game.controls.action(function(tickTime) {
-            player.platformerRules.mover.moveRight();
-        }, 'Move Right', true);
-        
-        return player;
-    };
-    
-    var getNoSensorBodyAABB = function(fixture) {
-        var body = fixture.GetBody();
-        var aabb = null;
-        var f = body.GetFixtureList();
-        while( f ) {
-            if (!f.IsSensor()) {
-                if (aabb === null) {
-                    aabb = f.GetAABB();
-                } else {
-                    aabb = Box2D.Collision.b2AABB.Combine(aabb,f.GetAABB());
-                }
-            }
-            f = f = f.GetNext();
-        }
-        return aabb;
-    };
-    
-    
     // Return true if the given fixture should be considered for ray intersection.
-    platformer.RayCollide = null; //function(userData, fixture) {} 
+    platformer.prototype.RayCollide = null; //function(userData, fixture) {} 
     
     // Return true if contact calculations should be performed between these two fixtures.
-    platformer.ShouldCollide = null; //function(fixtureA, fixtureB) {};
+    platformer.prototype.ShouldCollide = null; //function(fixtureA, fixtureB) {};
     
     //Called when two fixtures begin to touch, before BeginContact (should be actions that can disable contact)
-    platformer.ValidateBeginContact = function(contact) {
+    platformer.prototype.ValidateBeginContact = function(contact) {
         var fixtureA = contact.GetFixtureA();
         var bodyA = fixtureA.GetBody();
         var objectA = bodyA.object;
         var fixtureB = contact.GetFixtureB();
         var bodyB = fixtureB.GetBody();
         var objectB = bodyB.object;
-        if (!contact.disabled && objectA.platformerRules) {
-            ValidateBeginPlatformerContact(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
+        if (!contact.disabled && objectA && objectA.platformerRules) {
+            this._ValidateBeginPlatformerContact(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
         }
-        if (!contact.disabled && objectB.platformerRules) {
-            ValidateBeginPlatformerContact(contact, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
+        if (!contact.disabled && objectB && objectB.platformerRules) {
+            this._ValidateBeginPlatformerContact(contact, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
         }
     };
     
-    var ValidateBeginPlatformerContact = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
+    platformer.prototype._ValidateBeginPlatformerContact = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
         if (objectA.platformerRules.type & platformer.RULE_TYPES.DIRECTIONAL_SIDING) {
             contact.disabled = true;
             var m = new Box2D.Collision.b2WorldManifold();
@@ -233,7 +213,7 @@ goog.require('game.world');
     };
     
     //Called when two fixtures begin to touch, after ValidateBeginContact (should be actions that can not disable contact)
-    platformer.BeginContact = function(contact) {
+    platformer.prototype.BeginContact = function(contact) {
         if (contact.disabled) {
             // There are no actions that would be done to disabled contacts here
             return;
@@ -244,15 +224,15 @@ goog.require('game.world');
         var fixtureB = contact.GetFixtureB();
         var bodyB = fixtureB.GetBody();
         var objectB = bodyB.object;
-        if (objectA.platformerRules) {
-            BeginPlatformerContact(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
+        if (objectA && objectA.platformerRules) {
+            this._BeginPlatformerContact(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
         }
-        if (objectB.platformerRules) {
-            BeginPlatformerContact(contact, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
+        if (objectB && objectB.platformerRules) {
+            this._BeginPlatformerContact(contact, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
         }
     };
      // Contact rules depending on all other rules
-    var BeginPlatformerContact = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
+    platformer.prototype._BeginPlatformerContact = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
         if (objectA.platformerRules.type & platformer.RULE_TYPES.JUMPER) {
             var m = new Box2D.Collision.b2WorldManifold();
             contact.GetWorldManifold(m);
@@ -278,19 +258,19 @@ goog.require('game.world');
             contact.GetWorldManifold(m);
             var normal = m.m_normal;
             if (normal.y > 0 && objectA.platformerRules.breakable.top) {
-                game.world.destroyObject(objectA);
+                this.game.getWorld().destroyObject(objectA);
             } else if (normal.y < 0 && objectA.platformerRules.breakable.bottom) {
-                game.world.destroyObject(objectA);
+                this.game.getWorld().destroyObject(objectA);
             } else if (normal.x > 0 && objectA.platformerRules.breakable.left) {
-                game.world.destroyObject(objectA);
+                this.game.getWorld().destroyObject(objectA);
             } else if (normal.x < 0 && objectA.platformerRules.breakable.right) {
-                game.world.destroyObject(objectA);
+                this.game.getWorld().destroyObject(objectA);
             }
         }
     };
     
     //Called when two fixtures cease to touch.
-    platformer.EndContact = function(contact) {
+    platformer.prototype.EndContact = function(contact) {
         if (contact.platformerGrounds) {
             for (var j = 0; j < contact.platformerGrounds.length; j++) {
                 var jumper = contact.platformerGrounds[j].jumper;
@@ -313,19 +293,17 @@ goog.require('game.world');
     };
     
     // This is called after a contact is updated.
-    platformer.PreSolve = null; // function(contact, oldManifold) {};
+    platformer.prototype.PreSolve = null; // function(contact, oldManifold) {};
     
     // This lets you inspect a contact after the solver is finished.
-    platformer.PostSolve = null; //function(contact, impulse) {};
+    platformer.prototype.PostSolve = null; //function(contact, impulse) {};
     
-    
-    
-    platformer.createBlock = function(size, position) {
-        return game.world.createStaticBox(size, position, true /* visible */ );
+    platformer.prototype.createBlock = function(size, position) {
+        return this.game.getWorld().createStaticBox(size, position, true /* visible */ );
     };
     
-    platformer.createPlatform = function(size, position, falseSides) {
-        var platform = game.world.createStaticBox(size, position, true /* visible */, { angle: Math.PI * Math.random() * 0 }, null );
+    platformer.prototype.createPlatform = function(size, position, falseSides) {
+        var platform = this.game.getWorld().createStaticBox(size, position, true /* visible */, { angle: Math.PI * Math.random() * 0 }, null );
         if ( falseSides === undefined || falseSides === null ) {
             falseSides = platformer.SIDES.BOTTOM | platformer.SIDES.LEFT | platformer.SIDES.RIGHT;
         }
@@ -333,8 +311,8 @@ goog.require('game.world');
         return platform;
     };
     
-    platformer.createBreakableBlock = function(size, position, weakSides) {
-        var platform = game.world.createStaticBox(size, position, true /* visible */, { angle: Math.PI * Math.random() * 0 }, null );
+    platformer.prototype.createBreakableBlock = function(size, position, weakSides) {
+        var platform = this.game.getWorld().createStaticBox(size, position, true /* visible */, { angle: Math.PI * Math.random() * 0 }, null );
         if ( weakSides === undefined || weakSides === null ) {
             weakSides = platformer.SIDES.BOTTOM;
         }

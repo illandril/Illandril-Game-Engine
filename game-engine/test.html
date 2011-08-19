@@ -13,38 +13,55 @@
   <!--
   <script type="text/javascript" src="../box2d/Box2dWeb-2.1.a.3b2.js"></script>
   <!-- -->
-  <!--
+  <!-- -->
   <script type="text/javascript" src="../box2d/illandril/base.js"></script>
   <script type="text/javascript" src="../box2d/illandril/collision.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/math.js"></script>
   <script type="text/javascript" src="../box2d/illandril/dynamics.js"></script>
   <script type="text/javascript" src="../box2d/illandril/contacts.js"></script>
   <script type="text/javascript" src="../box2d/illandril/unopped.js"></script>
   <script type="text/javascript" src="../box2d/illandril/post.js"></script>
   <script type="text/javascript" src="../box2d/illandril/Box2D.js"></script>
   <!-- -->
-  <!--
+  <!-- -->
+  <script type="text/javascript" src="src/shims.js"></script>
   <script type="text/javascript" src="src/controls/controls.js"></script>
   <script type="text/javascript" src="src/controls/action.js"></script>
   <script type="text/javascript" src="src/ai/ai.js"></script>
-  <script type="text/javascript" src="src/ui/animations.js"></script>
-  <script type="text/javascript" src="src/ui/view.js"></script>
+  <script type="text/javascript" src="src/ui/ui.js"></script>
+  <script type="text/javascript" src="src/ui/spriteSheet.js"></script>
+  <script type="text/javascript" src="src/ui/viewport.js"></script>
+  <script type="text/javascript" src="src/ui/animation.js"></script>
   <script type="text/javascript" src="src/world.js"></script>
-  <script type="text/javascript" src="src/engine.js"></script>
+  <script type="text/javascript" src="src/game.js"></script>
   <script type="text/javascript" src="src/gameTypes/platformer.js"></script>
+  
+  <!--
   <script type="text/javascript" src="src/games/test.js"></script>
+  -->
+  <script type="text/javascript" src="src/games/mario.js"></script>
+  <script type="text/javascript" src="src/games/pit.js"></script>
   <!-- -->
-  <!-- -->
+  <!--
   <script type="text/javascript" src="test.js"></script>  
   <!-- -->
  </head>
  <body>
   <div style="text-align: center;">
-   <div id="game">
+   <div id="game" class="gameWindow">
    </div>
+   <BR>
+   WASD
+   <br><br>
+   <div id="game2" class="gameWindow">
+   </div>
+   <BR>
+   ARROWS
   </div>
   <div id="fps"></div>
   <script type="text/javascript">
-   test.init( "game", false /* debug */ );
+   //mario.init( "game", false /* debug */, true /* wasd */ );
+   pit.init( "game2", true /* debug */, false /* wasd */ );
    /* Uncomment to get an FPS alert
    x = new Date();
    y = null;

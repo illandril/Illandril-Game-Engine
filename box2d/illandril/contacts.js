@@ -111,11 +111,7 @@ Box2D.Dynamics.Contacts.b2Contact = function() {
       var aabbOverlap = this.m_fixtureA.m_aabb.TestOverlap(this.m_fixtureB.m_aabb);
       if (this.sensor) {
          if (aabbOverlap) {
-            var shapeA = this.m_fixtureA.GetShape();
-            var shapeB = this.m_fixtureB.GetShape();
-            var xfA = bodyA.GetTransform();
-            var xfB = bodyB.GetTransform();
-            touching = Box2D.Collision.Shapes.b2Shape.TestOverlap(shapeA, xfA, shapeB, xfB);
+            touching = Box2D.Collision.Shapes.b2Shape.TestOverlap(this.m_fixtureA.GetShape(), bodyA.GetTransform(), this.m_fixtureB.GetShape(), bodyB.GetTransform());
          }
          this.m_manifold.m_pointCount = 0;
       } else {
@@ -127,14 +123,13 @@ Box2D.Dynamics.Contacts.b2Contact = function() {
          if (aabbOverlap) {
             this.Evaluate();
             touching = this.m_manifold.m_pointCount > 0;
-            for (var i = 0; i < this.m_manifold.m_pointCount; ++i) {
+            for (var i = 0; i < this.m_manifold.m_pointCount; i++) {
                var mp2 = this.m_manifold.m_points[i];
                mp2.m_normalImpulse = 0.0;
                mp2.m_tangentImpulse = 0.0;
-               var id2 = mp2.m_id;
-               for (var j = 0; j < this.m_oldManifold.m_pointCount; ++j) {
+               for (var j = 0; j < this.m_oldManifold.m_pointCount; j++) {
                   var mp1 = this.m_oldManifold.m_points[j];
-                  if (mp1.m_id.key == id2.key) {
+                  if (mp1.m_id.key == mp2.m_id.key) {
                      mp2.m_normalImpulse = mp1.m_normalImpulse;
                      mp2.m_tangentImpulse = mp1.m_tangentImpulse;
                      break;
@@ -192,7 +187,7 @@ Box2D.Dynamics.Contacts.b2CircleContact = function() {
    b2CircleContact.prototype.Evaluate = function () {
       var bA = this.m_fixtureA.GetBody();
       var bB = this.m_fixtureB.GetBody();
-      Box2D.Collision.b2Collision.CollideCircles(this.m_manifold, (this.m_fixtureA.GetShape() instanceof Box2D.Collision.Shapes.b2CircleShape ? this.m_fixtureA.GetShape() : null), bA.m_xf, (this.m_fixtureB.GetShape() instanceof Box2D.Collision.Shapes.b2CircleShape ? this.m_fixtureB.GetShape() : null), bB.m_xf);
+      Box2D.Collision.b2Collision.CollideCircles(this.m_manifold, this.m_fixtureA.GetShape(), bA.m_xf, this.m_fixtureB.GetShape(), bB.m_xf);
    };
 })(Box2D.Dynamics.Contacts.b2CircleContact);
 
