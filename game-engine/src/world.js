@@ -1,22 +1,13 @@
 goog.provide('game.world');
 
-goog.require('game.animations');
-
-(function(world){
+(function(game){
     var fixtureDefinition = new Box2D.Dynamics.b2FixtureDef();
     var bodyDefinition = new Box2D.Dynamics.b2BodyDef();
-    var b2World = null;
-    var worldWidth = null;
-    var worldHeight = null;
     var frameSteps = 10;
-    
-    var collisionFilters = [];
-    
-    var objectsToDestroy = [];
     
     var fixtureDefaults = {
         density: 0.10,
-        friction: 0.5,
+        friction: 0.6,
         restitution: 0.01,
         isSensor: false
     };
@@ -48,51 +39,49 @@ goog.require('game.animations');
         return argsOrDefaults(args, bodyDefaults);
     };
     
-    world.init = function(worldSize, gravity) {
-        b2World = new Box2D.Dynamics.b2World( gravity, true /* allow sleep */ );
-        b2World.SetContactFilter(world);
-        b2World.SetContactListener(world);
+    game.world = function(theGame, worldSize, gravity) {
+        this.objectsToDestroy = [];
+        this.collisionFilters = [];
         
-        worldWidth = worldSize.x;
-        worldHeight = worldSize.y;
+        this.game = theGame;
+        this.worldSize = new Box2D.Common.Math.b2Vec2(worldSize.x, worldSize.y);
+        this.b2World = new Box2D.Dynamics.b2World( gravity, true /* allow sleep */ );
+        this.b2World.SetContactFilter(this);
+        this.b2World.SetContactListener(this);
+        
         // Add in the boundries
-        world.top = world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, 0), true, null, { friction: 0} );
-        game.ui.setImage(world.top.body, 'graphics/border.png');
-        world.bottom = world.createStaticBox(new Box2D.Common.Math.b2Vec2(worldWidth, 1), new Box2D.Common.Math.b2Vec2(worldWidth / 2, worldHeight), true, null, { friction: 0});
-        game.ui.setImage(world.bottom.body, 'graphics/border.png');
-        world.left = world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(0, worldHeight / 2), true, null, { friction: 0});
-        game.ui.setImage(world.left.body, 'graphics/border.png');
-        world.right = world.createStaticBox(new Box2D.Common.Math.b2Vec2(1, worldHeight), new Box2D.Common.Math.b2Vec2(worldWidth, worldHeight / 2), true, null, { friction: 0});
-        game.ui.setImage(world.right.body, 'graphics/border.png');
+        this.top = this.createStaticBox(new Box2D.Common.Math.b2Vec2(this.worldSize.x + 2, 2), new Box2D.Common.Math.b2Vec2(this.worldSize.x / 2, -1), false /* visible */, null, { friction: 0} );
+        this.bottom = this.createStaticBox(new Box2D.Common.Math.b2Vec2(this.worldSize.x + 2, 2), new Box2D.Common.Math.b2Vec2(this.worldSize.x / 2, this.worldSize.y + 1), false /* visible */, null, { friction: 0});
+        this.left = this.createStaticBox(new Box2D.Common.Math.b2Vec2(2, this.worldSize.y + 2), new Box2D.Common.Math.b2Vec2(-1, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
+        this.right = this.createStaticBox(new Box2D.Common.Math.b2Vec2(2, this.worldSize.y + 2), new Box2D.Common.Math.b2Vec2(this.worldSize.x + 1, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
     };
     
-    world.update = function(time, tick) {
-        b2World.Step(tick /* time delta (sec) */, frameSteps /* Velocity Iterations */, frameSteps /* Position Iterations */);
-        b2World.DrawDebugData();
-        b2World.ClearForces();
-        if (objectsToDestroy.length > 0) {
-            for (var i = 0; i < objectsToDestroy.length; i++) {
-                b2World.DestroyBody(objectsToDestroy[i].body);
+    game.world.prototype.update = function(time, tick) {
+        this.b2World.Step(tick /* time delta (sec) */, frameSteps /* Velocity Iterations */, frameSteps /* Position Iterations */);
+        this.b2World.ClearForces();
+        if (this.objectsToDestroy.length > 0) {
+            for (var i = 0; i < this.objectsToDestroy.length; i++) {
+                this.b2World.DestroyBody(this.objectsToDestroy[i].body);
             }
-            objectsToDestroy = [];
+            this.objectsToDestroy = [];
         }
     };
     
-    world.getBox2DWorld = function() {
-        return b2World;
+    game.world.prototype.getBox2DWorld = function() {
+        return this.b2World;
     };
     
-    world.addCollisionFilter = function(filter) {
-        collisionFilters.push(filter);
+    game.world.prototype.addCollisionFilter = function(filter) {
+        this.collisionFilters.push(filter);
     };
     
     // Return true if the given fixture should be considered for ray intersection.
-    world.RayCollide = function(userData, fixture) {
+    game.world.prototype.RayCollide = function(userData, fixture) {
         // Sensors should always collide
         if (!fixture.IsSensor()) {
-            for( var i = 0; i < collisionFilters.length; i++ ) {
-                if (collisionFilters[i].RayCollide) {
-                    if (!collisionFilters[i].RayCollide(userData, fixture)) {
+            for( var i = 0; i < this.collisionFilters.length; i++ ) {
+                if (this.collisionFilters[i].RayCollide) {
+                    if (!this.collisionFilters[i].RayCollide(userData, fixture)) {
                         return false;
                     }
                 }
@@ -102,12 +91,12 @@ goog.require('game.animations');
     };
     
     // Return true if contact calculations should be performed between these two fixtures.
-    world.ShouldCollide = function(fixtureA, fixtureB) {
+    game.world.prototype.ShouldCollide = function(fixtureA, fixtureB) {
         // Sensors should always collide
         if(!(fixtureA.IsSensor() || fixtureB.IsSensor())) {
-            for( var i = 0; i < collisionFilters.length; i++ ) {
-                if (collisionFilters[i].ShouldCollide) {
-                    if (!collisionFilters[i].ShouldCollide(fixtureA, fixtureB)) {
+            for( var i = 0; i < this.collisionFilters.length; i++ ) {
+                if (this.collisionFilters[i].ShouldCollide) {
+                    if (!this.collisionFilters[i].ShouldCollide(fixtureA, fixtureB)) {
                         return false;
                     }
                 }
@@ -117,29 +106,29 @@ goog.require('game.animations');
     };
     
     //Called when two fixtures begin to touch.
-    world.BeginContact = function(contact) {
-        for( var i = 0; i < collisionFilters.length; i++ ) {
+    game.world.prototype.BeginContact = function(contact) {
+        for( var i = 0; i < this.collisionFilters.length; i++ ) {
             // Called when two fixtures begin to touch, before BeginContact
             // Should be actions that can disable contact - contact may already be disabled
-            if (collisionFilters[i].ValidateBeginContact) {
-                collisionFilters[i].ValidateBeginContact(contact);
+            if (this.collisionFilters[i].ValidateBeginContact) {
+                this.collisionFilters[i].ValidateBeginContact(contact);
             }
             if(contact.disabled) {
                 contact.SetEnabled(false);
             }
             // Called when two fixtures begin to touch, after ValidateBeginContact
             // Should be actions that can not disable contact - contact may already be disabled
-            if (collisionFilters[i].BeginContact) {
-                collisionFilters[i].BeginContact(contact);
+            if (this.collisionFilters[i].BeginContact) {
+                this.collisionFilters[i].BeginContact(contact);
             }
         }
     };
     
     //Called when two fixtures cease to touch.
-    world.EndContact = function(contact) {
-        for( var i = 0; i < collisionFilters.length; i++ ) {
-            if (collisionFilters[i].EndContact) {
-                collisionFilters[i].EndContact(contact);
+    game.world.prototype.EndContact = function(contact) {
+        for( var i = 0; i < this.collisionFilters.length; i++ ) {
+            if (this.collisionFilters[i].EndContact) {
+                this.collisionFilters[i].EndContact(contact);
             }
         }
         contact.disabled = false;
@@ -147,71 +136,71 @@ goog.require('game.animations');
     };
     
     // This is called after a contact is updated.
-    world.PreSolve = function(contact, oldManifold) {
+    game.world.prototype.PreSolve = function(contact, oldManifold) {
         if(contact.disabled) {
             contact.SetEnabled(false);
         }
-        for( var i = 0; i < collisionFilters.length; i++ ) {
-            if (collisionFilters[i].PreSolve) {
-                collisionFilters[i].PreSolve(contact, oldManifold);
+        for( var i = 0; i < this.collisionFilters.length; i++ ) {
+            if (this.collisionFilters[i].PreSolve) {
+                this.collisionFilters[i].PreSolve(contact, oldManifold);
             }
         }
     };
     
     // This lets you inspect a contact after the solver is finished.
-    world.PostSolve = function(contact, impulse) {
-        for( var i = 0; i < collisionFilters.length; i++ ) {
-            if (collisionFilters[i].PostSolve) {
-                collisionFilters[i].PostSolve(contact, impulse);
+    game.world.prototype.PostSolve = function(contact, impulse) {
+        for( var i = 0; i < this.collisionFilters.length; i++ ) {
+            if (this.collisionFilters[i].PostSolve) {
+                this.collisionFilters[i].PostSolve(contact, impulse);
             }
         }
     };
     
-    world.getBox2DBodyDefinition = function() {
+    game.world.prototype.getBox2DBodyDefinition = function() {
         return bodyDefinition;
     };
     
-    world.getBox2DFixtureDefinition = function() {
+    game.world.prototype.getBox2DFixtureDefinition = function() {
         return fixtureDefinition;
     };
     
-    world.getWorldWidth = function() {
-        return worldWidth;
+    game.world.prototype.getWorldWidth = function() {
+        return this.worldSize.x;
     };
     
-    world.getWorldHeight = function() {
-        return worldHeight;
+    game.world.prototype.getWorldHeight = function() {
+        return this.worldSize.y;
     };
     
-    world.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+    game.world.prototype.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         bodyArgs = bodyArgs || {};
         bodyArgs.type = Box2D.Dynamics.b2Body.b2_staticBody;
-        return world.createBox(size, position, visible, bodyArgs, fixtureArgs);
+        return this.createBox(size, position, visible, bodyArgs, fixtureArgs);
     };
     
-    world.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+    game.world.prototype.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         var shape = new Box2D.Collision.Shapes.b2PolygonShape();
         shape.SetAsBox(size.x / 2, size.y / 2);
-        return world.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
+        return this.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
     };
     
-    world.createObject = function(size, position, visible, bodyArgs, fixtureArgs, shape) {
+    game.world.prototype.createObject = function(size, position, visible, bodyArgs, fixtureArgs, shape) {
         bodyArgs = argsOrBodyDefaults(bodyArgs);
         bodyDefinition.type = bodyArgs.type;
         bodyDefinition.angle = bodyArgs.angle;
         bodyDefinition.fixedRotation = bodyArgs.fixedRotation;
         bodyDefinition.position = position;
-        var body = b2World.CreateBody(bodyDefinition);
-        fixture = world.addFixture(body, fixtureArgs, shape);
-        if (visible) {
-            game.ui.setDisplaySize(body, new Box2D.Common.Math.b2Vec2(size.x, size.y));
-        }
+        var body = this.b2World.CreateBody(bodyDefinition);
+        fixture = this.addFixture(body, fixtureArgs, shape);
         var object = { body: body, fixture: fixture };
         body.object = object;
+        if (visible) {
+            this.game.getViewport().setDisplaySize(object, new Box2D.Common.Math.b2Vec2(size.x, size.y));
+        }
         return object;
     };
     
-    world.addFixture = function(body, fixtureArgs, shape) {
+    game.world.prototype.addFixture = function(body, fixtureArgs, shape) {
         fixtureArgs = argsOrFixtureDefaults(fixtureArgs);
         fixtureDefinition.density = fixtureArgs.density;
         fixtureDefinition.friction = fixtureArgs.friction;
@@ -222,7 +211,7 @@ goog.require('game.animations');
         return fixture;
     };
     
-    world.destroyObject = function(object) {
-        objectsToDestroy.push(object);
+    game.world.prototype.destroyObject = function(object) {
+        this.objectsToDestroy.push(object);
     };
-})(game.world);
+})(game);

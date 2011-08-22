@@ -1,39 +1,51 @@
 // If this isn't here, the built version fails for some reason
 var game = game || {};
+
 goog.provide('game.ai');
 
-(function(ai){
-    var thinkers = [];
-    
-    ai.addThinker = function(thinker) {
-        if (typeof(thinker.think) != "function") {
-            throw "Thinker can't think!";
-        }
-        if (thinker.tIdx != null) {
-            throw "Thinker already added!";
-        }
-        thinker.tIdx = thinkers.push( thinker );
-    };
-    
-    ai.removeThinker = function(thinker) {
-        if (thinker.tIdx != null) {
-            throw "Thinker not added (or already removed)!";
-        }
-        thinkers[thinker.tIdx] = null;
-        thinker.tIdx = null;
-    };
-    
-    ai.think = function(time, tick) {
-        var newThinkers = [];
-        for (var tIdx = 0; tIdx < thinkers.length; tIdx++) {
-            var thinker = thinkers[tIdx];
-            if (thinker == null) {
-                continue;
-            }
-            thinker.tIdx = newThinkers.push(thinkers[tIdx]);
-            thinker.think(time, tick);
-        }
-        thinkers = newThinkers;
-    };
+goog.require('goog.array');
 
-})(game.ai);
+game.ai = function() {
+    this.thinkers = [];
+};
+
+game.ai._instance = null;
+
+game.ai.getInstance = function() {
+    if (game.ai._instance === null) {
+        game.ai._instance = new game.ai();
+    }
+    return game.ai._instance;
+};
+
+game.ai.prototype.addThinker = function(thinker, thought) {
+    if (typeof(thought) != "function") {
+        throw "Thought not a function!";
+    }
+    thinker.thoughts = thinker.thoughts || [];
+    thinker.thoughts.push(thought);
+    goog.array.insert(this.thinkers, thinker);
+};
+
+game.ai.prototype.clearThinker = function(thinker) {
+    thinker.thoughts = null;
+    goog.array.remove(this.thinkers, thinker);
+};
+
+game.ai.prototype.removeThinker = function(thinker, thought) {
+    if (thinker.thoughts != null) {
+        goog.array.remove(thinker.thoughts, thought);
+        if (thinker.thoughts.length == 0) {
+            this.clearThinker(thinker);
+        }
+    }
+};
+
+game.ai.prototype.think = function(time, tick) {
+    for (var tIdx = 0; tIdx < this.thinkers.length; tIdx++) {
+        var thinker = this.thinkers[tIdx];
+        for (var thoughtIdx = 0; thoughtIdx < thinker.thoughts.length; thoughtIdx++) {
+            thinker.thoughts[thoughtIdx].apply(thinker, [time, tick]);
+        }
+    }
+};

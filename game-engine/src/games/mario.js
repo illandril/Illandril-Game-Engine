@@ -1,4 +1,4 @@
-goog.provide('test');
+goog.provide('mario');
 
 goog.require('game.game');
 goog.require('game.platformer');
@@ -12,8 +12,8 @@ var player;
 var ramp;
 
 var testObjects = 0;
-var worldSize = new Box2D.Common.Math.b2Vec2(600, 80); // Meters
-var viewportSize = new Box2D.Common.Math.b2Vec2(400, 300); // Pixels
+var worldSize = new Box2D.Common.Math.b2Vec2(600, 30); // Meters
+var viewportSize = new Box2D.Common.Math.b2Vec2(600, 300); // Pixels
 var viewportScale = 20; // Pixels per Meter
 var addBallPit = false;
 
@@ -25,12 +25,9 @@ var p;
 test.init = function(gameContainerID, doDebug, wasd) {
     g = new game.game(test, gameContainerID, worldSize, game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
     p = new game.platformer(g);
-    var position = new Box2D.Common.Math.b2Vec2(13, worldSize.y - 45);
-    test.createWorld();
-    test.createSpinners();
-    test.createDebugObjects();
+    var position = new Box2D.Common.Math.b2Vec2(5, worldSize.y - 7);
     test.createPlayer(position, wasd);
-    test.createMario(new Box2D.Common.Math.b2Vec2(13, worldSize.y - 40));
+    test.createMario(new Box2D.Common.Math.b2Vec2(0, worldSize.y - 5));
     g.startWhenReady();
 };
 
@@ -55,130 +52,16 @@ test.createPlayer = function(position, wasd) {
     playerControls.registerAction(player.actions.moveRight, wasd ? goog.events.KeyCodes.D : goog.events.KeyCodes.RIGHT, false, false, false);
 };
 
-test.createWorld = function() {
-    var platformSize = new Box2D.Common.Math.b2Vec2(3, 0.25);
-    ramp = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(5, 0.25),  new Box2D.Common.Math.b2Vec2(16, worldSize.y - 1.5), true /* visible */, { angle: Math.PI / 3 }, null );
-    p.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 6));
-    p.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(6, worldSize.y - 12));
-    p.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(8, worldSize.y - 18));
-    p.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(12, worldSize.y - 24));
-    p.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 30));
-    p.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 36));
-    p.createBlock(new Box2D.Common.Math.b2Vec2(worldSize.x - 14, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2) + 7, worldSize.y - 25));
-    if(addBallPit) {
-        test.createBallPit(new Box2D.Common.Math.b2Vec2(20, 5), new Box2D.Common.Math.b2Vec2(20, worldSize.y - 25));
-    }
-};
-
-test.createBallPit = function(size, bottomLeft) {
-    // Bottom assumed to already exist
-    
-    // Ramp
-    g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, Math.sqrt(size.y * size.y * 2)), new Box2D.Common.Math.b2Vec2(bottomLeft.x + size.y / 2, bottomLeft.y - size.y / 2), true /* visible */, { angle: Math.PI / 4 }, null );
-    
-    // Left wall
-    g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, size.y), new Box2D.Common.Math.b2Vec2(bottomLeft.x + size.y, bottomLeft.y - size.y / 2), true /* visible */, null, null );
-    
-    // Right wall
-    g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, size.y), new Box2D.Common.Math.b2Vec2(bottomLeft.x + size.x, bottomLeft.y - size.y / 2), true /* visible */, null, null );
-    
-    var radius = 0.15;
-    var shape = new Box2D.Collision.Shapes.b2CircleShape(radius);
-    for(var x = size.y + 1; x < size.x; x += radius * 2) {
-        for(var y = 0; y < size.y / 2; y+= radius * 2) { // half full
-            var ball = g.getWorld().createObject(new Box2D.Common.Math.b2Vec2(radius * 2, radius * 2), new Box2D.Common.Math.b2Vec2(bottomLeft.x + x + (Math.random() - 0.5)/2, bottomLeft.y - size.y), true /* visible */, null, { density: 0.1, restitution: 0.1, friction: 0.1 }, shape );
-            var color = Math.random();
-            if (color <= 0.25) {
-                g.getViewport().setImage(ball, 'graphics/ball-red.png');
-            } else if (color <= 0.5) {
-                g.getViewport().setImage(ball, 'graphics/ball-green.png');
-            } else if (color <= 0.75) {
-                g.getViewport().setImage(ball, 'graphics/ball-yellow.png');
-            } else {
-                g.getViewport().setImage(ball, 'graphics/ball-blue.png');
-            }
-        }
-    }
-};
-
-test.createSpinners = function() {
-    // Add in the spinners
-    var jointDef = new Box2D.Dynamics.Joints.b2RevoluteJointDef();
-    var weldJointDef = new Box2D.Dynamics.Joints.b2WeldJointDef();
-    var flip = false;
-    for ( var i = 20; i <= worldSize.x - 10; i += 8 ) {
-        g.getWorld().getBox2DBodyDefinition().angle = i / worldSize.x * Math.PI;
-        var y = worldSize.y - 14;
-        if ( flip ) {
-            y = y + 8;
-        }
-        flip = !flip;
-        var b0 = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.1, 0.1), new Box2D.Common.Math.b2Vec2(i, y), false /* visible */);
-        var b1 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(i, y));
-        g.getViewport().setImage(b1, 'graphics/spinner.png');
-        game.platformer.initializeDirectionalSiding(b1, false, true, false, false);
-        var b2 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(i, y));
-        b2.body.SetAngle(g.getWorld().getBox2DBodyDefinition().angle + Math.PI / 2);
-        g.getViewport().setImage(b2, 'graphics/spinner.png');
-        jointDef.Initialize(b0.body, b1.body, b0.body.GetWorldCenter());
-        g.getWorld().getBox2DWorld().CreateJoint(jointDef);
-        jointDef.Initialize(b0.body, b2.body, b0.body.GetWorldCenter());
-        g.getWorld().getBox2DWorld().CreateJoint(jointDef);
-        weldJointDef.Initialize(b1.body, b2.body, b1.body.GetWorldCenter());
-        g.getWorld().getBox2DWorld().CreateJoint(weldJointDef);
-    }
-};
-
-test.createDebugObjects = function() {
-    // Debug Objects
-    var bodyArgs = {
-        type: Box2D.Dynamics.b2Body.b2_dynamicBody,
-        fixedRotation: false
-    };
-    var fixArgs = {
-        restitution: 2.5
-    };
-    var shape = new Box2D.Collision.Shapes.b2CircleShape( 0.25 )
-    var size = new Box2D.Common.Math.b2Vec2(0.5, 0.5);
-    for ( var i = 0; i < testObjects; i++ ) {
-      var x = ( i * 5 ) % ( worldSize.x - 10 );
-      var position = new Box2D.Common.Math.b2Vec2(x + ( i % 20 ) / 20 + 4.5, 15 + ( i % 20 ));
-      g.getWorld().createObject(size, position, true /* visible */, bodyArgs, fixArgs, shape);
-    }
-    shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    shape.SetAsBox( 0.25, 0.25 );
-    for ( var i = 0; i < testObjects; i++ ) {
-      var x = ( i * 5 ) % ( worldSize.x - 10 );
-      var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 5 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 5 ) % 20 ));
-      bodyArgs.angle = ( i % 17 ) / 17;
-      g.getWorld().createObject(size, position, true /* visible */, bodyArgs, fixArgs, shape);
-    }
-    shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0.5, -0.5), new Box2D.Common.Math.b2Vec2(-0.5,0.5)], 3 );
-    for ( var i = 0; i < testObjects; i++ ) {
-      var x = ( i * 5 ) % ( worldSize.x - 10 );
-      var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 10 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 10 ) % 20 ));
-      bodyArgs.angle = ( i % 22 ) / 22;
-      g.getWorld().createObject(size, position, true /* visible */, bodyArgs, fixArgs, shape);
-    }
-    shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0, -0.5), new Box2D.Common.Math.b2Vec2(0.5,0), new Box2D.Common.Math.b2Vec2(0.5, 0.5), new Box2D.Common.Math.b2Vec2( 0, 0.3 )], 5 );
-    for ( var i = 0; i < testObjects; i++ ) {
-      var x = ( i * 5 ) % ( worldSize.x - 10 );
-      var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 15 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 15 ) % 20 ));
-      bodyArgs.angle = ( i % 35 ) / 35;
-      g.getWorld().createObject(size, position, true /* visible */, bodyArgs, fixArgs, shape);
-    }
-};
-
 test.createMario = function(offset) {
     var marioSheet = 'graphics/smbsheet.gif';
     var offsets = {
         floor: new Box2D.Common.Math.b2Vec2(0,454),
         block: new Box2D.Common.Math.b2Vec2(178,326),
         coin: new Box2D.Common.Math.b2Vec2(354,54),
+        coinBlock: new Box2D.Common.Math.b2Vec2(178,326),
         shroom: new Box2D.Common.Math.b2Vec2(354,54),
         hiddenStar: new Box2D.Common.Math.b2Vec2(32,84),
+        hidden1up: new Box2D.Common.Math.b2Vec2(32,84),
         pipeL: new Box2D.Common.Math.b2Vec2(158,388),
         pipeR: new Box2D.Common.Math.b2Vec2(190,388),
         pipeLT: new Box2D.Common.Math.b2Vec2(158,356),
@@ -392,7 +275,7 @@ test.createMario = function(offset) {
     g.getViewport().setImage(obj, marioSheet, offsets.floor);
     obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 64, start.y - tileSize.y * 5));
     game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
-    g.getViewport().setImage(obj, marioSheet, offsets.hiddenStar);
+    g.getViewport().setImage(obj, marioSheet, offsets.hidden1up);
     obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 65, start.y));
     g.getViewport().setImage(obj, marioSheet, offsets.floor);
     obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 66, start.y));
@@ -428,7 +311,120 @@ test.createMario = function(offset) {
     g.getViewport().setImage(obj, marioSheet, offsets.floor);
     obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 79, start.y - tileSize.y * 4));
     g.getViewport().setImage(obj, marioSheet, offsets.block);
-    // goomba (above blocK)
+    // goomba (above block)
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 80, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 80, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 81, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 81, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 82, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 82, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    // goomba (above block)
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 83, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 83, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 84, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 84, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 85, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 85, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 86, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 87, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 89, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 90, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 91, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 91, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 92, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 92, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 93, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 93, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 94, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 94, start.y - tileSize.y * 4));
+    g.getViewport().setImage(obj, marioSheet, offsets.coinBlock);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 94, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.coin);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 95, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    // goomba
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 96, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 97, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    // goomba
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 98, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 99, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 100, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 100, start.y - tileSize.y * 4));
+    g.getViewport().setImage(obj, marioSheet, offsets.block);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 101, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 101, start.y - tileSize.y * 4));
+    game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
+    g.getViewport().setImage(obj, marioSheet, offsets.hiddenStar);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 102, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 103, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 104, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 105, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 106, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    // turtle
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 106, start.y - tileSize.y * 4));
+    g.getViewport().setImage(obj, marioSheet, offsets.coin);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 107, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 108, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 109, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 109, start.y - tileSize.y * 4));
+    g.getViewport().setImage(obj, marioSheet, offsets.coin);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 109, start.y - tileSize.y * 8));
+    g.getViewport().setImage(obj, marioSheet, offsets.shroom);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 110, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 111, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 112, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 112, start.y - tileSize.y * 4));
+    g.getViewport().setImage(obj, marioSheet, offsets.coin);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 113, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 114, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 115, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 116, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 117, start.y));
+    g.getViewport().setImage(obj, marioSheet, offsets.floor);
 };
 
 test.whilePaused = function(time, tick) {
@@ -445,6 +441,6 @@ test.preDraw = function(time, tick) {
     g.getViewport().lookAt(player.body.GetWorldCenter());
 };
 
-})(test);
+})(mario);
 
-goog.exportSymbol('test.init', test.init);
+goog.exportSymbol('mario.init', mario.init);

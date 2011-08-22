@@ -1,101 +1,107 @@
-goog.provide('game.animations');
+goog.provide('game.ui.animation');
 
 goog.require('game.ai');
+goog.require('game.ui.viewport');
+goog.require('game.ui.spriteSheet');
 
-(function(animations) {
-    var E = 0;
-    var W = 1;
-    var N = 2;
-    var S = 3;
-    var NE = 4;
-    var NW = 5;
-    var SE = 6;
-    var SW = 7;
+
+game.ui.animation = function(game) {
+    this.game = game;
+};
+
+game.ui.animation.prototype.setAsFourDirectionalAnimation = function(object, size, url, offset, frameSize, xFrames, frameSpeed) {
+    this.setSpriteSheet(object, size, url, offset, frameSize, new Box2D.Common.Math.b2Vec2(xFrames, 4), frameSpeed);
+    this.game.getAIManager().addThinker(object, game.ui.animation.fourDirectionalAnimationThought);
+};
+
+game.ui.animation.prototype.setSpriteSheet = function(object, size, url, offset, frameSize, frames, frameSpeed) {
+    this.game.getViewport().setDisplaySize(object.body, size);
+    this.game.getViewport().setImage(object, url, offset);
+    object.display.spriteSheet = new game.ui.spriteSheet(url, offset, frames, frameSize);
+    object.display.animation = {};
+    object.display.animation.frameSize = frameSize; // Pixels
+    object.display.animation.frameSpeed = frameSpeed; // FPS
+    object.display.animation.frameTick = 0;
+    object.display.animation.frameDir = { a: game.ui.animation.DIRECTIONS.E, x: game.ui.animation.DIRECTIONS.E, y: game.ui.animation.DIRECTIONS.N };
+};
+
+game.ui.animation.DIRECTIONS = {
+    E: 0,
+    W: 1,
+    N: 2,
+    S: 3,
+    NE: 4,
+    NW: 5,
+    SE: 6,
+    SW: 7
+};
+(function(animation) {
     var ZERO_MOTION = 0.01;
     
-    animations.setSpriteSheet = function(object, size, url, offset, frameSize, frames, frameSpeed) {
-        game.ui.setDisplaySize(object, size);
-        game.ui.setImage(object, url);
-        object.display.spriteSheet.offset = offset; // Pixels
-        object.display.spriteSheet.frameSize = frameSize; // Pixels
-        object.display.spriteSheet.frames = frames;
-        object.display.spriteSheet.frameSpeed = frameSpeed; // FPS
-        object.display.spriteSheet.frameTick = 0;
-        object.display.spriteSheet.frameOffset = new Box2D.Common.Math.b2Vec2(0,0);
-        object.display.spriteSheet.frameDir = { a: E, x: E, y: N };
+    animation.fourDirectionalAnimationThought = function(time, tick) {
+        animation.fourDirectionalAnimation(time, tick, this);
     };
     
-    animations.setAsFourDirectionalAnimation = function(object, size, url, offset, frameSize, frames, frameSpeed) {
-        animations.setSpriteSheet(object, size, url, offset, frameSize, frames, frameSpeed );
-        if (object.think) {
-            var oldThink = object.think;
-            object.think = function(time, tick) {
-                oldThink(time, tick);
-                animations.fourDirectionalAnimation(time, tick, object);
-            };
-        } else {
-            object.think = function(time, tick) {
-                animations.fourDirectionalAnimation(time, tick, object);
-            };
-            game.ai.addThinker(object);
-        }
-    };
-    
-    animations.fourDirectionalAnimation = function(time, tick, object) {
-        var spriteSheet = object.display.spriteSheet;
-        spriteSheet.frameTick += tick;
+    animation.fourDirectionalAnimation = function(time, tick, object) {
+        var animation = object.display.animation;
+        animation.frameTick += tick;
+        var tile = new Box2D.Common.Math.b2Vec2(1,1);
         
-        var vel = object.GetLinearVelocity();
+        var vel = object.body.GetLinearVelocity();
         var absX = Math.abs(vel.x);
         var absY = Math.abs(vel.y);
         if (absY < ZERO_MOTION || absX >= absY) {
             if (vel.x > ZERO_MOTION) {
-                spriteSheet.frameDir.x = E;
-                if (spriteSheet.frameDir.a != E) {
-                    spriteSheet.frameDir.a = E;
-                    spriteSheet.frameTick = 0;
+                animation.frameDir.x = game.ui.animation.DIRECTIONS.E;
+                if (animation.frameDir.a != game.ui.animation.DIRECTIONS.E) {
+                    animation.frameDir.a = game.ui.animation.DIRECTIONS.E;
+                    animation.frameTick = 0;
                 }
             } else if (vel.x < -ZERO_MOTION) {
-                spriteSheet.frameDir.x = W;
-                if (spriteSheet.frameDir.a != W) {
-                    spriteSheet.frameDir.a = W;
-                    spriteSheet.frameTick = 0;
+                animation.frameDir.x = game.ui.animation.DIRECTIONS.W;
+                if (animation.frameDir.a != game.ui.animation.DIRECTIONS.W) {
+                    animation.frameDir.a = game.ui.animation.DIRECTIONS.W;
+                    animation.frameTick = 0;
                 }
             } else {
-                spriteSheet.frameTick = 0;
+                animation.frameTick = 0;
             }
-            if (spriteSheet.frameDir.x == W) {
-                spriteSheet.frameOffset.y = spriteSheet.frameSize.y * 3 + spriteSheet.offset.y;
+            if (animation.frameDir.x == game.ui.animation.DIRECTIONS.W) {
+                tile.y = 4;
             } else {
-                spriteSheet.frameOffset.y = spriteSheet.frameSize.y + spriteSheet.offset.y;
+                tile.y = 2;
             }
         } else {
             if (vel.y > ZERO_MOTION) {
-                spriteSheet.frameDir.y = S;
-                if (spriteSheet.frameDir.a != S) {
-                    spriteSheet.frameDir.a = S;
-                    spriteSheet.frameTick = 0;
+                animation.frameDir.y = game.ui.animation.DIRECTIONS.S;
+                if (animation.frameDir.a != game.ui.animation.DIRECTIONS.S) {
+                    animation.frameDir.a = game.ui.animation.DIRECTIONS.S;
+                    animation.frameTick = 0;
                 }
-                spriteSheet.frameOffset.y = spriteSheet.frameSize.y * 2 + spriteSheet.offset.y;
+                tile.y = 3;
             } else { // vel.y must be less than 0, because if it was 0 then we'd be in X logic
-                spriteSheet.frameDir.y = N;
-                if (spriteSheet.frameDir.a != N) {
-                    spriteSheet.frameDir.a = N;
-                    spriteSheet.frameTick = 0;
+                animation.frameDir.y = game.ui.animation.DIRECTIONS.N;
+                if (animation.frameDir.a != game.ui.animation.DIRECTIONS.N) {
+                    animation.frameDir.a = game.ui.animation.DIRECTIONS.N;
+                    animation.frameTick = 0;
                 }
-                spriteSheet.frameOffset.y = spriteSheet.offset.y;
+                tile.y = 1;
             }
         }
-        if (spriteSheet.frameTick == 0) {
-            spriteSheet.frameOffset.x = spriteSheet.offset.x;
+        if (animation.frameTick == 0) {
+            tile.x = 1;
         } else {
-            var frame = Math.floor(spriteSheet.frameTick * spriteSheet.frameSpeed) % spriteSheet.frames;
-            spriteSheet.frameOffset.x = frame * spriteSheet.frameSize.x + spriteSheet.offset.x;
+            tile.x = Math.floor(animation.frameTick * animation.frameSpeed);
         }
+        object.display.spriteSheet.setTile(tile);
     };
     
-    animations.eightDirectionalAnimation = function(time, tick, object) {
-        var vel = object.GetLinearVelocity();
+    animation.eightDirectionalAnimationThought = function(time, tick) {
+        animation.eightDirectionalAnimation(time, tick, this);
+    };
+    
+    animation.eightDirectionalAnimation = function(time, tick, object) {
+        var vel = object.body.GetLinearVelocity();
         var absX = Math.abs(vel.x);
         var absY = Math.abs(vel.y);
         
@@ -143,7 +149,7 @@ goog.require('game.ai');
       }
       
       var spriteY = 0;
-      var spriteX = Math.round((this.directionTime + 1) / (this.mspf)) % this.frames;
+      var spriteX = Math.round((this.directionTime + 1) / (this.mspf));
       
       var isStationary = speedVector.squaredMagnitude() == 0;
       if (!isStationary || this.lastFrame != 0) {
@@ -206,4 +212,4 @@ goog.require('game.ai');
           y: spriteY * this.tileHeight
       };
     };
-})(game.animations);
+})(game.ui.animation);
