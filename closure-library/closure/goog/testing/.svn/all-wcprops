@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 45
-/svn/!svn/ver/1183/trunk/closure/goog/testing
+/svn/!svn/ver/1228/trunk/closure/goog/testing
 END
 continuationtestcase.js
 K 25
@@ -99,11 +99,11 @@ svn:wc:ra_dav:version-url
 V 71
 /svn/!svn/ver/850/trunk/closure/goog/testing/expectedfailures_test.html
 END
-recordfunction.js
+stacktrace.js
 K 25
 svn:wc:ra_dav:version-url
-V 63
-/svn/!svn/ver/1165/trunk/closure/goog/testing/recordfunction.js
+V 58
+/svn/!svn/ver/850/trunk/closure/goog/testing/stacktrace.js
 END
 multitestrunner.js
 K 25
@@ -111,11 +111,11 @@ svn:wc:ra_dav:version-url
 V 64
 /svn/!svn/ver/1024/trunk/closure/goog/testing/multitestrunner.js
 END
-stacktrace.js
+recordfunction.js
 K 25
 svn:wc:ra_dav:version-url
-V 58
-/svn/!svn/ver/850/trunk/closure/goog/testing/stacktrace.js
+V 63
+/svn/!svn/ver/1165/trunk/closure/goog/testing/recordfunction.js
 END
 functionmock_test.html
 K 25
@@ -123,23 +123,17 @@ svn:wc:ra_dav:version-url
 V 68
 /svn/!svn/ver/1120/trunk/closure/goog/testing/functionmock_test.html
 END
-mockcontrol.js
-K 25
-svn:wc:ra_dav:version-url
-V 60
-/svn/!svn/ver/1120/trunk/closure/goog/testing/mockcontrol.js
-END
 asynctestcase_noasync_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 76
 /svn/!svn/ver/850/trunk/closure/goog/testing/asynctestcase_noasync_test.html
 END
-loosemock.js
+mockcontrol.js
 K 25
 svn:wc:ra_dav:version-url
-V 57
-/svn/!svn/ver/850/trunk/closure/goog/testing/loosemock.js
+V 60
+/svn/!svn/ver/1120/trunk/closure/goog/testing/mockcontrol.js
 END
 shardingtestcase.js
 K 25
@@ -147,17 +141,17 @@ svn:wc:ra_dav:version-url
 V 64
 /svn/!svn/ver/850/trunk/closure/goog/testing/shardingtestcase.js
 END
+loosemock.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/850/trunk/closure/goog/testing/loosemock.js
+END
 expectedfailures.js
 K 25
 svn:wc:ra_dav:version-url
 V 64
 /svn/!svn/ver/850/trunk/closure/goog/testing/expectedfailures.js
-END
-asynctestcase_async_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 74
-/svn/!svn/ver/850/trunk/closure/goog/testing/asynctestcase_async_test.html
 END
 mockrange_test.html
 K 25
@@ -165,17 +159,23 @@ svn:wc:ra_dav:version-url
 V 64
 /svn/!svn/ver/850/trunk/closure/goog/testing/mockrange_test.html
 END
-mockclassfactory_test.html
+asynctestcase_async_test.html
 K 25
 svn:wc:ra_dav:version-url
-V 71
-/svn/!svn/ver/850/trunk/closure/goog/testing/mockclassfactory_test.html
+V 74
+/svn/!svn/ver/850/trunk/closure/goog/testing/asynctestcase_async_test.html
 END
 mockuseragent_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 68
 /svn/!svn/ver/850/trunk/closure/goog/testing/mockuseragent_test.html
+END
+mockclassfactory_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/850/trunk/closure/goog/testing/mockclassfactory_test.html
 END
 graphics.js
 K 25

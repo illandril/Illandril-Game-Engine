@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 50
-/svn/!svn/ver/1143/trunk/closure/goog/demos/editor
+/svn/!svn/ver/1236/trunk/closure/goog/demos/editor
 END
 equationeditor.html
 K 25
@@ -49,7 +49,7 @@ equationeditor.js
 K 25
 svn:wc:ra_dav:version-url
 V 68
-/svn/!svn/ver/1143/trunk/closure/goog/demos/editor/equationeditor.js
+/svn/!svn/ver/1236/trunk/closure/goog/demos/editor/equationeditor.js
 END
 editor.html
 K 25

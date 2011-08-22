@@ -1,14 +1,14 @@
 10
 
 dir
-1205
+1237
 http://closure-library.googlecode.com/svn/trunk/closure/goog/editor/plugins
 http://closure-library.googlecode.com/svn
 
 
 
-2011-07-21T23:12:40.000000Z
-1143
+2011-08-19T16:22:39.000000Z
+1236
 bills@google.com
 
 
@@ -94,6 +94,40 @@ has-props
 
 14888
 
+equationeditorbubble.js
+file
+
+
+
+
+2011-08-22T18:55:34.000000Z
+85d5890763b360c256488c686c158d14
+2011-08-19T16:22:39.000000Z
+1236
+bills@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4155
+
 basictextformatter.js
 file
 
@@ -137,10 +171,10 @@ file
 
 
 
-2011-08-12T15:43:49.000000Z
-30f31b6a351d880205d1934412610423
-2011-07-21T23:12:40.000000Z
-1143
+2011-08-22T18:55:34.000000Z
+c048e826fd96999d81cfdc538d4622fd
+2011-08-19T16:22:39.000000Z
+1236
 bills@google.com
 has-props
 
@@ -163,7 +197,7 @@ has-props
 
 
 
-10342
+6404
 
 undoredo.js
 file
@@ -477,11 +511,11 @@ file
 
 
 
-
-1395af29678f6f6a07ef7cd706eab098
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
+2011-08-22T18:55:34.000000Z
+a72a95c2bd409e07e35cd7529f179070
+2011-08-17T23:52:41.000000Z
+1228
+nicksantos@google.com
 has-props
 
 
@@ -503,7 +537,7 @@ has-props
 
 
 
-16750
+16746
 
 listtabhandler.js
 file
@@ -573,6 +607,40 @@ has-props
 
 11493
 
+equationeditorplugin_test.html
+file
+
+
+
+
+2011-08-22T18:55:34.000000Z
+ec8cd03d539ae1834cb1e557ac58c9ee
+2011-08-19T16:22:39.000000Z
+1236
+bills@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4064
+
 abstractdialogplugin.js
 file
 
@@ -606,40 +674,6 @@ has-props
 
 
 11423
-
-equationeditorplugin_test.html
-file
-
-
-
-
-2011-08-12T15:43:49.000000Z
-5956492e43e39bcb417a5f306cd9fbd5
-2011-07-21T23:12:40.000000Z
-1143
-bills@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4112
 
 headerformatter_test.html
 file
@@ -879,40 +913,6 @@ has-props
 
 2643
 
-removeformatting_test.html
-file
-
-
-
-
-2011-06-17T16:24:15.000000Z
-1258a2a47143f5c996ad4d251e9fa350
-2011-06-01T23:09:53.000000Z
-991
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-35136
-
 abstracttabhandler_test.html
 file
 
@@ -946,6 +946,40 @@ has-props
 
 
 2714
+
+removeformatting_test.html
+file
+
+
+
+
+2011-06-17T16:24:15.000000Z
+1258a2a47143f5c996ad4d251e9fa350
+2011-06-01T23:09:53.000000Z
+991
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+35136
 
 loremipsum_test.html
 file

@@ -1,15 +1,15 @@
 10
 
 dir
-1205
+1237
 http://closure-library.googlecode.com/svn/trunk/closure/goog
 http://closure-library.googlecode.com/svn
 
 
 
-2011-08-09T00:44:40.000000Z
-1202
-joshma@google.com
+2011-08-20T00:21:34.000000Z
+1237
+rshearer@google.com
 
 
 
@@ -117,34 +117,34 @@ has-props
 
 36146
 
-vec
-dir
-
-bootstrap
-dir
-
-testing
-dir
-
-fx
+messaging
 dir
 
 date
 dir
 
-messaging
+fx
+dir
+
+testing
+dir
+
+bootstrap
+dir
+
+vec
 dir
 
 color
 dir
 
-i18n
+dom
 dir
 
 spell
 dir
 
-dom
+i18n
 dir
 
 timer
@@ -253,11 +253,11 @@ file
 
 
 
-2011-08-12T15:43:50.000000Z
-efcfb49cccd0b61feb6674c34c108940
-2011-08-08T23:36:06.000000Z
-1200
-chrishenry@google.com
+2011-08-22T18:55:34.000000Z
+dee2b77c2e99c8f6eba42bf5c0daa54c
+2011-08-19T16:22:39.000000Z
+1236
+bills@google.com
 has-props
 
 
@@ -279,7 +279,7 @@ has-props
 
 
 
-196640
+196447
 
 structs
 dir

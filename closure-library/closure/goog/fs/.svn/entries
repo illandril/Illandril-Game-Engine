@@ -1,15 +1,15 @@
 10
 
 dir
-1205
+1237
 http://closure-library.googlecode.com/svn/trunk/closure/goog/fs
 http://closure-library.googlecode.com/svn
 
 
 
-2011-06-22T02:23:10.000000Z
-1065
-nweiz@google.com
+2011-08-17T14:44:09.000000Z
+1224
+nicksantos@google.com
 
 
 
@@ -168,11 +168,11 @@ file
 
 
 
-2011-06-17T16:24:11.000000Z
-03918408674228711097925e5799dd64
-2011-04-22T00:10:23.000000Z
-881
-nweiz@google.com
+2011-08-22T18:55:33.000000Z
+e671fe8aa1e57a0b7689af0127486ae9
+2011-08-17T14:44:09.000000Z
+1224
+nicksantos@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-17481
+17723
 
 filesaver.js
 file

@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 52
-/svn/!svn/ver/1143/trunk/closure/goog/editor/plugins
+/svn/!svn/ver/1236/trunk/closure/goog/editor/plugins
 END
 undoredostate_test.html
 K 25
@@ -15,6 +15,12 @@ svn:wc:ra_dav:version-url
 V 65
 /svn/!svn/ver/850/trunk/closure/goog/editor/plugins/blockquote.js
 END
+equationeditorbubble.js
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1236/trunk/closure/goog/editor/plugins/equationeditorbubble.js
+END
 basictextformatter.js
 K 25
 svn:wc:ra_dav:version-url
@@ -25,7 +31,7 @@ equationeditorplugin.js
 K 25
 svn:wc:ra_dav:version-url
 V 76
-/svn/!svn/ver/1143/trunk/closure/goog/editor/plugins/equationeditorplugin.js
+/svn/!svn/ver/1236/trunk/closure/goog/editor/plugins/equationeditorplugin.js
 END
 undoredo.js
 K 25
@@ -84,8 +90,8 @@ END
 abstractbubbleplugin.js
 K 25
 svn:wc:ra_dav:version-url
-V 75
-/svn/!svn/ver/850/trunk/closure/goog/editor/plugins/abstractbubbleplugin.js
+V 76
+/svn/!svn/ver/1228/trunk/closure/goog/editor/plugins/abstractbubbleplugin.js
 END
 listtabhandler.js
 K 25
@@ -99,17 +105,17 @@ svn:wc:ra_dav:version-url
 V 77
 /svn/!svn/ver/850/trunk/closure/goog/editor/plugins/undoredomanager_test.html
 END
+equationeditorplugin_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1236/trunk/closure/goog/editor/plugins/equationeditorplugin_test.html
+END
 abstractdialogplugin.js
 K 25
 svn:wc:ra_dav:version-url
 V 75
 /svn/!svn/ver/850/trunk/closure/goog/editor/plugins/abstractdialogplugin.js
-END
-equationeditorplugin_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svn/!svn/ver/1143/trunk/closure/goog/editor/plugins/equationeditorplugin_test.html
 END
 headerformatter_test.html
 K 25
@@ -153,17 +159,17 @@ svn:wc:ra_dav:version-url
 V 70
 /svn/!svn/ver/850/trunk/closure/goog/editor/plugins/headerformatter.js
 END
-abstracttabhandler_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 80
-/svn/!svn/ver/850/trunk/closure/goog/editor/plugins/abstracttabhandler_test.html
-END
 removeformatting_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 78
 /svn/!svn/ver/991/trunk/closure/goog/editor/plugins/removeformatting_test.html
+END
+abstracttabhandler_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/850/trunk/closure/goog/editor/plugins/abstracttabhandler_test.html
 END
 loremipsum_test.html
 K 25

@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
-V 46
-/svn/!svn/ver/948/trunk/closure/goog/ui/editor
+V 47
+/svn/!svn/ver/1236/trunk/closure/goog/ui/editor
 END
 linkdialog_test.html
 K 25
@@ -27,6 +27,12 @@ svn:wc:ra_dav:version-url
 V 58
 /svn/!svn/ver/850/trunk/closure/goog/ui/editor/messages.js
 END
+equationeditorokevent.js
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/1236/trunk/closure/goog/ui/editor/equationeditorokevent.js
+END
 tabpane.js
 K 25
 svn:wc:ra_dav:version-url
@@ -48,8 +54,14 @@ END
 bubble.js
 K 25
 svn:wc:ra_dav:version-url
-V 56
-/svn/!svn/ver/850/trunk/closure/goog/ui/editor/bubble.js
+V 57
+/svn/!svn/ver/1228/trunk/closure/goog/ui/editor/bubble.js
+END
+equationeditordialog.js
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/1236/trunk/closure/goog/ui/editor/equationeditordialog.js
 END
 linkdialog.js
 K 25
