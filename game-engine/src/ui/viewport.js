@@ -65,7 +65,7 @@ game.ui.viewport.prototype.createMessageDOMObject = function(message) {
     messageDOM.style.color = "black";
     messageDOM.style.position = "relative";
     messageDOM.style.display = "none";
-    messageDOM.style.zIndex = 10000;
+    messageDOM.style.zIndex = game.ui.viewport.BASE_Z + game.ui.viewport.LAYERS.MESSAGES;
     messageDOM.innerHTML = message;
     messageDOM.style.width = (this.viewportSize.x) + "px";
     messageDOM.style.height = (this.viewportSize.y) + "px";
@@ -102,17 +102,17 @@ game.ui.viewport.prototype.hidePaused = function() {
 };
 
 game.ui.viewport.prototype.lookAt = function(position) {
-    this.camera.x = position.x - this.scaledViewportSize.x / 2;
-    this.camera.y = position.y - this.scaledViewportSize.y / 2;
-    if ( this.camera.x < 0 ) {
-        this.camera.x = 0;
-    } else if ( this.camera.x > this.game.getWorld().getWorldWidth() - this.scaledViewportSize.x ) {
-        this.camera.x = this.game.getWorld().getWorldWidth() - this.scaledViewportSize.x;
+    this.camera.x = position.x;
+    this.camera.y = position.y;
+    if ( this.camera.x < this.scaledViewportSize.x / 2 ) {
+        this.camera.x = this.scaledViewportSize.x / 2;
+    } else if ( this.camera.x > this.game.getWorld().getWorldWidth() - this.scaledViewportSize.x / 2 ) {
+        this.camera.x = this.game.getWorld().getWorldWidth() - this.scaledViewportSize.x / 2;
     }
-    if ( this.camera.y < 0 ) {
-        this.camera.y = 0;
-    } else if ( this.camera.y > this.game.getWorld().getWorldHeight() - this.scaledViewportSize.y ) {
-        this.camera.y = this.game.getWorld().getWorldHeight() - this.scaledViewportSize.y;
+    if ( this.camera.y < this.scaledViewportSize.y / 2 ) {
+        this.camera.y = this.scaledViewportSize.y / 2;
+    } else if ( this.camera.y > this.game.getWorld().getWorldHeight() - this.scaledViewportSize.y / 2 ) {
+        this.camera.y = this.game.getWorld().getWorldHeight() - this.scaledViewportSize.y / 2;
     }
 };
 
@@ -123,12 +123,12 @@ game.ui.viewport.prototype.draw = function(time, tick) {
         this.lastCamera.x = this.camera.x;
         this.lastCamera.y = this.camera.y;
         if (this.debugCanvas !== null) {
-            this.debugCanvas.style.left = "-" + ( this.camera.x * this.scale ) + "px";
-            this.debugCanvas.style.top = "-" + ( this.camera.y * this.scale ) + "px";
+            this.debugCanvas.style.left = "-" + ( this.camera.x * this.scale - this.viewportSize.x / 2 ) + "px";
+            this.debugCanvas.style.top = "-" + ( this.camera.y * this.scale - this.viewportSize.y / 2 ) + "px";
         }
-        this.display.style.left = "-" + ( this.camera.x * this.scale ) + "px";
-        this.display.style.top = "-" + ( this.camera.y * this.scale ) + "px";
-        this.viewportWorldObject.body.SetPosition(new Box2D.Common.Math.b2Vec2(this.camera.x + this.scaledViewportSize.x / 2, this.camera.y + this.scaledViewportSize.y / 2));
+        this.display.style.left = "-" + ( this.camera.x * this.scale - this.viewportSize.x / 2 ) + "px";
+        this.display.style.top = "-" + ( this.camera.y * this.scale - this.viewportSize.y / 2 ) + "px";
+        this.viewportWorldObject.body.SetPosition(new Box2D.Common.Math.b2Vec2(this.camera.x, this.camera.y));
     }
     
     var undisplayedDOMObjects = [];
@@ -138,19 +138,16 @@ game.ui.viewport.prototype.draw = function(time, tick) {
     var viewportAABB = this.viewportWorldObject.fixture.GetAABB();
     for(var body = this.game.getWorld().getBox2DWorld().GetBodyList(); body; body = body.GetNext()) {
         if ( body.object && body.object.display ) {
-            var objDisplay = body.object.display;
+            var obj = body.object;
+            var objDisplay = obj.display;
             var visible = false;
-            for(var fixture = body.GetFixtureList(); fixture; fixture = fixture.GetNext()) {
-                if (viewportAABB.TestOverlap(fixture.GetAABB())) {
-                    visible = true;
-                    break;
-                }
-            }
-            if (!visible) {
+            var pos = obj.getDisplayPosition(this.camera);
+            var size = objDisplay.size;
+            objDisplay.aabb.lowerBound.Set(pos.x - size.x, pos.y - size.y);
+            objDisplay.aabb.upperBound.Set(pos.x + size.x, pos.y + size.y);
+            if (!viewportAABB.TestOverlap(objDisplay.aabb)) {
                 continue;
             }
-            var pos = body.GetPosition();
-            var size = objDisplay.size;
             if ( objDisplay.viewID == null ) {
                 objDisplay.viewID = game.ui.viewport._nextUID++;
             }
@@ -158,6 +155,7 @@ game.ui.viewport.prototype.draw = function(time, tick) {
             if (this.domObjects[objDisplay.viewID] == null) {
                 this.domObjects[objDisplay.viewID] = document.createElement('span');
                 this.domObjects[objDisplay.viewID].className = 'gameObject';
+                this.domObjects[objDisplay.viewID].style.zIndex = game.ui.viewport.BASE_Z + (objDisplay.zOffset || game.ui.viewport.LAYERS.DEFAULT);
                 this.display.appendChild(this.domObjects[objDisplay.viewID]);
             }
             var domObject = this.domObjects[objDisplay.viewID];
@@ -184,7 +182,7 @@ game.ui.viewport.prototype.draw = function(time, tick) {
                 savedStyle.height = height;
                 domObject.style.height = (height * this.scale) + "px";
             }
-            var rotation = body.GetAngle();
+            var rotation = obj.getDisplayAngle(this.camera);
             if ( savedStyle.rotation != rotation ) {
                 savedStyle.rotation = rotation;
                 domObject.style.webkitTransform = "rotate(" + rotation + "rad)";
@@ -206,9 +204,59 @@ game.ui.viewport.prototype.draw = function(time, tick) {
     this.display.style.visibility = "";
 };
 
+game.ui.viewport.prototype.setDisplaySize = function(object, size) {
+    if (object.display == null) {
+        object.display = {};
+        object.display.aabb = new Box2D.Collision.b2AABB();
+        object.getDisplayPosition = function(camera) {
+            var pos = this.body.GetPosition();
+            if(this.display.parallaxMultiplier == 0) {
+                return pos;
+            } else {
+                var newX = pos.x + (camera.x - pos.x) * this.display.parallaxMultiplier;
+                var newY = pos.y + (camera.y - pos.y) * this.display.parallaxMultiplier;
+                return new Box2D.Common.Math.b2Vec2(newX, newY);
+            }
+        };
+        object.getDisplayAngle = function(camera) {
+            return this.body.GetAngle();
+        };
+        this.setParallax(object, 0);
+        this.setZOffset(object, 0);
+    }
+    object.display.size = size; // Meters
+};
+
+game.ui.viewport.prototype.setImage = function(object, url, offset) {
+    object.display.spriteSheet = new game.ui.spriteSheet(url, offset);
+};
+
+// Parallax level of 0 means no parallax at all
+// Parallax level of 10 means display shifted by 10%
+// Parallax Level of 100 means follow the camera
+game.ui.viewport.prototype.setParallax = function(object, parallaxLevel) {
+    object.display.parallaxMultiplier = parallaxLevel / 100;
+};
+
+// Parallax level of 0 means no parallax at all
+// Parallax level of 10 means display shifted by 10%
+// Parallax Level of 100 means follow the camera
+game.ui.viewport.prototype.setZOffset = function(object, zOffset) {
+    object.display.zOffset = zOffset;
+};
 
 // CONSTANTS
 game.ui.viewport.VIEWPORT_LOAD_SCALE = 1.25;
+
+game.ui.viewport.BASE_Z = 100;
+
+game.ui.viewport.LAYERS = {
+    SCENERY: -1,
+    DEFAULT: 0,
+    PLAYER: 10,
+    HUD: 50,
+    MESSAGES: 100
+};
 
 game.ui.viewport.MESSAGE_DISPLAY = "table-cell";
 
@@ -223,18 +271,4 @@ game.ui.viewport.B2DEBUG_FLAGS = 0
                         
 
 // STATICS
-
-
 game.ui.viewport._nextUID = 0;
-
-game.ui.viewport.prototype.setDisplaySize = function(object, size) {
-    object.display = object.display || {};
-    object.display.size = size; // Meters
-};
-
-game.ui.viewport.prototype.setImage = function(object, url, offset) {
-    if (object.display == null || object.display.size == null) {
-        throw 'Attempt to set image of object with no display size!'
-    }
-    object.display.spriteSheet = new game.ui.spriteSheet(url, offset);
-};

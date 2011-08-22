@@ -72,7 +72,6 @@ test.createBallPit = function(size, bottomLeft) {
     var radius = 0.15;
     var shape = new Box2D.Collision.Shapes.b2CircleShape(radius);
     var cnt = 0;
-    if(false){
     for(var x = size.y + radius; x < size.x - radius; x += radius * 2) {
         for(var y = 0; y < size.y / 2; y+= radius * 2) { // half full
             var ball = g.getWorld().createObject(new Box2D.Common.Math.b2Vec2(radius * 2, radius * 2), new Box2D.Common.Math.b2Vec2(bottomLeft.x + x - (cnt++ % 2) * radius, bottomLeft.y - y), true /* visible */, null, { density: 0.1, restitution: 0.1, friction: 0.1 }, shape );
@@ -87,7 +86,6 @@ test.createBallPit = function(size, bottomLeft) {
                 g.getViewport().setImage(ball, 'graphics/ball-blue.png');
             }
         }
-    }
     }
 };
 

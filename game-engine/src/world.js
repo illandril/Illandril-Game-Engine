@@ -172,6 +172,14 @@ goog.provide('game.world');
         return this.worldSize.y;
     };
     
+    game.world.prototype.createSceneryBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+        bodyArgs = bodyArgs || {};
+        bodyArgs.type = Box2D.Dynamics.b2Body.b2_staticBody;
+        fixtureArgs = fixtureArgs || {};
+        fixtureArgs.isSensor = true;        
+        return this.createBox(size, position, visible, bodyArgs, fixtureArgs);
+    };
+    
     game.world.prototype.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         bodyArgs = bodyArgs || {};
         bodyArgs.type = Box2D.Dynamics.b2Body.b2_staticBody;
