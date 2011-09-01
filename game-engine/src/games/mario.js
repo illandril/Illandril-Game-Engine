@@ -27,11 +27,16 @@ var offsets = {
     floor: new Box2D.Common.Math.b2Vec2(0,454),
     block: new Box2D.Common.Math.b2Vec2(178,326),
     hard: new Box2D.Common.Math.b2Vec2(2,124),
-    coin: new Box2D.Common.Math.b2Vec2(354,54),
+    coinBox: new Box2D.Common.Math.b2Vec2(354,54),
+    coin: new Box2D.Common.Math.b2Vec2(0,58),
+    spentBox: new Box2D.Common.Math.b2Vec2(290,54),
     coinBlock: new Box2D.Common.Math.b2Vec2(178,326),
-    hiddenStar: new Box2D.Common.Math.b2Vec2(32,84),
-    shroom: new Box2D.Common.Math.b2Vec2(354,54),
-    hidden1up: new Box2D.Common.Math.b2Vec2(0,90),
+    hiddenStar: new Box2D.Common.Math.b2Vec2(0,0),
+    star: new Box2D.Common.Math.b2Vec2(32,84),
+    shroomBox: new Box2D.Common.Math.b2Vec2(354,54),
+    shroom: new Box2D.Common.Math.b2Vec2(0,90),
+    hiddenOneUp: new Box2D.Common.Math.b2Vec2(0,0),
+    oneUp: new Box2D.Common.Math.b2Vec2(2,158),
     pipeL: new Box2D.Common.Math.b2Vec2(158,388),
     pipeR: new Box2D.Common.Math.b2Vec2(190,388),
     pipeLT: new Box2D.Common.Math.b2Vec2(158,356),
@@ -66,7 +71,7 @@ test.init = function(gameContainerID, doDebug, wasd) {
     var size = new Box2D.Common.Math.b2Vec2(viewportSize.x / viewportScale, viewportSize.y / viewportScale);
     var bg = g.getWorld().createSceneryBox(size, new Box2D.Common.Math.b2Vec2(0,0), true);
     g.getViewport().setZOffset(bg, game.ui.viewport.LAYERS.SCENERY);
-    g.getViewport().setImage(bg, 'graphics/ball-blue.png');
+    g.getViewport().setImage(bg, 'graphics/sky.png');
     g.getViewport().setParallax(bg, 100);
     g.startWhenReady();
 };
@@ -155,10 +160,28 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
             break;
         case 'O':
             obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
-            imgOffset = offsets.coin;
+            game.platformer.initializeDirectionalAction(obj, function(collidingObject){
+                var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+                g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
+                obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y), true /* visible */);
+                g.getViewport().setImage(obj, marioSheet, offsets.coin);
+            }, game.platformer.SIDES.BOTTOM);
+            imgOffset = offsets.coinBox;
             break;
         case '@':
-            obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            obj.coins = 8;
+            obj.coinsOutput = 0;
+            game.platformer.initializeDirectionalAction(obj, function(contact){
+                obj.coinsOutput++;
+                nObj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - obj.coinsOutput / obj.coins) * tileSize.y), true /* visible */);
+                g.getViewport().setImage(nObj, marioSheet, offsets.coin);
+                if(obj.coinsOutput == obj.coins) {
+                    g.getWorld().destroyObject(obj);
+                    var nObj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+                    g.getViewport().setImage(nObj, marioSheet, offsets.spentBox);
+                }
+            }, game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.coinBlock;
             break;
         case '#':
@@ -168,16 +191,34 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
         case '1':
             obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
-            imgOffset = offsets.hidden1up;
+            game.platformer.initializeDirectionalAction(obj, function(contact){
+                var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+                g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
+                obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y), true /* visible */);
+                g.getViewport().setImage(obj, marioSheet, offsets.oneUp);
+            }, game.platformer.SIDES.BOTTOM);
+            imgOffset = offsets.hiddenOneUp;
             break;
         case '*':
             obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
+            game.platformer.initializeDirectionalAction(obj, function(contact){
+                var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+                g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
+                obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y), true /* visible */);
+                g.getViewport().setImage(obj, marioSheet, offsets.star);
+            }, game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.hiddenStar;
             break;
         case 'M':
             obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
-            imgOffset = offsets.shroom;
+            game.platformer.initializeDirectionalAction(obj, function(contact){
+                var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+                g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
+                obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y), true /* visible */);
+                g.getViewport().setImage(obj, marioSheet, offsets.shroom);
+            }, game.platformer.SIDES.BOTTOM);
+            imgOffset = offsets.shroomBox;
             break;
         case '[':
             obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));

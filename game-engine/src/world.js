@@ -40,8 +40,7 @@ goog.provide('game.world');
     };
     
     game.world = function(theGame, worldSize, gravity) {
-        this.objectsToDestroy = [];
-        this.objectsToMove = [];
+        this.queuedActions = [];
         this.collisionFilters = [];
         
         this.game = theGame;
@@ -60,17 +59,12 @@ goog.provide('game.world');
     game.world.prototype.update = function(time, tick) {
         this.b2World.Step(tick /* time delta (sec) */, frameSteps /* Velocity Iterations */, frameSteps /* Position Iterations */);
         this.b2World.ClearForces();
-        if (this.objectsToDestroy.length > 0) {
-            for (var i = 0; i < this.objectsToDestroy.length; i++) {
-                this.b2World.DestroyBody(this.objectsToDestroy[i].body);
+        var prevQueuedActions = this.queuedActions;
+        this.queuedActions = [];
+        if (prevQueuedActions.length > 0) {
+            for (var i = 0; i < prevQueuedActions.length; i++) {
+                prevQueuedActions[i].call(this);
             }
-            this.objectsToDestroy = [];
-        }
-        if (this.objectsToMove.length > 0) {
-            for (var i = 0; i < this.objectsToMove.length; i++) {
-                this.objectsToMove[i].body.SetPosition(this.objectsToMove[i].__nextPosition);
-            }
-            this.objectsToMove = [];
         }
     };
     
@@ -222,7 +216,23 @@ goog.provide('game.world');
         return this.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
     };
     
+    game.world.prototype._doWhenUnlocked = function(action) {
+        if(this.b2World.IsLocked()) {
+            this.queuedActions.push(action);
+        } else {
+            action.apply(this);
+        }
+    };
     game.world.prototype.createObject = function(size, position, visible, bodyArgs, fixtureArgs, shape) {
+        var object = {};
+        this._doWhenUnlocked(function() { this._createObject(object, size, position, visible, bodyArgs, fixtureArgs, shape); });
+        if (visible) {
+            this.game.getViewport().setDisplaySize(object, new Box2D.Common.Math.b2Vec2(size.x, size.y));
+        }
+        return object;
+    };
+    
+    game.world.prototype._createObject = function(object, size, position, visible, bodyArgs, fixtureArgs, shape) {
         bodyArgs = argsOrBodyDefaults(bodyArgs);
         bodyDefinition.type = bodyArgs.type;
         bodyDefinition.angle = bodyArgs.angle;
@@ -230,11 +240,9 @@ goog.provide('game.world');
         bodyDefinition.position = position;
         var body = this.b2World.CreateBody(bodyDefinition);
         fixture = this.addFixture(body, fixtureArgs, shape);
-        var object = { body: body, fixture: fixture };
+        object.body = body;
+        object.fixture = fixture;
         body.object = object;
-        if (visible) {
-            this.game.getViewport().setDisplaySize(object, new Box2D.Common.Math.b2Vec2(size.x, size.y));
-        }
         return object;
     };
     
@@ -250,11 +258,10 @@ goog.provide('game.world');
     };
     
     game.world.prototype.destroyObject = function(object) {
-        this.objectsToDestroy.push(object);
+        this._doWhenUnlocked(function() { this.b2World.DestroyBody(object.body); });
     };
     
     game.world.prototype.moveObject = function(object, newPosition) {
-        object.__nextPosition = newPosition;
-        this.objectsToMove.push(object);
+        this._doWhenUnlocked(function() { object.body.SetPosition(newPosition); });
     };
 })(game);

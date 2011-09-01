@@ -6,7 +6,7 @@ goog.provide('Box2D.base');
 Box2D = Box2D || {};
 Box2D.base = Box2D.base || {};
 
-(function (a2j, undefined) {
+(function (a2j) {
     if(!(Object.prototype.defineProperty instanceof Function) &&
             Object.prototype.__defineGetter__ instanceof Function &&
             Object.prototype.__defineSetter__ instanceof Function) {

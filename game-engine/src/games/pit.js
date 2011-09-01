@@ -11,8 +11,8 @@ goog.require('goog.events.KeyCodes');
 var player;
 var ramp;
 var testObjects = 0;
-var worldSize = new Box2D.Common.Math.b2Vec2(20, 15); // Meters
-var viewportSize = new Box2D.Common.Math.b2Vec2(400, 300); // Pixels
+var worldSize = new Box2D.Common.Math.b2Vec2(5, 10); // Meters
+var viewportSize = new Box2D.Common.Math.b2Vec2(100, 200); // Pixels
 var viewportScale = 20; // Pixels per Meter
 var addBallPit = true;
 
@@ -24,7 +24,7 @@ var p;
 test.init = function(gameContainerID, doDebug, wasd) {
     g = new game.game(test, gameContainerID, worldSize, game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
     p = new game.platformer(g);
-    var position = new Box2D.Common.Math.b2Vec2(1, worldSize.y - 2);
+    var position = new Box2D.Common.Math.b2Vec2(2, 2);
     test.createWorld();
     test.createPlayer(position, wasd);
     g.startWhenReady();
@@ -54,17 +54,19 @@ test.createPlayer = function(position, wasd) {
 test.createWorld = function() {
     var platformSize = new Box2D.Common.Math.b2Vec2(3, 0.25);
     p.createBlock(new Box2D.Common.Math.b2Vec2(worldSize.x, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2), worldSize.y-0.25));
-    test.createBallPit(new Box2D.Common.Math.b2Vec2(worldSize.x - 2, 2), new Box2D.Common.Math.b2Vec2(2, worldSize.y-0.25));
+    test.createBallPit(new Box2D.Common.Math.b2Vec2(worldSize.x , 6), new Box2D.Common.Math.b2Vec2(0, worldSize.y-0.25));
 };
 
 test.createBallPit = function(size, bottomLeft) {
     // Bottom assumed to already exist
     
     // Ramp
-    g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, Math.sqrt(size.y * size.y * 2)), new Box2D.Common.Math.b2Vec2(bottomLeft.x + size.y / 2, bottomLeft.y - size.y / 2), true /* visible */, { angle: Math.PI / 4 }, null );
+    var rampWidth = 0; //size.y * 3; //size.y;
+    var rampLength = Math.sqrt(rampWidth * rampWidth + size.y * size.y);
+    //g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, rampLength), new Box2D.Common.Math.b2Vec2(bottomLeft.x + rampWidth / 2, bottomLeft.y - size.y / 2), true /* visible */, { angle: Math.atan(rampWidth / size.y)/* Math.PI / (4 / (rampWidth/size.y))*/ }, null );
     
     // Left wall
-    g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, size.y), new Box2D.Common.Math.b2Vec2(bottomLeft.x + size.y, bottomLeft.y - size.y / 2), true /* visible */, null, null );
+    g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, size.y), new Box2D.Common.Math.b2Vec2(bottomLeft.x + rampWidth, bottomLeft.y - size.y / 2), true /* visible */, null, null );
     
     // Right wall
     g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, size.y), new Box2D.Common.Math.b2Vec2(bottomLeft.x + size.x - 0.125, bottomLeft.y - size.y / 2), true /* visible */, null, null );
@@ -72,7 +74,7 @@ test.createBallPit = function(size, bottomLeft) {
     var radius = 0.15;
     var shape = new Box2D.Collision.Shapes.b2CircleShape(radius);
     var cnt = 0;
-    for(var x = size.y + radius; x < size.x - radius; x += radius * 2) {
+    for(var x = rampWidth + radius; x < size.x - radius; x += radius * 2) {
         for(var y = 0; y < size.y / 2; y+= radius * 2) { // half full
             var ball = g.getWorld().createObject(new Box2D.Common.Math.b2Vec2(radius * 2, radius * 2), new Box2D.Common.Math.b2Vec2(bottomLeft.x + x - (cnt++ % 2) * radius, bottomLeft.y - y), true /* visible */, null, { density: 0.1, restitution: 0.1, friction: 0.1 }, shape );
             var color = Math.random();

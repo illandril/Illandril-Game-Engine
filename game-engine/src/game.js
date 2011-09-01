@@ -114,6 +114,7 @@ game.game.prototype.getWorld = function() {
 // Statics
 
 game.game.TICK_STEP = 0.015; // About 62.5 steps per second
+game.game.MAX_TICK = 0.2; // About 5 FPS
 
 game.game.isRunning = false;
 game.game.games = [];
@@ -144,7 +145,11 @@ game.game._update = function(time) {
     } else {
         game.game.lastTickTime = time;
     }
-    if ( tick > 0 || tick > game.game.TICK_STEP ) {
+    if ( tick > 0 ) {
+        // Stop things from going crazy after losing focus from the page for a while
+        if ( tick > game.game.MAX_TICK ) {
+            tick = game.game.MAX_TICK; 
+        }
         if ( game.game.fps ) {
             var instantFPS = 1 / tick;
             game.game.rollingFPS = game.game.rollingFPS * 0.99 + instantFPS * 0.01;

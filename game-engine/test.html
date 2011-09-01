@@ -48,20 +48,28 @@
  </head>
  <body>
   <div style="text-align: center;">
+   <!-- -->
    <div id="game" class="gameWindow">
    </div>
    <BR>
    WASD
+   <script type="text/javascript">
+    mario.init( "game", false /* debug */, true /* wasd */ );
+   </script>
    <br><br>
+   <!-- -->
+   <!-- -->
    <div id="game2" class="gameWindow">
    </div>
    <BR>
    ARROWS
+   <script type="text/javascript">
+    pit.init( "game2", false /* debug */, false /* wasd */ );
+   </script>
+   <!-- -->
   </div>
   <div id="fps"></div>
   <script type="text/javascript">
-   mario.init( "game", false /* debug */, true /* wasd */ );
-   //pit.init( "game2", false /* debug */, false /* wasd */ );
    /* Uncomment to get an FPS alert
    x = new Date();
    y = null;

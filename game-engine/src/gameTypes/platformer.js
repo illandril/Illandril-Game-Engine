@@ -1,12 +1,14 @@
 /*
 
 Known issues:
-1. Ground-detection logic isn't very good for rotating objects.
+1. Ground-detection logic isn't very good for rotating objects
    If a rotating object starts out vertical, and ends up picking up the jumper, jumper still cannot jump
    If a rotating object starts out underneath the jumper, and ends up next to or above, jumper can still jump
    This issue makes it more challenging to fix steep surface issue (see below)
 2. Ground-detection logic allows jumping on very, very, very steep surfaces
    Fixing this would increase the issues with rotating objects (see above)
+3. DirectionalActions onEnd doesn't work yet
+4. DirectionalActions and Siding is based on the World Normal, so "Top" for an upside-down object is the object's bottom
 
 */
 
@@ -39,31 +41,12 @@ game.platformer.prototype.createPlayer = function(size, position) {
         new Box2D.Common.Math.b2Vec2(halfSize.x - edging, halfSize.y - edging)
         ]);
     player.edging = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
-    //shape.SetAsOrientedBox(0.01, size.y / 2 - 0.02, new Box2D.Common.Math.b2Vec2(-size.x / 2, 0));
-    //player.leftEdge = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
-    //shape.SetAsOrientedBox(0.01, size.y / 2 - 0.02, new Box2D.Common.Math.b2Vec2(size.x / 2, 0));
-    //player.rightEdge = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
     
     player.actions = {};
     player.actions.moveUp = new game.controls.action(function(tickTime) {
         player.platformerRules.jumper.jump();
     }, 'Move Up', true);
     player.actions.moveDown = new game.controls.action(function(tickTime) {
-        /*
-        var nextContact = player.body.GetContactList();
-        while(nextContact != null) {
-            if (nextContact.contact.IsTouching() && !nextContact.contact.IsSensor()) {
-                if (nextContact.contact.GetFixtureA().softBottom || nextContact.contact.GetFixtureB().softBottom) {
-                    var pos = player.body.GetPosition();
-                    pos.y += 1;
-                    player.body.SetPosition(pos);
-                    player.body.SetAwake(true)
-                    return;
-                }
-            }
-            nextContact = nextContact.next;
-        }
-        */
         // Duck? Drop down through floor?
     }, 'Move Down', true);
     player.actions.moveLeft = new game.controls.action(function(tickTime) {
@@ -92,7 +75,8 @@ game.platformer.prototype.createPlayer = function(size, position) {
         MOVER:              parseInt('100', 2),
         BREAKABLE:          parseInt('1000', 2),
         DEATHTRIGGER:       parseInt('10000', 2),
-        LIVING:             parseInt('100000', 2)
+        LIVING:             parseInt('100000', 2),
+        DIRECTIONAL_ACTION: parseInt('1000000', 2),
     };
     
     platformer.LIVING_FILTERS = {
@@ -173,16 +157,50 @@ game.platformer.prototype.createPlayer = function(size, position) {
         };
     };
     
-    platformer.initializeBreakable = function(platform, weakSides) {
+    platformer.initializeDirectionalAction = function(platform, action, sidesOnBegin, sidesOnEnd) {
         platform.platformerRules = platform.platformerRules || {};
-        platform.platformerRules.type |= platformer.RULE_TYPES.BREAKABLE;
-        platform.platformerRules.breakable = {
-            top: weakSides & platformer.SIDES.TOP,
-            bottom: weakSides & platformer.SIDES.BOTTOM,
-            left: weakSides & platformer.SIDES.LEFT,
-            right: weakSides & platformer.SIDES.RIGHT
-        };
-
+        platform.platformerRules.type |= platformer.RULE_TYPES.DIRECTIONAL_ACTION;
+        platform.platformerRules.directionalActions = platform.platformerRules.directionalActions || {};
+        if ( sidesOnBegin & platformer.SIDES.TOP ) {
+            platform.platformerRules.directionalActions.hasOnBegin = true;
+            platform.platformerRules.directionalActions.topOnBegin = platform.platformerRules.directionalActions.topOnBegin || [];
+            platform.platformerRules.directionalActions.topOnBegin.push(action);
+        }
+        if ( sidesOnBegin & platformer.SIDES.BOTTOM ) {
+            platform.platformerRules.directionalActions.hasOnBegin = true;
+            platform.platformerRules.directionalActions.bottomOnBegin = platform.platformerRules.directionalActions.bottomOnBegin || [];
+            platform.platformerRules.directionalActions.bottomOnBegin.push(action);
+        }
+        if ( sidesOnBegin & platformer.SIDES.LEFT ) {
+            platform.platformerRules.directionalActions.hasOnBegin = true;
+            platform.platformerRules.directionalActions.leftOnBegin = platform.platformerRules.directionalActions.leftOnBegin || [];
+            platform.platformerRules.directionalActions.leftOnBegin.push(action);
+        }
+        if ( sidesOnBegin & platformer.SIDES.RIGHT ) {
+            platform.platformerRules.directionalActions.hasOnBegin = true;
+            platform.platformerRules.directionalActions.rightOnBegin = platform.platformerRules.directionalActions.rightOnBegin || [];
+            platform.platformerRules.directionalActions.rightOnBegin.push(action);
+        }
+        if ( sidesOnEnd & platformer.SIDES.TOP ) {
+            platform.platformerRules.directionalActions.hasOnEnd = true;
+            platform.platformerRules.directionalActions.topOnEnd = platform.platformerRules.directionalActions.topOnEnd || [];
+            platform.platformerRules.directionalActions.topOnEnd.push(action);
+        }
+        if ( sidesOnEnd & platformer.SIDES.BOTTOM ) {
+            platform.platformerRules.directionalActions.hasOnEnd = true;
+            platform.platformerRules.directionalActions.bottomOnEnd = platform.platformerRules.directionalActions.bottomOnEnd || [];
+            platform.platformerRules.directionalActions.bottomOnEnd.push(action);
+        }
+        if ( sidesOnEnd & platformer.SIDES.LEFT ) {
+            platform.platformerRules.directionalActions.hasOnEnd = true;
+            platform.platformerRules.directionalActions.leftOnEnd = platform.platformerRules.directionalActions.leftOnEnd || [];
+            platform.platformerRules.directionalActions.leftOnEnd.push(action);
+        }
+        if ( sidesOnEnd & platformer.SIDES.RIGHT ) {
+            platform.platformerRules.directionalActions.hasOnEnd = true;
+            platform.platformerRules.directionalActions.rightOnEnd = platform.platformerRules.directionalActions.rightOnEnd || [];
+            platform.platformerRules.directionalActions.rightOnEnd.push(action);
+        }
     };
     
     platformer.initializeDeathTrigger = function(platform, respawnPoint, filter) {
@@ -278,7 +296,6 @@ game.platformer.prototype.createPlayer = function(size, position) {
             contact.GetWorldManifold(m);
             var normal = m.m_normal;
             if (normal.y > platformer.NORMAL_ERROR) {
-                console.error(normal.y);
                 var foundBody = false;
                 for (var i = 0; i < objectA.platformerRules.jumper.grounds.length; i++) {
                     if (objectA.platformerRules.jumper.grounds[i].body == bodyB) {
@@ -294,20 +311,31 @@ game.platformer.prototype.createPlayer = function(size, position) {
                 contact.platformerGrounds.push({jumper: objectA, ground: bodyB});
             }
         }
-        if (objectA.platformerRules.type & platformer.RULE_TYPES.BREAKABLE) {
+        
+        if (objectA.platformerRules.type & platformer.RULE_TYPES.DIRECTIONAL_ACTION) {
             var m = new Box2D.Collision.b2WorldManifold();
             contact.GetWorldManifold(m);
             var normal = m.m_normal;
-            if (normal.y > platformer.NORMAL_ERROR && objectA.platformerRules.breakable.top) {
-                this.game.getWorld().destroyObject(objectA);
-            } else if (normal.y < -platformer.NORMAL_ERROR && objectA.platformerRules.breakable.bottom) {
-                this.game.getWorld().destroyObject(objectA);
-            } else if (normal.x > platformer.NORMAL_ERROR && objectA.platformerRules.breakable.left) {
-                this.game.getWorld().destroyObject(objectA);
-            } else if (normal.x < -platformer.NORMAL_ERROR && objectA.platformerRules.breakable.right) {
-                this.game.getWorld().destroyObject(objectA);
+            if (normal.y > platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.topOnBegin) {
+                for (var i = 0; i < objectA.platformerRules.directionalActions.topOnBegin.length; i++) {
+                    objectA.platformerRules.directionalActions.topOnBegin[i](contact);
+                }
+            } else if (normal.y < -platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.bottomOnBegin) {
+                for (var i = 0; i < objectA.platformerRules.directionalActions.bottomOnBegin.length; i++) {
+                    objectA.platformerRules.directionalActions.bottomOnBegin[i](contact);
+                }
+            }
+            if (normal.x > platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.leftOnBegin) {
+                for (var i = 0; i < objectA.platformerRules.directionalActions.leftOnBegin.length; i++) {
+                    objectA.platformerRules.directionalActions.leftOnBegin[i](contact);
+                }
+            } else if (normal.x < -platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.rightOnBegin) {
+                for (var i = 0; i < objectA.platformerRules.directionalActions.rightOnBegin.length; i++) {
+                    objectA.platformerRules.directionalActions.rightOnBegin[i](contact);
+                }
             }
         }
+        
         if (objectA.platformerRules.type & platformer.RULE_TYPES.DEATHTRIGGER) {
             if (objectB.platformerRules && objectB.platformerRules.type & platformer.RULE_TYPES.LIVING) {
                 if (objectA.platformerRules.deathTrigger.filter == 0 || objectA.platformerRules.deathTrigger.filter & objectB.platformerRules.living.filter) {
@@ -338,6 +366,55 @@ game.platformer.prototype.createPlayer = function(size, position) {
             }
             contact.platformerGrounds = null;
         }
+        
+        if (contact.disabled) {
+            // There are no other actions that would be done to disabled contacts here
+            return;
+        }
+        
+        var fixtureA = contact.GetFixtureA();
+        var bodyA = fixtureA.GetBody();
+        var objectA = bodyA.object;
+        var fixtureB = contact.GetFixtureB();
+        var bodyB = fixtureB.GetBody();
+        var objectB = bodyB.object;
+        if (objectA && objectB) {
+            if (objectA.platformerRules) {
+                this._EndPlatformerContact(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
+            }
+            if (objectB.platformerRules) {
+                this._EndPlatformerContact(contact, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
+            }
+        }
+    };
+    
+    // Contact rules depending on all other rules
+    platformer.prototype._EndPlatformerContact = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
+        if (objectA.platformerRules.type & platformer.RULE_TYPES.DIRECTIONAL_ACTION && objectA.platformerRules.directionalActions.hasOnEnd) {
+            // This does not currently work! Normal is always 0,0?
+            var m = new Box2D.Collision.b2WorldManifold();
+            contact.GetWorldManifold(m);
+            var normal = m.m_normal;
+            if (normal.y > platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.topOnEnd) {
+                for (var i = 0; i < objectA.platformerRules.directionalActions.topOnEnd.length; i++) {
+                    objectA.platformerRules.directionalActions.topOnEnd[i](contact);
+                }
+            } else if (normal.y < -platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.bottomOnEnd) {
+                for (var i = 0; i < objectA.platformerRules.directionalActions.bottomOnEnd.length; i++) {
+                    objectA.platformerRules.directionalActions.bottomOnEnd[i](contact);
+                }
+            }
+            if (normal.x > platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.leftOnEnd) {
+                for (var i = 0; i < objectA.platformerRules.directionalActions.leftOnEnd.length; i++) {
+                    objectA.platformerRules.directionalActions.leftOnEnd[i](contact);
+                }
+            } else if (normal.x < -platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.rightOnEnd) {
+                for (var i = 0; i < objectA.platformerRules.directionalActions.rightOnEnd.length; i++) {
+                    objectA.platformerRules.directionalActions.rightOnEnd[i](contact);
+                }
+            }
+        }
+        
     };
     
     // This is called after a contact is updated.
@@ -359,12 +436,19 @@ game.platformer.prototype.createPlayer = function(size, position) {
         return platform;
     };
     
+    platformer.prototype.initializeBreakable = function(obj, weakSides) {
+        var self = this;
+        platformer.initializeDirectionalAction(obj, function(contact){
+            self.game.getWorld().destroyObject(obj);
+        }, weakSides);
+    };
+    
     platformer.prototype.createBreakableBlock = function(size, position, weakSides) {
         var platform = this.game.getWorld().createStaticBox(size, position, true /* visible */, null, null );
         if ( weakSides === undefined || weakSides === null ) {
             weakSides = platformer.SIDES.BOTTOM;
         }
-        platformer.initializeBreakable(platform, weakSides);
+        this.initializeBreakable(platform, weakSides);
         return platform;
     };
     
