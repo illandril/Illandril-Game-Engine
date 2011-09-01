@@ -12,8 +12,11 @@ goog.require('window.requestAnimFrame');
 game.game = function(gameType, gameContainerID, worldSize, gravity, viewportSize, viewportScale, doDebug) {
     this.specificGameType = gameType;
     this.paused = false;
+    this.unrunTicks = 0;
+    
     this.ai = game.ai.getInstance();
     this.animation = new game.ui.animation(this);
+    
     // Initialize the world
     this.world = new game.world(this, worldSize, gravity);
     
@@ -41,15 +44,34 @@ game.game.prototype.startWhenReady = function() {
 
 game.game.prototype.update = function(time, tick) {
     if (this.paused) {
+        this.unrunTicks = 0;
         this.viewport.showPaused();
-        if (this.specificGameType.whilePaused) { this.specificGameType.whilePaused(time, tick); }
+        if (this.specificGameType.whilePaused) {
+            this.specificGameType.whilePaused(time, tick);
+        }
     } else {
-        this.viewport.hidePaused();
-        if (this.specificGameType.preThink) { this.specificGameType.preThink(time, tick); }
+        if (this.specificGameType.preThink) {
+            this.specificGameType.preThink(time, tick);
+        }
         this.ai.think(time, tick);
-        if (this.specificGameType.preUpdate) { this.specificGameType.preUpdate(time, tick); }
-        this.world.update(time, tick);
-        if (this.specificGameType.preDraw) { this.specificGameType.preDraw(time, tick); }
+        
+        this.unrunTicks += tick;
+        var execTime = time - this.unrunTicks;
+        var execTick = game.game.TICK_STEP;
+        while(this.unrunTicks >= execTick) {
+            this.unrunTicks -= execTick;
+            execTime += execTick;
+            
+            if (this.specificGameType.preUpdate) {
+                this.specificGameType.preUpdate(execTime, execTick);
+            }
+            this.world.update(execTime, execTick);
+        }
+        
+        if (this.specificGameType.preDraw) {
+            this.specificGameType.preDraw(time, tick);
+        }
+        this.viewport.hidePaused();
         this.viewport.draw(time, tick);
     }
 };
@@ -91,6 +113,8 @@ game.game.prototype.getWorld = function() {
 
 // Statics
 
+game.game.TICK_STEP = 0.015; // About 62.5 steps per second
+
 game.game.isRunning = false;
 game.game.games = [];
 game.game.rollingFPS = 60;
@@ -120,15 +144,11 @@ game.game._update = function(time) {
     } else {
         game.game.lastTickTime = time;
     }
-    // Clamp the frame rate to minimize Box2D discrepencies
-    if ( tick > 0.015 ) { // Max FPS: 66.66
+    if ( tick > 0 || tick > game.game.TICK_STEP ) {
         if ( game.game.fps ) {
             var instantFPS = 1 / tick;
             game.game.rollingFPS = game.game.rollingFPS * 0.99 + instantFPS * 0.01;
             game.game.fps.innerHTML = Math.round(instantFPS) + " - " + Math.round(game.game.rollingFPS);
-        }
-        if ( tick > 0.04 ) { // Min effective FPS: 25
-            tick = 0.04;
         }
         game.game.lastTickTime = time;
         for (var i = 0; i < game.game.games.length; i++) {

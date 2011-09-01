@@ -21,16 +21,28 @@ game.platformer = function(theGame) {
 
 
 game.platformer.prototype.createPlayer = function(size, position) {
-    var player = this.game.getWorld().createBox(size, position, true /* visible */, { fixedRotation: true } /* bodyArgs */, { restitution: 0 } /* fixtureArgs */);
+    var player = this.game.getWorld().createSafeBox(size, position, true /* visible */, { fixedRotation: true } /* bodyArgs */, { restitution: 0 } /* fixtureArgs */);
     game.platformer.initializeJumper(player, game.platformer.DEFAULTS.PLAYER_SPEED);
     game.platformer.initializeMover(player, game.platformer.DEFAULTS.PLAYER_SPEED, game.platformer.DEFAULTS.PLAYER_ACCELERATION);
+    game.platformer.initializeLiving(player, game.platformer.LIVING_FILTERS.PLAYER);
     
     // Add left/right edge to the player so they slide against walls
     var shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    shape.SetAsOrientedBox(0.01, size.y / 2 - 0.01, new Box2D.Common.Math.b2Vec2(-size.x / 2, 0));
-    player.leftEdge = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
-    shape.SetAsOrientedBox(0.01, size.y / 2 - 0.01, new Box2D.Common.Math.b2Vec2(size.x / 2, 0));
-    player.rightEdge = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
+    var halfSize = new Box2D.Common.Math.b2Vec2(size.x / 2, size.y / 2);
+    var edging = 0.01;
+    shape.SetAsArray([
+        new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, halfSize.y - edging),
+        new Box2D.Common.Math.b2Vec2(-halfSize.x - edging, 0),
+        new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, -halfSize.y + edging),
+        new Box2D.Common.Math.b2Vec2(halfSize.x - edging, -halfSize.y + edging),
+        new Box2D.Common.Math.b2Vec2(halfSize.x + edging, 0),
+        new Box2D.Common.Math.b2Vec2(halfSize.x - edging, halfSize.y - edging)
+        ]);
+    player.edging = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
+    //shape.SetAsOrientedBox(0.01, size.y / 2 - 0.02, new Box2D.Common.Math.b2Vec2(-size.x / 2, 0));
+    //player.leftEdge = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
+    //shape.SetAsOrientedBox(0.01, size.y / 2 - 0.02, new Box2D.Common.Math.b2Vec2(size.x / 2, 0));
+    //player.rightEdge = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
     
     player.actions = {};
     player.actions.moveUp = new game.controls.action(function(tickTime) {
@@ -65,6 +77,7 @@ game.platformer.prototype.createPlayer = function(size, position) {
 };
 
 (function(platformer){
+    platformer.NORMAL_ERROR = 0.1; // Ensure solid hits for breaking, jump surfaces, etc
     platformer.DEFAULT_GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
     platformer.DEFAULTS = {
         GRAVITY: new Box2D.Common.Math.b2Vec2( 0, 9.8 ),
@@ -74,17 +87,25 @@ game.platformer.prototype.createPlayer = function(size, position) {
     };
     
     platformer.RULE_TYPES = {
-        DIRECTIONAL_SIDING: 0x01,
-        JUMPER: 0x02,
-        MOVER: 0x04,
-        BREAKABLE: 0x08
+        DIRECTIONAL_SIDING: parseInt('1', 2),
+        JUMPER:             parseInt('10', 2),
+        MOVER:              parseInt('100', 2),
+        BREAKABLE:          parseInt('1000', 2),
+        DEATHTRIGGER:       parseInt('10000', 2),
+        LIVING:             parseInt('100000', 2)
+    };
+    
+    platformer.LIVING_FILTERS = {
+        PLAYER: parseInt('1', 2),
+        ALLY:   parseInt('10', 2),
+        ENEMY:  parseInt('100', 2),
     };
     
     platformer.SIDES = {
-        TOP: 0x01,
-        LEFT: 0x02,
-        BOTTOM: 0x04,
-        RIGHT: 0x08
+        TOP:    parseInt('1', 2),
+        LEFT:   parseInt('10', 2),
+        BOTTOM: parseInt('100', 2),
+        RIGHT:  parseInt('1000', 2),
     };
     
     platformer.initializeDirectionalSiding = function(platform, falseSides) {
@@ -164,6 +185,23 @@ game.platformer.prototype.createPlayer = function(size, position) {
 
     };
     
+    platformer.initializeDeathTrigger = function(platform, respawnPoint, filter) {
+        platform.platformerRules = platform.platformerRules || {};
+        platform.platformerRules.type |= platformer.RULE_TYPES.DEATHTRIGGER;
+        platform.platformerRules.deathTrigger = {
+            respawnPoint: respawnPoint,
+            filter: filter || 0
+        };
+    };
+    
+    platformer.initializeLiving = function(platform, filter) {
+        platform.platformerRules = platform.platformerRules || {};
+        platform.platformerRules.type |= platformer.RULE_TYPES.LIVING;
+        platform.platformerRules.living = {
+            filter: filter
+        };
+    };
+    
     // Return true if the given fixture should be considered for ray intersection.
     platformer.prototype.RayCollide = null; //function(userData, fixture) {} 
     
@@ -199,13 +237,13 @@ game.platformer.prototype.createPlayer = function(size, position) {
                 normal = normal.GetNegative(); // This is wrong - need to transform the normal twice, once for each fixture
             }
             */
-            if (!(objectA.platformerRules.directionalSiding.noTop) && normal.y > 0) {
+            if (!(objectA.platformerRules.directionalSiding.noTop) && normal.y > platformer.NORMAL_ERROR) {
                 contact.disabled = false;
-            } else if (!(objectA.platformerRules.directionalSiding.noBottom) && normal.y < 0) {
+            } else if (!(objectA.platformerRules.directionalSiding.noBottom) && normal.y < -platformer.NORMAL_ERROR) {
                 contact.disabled = false;
-            } else if (!(objectA.platformerRules.directionalSiding.noRight) && normal.x > 0) {
+            } else if (!(objectA.platformerRules.directionalSiding.noRight) && normal.x > platformer.NORMAL_ERROR) {
                 contact.disabled = false;
-            } else if (!(objectA.platformerRules.directionalSiding.noLeft) && normal.x < 0) {
+            } else if (!(objectA.platformerRules.directionalSiding.noLeft) && normal.x < -platformer.NORMAL_ERROR) {
                 contact.disabled = false;
             } else {
             }
@@ -224,11 +262,13 @@ game.platformer.prototype.createPlayer = function(size, position) {
         var fixtureB = contact.GetFixtureB();
         var bodyB = fixtureB.GetBody();
         var objectB = bodyB.object;
-        if (objectA && objectA.platformerRules) {
-            this._BeginPlatformerContact(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
-        }
-        if (objectB && objectB.platformerRules) {
-            this._BeginPlatformerContact(contact, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
+        if (objectA && objectB) {
+            if (objectA.platformerRules) {
+                this._BeginPlatformerContact(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
+            }
+            if (objectB.platformerRules) {
+                this._BeginPlatformerContact(contact, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
+            }
         }
     };
      // Contact rules depending on all other rules
@@ -237,7 +277,8 @@ game.platformer.prototype.createPlayer = function(size, position) {
             var m = new Box2D.Collision.b2WorldManifold();
             contact.GetWorldManifold(m);
             var normal = m.m_normal;
-            if (normal.y > 0) {
+            if (normal.y > platformer.NORMAL_ERROR) {
+                console.error(normal.y);
                 var foundBody = false;
                 for (var i = 0; i < objectA.platformerRules.jumper.grounds.length; i++) {
                     if (objectA.platformerRules.jumper.grounds[i].body == bodyB) {
@@ -257,14 +298,21 @@ game.platformer.prototype.createPlayer = function(size, position) {
             var m = new Box2D.Collision.b2WorldManifold();
             contact.GetWorldManifold(m);
             var normal = m.m_normal;
-            if (normal.y > 0 && objectA.platformerRules.breakable.top) {
+            if (normal.y > platformer.NORMAL_ERROR && objectA.platformerRules.breakable.top) {
                 this.game.getWorld().destroyObject(objectA);
-            } else if (normal.y < 0 && objectA.platformerRules.breakable.bottom) {
+            } else if (normal.y < -platformer.NORMAL_ERROR && objectA.platformerRules.breakable.bottom) {
                 this.game.getWorld().destroyObject(objectA);
-            } else if (normal.x > 0 && objectA.platformerRules.breakable.left) {
+            } else if (normal.x > platformer.NORMAL_ERROR && objectA.platformerRules.breakable.left) {
                 this.game.getWorld().destroyObject(objectA);
-            } else if (normal.x < 0 && objectA.platformerRules.breakable.right) {
+            } else if (normal.x < -platformer.NORMAL_ERROR && objectA.platformerRules.breakable.right) {
                 this.game.getWorld().destroyObject(objectA);
+            }
+        }
+        if (objectA.platformerRules.type & platformer.RULE_TYPES.DEATHTRIGGER) {
+            if (objectB.platformerRules && objectB.platformerRules.type & platformer.RULE_TYPES.LIVING) {
+                if (objectA.platformerRules.deathTrigger.filter == 0 || objectA.platformerRules.deathTrigger.filter & objectB.platformerRules.living.filter) {
+                    this.game.getWorld().moveObject(objectB, objectA.platformerRules.deathTrigger.respawnPoint);
+                }
             }
         }
     };
@@ -303,7 +351,7 @@ game.platformer.prototype.createPlayer = function(size, position) {
     };
     
     platformer.prototype.createPlatform = function(size, position, falseSides) {
-        var platform = this.game.getWorld().createStaticBox(size, position, true /* visible */, { angle: Math.PI * Math.random() * 0 }, null );
+        var platform = this.game.getWorld().createStaticBox(size, position, true /* visible */, null, null );
         if ( falseSides === undefined || falseSides === null ) {
             falseSides = platformer.SIDES.BOTTOM | platformer.SIDES.LEFT | platformer.SIDES.RIGHT;
         }
@@ -312,7 +360,7 @@ game.platformer.prototype.createPlayer = function(size, position) {
     };
     
     platformer.prototype.createBreakableBlock = function(size, position, weakSides) {
-        var platform = this.game.getWorld().createStaticBox(size, position, true /* visible */, { angle: Math.PI * Math.random() * 0 }, null );
+        var platform = this.game.getWorld().createStaticBox(size, position, true /* visible */, null, null );
         if ( weakSides === undefined || weakSides === null ) {
             weakSides = platformer.SIDES.BOTTOM;
         }
@@ -320,4 +368,9 @@ game.platformer.prototype.createPlayer = function(size, position) {
         return platform;
     };
     
+    platformer.prototype.createDeathTrigger = function(size, position, respawnPoint) {
+        var platform = this.game.getWorld().createStaticBox(size, position, true /* visible */, null, null );
+        platformer.initializeDeathTrigger(platform, respawnPoint);
+        return platform;
+    };
 })(game.platformer);

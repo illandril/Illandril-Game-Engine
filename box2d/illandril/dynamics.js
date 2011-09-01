@@ -733,7 +733,7 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
         var toi = 1.0;
         if (c.m_toi != null) {
            toi = c.m_toi;
-        } else if (c.IsTouching() ) {
+        } else if (c.IsTouching()) {
             toi = 1;
             c.m_toi = toi;
         } else {

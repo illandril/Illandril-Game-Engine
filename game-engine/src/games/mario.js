@@ -12,7 +12,7 @@ var player;
 var ramp;
 
 var testObjects = 0;
-var worldSize = new Box2D.Common.Math.b2Vec2(600, 30); // Meters
+var worldSize = new Box2D.Common.Math.b2Vec2(350, 30); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(600, 300); // Pixels
 var viewportScale = 20; // Pixels per Meter
 var addBallPit = false;
@@ -22,12 +22,46 @@ var gameControls;
 var g;
 var p;
 
+var marioSheet = 'graphics/smbsheet.gif';
+var offsets = {
+    floor: new Box2D.Common.Math.b2Vec2(0,454),
+    block: new Box2D.Common.Math.b2Vec2(178,326),
+    hard: new Box2D.Common.Math.b2Vec2(2,124),
+    coin: new Box2D.Common.Math.b2Vec2(354,54),
+    coinBlock: new Box2D.Common.Math.b2Vec2(178,326),
+    hiddenStar: new Box2D.Common.Math.b2Vec2(32,84),
+    shroom: new Box2D.Common.Math.b2Vec2(354,54),
+    hidden1up: new Box2D.Common.Math.b2Vec2(0,90),
+    pipeL: new Box2D.Common.Math.b2Vec2(158,388),
+    pipeR: new Box2D.Common.Math.b2Vec2(190,388),
+    pipeLT: new Box2D.Common.Math.b2Vec2(158,356),
+    pipeRT: new Box2D.Common.Math.b2Vec2(190,356),
+    pipeLTD: new Box2D.Common.Math.b2Vec2(158,356),
+    pipeRTD: new Box2D.Common.Math.b2Vec2(190,356),
+    turtle: new Box2D.Common.Math.b2Vec2(55,380), // Not actually on the sheet
+    goomba: new Box2D.Common.Math.b2Vec2(10,396), // Not actually on the sheet
+    flagPole: new Box2D.Common.Math.b2Vec2(466,168),
+    flag: new Box2D.Common.Math.b2Vec2(452,136),
+    flagTopper: new Box2D.Common.Math.b2Vec2(466,104),
+    castleWall: new Box2D.Common.Math.b2Vec2(300,424),
+    castleTopper: new Box2D.Common.Math.b2Vec2(300,352),
+    castleDoorBottom: new Box2D.Common.Math.b2Vec2(364,424),
+    castleDoorTop: new Box2D.Common.Math.b2Vec2(364,384),
+    castleTopperWindowRight: new Box2D.Common.Math.b2Vec2(332,352),
+    castleWindowRight: new Box2D.Common.Math.b2Vec2(332,320),
+    castleTopperWindowLeft: new Box2D.Common.Math.b2Vec2(396,352),
+    castleWindowLeft: new Box2D.Common.Math.b2Vec2(396,320),
+    castleTopperWall: new Box2D.Common.Math.b2Vec2(364,352),
+    castleFlag: new Box2D.Common.Math.b2Vec2(362,264),
+    death: new Box2D.Common.Math.b2Vec2(160,64)
+};
+
 test.init = function(gameContainerID, doDebug, wasd) {
     g = new game.game(test, gameContainerID, worldSize, game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
     p = new game.platformer(g);
     var position = new Box2D.Common.Math.b2Vec2(5, worldSize.y - 7);
     test.createPlayer(position, wasd);
-    test.createMario(new Box2D.Common.Math.b2Vec2(0, worldSize.y - 5));
+    test.createMario(new Box2D.Common.Math.b2Vec2(0, worldSize.y), position);
     
     var size = new Box2D.Common.Math.b2Vec2(viewportSize.x / viewportScale, viewportSize.y / viewportScale);
     var bg = g.getWorld().createSceneryBox(size, new Box2D.Common.Math.b2Vec2(0,0), true);
@@ -43,7 +77,7 @@ test.createPlayer = function(position, wasd) {
     var frames = 4;
     var frameSpeed = 4;
     var frameSize = new Box2D.Common.Math.b2Vec2(21, 47);
-    var size = new Box2D.Common.Math.b2Vec2(frameSize.x / viewportScale, frameSize.y / viewportScale);
+    var size = new Box2D.Common.Math.b2Vec2(frameSize.x / 20, frameSize.y / 20);
     player = p.createPlayer(size, position);
     g.getAnimationManager().setAsFourDirectionalAnimation(player, size, sprite, spriteOffset, frameSize, frames, frameSpeed);
     g.getViewport().setZOffset(player, game.ui.viewport.LAYERS.PLAYER);
@@ -58,593 +92,188 @@ test.createPlayer = function(position, wasd) {
     playerControls.registerAction(player.actions.moveRight, wasd ? goog.events.KeyCodes.D : goog.events.KeyCodes.RIGHT, false, false, false);
 };
 
-test.createMario = function(offset) {
-    var marioSheet = 'graphics/smbsheet.gif';
-    var offsets = {
-        floor: new Box2D.Common.Math.b2Vec2(0,454),
-        block: new Box2D.Common.Math.b2Vec2(178,326),
-        hard: new Box2D.Common.Math.b2Vec2(2,124),
-        coin: new Box2D.Common.Math.b2Vec2(354,54),
-        coinBlock: new Box2D.Common.Math.b2Vec2(178,326),
-        hiddenStar: new Box2D.Common.Math.b2Vec2(32,84),
-        shroom: new Box2D.Common.Math.b2Vec2(354,54),
-        hidden1up: new Box2D.Common.Math.b2Vec2(0,90),
-        pipeL: new Box2D.Common.Math.b2Vec2(158,388),
-        pipeR: new Box2D.Common.Math.b2Vec2(190,388),
-        pipeLT: new Box2D.Common.Math.b2Vec2(158,356),
-        pipeRT: new Box2D.Common.Math.b2Vec2(190,356),
-        pipeLTD: new Box2D.Common.Math.b2Vec2(158,356),
-        pipeRTD: new Box2D.Common.Math.b2Vec2(190,356)
-    };
+test.createMario = function(offset, respawn) {
 
     var tileSize = new Box2D.Common.Math.b2Vec2(1.6, 1.6);
-    var start = new Box2D.Common.Math.b2Vec2(offset.x + tileSize.x / 2, offset.y + tileSize.y / 2);
+    var start = new Box2D.Common.Math.b2Vec2(offset.x - tileSize.x / 2, offset.y - tileSize.y / 2);
     //http://ian-albert.com/games/super_mario_bros_maps/mario-1-1.gif
-    var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 2, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 3, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 4, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 5, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 6, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 7, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 8, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 9, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 10, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 11, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 12, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 13, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 14, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 15, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 16, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 16, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.coin);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 17, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 18, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 19, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 20, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 20, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 21, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 21, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.shroom);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 22, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 22, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 22, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.coin);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 23, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 23, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.coin);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 24, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 24, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 25, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 26, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 27, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    // goomba
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 28, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 28, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeL);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 28, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeLT);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 29, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 29, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeR);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 29, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeRT);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 30, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 31, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 32, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 33, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 34, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 35, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 36, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 37, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 38, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 38, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeL);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 38, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeL);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 38, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeLT);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 39, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 39, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeR);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 39, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeR);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 39, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeRT);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 40, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    // goomba
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 41, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 42, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 43, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 44, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 45, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 46, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 46, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeL);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 46, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeL);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 46, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeL);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 46, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeLT);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 47, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 47, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeR);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 47, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeR);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 47, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeR);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 47, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeRT);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 48, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 49, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 50, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 51, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 52, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 53, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    // goomba
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 54, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    // goomba
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 55, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 56, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 57, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 57, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeL);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 57, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeL);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 57, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeL);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 57, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeLTD);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 58, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 58, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeR);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 58, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeR);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 58, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeR);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 58, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeRTD);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 59, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 60, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 61, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 62, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 63, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 64, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 64, start.y - tileSize.y * 5));
-    game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
-    g.getViewport().setImage(obj, marioSheet, offsets.hidden1up);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 65, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 66, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 67, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 68, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    var world = [
+        '                                                                                                                                                                                                                    '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                                                                                                                                                                                                                    '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                                                                                                                                                                                                      o             '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                                                                                                                                                                                                     F|             '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                                                                                   G                                                                                                                  |             '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                      O                                                         ########   ###O              M           ###    #OO#                                                        ==        |             '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                                                                                                                                                                                           ===        |             '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                                                                               G                                                                                                          ====        |     $       '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                                                                1                                                                                                                        =====        |    ^^^      '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                O   #M#O#                     <>         {}                  #M#              @     #*    O  O  O     #          ##      =  =          ==  =            ###O#           ======        |    R+L      '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                                      <>      []         []                                                                             ==  ==        ===  ==                          =======        |   ^r&l^     '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                            <>        []      []         []                                                                            ===  ===      ====  ===     {}              <> ========        |   ++u++     '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '                     G      []        [] G    []     G G []                                    G G        T                G G G G    ====  ====    =====  ====    []        G G   []=========        =   ++8++     '.split(''),
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+        '---------------------------------------------------------------------  ---------------   ----------------------------------------------------------------  ---------------------------------------------------------'.split(''),
+        'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.split('')
+//       012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+//       0         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0         1         2         3         4         5         6         7         8         9         0         
+    ];
+    var topLeft = new Box2D.Common.Math.b2Vec2(start.x, start.y - tileSize.y * (world.length - 1));
     
-    // gap of 2
-    
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 71, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 72, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 73, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 74, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 75, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 76, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 77, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 77, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 78, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 78, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.shroom);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 79, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 79, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    // goomba (above block)
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 80, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 80, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 81, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 81, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 82, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 82, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    // goomba (above block)
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 83, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 83, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 84, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 84, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 85, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 85, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 86, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 87, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 89, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 90, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 91, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 91, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 92, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 92, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 93, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 93, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 94, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 94, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.coinBlock);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 94, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.coin);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 95, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    // goomba
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 96, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 97, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    // goomba
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 98, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 99, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 100, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 100, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 101, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 101, start.y - tileSize.y * 4));
-    game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
-    g.getViewport().setImage(obj, marioSheet, offsets.hiddenStar);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 102, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 103, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 104, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 105, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 106, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    // turtle
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 106, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.coin);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 107, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 108, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 109, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 109, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.coin);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 109, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.shroom);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 110, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 111, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 112, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 112, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.coin);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 113, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 114, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 115, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 116, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 117, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 118, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 118, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 119, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 120, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 121, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 121, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 122, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 122, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 123, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 123, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 124, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 125, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 126, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 127, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 128, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 128, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 129, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 129, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 129, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.coin);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 130, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 130, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 130, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.coin);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 131, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 131, start.y - tileSize.y * 8));
-    g.getViewport().setImage(obj, marioSheet, offsets.block);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 132, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 133, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 134, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 134, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 135, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 135, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 135, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 136, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 136, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 136, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 136, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 137, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 137, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 137, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 137, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 137, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 138, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 139, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 140, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 140, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 140, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 140, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 140, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 141, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 141, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 141, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 141, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 142, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 142, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 142, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 143, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 143, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 144, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 145, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 146, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 147, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 148, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 148, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 149, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 149, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 149, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 150, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 150, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 150, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 150, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 151, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 151, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 151, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 151, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 151, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 152, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 152, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 152, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 152, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 152, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 155, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 155, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 155, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 155, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 155, start.y - tileSize.y * 4));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 156, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 156, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 156, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 156, start.y - tileSize.y * 3));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 157, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 157, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 157, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 158, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 158, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.hard);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 159, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 160, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 161, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 162, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 163, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 163, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeL);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 163, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeLTD);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 164, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 164, start.y - tileSize.y * 1));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeR);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 164, start.y - tileSize.y * 2));
-    g.getViewport().setImage(obj, marioSheet, offsets.pipeRTD);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 165, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 166, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
-    obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 167, start.y));
-    g.getViewport().setImage(obj, marioSheet, offsets.floor);
+    for(var y = 0; y < world.length; y++) {
+        for(var x = 0; x < world[y].length; x++) {
+            test.createItem(world[y][x], new Box2D.Common.Math.b2Vec2(x, y), topLeft, tileSize, respawn);
+        }
+    }
+};
 
+test.createItem = function(type, location, offset, tileSize, respawn) {
+    var obj = null;
+    var imgSheet = marioSheet;
+    var imgOffset = null;
+    switch(type) {
+        case ' ':
+            break;
+        case '-':
+            obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.floor;
+            break;
+        case '=':
+            obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.hard;
+            break;
+        case 'O':
+            obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.coin;
+            break;
+        case '@':
+            obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.coinBlock;
+            break;
+        case '#':
+            obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.block;
+            break;
+        case '1':
+            obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
+            imgOffset = offsets.hidden1up;
+            break;
+        case '*':
+            obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
+            imgOffset = offsets.hiddenStar;
+            break;
+        case 'M':
+            obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.shroom;
+            break;
+        case '[':
+            obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.pipeL;
+            break;
+        case ']':
+            obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.pipeR;
+            break;
+        case '<':
+            obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.pipeLT;
+            break;
+        case '>':
+            obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.pipeRT;
+            break;
+        case '{':
+            obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.pipeLTD;
+            break;
+        case '}':
+            obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+            imgOffset = offsets.pipeRTD;
+            break;
+        case 'T':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.turtle;
+            break;
+        case 'G':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.goomba;
+            break;
+        case '|':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.flagPole;
+            break;
+        case 'F':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x + tileSize.x / 2, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.flag;
+            g.getViewport().setZOffset(obj, game.ui.viewport.LAYERS.SCENERY + 1);
+            break;
+        case 'o':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.flagTopper;
+            break;
+        case '+':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.castleWall;
+            break;
+        case '^':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.castleTopper;
+            break;
+        case '8':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.castleDoorBottom;
+            break;
+        case 'u':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.castleDoorTop;
+            break;
+        case 'R':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.castleWindowRight;
+            break;
+        case 'r':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.castleTopperWindowRight;
+            break;
+        case 'L':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.castleWindowLeft;
+            break;
+        case 'l':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.castleTopperWindowLeft;
+            break;
+        case '&':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            imgOffset = offsets.castleTopperWall;
+            break;
+        case '$':
+            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y + tileSize.y / 4), true /* visible */);
+            imgOffset = offsets.castleFlag;
+            break;
+        case 'x':
+            obj = p.createDeathTrigger(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), respawn);
+            imgOffset = offsets.death;
+            break;
+        default:
+            throw 'Invalid type: ' + type;
+    }
+    if (obj !== null && imgSheet !== null && imgOffset !== null) {
+        g.getViewport().setImage(obj, imgSheet, imgOffset);
+    }
 };
 
 test.whilePaused = function(time, tick) {

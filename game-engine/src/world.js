@@ -41,6 +41,7 @@ goog.provide('game.world');
     
     game.world = function(theGame, worldSize, gravity) {
         this.objectsToDestroy = [];
+        this.objectsToMove = [];
         this.collisionFilters = [];
         
         this.game = theGame;
@@ -64,6 +65,12 @@ goog.provide('game.world');
                 this.b2World.DestroyBody(this.objectsToDestroy[i].body);
             }
             this.objectsToDestroy = [];
+        }
+        if (this.objectsToMove.length > 0) {
+            for (var i = 0; i < this.objectsToMove.length; i++) {
+                this.objectsToMove[i].body.SetPosition(this.objectsToMove[i].__nextPosition);
+            }
+            this.objectsToMove = [];
         }
     };
     
@@ -177,7 +184,11 @@ goog.provide('game.world');
         bodyArgs.type = Box2D.Dynamics.b2Body.b2_staticBody;
         fixtureArgs = fixtureArgs || {};
         fixtureArgs.isSensor = true;        
-        return this.createBox(size, position, visible, bodyArgs, fixtureArgs);
+        var obj = this.createBox(size, position, visible, bodyArgs, fixtureArgs);
+        if (visible) {
+            this.game.getViewport().setZOffset(obj, game.ui.viewport.LAYERS.SCENERY);
+        }
+        return obj;
     };
     
     game.world.prototype.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
@@ -189,6 +200,25 @@ goog.provide('game.world');
     game.world.prototype.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         var shape = new Box2D.Collision.Shapes.b2PolygonShape();
         shape.SetAsBox(size.x / 2, size.y / 2);
+        return this.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
+    };
+    
+    game.world.prototype.createSafeBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+        var shape = new Box2D.Collision.Shapes.b2PolygonShape();
+        //shape.SetAsBox(size.x / 2, size.y / 2);
+        // Make the boxes have slightly angled edges to avoid having things get stuck (lousy floating point rounding!)
+        var halfSize = new Box2D.Common.Math.b2Vec2(size.x / 2, size.y / 2);
+        var edging = 0.01;
+        shape.SetAsArray([
+            new Box2D.Common.Math.b2Vec2(0, halfSize.y),
+            new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, halfSize.y - edging),
+            new Box2D.Common.Math.b2Vec2(-halfSize.x, 0),
+            new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, -halfSize.y + edging),
+            new Box2D.Common.Math.b2Vec2(0, -halfSize.y),
+            new Box2D.Common.Math.b2Vec2(halfSize.x - edging, -halfSize.y + edging),
+            new Box2D.Common.Math.b2Vec2(halfSize.x, 0),
+            new Box2D.Common.Math.b2Vec2(halfSize.x - edging, halfSize.y - edging)
+            ]);
         return this.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
     };
     
@@ -221,5 +251,10 @@ goog.provide('game.world');
     
     game.world.prototype.destroyObject = function(object) {
         this.objectsToDestroy.push(object);
+    };
+    
+    game.world.prototype.moveObject = function(object, newPosition) {
+        object.__nextPosition = newPosition;
+        this.objectsToMove.push(object);
     };
 })(game);
