@@ -15,10 +15,12 @@
   <!-- -->
   <!-- -->
   <script type="text/javascript" src="../box2d/illandril/base.js"></script>
-  <script type="text/javascript" src="../box2d/illandril/collision.js"></script>
-  <script type="text/javascript" src="../box2d/illandril/math.js"></script>
-  <script type="text/javascript" src="../box2d/illandril/dynamics.js"></script>
-  <script type="text/javascript" src="../box2d/illandril/contacts.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/collision/_collision.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/collision/b2DynamicTree.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/common/math/b2Math.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/common/math/b2Vec2.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/dynamics/_dynamics.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/dynamics/contacts/_contacts.js"></script>
   <script type="text/javascript" src="../box2d/illandril/unopped.js"></script>
   <script type="text/javascript" src="../box2d/illandril/post.js"></script>
   <script type="text/javascript" src="../box2d/illandril/Box2D.js"></script>
@@ -37,9 +39,7 @@
   <script type="text/javascript" src="src/game.js"></script>
   <script type="text/javascript" src="src/gameTypes/platformer.js"></script>
   
-  <!--
   <script type="text/javascript" src="src/games/test.js"></script>
-  -->
   <script type="text/javascript" src="src/games/mario.js"></script>
   <script type="text/javascript" src="src/games/pit.js"></script>
   <!-- -->
@@ -49,7 +49,7 @@
  </head>
  <body>
   <div style="text-align: center;">
-   <!-- -->
+   <!--
    <div id="game" class="gameWindow">
    </div>
    <BR>
@@ -67,6 +67,16 @@
    <script type="text/javascript">
     pit.init( "game2", false /* debug */, false /* wasd */ );
    </script>
+   <!-- -->
+   <!-- -->
+   <div id="game3" class="gameWindow">
+   </div>
+   <BR>
+   WASD
+   <script type="text/javascript">
+    test.init( "game3", false /* debug */, true /* wasd */ );
+   </script>
+   <br><br>
    <!-- -->
   </div>
   <div id="fps"></div>

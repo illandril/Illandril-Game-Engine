@@ -11,11 +11,11 @@ goog.require('goog.events.KeyCodes');
 var player;
 var ramp;
 
-var testObjects = 0;
+var testObjects = 50;
 var worldSize = new Box2D.Common.Math.b2Vec2(600, 80); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(400, 300); // Pixels
 var viewportScale = 20; // Pixels per Meter
-var addBallPit = false;
+var addBallPit = true;
 
 var playerControls;
 var gameControls;
@@ -66,7 +66,7 @@ test.createWorld = function() {
     p.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(10, worldSize.y - 36));
     p.createBlock(new Box2D.Common.Math.b2Vec2(worldSize.x - 14, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2) + 7, worldSize.y - 25));
     if(addBallPit) {
-        test.createBallPit(new Box2D.Common.Math.b2Vec2(20, 5), new Box2D.Common.Math.b2Vec2(20, worldSize.y - 25));
+        test.createBallPit(new Box2D.Common.Math.b2Vec2(10, 5), new Box2D.Common.Math.b2Vec2(20, worldSize.y - 25));
     }
 };
 
@@ -86,7 +86,7 @@ test.createBallPit = function(size, bottomLeft) {
     var shape = new Box2D.Collision.Shapes.b2CircleShape(radius);
     for(var x = size.y + 1; x < size.x; x += radius * 2) {
         for(var y = 0; y < size.y / 2; y+= radius * 2) { // half full
-            var ball = g.getWorld().createObject(new Box2D.Common.Math.b2Vec2(radius * 2, radius * 2), new Box2D.Common.Math.b2Vec2(bottomLeft.x + x + (Math.random() - 0.5)/2, bottomLeft.y - size.y), true /* visible */, null, { density: 0.1, restitution: 0.1, friction: 0.1 }, shape );
+            var ball = g.getWorld().createObject(new Box2D.Common.Math.b2Vec2(radius * 2, radius * 2), new Box2D.Common.Math.b2Vec2(bottomLeft.x + x + (Math.random() - 0.5)/2, bottomLeft.y - size.y), true /* visible */, shape, { fixtureArgs: { density: 0.1, restitution: 0.1, friction: 0.1 } } );
             var color = Math.random();
             if (color <= 0.25) {
                 g.getViewport().setImage(ball, 'graphics/ball-red.png');
@@ -143,7 +143,7 @@ test.createDebugObjects = function() {
     for ( var i = 0; i < testObjects; i++ ) {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
       var position = new Box2D.Common.Math.b2Vec2(x + ( i % 20 ) / 20 + 4.5, 15 + ( i % 20 ));
-      g.getWorld().createObject(size, position, true /* visible */, bodyArgs, fixArgs, shape);
+      g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
     shape = new Box2D.Collision.Shapes.b2PolygonShape();
     shape.SetAsBox( 0.25, 0.25 );
@@ -151,7 +151,7 @@ test.createDebugObjects = function() {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
       var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 5 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 5 ) % 20 ));
       bodyArgs.angle = ( i % 17 ) / 17;
-      g.getWorld().createObject(size, position, true /* visible */, bodyArgs, fixArgs, shape);
+      g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
     shape = new Box2D.Collision.Shapes.b2PolygonShape();
     shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0.5, -0.5), new Box2D.Common.Math.b2Vec2(-0.5,0.5)], 3 );
@@ -159,7 +159,7 @@ test.createDebugObjects = function() {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
       var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 10 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 10 ) % 20 ));
       bodyArgs.angle = ( i % 22 ) / 22;
-      g.getWorld().createObject(size, position, true /* visible */, bodyArgs, fixArgs, shape);
+      g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
     shape = new Box2D.Collision.Shapes.b2PolygonShape();
     shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0, -0.5), new Box2D.Common.Math.b2Vec2(0.5,0), new Box2D.Common.Math.b2Vec2(0.5, 0.5), new Box2D.Common.Math.b2Vec2( 0, 0.3 )], 5 );
@@ -167,7 +167,7 @@ test.createDebugObjects = function() {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
       var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 15 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 15 ) % 20 ));
       bodyArgs.angle = ( i % 35 ) / 35;
-      g.getWorld().createObject(size, position, true /* visible */, bodyArgs, fixArgs, shape);
+      g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
 };
 
