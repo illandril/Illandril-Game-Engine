@@ -69,8 +69,7 @@ test.init = function(gameContainerID, doDebug, wasd) {
     test.createMario(new Box2D.Common.Math.b2Vec2(0, worldSize.y), position);
     
     var size = new Box2D.Common.Math.b2Vec2(viewportSize.x / viewportScale, viewportSize.y / viewportScale);
-    var bg = g.getWorld().createSceneryBox(size, new Box2D.Common.Math.b2Vec2(0,0), true);
-    g.getViewport().setZOffset(bg, game.ui.viewport.LAYERS.SCENERY);
+    var bg = g.getWorld().createScenery(size, new Box2D.Common.Math.b2Vec2(0,0), -1 /* zOffset */);
     g.getViewport().setImage(bg, 'graphics/sky.png');
     g.getViewport().setParallax(bg, 100);
     g.startWhenReady();
@@ -163,7 +162,7 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
             game.platformer.initializeDirectionalAction(obj, function(collidingObject){
                 var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
-                obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y), true /* visible */);
+                obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.coin);
             }, game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.coinBox;
@@ -174,7 +173,7 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
             obj.coinsOutput = 0;
             game.platformer.initializeDirectionalAction(obj, function(contact){
                 obj.coinsOutput++;
-                nObj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - obj.coinsOutput / obj.coins) * tileSize.y), true /* visible */);
+                nObj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - obj.coinsOutput / obj.coins) * tileSize.y));
                 g.getViewport().setImage(nObj, marioSheet, offsets.coin);
                 if(obj.coinsOutput == obj.coins) {
                     g.getWorld().destroyObject(obj);
@@ -194,7 +193,7 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
             game.platformer.initializeDirectionalAction(obj, function(contact){
                 var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
-                obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y), true /* visible */);
+                obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.oneUp);
             }, game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.hiddenOneUp;
@@ -205,7 +204,7 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
             game.platformer.initializeDirectionalAction(obj, function(contact){
                 var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
-                obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y), true /* visible */);
+                obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.star);
             }, game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.hiddenStar;
@@ -215,7 +214,7 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
             game.platformer.initializeDirectionalAction(obj, function(contact){
                 var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
-                obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y), true /* visible */);
+                obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.shroom);
             }, game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.shroomBox;
@@ -245,64 +244,63 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
             imgOffset = offsets.pipeRTD;
             break;
         case 'T':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.turtle;
             break;
         case 'G':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.goomba;
             break;
         case '|':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.flagPole;
             break;
         case 'F':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x + tileSize.x / 2, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x + tileSize.x / 2, offset.y + location.y * tileSize.y), 1 /* zOffset */);
             imgOffset = offsets.flag;
-            g.getViewport().setZOffset(obj, game.ui.viewport.LAYERS.SCENERY + 1);
             break;
         case 'o':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.flagTopper;
             break;
         case '+':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.castleWall;
             break;
         case '^':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.castleTopper;
             break;
         case '8':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.castleDoorBottom;
             break;
         case 'u':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.castleDoorTop;
             break;
         case 'R':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.castleWindowRight;
             break;
         case 'r':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.castleTopperWindowRight;
             break;
         case 'L':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.castleWindowLeft;
             break;
         case 'l':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.castleTopperWindowLeft;
             break;
         case '&':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             imgOffset = offsets.castleTopperWall;
             break;
         case '$':
-            obj = g.getWorld().createSceneryBox(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y + tileSize.y / 4), true /* visible */);
+            obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y + tileSize.y / 4));
             imgOffset = offsets.castleFlag;
             break;
         case 'x':

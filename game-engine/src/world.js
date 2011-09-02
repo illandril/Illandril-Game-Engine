@@ -1,5 +1,7 @@
 goog.provide('game.world');
 
+goog.require('game.gameObject');
+
 (function(game){
     var fixtureDefinition = new Box2D.Dynamics.b2FixtureDef();
     var bodyDefinition = new Box2D.Dynamics.b2BodyDef();
@@ -42,6 +44,9 @@ goog.provide('game.world');
     game.world = function(theGame, worldSize, gravity) {
         this.queuedActions = [];
         this.collisionFilters = [];
+        
+        this.nextObjectID = 0;
+        this.objects = {};
         
         this.game = theGame;
         this.worldSize = new Box2D.Common.Math.b2Vec2(worldSize.x, worldSize.y);
@@ -173,15 +178,10 @@ goog.provide('game.world');
         return this.worldSize.y;
     };
     
-    game.world.prototype.createSceneryBox = function(size, position, visible, bodyArgs, fixtureArgs) {
-        bodyArgs = bodyArgs || {};
-        bodyArgs.type = Box2D.Dynamics.b2Body.b2_staticBody;
-        fixtureArgs = fixtureArgs || {};
-        fixtureArgs.isSensor = true;        
-        var obj = this.createBox(size, position, visible, bodyArgs, fixtureArgs);
-        if (visible) {
-            this.game.getViewport().setZOffset(obj, game.ui.viewport.LAYERS.SCENERY);
-        }
+    game.world.prototype.createScenery = function(size, position, zOffset) {
+        zOffset = zOffset || 0;
+        var obj = this._createObject(size, position, true /* visible */);
+        this.game.getViewport().setZOffset(obj, game.ui.viewport.LAYERS.SCENERY + zOffset);
         return obj;
     };
     
@@ -194,10 +194,10 @@ goog.provide('game.world');
     game.world.prototype.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         var shape = new Box2D.Collision.Shapes.b2PolygonShape();
         shape.SetAsBox(size.x / 2, size.y / 2);
-        return this.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
+        return this.createObject(size, position, visible, shape, { bodyArgs: bodyArgs, fixtureArgs: fixtureArgs });
     };
     
-    game.world.prototype.createSafeBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+    game.world.prototype.createSafeBox = function(size, position, visible, args) {
         var shape = new Box2D.Collision.Shapes.b2PolygonShape();
         //shape.SetAsBox(size.x / 2, size.y / 2);
         // Make the boxes have slightly angled edges to avoid having things get stuck (lousy floating point rounding!)
@@ -213,7 +213,7 @@ goog.provide('game.world');
             new Box2D.Common.Math.b2Vec2(halfSize.x, 0),
             new Box2D.Common.Math.b2Vec2(halfSize.x - edging, halfSize.y - edging)
             ]);
-        return this.createObject(size, position, visible !== false, bodyArgs, fixtureArgs, shape);
+        return this.createObject(size, position, visible, shape, args);
     };
     
     game.world.prototype._doWhenUnlocked = function(action) {
@@ -223,31 +223,42 @@ goog.provide('game.world');
             action.apply(this);
         }
     };
-    game.world.prototype.createObject = function(size, position, visible, bodyArgs, fixtureArgs, shape) {
-        var object = {};
-        this._doWhenUnlocked(function() { this._createObject(object, size, position, visible, bodyArgs, fixtureArgs, shape); });
-        if (visible) {
-            this.game.getViewport().setDisplaySize(object, new Box2D.Common.Math.b2Vec2(size.x, size.y));
+    
+    game.world.prototype.createObject = function(size, position, visible, shape, args) {
+        var object = this._createObject(size, position, visible);
+        if (!args.scenery) {
+            this._doWhenUnlocked(function() { this._createBox2DObject(object, size, position, shape, args); });
         }
         return object;
     };
     
-    game.world.prototype._createObject = function(object, size, position, visible, bodyArgs, fixtureArgs, shape) {
-        bodyArgs = argsOrBodyDefaults(bodyArgs);
+    game.world.prototype._createObject = function(size, position, visible) {
+        var object = new game.gameObject(position);
+        this.objects[object.UID] = object;
+        if (visible !== false) {
+            this.game.getViewport().setDisplaySize(object, size);
+        }
+        return object;
+    };
+    
+    game.world.prototype._createBox2DObject = function(object, size, position, shape, args) {
+        args = args || {};
+        var bodyArgs = argsOrBodyDefaults(args.bodyArgs);
         bodyDefinition.type = bodyArgs.type;
         bodyDefinition.angle = bodyArgs.angle;
         bodyDefinition.fixedRotation = bodyArgs.fixedRotation;
         bodyDefinition.position = position;
         var body = this.b2World.CreateBody(bodyDefinition);
-        fixture = this.addFixture(body, fixtureArgs, shape);
+        fixture = this.addFixture(body, shape, args);
         object.body = body;
         object.fixture = fixture;
         body.object = object;
         return object;
     };
     
-    game.world.prototype.addFixture = function(body, fixtureArgs, shape) {
-        fixtureArgs = argsOrFixtureDefaults(fixtureArgs);
+    game.world.prototype.addFixture = function(body, shape, args) {
+        args = args || {};
+        var fixtureArgs = argsOrFixtureDefaults(args.fixtureArgs);
         fixtureDefinition.density = fixtureArgs.density;
         fixtureDefinition.friction = fixtureArgs.friction;
         fixtureDefinition.restitution = fixtureArgs.restitution;
@@ -258,10 +269,15 @@ goog.provide('game.world');
     };
     
     game.world.prototype.destroyObject = function(object) {
-        this._doWhenUnlocked(function() { this.b2World.DestroyBody(object.body); });
+        this._doWhenUnlocked(function() {
+            if (object.body) {
+                this.b2World.DestroyBody(object.body);
+            }
+            delete this.objects[object.UID];
+        });
     };
     
     game.world.prototype.moveObject = function(object, newPosition) {
-        this._doWhenUnlocked(function() { object.body.SetPosition(newPosition); });
+        this._doWhenUnlocked(function() { object.setPosition(newPosition); });
     };
 })(game);

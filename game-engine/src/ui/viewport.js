@@ -216,7 +216,7 @@ game.ui.viewport.prototype.setDisplaySize = function(object, size) {
         object.display = {};
         object.display.aabb = new Box2D.Collision.b2AABB();
         object.getDisplayPosition = function(camera) {
-            var pos = this.body.GetPosition();
+            var pos = this.getPosition();
             if(this.display.parallaxMultiplier == 0) {
                 return pos;
             } else {
@@ -226,12 +226,12 @@ game.ui.viewport.prototype.setDisplaySize = function(object, size) {
             }
         };
         object.getDisplayAngle = function(camera) {
-            return this.body.GetAngle();
+            return this.getAngle();
         };
         this.setParallax(object, 0);
         this.setZOffset(object, 0);
     }
-    object.display.size = size; // Meters
+    object.display.size = size.Copy(); // Meters
 };
 
 game.ui.viewport.prototype.setImage = function(object, url, offset) {

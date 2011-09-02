@@ -23,7 +23,15 @@ game.platformer = function(theGame) {
 
 
 game.platformer.prototype.createPlayer = function(size, position) {
-    var player = this.game.getWorld().createSafeBox(size, position, true /* visible */, { fixedRotation: true } /* bodyArgs */, { restitution: 0 } /* fixtureArgs */);
+    var args = {
+        bodyArgs: {
+            fixedRotation: true
+        },
+        fixtureArgs: {
+            restitution: 0
+        }
+    };
+    var player = this.game.getWorld().createSafeBox(size, position, true /* visible */, args);
     game.platformer.initializeJumper(player, game.platformer.DEFAULTS.PLAYER_SPEED);
     game.platformer.initializeMover(player, game.platformer.DEFAULTS.PLAYER_SPEED, game.platformer.DEFAULTS.PLAYER_ACCELERATION);
     game.platformer.initializeLiving(player, game.platformer.LIVING_FILTERS.PLAYER);
@@ -40,7 +48,7 @@ game.platformer.prototype.createPlayer = function(size, position) {
         new Box2D.Common.Math.b2Vec2(halfSize.x + edging, 0),
         new Box2D.Common.Math.b2Vec2(halfSize.x - edging, halfSize.y - edging)
         ]);
-    player.edging = this.game.getWorld().addFixture(player.body, { friction: 0 }, shape);
+    player.edging = this.game.getWorld().addFixture(player.body, shape, { fixtureArgs: { friction: 0 } });
     
     player.actions = {};
     player.actions.moveUp = new game.controls.action(function(tickTime) {
