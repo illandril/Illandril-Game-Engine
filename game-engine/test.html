@@ -5,15 +5,21 @@
   <title>Engine Test</title>
   <link rel="stylesheet" type="text/css" href="./styles/game_window.css">
   <script type="text/javascript" src="../closure-library/closure/goog/base.js"></script>
+  <script type="text/javascript" src="../box2d/illandril/deps.js"></script>
+  <script type="text/javascript" src="src/deps.js"></script>
   <script type="text/javascript">
   // Requires that will prevent the other scripts from even fully loading
   goog.require('goog.events');
   goog.require('goog.events.EventType');
+  goog.require('Box2D');
+  goog.require('test');
+  goog.require('mario');
+  goog.require('pit');
   </script>
   <!--
   <script type="text/javascript" src="../box2d/Box2dWeb-2.1.a.3b2.js"></script>
   <!-- -->
-  <!-- -->
+  <!--
   <script type="text/javascript" src="../box2d/illandril/base.js"></script>
   <script type="text/javascript" src="../box2d/illandril/collision/_collision.js"></script>
   <script type="text/javascript" src="../box2d/illandril/collision/b2DynamicTree.js"></script>
@@ -25,7 +31,7 @@
   <script type="text/javascript" src="../box2d/illandril/post.js"></script>
   <script type="text/javascript" src="../box2d/illandril/Box2D.js"></script>
   <!-- -->
-  <!-- -->
+  <!--
   <script type="text/javascript" src="src/shims.js"></script>
   <script type="text/javascript" src="src/controls/controls.js"></script>
   <script type="text/javascript" src="src/controls/action.js"></script>

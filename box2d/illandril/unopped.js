@@ -2,7 +2,14 @@
  * See Box2D.js
  */
 goog.provide('Box2D.unopped');
+
 goog.require('Box2D.Collision');
+goog.require('Box2D.Collision.b2DynamicTree');
+goog.require('Box2D.Common.Math.b2Math');
+goog.require('Box2D.Common.Math.b2Vec2');
+goog.require('Box2D.Common.Math.b2Mat22');
+goog.require('Box2D.Common.Math.b2Vec3');
+goog.require('Box2D.Common.Math.b2Mat33');
 goog.require('Box2D.Dynamics');
 goog.require('Box2D.Dynamics.Contacts');
 
@@ -62,18 +69,6 @@ if (typeof(Box2D.Dynamics.Joints) === "undefined") Box2D.Dynamics.Joints = {};
    };
    Box2D.Common.b2Settings = b2Settings;
 
-   function b2Mat22() {
-      b2Mat22.b2Mat22.apply(this, arguments);
-      if (this.constructor === b2Mat22) this.b2Mat22.apply(this, arguments);
-   };
-   Box2D.Common.Math.b2Mat22 = b2Mat22;
-
-   function b2Mat33() {
-      b2Mat33.b2Mat33.apply(this, arguments);
-      if (this.constructor === b2Mat33) this.b2Mat33.apply(this, arguments);
-   };
-   Box2D.Common.Math.b2Mat33 = b2Mat33;
-
    function b2Sweep() {
       b2Sweep.b2Sweep.apply(this, arguments);
    };
@@ -84,12 +79,6 @@ if (typeof(Box2D.Dynamics.Joints) === "undefined") Box2D.Dynamics.Joints = {};
       if (this.constructor === b2Transform) this.b2Transform.apply(this, arguments);
    };
    Box2D.Common.Math.b2Transform = b2Transform;
-
-   function b2Vec3() {
-      b2Vec3.b2Vec3.apply(this, arguments);
-      if (this.constructor === b2Vec3) this.b2Vec3.apply(this, arguments);
-   };
-   Box2D.Common.Math.b2Vec3 = b2Vec3;
 
    function b2Body() {
       b2Body.b2Body.apply(this, arguments);
@@ -2382,204 +2371,8 @@ if (typeof(Box2D.Dynamics.Joints) === "undefined") Box2D.Dynamics.Joints = {};
       b2Vec2 = Box2D.Common.Math.b2Vec2,
       b2Vec3 = Box2D.Common.Math.b2Vec3;
     
-   b2Mat22.b2Mat22 = function () {
-      this.col1 = new b2Vec2(0, 0);
-      this.col2 = new b2Vec2(0, 0);
-   };
-   b2Mat22.prototype.b2Mat22 = function () {
-      this.SetIdentity();
-   }
-   b2Mat22.FromAngle = function (angle) {
-      if (angle === undefined) angle = 0;
-      var mat = new b2Mat22();
-      mat.Set(angle);
-      return mat;
-   }
-   b2Mat22.FromVV = function (c1, c2) {
-      var mat = new b2Mat22();
-      mat.SetVV(c1, c2);
-      return mat;
-   }
-   b2Mat22.prototype.Set = function (angle) {
-      if (angle === undefined) angle = 0;
-      var c = Math.cos(angle);
-      var s = Math.sin(angle);
-      this.col1.x = c;
-      this.col2.x = (-s);
-      this.col1.y = s;
-      this.col2.y = c;
-   }
-   b2Mat22.prototype.SetVV = function (c1, c2) {
-      this.col1.SetV(c1);
-      this.col2.SetV(c2);
-   }
-   b2Mat22.prototype.Copy = function () {
-      var mat = new b2Mat22();
-      mat.SetM(this);
-      return mat;
-   }
-   b2Mat22.prototype.SetM = function (m) {
-      this.col1.SetV(m.col1);
-      this.col2.SetV(m.col2);
-   }
-   b2Mat22.prototype.AddM = function (m) {
-      this.col1.x += m.col1.x;
-      this.col1.y += m.col1.y;
-      this.col2.x += m.col2.x;
-      this.col2.y += m.col2.y;
-   }
-   b2Mat22.prototype.SetIdentity = function () {
-      this.col1.x = 1.0;
-      this.col2.x = 0.0;
-      this.col1.y = 0.0;
-      this.col2.y = 1.0;
-   }
-   b2Mat22.prototype.SetZero = function () {
-      this.col1.x = 0.0;
-      this.col2.x = 0.0;
-      this.col1.y = 0.0;
-      this.col2.y = 0.0;
-   }
-   b2Mat22.prototype.GetAngle = function () {
-      return Math.atan2(this.col1.y, this.col1.x);
-   }
-   b2Mat22.prototype.GetInverse = function (out) {
-      var a = this.col1.x;
-      var b = this.col2.x;
-      var c = this.col1.y;
-      var d = this.col2.y;
-      var det = a * d - b * c;
-      if (det != 0.0) {
-         det = 1.0 / det;
-      }
-      out.col1.x = det * d;
-      out.col2.x = (-det * b);
-      out.col1.y = (-det * c);
-      out.col2.y = det * a;
-      return out;
-   }
-   b2Mat22.prototype.Solve = function (out, bX, bY) {
-      if (bX === undefined) bX = 0;
-      if (bY === undefined) bY = 0;
-      var a11 = this.col1.x;
-      var a12 = this.col2.x;
-      var a21 = this.col1.y;
-      var a22 = this.col2.y;
-      var det = a11 * a22 - a12 * a21;
-      if (det != 0.0) {
-         det = 1.0 / det;
-      }
-      out.x = det * (a22 * bX - a12 * bY);
-      out.y = det * (a11 * bY - a21 * bX);
-      return out;
-   }
-   b2Mat22.prototype.Abs = function () {
-      this.col1.Abs();
-      this.col2.Abs();
-   }
-   b2Mat33.b2Mat33 = function () {
-      this.col1 = new b2Vec3();
-      this.col2 = new b2Vec3();
-      this.col3 = new b2Vec3();
-   };
-   b2Mat33.prototype.b2Mat33 = function (c1, c2, c3) {
-      if (c1 === undefined) c1 = null;
-      if (c2 === undefined) c2 = null;
-      if (c3 === undefined) c3 = null;
-      if (!c1 && !c2 && !c3) {
-         this.col1.SetZero();
-         this.col2.SetZero();
-         this.col3.SetZero();
-      }
-      else {
-         this.col1.SetV(c1);
-         this.col2.SetV(c2);
-         this.col3.SetV(c3);
-      }
-   }
-   b2Mat33.prototype.SetVVV = function (c1, c2, c3) {
-      this.col1.SetV(c1);
-      this.col2.SetV(c2);
-      this.col3.SetV(c3);
-   }
-   b2Mat33.prototype.Copy = function () {
-      return new b2Mat33(this.col1, this.col2, this.col3);
-   }
-   b2Mat33.prototype.SetM = function (m) {
-      this.col1.SetV(m.col1);
-      this.col2.SetV(m.col2);
-      this.col3.SetV(m.col3);
-   }
-   b2Mat33.prototype.AddM = function (m) {
-      this.col1.x += m.col1.x;
-      this.col1.y += m.col1.y;
-      this.col1.z += m.col1.z;
-      this.col2.x += m.col2.x;
-      this.col2.y += m.col2.y;
-      this.col2.z += m.col2.z;
-      this.col3.x += m.col3.x;
-      this.col3.y += m.col3.y;
-      this.col3.z += m.col3.z;
-   }
-   b2Mat33.prototype.SetIdentity = function () {
-      this.col1.x = 1.0;
-      this.col2.x = 0.0;
-      this.col3.x = 0.0;
-      this.col1.y = 0.0;
-      this.col2.y = 1.0;
-      this.col3.y = 0.0;
-      this.col1.z = 0.0;
-      this.col2.z = 0.0;
-      this.col3.z = 1.0;
-   }
-   b2Mat33.prototype.SetZero = function () {
-      this.col1.x = 0.0;
-      this.col2.x = 0.0;
-      this.col3.x = 0.0;
-      this.col1.y = 0.0;
-      this.col2.y = 0.0;
-      this.col3.y = 0.0;
-      this.col1.z = 0.0;
-      this.col2.z = 0.0;
-      this.col3.z = 0.0;
-   }
-   b2Mat33.prototype.Solve22 = function (out, bX, bY) {
-      if (bX === undefined) bX = 0;
-      if (bY === undefined) bY = 0;
-      var a11 = this.col1.x;
-      var a12 = this.col2.x;
-      var a21 = this.col1.y;
-      var a22 = this.col2.y;
-      var det = a11 * a22 - a12 * a21;
-      if (det != 0.0) {
-         det = 1.0 / det;
-      }
-      out.x = det * (a22 * bX - a12 * bY);
-      out.y = det * (a11 * bY - a21 * bX);
-      return out;
-   }
-   b2Mat33.prototype.Solve33 = function (out, bX, bY, bZ) {
-      if (bX === undefined) bX = 0;
-      if (bY === undefined) bY = 0;
-      if (bZ === undefined) bZ = 0;
-      var a11 = this.col1.x;
-      var a21 = this.col1.y;
-      var a31 = this.col1.z;
-      var a12 = this.col2.x;
-      var a22 = this.col2.y;
-      var a32 = this.col2.z;
-      var a13 = this.col3.x;
-      var a23 = this.col3.y;
-      var a33 = this.col3.z;
-      var det = a11 * (a22 * a33 - a32 * a23) + a21 * (a32 * a13 - a12 * a33) + a31 * (a12 * a23 - a22 * a13);
-      if (det != 0.0) {
-         det = 1.0 / det;
-      }
-      out.x = det * (bX * (a22 * a33 - a32 * a23) + bY * (a32 * a13 - a12 * a33) + bZ * (a12 * a23 - a22 * a13));
-      out.y = det * (a11 * (bY * a33 - bZ * a23) + a21 * (bZ * a13 - bX * a33) + a31 * (bX * a23 - bY * a13));
-      out.z = det * (a11 * (a22 * bZ - a32 * bY) + a21 * (a32 * bX - a12 * bZ) + a31 * (a12 * bY - a22 * bX));
-      return out;
-   }
+
+
 
    b2Sweep.b2Sweep = function () {
       this.localCenter = new b2Vec2(0, 0);
@@ -2651,58 +2444,7 @@ if (typeof(Box2D.Dynamics.Joints) === "undefined") Box2D.Dynamics.Joints = {};
    b2Transform.prototype.GetAngle = function () {
       return Math.atan2(this.R.col1.y, this.R.col1.x);
    }
-   b2Vec3.b2Vec3 = function () {};
-   b2Vec3.prototype.b2Vec3 = function (x, y, z) {
-      if (x === undefined) x = 0;
-      if (y === undefined) y = 0;
-      if (z === undefined) z = 0;
-      this.x = x;
-      this.y = y;
-      this.z = z;
-   }
-   b2Vec3.prototype.SetZero = function () {
-      this.x = this.y = this.z = 0.0;
-   }
-   b2Vec3.prototype.Set = function (x, y, z) {
-      if (x === undefined) x = 0;
-      if (y === undefined) y = 0;
-      if (z === undefined) z = 0;
-      this.x = x;
-      this.y = y;
-      this.z = z;
-   }
-   b2Vec3.prototype.SetV = function (v) {
-      this.x = v.x;
-      this.y = v.y;
-      this.z = v.z;
-   }
-   b2Vec3.prototype.GetNegative = function () {
-      return new b2Vec3((-this.x), (-this.y), (-this.z));
-   }
-   b2Vec3.prototype.NegativeSelf = function () {
-      this.x = (-this.x);
-      this.y = (-this.y);
-      this.z = (-this.z);
-   }
-   b2Vec3.prototype.Copy = function () {
-      return new b2Vec3(this.x, this.y, this.z);
-   }
-   b2Vec3.prototype.Add = function (v) {
-      this.x += v.x;
-      this.y += v.y;
-      this.z += v.z;
-   }
-   b2Vec3.prototype.Subtract = function (v) {
-      this.x -= v.x;
-      this.y -= v.y;
-      this.z -= v.z;
-   }
-   b2Vec3.prototype.Multiply = function (a) {
-      if (a === undefined) a = 0;
-      this.x *= a;
-      this.y *= a;
-      this.z *= a;
-   }
+
 })();
 (function () {
     

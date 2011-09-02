@@ -3,8 +3,6 @@
  */
 goog.provide('Box2D.Common.Math.b2Vec2');
 
-goog.require('Box2D.Common.Math.b2Math');
-
 /**
  * @param {number} x
  * @param {number} y
@@ -93,8 +91,8 @@ Box2D.Common.Math.b2Vec2.prototype.MulM = function(A) {
  * @param {Box2D.Common.Math.b2Mat22} A
  */
 Box2D.Common.Math.b2Vec2.prototype.MulTM = function(A) {
-    var tX = Box2D.Common.Math.b2Math.Dot(this, A.col1);
-    this.y = Box2D.Common.Math.b2Math.Dot(this, A.col2);
+    var tX = this.x * A.col1.x + this.y * A.col1.y;
+    this.y = this.x * A.col2.x + this.y * A.col2.y;
     this.x = tX;
 };
 
@@ -169,5 +167,5 @@ Box2D.Common.Math.b2Vec2.prototype.Normalize = function() {
  * @return {boolean}
  */
 Box2D.Common.Math.b2Vec2.prototype.IsValid = function () {
-  return Box2D.Common.Math.b2Math.IsValid(this.x) && Box2D.Common.Math.b2Math.IsValid(this.y);
+  return isFinite(this.x) && isFinite(this.y);
 };
