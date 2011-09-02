@@ -84,20 +84,20 @@ game.platformer.prototype.createPlayer = function(size, position) {
         BREAKABLE:          parseInt('1000', 2),
         DEATHTRIGGER:       parseInt('10000', 2),
         LIVING:             parseInt('100000', 2),
-        DIRECTIONAL_ACTION: parseInt('1000000', 2),
+        DIRECTIONAL_ACTION: parseInt('1000000', 2)
     };
     
     platformer.LIVING_FILTERS = {
         PLAYER: parseInt('1', 2),
         ALLY:   parseInt('10', 2),
-        ENEMY:  parseInt('100', 2),
+        ENEMY:  parseInt('100', 2)
     };
     
     platformer.SIDES = {
         TOP:    parseInt('1', 2),
         LEFT:   parseInt('10', 2),
         BOTTOM: parseInt('100', 2),
-        RIGHT:  parseInt('1000', 2),
+        RIGHT:  parseInt('1000', 2)
     };
     
     platformer.initializeDirectionalSiding = function(platform, falseSides) {

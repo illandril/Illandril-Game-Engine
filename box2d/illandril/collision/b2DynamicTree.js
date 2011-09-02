@@ -50,7 +50,7 @@ Box2D.Collision.b2DynamicTree.prototype.DestroyProxy = function(proxy) {
 /**
  * @param {!Box2D.Collision.b2DynamicTreeNode} proxy
  * @param {!Box2D.Collision.b2AABB} aabb
- * @paran {!Box2D.Common.Math.b2Vec2} displacement
+ * @param {!Box2D.Common.Math.b2Vec2} displacement
  * @return {boolean}
  */
 Box2D.Collision.b2DynamicTree.prototype.MoveProxy = function(proxy, aabb, displacement) {
