@@ -143,9 +143,10 @@ game.ui.viewport.prototype.draw = function(time, tick) {
         undisplayedDOMObjects[i] = this.domObjects[i];
     }
     var viewportAABB = this.viewportWorldObject.fixture.GetAABB();
-    for(var body = this.game.getWorld().getBox2DWorld().GetBodyList(); body; body = body.GetNext()) {
-        if ( body.object && body.object.display ) {
-            var obj = body.object;
+    var worldObjects = this.game.getWorld().objects;
+    for(var oid in worldObjects) {
+        var obj = worldObjects[oid];
+        if (obj.display) {
             var objDisplay = obj.display;
             var visible = false;
             var pos = obj.getDisplayPosition(this.camera);
