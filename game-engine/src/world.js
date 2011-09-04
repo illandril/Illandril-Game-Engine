@@ -1,6 +1,7 @@
 goog.provide('game.world');
 
 goog.require('game.gameObject');
+goog.require('Box2D');
 
 (function(game){
     var fixtureDefinition = new Box2D.Dynamics.b2FixtureDef();
