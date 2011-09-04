@@ -1,5 +1,9 @@
 goog.provide('game.ui.viewport');
 
+goog.require('Box2D.Collision.b2AABB');
+goog.require('Box2D.Common.Math.b2Vec2');
+goog.require('Box2D.Dynamics.b2DebugDraw');
+
 goog.require('game.ui');
 goog.require('game.ui.spriteSheet');
 

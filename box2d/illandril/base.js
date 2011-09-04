@@ -2,16 +2,24 @@
  * See Box2D.js
  */
 
-goog.provide('Box2D.base');
+goog.provide('Box2D.inherit');
+goog.provide('Box2D.generateCallback');
+goog.provide('Box2D.is');
+goog.provide('Box2D.Queue');
+goog.provide('Box2D.postDefs');
+goog.provide('Box2D.Consts');
+
+goog.provide('Box2D.defineProperty');
 
 Box2D = Box2D || {};
-Box2D.base = Box2D.base || {};
 
 if (!(Object.prototype.defineProperty instanceof Function) && Object.prototype.__defineGetter__ instanceof Function && Object.prototype.__defineSetter__ instanceof Function) {
-    Object.defineProperty = function(obj, p, cfg) {
+    Box2D.defineProperty = function(obj, p, cfg) {
         if (cfg.get instanceof Function) obj.__defineGetter__(p, cfg.get);
         if (cfg.set instanceof Function) obj.__defineSetter__(p, cfg.set);
     };
+} else {
+    Box2D.defineProperty = Object.defineProperty;
 }
 
 /**
@@ -96,6 +104,9 @@ Box2D.Queue.prototype.dequeue = function() {
     this.start++;
     return o;
 };
+
+Box2D.Consts.MIN_VALUE_SQUARED = Number.MIN_VALUE * Number.MIN_VALUE;
+
 
 /**
  * Actions to execute after all of Box2D is initialized

@@ -3,15 +3,13 @@
  */
 goog.provide('Box2D.Collision.b2DynamicTree');
 
-goog.require('Box2D.Collision');
-//goog.require('Box2D.Collision.b2RayCastInput');
-//goog.require('Box2D.Collision.b2AABB');
-//goog.require('Box2D.Collision.b2DynamicTreeNode');
-//goog.require('Box2D.Common.b2Settings');
+goog.require('Box2D.Collision.b2RayCastInput');
+goog.require('Box2D.Collision.b2AABB');
+goog.require('Box2D.Collision.b2DynamicTreeNode');
+goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Math');
 
 /**
- * A Dynamic Tree
  * @constructor
  */
 Box2D.Collision.b2DynamicTree = function() {

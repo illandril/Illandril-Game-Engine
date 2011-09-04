@@ -1,7 +1,5 @@
 goog.provide('game.game');
 
-goog.require('Box2D');
-
 goog.require('game.ai');
 goog.require('game.world');
 goog.require('game.ui.viewport');
