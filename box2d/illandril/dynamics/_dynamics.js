@@ -1158,3 +1158,65 @@ Box2D.Dynamics.b2DebugDraw = function() {
       Box2D.Dynamics.b2DebugDraw.e_controllerBit = 0x0020;
    });
 })(Box2D.Dynamics.b2DebugDraw);
+
+(function(){
+   function b2Body() {
+      b2Body.b2Body.apply(this, arguments);
+      if (this.constructor === b2Body) this.b2Body.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2Body = b2Body;
+
+   function b2BodyDef() {
+      b2BodyDef.b2BodyDef.apply(this, arguments);
+      if (this.constructor === b2BodyDef) this.b2BodyDef.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2BodyDef = b2BodyDef;
+
+   function b2ContactFilter() {
+      b2ContactFilter.b2ContactFilter.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2ContactFilter = b2ContactFilter;
+
+   function b2ContactImpulse() {
+      b2ContactImpulse.b2ContactImpulse.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2ContactImpulse = b2ContactImpulse;
+
+   function b2ContactListener() {
+      b2ContactListener.b2ContactListener.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2ContactListener = b2ContactListener;
+
+   function b2DestructionListener() {
+      b2DestructionListener.b2DestructionListener.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2DestructionListener = b2DestructionListener;
+
+   function b2FilterData() {
+      b2FilterData.b2FilterData.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2FilterData = b2FilterData;
+
+   function b2Fixture() {
+      b2Fixture.b2Fixture.apply(this, arguments);
+      if (this.constructor === b2Fixture) this.b2Fixture.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2Fixture = b2Fixture;
+
+   function b2FixtureDef() {
+      b2FixtureDef.b2FixtureDef.apply(this, arguments);
+      if (this.constructor === b2FixtureDef) this.b2FixtureDef.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2FixtureDef = b2FixtureDef;
+
+   function b2Island() {
+      b2Island.b2Island.apply(this, arguments);
+      if (this.constructor === b2Island) this.b2Island.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2Island = b2Island;
+
+   function b2TimeStep() {
+      b2TimeStep.b2TimeStep.apply(this, arguments);
+   };
+   Box2D.Dynamics.b2TimeStep = b2TimeStep;
+})();

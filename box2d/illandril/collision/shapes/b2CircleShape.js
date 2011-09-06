@@ -8,30 +8,44 @@ goog.require('Box2D.Collision.Shapes.b2Shape');
 goog.require('Box2D.is');
 goog.require('Box2D.Common.Math.b2Math');
 
+/**
+ * @param {number} radius
+ * @constructor
+ * @extends {Box2D.Collision.Shapes.b2Shape}
+ */
 Box2D.Collision.Shapes.b2CircleShape = function(radius) {
     Box2D.Collision.Shapes.b2Shape.call(this);
-    if (radius === undefined) radius = 0;
     this.m_type = Box2D.Collision.Shapes.b2Shape.e_circleShape;
     this.m_radius = radius;
     this.m_p = new Box2D.Common.Math.b2Vec2(0, 0);
 };
+goog.inherits(Box2D.Collision.Shapes.b2CircleShape, Box2D.Collision.Shapes.b2Shape);
 
-Box2D.inherit(Box2D.Collision.Shapes.b2CircleShape, Box2D.Collision.Shapes.b2Shape);
-Box2D.Collision.Shapes.b2CircleShape.prototype.__super = Box2D.Collision.Shapes.b2Shape.prototype;
-
+/**
+ * @return {!Box2D.Collision.Shapes.b2CircleShape}
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.Copy = function() {
     var s = new Box2D.Collision.Shapes.b2CircleShape();
     s.Set(this);
     return s;
 };
 
+/**
+ * @param {!Box2D.Collision.Shapes.b2Shape} other
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.Set = function(other) {
-    this.__super.Set.call(this, other);
-    if (Box2D.is(other, Box2D.Collision.Shapes.b2CircleShape)) {
+    Box2D.Collision.Shapes.b2Shape.prototype.Set.call(this, other);
+    goog.base(this, 'Set', other);
+    if (other instanceof Box2D.Collision.Shapes.b2CircleShape) {
         this.m_p.SetV(other.m_p);
     }
 };
 
+/**
+ * @param {!Box2D.Common.Math.b2Transform} transform
+ * @param {!Box2D.Common.Math.b2Vec2} p
+ * @return {boolean}
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.TestPoint = function(transform, p) {
     var tMat = transform.R;
     var dX = transform.position.x + (tMat.col1.x * this.m_p.x + tMat.col2.x * this.m_p.y);
@@ -41,6 +55,12 @@ Box2D.Collision.Shapes.b2CircleShape.prototype.TestPoint = function(transform, p
     return (dX * dX + dY * dY) <= this.m_radius * this.m_radius;
 };
 
+/**
+ * @param {!Box2D.Collision.b2RayCastOutput} output
+ * @param {!Box2D.Collision.b2RayCastInput} input
+ * @param {!Box2D.Common.Math.b2Transform} transform
+ * @return {boolean}
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.RayCast = function(output, input, transform) {
     var tMat = transform.R;
     var positionX = transform.position.x + (tMat.col1.x * this.m_p.x + tMat.col2.x * this.m_p.y);
@@ -68,6 +88,10 @@ Box2D.Collision.Shapes.b2CircleShape.prototype.RayCast = function(output, input,
     return false;
 };
 
+/**
+ * @param {!Box2D.Collision.b2AABB} aabb
+ * @param {!Box2D.Common.Math.b2Transform} transform
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.ComputeAABB = function(aabb, transform) {
     var tMat = transform.R;
     var pX = transform.position.x + (tMat.col1.x * this.m_p.x + tMat.col2.x * this.m_p.y);
@@ -76,13 +100,23 @@ Box2D.Collision.Shapes.b2CircleShape.prototype.ComputeAABB = function(aabb, tran
     aabb.upperBound.Set(pX + this.m_radius, pY + this.m_radius);
 };
 
+/**
+ * @param {!Box2D.Collision.Shapes.b2MassData} massData
+ * @param {number} density
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.ComputeMass = function(massData, density) {
-    if (density === undefined) density = 0;
     massData.mass = density * Math.PI * this.m_radius * this.m_radius;
     massData.center.SetV(this.m_p);
     massData.I = massData.mass * (0.5 * this.m_radius * this.m_radius + (this.m_p.x * this.m_p.x + this.m_p.y * this.m_p.y));
 };
 
+/**
+ * @param {!Box2D.Common.Math.b2Vec2} normal
+ * @param {number}
+ * @param {!Box2D.Common.Math.b2Transform} xf
+ * @param {!Box2D.Common.Math.b2Vec2} c
+ * @return {number}
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.ComputeSubmergedArea = function(normal, offset, xf, c) {
     if (offset === undefined) offset = 0;
     var p = Box2D.Common.Math.b2Math.MulX(xf, this.m_p);
@@ -103,19 +137,30 @@ Box2D.Collision.Shapes.b2CircleShape.prototype.ComputeSubmergedArea = function(n
     return area;
 };
 
+/**
+ * @return {!Box2D.Common.Math.b2Vec2}
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.GetLocalPosition = function() {
     return this.m_p;
 };
 
+/**
+ * @param {!Box2D.Common.Math.b2Vec2} position
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.SetLocalPosition = function(position) {
     this.m_p.SetV(position);
 };
 
+/**
+ * @return {number}
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.GetRadius = function() {
     return this.m_radius;
 };
 
+/**
+ * @param {number} radius
+ */
 Box2D.Collision.Shapes.b2CircleShape.prototype.SetRadius = function(radius) {
-    if (radius === undefined) radius = 0;
     this.m_radius = radius;
 };
