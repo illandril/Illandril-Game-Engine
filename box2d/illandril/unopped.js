@@ -2,6 +2,8 @@
  * See Box2D.js
  */
 goog.provide('Box2D.unopped');
+//goog.provide('Box2D.Dynamics.b2Body');
+//goog.provide('Box2D.Dynamics.b2TimeStep');
 
 goog.require('Box2D.Common.b2Color');
 goog.require('Box2D.Collision.Shapes.b2PolygonShape');
@@ -59,9 +61,6 @@ goog.require('Box2D.Dynamics.Contacts.b2PolyAndCircleContact');
 goog.require('Box2D.Dynamics.Contacts.b2PolyAndEdgeContact');
 goog.require('Box2D.Dynamics.Contacts.b2PolygonContact');
 goog.require('Box2D.Dynamics.Contacts.b2PositionSolverManifold');
-goog.require('Box2D.Dynamics.Contacts');
-goog.require('Box2D.Dynamics.Contacts');
-goog.require('Box2D.Dynamics.Contacts');
 goog.require('Box2D.inherit');
 goog.require('Box2D.generateCallback');
 goog.require('Box2D.is');

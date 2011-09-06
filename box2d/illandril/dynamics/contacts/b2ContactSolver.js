@@ -1,12 +1,11 @@
 /*
  * See Box2D.js
  */
-goog.provide('Box2D.Dynamics.Contacts.Box2D.Dynamics.Contacts.b2ContactSolver');
+goog.provide('Box2D.Dynamics.Contacts.b2ContactSolver');
 
-goog.require('Box2D.Dynamics.b2TimeStep')
+//goog.require('Box2D.Dynamics.b2TimeStep')
 goog.require('Box2D.Dynamics.Contacts.b2ContactConstraint');
-goog.require('Box2D.Common.Box2D.Common.b2Settings');
-goog.require('Box2D.Dynamics.Contacts.b2ContactSolver');
+goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Math');
 goog.require('Box2D.Collision.b2WorldManifold');
 goog.require('Box2D.Dynamics.Contacts.b2PositionSolverManifold');
@@ -14,12 +13,12 @@ goog.require('Box2D.Dynamics.Contacts.b2PositionSolverManifold');
 /**
  * @constructor
  */
-Box2D.Dynamics.Contacts.Box2D.Dynamics.Contacts.b2ContactSolver = function() {
+Box2D.Dynamics.Contacts.b2ContactSolver = function() {
     this.m_step = new Box2D.Dynamics.b2TimeStep();
     this.m_constraints = [];
 };
 
-Box2D.Dynamics.Contacts.Box2D.Dynamics.Contacts.b2ContactSolver.prototype.Initialize = function(step, contacts, contactCount) {
+Box2D.Dynamics.Contacts.b2ContactSolver.prototype.Initialize = function(step, contacts, contactCount) {
     if (contactCount === undefined) contactCount = 0;
     var contact;
     this.m_step.Set(step);
@@ -610,5 +609,5 @@ Box2D.Dynamics.Contacts.b2ContactSolver.prototype.SolvePositionConstraints_NEW =
     return minSeparation > (-1.5 * Box2D.Common.b2Settings.b2_linearSlop);
 };
 
-Box2D.Dynamics.Contacts.Box2D.Dynamics.Contacts.b2ContactSolver.s_worldManifold = new Box2D.Collision.b2WorldManifold();
-Box2D.Dynamics.Contacts.Box2D.Dynamics.Contacts.b2ContactSolver.s_psm = new Box2D.Dynamics.Contacts.b2PositionSolverManifold();
+Box2D.Dynamics.Contacts.b2ContactSolver.s_worldManifold = new Box2D.Collision.b2WorldManifold();
+Box2D.Dynamics.Contacts.b2ContactSolver.s_psm = new Box2D.Dynamics.Contacts.b2PositionSolverManifold();

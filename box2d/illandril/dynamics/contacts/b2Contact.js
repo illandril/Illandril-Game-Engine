@@ -6,8 +6,8 @@ goog.provide('Box2D.Dynamics.Contacts.b2Contact');
 goog.require('Box2D.Dynamics.Contacts.b2ContactEdge');
 goog.require('Box2D.Collision.b2Manifold');
 goog.require('Box2D.Collision.b2TOIInput');
-goog.require('Box2D.Collision.b2TimeOfImpact.TimeOfImpact');
-goog.require('Box2D.Dynamics.b2Body');
+goog.require('Box2D.Collision.b2TimeOfImpact');
+//goog.require('Box2D.Dynamics.b2Body');
 goog.require('Box2D.Collision.Shapes.b2Shape');
 goog.require('Box2D.Common.b2Settings');
 

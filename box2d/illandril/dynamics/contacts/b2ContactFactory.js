@@ -5,7 +5,7 @@ goog.provide('Box2D.Dynamics.Contacts.b2ContactFactory');
 
 goog.require('Box2D.Dynamics.Contacts.b2ContactRegister');
 goog.require('Box2D.Dynamics.Contacts.b2CircleContact');
-goog.require('Box2D.Collision.Shapes');
+goog.require('Box2D.Collision.Shapes.b2Shape');
 goog.require('Box2D.Dynamics.Contacts.b2PolyAndCircleContact');
 goog.require('Box2D.Dynamics.Contacts.b2PolygonContact');
 goog.require('Box2D.Dynamics.Contacts.b2EdgeAndCircleContact');
@@ -115,6 +115,4 @@ Box2D.Dynamics.Contacts.b2ContactFactory.prototype.Destroy = function(contact) {
         contact.m_next = reg.pool;
         reg.pool = contact;
     }
-    var destroyFcn = reg.destroyFcn;
-    destroyFcn(contact);
 };
