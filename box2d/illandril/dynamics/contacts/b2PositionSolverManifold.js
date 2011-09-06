@@ -1,7 +1,7 @@
 /*
  * See Box2D.js
  */
-goog.provide('Box2D.Dynamics.Contacts.b2ContactResult');
+goog.provide('Box2D.Dynamics.Contacts.b2PositionSolverManifold');
 
 goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Common.b2Settings');
