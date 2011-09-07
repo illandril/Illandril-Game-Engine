@@ -3,24 +3,12 @@
  */
 goog.provide('Box2D.Collision.b2DistanceProxy');
 
-goog.require('Box2D.Collision.Shapes.b2Shape');
 goog.require('Box2D.Common.b2Settings');
 
 Box2D.Collision.b2DistanceProxy = function() {};
 (function(b2DistanceProxy) {
     b2DistanceProxy.prototype.Set = function (shape) {
-        var type = shape.GetType();
-        if (type == Box2D.Collision.Shapes.b2Shape.e_circleShape) {
-            this.m_vertices = [shape.m_p];
-            this.m_count = 1;
-            this.m_radius = shape.m_radius;
-        } else if (type == Box2D.Collision.Shapes.b2Shape.e_polygonShape) {
-            this.m_vertices = shape.m_vertices;
-            this.m_count = shape.m_vertexCount;
-            this.m_radius = shape.m_radius;
-        } else {
-            Box2D.Common.b2Settings.b2Assert(false);
-        }
+        shape.SetDistanceProxy(this);
    };
    
    b2DistanceProxy.prototype.GetSupport = function (d) {

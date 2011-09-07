@@ -135,6 +135,12 @@ Box2D.Collision.Shapes.b2CircleShape.prototype.ComputeSubmergedArea = function(n
     return area;
 };
 
+Box2D.Collision.Shapes.b2CircleShape.prototype.SetDistanceProxy(proxy) {
+    proxy.m_vertices = [this.m_p];
+    proxy.m_count = 1;
+    proxy.m_radius = this.m_radius;
+};
+
 /**
  * @return {!Box2D.Common.Math.b2Vec2}
  */

@@ -45,6 +45,10 @@ Box2D.Collision.Shapes.b2Shape.prototype.ComputeSubmergedArea = function(normal,
     return 0;
 };
 
+Box2D.Collision.Shapes.b2Shape.prototype.SetDistanceProxy(proxy) {
+    Box2D.Common.b2Settings.b2Assert(false);
+};
+
 Box2D.Collision.Shapes.b2Shape.TestOverlap = function(shape1, transform1, shape2, transform2) {
     var input = new Box2D.Collision.b2DistanceInput();
     input.proxyA = new Box2D.Collision.b2DistanceProxy();
