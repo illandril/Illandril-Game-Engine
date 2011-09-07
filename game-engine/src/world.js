@@ -202,9 +202,7 @@ game.world.prototype._doWhenUnlocked = function(action) {
 
 game.world.prototype.createObject = function(size, position, visible, shape, args) {
     var object = this._createObject(size, position, visible);
-    if (!args.scenery) {
-        this._doWhenUnlocked(function() { this._createBox2DObject(object, size, position, shape, args); });
-    }
+    this._doWhenUnlocked(function() { this._createBox2DObject(object, size, position, shape, args); });
     return object;
 };
 

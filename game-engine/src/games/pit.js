@@ -82,7 +82,7 @@ test.createBallPit = function(size, bottomLeft) {
             var ballArgs = {
                 fixtureArgs: { density: 0.1, restitution: 0.1, friction: 0.1 }
             };
-            var ball = g.getWorld().createObject(new Box2D.Common.Math.b2Vec2(radius * 2, radius * 2), new Box2D.Common.Math.b2Vec2(bottomLeft.x + x - (cnt++ % 2) * radius, bottomLeft.y - y), shape, ballArgs);
+            var ball = g.getWorld().createObject(new Box2D.Common.Math.b2Vec2(radius * 2, radius * 2), new Box2D.Common.Math.b2Vec2(bottomLeft.x + x - (cnt++ % 2) * radius, bottomLeft.y - y), true /* visible */, shape, ballArgs);
             var color = Math.random();
             if (color <= 0.25) {
                 g.getViewport().setImage(ball, 'graphics/ball-red.png');
