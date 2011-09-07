@@ -211,7 +211,6 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
       }
       j.m_edgeB.prev = null;
       j.m_edgeB.next = null;
-      Box2D.Dynamics.Joints.b2Joint.Destroy(j, null);
       this.m_jointCount--;
       if (!collideConnected) {
          var edge = bodyB.GetContactList();
