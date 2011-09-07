@@ -31,6 +31,19 @@
  
 goog.provide('Box2D');
 
+goog.require('Box2D.Dynamics.b2Body');
+goog.require('Box2D.Dynamics.b2BodyDef');
+goog.require('Box2D.Dynamics.b2Fixture');
+goog.require('Box2D.Dynamics.b2FixtureDef');
+goog.require('Box2D.Dynamics.b2World');
+goog.require('Box2D.Dynamics.b2ContactFilter');
+goog.require('Box2D.Dynamics.b2ContactImpulse');
+goog.require('Box2D.Dynamics.b2ContactManager');
+goog.require('Box2D.Dynamics.b2DebugDraw');
+goog.require('Box2D.Dynamics.b2DestructionListener');
+goog.require('Box2D.Dynamics.b2FilterData');
+goog.require('Box2D.Dynamics.b2Island');
+goog.require('Box2D.Dynamics.b2TimeStep');
 goog.require('Box2D.Dynamics.Controllers.b2ControllerEdge');
 goog.require('Box2D.Dynamics.Controllers.b2BuoyancyController');
 goog.require('Box2D.Dynamics.Controllers.b2ConstantAccelController');
@@ -100,7 +113,6 @@ goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Common.Math.b2Vec3');
 goog.require('Box2D.Common.Math.b2Mat22');
 goog.require('Box2D.Common.Math.b2Mat33');
-goog.require('Box2D.Dynamics');
 goog.require('Box2D.Dynamics.Contacts.b2CircleContact');
 goog.require('Box2D.Dynamics.Contacts.b2Contact');
 goog.require('Box2D.Dynamics.Contacts.b2ContactConstraint');

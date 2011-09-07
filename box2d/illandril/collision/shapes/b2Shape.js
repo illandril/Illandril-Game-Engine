@@ -45,7 +45,7 @@ Box2D.Collision.Shapes.b2Shape.prototype.ComputeSubmergedArea = function(normal,
     return 0;
 };
 
-Box2D.Collision.Shapes.b2Shape.prototype.SetDistanceProxy(proxy) {
+Box2D.Collision.Shapes.b2Shape.prototype.SetDistanceProxy = function(proxy) {
     Box2D.Common.b2Settings.b2Assert(false);
 };
 

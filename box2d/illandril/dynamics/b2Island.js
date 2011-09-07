@@ -5,6 +5,8 @@ goog.provide('Box2D.Dynamics.b2Island');
 
 goog.require('Box2D.Dynamics.b2ContactImpulse');
 goog.require('Box2D.Dynamics.b2BodyDef');
+goog.require('Box2D.Common.Math.b2Math');
+goog.require('Box2D.Common.b2Settings');
 
 /**
  * @constructor
@@ -44,8 +46,8 @@ Box2D.Dynamics.b2Island.prototype.Solve = function(step, gravity, allowSleep) {
         b.m_linearVelocity.x += step.dt * (gravity.x + b.m_invMass * b.m_force.x);
         b.m_linearVelocity.y += step.dt * (gravity.y + b.m_invMass * b.m_force.y);
         b.m_angularVelocity += step.dt * b.m_invI * b.m_torque;
-        b.m_linearVelocity.Multiply(b2Math.Clamp(1.0 - step.dt * b.m_linearDamping, 0.0, 1.0));
-        b.m_angularVelocity *= b2Math.Clamp(1.0 - step.dt * b.m_angularDamping, 0.0, 1.0);
+        b.m_linearVelocity.Multiply(Box2D.Common.Math.b2Math.Clamp(1.0 - step.dt * b.m_linearDamping, 0.0, 1.0));
+        b.m_angularVelocity *= Box2D.Common.Math.b2Math.Clamp(1.0 - step.dt * b.m_angularDamping, 0.0, 1.0);
     }
     this.m_contactSolver.Initialize(step, this.m_contacts, this.m_contactCount);
     var contactSolver = this.m_contactSolver;
@@ -71,18 +73,18 @@ Box2D.Dynamics.b2Island.prototype.Solve = function(step, gravity, allowSleep) {
         if (b.GetType() == Box2D.Dynamics.b2BodyDef.b2_staticBody) continue;
         var translationX = step.dt * b.m_linearVelocity.x;
         var translationY = step.dt * b.m_linearVelocity.y;
-        if ((translationX * translationX + translationY * translationY) > b2Settings.b2_maxTranslationSquared) {
+        if ((translationX * translationX + translationY * translationY) > Box2D.Common.b2Settings.b2_maxTranslationSquared) {
             b.m_linearVelocity.Normalize();
-            b.m_linearVelocity.x *= b2Settings.b2_maxTranslation * step.inv_dt;
-            b.m_linearVelocity.y *= b2Settings.b2_maxTranslation * step.inv_dt;
+            b.m_linearVelocity.x *= Box2D.Common.b2Settings.b2_maxTranslation * step.inv_dt;
+            b.m_linearVelocity.y *= Box2D.Common.b2Settings.b2_maxTranslation * step.inv_dt;
         }
         var rotation = step.dt * b.m_angularVelocity;
-        if (rotation * rotation > b2Settings.b2_maxRotationSquared) {
+        if (rotation * rotation > Box2D.Common.b2Settings.b2_maxRotationSquared) {
             if (b.m_angularVelocity < 0.0) {
-                b.m_angularVelocity = (-b2Settings.b2_maxRotation * step.inv_dt);
+                b.m_angularVelocity = (-Box2D.Common.b2Settings.b2_maxRotation * step.inv_dt);
             }
             else {
-                b.m_angularVelocity = b2Settings.b2_maxRotation * step.inv_dt;
+                b.m_angularVelocity = Box2D.Common.b2Settings.b2_maxRotation * step.inv_dt;
             }
         }
         b.m_sweep.c0.SetV(b.m_sweep.c);
@@ -93,11 +95,11 @@ Box2D.Dynamics.b2Island.prototype.Solve = function(step, gravity, allowSleep) {
         b.SynchronizeTransform();
     }
     for (i = 0; i < step.positionIterations; ++i) {
-        var contactsOkay = contactSolver.SolvePositionConstraints(b2Settings.b2_contactBaumgarte);
+        var contactsOkay = contactSolver.SolvePositionConstraints(Box2D.Common.b2Settings.b2_contactBaumgarte);
         var jointsOkay = true;
         for (j = 0; j < this.m_jointCount; ++j) {
             joint = this.m_joints[j];
-            var jointOkay = joint.SolvePositionConstraints(b2Settings.b2_contactBaumgarte);
+            var jointOkay = joint.SolvePositionConstraints(Box2D.Common.b2Settings.b2_contactBaumgarte);
             jointsOkay = jointsOkay && jointOkay;
         }
         if (contactsOkay && jointsOkay) {
@@ -107,14 +109,14 @@ Box2D.Dynamics.b2Island.prototype.Solve = function(step, gravity, allowSleep) {
     this.Report(contactSolver.m_constraints);
     if (allowSleep) {
         var minSleepTime = Number.MAX_VALUE;
-        var linTolSqr = b2Settings.b2_linearSleepTolerance * b2Settings.b2_linearSleepTolerance;
-        var angTolSqr = b2Settings.b2_angularSleepTolerance * b2Settings.b2_angularSleepTolerance;
+        var linTolSqr = Box2D.Common.b2Settings.b2_linearSleepTolerance * Box2D.Common.b2Settings.b2_linearSleepTolerance;
+        var angTolSqr = Box2D.Common.b2Settings.b2_angularSleepTolerance * Box2D.Common.b2Settings.b2_angularSleepTolerance;
         for (i = 0; i < this.m_bodyCount; ++i) {
             b = this.m_bodies[i];
-            if (b.GetType() == b2BodyDef.b2_staticBody) {
+            if (b.GetType() == Box2D.Dynamics.b2BodyDef.b2_staticBody) {
                 continue;
             }
-            if (!b.m_allowSleep || b.m_angularVelocity * b.m_angularVelocity > angTolSqr || b2Math.Dot(b.m_linearVelocity, b.m_linearVelocity) > linTolSqr) {
+            if (!b.m_allowSleep || b.m_angularVelocity * b.m_angularVelocity > angTolSqr || Box2D.Common.Math.b2Math.Dot(b.m_linearVelocity, b.m_linearVelocity) > linTolSqr) {
                 b.m_sleepTime = 0.0;
                 minSleepTime = 0.0;
             } else {
@@ -122,7 +124,7 @@ Box2D.Dynamics.b2Island.prototype.Solve = function(step, gravity, allowSleep) {
                 minSleepTime = Math.min(minSleepTime, b.m_sleepTime);
             }
         }
-        if (minSleepTime >= b2Settings.b2_timeToSleep) {
+        if (minSleepTime >= Box2D.Common.b2Settings.b2_timeToSleep) {
             for (i = 0; i < this.m_bodyCount; ++i) {
                 b = this.m_bodies[i];
                 b.SetAwake(false);
@@ -151,18 +153,18 @@ Box2D.Dynamics.b2Island.prototype.SolveTOI = function(subStep) {
         if (b.GetType() == Box2D.Dynamics.b2BodyDef.b2_staticBody) continue;
         var translationX = subStep.dt * b.m_linearVelocity.x;
         var translationY = subStep.dt * b.m_linearVelocity.y;
-        if ((translationX * translationX + translationY * translationY) > b2Settings.b2_maxTranslationSquared) {
+        if ((translationX * translationX + translationY * translationY) > Box2D.Common.b2Settings.b2_maxTranslationSquared) {
             b.m_linearVelocity.Normalize();
-            b.m_linearVelocity.x *= b2Settings.b2_maxTranslation * subStep.inv_dt;
-            b.m_linearVelocity.y *= b2Settings.b2_maxTranslation * subStep.inv_dt;
+            b.m_linearVelocity.x *= Box2D.Common.b2Settings.b2_maxTranslation * subStep.inv_dt;
+            b.m_linearVelocity.y *= Box2D.Common.b2Settings.b2_maxTranslation * subStep.inv_dt;
         }
         var rotation = subStep.dt * b.m_angularVelocity;
-        if (rotation * rotation > b2Settings.b2_maxRotationSquared) {
+        if (rotation * rotation > Box2D.Common.b2Settings.b2_maxRotationSquared) {
             if (b.m_angularVelocity < 0.0) {
-                b.m_angularVelocity = (-b2Settings.b2_maxRotation * subStep.inv_dt);
+                b.m_angularVelocity = (-Box2D.Common.b2Settings.b2_maxRotation * subStep.inv_dt);
             }
             else {
-                b.m_angularVelocity = b2Settings.b2_maxRotation * subStep.inv_dt;
+                b.m_angularVelocity = Box2D.Common.b2Settings.b2_maxRotation * subStep.inv_dt;
             }
         }
         b.m_sweep.c0.SetV(b.m_sweep.c);
@@ -177,7 +179,7 @@ Box2D.Dynamics.b2Island.prototype.SolveTOI = function(subStep) {
         var contactsOkay = contactSolver.SolvePositionConstraints(k_toiBaumgarte);
         var jointsOkay = true;
         for (j = 0; j < this.m_jointCount; ++j) {
-            var jointOkay = this.m_joints[j].SolvePositionConstraints(b2Settings.b2_contactBaumgarte);
+            var jointOkay = this.m_joints[j].SolvePositionConstraints(Box2D.Common.b2Settings.b2_contactBaumgarte);
             jointsOkay = jointsOkay && jointOkay;
         }
         if (contactsOkay && jointsOkay) {

@@ -22,7 +22,6 @@ else:
   args = args + " --compiler_flags=--compilation_level=ADVANCED_OPTIMIZATIONS"
   
   # Disable debugging
-  args = args + " --compiler_flags=--define='illandril.DEBUG=false'"
   args = args + " --compiler_flags=--define='goog.DEBUG=false'"
 
 os.system( sys.executable + " " + builder + args + " > bin/" + sys.argv[1] + ".js" )

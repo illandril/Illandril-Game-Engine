@@ -11,7 +11,7 @@ goog.addDependency('../../../game-engine/src/games/pit.js', ['pit'], ['game.cont
 goog.addDependency('../../../game-engine/src/games/test.js', ['test'], ['game.controls', 'game.controls.action', 'game.game', 'game.platformer', 'goog.events.KeyCodes']);
 goog.addDependency('../../../game-engine/src/shims.js', ['window.requestAnimFrame'], []);
 goog.addDependency('../../../game-engine/src/ui/animation.js', ['game.ui.animation'], ['game.ai', 'game.ui.spriteSheet', 'game.ui.viewport']);
-goog.addDependency('../../../game-engine/src/ui/spriteSheet.js', ['game.ui.spriteSheet'], ['game.ui']);
+goog.addDependency('../../../game-engine/src/ui/spriteSheet.js', ['game.ui.spriteSheet'], ['Box2D.Common.Math.b2Vec2', 'game.ui']);
 goog.addDependency('../../../game-engine/src/ui/ui.js', ['game.ui'], []);
 goog.addDependency('../../../game-engine/src/ui/viewport.js', ['game.ui.viewport'], ['Box2D.Collision.b2AABB', 'Box2D.Common.Math.b2Vec2', 'Box2D.Dynamics.b2DebugDraw', 'game.ui', 'game.ui.spriteSheet']);
 goog.addDependency('../../../game-engine/src/world.js', ['game.world'], ['Box2D', 'game.gameObject']);

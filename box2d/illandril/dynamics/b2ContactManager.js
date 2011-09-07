@@ -3,6 +3,11 @@
  */
 goog.provide('Box2D.Dynamics.b2ContactManager');
 
+goog.require('Box2D.Dynamics.b2ContactFilter');
+goog.require('Box2D.Dynamics.b2ContactListener');
+goog.require('Box2D.Dynamics.Contacts.b2ContactFactory');
+goog.require('Box2D.Collision.b2DynamicTreeBroadPhase');
+
 Box2D.Dynamics.b2ContactManager = function() {
     if (this.constructor === Box2D.Dynamics.b2ContactManager) {
         this.m_world = null;

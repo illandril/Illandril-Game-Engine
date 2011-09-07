@@ -8,7 +8,7 @@ goog.require('Box2D.Dynamics.b2FilterData');
 /**
  * @constructor
  */
-Box2D.Dynamics.b2FixtureDef.b2FixtureDef = function () {
+Box2D.Dynamics.b2FixtureDef = function () {
     this.filter = new Box2D.Dynamics.b2FilterData();
     this.shape = null;
     this.userData = null;

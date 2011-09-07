@@ -382,7 +382,7 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.ComputeSubmergedArea = function(
     return area;
 };
 
-Box2D.Collision.Shapes.b2CircleShape.prototype.SetDistanceProxy(proxy) {
+Box2D.Collision.Shapes.b2PolygonShape.prototype.SetDistanceProxy = function(proxy) {
     proxy.m_vertices = this.m_vertices;
     proxy.m_count = this.m_vertexCount;
     proxy.m_radius = this.m_radius;
