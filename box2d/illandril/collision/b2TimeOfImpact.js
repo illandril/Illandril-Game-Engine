@@ -3,7 +3,6 @@
  */
 goog.provide('Box2D.Collision.b2TimeOfImpact');
 
-goog.require('Box2D.postDefs');
 goog.require('Box2D.Collision.b2SimplexCache');
 goog.require('Box2D.Collision.b2DistanceInput');
 goog.require('Box2D.Collision.b2DistanceOutput');
@@ -120,16 +119,14 @@ Box2D.Collision.b2TimeOfImpact.TimeOfImpact = function(input) {
     return alpha;
 };
 
-Box2D.postDefs.push(function() {
-    Box2D.Collision.b2TimeOfImpact.b2_toiCalls = 0;
-    Box2D.Collision.b2TimeOfImpact.b2_toiIters = 0;
-    Box2D.Collision.b2TimeOfImpact.b2_toiMaxIters = 0;
-    Box2D.Collision.b2TimeOfImpact.b2_toiRootIters = 0;
-    Box2D.Collision.b2TimeOfImpact.b2_toiMaxRootIters = 0;
-    Box2D.Collision.b2TimeOfImpact.s_cache = new Box2D.Collision.b2SimplexCache();
-    Box2D.Collision.b2TimeOfImpact.s_distanceInput = new Box2D.Collision.b2DistanceInput();
-    Box2D.Collision.b2TimeOfImpact.s_xfA = new Box2D.Common.Math.b2Transform();
-    Box2D.Collision.b2TimeOfImpact.s_xfB = new Box2D.Common.Math.b2Transform();
-    Box2D.Collision.b2TimeOfImpact.s_fcn = new Box2D.Collision.b2SeparationFunction();
-    Box2D.Collision.b2TimeOfImpact.s_distanceOutput = new Box2D.Collision.b2DistanceOutput();
-});
+Box2D.Collision.b2TimeOfImpact.b2_toiCalls = 0;
+Box2D.Collision.b2TimeOfImpact.b2_toiIters = 0;
+Box2D.Collision.b2TimeOfImpact.b2_toiMaxIters = 0;
+Box2D.Collision.b2TimeOfImpact.b2_toiRootIters = 0;
+Box2D.Collision.b2TimeOfImpact.b2_toiMaxRootIters = 0;
+Box2D.Collision.b2TimeOfImpact.s_cache = new Box2D.Collision.b2SimplexCache();
+Box2D.Collision.b2TimeOfImpact.s_distanceInput = new Box2D.Collision.b2DistanceInput();
+Box2D.Collision.b2TimeOfImpact.s_xfA = new Box2D.Common.Math.b2Transform();
+Box2D.Collision.b2TimeOfImpact.s_xfB = new Box2D.Common.Math.b2Transform();
+Box2D.Collision.b2TimeOfImpact.s_fcn = new Box2D.Collision.b2SeparationFunction();
+Box2D.Collision.b2TimeOfImpact.s_distanceOutput = new Box2D.Collision.b2DistanceOutput();

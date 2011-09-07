@@ -7,12 +7,22 @@ goog.require('game.ui.animation');
 
 goog.require('window.requestAnimFrame');
 
+/**
+ * @param {!Object} gameType
+ * @param {string} gameContainerID
+ * @param {!Box2D.Common.Math.b2Vec2} worldSize
+ * @param {!Box2D.Common.Math.b2Vec2} gravity
+ * @param {!Box2D.Common.Math.b2Vec2} viewportSize
+ * @param {number} viewportScale
+ * @param {boolean} doDebug
+ * @constructor
+ */
 game.game = function(gameType, gameContainerID, worldSize, gravity, viewportSize, viewportScale, doDebug) {
     this.specificGameType = gameType;
     this.paused = false;
     this.unrunTicks = 0;
     
-    this.ai = game.ai.getInstance();
+    this.ai = new game.ai();
     this.animation = new game.ui.animation(this);
     
     // Initialize the world

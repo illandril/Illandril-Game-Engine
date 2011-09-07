@@ -5,17 +5,11 @@ goog.provide('game.ai');
 
 goog.require('goog.array');
 
+/**
+ * @constructor
+ */
 game.ai = function() {
     this.thinkers = [];
-};
-
-game.ai._instance = null;
-
-game.ai.getInstance = function() {
-    if (game.ai._instance === null) {
-        game.ai._instance = new game.ai();
-    }
-    return game.ai._instance;
 };
 
 game.ai.prototype.addThinker = function(thinker, thought) {

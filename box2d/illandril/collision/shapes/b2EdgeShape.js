@@ -3,11 +3,15 @@
  */
 goog.provide('Box2D.Collision.Shapes.b2EdgeShape');
 
-goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Collision.Shapes.b2Shape');
-goog.require('Box2D.Common.Math.b2Math');
 goog.require('Box2D.Common.b2Settings');
+goog.require('Box2D.Common.Math.b2Math');
+goog.require('Box2D.Common.Math.b2Vec2');
 
+/**
+ * @constructor
+ * @extends {Box2D.Collision.Shapes.b2Shape}
+ */
 Box2D.Collision.Shapes.b2EdgeShape = function(v1, v2) {
     Box2D.Collision.Shapes.b2Shape.call(this);
     this.s_supportVec = new Box2D.Common.Math.b2Vec2(0, 0);
@@ -19,7 +23,7 @@ Box2D.Collision.Shapes.b2EdgeShape = function(v1, v2) {
     this.m_direction = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_cornerDir1 = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_cornerDir2 = new Box2D.Common.Math.b2Vec2(0, 0);
-    this.m_type = b2Shape.e_edgeShape;
+    this.m_type = Box2D.Collision.Shapes.b2Shape.e_edgeShape;
     this.m_prevEdge = null;
     this.m_nextEdge = null;
     this.m_v1 = v1;
@@ -32,10 +36,7 @@ Box2D.Collision.Shapes.b2EdgeShape = function(v1, v2) {
     this.m_cornerDir1 = this.m_normal;
     this.m_cornerDir2.Set((-this.m_normal.x), (-this.m_normal.y));
 };
-
-
-Box2D.inherit(Box2D.Collision.Shapes.b2EdgeShape, Box2D.Collision.Shapes.b2Shape);
-Box2D.Collision.Shapes.b2EdgeShape.prototype.__super = Box2D.Collision.Shapes.b2Shape.prototype;
+goog.inherits(Box2D.Collision.Shapes.b2EdgeShape, Box2D.Collision.Shapes.b2Shape);
 
 Box2D.Collision.Shapes.b2EdgeShape.prototype.TestPoint = function(transform, p) {
     return false;

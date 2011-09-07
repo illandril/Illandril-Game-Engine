@@ -16,6 +16,10 @@ goog.provide('game.platformer');
 
 goog.require('game.controls.action');
 
+/**
+ * @param {!game.game} theGame
+ * @constructor
+ */
 game.platformer = function(theGame) {
     this.game = theGame;
     this.game.getWorld().addCollisionFilter(this);

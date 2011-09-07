@@ -19,7 +19,6 @@ Box2D.Dynamics.Joints.b2WeldJoint = function(def) {
     this.m_localAnchorB = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_impulse = new Box2D.Common.Math.b2Vec3();
     this.m_mass = new Box2D.Common.Math.b2Mat33();
-    this.__super.b2Joint.call(this, def);
     this.m_localAnchorA.SetV(def.localAnchorA);
     this.m_localAnchorB.SetV(def.localAnchorB);
     this.m_referenceAngle = def.referenceAngle;
@@ -118,7 +117,7 @@ Box2D.Dynamics.Joints.b2WeldJoint.prototype.SolveVelocityConstraints = function(
     var Cdot1X = vB.x - wB * rBY - vA.x + wA * rAY;
     var Cdot1Y = vB.y + wB * rBX - vA.y - wA * rAX;
     var Cdot2 = wB - wA;
-    var impulse = new b2Vec3();
+    var impulse = new Box2D.Common.Math.b2Vec3(0, 0, 0);
     this.m_mass.Solve33(impulse, (-Cdot1X), (-Cdot1Y), (-Cdot2));
     this.m_impulse.Add(impulse);
     vA.x -= mA * impulse.x;
@@ -172,7 +171,7 @@ Box2D.Dynamics.Joints.b2WeldJoint.prototype.SolvePositionConstraints = function(
     this.m_mass.col1.z = this.m_mass.col3.x;
     this.m_mass.col2.z = this.m_mass.col3.y;
     this.m_mass.col3.z = iA + iB;
-    var impulse = new b2Vec3();
+    var impulse = new Box2D.Common.Math.b2Vec3(0, 0, 0);
     this.m_mass.Solve33(impulse, (-C1X), (-C1Y), (-C2));
     bA.m_sweep.c.x -= mA * impulse.x;
     bA.m_sweep.c.y -= mA * impulse.y;

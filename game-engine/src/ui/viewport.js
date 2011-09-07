@@ -8,11 +8,11 @@ goog.require('game.ui');
 goog.require('game.ui.spriteSheet');
 
 /**
- * @param {!game.ui.game.game} g The game for this viewport
- * @param {!string} containerID The id of the container for this viewport
- * @param {!number} scale The scale of the viewport (pixels per meter)
+ * @param {!game.game} g The game for this viewport
+ * @param {string} containerID The id of the container for this viewport
+ * @param {number} scale The scale of the viewport (pixels per meter)
  * @param {!Box2D.Common.Math.b2Vec2} viewportSize The size of the viewport (pixels)
- * @param {!boolean} debug Flag indicating if the viewport should include debug information or not
+ * @param {boolean} debug Flag indicating if the viewport should include debug information or not
  * @constructor
  */
 game.ui.viewport = function(g, containerID, scale, viewportSize, debug) {

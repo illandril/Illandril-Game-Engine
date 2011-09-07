@@ -1,7 +1,15 @@
 goog.provide('game.ui.spriteSheet');
 
 goog.require('game.ui');
+goog.require('Box2D.Common.Math.b2Vec2');
 
+/**
+ * @param {string} url
+ * @param {Box2D.Common.Math.b2Vec2} offset Defaults to 0,0
+ * @param {Box2D.Common.Math.b2Vec2} sheetSize Defautls to 1,1 - only needed if this is used for animation
+ * @param {Box2D.Common.Math.b2Vec2} tileSize Defaults to 1,1 - only needed if this is used for animation
+ * @constructor
+ */
 game.ui.spriteSheet = function(url, offset, sheetSize, tileSize) {
     game.ui.preloadImage(url);
     this.url = url;
@@ -11,8 +19,11 @@ game.ui.spriteSheet = function(url, offset, sheetSize, tileSize) {
     this.tile = new Box2D.Common.Math.b2Vec2(1, 1);
 };
 
+/**
+ * @param {!Box2D.Common.Math.b2Vec2} tile
+ */
 game.ui.spriteSheet.prototype.setTile = function(tile) {
-    this.tile = new Box2D.Common.Math.b2Vec2(tile ? tile.x : 1, tile ? tile.y : 1);
+    this.tile = tile.Copy();
     this.tile.x = this.tile.x % this.sheetSize.x;
     this.tile.y = this.tile.y % this.sheetSize.y;
     if (this.tile.x === 0) {

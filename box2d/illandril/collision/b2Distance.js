@@ -7,7 +7,7 @@ goog.provide('Box2D.Collision.b2Distance');
 goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Math');
 goog.require('Box2D.Common.Math.b2Vec2');
-goog.require('Box2D.postDefs');
+goog.require('Box2D.Collision.b2Simplex');
 
 Box2D.Collision.b2Distance = function() {};
 (function(b2Distance) {
@@ -82,7 +82,6 @@ Box2D.Collision.b2Distance = function() {};
         }
     };
     
-    Box2D.postDefs.push(function() {
-        Box2D.Collision.b2Distance.s_simplex = new Box2D.Collision.b2Simplex();
-    });
 })(Box2D.Collision.b2Distance);
+
+Box2D.Collision.b2Distance.s_simplex = new Box2D.Collision.b2Simplex();

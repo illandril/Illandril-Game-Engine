@@ -3,16 +3,18 @@
  */
 goog.provide('Box2D.Collision.Shapes.b2PolygonShape');
 
-goog.require('Box2D.Common.Math.b2Vec2');
-goog.require('Box2D.Collision.Shapes.b2Shape');
-goog.require('Box2D.Common.Math.b2Math');
-goog.require('Box2D.Common.b2Settings');
-goog.require('Box2D.postDefs');
-goog.require('Box2D.is');
-goog.require('Box2D.Common.Math.b2Transform');
 goog.require('Box2D.Collision.Shapes.b2MassData');
+goog.require('Box2D.Collision.Shapes.b2Shape');
+goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Mat22');
+goog.require('Box2D.Common.Math.b2Math');
+goog.require('Box2D.Common.Math.b2Transform');
+goog.require('Box2D.Common.Math.b2Vec2');
 
+/**
+ * @constructor
+ * @extends {Box2D.Collision.Shapes.b2Shape}
+ */
 Box2D.Collision.Shapes.b2PolygonShape = function() {
     Box2D.Collision.Shapes.b2Shape.call(this);
     this.m_type = Box2D.Collision.Shapes.b2Shape.e_polygonShape;
@@ -20,9 +22,7 @@ Box2D.Collision.Shapes.b2PolygonShape = function() {
     this.m_vertices = [];
     this.m_normals = [];
 };
-
-Box2D.inherit(Box2D.Collision.Shapes.b2PolygonShape, Box2D.Collision.Shapes.b2Shape);
-Box2D.Collision.Shapes.b2PolygonShape.prototype.__super = Box2D.Collision.Shapes.b2Shape.prototype;
+goog.inherits(Box2D.Collision.Shapes.b2PolygonShape, Box2D.Collision.Shapes.b2Shape);
 
 Box2D.Collision.Shapes.b2PolygonShape.prototype.Copy = function() {
     var s = new Box2D.Collision.Shapes.b2PolygonShape();
@@ -31,8 +31,8 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.Copy = function() {
 };
 
 Box2D.Collision.Shapes.b2PolygonShape.prototype.Set = function(other) {
-    this.__super.Set.call(this, other);
-    if (Box2D.is(other, Box2D.Collision.Shapes.b2PolygonShape)) {
+    Box2D.Collision.Shapes.b2Shape.prototype.Set.call(this, other);
+    if (other instanceof Box2D.Collision.Shapes.b2PolygonShape) {
         this.m_centroid.SetV(other.m_centroid);
         this.m_vertexCount = other.m_vertexCount;
         this.Reserve(this.m_vertexCount);
@@ -507,6 +507,4 @@ Box2D.Collision.Shapes.b2PolygonShape.ComputeOBB = function(obb, vs, count) {
     }
 };
 
-Box2D.postDefs.push(function() {
-    Box2D.Collision.Shapes.b2PolygonShape.s_mat = new Box2D.Common.Math.b2Mat22();
-});
+Box2D.Collision.Shapes.b2PolygonShape.s_mat = new Box2D.Common.Math.b2Mat22();

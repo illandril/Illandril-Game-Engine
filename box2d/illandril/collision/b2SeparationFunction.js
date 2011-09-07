@@ -6,7 +6,6 @@ goog.provide('Box2D.Collision.b2SeparationFunction');
 goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Common.Math.b2Math');
-goog.require('Box2D.postDefs');
 
 Box2D.Collision.b2SeparationFunction = function() {
     this.m_localPoint = new Box2D.Common.Math.b2Vec2(0, 0);
@@ -221,8 +220,6 @@ Box2D.Collision.b2SeparationFunction.prototype.Evaluate = function(transformA, t
     return seperation;
 };
 
-Box2D.postDefs.push(function() {
-    Box2D.Collision.b2SeparationFunction.e_points = 0x01;
-    Box2D.Collision.b2SeparationFunction.e_faceA = 0x02;
-    Box2D.Collision.b2SeparationFunction.e_faceB = 0x04;
-});
+Box2D.Collision.b2SeparationFunction.e_points = 0x01;
+Box2D.Collision.b2SeparationFunction.e_faceA = 0x02;
+Box2D.Collision.b2SeparationFunction.e_faceB = 0x04;

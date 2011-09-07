@@ -3,7 +3,7 @@
  */
 goog.provide('Box2D.Collision.b2DistanceProxy');
 
-//goog.require('Box2D.Collision.Shapes.b2Shape');
+goog.require('Box2D.Collision.Shapes.b2Shape');
 goog.require('Box2D.Common.b2Settings');
 
 Box2D.Collision.b2DistanceProxy = function() {};

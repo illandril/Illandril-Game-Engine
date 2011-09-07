@@ -3,7 +3,7 @@
  */
 goog.provide('Box2D.Dynamics.Contacts.b2ContactSolver');
 
-//goog.require('Box2D.Dynamics.b2TimeStep')
+goog.require('Box2D.Dynamics.b2TimeStep')
 goog.require('Box2D.Dynamics.Contacts.b2ContactConstraint');
 goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Math');

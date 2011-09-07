@@ -13,6 +13,7 @@ goog.require('goog.events.KeyNames');
 goog.require('goog.userAgent');
 
 /**
+ * @param {string} name
  * @constructor
  */
 game.controls = function(name) {

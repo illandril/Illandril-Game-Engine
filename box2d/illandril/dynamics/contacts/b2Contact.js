@@ -7,7 +7,7 @@ goog.require('Box2D.Dynamics.Contacts.b2ContactEdge');
 goog.require('Box2D.Collision.b2Manifold');
 goog.require('Box2D.Collision.b2TOIInput');
 goog.require('Box2D.Collision.b2TimeOfImpact');
-//goog.require('Box2D.Dynamics.b2Body');
+goog.require('Box2D.Dynamics.b2BodyDef');
 goog.require('Box2D.Collision.Shapes.b2Shape');
 goog.require('Box2D.Common.b2Settings');
 
@@ -99,7 +99,7 @@ Box2D.Dynamics.Contacts.b2Contact.prototype.Reset = function (fixtureA, fixtureB
   }
   var bodyA = fixtureA.GetBody();
   var bodyB = fixtureB.GetBody();
-  if (bodyA.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody || bodyA.IsBullet() || bodyB.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody || bodyB.IsBullet()) {
+  if (bodyA.GetType() != Box2D.Dynamics.b2BodyDef.b2_dynamicBody || bodyA.IsBullet() || bodyB.GetType() != Box2D.Dynamics.b2BodyDef.b2_dynamicBody || bodyB.IsBullet()) {
       this.continuous = true;
   }
   this.m_fixtureA = fixtureA;
@@ -133,7 +133,7 @@ Box2D.Dynamics.Contacts.b2Contact.prototype.Update = function (listener) {
      }
      this.m_manifold.m_pointCount = 0;
   } else {
-     if (bodyA.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody || bodyA.IsBullet() || bodyB.GetType() != Box2D.Dynamics.b2Body.b2_dynamicBody || bodyB.IsBullet()) {
+     if (bodyA.GetType() != Box2D.Dynamics.b2BodyDef.b2_dynamicBody || bodyA.IsBullet() || bodyB.GetType() != Box2D.Dynamics.b2BodyDef.b2_dynamicBody || bodyB.IsBullet()) {
         this.continuous = true;
      } else {
         this.continuous = false;

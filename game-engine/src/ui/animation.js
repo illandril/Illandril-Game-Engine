@@ -4,7 +4,10 @@ goog.require('game.ai');
 goog.require('game.ui.viewport');
 goog.require('game.ui.spriteSheet');
 
-
+/**
+ * @param {!game.game} game
+ * @constructor
+ */
 game.ui.animation = function(game) {
     this.game = game;
 };

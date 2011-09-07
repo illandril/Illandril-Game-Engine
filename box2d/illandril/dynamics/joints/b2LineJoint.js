@@ -406,7 +406,7 @@ Box2D.Dynamics.Joints.b2LineJoint.prototype.SolvePositionConstraints = function(
     this.m_s2 = r2X * this.m_perp.y - r2Y * this.m_perp.x;
     var impulse = new b2Vec2(0, 0);
     var C1 = this.m_perp.x * dX + this.m_perp.y * dY;
-    linearError = Math.max(linearError, b2Math.Abs(C1));
+    linearError = Math.max(linearError, Math.abs(C1));
     angularError = 0.0;
     if (active) {
         m1 = this.m_invMassA;

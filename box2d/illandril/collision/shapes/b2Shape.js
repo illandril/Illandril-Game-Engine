@@ -65,7 +65,7 @@ Box2D.Collision.Shapes.b2Shape.e_unknownShape = -1;
 Box2D.Collision.Shapes.b2Shape.e_circleShape = 0;
 Box2D.Collision.Shapes.b2Shape.e_polygonShape = 1;
 Box2D.Collision.Shapes.b2Shape.e_edgeShape = 2;
-Box2D.Collision.Shapes.b2Shape.e_shapeTypeCount = 3;
-Box2D.Collision.Shapes.b2Shape.e_hitCollide = 1;
-Box2D.Collision.Shapes.b2Shape.e_missCollide = 0;
+
 Box2D.Collision.Shapes.b2Shape.e_startsInsideCollide = -1;
+Box2D.Collision.Shapes.b2Shape.e_missCollide = 0;
+Box2D.Collision.Shapes.b2Shape.e_hitCollide = 1;

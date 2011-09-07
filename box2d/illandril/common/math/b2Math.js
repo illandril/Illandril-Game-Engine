@@ -9,13 +9,6 @@ goog.require('Box2D.Common.Math.b2Vec2');
 Box2D.Common.Math.b2Math = {};
 
 /**
- * @param {number} x
- */
-Box2D.Common.Math.b2Math.IsValid = function (x) {
-  return isFinite(x);
-};
-
-/**
  * @param {!Box2D.Common.Math.b2Vec2} a
  * @param {!Box2D.Common.Math.b2Vec2} b
  * @return {number}
@@ -173,19 +166,11 @@ Box2D.Common.Math.b2Math.MulTMM = function (A, B) {
 };
 
 /**
- * @param {number} a
- * @return {number}
- */
-Box2D.Common.Math.b2Math.Abs = function (a) {
-    return Math.abs(a);
-};
-
-/**
  * @param {!Box2D.Common.Math.b2Vec2} a
  * @return {!Box2D.Common.Math.b2Vec2}
  */
 Box2D.Common.Math.b2Math.AbsV = function (a) {
-  return new Box2D.Common.Math.b2Vec2(Box2D.Common.Math.b2Math.Abs(a.x), Box2D.Common.Math.b2Math.Abs(a.y));
+  return new Box2D.Common.Math.b2Vec2(Math.abs(a.x), Math.abs(a.y));
 };
 
 /**
@@ -194,42 +179,6 @@ Box2D.Common.Math.b2Math.AbsV = function (a) {
  */
 Box2D.Common.Math.b2Math.AbsM = function (A) {
   return Box2D.Common.Math.b2Mat22.FromVV(Box2D.Common.Math.b2Math.AbsV(A.col1), Box2D.Common.Math.b2Math.AbsV(A.col2));
-};
-
-/**
- * @param {number} a
- * @param {number} b
- * @return {number}
- */
-Box2D.Common.Math.b2Math.Min = function (a, b) {
-    return Math.min(a, b);
-};
-
-/**
- * @param {!Box2D.Common.Math.b2Vec2} a
- * @param {!Box2D.Common.Math.b2Vec2} b
- * @return {!Box2D.Common.Math.b2Vec2}
- */
-Box2D.Common.Math.b2Math.MinV = function (a, b) {
-  return new Box2D.Common.Math.b2Vec2(Math.min(a.x, b.x), Math.min(a.y, b.y));
-};
-
-/**
- * @param {number} a
- * @param {number} b
- * @return {number}
- */
-Box2D.Common.Math.b2Math.Max = function (a, b) {
-  return Math.max(a, b);
-};
-
-/**
- * @param {!Box2D.Common.Math.b2Vec2} a
- * @param {!Box2D.Common.Math.b2Vec2} b
- * @return {!Box2D.Common.Math.b2Vec2}
- */
-Box2D.Common.Math.b2Math.MaxV = function (a, b) {
-  return new Box2D.Common.Math.b2Vec2(Math.max(a.x, b.x), Math.max(a.y, b.y));
 };
 
 /**

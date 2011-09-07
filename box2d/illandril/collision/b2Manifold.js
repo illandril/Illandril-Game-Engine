@@ -6,7 +6,6 @@ goog.provide('Box2D.Collision.b2Manifold');
 goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Collision.b2ManifoldPoint');
-goog.require('Box2D.postDefs');
 
 Box2D.Collision.b2Manifold = function() {
     this.m_pointCount = 0;
@@ -46,8 +45,6 @@ Box2D.Collision.b2Manifold.prototype.Copy = function() {
     return copy;
 };
 
-Box2D.postDefs.push(function() {
-    Box2D.Collision.b2Manifold.e_circles = 0x0001;
-    Box2D.Collision.b2Manifold.e_faceA = 0x0002;
-    Box2D.Collision.b2Manifold.e_faceB = 0x0004;
-});
+Box2D.Collision.b2Manifold.e_circles = 0x0001;
+Box2D.Collision.b2Manifold.e_faceA = 0x0002;
+Box2D.Collision.b2Manifold.e_faceB = 0x0004;

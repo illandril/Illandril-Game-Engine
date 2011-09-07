@@ -160,24 +160,24 @@ Box2D.Dynamics.Joints.b2RevoluteJoint.prototype.InitVelocityConstraints = functi
     }
     if (this.m_enableLimit) {
         var jointAngle = bB.m_sweep.a - bA.m_sweep.a - this.m_referenceAngle;
-        if (b2Math.Abs(this.m_upperAngle - this.m_lowerAngle) < 2.0 * Box2D.Common.b2Settings.b2_angularSlop) {
-            this.m_limitState = b2Joint.e_equalLimits;
+        if (Math.abs(this.m_upperAngle - this.m_lowerAngle) < 2.0 * Box2D.Common.b2Settings.b2_angularSlop) {
+            this.m_limitState = Box2D.Dynamics.Joints.b2Joint.e_equalLimits;
         } else if (jointAngle <= this.m_lowerAngle) {
-            if (this.m_limitState != b2Joint.e_atLowerLimit) {
+            if (this.m_limitState != Box2D.Dynamics.Joints.b2Joint.e_atLowerLimit) {
                 this.m_impulse.z = 0.0;
             }
-            this.m_limitState = b2Joint.e_atLowerLimit;
+            this.m_limitState = Box2D.Dynamics.Joints.b2Joint.e_atLowerLimit;
         } else if (jointAngle >= this.m_upperAngle) {
-            if (this.m_limitState != b2Joint.e_atUpperLimit) {
+            if (this.m_limitState != Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit) {
                 this.m_impulse.z = 0.0;
             }
-            this.m_limitState = b2Joint.e_atUpperLimit;
+            this.m_limitState = Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit;
         } else {
-            this.m_limitState = b2Joint.e_inactiveLimit;
+            this.m_limitState = Box2D.Dynamics.Joints.b2Joint.e_inactiveLimit;
             this.m_impulse.z = 0.0;
         }
     } else {
-        this.m_limitState = b2Joint.e_inactiveLimit;
+        this.m_limitState = Box2D.Dynamics.Joints.b2Joint.e_inactiveLimit;
     }
     if (step.warmStarting) {
         this.m_impulse.x *= step.dtRatio;
@@ -215,7 +215,7 @@ Box2D.Dynamics.Joints.b2RevoluteJoint.prototype.SolveVelocityConstraints = funct
     var m2 = bB.m_invMass;
     var i1 = bA.m_invI;
     var i2 = bB.m_invI;
-    if (this.m_enableMotor && this.m_limitState != b2Joint.e_equalLimits) {
+    if (this.m_enableMotor && this.m_limitState != Box2D.Dynamics.Joints.b2Joint.e_equalLimits) {
         var Cdot = w2 - w1 - this.m_motorSpeed;
         var impulse = this.m_motorMass * ((-Cdot));
         var oldImpulse = this.m_motorImpulse;
@@ -225,7 +225,7 @@ Box2D.Dynamics.Joints.b2RevoluteJoint.prototype.SolveVelocityConstraints = funct
         w1 -= i1 * impulse;
         w2 += i2 * impulse;
     }
-    if (this.m_enableLimit && this.m_limitState != b2Joint.e_inactiveLimit) {
+    if (this.m_enableLimit && this.m_limitState != Box2D.Dynamics.Joints.b2Joint.e_inactiveLimit) {
         tMat = bA.m_xf.R;
         r1X = this.m_localAnchor1.x - bA.m_sweep.localCenter.x;
         r1Y = this.m_localAnchor1.y - bA.m_sweep.localCenter.y;
@@ -242,9 +242,9 @@ Box2D.Dynamics.Joints.b2RevoluteJoint.prototype.SolveVelocityConstraints = funct
         var Cdot1Y = v2.y + (w2 * r2X) - v1.y - (w1 * r1X);
         var Cdot2 = w2 - w1;
         this.m_mass.Solve33(this.impulse3, (-Cdot1X), (-Cdot1Y), (-Cdot2));
-        if (this.m_limitState == b2Joint.e_equalLimits) {
+        if (this.m_limitState == Box2D.Dynamics.Joints.b2Joint.e_equalLimits) {
             this.m_impulse.Add(this.impulse3);
-        } else if (this.m_limitState == b2Joint.e_atLowerLimit) {
+        } else if (this.m_limitState == Box2D.Dynamics.Joints.b2Joint.e_atLowerLimit) {
             newImpulse = this.m_impulse.z + this.impulse3.z;
             if (newImpulse < 0.0) {
                 this.m_mass.Solve22(this.reduced, (-Cdot1X), (-Cdot1Y));
@@ -255,7 +255,7 @@ Box2D.Dynamics.Joints.b2RevoluteJoint.prototype.SolveVelocityConstraints = funct
                 this.m_impulse.y += this.reduced.y;
                 this.m_impulse.z = 0.0;
             }
-        } else if (this.m_limitState == b2Joint.e_atUpperLimit) {
+        } else if (this.m_limitState == Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit) {
             newImpulse = this.m_impulse.z + this.impulse3.z;
             if (newImpulse > 0.0) {
                 this.m_mass.Solve22(this.reduced, (-Cdot1X), (-Cdot1Y));
@@ -316,19 +316,19 @@ Box2D.Dynamics.Joints.b2RevoluteJoint.prototype.SolvePositionConstraints = funct
     var tX = 0;
     var impulseX = 0;
     var impulseY = 0;
-    if (this.m_enableLimit && this.m_limitState != b2Joint.e_inactiveLimit) {
+    if (this.m_enableLimit && this.m_limitState != Box2D.Dynamics.Joints.b2Joint.e_inactiveLimit) {
         var angle = bB.m_sweep.a - bA.m_sweep.a - this.m_referenceAngle;
         var limitImpulse = 0.0;
-        if (this.m_limitState == b2Joint.e_equalLimits) {
+        if (this.m_limitState == Box2D.Dynamics.Joints.b2Joint.e_equalLimits) {
             C = Box2D.Common.Math.b2Math.Clamp(angle - this.m_lowerAngle, (-Box2D.Common.b2Settings.b2_maxAngularCorrection), Box2D.Common.b2Settings.b2_maxAngularCorrection);
             limitImpulse = (-this.m_motorMass * C);
             angularError = Math.abs(C);
-        } else if (this.m_limitState == b2Joint.e_atLowerLimit) {
+        } else if (this.m_limitState == Box2D.Dynamics.Joints.b2Joint.e_atLowerLimit) {
             C = angle - this.m_lowerAngle;
             angularError = (-C);
             C = Box2D.Common.Math.b2Math.Clamp(C + Box2D.Common.b2Settings.b2_angularSlop, (-Box2D.Common.b2Settings.b2_maxAngularCorrection), 0.0);
             limitImpulse = (-this.m_motorMass * C);
-        } else if (this.m_limitState == b2Joint.e_atUpperLimit) {
+        } else if (this.m_limitState == Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit) {
             C = angle - this.m_upperAngle;
             angularError = C;
             C = Box2D.Common.Math.b2Math.Clamp(C - Box2D.Common.b2Settings.b2_angularSlop, 0.0, Box2D.Common.b2Settings.b2_maxAngularCorrection);

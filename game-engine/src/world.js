@@ -18,7 +18,7 @@ goog.require('Box2D');
     var bodyDefaults = {
         fixedRotation: false,
         angle: 0,
-        type: Box2D.Dynamics.b2Body.b2_dynamicBody
+        type: Box2D.Dynamics.b2BodyDef.b2_dynamicBody
     };
     
     var argsOrDefaults = function(args, defaults) {
@@ -42,6 +42,12 @@ goog.require('Box2D');
         return argsOrDefaults(args, bodyDefaults);
     };
     
+    /**
+     * @param {!game.game} game
+     * @param {!Box2D.Common.Math.b2Vec2} worldSize
+     * @param {!Box2D.Common.Math.b2Vec2} gravity
+     * @constructor
+     */
     game.world = function(theGame, worldSize, gravity) {
         this.queuedActions = [];
         this.collisionFilters = [];
@@ -188,7 +194,7 @@ goog.require('Box2D');
     
     game.world.prototype.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
         bodyArgs = bodyArgs || {};
-        bodyArgs.type = Box2D.Dynamics.b2Body.b2_staticBody;
+        bodyArgs.type = Box2D.Dynamics.b2BodyDef.b2_staticBody;
         return this.createBox(size, position, visible, bodyArgs, fixtureArgs);
     };
     

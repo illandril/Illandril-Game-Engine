@@ -3,6 +3,10 @@ goog.provide('game.gameObject');
 goog.require('game.ui');
 goog.require('game.ui.spriteSheet');
 
+/**
+ * @param {!Box2D.Common.Math.b2Vec2} position
+ * @constructor
+ */
 game.gameObject = function(position) {
     this.UID = game.gameObject.NEXT_UID++;
     this.position = position.Copy();

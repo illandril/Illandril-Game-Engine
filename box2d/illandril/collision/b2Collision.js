@@ -3,10 +3,10 @@
  */
 goog.provide('Box2D.Collision.b2Collision');
 
-goog.require('Box2D.postDefs');
 goog.require('Box2D.Collision.ClipVertex');
 goog.require('Box2D.Collision.b2Manifold');
 goog.require('Box2D.Common.b2Settings');
+goog.require('Box2D.Common.Math.b2Vec2');
 
 Box2D.Collision.b2Collision = function() {};
 (function(b2Collision) {
@@ -354,19 +354,18 @@ Box2D.Collision.b2Collision = function() {};
         return true;
     };
     
-    Box2D.postDefs.push(function() {
-        Box2D.Collision.b2Collision.s_incidentEdge = b2Collision.MakeClipPointVector();
-        Box2D.Collision.b2Collision.s_clipPoints1 = b2Collision.MakeClipPointVector();
-        Box2D.Collision.b2Collision.s_clipPoints2 = b2Collision.MakeClipPointVector();
-        Box2D.Collision.b2Collision.s_edgeAO = [0];
-        Box2D.Collision.b2Collision.s_edgeBO = [0];
-        Box2D.Collision.b2Collision.s_localTangent = new Box2D.Common.Math.b2Vec2();
-        Box2D.Collision.b2Collision.s_localNormal = new Box2D.Common.Math.b2Vec2();
-        Box2D.Collision.b2Collision.s_planePoint = new Box2D.Common.Math.b2Vec2();
-        Box2D.Collision.b2Collision.s_normal = new Box2D.Common.Math.b2Vec2();
-        Box2D.Collision.b2Collision.s_tangent = new Box2D.Common.Math.b2Vec2();
-        Box2D.Collision.b2Collision.s_tangent2 = new Box2D.Common.Math.b2Vec2();
-        Box2D.Collision.b2Collision.s_v11 = new Box2D.Common.Math.b2Vec2();
-        Box2D.Collision.b2Collision.s_v12 = new Box2D.Common.Math.b2Vec2();
-    });
 })(Box2D.Collision.b2Collision);
+
+Box2D.Collision.b2Collision.s_incidentEdge = Box2D.Collision.b2Collision.MakeClipPointVector();
+Box2D.Collision.b2Collision.s_clipPoints1 = Box2D.Collision.b2Collision.MakeClipPointVector();
+Box2D.Collision.b2Collision.s_clipPoints2 = Box2D.Collision.b2Collision.MakeClipPointVector();
+Box2D.Collision.b2Collision.s_edgeAO = [0];
+Box2D.Collision.b2Collision.s_edgeBO = [0];
+Box2D.Collision.b2Collision.s_localTangent = new Box2D.Common.Math.b2Vec2();
+Box2D.Collision.b2Collision.s_localNormal = new Box2D.Common.Math.b2Vec2();
+Box2D.Collision.b2Collision.s_planePoint = new Box2D.Common.Math.b2Vec2();
+Box2D.Collision.b2Collision.s_normal = new Box2D.Common.Math.b2Vec2();
+Box2D.Collision.b2Collision.s_tangent = new Box2D.Common.Math.b2Vec2();
+Box2D.Collision.b2Collision.s_tangent2 = new Box2D.Common.Math.b2Vec2();
+Box2D.Collision.b2Collision.s_v11 = new Box2D.Common.Math.b2Vec2();
+Box2D.Collision.b2Collision.s_v12 = new Box2D.Common.Math.b2Vec2();

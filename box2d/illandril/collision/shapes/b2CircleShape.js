@@ -3,9 +3,8 @@
  */
 goog.provide('Box2D.Collision.Shapes.b2CircleShape');
 
-goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Collision.Shapes.b2Shape');
-goog.require('Box2D.is');
+goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Common.Math.b2Math');
 
 /**
@@ -35,7 +34,6 @@ Box2D.Collision.Shapes.b2CircleShape.prototype.Copy = function() {
  */
 Box2D.Collision.Shapes.b2CircleShape.prototype.Set = function(other) {
     Box2D.Collision.Shapes.b2Shape.prototype.Set.call(this, other);
-    goog.base(this, 'Set', other);
     if (other instanceof Box2D.Collision.Shapes.b2CircleShape) {
         this.m_p.SetV(other.m_p);
     }
