@@ -3,6 +3,7 @@
  */
 goog.provide('Box2D.Dynamics.b2World');
 
+goog.require('Box2D.Queue');
 goog.require('Box2D.Collision.b2AABB');
 goog.require('Box2D.Collision.b2RayCastInput');
 goog.require('Box2D.Collision.b2RayCastOutput');
@@ -16,6 +17,7 @@ goog.require('Box2D.Dynamics.b2Body');
 goog.require('Box2D.Dynamics.b2BodyDef');
 goog.require('Box2D.Dynamics.b2ContactManager');
 goog.require('Box2D.Dynamics.b2DebugDraw');
+goog.require('Box2D.Dynamics.b2Island');
 goog.require('Box2D.Dynamics.b2TimeStep');
 goog.require('Box2D.Dynamics.Contacts.b2ContactSolver');
 goog.require('Box2D.Dynamics.Joints.b2Joint');
