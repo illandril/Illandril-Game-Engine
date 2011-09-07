@@ -1,5 +1,7 @@
 goog.provide('mario');
 
+goog.require('Box2D.Common.Math.b2Vec2');
+
 goog.require('game.game');
 goog.require('game.platformer');
 goog.require('game.controls');

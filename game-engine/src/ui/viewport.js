@@ -4,7 +4,7 @@ goog.require('Box2D.Collision.b2AABB');
 goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Dynamics.b2DebugDraw');
 
-goog.require('game.ui');
+goog.require('game.ui.ui');
 goog.require('game.ui.spriteSheet');
 
 /**
@@ -171,7 +171,7 @@ game.ui.viewport.prototype.draw = function(time, tick) {
                 this.display.appendChild(this.domObjects[objDisplay.viewID]);
             }
             var domObject = this.domObjects[objDisplay.viewID];
-            var savedStyle = game.ui.getDOMStyleCache(domObject);
+            var savedStyle = game.ui.ui.getDOMStyleCache(domObject);
             var newScale = this.scale != savedStyle.scale;
             savedStyle.scale = this.scale;
             var left = pos.x - (size.x / 2);

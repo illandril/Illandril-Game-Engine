@@ -1,5 +1,4 @@
 goog.provide('game.controls.action');
-goog.require('game.controls');
 
 /**
  * @param {Function} fn The function to execute when this action occurs.

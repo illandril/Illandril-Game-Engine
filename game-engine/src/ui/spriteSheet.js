@@ -1,6 +1,6 @@
 goog.provide('game.ui.spriteSheet');
 
-goog.require('game.ui');
+goog.require('game.ui.ui');
 goog.require('Box2D.Common.Math.b2Vec2');
 
 /**
@@ -11,7 +11,7 @@ goog.require('Box2D.Common.Math.b2Vec2');
  * @constructor
  */
 game.ui.spriteSheet = function(url, offset, sheetSize, tileSize) {
-    game.ui.preloadImage(url);
+    game.ui.ui.preloadImage(url);
     this.url = url;
     this.offset = offset || new Box2D.Common.Math.b2Vec2(0, 0);
     this.sheetSize = sheetSize || new Box2D.Common.Math.b2Vec2(1, 1);
@@ -36,7 +36,7 @@ game.ui.spriteSheet.prototype.setTile = function(tile) {
 
 game.ui.spriteSheet.prototype.updateDOM = function(domObject) {
     var tileChange = false;
-    var savedStyle = game.ui.getDOMStyleCache(domObject);
+    var savedStyle = game.ui.ui.getDOMStyleCache(domObject);
     if (savedStyle.bg != this.url) {
         savedStyle.bg = this.url;
         domObject.style.backgroundImage = 'url(' + this.url + ')';

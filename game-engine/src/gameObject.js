@@ -1,8 +1,5 @@
 goog.provide('game.gameObject');
 
-goog.require('game.ui');
-goog.require('game.ui.spriteSheet');
-
 /**
  * @param {!Box2D.Common.Math.b2Vec2} position
  * @constructor
@@ -13,6 +10,9 @@ game.gameObject = function(position) {
     this.angle = 0;
 };
 
+/**
+ * @param {!Box2D.Common.Math.b2Vec2} position
+ */
 game.gameObject.prototype.setPosition = function(newPos) {
     if(this.body) {
         this.body.SetPosition(newPos);
@@ -21,6 +21,9 @@ game.gameObject.prototype.setPosition = function(newPos) {
     }
 };
 
+/**
+ * @return {!Box2D.Common.Math.b2Vec2}
+ */
 game.gameObject.prototype.getPosition = function() {
     if (this.body) {
         return this.body.GetPosition();
@@ -29,6 +32,9 @@ game.gameObject.prototype.getPosition = function() {
     }
 };
 
+/**
+ * @return {number}
+ */
 game.gameObject.prototype.getAngle = function() {
     if (this.body) {
         return this.body.GetAngle();

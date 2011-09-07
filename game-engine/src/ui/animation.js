@@ -1,6 +1,6 @@
 goog.provide('game.ui.animation');
 
-goog.require('game.ai');
+goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('game.ui.viewport');
 goog.require('game.ui.spriteSheet');
 
@@ -99,6 +99,7 @@ game.ui.animation.DIRECTIONS = {
         object.display.spriteSheet.setTile(tile);
     };
     
+    /*
     animation.eightDirectionalAnimationThought = function(time, tick) {
         animation.eightDirectionalAnimation(time, tick, this);
     };
@@ -215,4 +216,5 @@ game.ui.animation.DIRECTIONS = {
           y: spriteY * this.tileHeight
       };
     };
+    */
 })(game.ui.animation);

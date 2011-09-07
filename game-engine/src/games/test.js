@@ -1,5 +1,11 @@
 goog.provide('test');
 
+goog.require('Box2D.Common.Math.b2Vec2');
+goog.require('Box2D.Collision.Shapes.b2CircleShape')
+goog.require('Box2D.Collision.Shapes.b2PolygonShape')
+goog.require('Box2D.Dynamics.Joints.b2RevoluteJointDef')
+goog.require('Box2D.Dynamics.Joints.b2WeldJointDef')
+
 goog.require('game.game');
 goog.require('game.platformer');
 goog.require('game.controls');

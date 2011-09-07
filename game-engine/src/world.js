@@ -1,7 +1,14 @@
 goog.provide('game.world');
 
+goog.require('Box2D.Collision.Shapes.b2PolygonShape');
+goog.require('Box2D.Common.Math.b2Vec2');
+goog.require('Box2D.Dynamics.b2BodyDef');
+goog.require('Box2D.Dynamics.b2ContactFilter');
+goog.require('Box2D.Dynamics.b2FixtureDef');
+goog.require('Box2D.Dynamics.b2World');
+
 goog.require('game.gameObject');
-goog.require('Box2D');
+goog.require('game.ui.viewport');
 
 (function(game){
     var fixtureDefinition = new Box2D.Dynamics.b2FixtureDef();

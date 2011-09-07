@@ -1,11 +1,12 @@
 goog.provide('game.game');
 
 goog.require('game.ai');
-goog.require('game.world');
+goog.require('game.requestAnimFrame');
+goog.require('game.ui.ui');
 goog.require('game.ui.viewport');
 goog.require('game.ui.animation');
-
-goog.require('window.requestAnimFrame');
+goog.require('game.world');
+goog.require('goog.array');
 
 /**
  * @param {!Object} gameType
@@ -39,7 +40,7 @@ game.game.prototype.startWhenReady = function() {
         this.initialStartTime = new Date();
     }
     var pastMaxDelay = (new Date() - this.initialStartTime) >= game.game.MAX_START_DELAY;
-    if (game.ui.imagesLoading() && !pastMaxDelay) {
+    if (game.ui.ui.imagesLoading() && !pastMaxDelay) {
         var self = this;
         setTimeout(function(){ self.startWhenReady(); }, 50);
     } else {
@@ -169,6 +170,6 @@ game.game._update = function(time) {
         }
         game.controls.rememberCurrentAsLastKeyState();
     }
-    window.requestAnimFrame(game.game._update, document.body);
+    game.requestAnimFrame(game.game._update, document.body);
 };
 

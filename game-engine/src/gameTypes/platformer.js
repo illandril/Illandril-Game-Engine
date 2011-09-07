@@ -14,6 +14,9 @@ Known issues:
 
 goog.provide('game.platformer');
 
+goog.require('Box2D.Collision.b2WorldManifold');
+goog.require('Box2D.Collision.Shapes.b2PolygonShape');
+goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('game.controls.action');
 
 /**

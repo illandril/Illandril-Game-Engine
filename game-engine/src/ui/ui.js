@@ -1,26 +1,26 @@
-goog.provide('game.ui');
+goog.provide('game.ui.ui');
 
-game.ui._images = {};
-game.ui._imagesWaiting = 0;
+game.ui.ui._images = {};
+game.ui.ui._imagesWaiting = 0;
 
-game.ui.preloadImage = function(url) {
-    if(game.ui._images[url] == null) {
-        game.ui._imagesWaiting++;
-        game.ui._images[url] = new Image();
-        game.ui._images[url].onload = game.ui.imageLoaded;
-        game.ui._images[url].src = url;
+game.ui.ui.preloadImage = function(url) {
+    if(game.ui.ui._images[url] == null) {
+        game.ui.ui._imagesWaiting++;
+        game.ui.ui._images[url] = new Image();
+        game.ui.ui._images[url].onload = game.ui.ui.imageLoaded;
+        game.ui.ui._images[url].src = url;
     }
 };
 
-game.ui.imageLoaded = function(url) {
-    game.ui._imagesWaiting--;
+game.ui.ui.imageLoaded = function(url) {
+    game.ui.ui._imagesWaiting--;
 };
 
-game.ui.imagesLoading = function() {
-    return game.ui._imagesWaiting > 0;
+game.ui.ui.imagesLoading = function() {
+    return game.ui.ui._imagesWaiting > 0;
 };
 
-game.ui.getDOMStyleCache = function(domObject) {
+game.ui.ui.getDOMStyleCache = function(domObject) {
     if (domObject.savedStyle === undefined || domObject.savedStyle === null) {
         domObject.savedStyle = {};
     }

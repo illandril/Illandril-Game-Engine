@@ -1,5 +1,8 @@
 goog.provide('pit');
 
+goog.require('Box2D.Common.Math.b2Vec2');
+goog.require('Box2D.Collision.Shapes.b2CircleShape')
+
 goog.require('game.game');
 goog.require('game.platformer');
 goog.require('game.controls');
