@@ -1,15 +1,15 @@
 10
 
 dir
-1237
+1272
 http://closure-library.googlecode.com/svn/trunk/closure/goog/date
 http://closure-library.googlecode.com/svn
 
 
 
-2011-07-12T19:39:45.000000Z
-1111
-nnaze@google.com
+2011-09-06T21:26:02.000000Z
+1270
+nicksantos@google.com
 
 
 
@@ -168,11 +168,11 @@ file
 
 
 
-2011-08-12T15:43:48.000000Z
-35eb0a5ff7abd4416ebca5f3a8e6082c
-2011-07-12T19:39:45.000000Z
-1111
-nnaze@google.com
+2011-09-08T16:16:22.000000Z
+d0827ca14bb9db412d0d2f2731d4298e
+2011-09-06T21:26:02.000000Z
+1270
+nicksantos@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-47341
+47413
 
 utcdatetime_test.html
 file

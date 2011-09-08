@@ -1,15 +1,15 @@
 10
 
 dir
-1237
+1272
 http://closure-library.googlecode.com/svn/trunk/closure/goog/net/xpc
 http://closure-library.googlecode.com/svn
 
 
 
-2011-07-20T21:16:08.000000Z
-1139
-esprehn@google.com
+2011-08-25T20:12:19.000000Z
+1250
+dbk@google.com
 
 
 
@@ -307,11 +307,11 @@ file
 
 
 
-2011-08-12T15:43:49.000000Z
-9e8b69e440f0ce57ffa8a318f4bac08b
-2011-07-13T22:50:38.000000Z
-1122
-mknichel@google.com
+2011-09-08T16:16:22.000000Z
+8b3b269b2a95b9eac7c521c1eee447c5
+2011-08-25T20:12:19.000000Z
+1250
+dbk@google.com
 has-props
 
 
@@ -333,7 +333,7 @@ has-props
 
 
 
-19926
+20963
 
 nativemessagingtransport.js
 file
