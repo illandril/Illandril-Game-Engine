@@ -156,7 +156,7 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsEdge = function(v1, v2) {
     this.m_vertices[1].SetV(v2);
     this.m_centroid.x = 0.5 * (v1.x + v2.x);
     this.m_centroid.y = 0.5 * (v1.y + v2.y);
-    this.m_normals[0] = Box2D.Common.Math.b2Math.CrossVF(b2Math.SubtractVV(v2, v1), 1.0);
+    this.m_normals[0] = Box2D.Common.Math.b2Math.CrossVF(Box2D.Common.Math.b2Math.SubtractVV(v2, v1), 1.0);
     this.m_normals[0].Normalize();
     this.m_normals[1].x = (-this.m_normals[0].x);
     this.m_normals[1].y = (-this.m_normals[0].y);

@@ -370,7 +370,7 @@ Box2D.Dynamics.b2Body.prototype.GetMassData = function(data) {
 };
 
 Box2D.Dynamics.b2Body.prototype.SetMassData = function(massData) {
-    b2Settings.b2Assert(this.m_world.IsLocked() == false);
+    Box2D.Common.b2Settings.b2Assert(this.m_world.IsLocked() == false);
     if (this.m_world.IsLocked() == true) {
         return;
     }

@@ -17,7 +17,7 @@ if (!(Object.prototype.defineProperty instanceof Function) && Object.prototype._
 /**
  * Creates a callback function
  * @param {!Object} context The context ('this' variable) of the callback function
- * @param {function(...*)} fn The function to execute with the given context for the returned callback
+ * @param {function(...[*])} fn The function to execute with the given context for the returned callback
  * @return {function()} The callback function
  */
 Box2D.generateCallback = function(context, fn) {
