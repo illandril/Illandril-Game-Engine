@@ -2,10 +2,10 @@ goog.provide('mario');
 
 goog.require('Box2D.Common.Math.b2Vec2');
 
-goog.require('game.game');
-goog.require('game.platformer');
-goog.require('game.controls');
-goog.require('game.controls.action');
+goog.require('illandril.game.game');
+goog.require('illandril.game.platformer');
+goog.require('illandril.game.controls.keyHandler');
+goog.require('illandril.game.controls.action');
 goog.require('goog.events.KeyCodes');
 
 (function(test){
@@ -64,8 +64,8 @@ var offsets = {
 };
 
 test.init = function(gameContainerID, doDebug, wasd) {
-    g = new game.game(test, gameContainerID, worldSize, game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
-    p = new game.platformer(g);
+    g = new illandril.game.game(test, gameContainerID, worldSize, illandril.game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
+    p = new illandril.game.platformer(g);
     var position = new Box2D.Common.Math.b2Vec2(5, worldSize.y - 7);
     test.createPlayer(position, wasd);
     test.createMario(new Box2D.Common.Math.b2Vec2(0, worldSize.y), position);
@@ -86,12 +86,11 @@ test.createPlayer = function(position, wasd) {
     var size = new Box2D.Common.Math.b2Vec2(frameSize.x / 20, frameSize.y / 20);
     player = p.createPlayer(size, position);
     g.getAnimationManager().setAsFourDirectionalAnimation(player, size, sprite, spriteOffset, frameSize, frames, frameSpeed);
-    g.getViewport().setZOffset(player, game.ui.viewport.LAYERS.PLAYER);
-    gameControls = new game.controls("game");
-    var pauseAction = new game.controls.action(function(){ g.togglePause(); }, "Pause", false /* executeOnRepeat */);
+    gameControls = new illandril.game.controls.keyHandler("game");
+    var pauseAction = new illandril.game.controls.action(function(){ g.togglePause(); }, "Pause", false /* executeOnRepeat */);
     gameControls.registerAction(pauseAction, goog.events.KeyCodes.P, false, false, false);
     
-    playerControls = new game.controls("player");
+    playerControls = new illandril.game.controls.keyHandler("player");
     playerControls.registerAction(player.actions.moveUp, wasd ? goog.events.KeyCodes.W : goog.events.KeyCodes.UP, false, false, false);
     playerControls.registerAction(player.actions.moveLeft, wasd ? goog.events.KeyCodes.A : goog.events.KeyCodes.LEFT, false, false, false);
     playerControls.registerAction(player.actions.moveDown, wasd ? goog.events.KeyCodes.S : goog.events.KeyCodes.DOWN, false, false, false);
@@ -161,19 +160,19 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
             break;
         case 'O':
             obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
-            game.platformer.initializeDirectionalAction(obj, function(collidingObject){
+            illandril.game.platformer.initializeDirectionalAction(obj, function(collidingObject){
                 var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
                 obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.coin);
-            }, game.platformer.SIDES.BOTTOM);
+            }, illandril.game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.coinBox;
             break;
         case '@':
             obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
             obj.coins = 8;
             obj.coinsOutput = 0;
-            game.platformer.initializeDirectionalAction(obj, function(contact){
+            illandril.game.platformer.initializeDirectionalAction(obj, function(contact){
                 obj.coinsOutput++;
                 nObj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - obj.coinsOutput / obj.coins) * tileSize.y));
                 g.getViewport().setImage(nObj, marioSheet, offsets.coin);
@@ -182,7 +181,7 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
                     var nObj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
                     g.getViewport().setImage(nObj, marioSheet, offsets.spentBox);
                 }
-            }, game.platformer.SIDES.BOTTOM);
+            }, illandril.game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.coinBlock;
             break;
         case '#':
@@ -191,34 +190,34 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
             break;
         case '1':
             obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
-            game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
-            game.platformer.initializeDirectionalAction(obj, function(contact){
+            illandril.game.platformer.initializeDirectionalSiding(obj, illandril.game.platformer.SIDES.TOP | illandril.game.platformer.SIDES.LEFT | illandril.game.platformer.SIDES.RIGHT);
+            illandril.game.platformer.initializeDirectionalAction(obj, function(contact){
                 var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
                 obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.oneUp);
-            }, game.platformer.SIDES.BOTTOM);
+            }, illandril.game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.hiddenOneUp;
             break;
         case '*':
             obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
-            game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
-            game.platformer.initializeDirectionalAction(obj, function(contact){
+            illandril.game.platformer.initializeDirectionalSiding(obj, illandril.game.platformer.SIDES.TOP | illandril.game.platformer.SIDES.LEFT | illandril.game.platformer.SIDES.RIGHT);
+            illandril.game.platformer.initializeDirectionalAction(obj, function(contact){
                 var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
                 obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.star);
-            }, game.platformer.SIDES.BOTTOM);
+            }, illandril.game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.hiddenStar;
             break;
         case 'M':
             obj = p.createBreakableBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
-            game.platformer.initializeDirectionalAction(obj, function(contact){
+            illandril.game.platformer.initializeDirectionalAction(obj, function(contact){
                 var obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.spentBox);
                 obj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - 1) * tileSize.y));
                 g.getViewport().setImage(obj, marioSheet, offsets.shroom);
-            }, game.platformer.SIDES.BOTTOM);
+            }, illandril.game.platformer.SIDES.BOTTOM);
             imgOffset = offsets.shroomBox;
             break;
         case '[':

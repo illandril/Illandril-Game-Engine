@@ -22,7 +22,11 @@ goog.require('Box2D.Dynamics.b2TimeStep');
 goog.require('Box2D.Dynamics.Contacts.b2ContactSolver');
 goog.require('Box2D.Dynamics.Joints.b2Joint');
 
-
+/**
+ * @param {!Box2D.Common.Math.b2Vec2} gravity
+ * @param {boolean} doSleep
+ * @constructor
+ */
 Box2D.Dynamics.b2World = function(gravity, doSleep) {
     this.m_contactManager = new Box2D.Dynamics.b2ContactManager();
     this.m_contactSolver = new Box2D.Dynamics.Contacts.b2ContactSolver();

@@ -1,4 +1,4 @@
-goog.provide('game.world');
+goog.provide('illandril.game.world');
 
 goog.require('Box2D.Collision.Shapes.b2PolygonShape');
 goog.require('Box2D.Common.Math.b2Vec2');
@@ -7,17 +7,17 @@ goog.require('Box2D.Dynamics.b2ContactFilter');
 goog.require('Box2D.Dynamics.b2FixtureDef');
 goog.require('Box2D.Dynamics.b2World');
 
-goog.require('game.gameObject');
-goog.require('game.ui.viewport');
+goog.require('illandril.game.gameObject');
+goog.require('illandril.game.ui.viewport');
 
 
 /**
- * @param {!game.game} game
+ * @param {!illandril.game.game} game
  * @param {!Box2D.Common.Math.b2Vec2} worldSize
  * @param {!Box2D.Common.Math.b2Vec2} gravity
  * @constructor
  */
-game.world = function(theGame, worldSize, gravity) {
+illandril.game.world = function(theGame, worldSize, gravity) {
     this.queuedActions = [];
     this.collisionFilters = [];
     
@@ -37,8 +37,12 @@ game.world = function(theGame, worldSize, gravity) {
     this.right = this.createStaticBox(new Box2D.Common.Math.b2Vec2(2, this.worldSize.y + 2), new Box2D.Common.Math.b2Vec2(this.worldSize.x + 1, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
 };
 
-game.world.prototype.update = function(time, tick) {
-    this.b2World.Step(tick /* time delta (sec) */, game.world.frameSteps /* Velocity Iterations */, game.world.frameSteps /* Position Iterations */);
+/**
+ * @param {number} time
+ * @param {number} tick
+ */
+illandril.game.world.prototype.update = function(time, tick) {
+    this.b2World.Step(tick /* time delta (sec) */, illandril.game.world.frameSteps /* Velocity Iterations */, illandril.game.world.frameSteps /* Position Iterations */);
     this.b2World.ClearForces();
     var prevQueuedActions = this.queuedActions;
     this.queuedActions = [];
@@ -49,16 +53,19 @@ game.world.prototype.update = function(time, tick) {
     }
 };
 
-game.world.prototype.getBox2DWorld = function() {
+/**
+ * @return {!Box2D.Dynamics.b2World}
+ */
+illandril.game.world.prototype.getBox2DWorld = function() {
     return this.b2World;
 };
 
-game.world.prototype.addCollisionFilter = function(filter) {
+illandril.game.world.prototype.addCollisionFilter = function(filter) {
     this.collisionFilters.push(filter);
 };
 
 // Return true if the given fixture should be considered for ray intersection.
-game.world.prototype.RayCollide = function(userData, fixture) {
+illandril.game.world.prototype.RayCollide = function(userData, fixture) {
     // Sensors should always collide
     if (!fixture.IsSensor()) {
         for( var i = 0; i < this.collisionFilters.length; i++ ) {
@@ -73,7 +80,7 @@ game.world.prototype.RayCollide = function(userData, fixture) {
 };
 
 // Return true if contact calculations should be performed between these two fixtures.
-game.world.prototype.ShouldCollide = function(fixtureA, fixtureB) {
+illandril.game.world.prototype.ShouldCollide = function(fixtureA, fixtureB) {
     // Sensors should always collide
     if(!(fixtureA.IsSensor() || fixtureB.IsSensor())) {
         for( var i = 0; i < this.collisionFilters.length; i++ ) {
@@ -88,7 +95,7 @@ game.world.prototype.ShouldCollide = function(fixtureA, fixtureB) {
 };
 
 //Called when two fixtures begin to touch.
-game.world.prototype.BeginContact = function(contact) {
+illandril.game.world.prototype.BeginContact = function(contact) {
     for( var i = 0; i < this.collisionFilters.length; i++ ) {
         // Called when two fixtures begin to touch, before BeginContact
         // Should be actions that can disable contact - contact may already be disabled
@@ -107,7 +114,7 @@ game.world.prototype.BeginContact = function(contact) {
 };
 
 //Called when two fixtures cease to touch.
-game.world.prototype.EndContact = function(contact) {
+illandril.game.world.prototype.EndContact = function(contact) {
     for( var i = 0; i < this.collisionFilters.length; i++ ) {
         if (this.collisionFilters[i].EndContact) {
             this.collisionFilters[i].EndContact(contact);
@@ -118,7 +125,7 @@ game.world.prototype.EndContact = function(contact) {
 };
 
 // This is called after a contact is updated.
-game.world.prototype.PreSolve = function(contact, oldManifold) {
+illandril.game.world.prototype.PreSolve = function(contact, oldManifold) {
     if(contact.disabled) {
         contact.SetEnabled(false);
     }
@@ -130,7 +137,7 @@ game.world.prototype.PreSolve = function(contact, oldManifold) {
 };
 
 // This lets you inspect a contact after the solver is finished.
-game.world.prototype.PostSolve = function(contact, impulse) {
+illandril.game.world.prototype.PostSolve = function(contact, impulse) {
     for( var i = 0; i < this.collisionFilters.length; i++ ) {
         if (this.collisionFilters[i].PostSolve) {
             this.collisionFilters[i].PostSolve(contact, impulse);
@@ -138,42 +145,42 @@ game.world.prototype.PostSolve = function(contact, impulse) {
     }
 };
 
-game.world.prototype.getBox2DBodyDefinition = function() {
-    return game.world.bodyDefinition;
+illandril.game.world.prototype.getBox2DBodyDefinition = function() {
+    return illandril.game.world.bodyDefinition;
 };
 
-game.world.prototype.getBox2DFixtureDefinition = function() {
-    return game.world.fixtureDefinition;
+illandril.game.world.prototype.getBox2DFixtureDefinition = function() {
+    return illandril.game.world.fixtureDefinition;
 };
 
-game.world.prototype.getWorldWidth = function() {
+illandril.game.world.prototype.getWorldWidth = function() {
     return this.worldSize.x;
 };
 
-game.world.prototype.getWorldHeight = function() {
+illandril.game.world.prototype.getWorldHeight = function() {
     return this.worldSize.y;
 };
 
-game.world.prototype.createScenery = function(size, position, zOffset) {
+illandril.game.world.prototype.createScenery = function(size, position, zOffset) {
     zOffset = zOffset || 0;
     var obj = this._createObject(size, position, true /* visible */);
-    this.game.getViewport().setZOffset(obj, game.ui.viewport.LAYERS.SCENERY + zOffset);
+    this.game.getViewport().setZOffset(obj, illandril.game.ui.viewport.LAYERS.SCENERY + zOffset);
     return obj;
 };
 
-game.world.prototype.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+illandril.game.world.prototype.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
     bodyArgs = bodyArgs || {};
     bodyArgs.type = Box2D.Dynamics.b2BodyDef.b2_staticBody;
     return this.createBox(size, position, visible, bodyArgs, fixtureArgs);
 };
 
-game.world.prototype.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+illandril.game.world.prototype.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
     var shape = new Box2D.Collision.Shapes.b2PolygonShape();
     shape.SetAsBox(size.x / 2, size.y / 2);
     return this.createObject(size, position, visible, shape, { bodyArgs: bodyArgs, fixtureArgs: fixtureArgs });
 };
 
-game.world.prototype.createSafeBox = function(size, position, visible, args) {
+illandril.game.world.prototype.createSafeBox = function(size, position, visible, args) {
     var shape = new Box2D.Collision.Shapes.b2PolygonShape();
     //shape.SetAsBox(size.x / 2, size.y / 2);
     // Make the boxes have slightly angled edges to avoid having things get stuck (lousy floating point rounding!)
@@ -192,7 +199,7 @@ game.world.prototype.createSafeBox = function(size, position, visible, args) {
     return this.createObject(size, position, visible, shape, args);
 };
 
-game.world.prototype._doWhenUnlocked = function(action) {
+illandril.game.world.prototype._doWhenUnlocked = function(action) {
     if(this.b2World.IsLocked()) {
         this.queuedActions.push(action);
     } else {
@@ -200,14 +207,14 @@ game.world.prototype._doWhenUnlocked = function(action) {
     }
 };
 
-game.world.prototype.createObject = function(size, position, visible, shape, args) {
+illandril.game.world.prototype.createObject = function(size, position, visible, shape, args) {
     var object = this._createObject(size, position, visible);
     this._doWhenUnlocked(function() { this._createBox2DObject(object, size, position, shape, args); });
     return object;
 };
 
-game.world.prototype._createObject = function(size, position, visible) {
-    var object = new game.gameObject(position);
+illandril.game.world.prototype._createObject = function(size, position, visible) {
+    var object = new illandril.game.gameObject(position);
     this.objects[object.UID] = object;
     if (visible !== false) {
         this.game.getViewport().setDisplaySize(object, size);
@@ -215,14 +222,15 @@ game.world.prototype._createObject = function(size, position, visible) {
     return object;
 };
 
-game.world.prototype._createBox2DObject = function(object, size, position, shape, args) {
+illandril.game.world.prototype._createBox2DObject = function(object, size, position, shape, args) {
     args = args || {};
-    var bodyArgs = game.world.argsOrBodyDefaults(args.bodyArgs);
-    game.world.bodyDefinition.type = bodyArgs.type;
-    game.world.bodyDefinition.angle = bodyArgs.angle;
-    game.world.bodyDefinition.fixedRotation = bodyArgs.fixedRotation;
-    game.world.bodyDefinition.position = position;
-    var body = this.b2World.CreateBody(game.world.bodyDefinition);
+    var bodyArgs = illandril.game.world.argsOrBodyDefaults(args.bodyArgs);
+    var bodyDef = this.getBox2DBodyDefinition();
+    bodyDef.type = bodyArgs.type;
+    bodyDef.angle = bodyArgs.angle;
+    bodyDef.fixedRotation = bodyArgs.fixedRotation;
+    bodyDef.position = position;
+    var body = this.b2World.CreateBody(bodyDef);
     fixture = this.addFixture(body, shape, args);
     object.body = body;
     object.fixture = fixture;
@@ -230,19 +238,20 @@ game.world.prototype._createBox2DObject = function(object, size, position, shape
     return object;
 };
 
-game.world.prototype.addFixture = function(body, shape, args) {
+illandril.game.world.prototype.addFixture = function(body, shape, args) {
     args = args || {};
-    var fixtureArgs = game.world.argsOrFixtureDefaults(args.fixtureArgs);
-    game.world.fixtureDefinition.density = fixtureArgs.density;
-    game.world.fixtureDefinition.friction = fixtureArgs.friction;
-    game.world.fixtureDefinition.restitution = fixtureArgs.restitution;
-    game.world.fixtureDefinition.isSensor = fixtureArgs.isSensor;
-    game.world.fixtureDefinition.shape = shape;
-    var fixture = body.CreateFixture(game.world.fixtureDefinition);
+    var fixtureArgs = illandril.game.world.argsOrFixtureDefaults(args.fixtureArgs);
+    var fixtureDef = this.getBox2DFixtureDefinition();
+    fixtureDef.density = fixtureArgs.density;
+    fixtureDef.friction = fixtureArgs.friction;
+    fixtureDef.restitution = fixtureArgs.restitution;
+    fixtureDef.isSensor = fixtureArgs.isSensor;
+    fixtureDef.shape = shape;
+    var fixture = body.CreateFixture(fixtureDef);
     return fixture;
 };
 
-game.world.prototype.destroyObject = function(object) {
+illandril.game.world.prototype.destroyObject = function(object) {
     this._doWhenUnlocked(function() {
         if (object.body) {
             this.b2World.DestroyBody(object.body);
@@ -251,30 +260,30 @@ game.world.prototype.destroyObject = function(object) {
     });
 };
 
-game.world.prototype.moveObject = function(object, newPosition) {
+illandril.game.world.prototype.moveObject = function(object, newPosition) {
     this._doWhenUnlocked(function() { object.setPosition(newPosition); });
 };
 
 // Statics
 
-game.world.fixtureDefinition = new Box2D.Dynamics.b2FixtureDef();
-game.world.bodyDefinition = new Box2D.Dynamics.b2BodyDef();
-game.world.frameSteps = 10;
+illandril.game.world.fixtureDefinition = new Box2D.Dynamics.b2FixtureDef();
+illandril.game.world.bodyDefinition = new Box2D.Dynamics.b2BodyDef();
+illandril.game.world.frameSteps = 10;
 
-game.world.fixtureDefaults = {
+illandril.game.world.fixtureDefaults = {
     density: 0.10,
     friction: 0.6,
     restitution: 0.01,
     isSensor: false
 };
 
-game.world.bodyDefaults = {
+illandril.game.world.bodyDefaults = {
     fixedRotation: false,
     angle: 0,
     type: Box2D.Dynamics.b2BodyDef.b2_dynamicBody
 };
 
-game.world.argsOrDefaults = function(args, defaults) {
+illandril.game.world.argsOrDefaults = function(args, defaults) {
     args = args || {};
     var newArgs = {};
     for(var x in defaults) {
@@ -287,11 +296,11 @@ game.world.argsOrDefaults = function(args, defaults) {
     return newArgs;
 };
 
-game.world.argsOrFixtureDefaults = function(args) {
-    return game.world.argsOrDefaults(args, game.world.fixtureDefaults);
+illandril.game.world.argsOrFixtureDefaults = function(args) {
+    return illandril.game.world.argsOrDefaults(args, illandril.game.world.fixtureDefaults);
 };
 
-game.world.argsOrBodyDefaults = function(args) {
-    return game.world.argsOrDefaults(args, game.world.bodyDefaults);
+illandril.game.world.argsOrBodyDefaults = function(args) {
+    return illandril.game.world.argsOrDefaults(args, illandril.game.world.bodyDefaults);
 };
 

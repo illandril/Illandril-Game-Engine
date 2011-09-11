@@ -1,6 +1,6 @@
-goog.provide('game.ui.spriteSheet');
+goog.provide('illandril.game.ui.spriteSheet');
 
-goog.require('game.ui.ui');
+goog.require('illandril.game.ui.ui');
 goog.require('Box2D.Common.Math.b2Vec2');
 
 /**
@@ -10,8 +10,8 @@ goog.require('Box2D.Common.Math.b2Vec2');
  * @param {Box2D.Common.Math.b2Vec2} tileSize Defaults to 1,1 - only needed if this is used for animation
  * @constructor
  */
-game.ui.spriteSheet = function(url, offset, sheetSize, tileSize) {
-    game.ui.ui.preloadImage(url);
+illandril.game.ui.spriteSheet = function(url, offset, sheetSize, tileSize) {
+    illandril.game.ui.ui.preloadImage(url);
     this.url = url;
     this.offset = offset || new Box2D.Common.Math.b2Vec2(0, 0);
     this.sheetSize = sheetSize || new Box2D.Common.Math.b2Vec2(1, 1);
@@ -22,7 +22,7 @@ game.ui.spriteSheet = function(url, offset, sheetSize, tileSize) {
 /**
  * @param {!Box2D.Common.Math.b2Vec2} tile
  */
-game.ui.spriteSheet.prototype.setTile = function(tile) {
+illandril.game.ui.spriteSheet.prototype.setTile = function(tile) {
     this.tile = tile.Copy();
     this.tile.x = this.tile.x % this.sheetSize.x;
     this.tile.y = this.tile.y % this.sheetSize.y;
@@ -34,9 +34,9 @@ game.ui.spriteSheet.prototype.setTile = function(tile) {
     }
 };
 
-game.ui.spriteSheet.prototype.updateDOM = function(domObject) {
+illandril.game.ui.spriteSheet.prototype.updateDOM = function(domObject) {
     var tileChange = false;
-    var savedStyle = game.ui.ui.getDOMStyleCache(domObject);
+    var savedStyle = illandril.game.ui.ui.getDOMStyleCache(domObject);
     if (savedStyle.bg != this.url) {
         savedStyle.bg = this.url;
         domObject.style.backgroundImage = 'url(' + this.url + ')';

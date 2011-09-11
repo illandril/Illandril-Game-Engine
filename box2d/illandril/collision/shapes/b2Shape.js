@@ -9,6 +9,9 @@ goog.require('Box2D.Collision.b2DistanceOutput');
 goog.require('Box2D.Collision.b2DistanceProxy');
 goog.require('Box2D.Collision.b2SimplexCache');
 
+/**
+ * @constructor
+ */
 Box2D.Collision.Shapes.b2Shape = function() {
     this.m_type = Box2D.Collision.Shapes.b2Shape.e_unknownShape;
     this.m_radius = Box2D.Common.b2Settings.b2_linearSlop;

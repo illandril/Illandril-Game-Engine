@@ -5,6 +5,9 @@ goog.provide('Box2D.Common.Math.b2Sweep');
 
 goog.require('Box2D.Common.Math.b2Vec2');
 
+/**
+ * @constructor
+ */
 Box2D.Common.Math.b2Sweep = function() {
     this.localCenter = new Box2D.Common.Math.b2Vec2(0, 0);
     this.c0 = new Box2D.Common.Math.b2Vec2;

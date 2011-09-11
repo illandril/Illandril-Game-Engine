@@ -1,26 +1,26 @@
-goog.provide('game.ui.ui');
+goog.provide('illandril.game.ui.ui');
 
-game.ui.ui._images = {};
-game.ui.ui._imagesWaiting = 0;
+illandril.game.ui.ui._images = {};
+illandril.game.ui.ui._imagesWaiting = 0;
 
-game.ui.ui.preloadImage = function(url) {
-    if(game.ui.ui._images[url] == null) {
-        game.ui.ui._imagesWaiting++;
-        game.ui.ui._images[url] = new Image();
-        game.ui.ui._images[url].onload = game.ui.ui.imageLoaded;
-        game.ui.ui._images[url].src = url;
+illandril.game.ui.ui.preloadImage = function(url) {
+    if(illandril.game.ui.ui._images[url] == null) {
+        illandril.game.ui.ui._imagesWaiting++;
+        illandril.game.ui.ui._images[url] = new Image();
+        illandril.game.ui.ui._images[url].onload = illandril.game.ui.ui.imageLoaded;
+        illandril.game.ui.ui._images[url].src = url;
     }
 };
 
-game.ui.ui.imageLoaded = function(url) {
-    game.ui.ui._imagesWaiting--;
+illandril.game.ui.ui.imageLoaded = function(url) {
+    illandril.game.ui.ui._imagesWaiting--;
 };
 
-game.ui.ui.imagesLoading = function() {
-    return game.ui.ui._imagesWaiting > 0;
+illandril.game.ui.ui.imagesLoading = function() {
+    return illandril.game.ui.ui._imagesWaiting > 0;
 };
 
-game.ui.ui.getDOMStyleCache = function(domObject) {
+illandril.game.ui.ui.getDOMStyleCache = function(domObject) {
     if (domObject.savedStyle === undefined || domObject.savedStyle === null) {
         domObject.savedStyle = {};
     }

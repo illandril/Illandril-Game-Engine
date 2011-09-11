@@ -8,6 +8,9 @@ goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Math');
 goog.require('Box2D.Common.Math.b2Vec2');
 
+/**
+ * @constructor
+ */
 Box2D.Collision.b2Simplex = function() {
     this.m_v1 = new Box2D.Collision.b2SimplexVertex();
     this.m_v2 = new Box2D.Collision.b2SimplexVertex();

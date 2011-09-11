@@ -6,12 +6,23 @@ goog.provide('Box2D.Common.b2Color');
 goog.require('Box2D.defineProperty');
 goog.require('Box2D.Common.Math.b2Math');
 
+/**
+ * @param {number} rr
+ * @param {number} gg
+ * @param {number} bb
+ * @constructor
+ */
 Box2D.Common.b2Color = function(rr, gg, bb) {
     this._r = 255 * Box2D.Common.Math.b2Math.Clamp(rr, 0.0, 1.0);
     this._g = 255 * Box2D.Common.Math.b2Math.Clamp(gg, 0.0, 1.0);
     this._b = 255 * Box2D.Common.Math.b2Math.Clamp(bb, 0.0, 1.0);
 };
 
+/**
+ * @param {number} rr
+ * @param {number} gg
+ * @param {number} bb
+ */
 Box2D.Common.b2Color.prototype.Set = function(rr, gg, bb) {
     this._r = 255 * Box2D.Common.Math.b2Math.Clamp(rr, 0.0, 1.0);
     this._g = 255 * Box2D.Common.Math.b2Math.Clamp(gg, 0.0, 1.0);

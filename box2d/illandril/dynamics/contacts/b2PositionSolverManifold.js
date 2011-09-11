@@ -7,6 +7,9 @@ goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Collision.b2Manifold');
 
+/**
+ * @constructor
+ */
 Box2D.Dynamics.Contacts.b2PositionSolverManifold = function() {
     this.m_normal = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_separations = [];

@@ -5,6 +5,9 @@ goog.provide('Box2D.Dynamics.b2BodyDef');
 
 goog.require('Box2D.Common.Math.b2Vec2');
 
+/**
+ * @constructor
+ */
 Box2D.Dynamics.b2BodyDef = function() {
     this.position = new Box2D.Common.Math.b2Vec2(0, 0);
     this.linearVelocity = new Box2D.Common.Math.b2Vec2(0, 0);

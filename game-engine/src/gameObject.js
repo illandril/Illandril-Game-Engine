@@ -1,11 +1,11 @@
-goog.provide('game.gameObject');
+goog.provide('illandril.game.gameObject');
 
 /**
  * @param {!Box2D.Common.Math.b2Vec2} position
  * @constructor
  */
-game.gameObject = function(position) {
-    this.UID = game.gameObject.NEXT_UID++;
+illandril.game.gameObject = function(position) {
+    this.UID = illandril.game.gameObject.NEXT_UID++;
     this.position = position.Copy();
     this.angle = 0;
 };
@@ -13,7 +13,7 @@ game.gameObject = function(position) {
 /**
  * @param {!Box2D.Common.Math.b2Vec2} position
  */
-game.gameObject.prototype.setPosition = function(newPos) {
+illandril.game.gameObject.prototype.setPosition = function(newPos) {
     if(this.body) {
         this.body.SetPosition(newPos);
     } else {
@@ -24,7 +24,7 @@ game.gameObject.prototype.setPosition = function(newPos) {
 /**
  * @return {!Box2D.Common.Math.b2Vec2}
  */
-game.gameObject.prototype.getPosition = function() {
+illandril.game.gameObject.prototype.getPosition = function() {
     if (this.body) {
         return this.body.GetPosition();
     } else {
@@ -35,7 +35,7 @@ game.gameObject.prototype.getPosition = function() {
 /**
  * @return {number}
  */
-game.gameObject.prototype.getAngle = function() {
+illandril.game.gameObject.prototype.getAngle = function() {
     if (this.body) {
         return this.body.GetAngle();
     } else {
@@ -43,4 +43,8 @@ game.gameObject.prototype.getAngle = function() {
     }
 };
 
-game.gameObject.NEXT_UID = 0;
+/**
+ * @type {number}
+ * @private
+ */
+illandril.game.gameObject.NEXT_UID = 0;

@@ -11,7 +11,7 @@ goog.require('Box2D.Common.Math.b2Transform');
 goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Collision.b2Distance');
 
-Box2D.Collision.b2TimeOfImpact = function() {};
+Box2D.Collision.b2TimeOfImpact = {};
 
 Box2D.Collision.b2TimeOfImpact.TimeOfImpact = function(input) {
     Box2D.Collision.b2TimeOfImpact.b2_toiCalls++;
@@ -50,8 +50,7 @@ Box2D.Collision.b2TimeOfImpact.TimeOfImpact = function(input) {
         if (iter == 0) {
             if (separation > radius) {
                 target = Math.max(radius - tolerance, 0.75 * radius);
-            }
-            else {
+            } else {
                 target = Math.max(separation - tolerance, 0.02 * radius);
             }
         }
@@ -78,8 +77,7 @@ Box2D.Collision.b2TimeOfImpact.TimeOfImpact = function(input) {
                 var x = 0;
                 if (rootIterCount & 1) {
                     x = x1 + (target - f1) * (x2 - x1) / (f2 - f1);
-                }
-                else {
+                } else {
                     x = 0.5 * (x1 + x2);
                 }
                 sweepA.GetTransform(Box2D.Collision.b2TimeOfImpact.s_xfA, x);
@@ -92,8 +90,7 @@ Box2D.Collision.b2TimeOfImpact.TimeOfImpact = function(input) {
                 if (f > target) {
                     x1 = x;
                     f1 = f;
-                }
-                else {
+                } else {
                     x2 = x;
                     f2 = f;
                 }

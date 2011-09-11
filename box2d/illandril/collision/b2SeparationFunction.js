@@ -7,6 +7,9 @@ goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Common.Math.b2Math');
 
+/**
+ * @constructor
+ */
 Box2D.Collision.b2SeparationFunction = function() {
     this.m_localPoint = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_axis = new Box2D.Common.Math.b2Vec2(0, 0);

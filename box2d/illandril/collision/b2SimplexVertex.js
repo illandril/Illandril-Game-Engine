@@ -3,6 +3,9 @@
  */
 goog.provide('Box2D.Collision.b2SimplexVertex');
 
+/**
+ * @constructor
+ */
 Box2D.Collision.b2SimplexVertex = function() {};
 
 Box2D.Collision.b2SimplexVertex.prototype.Set = function(other) {

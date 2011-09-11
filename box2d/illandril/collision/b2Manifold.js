@@ -7,6 +7,9 @@ goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Collision.b2ManifoldPoint');
 
+/**
+ * @constructor
+ */
 Box2D.Collision.b2Manifold = function() {
     this.m_pointCount = 0;
     if (this.constructor === Box2D.Collision.b2Manifold) {

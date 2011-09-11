@@ -7,6 +7,9 @@ goog.require('Box2D.Collision.b2DynamicTree');
 goog.require('Box2D.Collision.b2DynamicTreePair');
 goog.require('Box2D.Collision.IBroadPhase');
 
+/**
+ * @constructor
+ */
 Box2D.Collision.b2DynamicTreeBroadPhase = function() {
     this.m_tree = new Box2D.Collision.b2DynamicTree();
     this.m_moveBuffer = [];

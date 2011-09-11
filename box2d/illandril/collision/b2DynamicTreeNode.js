@@ -5,6 +5,9 @@ goog.provide('Box2D.Collision.b2DynamicTreeNode');
 
 goog.require('Box2D.Collision.b2AABB');
 
+/**
+ * @constructor
+ */
 Box2D.Collision.b2DynamicTreeNode = function() {
       this.aabb = new Box2D.Collision.b2AABB();
 };

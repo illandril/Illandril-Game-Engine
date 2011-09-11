@@ -4,8 +4,12 @@
 
 goog.provide('Box2D.Common.b2Settings');
 
-Box2D.Common.b2Settings = function () {};
+Box2D.Common.b2Settings = {};
 
+/**
+ * @param {number} friction1
+ * @param {number} friction2
+ */
 Box2D.Common.b2Settings.b2MixFriction = function (friction1, friction2) {
   if (friction1 === undefined) friction1 = 0;
   if (friction2 === undefined) friction2 = 0;

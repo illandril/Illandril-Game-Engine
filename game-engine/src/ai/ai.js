@@ -1,29 +1,37 @@
-goog.provide('game.ai');
+goog.provide('illandril.game.ai');
 
 goog.require('goog.array');
 
 /**
  * @constructor
  */
-game.ai = function() {
+illandril.game.ai = function() {
     this.thinkers = [];
 };
 
-game.ai.prototype.addThinker = function(thinker, thought) {
-    if (typeof(thought) != "function") {
-        throw "Thought not a function!";
-    }
+/**
+ * @param {!Object} thinker
+ * @param {function(number, number)} thought
+ */
+illandril.game.ai.prototype.addThinker = function(thinker, thought) {
     thinker.thoughts = thinker.thoughts || [];
     thinker.thoughts.push(thought);
     goog.array.insert(this.thinkers, thinker);
 };
 
-game.ai.prototype.clearThinker = function(thinker) {
+/**
+ * @param {!Object} thinker
+ */
+illandril.game.ai.prototype.clearThinker = function(thinker) {
     thinker.thoughts = null;
     goog.array.remove(this.thinkers, thinker);
 };
 
-game.ai.prototype.removeThinker = function(thinker, thought) {
+/**
+ * @param {!Object} thinker
+ * @param {function(number, number)} thought
+ */
+illandril.game.ai.prototype.removeThinker = function(thinker, thought) {
     if (thinker.thoughts != null) {
         goog.array.remove(thinker.thoughts, thought);
         if (thinker.thoughts.length == 0) {
@@ -32,7 +40,11 @@ game.ai.prototype.removeThinker = function(thinker, thought) {
     }
 };
 
-game.ai.prototype.think = function(time, tick) {
+/**
+ * @param {number} time
+ * @param {number} tick
+ */
+illandril.game.ai.prototype.think = function(time, tick) {
     for (var tIdx = 0; tIdx < this.thinkers.length; tIdx++) {
         var thinker = this.thinkers[tIdx];
         for (var thoughtIdx = 0; thoughtIdx < thinker.thoughts.length; thoughtIdx++) {

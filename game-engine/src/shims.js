@@ -1,7 +1,7 @@
-goog.provide('game.requestAnimFrame');
+goog.provide('illandril.game.requestAnimFrame');
 
 // requestAnim shim layer by Paul Irish, tweaked slightly by Illandril
-game.requestAnimFrame = (function(){
+illandril.game.requestAnimFrame = (function(){
     var fn = window.requestAnimationFrame       || 
               window.webkitRequestAnimationFrame || 
               window.mozRequestAnimationFrame    || 

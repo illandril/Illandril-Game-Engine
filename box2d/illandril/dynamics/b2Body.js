@@ -12,6 +12,11 @@ goog.require('Box2D.Dynamics.b2BodyDef');
 goog.require('Box2D.Dynamics.b2Fixture');
 goog.require('Box2D.Dynamics.b2FixtureDef');
 
+/**
+ * @param {!Box2D.Dynamics.b2BodyDef} bd
+ * @param {!Box2D.Dynamics.b2World} world
+ * @constructor
+ */
 Box2D.Dynamics.b2Body = function(bd, world) {
     this.m_xf = new Box2D.Common.Math.b2Transform();
     this.m_sweep = new Box2D.Common.Math.b2Sweep();

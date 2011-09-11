@@ -5,6 +5,9 @@ goog.provide('Box2D.Collision.Features');
 
 goog.require('Box2D.defineProperty');
 
+/**
+ * @constructor
+ */
 Box2D.Collision.Features = function() {};
 
 Box2D.defineProperty(Box2D.Collision.Features.prototype, 'referenceEdge', {

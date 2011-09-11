@@ -9,6 +9,9 @@ goog.require('Box2D.Dynamics.b2ContactFilter');
 goog.require('Box2D.Dynamics.b2ContactListener');
 goog.require('Box2D.Dynamics.Contacts.b2ContactFactory');
 
+/**
+ * @constructor
+ */
 Box2D.Dynamics.b2ContactManager = function() {
     if (this.constructor === Box2D.Dynamics.b2ContactManager) {
         this.m_world = null;

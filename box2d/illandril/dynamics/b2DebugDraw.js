@@ -3,6 +3,9 @@
  */
 goog.provide('Box2D.Dynamics.b2DebugDraw');
 
+/**
+ * @constructor
+ */
 Box2D.Dynamics.b2DebugDraw = function() {
       this.m_drawScale = 1.0;
       this.m_lineThickness = 1.0;

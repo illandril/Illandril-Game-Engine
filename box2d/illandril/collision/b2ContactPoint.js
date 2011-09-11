@@ -7,6 +7,9 @@ goog.provide('Box2D.Collision.b2ContactPoint');
 goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Collision.b2ContactID');
 
+/**
+ * @constructor
+ */
 Box2D.Collision.b2ContactPoint = function() {
     this.position = new Box2D.Common.Math.b2Vec2();
     this.velocity = new Box2D.Common.Math.b2Vec2();

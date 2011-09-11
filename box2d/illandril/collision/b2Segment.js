@@ -5,6 +5,9 @@ goog.provide('Box2D.Collision.b2Segment');
 
 goog.require('Box2D.Common.Math.b2Vec2');
 
+/**
+ * @constructor
+ */
 Box2D.Collision.b2Segment = function() {
     this.p1 = new Box2D.Common.Math.b2Vec2(0, 0);
     this.p2 = new Box2D.Common.Math.b2Vec2(0, 0);

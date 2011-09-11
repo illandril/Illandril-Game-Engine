@@ -1,21 +1,21 @@
-goog.provide('game.ui.viewport');
+goog.provide('illandril.game.ui.viewport');
 
 goog.require('Box2D.Collision.b2AABB');
 goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Dynamics.b2DebugDraw');
 
-goog.require('game.ui.ui');
-goog.require('game.ui.spriteSheet');
+goog.require('illandril.game.ui.ui');
+goog.require('illandril.game.ui.spriteSheet');
 
 /**
- * @param {!game.game} g The game for this viewport
+ * @param {!illandril.game.game} g The game for this viewport
  * @param {string} containerID The id of the container for this viewport
  * @param {number} scale The scale of the viewport (pixels per meter)
  * @param {!Box2D.Common.Math.b2Vec2} viewportSize The size of the viewport (pixels)
  * @param {boolean} debug Flag indicating if the viewport should include debug information or not
  * @constructor
  */
-game.ui.viewport = function(g, containerID, scale, viewportSize, debug) {
+illandril.game.ui.viewport = function(g, containerID, scale, viewportSize, debug) {
     this.domObjects = {};
     this.game = g;
     this.viewportSize = viewportSize;
@@ -24,7 +24,7 @@ game.ui.viewport = function(g, containerID, scale, viewportSize, debug) {
     this.camera = new Box2D.Common.Math.b2Vec2(0, 0);
     this.lastCamera = new Box2D.Common.Math.b2Vec2(-1, -1); // Can't be 0,0, or if we start in the top-left corner the viewportWorldObject won't update
     
-    var viewportWorldObjectSize = new Box2D.Common.Math.b2Vec2(this.scaledViewportSize.x * game.ui.viewport.VIEWPORT_LOAD_SCALE, this.scaledViewportSize.y * game.ui.viewport.VIEWPORT_LOAD_SCALE);
+    var viewportWorldObjectSize = new Box2D.Common.Math.b2Vec2(this.scaledViewportSize.x * illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE, this.scaledViewportSize.y * illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE);
     this.viewportWorldObject = this.game.getWorld().createStaticBox(viewportWorldObjectSize, new Box2D.Common.Math.b2Vec2(0, 0), false /* visible */, null /* bodyArgs */, { isSensor: true } );
     this.lookAt(new Box2D.Common.Math.b2Vec2(0, 0));
     
@@ -60,14 +60,14 @@ game.ui.viewport = function(g, containerID, scale, viewportSize, debug) {
         debugDraw.SetDrawScale(scale);
         debugDraw.SetFillAlpha(0.3);
         debugDraw.SetLineThickness(1);
-        debugDraw.SetFlags(game.ui.viewport.B2DEBUG_FLAGS);
+        debugDraw.SetFlags(illandril.game.ui.viewport.B2DEBUG_FLAGS);
         this.game.getWorld().getBox2DWorld().SetDebugDraw(debugDraw);
     } else {
         this.debugCanvas = null;
     }
 };
 
-game.ui.viewport.prototype.createMessageDOMObject = function(message) {
+illandril.game.ui.viewport.prototype.createMessageDOMObject = function(message) {
     var messageDOM = document.createElement('div');
     messageDOM.style.fontSize = "40px";
     messageDOM.style.textAlign = "center";
@@ -76,7 +76,7 @@ game.ui.viewport.prototype.createMessageDOMObject = function(message) {
     messageDOM.style.color = "black";
     messageDOM.style.position = "relative";
     messageDOM.style.display = "none";
-    messageDOM.style.zIndex = game.ui.viewport.BASE_Z + game.ui.viewport.LAYERS.MESSAGES;
+    messageDOM.style.zIndex = illandril.game.ui.viewport.BASE_Z + illandril.game.ui.viewport.LAYERS.MESSAGES;
     messageDOM.innerHTML = message;
     messageDOM.style.width = (this.viewportSize.x) + "px";
     messageDOM.style.height = (this.viewportSize.y) + "px";
@@ -84,35 +84,35 @@ game.ui.viewport.prototype.createMessageDOMObject = function(message) {
     return messageDOM;
 };
 
-game.ui.viewport.prototype.getDisplayDOMObject = function() {
+illandril.game.ui.viewport.prototype.getDisplayDOMObject = function() {
     return this.display;
 };
 
-game.ui.viewport.prototype.hideLoading = function() {
+illandril.game.ui.viewport.prototype.hideLoading = function() {
     this.hideMessageDOMObject(this.loadingMessage);
 };
 
-game.ui.viewport.prototype.showMessageDOMObject = function(obj) {
+illandril.game.ui.viewport.prototype.showMessageDOMObject = function(obj) {
     if(obj.style.display == "none") {
-        obj.style.display = game.ui.viewport.MESSAGE_DISPLAY;
+        obj.style.display = illandril.game.ui.viewport.MESSAGE_DISPLAY;
     }
 };
 
-game.ui.viewport.prototype.hideMessageDOMObject = function(obj) {
+illandril.game.ui.viewport.prototype.hideMessageDOMObject = function(obj) {
     if(obj.style.display != "none") {
         obj.style.display = "none";
     }
 };
 
-game.ui.viewport.prototype.showPaused = function() {
+illandril.game.ui.viewport.prototype.showPaused = function() {
     this.showMessageDOMObject(this.pausedMessage);
 };
 
-game.ui.viewport.prototype.hidePaused = function() {
+illandril.game.ui.viewport.prototype.hidePaused = function() {
     this.hideMessageDOMObject(this.pausedMessage);
 };
 
-game.ui.viewport.prototype.lookAt = function(position) {
+illandril.game.ui.viewport.prototype.lookAt = function(position) {
     this.camera.x = position.x;
     this.camera.y = position.y;
     if ( this.camera.x < this.scaledViewportSize.x / 2 ) {
@@ -128,7 +128,7 @@ game.ui.viewport.prototype.lookAt = function(position) {
 };
 
 
-game.ui.viewport.prototype.draw = function(time, tick) {
+illandril.game.ui.viewport.prototype.draw = function(time, tick) {
     this.display.style.visibility = "hidden";
     if (this.lastCamera.x != this.camera.x || this.lastCamera.y != this.camera.y) {
         this.lastCamera.x = this.camera.x;
@@ -161,17 +161,17 @@ game.ui.viewport.prototype.draw = function(time, tick) {
                 continue;
             }
             if ( objDisplay.viewID == null ) {
-                objDisplay.viewID = game.ui.viewport._nextUID++;
+                objDisplay.viewID = illandril.game.ui.viewport._nextUID++;
             }
             delete undisplayedDOMObjects[objDisplay.viewID];
             if (this.domObjects[objDisplay.viewID] == null) {
                 this.domObjects[objDisplay.viewID] = document.createElement('span');
                 this.domObjects[objDisplay.viewID].className = 'gameObject';
-                this.domObjects[objDisplay.viewID].style.zIndex = game.ui.viewport.BASE_Z + (objDisplay.zOffset || game.ui.viewport.LAYERS.DEFAULT);
+                this.domObjects[objDisplay.viewID].style.zIndex = illandril.game.ui.viewport.BASE_Z + (objDisplay.zOffset || illandril.game.ui.viewport.LAYERS.DEFAULT);
                 this.display.appendChild(this.domObjects[objDisplay.viewID]);
             }
             var domObject = this.domObjects[objDisplay.viewID];
-            var savedStyle = game.ui.ui.getDOMStyleCache(domObject);
+            var savedStyle = illandril.game.ui.ui.getDOMStyleCache(domObject);
             var newScale = this.scale != savedStyle.scale;
             savedStyle.scale = this.scale;
             var left = pos.x - (size.x / 2);
@@ -216,7 +216,7 @@ game.ui.viewport.prototype.draw = function(time, tick) {
     this.display.style.visibility = "";
 };
 
-game.ui.viewport.prototype.setDisplaySize = function(object, size) {
+illandril.game.ui.viewport.prototype.setDisplaySize = function(object, size) {
     if (object.display == null) {
         object.display = {};
         object.display.aabb = new Box2D.Collision.b2AABB();
@@ -239,30 +239,42 @@ game.ui.viewport.prototype.setDisplaySize = function(object, size) {
     object.display.size = size.Copy(); // Meters
 };
 
-game.ui.viewport.prototype.setImage = function(object, url, offset) {
-    object.display.spriteSheet = new game.ui.spriteSheet(url, offset);
+illandril.game.ui.viewport.prototype.setImage = function(object, url, offset) {
+    object.display.spriteSheet = new illandril.game.ui.spriteSheet(url, offset);
 };
 
 // Parallax level of 0 means no parallax at all
 // Parallax level of 10 means display shifted by 10%
 // Parallax Level of 100 means follow the camera
-game.ui.viewport.prototype.setParallax = function(object, parallaxLevel) {
+illandril.game.ui.viewport.prototype.setParallax = function(object, parallaxLevel) {
     object.display.parallaxMultiplier = parallaxLevel / 100;
 };
 
 // Parallax level of 0 means no parallax at all
 // Parallax level of 10 means display shifted by 10%
 // Parallax Level of 100 means follow the camera
-game.ui.viewport.prototype.setZOffset = function(object, zOffset) {
+illandril.game.ui.viewport.prototype.setZOffset = function(object, zOffset) {
     object.display.zOffset = zOffset;
 };
 
 // CONSTANTS
-game.ui.viewport.VIEWPORT_LOAD_SCALE = 1.25;
+/**
+ * @const
+ * @type {number}
+ */
+illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE = 1.25;
 
-game.ui.viewport.BASE_Z = 100;
+/**
+ * @const
+ * @type {number}
+ */
+illandril.game.ui.viewport.BASE_Z = 100;
 
-game.ui.viewport.LAYERS = {
+/**
+ * @const
+ * @type {Object.<string, number>}
+ */
+illandril.game.ui.viewport.LAYERS = {
     SCENERY: -10,
     DEFAULT: 0,
     PLAYER: 10,
@@ -270,9 +282,17 @@ game.ui.viewport.LAYERS = {
     MESSAGES: 100
 };
 
-game.ui.viewport.MESSAGE_DISPLAY = "table-cell";
+/**
+ * @const
+ * @type {string}
+ */
+illandril.game.ui.viewport.MESSAGE_DISPLAY = "table-cell";
 
-game.ui.viewport.B2DEBUG_FLAGS = 0
+/**
+ * @const
+ * @type {number}
+ */
+illandril.game.ui.viewport.B2DEBUG_FLAGS = 0
                         | Box2D.Dynamics.b2DebugDraw.e_aabbBit
 //                        | Box2D.Dynamics.b2DebugDraw.e_centerOfMassBit
 //                        | Box2D.Dynamics.b2DebugDraw.e_controllerBit
@@ -283,4 +303,7 @@ game.ui.viewport.B2DEBUG_FLAGS = 0
                         
 
 // STATICS
-game.ui.viewport._nextUID = 0;
+/**
+ * @type {number}
+ */
+illandril.game.ui.viewport._nextUID = 0;

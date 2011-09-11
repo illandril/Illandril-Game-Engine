@@ -1,15 +1,15 @@
 goog.provide('test');
 
 goog.require('Box2D.Common.Math.b2Vec2');
-goog.require('Box2D.Collision.Shapes.b2CircleShape')
-goog.require('Box2D.Collision.Shapes.b2PolygonShape')
-goog.require('Box2D.Dynamics.Joints.b2RevoluteJointDef')
-goog.require('Box2D.Dynamics.Joints.b2WeldJointDef')
+goog.require('Box2D.Collision.Shapes.b2CircleShape');
+goog.require('Box2D.Collision.Shapes.b2PolygonShape');
+goog.require('Box2D.Dynamics.Joints.b2RevoluteJointDef');
+goog.require('Box2D.Dynamics.Joints.b2WeldJointDef');
 
-goog.require('game.game');
-goog.require('game.platformer');
-goog.require('game.controls');
-goog.require('game.controls.action');
+goog.require('illandril.game.game');
+goog.require('illandril.game.platformer');
+goog.require('illandril.game.controls.keyHandler');
+goog.require('illandril.game.controls.action');
 goog.require('goog.events.KeyCodes');
 
 (function(test){
@@ -29,8 +29,8 @@ var g;
 var p;
 
 test.init = function(gameContainerID, doDebug, wasd) {
-    g = new game.game(test, gameContainerID, worldSize, game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
-    p = new game.platformer(g);
+    g = new illandril.game.game(test, gameContainerID, worldSize, illandril.game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
+    p = new illandril.game.platformer(g);
     var position = new Box2D.Common.Math.b2Vec2(13, worldSize.y - 45);
     test.createWorld();
     test.createSpinners();
@@ -50,11 +50,11 @@ test.createPlayer = function(position, wasd) {
     player = p.createPlayer(size, position);
     g.getAnimationManager().setAsFourDirectionalAnimation(player, size, sprite, spriteOffset, frameSize, frames, frameSpeed);
     
-    gameControls = new game.controls("game");
-    var pauseAction = new game.controls.action(function(){ g.togglePause(); }, "Pause", false /* executeOnRepeat */);
+    gameControls = new illandril.game.controls.keyHandler("game");
+    var pauseAction = new illandril.game.controls.action(function(){ g.togglePause(); }, "Pause", false /* executeOnRepeat */);
     gameControls.registerAction(pauseAction, goog.events.KeyCodes.P, false, false, false);
     
-    playerControls = new game.controls("player");
+    playerControls = new illandril.game.controls.keyHandler("player");
     playerControls.registerAction(player.actions.moveUp, wasd ? goog.events.KeyCodes.W : goog.events.KeyCodes.UP, false, false, false);
     playerControls.registerAction(player.actions.moveLeft, wasd ? goog.events.KeyCodes.A : goog.events.KeyCodes.LEFT, false, false, false);
     playerControls.registerAction(player.actions.moveDown, wasd ? goog.events.KeyCodes.S : goog.events.KeyCodes.DOWN, false, false, false);
@@ -122,7 +122,7 @@ test.createSpinners = function() {
         var b0 = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.1, 0.1), new Box2D.Common.Math.b2Vec2(i, y), false /* visible */);
         var b1 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(i, y));
         g.getViewport().setImage(b1, 'graphics/spinner.png');
-        game.platformer.initializeDirectionalSiding(b1, false, true, false, false);
+        illandril.game.platformer.initializeDirectionalSiding(b1, false, true, false, false);
         var b2 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(i, y));
         b2.body.SetAngle(g.getWorld().getBox2DBodyDefinition().angle + Math.PI / 2);
         g.getViewport().setImage(b2, 'graphics/spinner.png');
@@ -397,7 +397,7 @@ test.createMario = function(offset) {
     obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 64, start.y));
     g.getViewport().setImage(obj, marioSheet, offsets.floor);
     obj = p.createBreakableBlock(tileSize,  new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 64, start.y - tileSize.y * 5));
-    game.platformer.initializeDirectionalSiding(obj, game.platformer.SIDES.TOP | game.platformer.SIDES.LEFT | game.platformer.SIDES.RIGHT);
+    illandril.game.platformer.initializeDirectionalSiding(obj, illandril.game.platformer.SIDES.TOP | illandril.game.platformer.SIDES.LEFT | illandril.game.platformer.SIDES.RIGHT);
     g.getViewport().setImage(obj, marioSheet, offsets.hiddenStar);
     obj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(start.x + tileSize.x * 65, start.y));
     g.getViewport().setImage(obj, marioSheet, offsets.floor);

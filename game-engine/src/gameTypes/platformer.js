@@ -12,24 +12,24 @@ Known issues:
 
 */
 
-goog.provide('game.platformer');
+goog.provide('illandril.game.platformer');
 
 goog.require('Box2D.Collision.b2WorldManifold');
 goog.require('Box2D.Collision.Shapes.b2PolygonShape');
 goog.require('Box2D.Common.Math.b2Vec2');
-goog.require('game.controls.action');
+goog.require('illandril.game.controls.action');
 
 /**
- * @param {!game.game} theGame
+ * @param {!illandril.game.game} theGame
  * @constructor
  */
-game.platformer = function(theGame) {
+illandril.game.platformer = function(theGame) {
     this.game = theGame;
     this.game.getWorld().addCollisionFilter(this);
 };
 
 
-game.platformer.prototype.createPlayer = function(size, position) {
+illandril.game.platformer.prototype.createPlayer = function(size, position) {
     var args = {
         bodyArgs: {
             fixedRotation: true
@@ -39,9 +39,9 @@ game.platformer.prototype.createPlayer = function(size, position) {
         }
     };
     var player = this.game.getWorld().createSafeBox(size, position, true /* visible */, args);
-    game.platformer.initializeJumper(player, game.platformer.DEFAULTS.PLAYER_SPEED);
-    game.platformer.initializeMover(player, game.platformer.DEFAULTS.PLAYER_SPEED, game.platformer.DEFAULTS.PLAYER_ACCELERATION);
-    game.platformer.initializeLiving(player, game.platformer.LIVING_FILTERS.PLAYER);
+    illandril.game.platformer.initializeJumper(player, illandril.game.platformer.DEFAULTS.PLAYER_SPEED);
+    illandril.game.platformer.initializeMover(player, illandril.game.platformer.DEFAULTS.PLAYER_SPEED, illandril.game.platformer.DEFAULTS.PLAYER_ACCELERATION);
+    illandril.game.platformer.initializeLiving(player, illandril.game.platformer.LIVING_FILTERS.PLAYER);
     
     // Add left/right edge to the player so they slide against walls
     var shape = new Box2D.Collision.Shapes.b2PolygonShape();
@@ -58,16 +58,16 @@ game.platformer.prototype.createPlayer = function(size, position) {
     player.edging = this.game.getWorld().addFixture(player.body, shape, { fixtureArgs: { friction: 0 } });
     
     player.actions = {};
-    player.actions.moveUp = new game.controls.action(function(tickTime) {
+    player.actions.moveUp = new illandril.game.controls.action(function(tickTime) {
         player.platformerRules.jumper.jump();
     }, 'Move Up', true);
-    player.actions.moveDown = new game.controls.action(function(tickTime) {
+    player.actions.moveDown = new illandril.game.controls.action(function(tickTime) {
         // Duck? Drop down through floor?
     }, 'Move Down', true);
-    player.actions.moveLeft = new game.controls.action(function(tickTime) {
+    player.actions.moveLeft = new illandril.game.controls.action(function(tickTime) {
         player.platformerRules.mover.moveLeft();
     }, 'Move Left', true);
-    player.actions.moveRight = new game.controls.action(function(tickTime) {
+    player.actions.moveRight = new illandril.game.controls.action(function(tickTime) {
         player.platformerRules.mover.moveRight();
     }, 'Move Right', true);
     
@@ -472,4 +472,4 @@ game.platformer.prototype.createPlayer = function(size, position) {
         platformer.initializeDeathTrigger(platform, respawnPoint);
         return platform;
     };
-})(game.platformer);
+})(illandril.game.platformer);
