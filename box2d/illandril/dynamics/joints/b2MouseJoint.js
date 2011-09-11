@@ -4,6 +4,7 @@
 goog.provide('Box2D.Dynamics.Joints.b2MouseJoint');
 
 goog.require('Box2D.Dynamics.Joints.b2Joint');
+goog.require('Box2D.Common.Math.b2Mat22');
 goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Common.Math.b2Math');
 
@@ -13,9 +14,9 @@ goog.require('Box2D.Common.Math.b2Math');
  */
 Box2D.Dynamics.Joints.b2MouseJoint = function(def) {
     Box2D.Dynamics.Joints.b2Joint.call(this, def);
-    this.K = new b2Mat22();
-    this.K1 = new b2Mat22();
-    this.K2 = new b2Mat22();
+    this.K = new Box2D.Common.Math.b2Mat22();
+    this.K1 = new Box2D.Common.Math.b2Mat22();
+    this.K2 = new Box2D.Common.Math.b2Mat22();
     this.m_localAnchor = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_target = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_impulse = new Box2D.Common.Math.b2Vec2(0, 0);
@@ -46,7 +47,7 @@ Box2D.Dynamics.Joints.b2MouseJoint.prototype.GetAnchorB = function() {
 
 Box2D.Dynamics.Joints.b2MouseJoint.prototype.GetReactionForce = function(inv_dt) {
     if (inv_dt === undefined) inv_dt = 0;
-    return new b2Vec2(inv_dt * this.m_impulse.x, inv_dt * this.m_impulse.y);
+    return new Box2D.Common.Math.b2Vec2(inv_dt * this.m_impulse.x, inv_dt * this.m_impulse.y);
 };
 
 Box2D.Dynamics.Joints.b2MouseJoint.prototype.GetReactionTorque = function(inv_dt) {

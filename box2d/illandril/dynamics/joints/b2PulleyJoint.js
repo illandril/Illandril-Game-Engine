@@ -130,22 +130,22 @@ Box2D.Dynamics.Joints.b2PulleyJoint.prototype.InitVelocityConstraints = function
     }
     var C = this.m_constant - length1 - this.m_ratio * length2;
     if (C > 0.0) {
-        this.m_state = b2Joint.e_inactiveLimit;
+        this.m_state = Box2D.Dynamics.Joints.b2Joint.e_inactiveLimit;
         this.m_impulse = 0.0;
     } else {
-        this.m_state = b2Joint.e_atUpperLimit;
+        this.m_state = Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit;
     }
     if (length1 < this.m_maxLength1) {
-        this.m_limitState1 = b2Joint.e_inactiveLimit;
+        this.m_limitState1 = Box2D.Dynamics.Joints.b2Joint.e_inactiveLimit;
         this.m_limitImpulse1 = 0.0;
     } else {
-        this.m_limitState1 = b2Joint.e_atUpperLimit;
+        this.m_limitState1 = Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit;
     }
     if (length2 < this.m_maxLength2) {
-        this.m_limitState2 = b2Joint.e_inactiveLimit;
+        this.m_limitState2 = Box2D.Dynamics.Joints.b2Joint.e_inactiveLimit;
         this.m_limitImpulse2 = 0.0;
     } else {
-        this.m_limitState2 = b2Joint.e_atUpperLimit;
+        this.m_limitState2 = Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit;
     }
     var cr1u1 = r1X * this.m_u1.y - r1Y * this.m_u1.x;
     var cr2u2 = r2X * this.m_u2.y - r2Y * this.m_u2.x;
@@ -203,7 +203,7 @@ Box2D.Dynamics.Joints.b2PulleyJoint.prototype.SolveVelocityConstraints = functio
     var Cdot = 0;
     var impulse = 0;
     var oldImpulse = 0;
-    if (this.m_state == b2Joint.e_atUpperLimit) {
+    if (this.m_state == Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit) {
         v1X = bA.m_linearVelocity.x + ((-bA.m_angularVelocity * r1Y));
         v1Y = bA.m_linearVelocity.y + (bA.m_angularVelocity * r1X);
         v2X = bB.m_linearVelocity.x + ((-bB.m_angularVelocity * r2Y));
@@ -224,7 +224,7 @@ Box2D.Dynamics.Joints.b2PulleyJoint.prototype.SolveVelocityConstraints = functio
         bB.m_linearVelocity.y += bB.m_invMass * P2Y;
         bB.m_angularVelocity += bB.m_invI * (r2X * P2Y - r2Y * P2X);
     }
-    if (this.m_limitState1 == b2Joint.e_atUpperLimit) {
+    if (this.m_limitState1 == Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit) {
         v1X = bA.m_linearVelocity.x + ((-bA.m_angularVelocity * r1Y));
         v1Y = bA.m_linearVelocity.y + (bA.m_angularVelocity * r1X);
         Cdot = (-(this.m_u1.x * v1X + this.m_u1.y * v1Y));
@@ -238,7 +238,7 @@ Box2D.Dynamics.Joints.b2PulleyJoint.prototype.SolveVelocityConstraints = functio
         bA.m_linearVelocity.y += bA.m_invMass * P1Y;
         bA.m_angularVelocity += bA.m_invI * (r1X * P1Y - r1Y * P1X);
     }
-    if (this.m_limitState2 == b2Joint.e_atUpperLimit) {
+    if (this.m_limitState2 == Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit) {
         v2X = bB.m_linearVelocity.x + ((-bB.m_angularVelocity * r2Y));
         v2Y = bB.m_linearVelocity.y + (bB.m_angularVelocity * r2X);
         Cdot = (-(this.m_u2.x * v2X + this.m_u2.y * v2Y));
@@ -279,7 +279,7 @@ Box2D.Dynamics.Joints.b2PulleyJoint.prototype.SolvePositionConstraints = functio
     var oldLimitPositionImpulse = 0;
     var tX = 0;
     var linearError = 0.0;
-    if (this.m_state == b2Joint.e_atUpperLimit) {
+    if (this.m_state == Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit) {
         tMat = bA.m_xf.R;
         r1X = this.m_localAnchor1.x - bA.m_sweep.localCenter.x;
         r1Y = this.m_localAnchor1.y - bA.m_sweep.localCenter.y;
@@ -327,7 +327,7 @@ Box2D.Dynamics.Joints.b2PulleyJoint.prototype.SolvePositionConstraints = functio
         bA.SynchronizeTransform();
         bB.SynchronizeTransform();
     }
-    if (this.m_limitState1 == b2Joint.e_atUpperLimit) {
+    if (this.m_limitState1 == Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit) {
         tMat = bA.m_xf.R;
         r1X = this.m_localAnchor1.x - bA.m_sweep.localCenter.x;
         r1Y = this.m_localAnchor1.y - bA.m_sweep.localCenter.y;
@@ -355,7 +355,7 @@ Box2D.Dynamics.Joints.b2PulleyJoint.prototype.SolvePositionConstraints = functio
         bA.m_sweep.a += bA.m_invI * (r1X * p1Y - r1Y * p1X);
         bA.SynchronizeTransform();
     }
-    if (this.m_limitState2 == b2Joint.e_atUpperLimit) {
+    if (this.m_limitState2 == Box2D.Dynamics.Joints.b2Joint.e_atUpperLimit) {
         tMat = bB.m_xf.R;
         r2X = this.m_localAnchor2.x - bB.m_sweep.localCenter.x;
         r2Y = this.m_localAnchor2.y - bB.m_sweep.localCenter.y;

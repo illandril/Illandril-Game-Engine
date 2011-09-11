@@ -1,184 +1,26 @@
 ../closure-library/closure/bin/build/closurebuilder.py: Scanning paths...
 ../closure-library/closure/bin/build/closurebuilder.py: 882 sources scanned.
 ../closure-library/closure/bin/build/closurebuilder.py: Building dependency tree..
-../closure-library/closure/bin/build/closurebuilder.py: Compiling with the following command: java -jar ../closure-compiler/compiler.jar --js ../closure-library/closure/goog/base.js --js ../closure-library/closure/goog/string/string.js --js ../closure-library/closure/goog/useragent/useragent.js --js ../closure-library/closure/goog/events/keynames.js --js ../closure-library/closure/goog/events/keycodes.js --js ../closure-library/closure/goog/events/eventtype.js --js ../closure-library/closure/goog/debug/errorhandlerweakdep.js --js ../closure-library/closure/goog/object/object.js --js ../closure-library/closure/goog/debug/error.js --js ../closure-library/closure/goog/asserts/asserts.js --js ../closure-library/closure/goog/array/array.js --js ../closure-library/closure/goog/debug/entrypointregistry.js --js ../closure-library/closure/goog/events/eventwrapper.js --js ../closure-library/closure/goog/events/browserfeature.js --js ../closure-library/closure/goog/disposable/idisposable.js --js ../closure-library/closure/goog/disposable/disposable.js --js ../closure-library/closure/goog/events/event.js --js ../closure-library/closure/goog/reflect/reflect.js --js ../closure-library/closure/goog/events/browserevent.js --js ../closure-library/closure/goog/events/listener.js --js ../closure-library/closure/goog/useragent/jscript.js --js ../closure-library/closure/goog/structs/simplepool.js --js ../closure-library/closure/goog/events/pools.js --js ../closure-library/closure/goog/events/events.js --js ../closure-library/closure/goog/events/eventtarget.js --js ../closure-library/closure/goog/events/keyhandler.js --js src/controls/keyHandler.js --js ../box2d/illandril/common/math/b2Vec2.js --js ../box2d/illandril/common/math/b2Mat22.js --js ../box2d/illandril/common/math/b2Math.js --js ../box2d/illandril/common/b2Settings.js --js ../box2d/illandril/collision/b2SimplexVertex.js --js ../box2d/illandril/collision/b2Simplex.js --js ../box2d/illandril/collision/b2Distance.js --js ../box2d/illandril/collision/b2DistanceInput.js --js ../box2d/illandril/collision/b2DistanceOutput.js --js ../box2d/illandril/collision/b2SimplexCache.js --js ../box2d/illandril/collision/b2DistanceProxy.js --js ../box2d/illandril/collision/shapes/b2Shape.js --js ../box2d/illandril/collision/shapes/b2MassData.js --js ../box2d/illandril/common/math/b2Transform.js --js ../box2d/illandril/collision/shapes/b2PolygonShape.js --js src/ui/ui.js --js ../box2d/illandril/dynamics/b2DebugDraw.js --js src/ui/spriteSheet.js --js ../box2d/illandril/collision/b2AABB.js --js src/ui/viewport.js --js src/shims.js --js ../box2d/illandril/dynamics/b2FilterData.js --js ../box2d/illandril/dynamics/b2FixtureDef.js --js ../box2d/illandril/dynamics/b2ContactFilter.js --js ../box2d/illandril/base.js --js ../box2d/illandril/collision/Features.js --js ../box2d/illandril/collision/b2ContactID.js --js ../box2d/illandril/collision/b2ManifoldPoint.js --js ../box2d/illandril/collision/b2Manifold.js --js ../box2d/illandril/consts.js --js ../box2d/illandril/collision/b2WorldManifold.js --js ../box2d/illandril/dynamics/b2TimeStep.js --js ../box2d/illandril/dynamics/contacts/b2ContactConstraintPoint.js --js ../box2d/illandril/dynamics/contacts/b2ContactConstraint.js --js ../box2d/illandril/dynamics/contacts/b2PositionSolverManifold.js --js ../box2d/illandril/dynamics/contacts/b2ContactSolver.js --js ../box2d/illandril/collision/ClipVertex.js --js ../box2d/illandril/collision/b2Collision.js --js ../box2d/illandril/collision/b2SeparationFunction.js --js ../box2d/illandril/collision/b2TimeOfImpact.js --js ../box2d/illandril/common/math/b2Sweep.js --js ../box2d/illandril/collision/b2TOIInput.js --js ../box2d/illandril/dynamics/contacts/b2ContactEdge.js --js ../box2d/illandril/dynamics/b2BodyDef.js --js ../box2d/illandril/dynamics/contacts/b2Contact.js --js ../box2d/illandril/dynamics/contacts/b2CircleContact.js --js ../box2d/illandril/dynamics/contacts/b2EdgeAndCircleContact.js --js ../box2d/illandril/dynamics/contacts/b2PolyAndCircleContact.js --js ../box2d/illandril/dynamics/contacts/b2PolyAndEdgeContact.js --js ../box2d/illandril/dynamics/contacts/b2PolygonContact.js --js ../box2d/illandril/dynamics/contacts/b2ContactRegister.js --js ../box2d/illandril/dynamics/contacts/b2ContactFactory.js --js ../box2d/illandril/collision/b2ContactPoint.js --js ../box2d/illandril/collision/IBroadPhase.js --js ../box2d/illandril/collision/b2DynamicTreePair.js --js ../box2d/illandril/collision/b2DynamicTreeNode.js --js ../box2d/illandril/collision/b2RayCastInput.js --js ../box2d/illandril/collision/b2DynamicTree.js --js ../box2d/illandril/collision/b2DynamicTreeBroadPhase.js --js ../box2d/illandril/dynamics/b2ContactListener.js --js ../box2d/illandril/dynamics/b2ContactManager.js --js ../box2d/illandril/dynamics/joints/b2JointEdge.js --js ../box2d/illandril/dynamics/joints/b2Joint.js --js ../box2d/illandril/common/b2Color.js --js ../box2d/illandril/dynamics/b2Fixture.js --js ../box2d/illandril/dynamics/b2Body.js --js ../box2d/illandril/queue.js --js ../box2d/illandril/collision/b2RayCastOutput.js --js ../box2d/illandril/dynamics/b2ContactImpulse.js --js ../box2d/illandril/dynamics/b2Island.js --js ../box2d/illandril/dynamics/b2World.js --js src/gameObject.js --js src/world.js --js src/ui/animation.js --js src/ai/ai.js --js src/game.js --js src/controls/action.js --js src/gameTypes/platformer.js --js ../box2d/illandril/common/math/b2Vec3.js --js ../box2d/illandril/common/math/b2Mat33.js --js ../box2d/illandril/dynamics/joints/b2WeldJoint.js --js ../box2d/illandril/dynamics/joints/b2JointDef.js --js ../box2d/illandril/dynamics/joints/b2WeldJointDef.js --js ../box2d/illandril/collision/shapes/b2CircleShape.js --js ../box2d/illandril/dynamics/joints/b2RevoluteJoint.js --js ../box2d/illandril/dynamics/joints/b2RevoluteJointDef.js --js src/games/test.js --js src/games/mario.js --js src/games/pit.js --warning_level=VERBOSE --compilation_level=ADVANCED_OPTIMIZATIONS --define=goog.DEBUG=false
+../closure-library/closure/bin/build/closurebuilder.py: Compiling with the following command: java -jar ../closure-compiler/compiler.jar --js ../closure-library/closure/goog/base.js --js ../closure-library/closure/goog/string/string.js --js ../closure-library/closure/goog/useragent/useragent.js --js ../closure-library/closure/goog/events/keynames.js --js ../closure-library/closure/goog/events/keycodes.js --js ../closure-library/closure/goog/events/eventtype.js --js ../closure-library/closure/goog/debug/errorhandlerweakdep.js --js ../closure-library/closure/goog/object/object.js --js ../closure-library/closure/goog/debug/error.js --js ../closure-library/closure/goog/asserts/asserts.js --js ../closure-library/closure/goog/array/array.js --js ../closure-library/closure/goog/debug/entrypointregistry.js --js ../closure-library/closure/goog/events/eventwrapper.js --js ../closure-library/closure/goog/events/browserfeature.js --js ../closure-library/closure/goog/disposable/idisposable.js --js ../closure-library/closure/goog/disposable/disposable.js --js ../closure-library/closure/goog/events/event.js --js ../closure-library/closure/goog/reflect/reflect.js --js ../closure-library/closure/goog/events/browserevent.js --js ../closure-library/closure/goog/events/listener.js --js ../closure-library/closure/goog/useragent/jscript.js --js ../closure-library/closure/goog/structs/simplepool.js --js ../closure-library/closure/goog/events/pools.js --js ../closure-library/closure/goog/events/events.js --js ../closure-library/closure/goog/events/eventtarget.js --js ../closure-library/closure/goog/events/keyhandler.js --js src/controls/keyHandler.js --js ../box2d/illandril/common/math/b2Vec2.js --js ../box2d/illandril/common/math/b2Mat22.js --js ../box2d/illandril/common/math/b2Math.js --js ../box2d/illandril/common/b2Settings.js --js ../box2d/illandril/collision/b2SimplexVertex.js --js ../box2d/illandril/collision/b2Simplex.js --js ../box2d/illandril/collision/b2Distance.js --js ../box2d/illandril/collision/b2DistanceInput.js --js ../box2d/illandril/collision/b2DistanceOutput.js --js ../box2d/illandril/collision/b2SimplexCache.js --js ../box2d/illandril/collision/b2DistanceProxy.js --js ../box2d/illandril/collision/shapes/b2Shape.js --js ../box2d/illandril/collision/shapes/b2MassData.js --js ../box2d/illandril/common/math/b2Transform.js --js ../box2d/illandril/collision/shapes/b2PolygonShape.js --js src/ui/ui.js --js ../box2d/illandril/dynamics/b2DebugDraw.js --js src/ui/spriteSheet.js --js ../box2d/illandril/collision/b2AABB.js --js src/ui/viewport.js --js src/shims.js --js ../box2d/illandril/dynamics/b2FilterData.js --js ../box2d/illandril/dynamics/b2FixtureDef.js --js ../box2d/illandril/dynamics/b2ContactFilter.js --js ../box2d/illandril/base.js --js ../box2d/illandril/collision/Features.js --js ../box2d/illandril/collision/b2ContactID.js --js ../box2d/illandril/collision/b2ManifoldPoint.js --js ../box2d/illandril/collision/b2Manifold.js --js ../box2d/illandril/consts.js --js ../box2d/illandril/collision/b2WorldManifold.js --js ../box2d/illandril/dynamics/b2TimeStep.js --js ../box2d/illandril/dynamics/contacts/b2ContactConstraintPoint.js --js ../box2d/illandril/dynamics/contacts/b2ContactConstraint.js --js ../box2d/illandril/dynamics/contacts/b2PositionSolverManifold.js --js ../box2d/illandril/dynamics/contacts/b2ContactSolver.js --js ../box2d/illandril/collision/ClipVertex.js --js ../box2d/illandril/collision/b2Collision.js --js ../box2d/illandril/collision/b2SeparationFunction.js --js ../box2d/illandril/collision/b2TimeOfImpact.js --js ../box2d/illandril/common/math/b2Sweep.js --js ../box2d/illandril/collision/b2TOIInput.js --js ../box2d/illandril/dynamics/contacts/b2ContactEdge.js --js ../box2d/illandril/dynamics/b2BodyDef.js --js ../box2d/illandril/dynamics/contacts/b2Contact.js --js ../box2d/illandril/dynamics/contacts/b2CircleContact.js --js ../box2d/illandril/dynamics/contacts/b2EdgeAndCircleContact.js --js ../box2d/illandril/dynamics/contacts/b2PolyAndCircleContact.js --js ../box2d/illandril/dynamics/contacts/b2PolyAndEdgeContact.js --js ../box2d/illandril/dynamics/contacts/b2PolygonContact.js --js ../box2d/illandril/dynamics/contacts/b2ContactRegister.js --js ../box2d/illandril/dynamics/contacts/b2ContactFactory.js --js ../box2d/illandril/collision/b2ContactPoint.js --js ../box2d/illandril/collision/IBroadPhase.js --js ../box2d/illandril/collision/b2DynamicTreePair.js --js ../box2d/illandril/collision/b2DynamicTreeNode.js --js ../box2d/illandril/collision/b2RayCastInput.js --js ../box2d/illandril/collision/b2DynamicTree.js --js ../box2d/illandril/collision/b2DynamicTreeBroadPhase.js --js ../box2d/illandril/dynamics/b2ContactListener.js --js ../box2d/illandril/dynamics/b2ContactManager.js --js ../box2d/illandril/dynamics/joints/b2JointEdge.js --js ../box2d/illandril/dynamics/joints/b2Joint.js --js ../box2d/illandril/dynamics/joints/b2MouseJoint.js --js ../box2d/illandril/common/b2Color.js --js ../box2d/illandril/dynamics/b2Fixture.js --js ../box2d/illandril/dynamics/b2Body.js --js ../box2d/illandril/queue.js --js ../box2d/illandril/collision/b2RayCastOutput.js --js ../box2d/illandril/dynamics/joints/b2PulleyJoint.js --js ../box2d/illandril/dynamics/b2ContactImpulse.js --js ../box2d/illandril/dynamics/b2Island.js --js ../box2d/illandril/dynamics/joints/b2DistanceJoint.js --js ../box2d/illandril/dynamics/b2World.js --js src/gameObject.js --js src/world.js --js src/ui/animation.js --js src/ai/ai.js --js src/game.js --js src/controls/action.js --js src/gameTypes/platformer.js --js ../box2d/illandril/common/math/b2Vec3.js --js ../box2d/illandril/common/math/b2Mat33.js --js ../box2d/illandril/dynamics/joints/b2WeldJoint.js --js ../box2d/illandril/dynamics/joints/b2JointDef.js --js ../box2d/illandril/dynamics/joints/b2WeldJointDef.js --js ../box2d/illandril/collision/shapes/b2CircleShape.js --js ../box2d/illandril/dynamics/joints/b2RevoluteJoint.js --js ../box2d/illandril/dynamics/joints/b2RevoluteJointDef.js --js src/games/test.js --js src/games/mario.js --js src/games/pit.js --warning_level=VERBOSE --compilation_level=ADVANCED_OPTIMIZATIONS --define=goog.DEBUG=false
 ../box2d/illandril/base.js:14: WARNING - assignment to property defineProperty of Box2D
 found   : function (Object, string, Object): Object
 required: function (?, ?, ?): undefined
     Box2D.defineProperty = Object.defineProperty;
                          ^
 
-../box2d/illandril/collision/b2DynamicTree.js:170: WARNING - actual parameter 1 of callback does not match formal parameter
-found   : Box2D.Common.Math.b2Vec2
-required: Box2D.Collision.b2RayCastInput
-            maxFraction = callback(input.p1, node);
-                                   ^
-
-../box2d/illandril/collision/b2DynamicTree.js:225: WARNING - condition always evaluates to true
+../box2d/illandril/collision/b2DynamicTree.js:222: WARNING - condition always evaluates to true
 left : None
 right: None
         if (sibling.parent.child1 == sibling) {
                                   ^
 
-../box2d/illandril/collision/b2DynamicTreeBroadPhase.js:22: WARNING - Property m_proxyCount never defined on Box2D.Collision.b2DynamicTreeBroadPhase
-    this.m_proxyCount++;
-    ^
-
-../box2d/illandril/collision/b2DynamicTreeBroadPhase.js:29: WARNING - Property m_proxyCount never defined on Box2D.Collision.b2DynamicTreeBroadPhase
-    this.m_proxyCount--;
-    ^
-
-../box2d/illandril/collision/b2DynamicTreeBroadPhase.js:55: WARNING - Property m_proxyCount never defined on Box2D.Collision.b2DynamicTreeBroadPhase
-    return this.m_proxyCount;
-           ^
-
-../box2d/illandril/collision/b2SeparationFunction.js:112: WARNING - actual parameter 2 of Box2D.Common.Math.b2Math.MulX does not match formal parameter
-found   : undefined
-required: Box2D.Common.Math.b2Vec2
-        var pA = Box2D.Common.Math.b2Math.MulX(transformA, localPointA);
-                                                           ^
-
-../box2d/illandril/collision/b2SeparationFunction.js:114: WARNING - actual parameter 2 of Box2D.Common.Math.b2Math.MulX does not match formal parameter
-found   : undefined
-required: Box2D.Common.Math.b2Vec2
-        var pB = Box2D.Common.Math.b2Math.MulX(transformB, localPointB);
-                                                           ^
-
-../box2d/illandril/collision/b2TimeOfImpact.js:126: WARNING - Function Box2D.Common.Math.b2Transform: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-Box2D.Collision.b2TimeOfImpact.s_xfA = new Box2D.Common.Math.b2Transform();
-                                                                        ^
-
-../box2d/illandril/collision/b2TimeOfImpact.js:127: WARNING - Function Box2D.Common.Math.b2Transform: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-Box2D.Collision.b2TimeOfImpact.s_xfB = new Box2D.Common.Math.b2Transform();
-                                                                        ^
-
-../box2d/illandril/collision/shapes/b2CircleShape.js:27: WARNING - Function Box2D.Collision.Shapes.b2CircleShape: called with 0 argument(s). Function requires at least 1 argument(s) and no more than 1 argument(s).
-    var s = new Box2D.Collision.Shapes.b2CircleShape();
-                                                    ^
-
-../box2d/illandril/collision/shapes/b2PolygonShape.js:133: WARNING - Function Box2D.Common.Math.b2Transform: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-    var xf = new Box2D.Common.Math.b2Transform();
-                                              ^
-
-../box2d/illandril/collision/shapes/b2PolygonShape.js:510: WARNING - Property extents never defined on obb
-            obb.extents.x = 0.5 * (upperX - lowerX);
-            ^
-
-../box2d/illandril/collision/shapes/b2PolygonShape.js:511: WARNING - Property extents never defined on obb
-            obb.extents.y = 0.5 * (upperY - lowerY);
-            ^
-
-../box2d/illandril/common/math/b2Mat22.js:70: WARNING - Missing return statement. Function expected to return Box2D.Common.Math.b2Mat22.
-Box2D.Common.Math.b2Mat22.prototype.SetM = function(m) {
-                                                   ^
-
-../box2d/illandril/common/math/b2Mat22.js:79: WARNING - Missing return statement. Function expected to return Box2D.Common.Math.b2Mat22.
-Box2D.Common.Math.b2Mat22.prototype.AddM = function(m) {
-                                                   ^
-
-../box2d/illandril/common/math/b2Mat22.js:121: WARNING - Bad type annotation. Unknown type Box2D.Common.Math.bVec3
- * @return {!Box2D.Common.Math.bVec3}
-                                    ^
-
-../box2d/illandril/common/math/b2Math.js:136: WARNING - inconsistent return type
-found   : Box2D.Common.Math.b2Vec2
-required: number
-  return new Box2D.Common.Math.b2Vec2(s * a.x, s * a.y);
-                                     ^
-
-../box2d/illandril/common/math/b2Sweep.js:13: WARNING - Function Box2D.Common.Math.b2Vec2: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-    this.c0 = new Box2D.Common.Math.b2Vec2;
-             ^
-
-../box2d/illandril/common/math/b2Transform.js:15: WARNING - Function Box2D.Common.Math.b2Vec2: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-    this.position = new Box2D.Common.Math.b2Vec2;
-                   ^
-
-../box2d/illandril/common/math/b2Transform.js:19: WARNING - actual parameter 1 of Box2D.Common.Math.b2Mat22.prototype.SetM does not match formal parameter
-found   : (Box2D.Common.Math.b2Mat22|null)
-required: Box2D.Common.Math.b2Mat22
-        this.R.SetM(r);
-                    ^
-
-../box2d/illandril/dynamics/b2Body.js:21: WARNING - Function Box2D.Common.Math.b2Transform: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-    this.m_xf = new Box2D.Common.Math.b2Transform();
-                                                 ^
-
-../box2d/illandril/dynamics/b2Body.js:81: WARNING - Property GetDirectionVector never defined on s2
-    var angle2 = Math.atan2(s2.GetDirectionVector().y, s2.GetDirectionVector().x);
-                            ^
-
-../box2d/illandril/dynamics/b2Body.js:81: WARNING - Property GetDirectionVector never defined on s2
-    var angle2 = Math.atan2(s2.GetDirectionVector().y, s2.GetDirectionVector().x);
-                                                       ^
-
-../box2d/illandril/dynamics/b2Body.js:83: WARNING - Property GetDirectionVector never defined on s2
-    var core = Box2D.Common.Math.b2Math.MulFV(coreOffset, s2.GetDirectionVector());
-                                                          ^
-
-../box2d/illandril/dynamics/b2Body.js:84: WARNING - actual parameter 1 of Box2D.Common.Math.b2Math.SubtractVV does not match formal parameter
-found   : number
-required: Box2D.Common.Math.b2Vec2
-    core = Box2D.Common.Math.b2Math.SubtractVV(core, s2.GetNormalVector());
-                                               ^
-
-../box2d/illandril/dynamics/b2Body.js:84: WARNING - Property GetNormalVector never defined on s2
-    core = Box2D.Common.Math.b2Math.SubtractVV(core, s2.GetNormalVector());
-                                                     ^
-
-../box2d/illandril/dynamics/b2Body.js:85: WARNING - Box2D.Common.b2Settingsb2Settings is never defined
-    core = Box2D.Common.Math.b2Math.MulFV(Box2D.Common.b2Settingsb2Settings.b2_toiSlop, core);
-                                          ^
-
-../box2d/illandril/dynamics/b2Body.js:85: WARNING - Property b2Settingsb2Settings never defined on Box2D.Common
-    core = Box2D.Common.Math.b2Math.MulFV(Box2D.Common.b2Settingsb2Settings.b2_toiSlop, core);
-                                          ^
-
-../box2d/illandril/dynamics/b2Body.js:86: WARNING - actual parameter 1 of Box2D.Common.Math.b2Math.AddVV does not match formal parameter
-found   : number
-required: Box2D.Common.Math.b2Vec2
-    core = Box2D.Common.Math.b2Math.AddVV(core, s2.GetVertex1());
-                                          ^
-
-../box2d/illandril/dynamics/b2Body.js:86: WARNING - Property GetVertex1 never defined on s2
-    core = Box2D.Common.Math.b2Math.AddVV(core, s2.GetVertex1());
-                                                ^
-
-../box2d/illandril/dynamics/b2Body.js:87: WARNING - Property GetDirectionVector never defined on s1
-    var cornerDir = Box2D.Common.Math.b2Math.AddVV(s1.GetDirectionVector(), s2.GetDirectionVector());
-                                                   ^
-
-../box2d/illandril/dynamics/b2Body.js:87: WARNING - Property GetDirectionVector never defined on s2
-    var cornerDir = Box2D.Common.Math.b2Math.AddVV(s1.GetDirectionVector(), s2.GetDirectionVector());
-                                                                            ^
-
-../box2d/illandril/dynamics/b2Body.js:89: WARNING - Property GetDirectionVector never defined on s1
-    var convex = Box2D.Common.Math.b2Math.Dot(s1.GetDirectionVector(), s2.GetNormalVector()) > 0.0;
-                                              ^
-
-../box2d/illandril/dynamics/b2Body.js:89: WARNING - Property GetNormalVector never defined on s2
-    var convex = Box2D.Common.Math.b2Math.Dot(s1.GetDirectionVector(), s2.GetNormalVector()) > 0.0;
-                                                                       ^
-
-../box2d/illandril/dynamics/b2Body.js:90: WARNING - Property SetNextEdge never defined on s1
-    s1.SetNextEdge(s2, core, cornerDir, convex);
-    ^
-
-../box2d/illandril/dynamics/b2Body.js:91: WARNING - Property SetPrevEdge never defined on s2
-    s2.SetPrevEdge(s1, core, cornerDir, convex);
-    ^
-
-../box2d/illandril/dynamics/b2Body.js:342: WARNING - Variable referenced before declaration: body2
+../box2d/illandril/dynamics/b2Body.js:326: WARNING - Variable referenced before declaration: body2
         f.m_body = body2;
                    ^
 
-../box2d/illandril/dynamics/b2Body.js:345: WARNING - Variable referenced before declaration: body1
+../box2d/illandril/dynamics/b2Body.js:329: WARNING - Variable referenced before declaration: body1
     body1.m_fixtureCount = 0;
     ^
-
-../box2d/illandril/dynamics/b2Body.js:676: WARNING - Function Box2D.Common.Math.b2Transform: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-Box2D.Dynamics.b2Body.s_xf1 = new Box2D.Common.Math.b2Transform();
-                                                               ^
 
 ../box2d/illandril/dynamics/b2ContactManager.js:59: WARNING - condition always evaluates to false
 left : None
@@ -192,109 +34,73 @@ right: null
     if (this.m_body == null) return;
                     ^
 
-../box2d/illandril/dynamics/b2World.js:124: WARNING - Property RemoveBody never defined on coe0.controller
+../box2d/illandril/dynamics/b2World.js:127: WARNING - Property RemoveBody never defined on coe0.controller
          coe0.controller.RemoveBody(b);
          ^
 
-../box2d/illandril/dynamics/b2World.js:124: WARNING - Property controller never defined on coe0
+../box2d/illandril/dynamics/b2World.js:127: WARNING - Property controller never defined on coe0
          coe0.controller.RemoveBody(b);
          ^
 
-../box2d/illandril/dynamics/b2World.js:158: WARNING - Function Box2D.Dynamics.Joints.b2Joint.Create: called with 2 argument(s). Function requires at least 1 argument(s) and no more than 1 argument(s).
+../box2d/illandril/dynamics/b2World.js:161: WARNING - Function Box2D.Dynamics.Joints.b2Joint.Create: called with 2 argument(s). Function requires at least 1 argument(s) and no more than 1 argument(s).
       var j = Box2D.Dynamics.Joints.b2Joint.Create(def, null);
                                                   ^
 
-../box2d/illandril/dynamics/b2World.js:397: WARNING - Property Draw never defined on c
+../box2d/illandril/dynamics/b2World.js:400: WARNING - Property Draw never defined on c
             c.Draw(this.m_debugDraw);
             ^
 
-../box2d/illandril/dynamics/b2World.js:446: WARNING - Function Box2D.Common.Math.b2Transform: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-         transform = new Box2D.Common.Math.b2Transform();
-                                                      ^
+../box2d/illandril/dynamics/b2World.js:864: WARNING - Box2D.Collision.Shapes.b2EdgeShape is never defined
+      } else if (shape instanceof Box2D.Collision.Shapes.b2EdgeShape) {
+                                  ^
 
-../box2d/illandril/dynamics/b2World.js:496: WARNING - Function Box2D.Collision.b2RayCastInput: called with 2 argument(s). Function requires at least 3 argument(s) and no more than 3 argument(s).
-      var input = new Box2D.Collision.b2RayCastInput(point1, point2);
-                                                    ^
-
-../box2d/illandril/dynamics/b2World.js:797: WARNING - Property GetGroundAnchorA never defined on joint
-            this.m_debugDraw.DrawSegment(joint.GetGroundAnchorA(), joint.GetAnchorA(), b2World.s_jointColor);
-                                         ^
-
-../box2d/illandril/dynamics/b2World.js:798: WARNING - Property GetGroundAnchorB never defined on joint
-            this.m_debugDraw.DrawSegment(joint.GetGroundAnchorB(), joint.GetAnchorB(), b2World.s_jointColor);
-                                         ^
-
-../box2d/illandril/dynamics/b2World.js:799: WARNING - Property GetGroundAnchorA never defined on joint
-            this.m_debugDraw.DrawSegment(joint.GetGroundAnchorA(), joint.GetGroundAnchorB(), b2World.s_jointColor);
-                                         ^
-
-../box2d/illandril/dynamics/b2World.js:799: WARNING - Property GetGroundAnchorB never defined on joint
-            this.m_debugDraw.DrawSegment(joint.GetGroundAnchorA(), joint.GetGroundAnchorB(), b2World.s_jointColor);
-                                                                   ^
-
-../box2d/illandril/dynamics/b2World.js:826: WARNING - Function parseInt: called with 1 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-            var vertexCount = parseInt(poly.GetVertexCount());
-                                      ^
-
-../box2d/illandril/dynamics/b2World.js:839: WARNING - Property GetVertex1 never defined on edge
+../box2d/illandril/dynamics/b2World.js:866: WARNING - Property GetVertex1 never defined on edge
             this.m_debugDraw.DrawSegment(Box2D.Common.Math.b2Math.MulX(xf, edge.GetVertex1()), Box2D.Common.Math.b2Math.MulX(xf, edge.GetVertex2()), color);
                                                                            ^
 
-../box2d/illandril/dynamics/b2World.js:839: WARNING - Property GetVertex2 never defined on edge
+../box2d/illandril/dynamics/b2World.js:866: WARNING - Property GetVertex2 never defined on edge
             this.m_debugDraw.DrawSegment(Box2D.Common.Math.b2Math.MulX(xf, edge.GetVertex1()), Box2D.Common.Math.b2Math.MulX(xf, edge.GetVertex2()), color);
                                                                                                                                  ^
 
-../box2d/illandril/dynamics/b2World.js:844: WARNING - Function Box2D.Common.Math.b2Transform: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-  Box2D.Dynamics.b2World.s_xf = new Box2D.Common.Math.b2Transform();
-                                                                 ^
+../box2d/illandril/dynamics/joints/b2PulleyJoint.js:16: WARNING - Property b2Joint never defined on Box2D.Dynamics.Joints.b2Joint
+    Box2D.Dynamics.Joints.b2Joint.b2Joint.call(this, def);
+    ^
 
-../box2d/illandril/dynamics/contacts/b2ContactConstraint.js:14: WARNING - Function Box2D.Common.Math.b2Vec2: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-    this.localPlaneNormal = new Box2D.Common.Math.b2Vec2();
-                                                        ^
+../box2d/illandril/dynamics/joints/b2PulleyJoint.js:24: WARNING - Property groundAnchorA never defined on def
+    this.m_groundAnchor1.x = def.groundAnchorA.x - this.m_ground.m_xf.position.x;
+                             ^
 
-../box2d/illandril/dynamics/contacts/b2ContactConstraint.js:15: WARNING - Function Box2D.Common.Math.b2Vec2: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-    this.localPoint = new Box2D.Common.Math.b2Vec2();
-                                                  ^
+../box2d/illandril/dynamics/joints/b2PulleyJoint.js:25: WARNING - Property groundAnchorA never defined on def
+    this.m_groundAnchor1.y = def.groundAnchorA.y - this.m_ground.m_xf.position.y;
+                             ^
 
-../box2d/illandril/dynamics/contacts/b2ContactConstraint.js:16: WARNING - Function Box2D.Common.Math.b2Vec2: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-    this.normal = new Box2D.Common.Math.b2Vec2();
-                                              ^
+../box2d/illandril/dynamics/joints/b2PulleyJoint.js:26: WARNING - Property groundAnchorB never defined on def
+    this.m_groundAnchor2.x = def.groundAnchorB.x - this.m_ground.m_xf.position.x;
+                             ^
 
-../box2d/illandril/dynamics/contacts/b2ContactConstraintPoint.js:12: WARNING - Function Box2D.Common.Math.b2Vec2: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-      this.localPoint = new Box2D.Common.Math.b2Vec2();
-                                                    ^
+../box2d/illandril/dynamics/joints/b2PulleyJoint.js:27: WARNING - Property groundAnchorB never defined on def
+    this.m_groundAnchor2.y = def.groundAnchorB.y - this.m_ground.m_xf.position.y;
+                             ^
 
-../box2d/illandril/dynamics/contacts/b2ContactConstraintPoint.js:13: WARNING - Function Box2D.Common.Math.b2Vec2: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-      this.rA = new Box2D.Common.Math.b2Vec2();
-                                            ^
+../box2d/illandril/dynamics/joints/b2PulleyJoint.js:31: WARNING - Property lengthA never defined on def
+    this.m_constant = def.lengthA + this.m_ratio * def.lengthB;
+                      ^
 
-../box2d/illandril/dynamics/contacts/b2ContactConstraintPoint.js:14: WARNING - Function Box2D.Common.Math.b2Vec2: called with 0 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-      this.rB = new Box2D.Common.Math.b2Vec2();
-                                            ^
+../box2d/illandril/dynamics/joints/b2PulleyJoint.js:31: WARNING - Property lengthB never defined on def
+    this.m_constant = def.lengthA + this.m_ratio * def.lengthB;
+                                                   ^
 
-../box2d/illandril/dynamics/contacts/b2ContactFactory.js:47: WARNING - Property poolCount never defined on reg
-        reg.poolCount--;
-        ^
+../box2d/illandril/dynamics/joints/b2PulleyJoint.js:32: WARNING - Property maxLengthA never defined on def
+    this.m_maxLength1 = Math.min(def.maxLengthA, this.m_constant - this.m_ratio * Box2D.Dynamics.Joints.b2PulleyJoint.b2_minPulleyLength);
+                                 ^
 
-../box2d/illandril/dynamics/contacts/b2ContactFactory.js:77: WARNING - Property poolCount never defined on reg
-        reg.poolCount--;
-        ^
-
-../box2d/illandril/dynamics/contacts/b2ContactFactory.js:108: WARNING - Property poolCount never defined on reg
-        reg.poolCount++;
-        ^
-
-../box2d/illandril/dynamics/joints/b2RevoluteJoint.js:30: WARNING - Function Box2D.Common.Math.b2Mat33: called with 0 argument(s). Function requires at least 3 argument(s) and no more than 3 argument(s).
-    this.m_mass = new Box2D.Common.Math.b2Mat33();
-                                               ^
+../box2d/illandril/dynamics/joints/b2PulleyJoint.js:33: WARNING - Property maxLengthB never defined on def
+    this.m_maxLength2 = Math.min(def.maxLengthB, (this.m_constant - Box2D.Dynamics.Joints.b2PulleyJoint.b2_minPulleyLength) / this.m_ratio);
+                                 ^
 
 ../box2d/illandril/dynamics/joints/b2WeldJoint.js:20: WARNING - Function Box2D.Common.Math.b2Vec3: called with 0 argument(s). Function requires at least 3 argument(s) and no more than 3 argument(s).
     this.m_impulse = new Box2D.Common.Math.b2Vec3();
                                                  ^
-
-../box2d/illandril/dynamics/joints/b2WeldJoint.js:21: WARNING - Function Box2D.Common.Math.b2Mat33: called with 0 argument(s). Function requires at least 3 argument(s) and no more than 3 argument(s).
-    this.m_mass = new Box2D.Common.Math.b2Mat33();
-                                               ^
 
 ../closure-library/closure/goog/events/events.js:875: WARNING - Bad type annotation. Unknown type goog.debug.ErrorHandler
  * @param {goog.debug.ErrorHandler} errorHandler Error handler with which to
@@ -307,10 +113,6 @@ right: null
 ../closure-library/closure/goog/events/eventwrapper.js:62: WARNING - Bad type annotation. Unknown type goog.events.EventHandler
  * @param {goog.events.EventHandler=} opt_eventHandler Event handler to remove
                                    ^
-
-src/controls/keyHandler.js:28: WARNING - parameter tick does not appear in illandril.game.controls.keyHandler.prototype.handleKeyEvents's parameter list
-illandril.game.controls.keyHandler.prototype.handleKeyEvents = function(time, tickTime) {
-                                                                       ^
 
 src/controls/keyHandler.js:36: WARNING - condition always evaluates to true
 left : null
@@ -330,12 +132,6 @@ right: null
         if (this.registeringActionTimeout != null) {
                                           ^
 
-src/controls/keyHandler.js:60: WARNING - property access
-found   : illandril.game.controls.action
-required: string
-    return this.reverseControls[action];
-                                ^
-
 src/controls/keyHandler.js:89: WARNING - condition always evaluates to false
 left : null
 right: null
@@ -346,45 +142,13 @@ src/controls/keyHandler.js:154: WARNING - Property KeyCode never defined on e
   var keyCode = e.KeyCode;
                 ^
 
-src/game.js:172: WARNING - Function illandril.game.game._update: called with 0 argument(s). Function requires at least 1 argument(s) and no more than 1 argument(s).
-        illandril.game.game._update();
-                                   ^
-
-src/gameObject.js:16: WARNING - parameter position does not appear in illandril.game.gameObject.prototype.setPosition's parameter list
-illandril.game.gameObject.prototype.setPosition = function(newPos) {
-                                                          ^
-
-src/gameTypes/platformer.js:50: WARNING - Function Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsArray: called with 1 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-    shape.SetAsArray([
+src/games/test.js:163: WARNING - Function Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsArray: called with 2 argument(s). Function requires at least 1 argument(s) and no more than 1 argument(s).
+    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0.5, -0.5), new Box2D.Common.Math.b2Vec2(-0.5,0.5)], 3 );
                     ^
 
-src/gameTypes/platformer.js:456: WARNING - Function platformer.initializeDirectionalAction: called with 3 argument(s). Function requires at least 4 argument(s) and no more than 4 argument(s).
-        platformer.initializeDirectionalAction(obj, function(contact){
-                                              ^
-
-src/gameTypes/platformer.js:472: WARNING - Function platformer.initializeDeathTrigger: called with 2 argument(s). Function requires at least 3 argument(s) and no more than 3 argument(s).
-        platformer.initializeDeathTrigger(platform, respawnPoint);
-                                         ^
-
-src/games/mario.js:177: WARNING - Variable referenced before declaration: nObj
-                nObj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - obj.coinsOutput / obj.coins) * tileSize.y));
-                ^
-
-src/games/mario.js:178: WARNING - Variable referenced before declaration: nObj
-                g.getViewport().setImage(nObj, marioSheet, offsets.coin);
-                                         ^
-
-src/games/test.js:116: WARNING - Property getBox2DBodyDefinition never defined on ?
-        g.getWorld().getBox2DBodyDefinition().angle = i / worldSize.x * Math.PI;
-        ^
-
-src/games/test.js:127: WARNING - Property getBox2DBodyDefinition never defined on ?
-        b2.body.SetAngle(g.getWorld().getBox2DBodyDefinition().angle + Math.PI / 2);
-                         ^
-
-src/games/test.js:141: WARNING - Property b2_dynamicBody never defined on Box2D.Dynamics.b2Body
-        type: Box2D.Dynamics.b2Body.b2_dynamicBody,
-              ^
+src/games/test.js:171: WARNING - Function Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsArray: called with 2 argument(s). Function requires at least 1 argument(s) and no more than 1 argument(s).
+    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0, -0.5), new Box2D.Common.Math.b2Vec2(0.5,0), new Box2D.Common.Math.b2Vec2(0.5, 0.5), new Box2D.Common.Math.b2Vec2( 0, 0.3 )], 5 );
+                    ^
 
 src/shims.js:5: WARNING - Property requestAnimationFrame never defined on Window
     var fn = window.requestAnimationFrame       || 
@@ -406,17 +170,9 @@ src/shims.js:9: WARNING - Property msRequestAnimationFrame never defined on Wind
               window.msRequestAnimationFrame     || 
               ^
 
-src/ui/viewport.js:243: WARNING - Function illandril.game.ui.spriteSheet: called with 2 argument(s). Function requires at least 4 argument(s) and no more than 4 argument(s).
-    object.display.spriteSheet = new illandril.game.ui.spriteSheet(url, offset);
-                                                                  ^
-
 src/world.js:20: WARNING - parameter game does not appear in illandril.game.world's parameter list
 illandril.game.world = function(theGame, worldSize, gravity) {
                                ^
 
-src/world.js:181: WARNING - Function Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsArray: called with 1 argument(s). Function requires at least 2 argument(s) and no more than 2 argument(s).
-    shape.SetAsArray([
-                    ^
-
-0 error(s), 113 warning(s), 78.8% typed
+0 error(s), 39 warning(s), 78.7% typed
 ../closure-library/closure/bin/build/closurebuilder.py: JavaScript compilation succeeded.
