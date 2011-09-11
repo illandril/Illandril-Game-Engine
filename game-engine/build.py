@@ -14,14 +14,14 @@ for arg in sys.argv[2:]:
   args = args + " --namespace=" + arg
 args = args + " --output_mode=compiled"
 args = args + " --compiler_jar=../closure-compiler/compiler.jar"
-args = args + " --compiler_flags=--formatting=PRETTY_PRINT"
+args = args + " --compiler_flags=--warning_level=VERBOSE"
 
 if debug:
   args = args + " --compiler_flags=--compilation_level=SIMPLE_OPTIMIZATIONS"
+  args = args + " --compiler_flags=--formatting=PRETTY_PRINT"
+  args = args + " --compiler_flags=--define='goog.DEBUG=true'"
 else:
   args = args + " --compiler_flags=--compilation_level=ADVANCED_OPTIMIZATIONS"
-  
-  # Disable debugging
   args = args + " --compiler_flags=--define='goog.DEBUG=false'"
 
 os.system( sys.executable + " " + builder + args + " > bin/" + sys.argv[1] + ".js" )
