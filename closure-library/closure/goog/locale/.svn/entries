@@ -1,15 +1,15 @@
 10
 
 dir
-1237
+1272
 http://closure-library.googlecode.com/svn/trunk/closure/goog/locale
 http://closure-library.googlecode.com/svn
 
 
 
-2011-08-08T20:51:21.000000Z
-1197
-mimisun@google.com
+2011-09-06T22:56:00.000000Z
+1271
+cibu@google.com
 
 
 
@@ -440,11 +440,11 @@ file
 
 
 
-
-6d1f2dddc8fbc49fed9f34270a92d8d0
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
+2011-09-08T16:16:22.000000Z
+33d6d02dea484f22cd417f81837495fc
+2011-09-06T22:56:00.000000Z
+1271
+cibu@google.com
 has-props
 
 
@@ -466,7 +466,7 @@ has-props
 
 
 
-20793
+21709
 
 countrylanguagenames_test.html
 file

@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 45
-/svn/!svn/ver/1139/trunk/closure/goog/net/xpc
+/svn/!svn/ver/1250/trunk/closure/goog/net/xpc
 END
 iframepollingtransport.js
 K 25
@@ -55,7 +55,7 @@ crosspagechannel.js
 K 25
 svn:wc:ra_dav:version-url
 V 65
-/svn/!svn/ver/1122/trunk/closure/goog/net/xpc/crosspagechannel.js
+/svn/!svn/ver/1250/trunk/closure/goog/net/xpc/crosspagechannel.js
 END
 nativemessagingtransport.js
 K 25
