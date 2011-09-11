@@ -84,8 +84,7 @@ Box2D.Dynamics.Contacts.b2ContactFactory.prototype.Create = function(fixtureA, f
             c = createFcn();
             c.Reset(fixtureA, fixtureB);
             return c;
-        }
-        else {
+        } else {
             c = createFcn();
             c.Reset(fixtureB, fixtureA);
             return c;

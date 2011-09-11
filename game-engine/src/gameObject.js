@@ -13,11 +13,11 @@ illandril.game.gameObject = function(position) {
 /**
  * @param {!Box2D.Common.Math.b2Vec2} position
  */
-illandril.game.gameObject.prototype.setPosition = function(newPos) {
+illandril.game.gameObject.prototype.setPosition = function(position) {
     if(this.body) {
-        this.body.SetPosition(newPos);
+        this.body.SetPosition(position);
     } else {
-        this.position = newPos.Copy();
+        this.position = position.Copy();
     }
 };
 

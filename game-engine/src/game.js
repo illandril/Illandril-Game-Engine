@@ -181,7 +181,7 @@ illandril.game.game.addGame = function(g) {
 };
 
 /**
- * @param {?number} time Current time in milliseconds
+ * @param {number=} time Current time in milliseconds
  */
 illandril.game.game._update = function(time) {
     if (time == null) {

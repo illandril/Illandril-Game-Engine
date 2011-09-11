@@ -174,11 +174,11 @@ test.createItem = function(type, location, offset, tileSize, respawn) {
             obj.coinsOutput = 0;
             illandril.game.platformer.initializeDirectionalAction(obj, function(contact){
                 obj.coinsOutput++;
-                nObj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - obj.coinsOutput / obj.coins) * tileSize.y));
+                var nObj = g.getWorld().createScenery(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + (location.y - obj.coinsOutput / obj.coins) * tileSize.y));
                 g.getViewport().setImage(nObj, marioSheet, offsets.coin);
                 if(obj.coinsOutput == obj.coins) {
                     g.getWorld().destroyObject(obj);
-                    var nObj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
+                    nObj = p.createBlock(tileSize, new Box2D.Common.Math.b2Vec2(offset.x + location.x * tileSize.x, offset.y + location.y * tileSize.y));
                     g.getViewport().setImage(nObj, marioSheet, offsets.spentBox);
                 }
             }, illandril.game.platformer.SIDES.BOTTOM);

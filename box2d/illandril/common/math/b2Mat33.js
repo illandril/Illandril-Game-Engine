@@ -6,9 +6,9 @@ goog.provide('Box2D.Common.Math.b2Mat33');
 goog.require('Box2D.Common.Math.b2Vec3');
 
 /**
- * @param {Box2D.Common.Math.b2Vec3} c1
- * @param {Box2D.Common.Math.b2Vec3} c2
- * @param {Box2D.Common.Math.b2Vec3} c3
+ * @param {!Box2D.Common.Math.b2Vec3=} c1
+ * @param {!Box2D.Common.Math.b2Vec3=} c2
+ * @param {!Box2D.Common.Math.b2Vec3=} c3
  * @constructor
  */
 Box2D.Common.Math.b2Mat33 = function(c1, c2, c3) {

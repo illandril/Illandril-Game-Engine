@@ -5,9 +5,9 @@ goog.require('Box2D.Common.Math.b2Vec2');
 
 /**
  * @param {string} url
- * @param {Box2D.Common.Math.b2Vec2} offset Defaults to 0,0
- * @param {Box2D.Common.Math.b2Vec2} sheetSize Defautls to 1,1 - only needed if this is used for animation
- * @param {Box2D.Common.Math.b2Vec2} tileSize Defaults to 1,1 - only needed if this is used for animation
+ * @param {Box2D.Common.Math.b2Vec2=} offset Defaults to 0,0
+ * @param {Box2D.Common.Math.b2Vec2=} sheetSize Defautls to 1,1 - only needed if this is used for animation
+ * @param {Box2D.Common.Math.b2Vec2=} tileSize Defaults to 1,1 - only needed if this is used for animation
  * @constructor
  */
 illandril.game.ui.spriteSheet = function(url, offset, sheetSize, tileSize) {

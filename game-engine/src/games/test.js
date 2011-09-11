@@ -113,18 +113,18 @@ test.createSpinners = function() {
     var weldJointDef = new Box2D.Dynamics.Joints.b2WeldJointDef();
     var flip = false;
     for ( var i = 20; i <= worldSize.x - 10; i += 8 ) {
-        g.getWorld().getBox2DBodyDefinition().angle = i / worldSize.x * Math.PI;
+        var bodyArgs = { angle: i / worldSize.x * Math.PI };
         var y = worldSize.y - 14;
         if ( flip ) {
             y = y + 8;
         }
         flip = !flip;
-        var b0 = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.1, 0.1), new Box2D.Common.Math.b2Vec2(i, y), false /* visible */);
-        var b1 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(i, y));
+        var b0 = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.1, 0.1), new Box2D.Common.Math.b2Vec2(i, y), false /* visible */, bodyArgs);
+        var b1 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(i, y), bodyArgs);
         g.getViewport().setImage(b1, 'graphics/spinner.png');
         illandril.game.platformer.initializeDirectionalSiding(b1, false, true, false, false);
-        var b2 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(i, y));
-        b2.body.SetAngle(g.getWorld().getBox2DBodyDefinition().angle + Math.PI / 2);
+        var b2 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(10, 1), new Box2D.Common.Math.b2Vec2(i, y), bodyArgs);
+        b2.body.SetAngle(bodyArgs.angle + Math.PI / 2);
         g.getViewport().setImage(b2, 'graphics/spinner.png');
         jointDef.Initialize(b0.body, b1.body, b0.body.GetWorldCenter());
         g.getWorld().getBox2DWorld().CreateJoint(jointDef);
@@ -138,7 +138,7 @@ test.createSpinners = function() {
 test.createDebugObjects = function() {
     // Debug Objects
     var bodyArgs = {
-        type: Box2D.Dynamics.b2Body.b2_dynamicBody,
+        type: Box2D.Dynamics.b2BodyDef.b2_dynamicBody,
         fixedRotation: false
     };
     var fixArgs = {

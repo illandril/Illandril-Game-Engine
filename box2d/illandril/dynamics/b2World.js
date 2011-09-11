@@ -21,6 +21,9 @@ goog.require('Box2D.Dynamics.b2Island');
 goog.require('Box2D.Dynamics.b2TimeStep');
 goog.require('Box2D.Dynamics.Contacts.b2ContactSolver');
 goog.require('Box2D.Dynamics.Joints.b2Joint');
+goog.require('Box2D.Dynamics.Joints.b2DistanceJoint');
+goog.require('Box2D.Dynamics.Joints.b2MouseJoint');
+goog.require('Box2D.Dynamics.Joints.b2PulleyJoint');
 
 /**
  * @param {!Box2D.Common.Math.b2Vec2} gravity
@@ -502,7 +505,7 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
              return input.maxFraction;
          }
       };
-      var input = new Box2D.Collision.b2RayCastInput(point1, point2);
+      var input = new Box2D.Collision.b2RayCastInput(point1, point2, 1 /* maxFraction */);
       broadPhase.RayCast(RayCastWrapper, input);
    };
    
@@ -819,11 +822,14 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
         }
         return false;
     };
-
+    
+   /**
+    * @param {!Box2D.Dynamics.Joints.b2Joint} joint
+    */
    b2World.prototype.DrawJoint = function (joint) {
-      if (joint.m_type == Box2D.Dynamics.Joints.b2Joint.e_distanceJoint || joint.m_type == Box2D.Dynamics.Joints.b2Joint.e_mouseJoint ) {
+      if (joint instanceof Box2D.Dynamics.Joints.b2DistanceJoint || joint instanceof Box2D.Dynamics.Joints.b2MouseJoint ) {
          this.m_debugDraw.DrawSegment(joint.GetAnchorA(), joint.GetAnchorB(), b2World.s_jointColor);
-      } else if (joint.m_type == Box2D.Dynamics.Joints.b2Joint.e_pulleyJoint) {
+      } else if (joint instanceof Box2D.Dynamics.Joints.b2PulleyJoint) {
             this.m_debugDraw.DrawSegment(joint.GetGroundAnchorA(), joint.GetAnchorA(), b2World.s_jointColor);
             this.m_debugDraw.DrawSegment(joint.GetGroundAnchorB(), joint.GetAnchorB(), b2World.s_jointColor);
             this.m_debugDraw.DrawSegment(joint.GetGroundAnchorA(), joint.GetGroundAnchorB(), b2World.s_jointColor);
@@ -839,36 +845,25 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
    };
    
    b2World.prototype.DrawShape = function (shape, xf, color) {
-      switch (shape.m_type) {
-      case Box2D.Collision.Shapes.b2Shape.e_circleShape:
-         {
+      if (shape instanceof Box2D.Collision.Shapes.b2CircleShape) {
             var circle = shape;
             var center = Box2D.Common.Math.b2Math.MulX(xf, circle.m_p);
             var radius = circle.m_radius;
             var axis = xf.R.col1;
             this.m_debugDraw.DrawSolidCircle(center, radius, axis, color);
-         }
-         break;
-      case Box2D.Collision.Shapes.b2Shape.e_polygonShape:
-         {
+      } else if (shape instanceof Box2D.Collision.Shapes.b2PolygonShape) {
             var i = 0;
             var poly = shape;
-            var vertexCount = parseInt(poly.GetVertexCount());
+            var vertexCount = poly.GetVertexCount();
             var localVertices = poly.GetVertices();
-            var vertices = new Array(vertexCount);
-            for (i = 0;
-            i < vertexCount; ++i) {
+            var vertices = [];
+            for (i = 0; i < vertexCount; i++) {
                vertices[i] = Box2D.Common.Math.b2Math.MulX(xf, localVertices[i]);
             }
             this.m_debugDraw.DrawSolidPolygon(vertices, vertexCount, color);
-         }
-         break;
-      case Box2D.Collision.Shapes.b2Shape.e_edgeShape:
-         {
+      } else if (shape instanceof Box2D.Collision.Shapes.b2EdgeShape) {
             var edge = shape;
             this.m_debugDraw.DrawSegment(Box2D.Common.Math.b2Math.MulX(xf, edge.GetVertex1()), Box2D.Common.Math.b2Math.MulX(xf, edge.GetVertex2()), color);
-         }
-         break;
       }
    };
   Box2D.Dynamics.b2World.s_xf = new Box2D.Common.Math.b2Transform();

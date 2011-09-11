@@ -43,28 +43,28 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.Set = function(other) {
     }
 };
 
-Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsArray = function(vertices, vertexCount) {
-    if (vertexCount === undefined) vertexCount = 0;
-    var v = [];
-    var i = 0,
-        tVec;
-    for (i = 0; i < vertices.length; ++i) {
-        tVec = vertices[i];
-        v.push(tVec);
-    }
-    this.SetAsVector(v, vertexCount);
+/**
+ * @param {Array.<Box2D.Common.Math.b2Vec2>} vertices
+ */
+Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsArray = function(vertices) {
+    this.SetAsVector(vertices);
 };
 
-Box2D.Collision.Shapes.b2PolygonShape.AsArray = function(vertices, vertexCount) {
-    if (vertexCount === undefined) vertexCount = 0;
+/**
+ * @param {Array.<Box2D.Common.Math.b2Vec2>} vertices
+ * @return {!Box2D.Collision.Shapes.b2PolygonShape}
+ */
+Box2D.Collision.Shapes.b2PolygonShape.AsArray = function(vertices) {
     var polygonShape = new Box2D.Collision.Shapes.b2PolygonShape();
-    polygonShape.SetAsArray(vertices, vertexCount);
+    polygonShape.SetAsArray(vertices);
     return polygonShape;
 };
 
-Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsVector = function(vertices, vertexCount) {
-    if (vertexCount === undefined) vertexCount = 0;
-    if (vertexCount == 0) vertexCount = vertices.length;
+/**
+ * @param {Array.<Box2D.Common.Math.b2Vec2>} vertices
+ */
+Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsVector = function(vertices) {
+    var vertexCount = vertices.length;
     Box2D.Common.b2Settings.b2Assert(2 <= vertexCount);
     this.m_vertexCount = vertexCount;
     this.Reserve(vertexCount);
@@ -83,16 +83,21 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsVector = function(vertices,
     this.m_centroid = Box2D.Collision.Shapes.b2PolygonShape.ComputeCentroid(this.m_vertices, this.m_vertexCount);
 };
 
-Box2D.Collision.Shapes.b2PolygonShape.AsVector = function(vertices, vertexCount) {
-    if (vertexCount === undefined) vertexCount = 0;
+/**
+ * @param {Array.<Box2D.Common.Math.b2Vec2>} vertices
+ * @return {!Box2D.Collision.Shapes.b2PolygonShape}
+ */
+Box2D.Collision.Shapes.b2PolygonShape.AsVector = function(vertices) {
     var polygonShape = new Box2D.Collision.Shapes.b2PolygonShape();
-    polygonShape.SetAsVector(vertices, vertexCount);
+    polygonShape.SetAsVector(vertices);
     return polygonShape;
 };
 
+/**
+ * @param {number} hx
+ * @param {number} hy
+ */
 Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsBox = function(hx, hy) {
-    if (hx === undefined) hx = 0;
-    if (hy === undefined) hy = 0;
     this.m_vertexCount = 4;
     this.Reserve(4);
     this.m_vertices[0].Set((-hx), (-hy));
@@ -106,9 +111,12 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsBox = function(hx, hy) {
     this.m_centroid.SetZero();
 };
 
+/**
+ * @param {number} hx
+ * @param {number} hy
+ * @return {!Box2D.Collision.Shapes.b2PolygonShape}
+ */
 Box2D.Collision.Shapes.b2PolygonShape.AsBox = function(hx, hy) {
-    if (hx === undefined) hx = 0;
-    if (hy === undefined) hy = 0;
     var polygonShape = new Box2D.Collision.Shapes.b2PolygonShape();
     polygonShape.SetAsBox(hx, hy);
     return polygonShape;

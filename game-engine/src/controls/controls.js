@@ -1,3 +1,8 @@
+/**
+ * @preserve Copyright (c) 2011, Joseph Spandrusyszyn
+ * See https://github.com/illandril/Illandril-Game-Engine.
+ */
+
 goog.provide('illandril.game.controls.keyHandler');
 
 goog.require('goog.events');
@@ -25,7 +30,7 @@ illandril.game.controls.keyHandler = function(name) {
  * @param {number} time
  * @param {number} tick
  */
-illandril.game.controls.keyHandler.prototype.handleKeyEvents = function(time, tick) {
+illandril.game.controls.keyHandler.prototype.handleKeyEvents = function(time, tickTime) {
     var activeKeys = 0;
     var modifierRepeat = illandril.game.controls.keyHandler.modifierKeyStates.CTRL == illandril.game.controls.keyHandler.modifierKeyStates.CTRL_LAST && illandril.game.controls.keyHandler.modifierKeyStates.ALT == illandril.game.controls.keyHandler.modifierKeyStates.ALT_LAST && illandril.game.controls.keyHandler.modifierKeyStates.SHIFT == illandril.game.controls.keyHandler.modifierKeyStates.SHIFT_LAST;
     for (var keyCode in illandril.game.controls.keyHandler.keyStates) {
@@ -35,7 +40,7 @@ illandril.game.controls.keyHandler.prototype.handleKeyEvents = function(time, ti
         var key = illandril.game.controls.keyHandler.getKeyEventKey(keyCode, illandril.game.controls.keyHandler.modifierKeyStates.CTRL, illandril.game.controls.keyHandler.modifierKeyStates.ALT, illandril.game.controls.keyHandler.modifierKeyStates.SHIFT);
         if (this.actionToRegister == null) {
             if (this.controls[key] != null && (!repeat || this.controls[key].executeOnRepeat)) {
-                this.controls[key].execute(tick);
+                this.controls[key].execute(tickTime);
             }
         }
     }
@@ -54,10 +59,10 @@ illandril.game.controls.keyHandler.prototype.handleKeyEvents = function(time, ti
 };
 
 /**
- * @param {!illandril.game.controls.action} action
+ * @param {!illandril.game.controls.action}
  */
 illandril.game.controls.keyHandler.prototype.getKeyForAction = function(action) {
-    return this.reverseControls[action.name];
+    return this.reverseControls[action];
 };
 
 illandril.game.controls.keyHandler.prototype.registerAction = function(action, keyCodeOrKey, ctrl, alt, shift) {

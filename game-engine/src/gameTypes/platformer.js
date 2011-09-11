@@ -218,6 +218,11 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
         }
     };
     
+    /**
+     * @param {!illandril.game.gameObject} platform
+     * @param {!Box2D.Common.Math.b2Vec2} respawnPoint
+     * @param {number=} filter
+     */
     platformer.initializeDeathTrigger = function(platform, respawnPoint, filter) {
         platform.platformerRules = platform.platformerRules || {};
         platform.platformerRules.type |= platformer.RULE_TYPES.DEATHTRIGGER;
@@ -455,7 +460,7 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
         var self = this;
         platformer.initializeDirectionalAction(obj, function(contact){
             self.game.getWorld().destroyObject(obj);
-        }, weakSides);
+        }, weakSides /* sidesOnBegin */, null /* sidesOnEnd */);
     };
     
     platformer.prototype.createBreakableBlock = function(size, position, weakSides) {

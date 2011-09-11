@@ -9,7 +9,7 @@ goog.require('Box2D.Common.Math.b2Vec2');
  * @constructor
  */
 Box2D.Dynamics.Contacts.b2ContactConstraintPoint = function() {
-      this.localPoint = new Box2D.Common.Math.b2Vec2();
-      this.rA = new Box2D.Common.Math.b2Vec2();
-      this.rB = new Box2D.Common.Math.b2Vec2();
+      this.localPoint = new Box2D.Common.Math.b2Vec2(0, 0);
+      this.rA = new Box2D.Common.Math.b2Vec2(0, 0);
+      this.rB = new Box2D.Common.Math.b2Vec2(0, 0);
 };
