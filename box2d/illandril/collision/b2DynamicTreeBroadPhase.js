@@ -15,6 +15,7 @@ Box2D.Collision.b2DynamicTreeBroadPhase = function() {
     this.m_moveBuffer = [];
     this.m_pairBuffer = [];
     this.m_pairCount = 0;
+    this.m_proxyCount = 0;
 };
 
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.CreateProxy = function(aabb, userData) {
@@ -57,38 +58,39 @@ Box2D.Collision.b2DynamicTreeBroadPhase.prototype.GetProxyCount = function() {
 
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.UpdatePairs = function(callback) {
     var __this = this;
-    __this.m_pairCount = 0;
-    for (var i = 0; i < __this.m_moveBuffer.length; ++i) {
-        var queryProxy = __this.m_moveBuffer[i];
-
+    this.m_pairCount = 0;
+    for (var i = 0; i < this.m_moveBuffer.length; i++) {
+        var queryProxy = this.m_moveBuffer[i];
+        
         var QueryCallback = function(proxy) {
-                if (proxy == queryProxy) {
-                    return true;
-                }
-                if (__this.m_pairCount == __this.m_pairBuffer.length) {
-                    __this.m_pairBuffer[__this.m_pairCount] = new Box2D.Collision.b2DynamicTreePair();
-                }
-                var pair = __this.m_pairBuffer[__this.m_pairCount];
-                pair.proxyA = proxy < queryProxy ? proxy : queryProxy;
-                pair.proxyB = proxy >= queryProxy ? proxy : queryProxy;
-                __this.m_pairCount++;
+            if (proxy == queryProxy) {
                 return true;
-            };
-        var fatAABB = __this.m_tree.GetFatAABB(queryProxy);
-        __this.m_tree.Query(QueryCallback, fatAABB);
+            }
+            if (__this.m_pairCount == __this.m_pairBuffer.length) {
+                __this.m_pairBuffer[__this.m_pairCount] = new Box2D.Collision.b2DynamicTreePair();
+            }
+            var pair = __this.m_pairBuffer[__this.m_pairCount];
+            pair.proxyA = proxy < queryProxy ? proxy : queryProxy;
+            pair.proxyB = proxy >= queryProxy ? proxy : queryProxy;
+            __this.m_pairCount++;
+            return true;
+        };
+        var fatAABB = this.m_tree.GetFatAABB(queryProxy);
+        this.m_tree.Query(QueryCallback, fatAABB);
     }
-    __this.m_moveBuffer.length = 0;
-    for (var i = 0; i < __this.m_pairCount;) {
-        var primaryPair = __this.m_pairBuffer[i];
-        var userDataA = __this.m_tree.GetUserData(primaryPair.proxyA);
-        var userDataB = __this.m_tree.GetUserData(primaryPair.proxyB);
+    this.m_moveBuffer.length = 0;
+    for (var i = 0; i < this.m_pairCount;) {
+        var primaryPair = this.m_pairBuffer[i];
+        var userDataA = this.m_tree.GetUserData(primaryPair.proxyA);
+        var userDataB = this.m_tree.GetUserData(primaryPair.proxyB);
         callback(userDataA, userDataB);
         i++;
-        while (i < __this.m_pairCount) {
-            var pair = __this.m_pairBuffer[i];
+        while (i < this.m_pairCount) {
+            var pair = this.m_pairBuffer[i];
             if (pair.proxyA != primaryPair.proxyA || pair.proxyB != primaryPair.proxyB) {
                 break;
-            }++i;
+            }
+            i++;
         }
     }
 };
@@ -97,6 +99,10 @@ Box2D.Collision.b2DynamicTreeBroadPhase.prototype.Query = function(callback, aab
     this.m_tree.Query(callback, aabb);
 };
 
+/**
+ * @param {function(!Box2D.Collision.b2RayCastInput, !Box2D.Collision.b2DynamicTreeNode): number} callback
+ * @param {!Box2D.Collision.b2RayCastInput} input
+ */
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.RayCast = function(callback, input) {
     this.m_tree.RayCast(callback, input);
 };

@@ -76,22 +76,6 @@ Box2D.Dynamics.b2Body = function(bd, world) {
     this.m_fixtureCount = 0;
 };
 
-Box2D.Dynamics.b2Body.prototype.connectEdges = function(s1, s2, angle1) {
-    if (angle1 === undefined) angle1 = 0;
-    var angle2 = Math.atan2(s2.GetDirectionVector().y, s2.GetDirectionVector().x);
-    var coreOffset = Math.tan((angle2 - angle1) * 0.5);
-    var core = Box2D.Common.Math.b2Math.MulFV(coreOffset, s2.GetDirectionVector());
-    core = Box2D.Common.Math.b2Math.SubtractVV(core, s2.GetNormalVector());
-    core = Box2D.Common.Math.b2Math.MulFV(Box2D.Common.b2Settingsb2Settings.b2_toiSlop, core);
-    core = Box2D.Common.Math.b2Math.AddVV(core, s2.GetVertex1());
-    var cornerDir = Box2D.Common.Math.b2Math.AddVV(s1.GetDirectionVector(), s2.GetDirectionVector());
-    cornerDir.Normalize();
-    var convex = Box2D.Common.Math.b2Math.Dot(s1.GetDirectionVector(), s2.GetNormalVector()) > 0.0;
-    s1.SetNextEdge(s2, core, cornerDir, convex);
-    s2.SetPrevEdge(s1, core, cornerDir, convex);
-    return angle2;
-};
-
 Box2D.Dynamics.b2Body.prototype.CreateFixture = function(def) {
     if (this.m_world.IsLocked() == true) {
         return null;

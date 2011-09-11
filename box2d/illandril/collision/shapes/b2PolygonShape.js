@@ -114,11 +114,13 @@ Box2D.Collision.Shapes.b2PolygonShape.AsBox = function(hx, hy) {
     return polygonShape;
 };
 
+/**
+ * @param {number} hx
+ * @param {number} hy
+ * @param {!Box2D.Common.Math.b2Vec2} center
+ * @param {number} angle
+ */
 Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsOrientedBox = function(hx, hy, center, angle) {
-    if (hx === undefined) hx = 0;
-    if (hy === undefined) hy = 0;
-    if (center === undefined) center = null;
-    if (angle === undefined) angle = 0.0;
     this.m_vertexCount = 4;
     this.Reserve(4);
     this.m_vertices[0].Set((-hx), (-hy));
@@ -130,9 +132,9 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsOrientedBox = function(hx, 
     this.m_normals[2].Set(0.0, 1.0);
     this.m_normals[3].Set((-1.0), 0.0);
     this.m_centroid = center;
-    var xf = new Box2D.Common.Math.b2Transform();
-    xf.position = center;
-    xf.R.Set(angle);
+    var mat = new Box2D.Common.Math.b2Mat22();
+    mat.Set(angle);
+    var xf = new Box2D.Common.Math.b2Transform(center, mat);
     for (var i = 0; i < this.m_vertexCount; ++i) {
         this.m_vertices[i] = Box2D.Common.Math.b2Math.MulX(xf, this.m_vertices[i]);
         this.m_normals[i] = Box2D.Common.Math.b2Math.MulMV(xf.R, this.m_normals[i]);
@@ -430,8 +432,12 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.Validate = function() {
     return false;
 };
 
+/**
+ * @param {number} count
+ */
 Box2D.Collision.Shapes.b2PolygonShape.prototype.Reserve = function(count) {
-    if (count === undefined) count = 0;
+    this.m_vertices = [];
+    this.m_normals = [];
     for (var i = this.m_vertices.length; i < count; i++) {
         this.m_vertices[i] = new Box2D.Common.Math.b2Vec2(0, 0);
         this.m_normals[i] = new Box2D.Common.Math.b2Vec2(0, 0);
@@ -461,56 +467,6 @@ Box2D.Collision.Shapes.b2PolygonShape.ComputeCentroid = function(vs, count) {
     c.x *= 1.0 / area;
     c.y *= 1.0 / area;
     return c;
-};
-
-Box2D.Collision.Shapes.b2PolygonShape.ComputeOBB = function(obb, vs, count) {
-    if (count === undefined) count = 0;
-    var i = 0;
-    var p = new Array(count + 1);
-    for (i = 0; i < count; ++i) {
-        p[i] = vs[i];
-    }
-    p[count] = p[0];
-    var minArea = Number.MAX_VALUE;
-    for (i = 1; i <= count; ++i) {
-        var root = p[i - 1];
-        var uxX = p[i].x - root.x;
-        var uxY = p[i].y - root.y;
-        var length = Math.sqrt(uxX * uxX + uxY * uxY);
-        uxX /= length;
-        uxY /= length;
-        var uyX = (-uxY);
-        var uyY = uxX;
-        var lowerX = Number.MAX_VALUE;
-        var lowerY = Number.MAX_VALUE;
-        var upperX = (-Number.MAX_VALUE);
-        var upperY = (-Number.MAX_VALUE);
-        for (var j = 0; j < count; ++j) {
-            var dX = p[j].x - root.x;
-            var dY = p[j].y - root.y;
-            var rX = (uxX * dX + uxY * dY);
-            var rY = (uyX * dX + uyY * dY);
-            if (rX < lowerX) lowerX = rX;
-            if (rY < lowerY) lowerY = rY;
-            if (rX > upperX) upperX = rX;
-            if (rY > upperY) upperY = rY;
-        }
-        var area = (upperX - lowerX) * (upperY - lowerY);
-        if (area < 0.95 * minArea) {
-            minArea = area;
-            obb.R.col1.x = uxX;
-            obb.R.col1.y = uxY;
-            obb.R.col2.x = uyX;
-            obb.R.col2.y = uyY;
-            var centerX = 0.5 * (lowerX + upperX);
-            var centerY = 0.5 * (lowerY + upperY);
-            var tMat = obb.R;
-            obb.center.x = root.x + (tMat.col1.x * centerX + tMat.col2.x * centerY);
-            obb.center.y = root.y + (tMat.col1.y * centerX + tMat.col2.y * centerY);
-            obb.extents.x = 0.5 * (upperX - lowerX);
-            obb.extents.y = 0.5 * (upperY - lowerY);
-        }
-    }
 };
 
 Box2D.Collision.Shapes.b2PolygonShape.s_mat = new Box2D.Common.Math.b2Mat22();

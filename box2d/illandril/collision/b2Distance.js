@@ -75,7 +75,7 @@ Box2D.Collision.b2Distance.Distance = function(output, cache, input) {
             output.pointB.x -= rB * normal.x;
             output.pointB.y -= rB * normal.y;
         } else {
-            var p = new Box2D.Common.Math.b2Vec2();
+            var p = new Box2D.Common.Math.b2Vec2(0, 0);
             p.x = 0.5 * (output.pointA.x + output.pointB.x);
             p.y = 0.5 * (output.pointA.y + output.pointB.y);
             output.pointA.x = output.pointB.x = p.x;

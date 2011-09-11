@@ -11,8 +11,8 @@ goog.require('Box2D.Collision.b2ContactID');
  * @constructor
  */
 Box2D.Collision.b2ContactPoint = function() {
-    this.position = new Box2D.Common.Math.b2Vec2();
-    this.velocity = new Box2D.Common.Math.b2Vec2();
-    this.normal = new Box2D.Common.Math.b2Vec2();
+    this.position = new Box2D.Common.Math.b2Vec2(0, 0);
+    this.velocity = new Box2D.Common.Math.b2Vec2(0, 0);
+    this.normal = new Box2D.Common.Math.b2Vec2(0, 0);
     this.id = new Box2D.Collision.b2ContactID();
 };

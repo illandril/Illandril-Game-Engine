@@ -10,8 +10,13 @@ goog.require('Box2D.Common.Math.b2Vec2');
 
 Box2D.Collision.b2Collision = {};
 
+/**
+ * @param {!Box2D.Common.Math.b2Vec2} vOut
+ * @param {!Box2D.Common.Math.b2Vec2} vIn
+ * @param {!Box2D.Common.Math.b2Vec2} normal
+ * @param {number} offset
+ */
 Box2D.Collision.b2Collision.ClipSegmentToLine = function(vOut, vIn, normal, offset) {
-    if (offset === undefined) offset = 0;
     var numOut = 0;
     var vIn0 = vIn[0].v;
     var vIn1 = vIn[1].v;
@@ -367,11 +372,11 @@ Box2D.Collision.b2Collision.s_clipPoints1 = Box2D.Collision.b2Collision.MakeClip
 Box2D.Collision.b2Collision.s_clipPoints2 = Box2D.Collision.b2Collision.MakeClipPointVector();
 Box2D.Collision.b2Collision.s_edgeAO = [0];
 Box2D.Collision.b2Collision.s_edgeBO = [0];
-Box2D.Collision.b2Collision.s_localTangent = new Box2D.Common.Math.b2Vec2();
-Box2D.Collision.b2Collision.s_localNormal = new Box2D.Common.Math.b2Vec2();
-Box2D.Collision.b2Collision.s_planePoint = new Box2D.Common.Math.b2Vec2();
-Box2D.Collision.b2Collision.s_normal = new Box2D.Common.Math.b2Vec2();
-Box2D.Collision.b2Collision.s_tangent = new Box2D.Common.Math.b2Vec2();
-Box2D.Collision.b2Collision.s_tangent2 = new Box2D.Common.Math.b2Vec2();
-Box2D.Collision.b2Collision.s_v11 = new Box2D.Common.Math.b2Vec2();
-Box2D.Collision.b2Collision.s_v12 = new Box2D.Common.Math.b2Vec2();
+Box2D.Collision.b2Collision.s_localTangent = new Box2D.Common.Math.b2Vec2(0, 0);
+Box2D.Collision.b2Collision.s_localNormal = new Box2D.Common.Math.b2Vec2(0, 0);
+Box2D.Collision.b2Collision.s_planePoint = new Box2D.Common.Math.b2Vec2(0, 0);
+Box2D.Collision.b2Collision.s_normal = new Box2D.Common.Math.b2Vec2(0, 0);
+Box2D.Collision.b2Collision.s_tangent = new Box2D.Common.Math.b2Vec2(0, 0);
+Box2D.Collision.b2Collision.s_tangent2 = new Box2D.Common.Math.b2Vec2(0, 0);
+Box2D.Collision.b2Collision.s_v11 = new Box2D.Common.Math.b2Vec2(0, 0);
+Box2D.Collision.b2Collision.s_v12 = new Box2D.Common.Math.b2Vec2(0, 0);

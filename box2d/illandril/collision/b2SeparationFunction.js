@@ -51,8 +51,7 @@ Box2D.Collision.b2SeparationFunction.prototype.Initialize = function(cache, prox
         this.m_axis.x = pointBX - pointAX;
         this.m_axis.y = pointBY - pointAY;
         this.m_axis.Normalize();
-    }
-    else if (cache.indexB[0] == cache.indexB[1]) {
+    } else if (cache.indexB[0] == cache.indexB[1]) {
         this.m_type = Box2D.Collision.b2SeparationFunction.e_faceA;
         localPointA1 = this.m_proxyA.GetVertex(cache.indexA[0]);
         localPointA2 = this.m_proxyA.GetVertex(cache.indexA[1]);
@@ -77,8 +76,7 @@ Box2D.Collision.b2SeparationFunction.prototype.Initialize = function(cache, prox
         if (s < 0.0) {
             this.m_axis.NegativeSelf();
         }
-    }
-    else if (cache.indexA[0] == cache.indexA[0]) {
+    } else if (cache.indexA[0] == cache.indexA[0]) {
         this.m_type = Box2D.Collision.b2SeparationFunction.e_faceB;
         localPointB1 = this.m_proxyB.GetVertex(cache.indexB[0]);
         localPointB2 = this.m_proxyB.GetVertex(cache.indexB[1]);
@@ -103,15 +101,12 @@ Box2D.Collision.b2SeparationFunction.prototype.Initialize = function(cache, prox
         if (s < 0.0) {
             this.m_axis.NegativeSelf();
         }
-    }
-    else {
+    } else {
         localPointA1 = this.m_proxyA.GetVertex(cache.indexA[0]);
         localPointA2 = this.m_proxyA.GetVertex(cache.indexA[1]);
         localPointB1 = this.m_proxyB.GetVertex(cache.indexB[0]);
         localPointB2 = this.m_proxyB.GetVertex(cache.indexB[1]);
-        var pA = Box2D.Common.Math.b2Math.MulX(transformA, localPointA);
         var dA = Box2D.Common.Math.b2Math.MulMV(transformA.R, Box2D.Common.Math.b2Math.SubtractVV(localPointA2, localPointA1));
-        var pB = Box2D.Common.Math.b2Math.MulX(transformB, localPointB);
         var dB = Box2D.Common.Math.b2Math.MulMV(transformB.R, Box2D.Common.Math.b2Math.SubtractVV(localPointB2, localPointB1));
         var a = dA.x * dA.x + dA.y * dA.y;
         var e = dB.x * dB.x + dB.y * dB.y;
@@ -156,8 +151,7 @@ Box2D.Collision.b2SeparationFunction.prototype.Initialize = function(cache, prox
             if (s < 0.0) {
                 this.m_axis.NegativeSelf();
             }
-        }
-        else {
+        } else {
             this.m_type = Box2D.Collision.b2SeparationFunction.e_faceA;
             this.m_axis = Box2D.Common.Math.b2Math.CrossVF(Box2D.Common.Math.b2Math.SubtractVV(localPointA2, localPointA1), 1.0);
             this.m_localPoint = localPointA;

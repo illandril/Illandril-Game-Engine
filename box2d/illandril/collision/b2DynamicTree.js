@@ -163,11 +163,8 @@ Box2D.Collision.b2DynamicTree.prototype.RayCast = function(callback, input) {
             continue;
         }
         if (node.IsLeaf()) {
-            var subInput = new Box2D.Collision.b2RayCastInput();
-            subInput.p1 = input.p1.Copy();
-            subInput.p2 = input.p2.Copy();
-            subInput.maxFraction = input.maxFraction;
-            maxFraction = callback(input.p1, node);
+            var subInput = new Box2D.Collision.b2RayCastInput(input.p1, input.p2, input.maxFraction);
+            maxFraction = callback(input, node);
             if (maxFraction == 0.0) {
                 return;
             }

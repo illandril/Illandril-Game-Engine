@@ -9,8 +9,8 @@ goog.require('Box2D.Common.Math.b2Vec2');
  * @constructor
  */
 Box2D.Collision.b2AABB = function() {
-    this.lowerBound = new Box2D.Common.Math.b2Vec2();
-    this.upperBound = new Box2D.Common.Math.b2Vec2();
+    this.lowerBound = new Box2D.Common.Math.b2Vec2(0, 0);
+    this.upperBound = new Box2D.Common.Math.b2Vec2(0, 0);
 };
 
 /**

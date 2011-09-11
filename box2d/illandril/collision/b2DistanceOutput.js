@@ -9,6 +9,6 @@ goog.require('Box2D.Common.Math.b2Vec2');
  * @constructor
  */
 Box2D.Collision.b2DistanceOutput = function () {
-    this.pointA = new Box2D.Common.Math.b2Vec2();
-    this.pointB = new Box2D.Common.Math.b2Vec2();
+    this.pointA = new Box2D.Common.Math.b2Vec2(0, 0);
+    this.pointB = new Box2D.Common.Math.b2Vec2(0, 0);
 };

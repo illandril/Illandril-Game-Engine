@@ -65,7 +65,6 @@ Box2D.Common.Math.b2Mat22.prototype.Copy = function() {
 
 /**
  * @param {!Box2D.Common.Math.b2Mat22} m
- * @return {!Box2D.Common.Math.b2Mat22}
  */
 Box2D.Common.Math.b2Mat22.prototype.SetM = function(m) {
     this.col1.SetV(m.col1);
@@ -74,7 +73,6 @@ Box2D.Common.Math.b2Mat22.prototype.SetM = function(m) {
 
 /**
  * @param {!Box2D.Common.Math.b2Mat22} m
- * @return {!Box2D.Common.Math.b2Mat22}
  */
 Box2D.Common.Math.b2Mat22.prototype.AddM = function(m) {
     this.col1.Add(m.col1);
@@ -104,8 +102,8 @@ Box2D.Common.Math.b2Mat22.prototype.GetAngle = function() {
  */
 Box2D.Common.Math.b2Mat22.prototype.GetInverse = function(out) {
     var det = this.col1.x * this.col2.y - this.col2.x * this.col1.y;
-    if (det != 0.0) {
-        det = 1.0 / det;
+    if (det !== 0) {
+        det = 1 / det;
     }
     out.col1.x = det * this.col2.y;
     out.col2.x = -det * this.col2.x;
@@ -118,12 +116,12 @@ Box2D.Common.Math.b2Mat22.prototype.GetInverse = function(out) {
  * @param {!Box2D.Common.Math.b2Vec2} out
  * @param {number} bX
  * @param {number} bY
- * @return {!Box2D.Common.Math.bVec3}
+ * @return {!Box2D.Common.Math.b2Vec2}
  */
 Box2D.Common.Math.b2Mat22.prototype.Solve = function(out, bX, bY) {
     var det = this.col1.x * this.col2.y - this.col2.x * this.col1.y;
-    if (det != 0.0) {
-        det = 1.0 / det;
+    if (det !== 0) {
+        det = 1 / det;
     }
     out.x = det * (this.col2.y * bX - this.col2.x * bY);
     out.y = det * (this.col1.x * bY - this.col1.y * bX);

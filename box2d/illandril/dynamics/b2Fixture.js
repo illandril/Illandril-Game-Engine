@@ -86,6 +86,11 @@ Box2D.Dynamics.b2Fixture.prototype.TestPoint = function(p) {
     return this.m_shape.TestPoint(this.m_body.GetTransform(), p);
 };
 
+/**
+ * @param {!Box2D.Collision.b2RayCastOutput} output
+ * @param {!Box2D.Collision.b2RayCastInput} input
+ * @return {boolean}
+ */
 Box2D.Dynamics.b2Fixture.prototype.RayCast = function(output, input) {
     return this.m_shape.RayCast(output, input, this.m_body.GetTransform());
 };

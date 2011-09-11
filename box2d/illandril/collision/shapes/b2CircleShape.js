@@ -24,7 +24,7 @@ goog.inherits(Box2D.Collision.Shapes.b2CircleShape, Box2D.Collision.Shapes.b2Sha
  * @return {!Box2D.Collision.Shapes.b2CircleShape}
  */
 Box2D.Collision.Shapes.b2CircleShape.prototype.Copy = function() {
-    var s = new Box2D.Collision.Shapes.b2CircleShape();
+    var s = new Box2D.Collision.Shapes.b2CircleShape(this.m_radius);
     s.Set(this);
     return s;
 };

@@ -478,10 +478,19 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
       broadPhase.Query(WorldQueryWrapper, aabb);
    };
    
+   /**
+    * @param {function(!Box2D.Dynamics.b2Fixture, !Box2D.Common.Math.b2Vec2, !Box2D.Common.Math.b2Vec2, number): number} callback
+    * @param {!Box2D.Common.Math.b2Vec2} point1
+    * @param {!Box2D.Common.Math.b2Vec2} point2
+    */
    b2World.prototype.RayCast = function (callback, point1, point2) {
       var broadPhase = this.m_contactManager.m_broadPhase;
       var output = new Box2D.Collision.b2RayCastOutput();
-
+      
+      /**
+       * @param {!Box2D.Collision.b2RayCastInput} input
+       * @param {!Box2D.Collision.b2DynamicTreeNode} proxy
+       */
       var RayCastWrapper = function(input, proxy) {
          var fixture = broadPhase.GetUserData(proxy);
          var hit = fixture.RayCast(output, input);
@@ -497,11 +506,21 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
       broadPhase.RayCast(RayCastWrapper, input);
    };
    
+   /**
+    * @param {!Box2D.Common.Math.b2Vec2} point1
+    * @param {!Box2D.Common.Math.b2Vec2} point2
+    * @return {Box2D.Dynamics.b2Fixture}
+    */
    b2World.prototype.RayCastOne = function (point1, point2) {
-      var result;
-
+      var result = null;
+      /**
+       * @param {!Box2D.Dynamics.b2Fixture} fixture
+       * @param {!Box2D.Common.Math.b2Vec2} point
+       * @param {!Box2D.Common.Math.b2Vec2} normal
+       * @param {number} fraction
+       * @return {number}
+       */
       var RayCastOneWrapper = function(fixture, point, normal, fraction) {
-         if (fraction === undefined) fraction = 0;
          result = fixture;
          return fraction;
       };
@@ -509,12 +528,23 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
       return result;
    };
    
+   /**
+    * @param {!Box2D.Common.Math.b2Vec2} point1
+    * @param {!Box2D.Common.Math.b2Vec2} point2
+    * @return {Array.<Box2D.Dynamics.b2Fixture>}
+    */
    b2World.prototype.RayCastAll = function (point1, point2) {
       var result = [];
 
-      var RayCastAllWrapper = function(fixture, point, normal, fraction) {
-         if (fraction === undefined) fraction = 0;
-         result[result.length] = fixture;
+      /**
+       * @param {!Box2D.Dynamics.b2Fixture} fixture
+       * @param {!Box2D.Common.Math.b2Vec2} point
+       * @param {!Box2D.Common.Math.b2Vec2} normal
+       * @param {number} fraction
+       * @return {number}
+       */
+       var RayCastAllWrapper = function(fixture, point, normal, fraction) {
+         result.push(fixture);
          return 1;
       };
       this.RayCast(RayCastAllWrapper, point1, point2);

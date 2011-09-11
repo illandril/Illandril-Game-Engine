@@ -130,7 +130,7 @@ Box2D.Common.Math.b2Math.DistanceSquared = function (a, b) {
 /**
  * @param {number} s
  * @param {!Box2D.Common.Math.b2Vec2} a
- * @return {number}
+ * @return {!Box2D.Common.Math.b2Vec2}
  */
 Box2D.Common.Math.b2Math.MulFV = function (s, a) {
   return new Box2D.Common.Math.b2Vec2(s * a.x, s * a.y);
