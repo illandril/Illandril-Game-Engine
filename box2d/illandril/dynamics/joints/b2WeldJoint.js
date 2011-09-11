@@ -34,13 +34,19 @@ Box2D.Dynamics.Joints.b2WeldJoint.prototype.GetAnchorB = function() {
     return this.m_bodyB.GetWorldPoint(this.m_localAnchorB);
 };
 
+/**
+ * @param {number} inv_dt
+ * @return {!Box2D.Common.Math.b2Vec2}
+ */
 Box2D.Dynamics.Joints.b2WeldJoint.prototype.GetReactionForce = function(inv_dt) {
-    if (inv_dt === undefined) inv_dt = 0;
-    return new b2Vec2(inv_dt * this.m_impulse.x, inv_dt * this.m_impulse.y);
+    return new Box2D.Common.Math.b2Vec2(inv_dt * this.m_impulse.x, inv_dt * this.m_impulse.y);
 };
 
+/**
+ * @param {number} inv_dt
+ * @return {number}
+ */
 Box2D.Dynamics.Joints.b2WeldJoint.prototype.GetReactionTorque = function(inv_dt) {
-    if (inv_dt === undefined) inv_dt = 0;
     return inv_dt * this.m_impulse.z;
 };
 

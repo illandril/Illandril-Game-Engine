@@ -82,7 +82,7 @@ Box2D.Dynamics.b2Body.prototype.connectEdges = function(s1, s2, angle1) {
     var coreOffset = Math.tan((angle2 - angle1) * 0.5);
     var core = Box2D.Common.Math.b2Math.MulFV(coreOffset, s2.GetDirectionVector());
     core = Box2D.Common.Math.b2Math.SubtractVV(core, s2.GetNormalVector());
-    core = Box2D.Common.Math.b2Math.MulFV(b2Settings.b2_toiSlop, core);
+    core = Box2D.Common.Math.b2Math.MulFV(Box2D.Common.b2Settingsb2Settings.b2_toiSlop, core);
     core = Box2D.Common.Math.b2Math.AddVV(core, s2.GetVertex1());
     var cornerDir = Box2D.Common.Math.b2Math.AddVV(s1.GetDirectionVector(), s2.GetDirectionVector());
     cornerDir.Normalize();

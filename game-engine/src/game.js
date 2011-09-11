@@ -144,7 +144,7 @@ illandril.game.game.MAX_TICK = 0.2; // About 5 FPS
 illandril.game.game.isRunning = false;
 
 /**
- * @type {Array.<game.game>
+ * @type {Array.<illandril.game.game>}
  */
 illandril.game.game.games = [];
 

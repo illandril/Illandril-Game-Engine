@@ -134,8 +134,8 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.SetAsOrientedBox = function(hx, 
     xf.position = center;
     xf.R.Set(angle);
     for (var i = 0; i < this.m_vertexCount; ++i) {
-        this.m_vertices[i] = b2Math.MulX(xf, this.m_vertices[i]);
-        this.m_normals[i] = b2Math.MulMV(xf.R, this.m_normals[i]);
+        this.m_vertices[i] = Box2D.Common.Math.b2Math.MulX(xf, this.m_vertices[i]);
+        this.m_normals[i] = Box2D.Common.Math.b2Math.MulMV(xf.R, this.m_normals[i]);
     }
 };
 

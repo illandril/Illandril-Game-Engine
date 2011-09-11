@@ -110,7 +110,7 @@ Box2D.Collision.Shapes.b2CircleShape.prototype.ComputeMass = function(massData, 
 
 /**
  * @param {!Box2D.Common.Math.b2Vec2} normal
- * @param {number}
+ * @param {number} offset
  * @param {!Box2D.Common.Math.b2Transform} xf
  * @param {!Box2D.Common.Math.b2Vec2} c
  * @return {number}

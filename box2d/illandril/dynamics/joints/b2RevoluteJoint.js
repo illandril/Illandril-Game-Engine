@@ -128,7 +128,6 @@ Box2D.Dynamics.Joints.b2RevoluteJoint.prototype.InitVelocityConstraints = functi
     var bB = this.m_bodyB;
     var tMat;
     var tX = 0;
-    if (this.m_enableMotor || this.m_enableLimit) {}
     tMat = bA.m_xf.R;
     var r1X = this.m_localAnchor1.x - bA.m_sweep.localCenter.x;
     var r1Y = this.m_localAnchor1.y - bA.m_sweep.localCenter.y;

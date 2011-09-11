@@ -145,14 +145,6 @@ illandril.game.world.prototype.PostSolve = function(contact, impulse) {
     }
 };
 
-illandril.game.world.prototype.getBox2DBodyDefinition = function() {
-    return illandril.game.world.bodyDefinition;
-};
-
-illandril.game.world.prototype.getBox2DFixtureDefinition = function() {
-    return illandril.game.world.fixtureDefinition;
-};
-
 illandril.game.world.prototype.getWorldWidth = function() {
     return this.worldSize.x;
 };
@@ -225,13 +217,13 @@ illandril.game.world.prototype._createObject = function(size, position, visible)
 illandril.game.world.prototype._createBox2DObject = function(object, size, position, shape, args) {
     args = args || {};
     var bodyArgs = illandril.game.world.argsOrBodyDefaults(args.bodyArgs);
-    var bodyDef = this.getBox2DBodyDefinition();
+    var bodyDef = new Box2D.Dynamics.b2BodyDef();
     bodyDef.type = bodyArgs.type;
     bodyDef.angle = bodyArgs.angle;
     bodyDef.fixedRotation = bodyArgs.fixedRotation;
     bodyDef.position = position;
     var body = this.b2World.CreateBody(bodyDef);
-    fixture = this.addFixture(body, shape, args);
+    var fixture = this.addFixture(body, shape, args);
     object.body = body;
     object.fixture = fixture;
     body.object = object;
@@ -241,7 +233,7 @@ illandril.game.world.prototype._createBox2DObject = function(object, size, posit
 illandril.game.world.prototype.addFixture = function(body, shape, args) {
     args = args || {};
     var fixtureArgs = illandril.game.world.argsOrFixtureDefaults(args.fixtureArgs);
-    var fixtureDef = this.getBox2DFixtureDefinition();
+    var fixtureDef = new Box2D.Dynamics.b2FixtureDef();
     fixtureDef.density = fixtureArgs.density;
     fixtureDef.friction = fixtureArgs.friction;
     fixtureDef.restitution = fixtureArgs.restitution;
@@ -266,8 +258,6 @@ illandril.game.world.prototype.moveObject = function(object, newPosition) {
 
 // Statics
 
-illandril.game.world.fixtureDefinition = new Box2D.Dynamics.b2FixtureDef();
-illandril.game.world.bodyDefinition = new Box2D.Dynamics.b2BodyDef();
 illandril.game.world.frameSteps = 10;
 
 illandril.game.world.fixtureDefaults = {

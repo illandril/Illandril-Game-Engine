@@ -54,7 +54,7 @@ illandril.game.controls.keyHandler.prototype.handleKeyEvents = function(time, ti
 };
 
 /**
- * @param {!illandril.game.controls.action}
+ * @param {!illandril.game.controls.action} action
  */
 illandril.game.controls.keyHandler.prototype.getKeyForAction = function(action) {
     return this.reverseControls[action];
