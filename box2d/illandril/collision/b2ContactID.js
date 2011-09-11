@@ -27,9 +27,15 @@ Box2D.Collision.b2ContactID.prototype.Copy = function () {
 Box2D.defineProperty(Box2D.Collision.b2ContactID.prototype, 'key', {
   enumerable: false,
   configurable: true,
+  /**
+   * @this {Box2D.Collision.b2ContactID}
+   */
   get: function () {
      return this._key;
   },
+  /**
+   * @this {Box2D.Collision.b2ContactID}
+   */
   set: function (value) {
      if (value === undefined) value = 0;
      this._key = value;

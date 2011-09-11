@@ -49,6 +49,9 @@ illandril.game.ui.animation.DIRECTIONS = {
  */
 illandril.game.ui.animation.ZERO_MOTION = 0.01;
 
+/**
+ * @this {illandril.game.gameObject}
+ */
 illandril.game.ui.animation.fourDirectionalAnimationThought = function(time, tick) {
     illandril.game.ui.animation.fourDirectionalAnimation(time, tick, this);
 };

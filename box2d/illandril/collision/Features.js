@@ -13,6 +13,9 @@ Box2D.Collision.Features = function() {};
 Box2D.defineProperty(Box2D.Collision.Features.prototype, 'referenceEdge', {
     enumerable: false,
     configurable: true,
+    /**
+     * @this {Box2D.Collision.Features}
+     */
     get: function() {
         return this._referenceEdge;
     }
@@ -21,6 +24,9 @@ Box2D.defineProperty(Box2D.Collision.Features.prototype, 'referenceEdge', {
 Box2D.defineProperty(Box2D.Collision.Features.prototype, 'referenceEdge', {
     enumerable: false,
     configurable: true,
+    /**
+     * @this {Box2D.Collision.Features}
+     */
     set: function(value) {
         if (value === undefined) value = 0;
         this._referenceEdge = value;
@@ -31,6 +37,9 @@ Box2D.defineProperty(Box2D.Collision.Features.prototype, 'referenceEdge', {
 Box2D.defineProperty(Box2D.Collision.Features.prototype, 'incidentEdge', {
     enumerable: false,
     configurable: true,
+    /**
+     * @this {Box2D.Collision.Features}
+     */
     get: function() {
         return this._incidentEdge;
     }
@@ -39,6 +48,9 @@ Box2D.defineProperty(Box2D.Collision.Features.prototype, 'incidentEdge', {
 Box2D.defineProperty(Box2D.Collision.Features.prototype, 'incidentEdge', {
     enumerable: false,
     configurable: true,
+    /**
+     * @this {Box2D.Collision.Features}
+     */
     set: function(value) {
         if (value === undefined) value = 0;
         this._incidentEdge = value;
@@ -49,6 +61,9 @@ Box2D.defineProperty(Box2D.Collision.Features.prototype, 'incidentEdge', {
 Box2D.defineProperty(Box2D.Collision.Features.prototype, 'incidentVertex', {
     enumerable: false,
     configurable: true,
+    /**
+     * @this {Box2D.Collision.Features}
+     */
     get: function() {
         return this._incidentVertex;
     }
@@ -57,6 +72,9 @@ Box2D.defineProperty(Box2D.Collision.Features.prototype, 'incidentVertex', {
 Box2D.defineProperty(Box2D.Collision.Features.prototype, 'incidentVertex', {
     enumerable: false,
     configurable: true,
+    /**
+     * @this {Box2D.Collision.Features}
+     */
     set: function(value) {
         if (value === undefined) value = 0;
         this._incidentVertex = value;
@@ -67,6 +85,9 @@ Box2D.defineProperty(Box2D.Collision.Features.prototype, 'incidentVertex', {
 Box2D.defineProperty(Box2D.Collision.Features.prototype, 'flip', {
     enumerable: false,
     configurable: true,
+    /**
+     * @this {Box2D.Collision.Features}
+     */
     get: function() {
         return this._flip;
     }
@@ -75,6 +96,9 @@ Box2D.defineProperty(Box2D.Collision.Features.prototype, 'flip', {
 Box2D.defineProperty(Box2D.Collision.Features.prototype, 'flip', {
     enumerable: false,
     configurable: true,
+    /**
+     * @this {Box2D.Collision.Features}
+     */
     set: function(value) {
         if (value === undefined) value = 0;
         this._flip = value;
