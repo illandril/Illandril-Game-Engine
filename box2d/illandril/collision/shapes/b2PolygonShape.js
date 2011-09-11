@@ -320,7 +320,7 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.ComputeSubmergedArea = function(
     var lastSubmerged = false;
     var i = 0;
     for (i = 0; i < this.m_vertexCount; ++i) {
-        depths[i] = b2Math.Dot(normalL, this.m_vertices[i]) - offsetL;
+        depths[i] = Box2D.Common.Math.b2Math.Dot(normalL, this.m_vertices[i]) - offsetL;
         var isSubmerged = depths[i] < (-Number.MIN_VALUE);
         if (i > 0) {
             if (isSubmerged) {
