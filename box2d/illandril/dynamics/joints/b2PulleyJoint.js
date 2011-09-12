@@ -11,7 +11,7 @@ goog.require('Box2D.Common.Math.b2Math');
 /**
  * @param {!Box2D.Dynamics.Joints.b2PulleyJointDef} def
  * @constructor
- * @extends {Box2D.Dynamics.Joints.b2PulleyJoint}
+ * @extends {Box2D.Dynamics.Joints.b2Joint}
  */
 Box2D.Dynamics.Joints.b2PulleyJoint = function(def) {
     Box2D.Dynamics.Joints.b2Joint.call(this, def);

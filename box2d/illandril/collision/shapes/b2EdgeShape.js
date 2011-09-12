@@ -30,8 +30,8 @@ Box2D.Collision.Shapes.b2EdgeShape = function(v1, v2) {
     this.m_direction.Set(this.m_v2.x - this.m_v1.x, this.m_v2.y - this.m_v1.y);
     this.m_length = this.m_direction.Normalize();
     this.m_normal.Set(this.m_direction.y, (-this.m_direction.x));
-    this.m_coreV1.Set((-Box2D.Common.b2Settings.b2_toiSlop * (this.m_normal.x - this.m_direction.x)) + this.m_v1.x, (-b2Settings.b2_toiSlop * (this.m_normal.y - this.m_direction.y)) + this.m_v1.y);
-    this.m_coreV2.Set((-Box2D.Common.b2Settings.b2_toiSlop * (this.m_normal.x + this.m_direction.x)) + this.m_v2.x, (-b2Settings.b2_toiSlop * (this.m_normal.y + this.m_direction.y)) + this.m_v2.y);
+    this.m_coreV1.Set((-Box2D.Common.b2Settings.b2_toiSlop * (this.m_normal.x - this.m_direction.x)) + this.m_v1.x, (-Box2D.Common.b2Settings.b2_toiSlop * (this.m_normal.y - this.m_direction.y)) + this.m_v1.y);
+    this.m_coreV2.Set((-Box2D.Common.b2Settings.b2_toiSlop * (this.m_normal.x + this.m_direction.x)) + this.m_v2.x, (-Box2D.Common.b2Settings.b2_toiSlop * (this.m_normal.y + this.m_direction.y)) + this.m_v2.y);
     this.m_cornerDir1 = this.m_normal;
     this.m_cornerDir2.Set((-this.m_normal.x), (-this.m_normal.y));
 };

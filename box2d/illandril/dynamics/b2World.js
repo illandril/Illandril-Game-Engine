@@ -286,7 +286,7 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
    };
    
    /**
-    * @param {!Box2D.Dynamics.Controllers.b2Controller}
+    * @param {!Box2D.Dynamics.Controllers.b2Controller} c
     * @return {!Box2D.Dynamics.Controllers.b2Controller}
     */
    b2World.prototype.AddController = function (c) {

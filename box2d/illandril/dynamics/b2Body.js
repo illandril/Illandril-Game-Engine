@@ -316,7 +316,7 @@ Box2D.Dynamics.b2Body.prototype.Split = function(callback) {
 };
 
 Box2D.Dynamics.b2Body.prototype.Merge = function(other) {
-    for (var fix = other.m_fixtureList; f; f = other.m_fixtureList) {
+    for (var fix = other.m_fixtureList; fix; fix = other.m_fixtureList) {
         var next = fix.m_next;
         fix.m_body = this;
         fix.m_next = this.m_fixtureList;
