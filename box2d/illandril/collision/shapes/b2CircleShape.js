@@ -14,11 +14,18 @@ goog.require('Box2D.Common.Math.b2Math');
  */
 Box2D.Collision.Shapes.b2CircleShape = function(radius) {
     Box2D.Collision.Shapes.b2Shape.call(this);
-    this.m_type = Box2D.Collision.Shapes.b2Shape.e_circleShape;
     this.m_radius = radius;
     this.m_p = new Box2D.Common.Math.b2Vec2(0, 0);
 };
 goog.inherits(Box2D.Collision.Shapes.b2CircleShape, Box2D.Collision.Shapes.b2Shape);
+
+/**
+ * @return {string}
+ */
+Box2D.Collision.Shapes.b2CircleShape.prototype.GetTypeName = function() {
+    return Box2D.Collision.Shapes.b2CircleShape.NAME;
+;
+};
 
 /**
  * @return {!Box2D.Collision.Shapes.b2CircleShape}
@@ -168,3 +175,9 @@ Box2D.Collision.Shapes.b2CircleShape.prototype.GetRadius = function() {
 Box2D.Collision.Shapes.b2CircleShape.prototype.SetRadius = function(radius) {
     this.m_radius = radius;
 };
+
+/**
+ * @const
+ * @type {string}
+ */
+Box2D.Collision.Shapes.b2CircleShape.NAME = 'b2CircleShape';

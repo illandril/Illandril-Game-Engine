@@ -10,17 +10,16 @@ goog.require('Box2D.Dynamics.b2ContactListener');
 goog.require('Box2D.Dynamics.Contacts.b2ContactFactory');
 
 /**
+ * @param {!Box2D.Dynamics.b2World} world
  * @constructor
  */
-Box2D.Dynamics.b2ContactManager = function() {
-    if (this.constructor === Box2D.Dynamics.b2ContactManager) {
-        this.m_world = null;
-        this.m_contactCount = 0;
-        this.m_contactFilter = Box2D.Dynamics.b2ContactFilter.b2_defaultFilter;
-        this.m_contactListener = Box2D.Dynamics.b2ContactListener.b2_defaultListener;
-        this.m_contactFactory = new Box2D.Dynamics.Contacts.b2ContactFactory();
-        this.m_broadPhase = new Box2D.Collision.b2DynamicTreeBroadPhase();
-    }
+Box2D.Dynamics.b2ContactManager = function(world) {
+    this.m_world = world;
+    this.m_contactCount = 0;
+    this.m_contactFilter = Box2D.Dynamics.b2ContactFilter.b2_defaultFilter;
+    this.m_contactListener = Box2D.Dynamics.b2ContactListener.b2_defaultListener;
+    this.m_contactFactory = new Box2D.Dynamics.Contacts.b2ContactFactory();
+    this.m_broadPhase = new Box2D.Collision.b2DynamicTreeBroadPhase();
 };
 
 Box2D.Dynamics.b2ContactManager.prototype.AddPair = function (fixtureA, fixtureB) {

@@ -12,13 +12,23 @@ goog.require('goog.userAgent');
  * @constructor
  */
 illandril.game.controls.keyHandler = function(name) {
-  this.id = illandril.game.controls.keyHandler.nextID++;
-  this.name = name;
-  this.controls = {};
-  this.reverseControls = {};
-  this.controlChangeListeners = [];
-  this.actionToRegister = null;
-  this.registeringActionTimeout = null;
+    /** @type {number} */
+    this.id = illandril.game.controls.keyHandler.nextID++;
+    
+    /** @type {string} */
+    this.name = name;
+    
+    this.controls = {};
+    
+    this.reverseControls = {};
+    
+    this.controlChangeListeners = [];
+    
+    /** @type {illandril.game.controls.action} */
+    this.actionToRegister = null;
+    
+    /** @type {?number} */
+    this.registeringActionTimeout = null;
 };
 
 /**
@@ -60,6 +70,13 @@ illandril.game.controls.keyHandler.prototype.getKeyForAction = function(action) 
     return this.reverseControls[action.name];
 };
 
+/**
+ * @param {!illandril.game.controls.action} action
+ * @param {number|string} keyCodeOrKey
+ * @param {boolean=} ctrl
+ * @param {boolean=} alt
+ * @param {boolean=} shift
+ */
 illandril.game.controls.keyHandler.prototype.registerAction = function(action, keyCodeOrKey, ctrl, alt, shift) {
     var key = keyCodeOrKey;
     if (typeof(keyCodeOrKey) == 'number') {
@@ -85,6 +102,9 @@ illandril.game.controls.keyHandler.prototype.registerAction = function(action, k
     this.notifyControlChangeListeners(changes);
 };
 
+/**
+ * @param {!illandril.game.controls.action} action
+ */
 illandril.game.controls.keyHandler.prototype.registerActionFromInput = function(action) {
     if (illandril.game.controls.keyHandler.actionPendingFor != null) {
         illandril.game.controls.keyHandler.actionPendingFor.notifyControlChangeListeners(null);
@@ -93,6 +113,9 @@ illandril.game.controls.keyHandler.prototype.registerActionFromInput = function(
     this.actionToRegister = action;
 };
 
+/**
+ * @param {!illandril.game.controls.action} action
+ */
 illandril.game.controls.keyHandler.prototype.unregisterAction = function(action) {
     var oldKey = this.reverseControls[action.name];
     if (oldKey != null) {
@@ -195,6 +218,12 @@ illandril.game.controls.keyHandler.keyUp = function(e) {
   illandril.game.controls.keyHandler.modifierKeyStates.SHIFT = ks.shiftKey;
 };
 
+/**
+ * @param {string} keyCodeOrKey
+ * @param {boolean=} ctrl
+ * @param {boolean=} alt
+ * @param {boolean=} shift
+ */
 illandril.game.controls.keyHandler.getKeyEventKey = function(keyCode, ctrl, alt, shift) {
   var keyName = goog.events.KeyNames[keyCode];
   if (keyName == null) {

@@ -316,26 +316,18 @@ Box2D.Dynamics.b2Body.prototype.Split = function(callback) {
 };
 
 Box2D.Dynamics.b2Body.prototype.Merge = function(other) {
-    var f;
-    for (f = other.m_fixtureList; f;) {
-        var next = f.m_next;
-        other.m_fixtureCount--;
-        f.m_next = this.m_fixtureList;
-        this.m_fixtureList = f;
+    for (var fix = other.m_fixtureList; f; f = other.m_fixtureList) {
+        var next = fix.m_next;
+        fix.m_body = this;
+        fix.m_next = this.m_fixtureList;
+        this.m_fixtureList = fix;
         this.m_fixtureCount++;
-        f.m_body = body2;
-        f = next;
+        
+        other.m_fixtureList = next;
+        other.m_fixtureCount--;
     }
-    body1.m_fixtureCount = 0;
-    var body1 = this;
-    var body2 = other;
-    var center1 = body1.GetWorldCenter();
-    var center2 = body2.GetWorldCenter();
-    var velocity1 = body1.GetLinearVelocity().Copy();
-    var velocity2 = body2.GetLinearVelocity().Copy();
-    var angular1 = body1.GetAngularVelocity();
-    var angular = body2.GetAngularVelocity();
-    body1.ResetMassData();
+    other.ResetMassData();
+    this.ResetMassData();
     this.SynchronizeFixtures();
 };
 

@@ -17,14 +17,14 @@ goog.require('illandril.game.ui.viewport');
  * @param {!Box2D.Common.Math.b2Vec2} gravity
  * @constructor
  */
-illandril.game.world = function(theGame, worldSize, gravity) {
+illandril.game.world = function(game, worldSize, gravity) {
     this.queuedActions = [];
     this.collisionFilters = [];
     
     this.nextObjectID = 0;
     this.objects = {};
     
-    this.game = theGame;
+    this.game = game;
     this.worldSize = new Box2D.Common.Math.b2Vec2(worldSize.x, worldSize.y);
     this.b2World = new Box2D.Dynamics.b2World( gravity, true /* allow sleep */ );
     this.b2World.SetContactFilter(this);

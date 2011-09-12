@@ -12,15 +12,7 @@ required: function (?, ?, ?): undefined
 left : None
 right: None
         if (sibling.parent.child1 == sibling) {
-                                  ^
-
-../box2d/illandril/dynamics/b2Body.js:326: WARNING - Variable referenced before declaration: body2
-        f.m_body = body2;
-                   ^
-
-../box2d/illandril/dynamics/b2Body.js:329: WARNING - Variable referenced before declaration: body1
-    body1.m_fixtureCount = 0;
-    ^
+                       
 
 ../box2d/illandril/dynamics/b2ContactManager.js:59: WARNING - condition always evaluates to false
 left : None

@@ -13,9 +13,13 @@ goog.require('Box2D.Collision.b2SimplexCache');
  * @constructor
  */
 Box2D.Collision.Shapes.b2Shape = function() {
-    this.m_type = Box2D.Collision.Shapes.b2Shape.e_unknownShape;
     this.m_radius = Box2D.Common.b2Settings.b2_linearSlop;
 };
+
+/**
+ * @return {string}
+ */
+Box2D.Collision.Shapes.b2Shape.prototype.GetTypeName = goog.abstractMethod;
 
 Box2D.Collision.Shapes.b2Shape.prototype.Copy = function() {
     return null;
@@ -23,10 +27,6 @@ Box2D.Collision.Shapes.b2Shape.prototype.Copy = function() {
 
 Box2D.Collision.Shapes.b2Shape.prototype.Set = function(other) {
     this.m_radius = other.m_radius;
-};
-
-Box2D.Collision.Shapes.b2Shape.prototype.GetType = function() {
-    return this.m_type;
 };
 
 Box2D.Collision.Shapes.b2Shape.prototype.TestPoint = function(xf, p) {
@@ -67,11 +67,6 @@ Box2D.Collision.Shapes.b2Shape.TestOverlap = function(shape1, transform1, shape2
     Box2D.Collision.b2Distance.Distance(output, simplexCache, input);
     return output.distance < 10.0 * Number.MIN_VALUE;
 };
-
-Box2D.Collision.Shapes.b2Shape.e_unknownShape = -1;
-Box2D.Collision.Shapes.b2Shape.e_circleShape = 0;
-Box2D.Collision.Shapes.b2Shape.e_polygonShape = 1;
-Box2D.Collision.Shapes.b2Shape.e_edgeShape = 2;
 
 Box2D.Collision.Shapes.b2Shape.e_startsInsideCollide = -1;
 Box2D.Collision.Shapes.b2Shape.e_missCollide = 0;

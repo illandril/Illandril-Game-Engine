@@ -23,7 +23,6 @@ Box2D.Collision.Shapes.b2EdgeShape = function(v1, v2) {
     this.m_direction = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_cornerDir1 = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_cornerDir2 = new Box2D.Common.Math.b2Vec2(0, 0);
-    this.m_type = Box2D.Collision.Shapes.b2Shape.e_edgeShape;
     this.m_prevEdge = null;
     this.m_nextEdge = null;
     this.m_v1 = v1;
@@ -37,6 +36,13 @@ Box2D.Collision.Shapes.b2EdgeShape = function(v1, v2) {
     this.m_cornerDir2.Set((-this.m_normal.x), (-this.m_normal.y));
 };
 goog.inherits(Box2D.Collision.Shapes.b2EdgeShape, Box2D.Collision.Shapes.b2Shape);
+
+/**
+ * @return {string}
+ */
+Box2D.Collision.Shapes.b2EdgeShape.prototype.GetTypeName = function() {
+    return Box2D.Collision.Shapes.b2EdgeShape.NAME;
+};
 
 Box2D.Collision.Shapes.b2EdgeShape.prototype.TestPoint = function(transform, p) {
     return false;
@@ -213,3 +219,9 @@ Box2D.Collision.Shapes.b2EdgeShape.prototype.SetNextEdge = function(edge, core, 
     this.m_cornerDir2 = cornerDir;
     this.m_cornerConvex2 = convex;
 };
+
+/**
+ * @const
+ * @type {string}
+ */
+Box2D.Collision.Shapes.b2EdgeShape.NAME = 'b2EdgeShape';

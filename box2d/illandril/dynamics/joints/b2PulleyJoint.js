@@ -9,11 +9,12 @@ goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Math');
 
 /**
+ * @param {!Box2D.Dynamics.Joints.b2PulleyJointDef} def
  * @constructor
- * @extends {Box2D.Dynamics.Joints.b2Joint}
+ * @extends {Box2D.Dynamics.Joints.b2PulleyJoint}
  */
 Box2D.Dynamics.Joints.b2PulleyJoint = function(def) {
-    Box2D.Dynamics.Joints.b2Joint.b2Joint.call(this, def);
+    Box2D.Dynamics.Joints.b2Joint.call(this, def);
     this.m_groundAnchor1 = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_groundAnchor2 = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_localAnchor1 = new Box2D.Common.Math.b2Vec2(0, 0);

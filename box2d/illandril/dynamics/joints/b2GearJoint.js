@@ -6,9 +6,10 @@ goog.provide('Box2D.Dynamics.Joints.b2GearJoint');
 goog.require('Box2D.Dynamics.Joints.b2Joint');
 goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Common.b2Settings');
-goog.require('Box2D.Dynamics.Joints.b2Jacobian')
+goog.require('Box2D.Dynamics.Joints.b2Jacobian');
 
 /**
+ * @param {!Box2D.Dynamics.Joints.b2GearJointDef} def
  * @constructor
  * @extends {Box2D.Dynamics.Joints.b2Joint}
  */

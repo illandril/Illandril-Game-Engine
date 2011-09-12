@@ -6,33 +6,32 @@ goog.require('goog.array');
  * @constructor
  */
 illandril.game.ai = function() {
+    /** @type {Array.<!illandril.game.gameObject>} */
     this.thinkers = [];
 };
 
 /**
- * @param {!Object} thinker
+ * @param {!illandril.game.gameObject} thinker
  * @param {function(number, number)} thought
  */
 illandril.game.ai.prototype.addThinker = function(thinker, thought) {
-    thinker.thoughts = thinker.thoughts || [];
     thinker.thoughts.push(thought);
     goog.array.insert(this.thinkers, thinker);
 };
 
 /**
- * @param {!Object} thinker
+ * @param {!illandril.game.gameObject} thinker
  */
 illandril.game.ai.prototype.clearThinker = function(thinker) {
-    thinker.thoughts = null;
     goog.array.remove(this.thinkers, thinker);
 };
 
 /**
- * @param {!Object} thinker
+ * @param {!illandril.game.gameObject} thinker
  * @param {function(number, number)} thought
  */
 illandril.game.ai.prototype.removeThinker = function(thinker, thought) {
-    if (thinker.thoughts != null) {
+    if (thinker.thoughts.length > 0) {
         goog.array.remove(thinker.thoughts, thought);
         if (thinker.thoughts.length == 0) {
             this.clearThinker(thinker);

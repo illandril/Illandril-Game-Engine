@@ -8,6 +8,7 @@ goog.require('Box2D.Collision.b2AABB');
 goog.require('Box2D.Collision.b2RayCastInput');
 goog.require('Box2D.Collision.b2RayCastOutput');
 goog.require('Box2D.Collision.Shapes.b2Shape');
+goog.require('Box2D.Collision.Shapes.b2EdgeShape');
 goog.require('Box2D.Common.b2Color');
 goog.require('Box2D.Common.Math.b2Math');
 goog.require('Box2D.Common.Math.b2Sweep');
@@ -31,27 +32,66 @@ goog.require('Box2D.Dynamics.Joints.b2PulleyJoint');
  * @constructor
  */
 Box2D.Dynamics.b2World = function(gravity, doSleep) {
-    this.m_contactManager = new Box2D.Dynamics.b2ContactManager();
+    /** @type {!Box2D.Dynamics.b2ContactManager} */
+    this.m_contactManager = new Box2D.Dynamics.b2ContactManager(this);
+    
+    /** @type {!Box2D.Dynamics.Contacts.b2ContactSolver} */
     this.m_contactSolver = new Box2D.Dynamics.Contacts.b2ContactSolver();
+    
+    /** @type {!Box2D.Dynamics.b2Island} */
     this.m_island = new Box2D.Dynamics.b2Island();
+    
+    /** @type {boolean} */
     this.m_isLocked = false;
+    
+    /** @type {boolean} */
     this.m_newFixture = false;
+    
+    /** @type {Box2D.Dynamics.b2DestructionListener} */
     this.m_destructionListener = null;
+    
+    /** @type {Box2D.Dynamics.b2DebugDraw} */
     this.m_debugDraw = null;
+    
+    /** @type {Box2D.Dynamics.b2Body} */
     this.m_bodyList = null;
+    
+    /** @type {Box2D.Dynamics.Contacts.b2Contact} */
     this.m_contactList = null;
+    
+    /** @type {Box2D.Dynamics.Joints.b2Joint} */
     this.m_jointList = null;
+    
+    /** @type {Box2D.Dynamics.Controllers.b2Controller} */
     this.m_controllerList = null;
+    
+    /** @type {number} */
     this.m_bodyCount = 0;
+    
+    /** @type {number} */
     this.m_contactCount = 0;
+    
+    /** @type {number} */
     this.m_jointCount = 0;
+    
+    /** @type {number} */
     this.m_controllerCount = 0;
+    
+    /** @type {boolean} */
     Box2D.Dynamics.b2World.m_warmStarting = true;
+    
+    /** @type {boolean} */
     Box2D.Dynamics.b2World.m_continuousPhysics = true;
+    
+    /** @type {boolean} */
     this.m_allowSleep = doSleep;
+    
+    /** @type {!Box2D.Common.Math.b2Vec2} */
     this.m_gravity = gravity;
+    
+    /** @type {number} */
     this.m_inv_dt0 = 0.0;
-    this.m_contactManager.m_world = this;
+    
     var bd = new Box2D.Dynamics.b2BodyDef();
     this.m_groundBody = this.CreateBody(bd);
 };
@@ -158,7 +198,7 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
    };
    
    b2World.prototype.CreateJoint = function (def) {
-      var j = Box2D.Dynamics.Joints.b2Joint.Create(def, null);
+      var j = Box2D.Dynamics.Joints.b2Joint.Create(def);
       j.m_prev = null;
       j.m_next = this.m_jointList;
       if (this.m_jointList) {
@@ -245,6 +285,10 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
       }
    };
    
+   /**
+    * @param {!Box2D.Dynamics.Controllers.b2Controller}
+    * @return {!Box2D.Dynamics.Controllers.b2Controller}
+    */
    b2World.prototype.AddController = function (c) {
       c.m_next = this.m_controllerList;
       c.m_prev = null;

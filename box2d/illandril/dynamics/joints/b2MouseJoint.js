@@ -9,6 +9,7 @@ goog.require('Box2D.Common.Math.b2Vec2');
 goog.require('Box2D.Common.Math.b2Math');
 
 /**
+ * @param {!Box2D.Dynamics.Joints.b2MouseJointDef} def
  * @constructor
  * @extends {Box2D.Dynamics.Joints.b2Joint}
  */

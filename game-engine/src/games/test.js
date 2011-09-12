@@ -160,7 +160,7 @@ test.createDebugObjects = function() {
       g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
     shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0.5, -0.5), new Box2D.Common.Math.b2Vec2(-0.5,0.5)], 3 );
+    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0.5, -0.5), new Box2D.Common.Math.b2Vec2(-0.5,0.5)] );
     for ( var i = 0; i < testObjects; i++ ) {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
       var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 10 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 10 ) % 20 ));
@@ -168,7 +168,7 @@ test.createDebugObjects = function() {
       g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
     shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0, -0.5), new Box2D.Common.Math.b2Vec2(0.5,0), new Box2D.Common.Math.b2Vec2(0.5, 0.5), new Box2D.Common.Math.b2Vec2( 0, 0.3 )], 5 );
+    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0, -0.5), new Box2D.Common.Math.b2Vec2(0.5,0), new Box2D.Common.Math.b2Vec2(0.5, 0.5), new Box2D.Common.Math.b2Vec2( 0, 0.3 )] );
     for ( var i = 0; i < testObjects; i++ ) {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
       var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 15 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 15 ) % 20 ));

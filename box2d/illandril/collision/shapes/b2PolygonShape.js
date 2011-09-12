@@ -17,12 +17,18 @@ goog.require('Box2D.Common.Math.b2Vec2');
  */
 Box2D.Collision.Shapes.b2PolygonShape = function() {
     Box2D.Collision.Shapes.b2Shape.call(this);
-    this.m_type = Box2D.Collision.Shapes.b2Shape.e_polygonShape;
     this.m_centroid = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_vertices = [];
     this.m_normals = [];
 };
 goog.inherits(Box2D.Collision.Shapes.b2PolygonShape, Box2D.Collision.Shapes.b2Shape);
+
+/**
+ * @return {string}
+ */
+Box2D.Collision.Shapes.b2PolygonShape.prototype.GetTypeName = function() {
+    return Box2D.Collision.Shapes.b2PolygonShape.NAME;
+};
 
 Box2D.Collision.Shapes.b2PolygonShape.prototype.Copy = function() {
     var s = new Box2D.Collision.Shapes.b2PolygonShape();
@@ -478,3 +484,9 @@ Box2D.Collision.Shapes.b2PolygonShape.ComputeCentroid = function(vs, count) {
 };
 
 Box2D.Collision.Shapes.b2PolygonShape.s_mat = new Box2D.Common.Math.b2Mat22();
+
+/**
+ * @const
+ * @type {string}
+ */
+Box2D.Collision.Shapes.b2PolygonShape.NAME = 'b2PolygonShape';

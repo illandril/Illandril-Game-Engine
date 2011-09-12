@@ -12,19 +12,31 @@ goog.require('Box2D.Collision.Shapes.b2MassData');
  * @constructor
  */
 Box2D.Dynamics.b2Fixture = function() {
+    /** @type {!Box2D.Dynamics.b2FilterData} */
     this.m_filter = new Box2D.Dynamics.b2FilterData();
+    
+    /** @type {!Box2D.Collision.b2AABB} */
     this.m_aabb = new Box2D.Collision.b2AABB();
+    
     this.m_userData = null;
+    
+    /** @type {Box2D.Dynamics.b2Body} */
     this.m_body = null;
+    
+    /** @type {Box2D.Dynamics.b2Fixture} */
     this.m_next = null;
+    
+    /** @type {Box2D.Collision.Shapes.b2Shape} */
     this.m_shape = null;
+    
+    /** @type {number} */
     this.m_density = 0.0;
+    
+    /** @type {number} */
     this.m_friction = 0.0;
+    
+    /** @type {number} */
     this.m_restitution = 0.0;
-};
-
-Box2D.Dynamics.b2Fixture.prototype.GetType = function() {
-    return this.m_shape.GetType();
 };
 
 Box2D.Dynamics.b2Fixture.prototype.GetShape = function() {
@@ -32,15 +44,21 @@ Box2D.Dynamics.b2Fixture.prototype.GetShape = function() {
 };
 
 Box2D.Dynamics.b2Fixture.prototype.SetSensor = function(sensor) {
-    if (this.m_isSensor == sensor) return;
+    if (this.m_isSensor == sensor) {
+        return;
+    }
     this.m_isSensor = sensor;
-    if (this.m_body == null) return;
+    if (this.m_body == null) {
+        return;
+    }
     var edge = this.m_body.GetContactList();
     while (edge) {
         var contact = edge.contact;
         var fixtureA = contact.GetFixtureA();
         var fixtureB = contact.GetFixtureB();
-        if (fixtureA == this || fixtureB == this) contact.SetSensor(fixtureA.IsSensor() || fixtureB.IsSensor());
+        if (fixtureA == this || fixtureB == this) {
+            contact.SetSensor(fixtureA.IsSensor() || fixtureB.IsSensor());
+        }
         edge = edge.next;
     }
 };
@@ -51,13 +69,17 @@ Box2D.Dynamics.b2Fixture.prototype.IsSensor = function() {
 
 Box2D.Dynamics.b2Fixture.prototype.SetFilterData = function(filter) {
     this.m_filter = filter.Copy();
-    if (this.m_body) return;
+    if (this.m_body == null) {
+        return;
+    }
     var edge = this.m_body.GetContactList();
     while (edge) {
         var contact = edge.contact;
         var fixtureA = contact.GetFixtureA();
         var fixtureB = contact.GetFixtureB();
-        if (fixtureA == this || fixtureB == this) contact.FlagForFiltering();
+        if (fixtureA == this || fixtureB == this) {
+            contact.FlagForFiltering();
+        }
         edge = edge.next;
     }
 };
@@ -104,30 +126,45 @@ Box2D.Dynamics.b2Fixture.prototype.GetMassData = function(massData) {
     return massData;
 };
 
+/**
+ * @param {number} density
+ */
 Box2D.Dynamics.b2Fixture.prototype.SetDensity = function(density) {
-    if (density === undefined) density = 0;
     this.m_density = density;
 };
 
+/**
+ * @return {number}
+ */
 Box2D.Dynamics.b2Fixture.prototype.GetDensity = function() {
     return this.m_density;
 };
 
+/**
+ * @return {number}
+ */
 Box2D.Dynamics.b2Fixture.prototype.GetFriction = function() {
     return this.m_friction;
 };
 
+/**
+ * @param {number} friction
+ */
 Box2D.Dynamics.b2Fixture.prototype.SetFriction = function(friction) {
-    if (friction === undefined) friction = 0;
     this.m_friction = friction;
 };
 
+/**
+ * @return {number}
+ */
 Box2D.Dynamics.b2Fixture.prototype.GetRestitution = function() {
     return this.m_restitution;
 };
 
+/**
+ * @param {number} restitution
+ */
 Box2D.Dynamics.b2Fixture.prototype.SetRestitution = function(restitution) {
-    if (restitution === undefined) restitution = 0;
     this.m_restitution = restitution;
 };
 

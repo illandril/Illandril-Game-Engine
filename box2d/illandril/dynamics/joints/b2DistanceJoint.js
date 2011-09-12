@@ -9,6 +9,7 @@ goog.require('Box2D.Common.b2Settings');
 goog.require('Box2D.Common.Math.b2Math');
 
 /**
+ * @param {!Box2D.Dynamics.Joints.b2DistanceJointDef} def
  * @constructor
  * @extends {Box2D.Dynamics.Joints.b2Joint}
  */

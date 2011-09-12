@@ -13,6 +13,7 @@ args = args + " --root=src/"
 for arg in sys.argv[2:]:
   args = args + " --namespace=" + arg
 args = args + " --output_mode=compiled"
+args = args + " --output_wrapper='(function(){%output%})();'"
 args = args + " --compiler_jar=../closure-compiler/compiler.jar"
 args = args + " --compiler_flags=--warning_level=VERBOSE"
 

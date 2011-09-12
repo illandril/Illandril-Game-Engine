@@ -8,6 +8,8 @@ illandril.game.gameObject = function(position) {
     this.UID = illandril.game.gameObject.NEXT_UID++;
     this.position = position.Copy();
     this.angle = 0;
+    /** @type {Array.<function(number, number)>} */
+    this.thoughts = [];
 };
 
 /**

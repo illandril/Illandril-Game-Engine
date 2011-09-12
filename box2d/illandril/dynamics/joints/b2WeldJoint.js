@@ -10,6 +10,7 @@ goog.require('Box2D.Common.Math.b2Mat33');
 goog.require('Box2D.Common.b2Settings');
 
 /**
+ * @param {!Box2D.Dynamics.Joints.b2WeldJointDef} def
  * @constructor
  * @extends {Box2D.Dynamics.Joints.b2Joint}
  */
@@ -17,12 +18,11 @@ Box2D.Dynamics.Joints.b2WeldJoint = function(def) {
     Box2D.Dynamics.Joints.b2Joint.call(this, def);
     this.m_localAnchorA = new Box2D.Common.Math.b2Vec2(0, 0);
     this.m_localAnchorB = new Box2D.Common.Math.b2Vec2(0, 0);
-    this.m_impulse = new Box2D.Common.Math.b2Vec3();
+    this.m_impulse = new Box2D.Common.Math.b2Vec3(0, 0, 0);
     this.m_mass = new Box2D.Common.Math.b2Mat33();
     this.m_localAnchorA.SetV(def.localAnchorA);
     this.m_localAnchorB.SetV(def.localAnchorB);
     this.m_referenceAngle = def.referenceAngle;
-    this.m_impulse.SetZero();
 };
 goog.inherits(Box2D.Dynamics.Joints.b2WeldJoint, Box2D.Dynamics.Joints.b2Joint);
 

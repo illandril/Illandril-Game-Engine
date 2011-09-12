@@ -6,7 +6,8 @@ goog.provide('Box2D.Dynamics.Contacts.b2PolyAndEdgeContact');
 goog.require('Box2D.Dynamics.Contacts.b2Contact');
 goog.require('Box2D.Collision.b2Collision');
 goog.require('Box2D.Common.b2Settings');
-goog.require('Box2D.Collision.Shapes.b2Shape');
+goog.require('Box2D.Collision.Shapes.b2PolygonShape');
+goog.require('Box2D.Collision.Shapes.b2EdgeShape');
 
 /**
  * @constructor
@@ -21,10 +22,14 @@ Box2D.Dynamics.Contacts.b2PolyAndEdgeContact.Create = function() {
     return new Box2D.Dynamics.Contacts.b2PolyAndEdgeContact();
 };
 
+/**
+ * @param {!Box2D.Dynamics.b2Fixture} fixtureA
+ * @param {!Box2D.Dynamics.b2Fixture} fixtureB
+ */
 Box2D.Dynamics.Contacts.b2PolyAndEdgeContact.prototype.Reset = function(fixtureA, fixtureB) {
+    Box2D.Common.b2Settings.b2Assert(fixtureA.GetShape() instanceof Box2D.Collision.Shapes.b2PolygonShape);
+    Box2D.Common.b2Settings.b2Assert(fixtureB.GetShape() instanceof Box2D.Collision.Shapes.b2EdgeShape);
     Box2D.Dynamics.Contacts.b2Contact.prototype.Reset.call(this, fixtureA, fixtureB);
-    Box2D.Common.b2Settings.b2Assert(fixtureA.GetType() == Box2D.Collision.Shapes.b2Shape.e_polygonShape);
-    Box2D.Common.b2Settings.b2Assert(fixtureB.GetType() == Box2D.Collision.Shapes.b2Shape.e_edgeShape);
 };
 
 Box2D.Dynamics.Contacts.b2PolyAndEdgeContact.prototype.Evaluate = function() {
