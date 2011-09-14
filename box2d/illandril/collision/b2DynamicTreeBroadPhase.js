@@ -13,8 +13,6 @@ goog.require('Box2D.Collision.IBroadPhase');
 Box2D.Collision.b2DynamicTreeBroadPhase = function() {
     this.m_tree = new Box2D.Collision.b2DynamicTree();
     this.m_moveBuffer = [];
-    this.m_pairBuffer = [];
-    this.m_pairCount = 0;
     this.m_proxyCount = 0;
 };
 
@@ -58,7 +56,7 @@ Box2D.Collision.b2DynamicTreeBroadPhase.prototype.GetProxyCount = function() {
 
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.UpdatePairs = function(callback) {
     var __this = this;
-    this.m_pairCount = 0;
+    var pairs = [];
     for (var i = 0; i < this.m_moveBuffer.length; i++) {
         var queryProxy = this.m_moveBuffer[i];
         
@@ -66,27 +64,25 @@ Box2D.Collision.b2DynamicTreeBroadPhase.prototype.UpdatePairs = function(callbac
             if (proxy == queryProxy) {
                 return true;
             }
-            if (__this.m_pairCount == __this.m_pairBuffer.length) {
-                __this.m_pairBuffer[__this.m_pairCount] = new Box2D.Collision.b2DynamicTreePair();
-            }
-            var pair = __this.m_pairBuffer[__this.m_pairCount];
+            var pair = new Box2D.Collision.b2DynamicTreePair();
+            pairs.push( pair );
             pair.proxyA = proxy < queryProxy ? proxy : queryProxy;
             pair.proxyB = proxy >= queryProxy ? proxy : queryProxy;
-            __this.m_pairCount++;
             return true;
         };
         var fatAABB = this.m_tree.GetFatAABB(queryProxy);
         this.m_tree.Query(QueryCallback, fatAABB);
     }
     this.m_moveBuffer.length = 0;
-    for (var i = 0; i < this.m_pairCount;) {
-        var primaryPair = this.m_pairBuffer[i];
+    var i = 0;
+    while(i < pairs.length) {
+        var primaryPair = pairs[i];
         var userDataA = this.m_tree.GetUserData(primaryPair.proxyA);
         var userDataB = this.m_tree.GetUserData(primaryPair.proxyB);
         callback(userDataA, userDataB);
         i++;
-        while (i < this.m_pairCount) {
-            var pair = this.m_pairBuffer[i];
+        while(i < pairs.length) {
+            var pair = pairs[i];
             if (pair.proxyA != primaryPair.proxyA || pair.proxyB != primaryPair.proxyB) {
                 break;
             }
