@@ -13,27 +13,29 @@ goog.require('Box2D.Common.Math.b2Math');
  * @constructor
  */
 Box2D.Collision.b2DynamicTree = function() {
-    if (this.constructor === Box2D.Collision.b2DynamicTree) {
-        this.m_root = null;
-        this.m_path = 0;
-        this.m_insertionCount = 0;
-    }
+    /** @type {Box2D.Collision.b2DynamicTreeNode} */
+    this.m_root = null;
+    
+    /** @type {number} */
+    this.m_path = 0;
+    
+    /** @type {number} */
+    this.m_insertionCount = 0;
 };
 
 /**
  * @param {!Box2D.Collision.b2AABB} aabb
- * @param {*} userData
+ * @param {Box2D.Dynamics.b2Fixture} fixture
  * @return {!Box2D.Collision.b2DynamicTreeNode}
  */
-Box2D.Collision.b2DynamicTree.prototype.CreateProxy = function(aabb, userData) {
-    var node = this.AllocateNode();
+Box2D.Collision.b2DynamicTree.prototype.CreateProxy = function(aabb, fixture) {
+    var node = new Box2D.Collision.b2DynamicTreeNode(fixture);
     var extendX = Box2D.Common.b2Settings.b2_aabbExtension;
     var extendY = Box2D.Common.b2Settings.b2_aabbExtension;
     node.aabb.lowerBound.x = aabb.lowerBound.x - extendX;
     node.aabb.lowerBound.y = aabb.lowerBound.y - extendY;
     node.aabb.upperBound.x = aabb.upperBound.x + extendX;
     node.aabb.upperBound.y = aabb.upperBound.y + extendY;
-    node.userData = userData;
     this.InsertLeaf(node);
     return node;
 };
@@ -96,10 +98,10 @@ Box2D.Collision.b2DynamicTree.prototype.GetFatAABB = function(proxy) {
 
 /**
  * @param {!Box2D.Collision.b2DynamicTreeNode} proxy
- * @return {*}
+ * @return {Box2D.Dynamics.b2Fixture}
  */
-Box2D.Collision.b2DynamicTree.prototype.GetUserData = function(proxy) {
-    return proxy.userData;
+Box2D.Collision.b2DynamicTree.prototype.GetFixture = function(proxy) {
+    return proxy.fixture;
 };
 
 /**
@@ -184,13 +186,6 @@ Box2D.Collision.b2DynamicTree.prototype.RayCast = function(callback, input) {
 };
 
 /**
- * @return {!Box2D.Collision.b2DynamicTreeNode}
- */
-Box2D.Collision.b2DynamicTree.prototype.AllocateNode = function() {
-    return new Box2D.Collision.b2DynamicTreeNode();
-};
-
-/**
  * @param {!Box2D.Collision.b2DynamicTreeNode} leaf
  */
 Box2D.Collision.b2DynamicTree.prototype.InsertLeaf = function(leaf) {
@@ -214,9 +209,8 @@ Box2D.Collision.b2DynamicTree.prototype.InsertLeaf = function(leaf) {
         }
     }
     var node1 = sibling.parent;
-    var node2 = this.AllocateNode();
+    var node2 = new Box2D.Collision.b2DynamicTreeNode();
     node2.parent = node1;
-    node2.userData = null;
     node2.aabb.Combine(leaf.aabb, sibling.aabb);
     if (node1) {
         if (sibling.parent.child1 == sibling) {

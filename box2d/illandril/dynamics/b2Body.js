@@ -71,7 +71,6 @@ Box2D.Dynamics.b2Body = function(bd, world) {
     this.m_I = 0.0;
     this.m_invI = 0.0;
     this.m_inertiaScale = bd.inertiaScale;
-    this.m_userData = bd.userData;
     this.m_fixtureList = null;
     this.m_fixtureCount = 0;
 };
@@ -235,7 +234,6 @@ Box2D.Dynamics.b2Body.prototype.GetDefinition = function() {
     bd.linearDamping = this.m_linearDamping;
     bd.linearVelocity.SetV(this.GetLinearVelocity());
     bd.position = this.GetPosition();
-    bd.userData = this.GetUserData();
     return bd;
 };
 
@@ -592,14 +590,6 @@ Box2D.Dynamics.b2Body.prototype.GetContactList = function() {
 
 Box2D.Dynamics.b2Body.prototype.GetNext = function() {
     return this.m_next;
-};
-
-Box2D.Dynamics.b2Body.prototype.GetUserData = function() {
-    return this.m_userData;
-};
-
-Box2D.Dynamics.b2Body.prototype.SetUserData = function(data) {
-    this.m_userData = data;
 };
 
 Box2D.Dynamics.b2Body.prototype.GetWorld = function() {

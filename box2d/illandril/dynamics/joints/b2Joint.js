@@ -24,7 +24,6 @@ Box2D.Dynamics.Joints.b2Joint = function(def) {
     this.m_bodyA = def.bodyA;
     this.m_bodyB = def.bodyB;
     this.m_collideConnected = def.collideConnected;
-    this.m_userData = def.userData;
 };
 
 Box2D.Dynamics.Joints.b2Joint.prototype.GetType = function() {
@@ -59,14 +58,6 @@ Box2D.Dynamics.Joints.b2Joint.prototype.GetBodyB = function() {
 
 Box2D.Dynamics.Joints.b2Joint.prototype.GetNext = function() {
     return this.m_next;
-};
-
-Box2D.Dynamics.Joints.b2Joint.prototype.GetUserData = function() {
-    return this.m_userData;
-};
-
-Box2D.Dynamics.Joints.b2Joint.prototype.SetUserData = function(data) {
-    this.m_userData = data;
 };
 
 Box2D.Dynamics.Joints.b2Joint.prototype.IsActive = function() {

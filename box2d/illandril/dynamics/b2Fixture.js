@@ -18,8 +18,6 @@ Box2D.Dynamics.b2Fixture = function() {
     /** @type {!Box2D.Collision.b2AABB} */
     this.m_aabb = new Box2D.Collision.b2AABB();
     
-    this.m_userData = null;
-    
     /** @type {Box2D.Dynamics.b2Body} */
     this.m_body = null;
     
@@ -96,14 +94,6 @@ Box2D.Dynamics.b2Fixture.prototype.GetNext = function() {
     return this.m_next;
 };
 
-Box2D.Dynamics.b2Fixture.prototype.GetUserData = function() {
-    return this.m_userData;
-};
-
-Box2D.Dynamics.b2Fixture.prototype.SetUserData = function(data) {
-    this.m_userData = data;
-};
-
 Box2D.Dynamics.b2Fixture.prototype.TestPoint = function(p) {
     return this.m_shape.TestPoint(this.m_body.GetTransform(), p);
 };
@@ -173,7 +163,6 @@ Box2D.Dynamics.b2Fixture.prototype.GetAABB = function() {
 };
 
 Box2D.Dynamics.b2Fixture.prototype.Create = function(body, xf, def) {
-    this.m_userData = def.userData;
     this.m_friction = def.friction;
     this.m_restitution = def.restitution;
     this.m_body = body;

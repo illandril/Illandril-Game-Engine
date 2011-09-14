@@ -159,6 +159,10 @@ illandril.game.controls.keyHandler.prototype.notifyControlChangeListeners = func
  */
 illandril.game.controls.keyHandler.nextID = 0;
 
+/**
+ * @type {illandril.game.controls.keyHandler}
+ * @private
+ */
 illandril.game.controls.keyHandler.actionPendingFor = null;
 
 illandril.game.controls.keyHandler.keyStates = {};
@@ -219,7 +223,7 @@ illandril.game.controls.keyHandler.keyUp = function(e) {
 };
 
 /**
- * @param {string} keyCodeOrKey
+ * @param {string} keyCode
  * @param {boolean=} ctrl
  * @param {boolean=} alt
  * @param {boolean=} shift

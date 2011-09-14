@@ -7,28 +7,43 @@ goog.require('Box2D.Collision.b2DynamicTree');
 goog.require('Box2D.Collision.b2DynamicTreePair');
 goog.require('Box2D.Collision.IBroadPhase');
 
+goog.require('goog.array');
+
 /**
  * @constructor
  */
 Box2D.Collision.b2DynamicTreeBroadPhase = function() {
+    /** @type {!Box2D.Collision.b2DynamicTree} */
     this.m_tree = new Box2D.Collision.b2DynamicTree();
+    
+    /** @type {Array.<!Box2D.Collision.b2DynamicTreeNode>} */
     this.m_moveBuffer = [];
-    this.m_proxyCount = 0;
 };
 
-Box2D.Collision.b2DynamicTreeBroadPhase.prototype.CreateProxy = function(aabb, userData) {
-    var proxy = this.m_tree.CreateProxy(aabb, userData);
-    this.m_proxyCount++;
+/**
+ * @param {!Box2D.Collision.b2AABB} aabb
+ * @param {Box2D.Dynamics.b2Fixture} fixture
+ * @return {!Box2D.Collision.b2DynamicTreeNode}
+ */
+Box2D.Collision.b2DynamicTreeBroadPhase.prototype.CreateProxy = function(aabb, fixture) {
+    var proxy = this.m_tree.CreateProxy(aabb, fixture);
     this.BufferMove(proxy);
     return proxy;
 };
 
+/**
+ * @param {!Box2D.Collision.b2DynamicTreeNode}
+ */
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.DestroyProxy = function(proxy) {
     this.UnBufferMove(proxy);
-    this.m_proxyCount--;
     this.m_tree.DestroyProxy(proxy);
 };
 
+/**
+ * @param {!Box2D.Collision.b2DynamicTreeNode} proxy
+ * @param {!Box2D.Collision.b2AABB} aabb
+ * @param {!Box2D.Common.Math.b2Vec2} displacement
+ */
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.MoveProxy = function(proxy, aabb, displacement) {
     var buffer = this.m_tree.MoveProxy(proxy, aabb, displacement);
     if (buffer) {
@@ -36,24 +51,43 @@ Box2D.Collision.b2DynamicTreeBroadPhase.prototype.MoveProxy = function(proxy, aa
     }
 };
 
+/**
+ * @param {!Box2D.Collision.b2DynamicTreeNode} proxyA
+ * @param {!Box2D.Collision.b2DynamicTreeNode} proxyB
+ * @return {boolean}
+ */
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.TestOverlap = function(proxyA, proxyB) {
     var aabbA = this.m_tree.GetFatAABB(proxyA);
     var aabbB = this.m_tree.GetFatAABB(proxyB);
     return aabbA.TestOverlap(aabbB);
 };
 
-Box2D.Collision.b2DynamicTreeBroadPhase.prototype.GetUserData = function(proxy) {
-    return this.m_tree.GetUserData(proxy);
+/**
+ * @param {!Box2D.Collision.b2DynamicTreeNode} proxy
+ * @return {Box2D.Dynamics.b2Fixture}
+ */
+Box2D.Collision.b2DynamicTreeBroadPhase.prototype.GetFixture = function(proxy) {
+    return this.m_tree.GetFixture(proxy);
 };
 
+/**
+ * @param {!Box2D.Collision.b2DynamicTreeNode} proxy
+ * @return {!Box2D.Collision.b2AABB}
+ */
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.GetFatAABB = function(proxy) {
     return this.m_tree.GetFatAABB(proxy);
 };
 
+/**
+ * @return {number}
+ */
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.GetProxyCount = function() {
-    return this.m_proxyCount;
+    return this.m_tree.length;
 };
 
+/**
+ * @param {function(Box2D.Dynamics.b2Fixture, Box2D.Dynamics.b2Fixture)} callback
+ */
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.UpdatePairs = function(callback) {
     var __this = this;
     var pairs = [];
@@ -73,13 +107,13 @@ Box2D.Collision.b2DynamicTreeBroadPhase.prototype.UpdatePairs = function(callbac
         var fatAABB = this.m_tree.GetFatAABB(queryProxy);
         this.m_tree.Query(QueryCallback, fatAABB);
     }
-    this.m_moveBuffer.length = 0;
+    this.m_moveBuffer = [];
     var i = 0;
     while(i < pairs.length) {
         var primaryPair = pairs[i];
-        var userDataA = this.m_tree.GetUserData(primaryPair.proxyA);
-        var userDataB = this.m_tree.GetUserData(primaryPair.proxyB);
-        callback(userDataA, userDataB);
+        var fixtureA = this.m_tree.GetFixture(primaryPair.proxyA);
+        var fixtureB = this.m_tree.GetFixture(primaryPair.proxyB);
+        callback(fixtureA, fixtureB);
         i++;
         while(i < pairs.length) {
             var pair = pairs[i];
@@ -111,12 +145,11 @@ Box2D.Collision.b2DynamicTreeBroadPhase.prototype.Rebalance = function(iteration
 };
 
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.BufferMove = function(proxy) {
-    this.m_moveBuffer[this.m_moveBuffer.length] = proxy;
+    this.m_moveBuffer.push(proxy);
 };
 
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.UnBufferMove = function(proxy) {
-    var i = this.m_moveBuffer.indexOf(proxy);
-    this.m_moveBuffer.splice(i, 1);
+    goog.array.remove(this.m_moveBuffer, proxy);
 };
 
 Box2D.Collision.b2DynamicTreeBroadPhase.prototype.ComparePairs = function(pair1, pair2) {

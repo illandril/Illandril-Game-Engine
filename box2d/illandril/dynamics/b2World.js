@@ -483,7 +483,7 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
       var broadPhase = this.m_contactManager.m_broadPhase;
 
       var WorldQueryWrapper = function(proxy) {
-         return callback(broadPhase.GetUserData(proxy));
+         return callback(broadPhase.GetFixture(proxy));
       };
       broadPhase.Query(WorldQueryWrapper, aabb);
    };
@@ -496,7 +496,7 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
       var broadPhase = this.m_contactManager.m_broadPhase;
       
       var WorldQueryWrapper = function(proxy) {
-         var fixture = broadPhase.GetUserData(proxy);
+         var fixture = broadPhase.GetFixture(proxy);
          if (Box2D.Collision.Shapes.b2Shape.TestOverlap(shape, transform, fixture.GetShape(), fixture.GetBody().GetTransform())) {
              return callback(fixture);
          } else {
@@ -512,7 +512,7 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
       var broadPhase = this.m_contactManager.m_broadPhase;
 
       var WorldQueryWrapper = function(proxy) {
-         var fixture = broadPhase.GetUserData(proxy);
+         var fixture = broadPhase.GetFixture(proxy);
          if (fixture.TestPoint(p)) {
              return callback(fixture);
          } else {
@@ -539,7 +539,7 @@ Box2D.Dynamics.b2World = function(gravity, doSleep) {
        * @param {!Box2D.Collision.b2DynamicTreeNode} proxy
        */
       var RayCastWrapper = function(input, proxy) {
-         var fixture = broadPhase.GetUserData(proxy);
+         var fixture = broadPhase.GetFixture(proxy);
          var hit = fixture.RayCast(output, input);
          if (hit) {
             var flipFrac = 1 - output.fraction;

@@ -14,7 +14,10 @@ goog.require('Box2D.Common.Math.b2Math');
  */
 Box2D.Collision.Shapes.b2CircleShape = function(radius) {
     Box2D.Collision.Shapes.b2Shape.call(this);
+    /** @type {number} */
     this.m_radius = radius;
+    
+    /** @type {!Box2D.Common.Math.b2Vec2 */
     this.m_p = new Box2D.Common.Math.b2Vec2(0, 0);
 };
 goog.inherits(Box2D.Collision.Shapes.b2CircleShape, Box2D.Collision.Shapes.b2Shape);

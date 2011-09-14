@@ -1,5 +1,7 @@
 goog.provide('illandril.game.game');
 
+goog.require('goog.array');
+
 goog.require('illandril.game.ai');
 goog.require('illandril.game.controls.keyHandler');
 goog.require('illandril.game.requestAnimFrame');
@@ -7,7 +9,6 @@ goog.require('illandril.game.ui.ui');
 goog.require('illandril.game.ui.viewport');
 goog.require('illandril.game.ui.animation');
 goog.require('illandril.game.world');
-goog.require('goog.array');
 
 /**
  * @param {!Object} gameType
