@@ -388,4 +388,4 @@ Box2D.Dynamics.Joints.b2PulleyJoint.prototype.SolvePositionConstraints = functio
     return linearError < Box2D.Common.b2Settings.b2_linearSlop;
 };
 
-Box2D.Dynamics.Joints.b2PulleyJoint.b2_minPulleyLength = 2.0;
+Box2D.Dynamics.Joints.b2PulleyJoint.b2_minPulleyLength = 1.0;

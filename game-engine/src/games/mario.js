@@ -68,7 +68,7 @@ test.init = function(gameContainerID, doDebug, wasd) {
     p = new illandril.game.platformer(g);
     var position = new Box2D.Common.Math.b2Vec2(5, worldSize.y - 7);
     test.createPlayer(position, wasd);
-    test.createMario(new Box2D.Common.Math.b2Vec2(0, worldSize.y), position);
+    test.createMario(g, p, new Box2D.Common.Math.b2Vec2(0, worldSize.y), position);
     
     var size = new Box2D.Common.Math.b2Vec2(viewportSize.x / viewportScale, viewportSize.y / viewportScale);
     var bg = g.getWorld().createScenery(size, new Box2D.Common.Math.b2Vec2(0,0), -1 /* zOffset */);
@@ -97,7 +97,7 @@ test.createPlayer = function(position, wasd) {
     playerControls.registerAction(player.actions.moveRight, wasd ? goog.events.KeyCodes.D : goog.events.KeyCodes.RIGHT, false, false, false);
 };
 
-test.createMario = function(offset, respawn) {
+test.createMario = function(g, p, offset, respawn) {
 
     var tileSize = new Box2D.Common.Math.b2Vec2(1.6, 1.6);
     var start = new Box2D.Common.Math.b2Vec2(offset.x - tileSize.x / 2, offset.y - tileSize.y / 2);
@@ -138,12 +138,12 @@ test.createMario = function(offset, respawn) {
     
     for(var y = 0; y < world.length; y++) {
         for(var x = 0; x < world[y].length; x++) {
-            test.createItem(world[y][x], new Box2D.Common.Math.b2Vec2(x, y), topLeft, tileSize, respawn);
+            test.createItem(g, p, world[y][x], new Box2D.Common.Math.b2Vec2(x, y), topLeft, tileSize, respawn);
         }
     }
 };
 
-test.createItem = function(type, location, offset, tileSize, respawn) {
+test.createItem = function(g, p, type, location, offset, tileSize, respawn) {
     var obj = null;
     var imgSheet = marioSheet;
     var imgOffset = null;

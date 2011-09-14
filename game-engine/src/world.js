@@ -163,13 +163,13 @@ illandril.game.world.prototype.createScenery = function(size, position, zOffset)
 illandril.game.world.prototype.createStaticBox = function(size, position, visible, bodyArgs, fixtureArgs) {
     bodyArgs = bodyArgs || {};
     bodyArgs.type = Box2D.Dynamics.b2BodyDef.b2_staticBody;
-    return this.createBox(size, position, visible, bodyArgs, fixtureArgs);
+    return this.createBox(size, position, visible, { bodyArgs: bodyArgs, fixtureArgs: fixtureArgs });
 };
 
-illandril.game.world.prototype.createBox = function(size, position, visible, bodyArgs, fixtureArgs) {
+illandril.game.world.prototype.createBox = function(size, position, visible, args) {
     var shape = new Box2D.Collision.Shapes.b2PolygonShape();
     shape.SetAsBox(size.x / 2, size.y / 2);
-    return this.createObject(size, position, visible, shape, { bodyArgs: bodyArgs, fixtureArgs: fixtureArgs });
+    return this.createObject(size, position, visible, shape, args);
 };
 
 illandril.game.world.prototype.createSafeBox = function(size, position, visible, args) {

@@ -20,6 +20,14 @@ goog.require('Box2D.Dynamics.Joints.b2GearJoint');
 };
 goog.inherits(Box2D.Dynamics.Joints.b2GearJointDef, Box2D.Dynamics.Joints.b2JointDef);
 
+Box2D.Dynamics.Joints.b2GearJointDef.prototype.Initialize = function(joint1, joint2, ratio) {
+    this.joint1 = joint1;
+    this.bodyA = joint1.GetBodyA();
+    this.joint2 = joint2;
+    this.bodyB = joint2.GetBodyA();
+    this.ratio = ratio;
+};
+
 Box2D.Dynamics.Joints.b2GearJointDef.prototype.Create = function() {
     return new Box2D.Dynamics.Joints.b2GearJoint(this);
 };

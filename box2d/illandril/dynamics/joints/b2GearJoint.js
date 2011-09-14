@@ -30,7 +30,7 @@ Box2D.Dynamics.Joints.b2GearJoint = function(def) {
     var coordinate2 = 0;
     this.m_ground1 = def.joint1.GetBodyA();
     this.m_bodyA = def.joint1.GetBodyB();
-    if (type1 == b2Joint.e_revoluteJoint) {
+    if (type1 == Box2D.Dynamics.Joints.b2Joint.e_revoluteJoint) {
         this.m_revolute1 = def.joint1;
         this.m_groundAnchor1.SetV(this.m_revolute1.m_localAnchor1);
         this.m_localAnchor1.SetV(this.m_revolute1.m_localAnchor2);
@@ -43,7 +43,7 @@ Box2D.Dynamics.Joints.b2GearJoint = function(def) {
     }
     this.m_ground2 = def.joint2.GetBodyA();
     this.m_bodyB = def.joint2.GetBodyB();
-    if (type2 == b2Joint.e_revoluteJoint) {
+    if (type2 == Box2D.Dynamics.Joints.b2Joint.e_revoluteJoint) {
         this.m_revolute2 = def.joint2;
         this.m_groundAnchor2.SetV(this.m_revolute2.m_localAnchor1);
         this.m_localAnchor2.SetV(this.m_revolute2.m_localAnchor2);
