@@ -24,8 +24,11 @@ illandril.game.ui.viewport = function(g, containerID, scale, viewportSize, debug
     this.camera = new Box2D.Common.Math.b2Vec2(0, 0);
     this.lastCamera = new Box2D.Common.Math.b2Vec2(-1, -1); // Can't be 0,0, or if we start in the top-left corner the viewportWorldObject won't update
     
-    var viewportWorldObjectSize = new Box2D.Common.Math.b2Vec2(this.scaledViewportSize.x * illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE, this.scaledViewportSize.y * illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE);
-    this.viewportWorldObject = this.game.getWorld().createStaticBox(viewportWorldObjectSize, new Box2D.Common.Math.b2Vec2(0, 0), false /* visible */, null /* bodyArgs */, { isSensor: true } );
+    this.viewportAABB = new Box2D.Collision.b2AABB();
+    this.viewportAABB.upperBound = this.scaledViewportSize.Copy();
+    this.viewportAABB.upperBound.Multiply(illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE);
+    //var viewportWorldObjectSize = new Box2D.Common.Math.b2Vec2(this.scaledViewportSize.x * illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE, this.scaledViewportSize.y * illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE);
+    //this.viewportWorldObject = this.game.getWorld().createStaticBox(viewportWorldObjectSize, new Box2D.Common.Math.b2Vec2(0, 0), false /* visible */, null /* bodyArgs */, { isSensor: true } );
     this.lookAt(new Box2D.Common.Math.b2Vec2(0, 0));
     
     var container = document.getElementById(containerID);
@@ -139,14 +142,15 @@ illandril.game.ui.viewport.prototype.draw = function(time, tick) {
         }
         this.display.style.left = "-" + ( this.camera.x * this.scale - this.viewportSize.x / 2 ) + "px";
         this.display.style.top = "-" + ( this.camera.y * this.scale - this.viewportSize.y / 2 ) + "px";
-        this.viewportWorldObject.body.SetPosition(new Box2D.Common.Math.b2Vec2(this.camera.x, this.camera.y));
+        //this.viewportWorldObject.body.SetPosition(new Box2D.Common.Math.b2Vec2(this.camera.x, this.camera.y));
+        this.viewportAABB.SetCenter(this.camera);
     }
     
     var undisplayedDOMObjects = [];
     for (var i in this.domObjects) {
         undisplayedDOMObjects[i] = this.domObjects[i];
     }
-    var viewportAABB = this.viewportWorldObject.fixture.GetAABB();
+    var viewportAABB = this.viewportAABB; //this.viewportWorldObject.fixture.GetAABB();
     var worldObjects = this.game.getWorld().objects;
     for(var oid in worldObjects) {
         var obj = worldObjects[oid];

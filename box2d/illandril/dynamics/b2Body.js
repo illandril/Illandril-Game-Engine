@@ -76,9 +76,7 @@ Box2D.Dynamics.b2Body = function(bd, world) {
 };
 
 Box2D.Dynamics.b2Body.prototype.CreateFixture = function(def) {
-    if (this.m_world.IsLocked() == true) {
-        return null;
-    }
+    Box2D.Common.b2Settings.b2Assert(!this.m_world.IsLocked());
     var fixture = new Box2D.Dynamics.b2Fixture();
     fixture.Create(this, this.m_xf, def);
     if (this.m_flags & Box2D.Dynamics.b2Body.e_activeFlag) {
@@ -105,9 +103,7 @@ Box2D.Dynamics.b2Body.prototype.CreateFixture2 = function(shape, density) {
 };
 
 Box2D.Dynamics.b2Body.prototype.DestroyFixture = function(fixture) {
-    if (this.m_world.IsLocked() == true) {
-        return;
-    }
+    Box2D.Common.b2Settings.b2Assert(!this.m_world.IsLocked());
     var node = this.m_fixtureList;
     var ppF = null;
     var found = false;
@@ -142,12 +138,12 @@ Box2D.Dynamics.b2Body.prototype.DestroyFixture = function(fixture) {
     this.ResetMassData();
 };
 
+/**
+ * @param {!Box2D.Common.Math.b2Vec2) position
+ * @param {number} angle
+ */
 Box2D.Dynamics.b2Body.prototype.SetPositionAndAngle = function(position, angle) {
-    if (angle === undefined) angle = 0;
-    var f;
-    if (this.m_world.IsLocked() == true) {
-        return;
-    }
+    Box2D.Common.b2Settings.b2Assert(!this.m_world.IsLocked());
     this.m_xf.R.Set(angle);
     this.m_xf.position.SetV(position);
     var tMat = this.m_xf.R;
@@ -159,7 +155,7 @@ Box2D.Dynamics.b2Body.prototype.SetPositionAndAngle = function(position, angle) 
     this.m_sweep.c0.SetV(this.m_sweep.c);
     this.m_sweep.a0 = this.m_sweep.a = angle;
     var broadPhase = this.m_world.m_contactManager.m_broadPhase;
-    for (f = this.m_fixtureList; f; f = f.m_next) {
+    for (var f = this.m_fixtureList; f; f = f.m_next) {
         f.Synchronize(broadPhase, this.m_xf, this.m_xf);
     }
     this.m_world.m_contactManager.FindNewContacts();

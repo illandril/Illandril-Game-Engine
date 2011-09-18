@@ -9,30 +9,23 @@ goog.require('Box2D.Common.Math.b2Math');
 goog.require('Box2D.Common.b2Settings');
 
 /**
+ * @param {!Box2D.Dynamics.b2ContactListener} listener
+ * @param {!Box2D.Dynamics.Contacts.b2ContactSolver} contactSolver
  * @constructor
  */
-Box2D.Dynamics.b2Island = function() {
-    this.m_bodies = [];
-    this.m_contacts = [];
-    this.m_joints = [];
-};
-
-Box2D.Dynamics.b2Island.prototype.Initialize = function(bodyCapacity, contactCapacity, jointCapacity, listener, contactSolver) {
-    var i = 0;
-    this.m_bodyCount = 0;
-    this.m_contactCount = 0;
-    this.m_jointCount = 0;
+Box2D.Dynamics.b2Island = function(listener, contactSolver) {
     this.m_listener = listener;
     this.m_contactSolver = contactSolver;
-    this.m_bodies = [];
-    this.m_contacts = [];
-    this.m_joints = [];
+    this.Clear();
 };
 
 Box2D.Dynamics.b2Island.prototype.Clear = function() {
     this.m_bodyCount = 0;
     this.m_contactCount = 0;
     this.m_jointCount = 0;
+    this.m_bodies = [];
+    this.m_contacts = [];
+    this.m_joints = [];
 };
 
 Box2D.Dynamics.b2Island.prototype.Solve = function(step, gravity, allowSleep) {

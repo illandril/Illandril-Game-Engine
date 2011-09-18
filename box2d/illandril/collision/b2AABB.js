@@ -35,6 +35,18 @@ Box2D.Collision.b2AABB.prototype.GetCenter = function() {
     return new Box2D.Common.Math.b2Vec2((this.lowerBound.x + this.upperBound.x) / 2, (this.lowerBound.y + this.upperBound.y) / 2);
 };
 
+
+/**
+ * @param {!Box2D.Common.Math.b2Vec2}
+ */
+Box2D.Collision.b2AABB.prototype.SetCenter = function(newCenter) {
+    var oldCenter = this.GetCenter();
+    this.lowerBound.Subtract(oldCenter);
+    this.upperBound.Subtract(oldCenter);
+    this.lowerBound.Add(newCenter);
+    this.upperBound.Add(newCenter);
+};
+
 /**
  * @return {!Box2D.Common.Math.b2Vec2}
  */

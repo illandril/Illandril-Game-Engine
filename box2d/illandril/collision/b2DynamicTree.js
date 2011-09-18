@@ -195,40 +195,29 @@ Box2D.Collision.b2DynamicTree.prototype.InsertLeaf = function(leaf) {
         this.m_root.parent = null;
         return;
     }
-    var center = leaf.aabb.GetCenter();
-    var sibling = this.m_root;
-    while(!sibling.IsLeaf()) {
-        var child1 = sibling.child1;
-        var child2 = sibling.child2;
-        var norm1 = Math.abs((child1.aabb.lowerBound.x + child1.aabb.upperBound.x) / 2 - center.x) + Math.abs((child1.aabb.lowerBound.y + child1.aabb.upperBound.y) / 2 - center.y);
-        var norm2 = Math.abs((child2.aabb.lowerBound.x + child2.aabb.upperBound.x) / 2 - center.x) + Math.abs((child2.aabb.lowerBound.y + child2.aabb.upperBound.y) / 2 - center.y);
-        if (norm1 < norm2) {
-            sibling = child1;
-        } else {
-            sibling = child2;
-        }
-    }
-    var node1 = sibling.parent;
+    var sibling = this.GetBestSibling(leaf);
+    
+    var parent = sibling.parent;
     var node2 = new Box2D.Collision.b2DynamicTreeNode();
-    node2.parent = node1;
+    node2.parent = parent;
     node2.aabb.Combine(leaf.aabb, sibling.aabb);
-    if (node1) {
+    if (parent) {
         if (sibling.parent.child1 == sibling) {
-            node1.child1 = node2;
+            parent.child1 = node2;
         } else {
-            node1.child2 = node2;
+            parent.child2 = node2;
         }
         node2.child1 = sibling;
         node2.child2 = leaf;
         sibling.parent = node2;
         leaf.parent = node2;
-        while (node1) {
-            if (node1.aabb.Contains(node2.aabb)) {
+        while (parent) {
+            if (parent.aabb.Contains(node2.aabb)) {
                 break;
             }
-            node1.aabb.Combine(node1.child1.aabb, node1.child2.aabb);
-            node2 = node1;
-            node1 = node1.parent;
+            parent.aabb.Combine(parent.child1.aabb, parent.child2.aabb);
+            node2 = parent;
+            parent = parent.parent;
         }
     } else {
         node2.child1 = sibling;
@@ -237,6 +226,27 @@ Box2D.Collision.b2DynamicTree.prototype.InsertLeaf = function(leaf) {
         leaf.parent = node2;
         this.m_root = node2;
     }
+};
+
+/**
+ * @param {!Box2D.Collision.b2DynamicTreeNode} leaf
+ * @return {!Box2D.Collision.b2DynamicTreeNode}
+ */
+Box2D.Collision.b2DynamicTree.prototype.GetBestSibling = function(leaf) {
+    var center = leaf.aabb.GetCenter();
+    var sibling = this.m_root;
+    while(!sibling.IsLeaf()) {
+        var child1 = sibling.child1;
+        var child2 = sibling.child2;
+        var norm1 = Math.abs((child1.aabb.lowerBound.x + child1.aabb.upperBound.x) / 2 - center.x) + Math.abs((child1.aabb.lowerBound.y + child1.aabb.upperBound.y) / 2 - center.y);
+        var norm2 = Math.abs((child2.aabb.lowerBound.x + child2.aabb.upperBound.x) / 2 - center.x) + Math.abs((child2.aabb.lowerBound.y + child2.aabb.upperBound.y) / 2 - center.y);
+        if (norm1 < norm2) {
+            sibling = child1; 
+        } else {
+            sibling = child2;
+        }
+    }
+    return sibling;
 };
 
 /**
