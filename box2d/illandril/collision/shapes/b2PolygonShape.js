@@ -442,10 +442,6 @@ Box2D.Collision.Shapes.b2PolygonShape.prototype.GetSupportVertex = function(d) {
     return this.m_vertices[bestIndex];
 };
 
-Box2D.Collision.Shapes.b2PolygonShape.prototype.Validate = function() {
-    return false;
-};
-
 /**
  * @param {number} count
  */

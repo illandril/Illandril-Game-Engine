@@ -97,15 +97,7 @@ Box2D.Collision.b2DynamicTree.prototype.GetFatAABB = function(proxy) {
 };
 
 /**
- * @param {!Box2D.Collision.b2DynamicTreeNode} proxy
- * @return {Box2D.Dynamics.b2Fixture}
- */
-Box2D.Collision.b2DynamicTree.prototype.GetFixture = function(proxy) {
-    return proxy.fixture;
-};
-
-/**
- * @param {function(!Box2D.Collision.b2DynamicTreeNode): boolean} callback
+ * @param {function(!Box2D.Dynamics.b2Fixture): boolean} callback
  * @param {!Box2D.Collision.b2AABB} aabb
  */
 Box2D.Collision.b2DynamicTree.prototype.Query = function(callback, aabb) {
@@ -116,7 +108,7 @@ Box2D.Collision.b2DynamicTree.prototype.Query = function(callback, aabb) {
             var node = stack.pop();
             if (node.aabb.TestOverlap(aabb)) {
                 if (node.IsLeaf()) {
-                    if (!callback(node)) {
+                    if (!callback(node.fixture)) {
                         return;
                     }
                 } else {
@@ -129,7 +121,7 @@ Box2D.Collision.b2DynamicTree.prototype.Query = function(callback, aabb) {
 };
 
 /**
- * @param {function(!Box2D.Collision.b2RayCastInput, !Box2D.Collision.b2DynamicTreeNode): number} callback
+ * @param {function(!Box2D.Collision.b2RayCastInput, !Box2D.Dynamics.b2Fixture): number} callback
  * @param {!Box2D.Collision.b2RayCastInput} input
  */
 Box2D.Collision.b2DynamicTree.prototype.RayCast = function(callback, input) {
@@ -166,7 +158,7 @@ Box2D.Collision.b2DynamicTree.prototype.RayCast = function(callback, input) {
         }
         if (node.IsLeaf()) {
             var subInput = new Box2D.Collision.b2RayCastInput(input.p1, input.p2, input.maxFraction);
-            maxFraction = callback(input, node);
+            maxFraction = callback(input, node.fixture);
             if (maxFraction == 0.0) {
                 return;
             }

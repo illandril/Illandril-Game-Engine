@@ -31,10 +31,11 @@ illandril.game.world = function(game, worldSize, gravity) {
     this.b2World.SetContactListener(this);
     
     // Add in the boundries
-    this.top = this.createStaticBox(new Box2D.Common.Math.b2Vec2(this.worldSize.x + 2, 2), new Box2D.Common.Math.b2Vec2(this.worldSize.x / 2, -1), false /* visible */, null, { friction: 0} );
-    this.bottom = this.createStaticBox(new Box2D.Common.Math.b2Vec2(this.worldSize.x + 2, 2), new Box2D.Common.Math.b2Vec2(this.worldSize.x / 2, this.worldSize.y + 1), false /* visible */, null, { friction: 0});
-    this.left = this.createStaticBox(new Box2D.Common.Math.b2Vec2(2, this.worldSize.y + 2), new Box2D.Common.Math.b2Vec2(-1, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
-    this.right = this.createStaticBox(new Box2D.Common.Math.b2Vec2(2, this.worldSize.y + 2), new Box2D.Common.Math.b2Vec2(this.worldSize.x + 1, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
+    var boundryWidth = 5;
+    this.top = this.createStaticBox(new Box2D.Common.Math.b2Vec2(this.worldSize.x + boundryWidth, boundryWidth), new Box2D.Common.Math.b2Vec2(this.worldSize.x / 2, -boundryWidth / 2), false /* visible */, null, { friction: 0} );
+    this.bottom = this.createStaticBox(new Box2D.Common.Math.b2Vec2(this.worldSize.x + boundryWidth, boundryWidth), new Box2D.Common.Math.b2Vec2(this.worldSize.x / 2, this.worldSize.y + boundryWidth / 2), false /* visible */, null, { friction: 0});
+    this.left = this.createStaticBox(new Box2D.Common.Math.b2Vec2(boundryWidth, this.worldSize.y + boundryWidth), new Box2D.Common.Math.b2Vec2(-boundryWidth / 2, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
+    this.right = this.createStaticBox(new Box2D.Common.Math.b2Vec2(boundryWidth, this.worldSize.y + boundryWidth), new Box2D.Common.Math.b2Vec2(this.worldSize.x + boundryWidth / 2, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
 };
 
 /**

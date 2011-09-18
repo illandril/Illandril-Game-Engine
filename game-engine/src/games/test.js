@@ -26,7 +26,7 @@ goog.require('mario');
 var player;
 var ramp;
 
-var testObjects = 100;
+var testObjects = 50;
 var worldSize = new Box2D.Common.Math.b2Vec2(350, 80); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(1024, 600); // Pixels
 var viewportScale = 20; // Pixels per Meter
@@ -57,7 +57,7 @@ test.init = function(gameContainerID, doDebug, wasd) {
     var testCount = 0;
     
     test.createJointTests(++testCount);
-    //test.createSlopeTests(++testCount);
+    test.createSlopeTests(++testCount);
     
     test.createPlatforms(testCount);
     test.createDebugObjects();
@@ -99,7 +99,18 @@ test.createPlatforms = function(testCount) {
 };
 
 test.createSlopeTests = function(testCount) {
-    var ramp = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(5, 0.25),  new Box2D.Common.Math.b2Vec2(16, worldSize.y - 1.5), true /* visible */, { angle: Math.PI / 3 }, null );
+    var testSpacing = 2;
+    var offset = new Box2D.Common.Math.b2Vec2(testLeft + testSpacing, worldSize.y - (marioFloor + testCount * distanceBetweenTests));
+    var minSlope = -Math.PI / 4;
+    var maxSlope = 0;
+    var slopeTicks = 20;
+    var slopeWidth = 3;
+    var slopeTick = (maxSlope - minSlope) / slopeTicks;
+    for(var slope = minSlope; slope <= maxSlope; slope += slopeTick) {
+        offset.x += slopeWidth / 2;
+        var ramp = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(slopeWidth, slopeWidth / 10),  new Box2D.Common.Math.b2Vec2(offset.x, offset.y - slopeWidth / 2), true /* visible */, { angle: slope }, null );
+        offset.x += slopeWidth / 2 + testSpacing;
+    }
 };
 
 test.createJointTests = function(testCount) {
@@ -243,7 +254,7 @@ test.createDebugObjects = function() {
         fixedRotation: false
     };
     var fixArgs = {
-        restitution: 2.5
+        restitution: 1.5
     };
     var shape = new Box2D.Collision.Shapes.b2CircleShape( 0.25 )
     var size = new Box2D.Common.Math.b2Vec2(0.5, 0.5);
@@ -266,6 +277,14 @@ test.createDebugObjects = function() {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
       var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 10 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 10 ) % 20 ));
       bodyArgs.angle = ( i % 22 ) / 22;
+      g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
+    }
+    shape = new Box2D.Collision.Shapes.b2PolygonShape();
+    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-Math.random() * 0.5, -Math.random() * 0.5), new Box2D.Common.Math.b2Vec2(Math.random() * 0.5, -Math.random() * 0.5), new Box2D.Common.Math.b2Vec2(Math.random() * 0.5, Math.random() * 0.5), new Box2D.Common.Math.b2Vec2(-Math.random() * 0.5, Math.random() * 0.5)] );
+    for ( var i = 0; i < testObjects; i++ ) {
+      var x = ( i * 5 ) % ( worldSize.x - 10 );
+      var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 15 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 15 ) % 20 ));
+      bodyArgs.angle = ( i % 35 ) / 35;
       g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
     shape = new Box2D.Collision.Shapes.b2PolygonShape();
