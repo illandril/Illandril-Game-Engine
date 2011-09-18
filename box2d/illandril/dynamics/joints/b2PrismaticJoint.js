@@ -387,7 +387,7 @@ Box2D.Dynamics.Joints.b2PrismaticJoint.prototype.SolvePositionConstraints = func
         this.m_a2 = r2X * this.m_axis.y - r2Y * this.m_axis.x;
         var translation = this.m_axis.x * dX + this.m_axis.y * dY;
         if (Math.abs(this.m_upperTranslation - this.m_lowerTranslation) < 2.0 * Box2D.Common.b2Settings.b2_linearSlop) {
-            C2 = Box2D.Common.Math.b2Math.Clamp(translation, (-b2Settings.b2_maxLinearCorrection), Box2D.Common.b2Settings.b2_maxLinearCorrection);
+            C2 = Box2D.Common.Math.b2Math.Clamp(translation, (-Box2D.Common.b2Settings.b2_maxLinearCorrection), Box2D.Common.b2Settings.b2_maxLinearCorrection);
             linearError = Math.abs(translation);
             active = true;
         } else if (translation <= this.m_lowerTranslation) {

@@ -57,7 +57,7 @@ Box2D.Dynamics.Joints.b2LineJoint.prototype.GetAnchorB = function() {
 
 Box2D.Dynamics.Joints.b2LineJoint.prototype.GetReactionForce = function(inv_dt) {
     if (inv_dt === undefined) inv_dt = 0;
-    return new b2Vec2(inv_dt * (this.m_impulse.x * this.m_perp.x + (this.m_motorImpulse + this.m_impulse.y) * this.m_axis.x), inv_dt * (this.m_impulse.x * this.m_perp.y + (this.m_motorImpulse + this.m_impulse.y) * this.m_axis.y));
+    return new Box2D.Common.Math.b2Vec2(inv_dt * (this.m_impulse.x * this.m_perp.x + (this.m_motorImpulse + this.m_impulse.y) * this.m_axis.x), inv_dt * (this.m_impulse.x * this.m_perp.y + (this.m_motorImpulse + this.m_impulse.y) * this.m_axis.y));
 };
 
 Box2D.Dynamics.Joints.b2LineJoint.prototype.GetReactionTorque = function(inv_dt) {
@@ -220,7 +220,7 @@ Box2D.Dynamics.Joints.b2LineJoint.prototype.InitVelocityConstraints = function(s
     
     if (this.m_enableLimit) {
         var jointTransition = this.m_axis.x * dX + this.m_axis.y * dY;
-        if (Math.abs(this.m_upperTranslation - this.m_lowerTranslation) < 2.0 * b2Settings.b2_linearSlop) {
+        if (Math.abs(this.m_upperTranslation - this.m_lowerTranslation) < 2.0 * Box2D.Common.b2Settings.b2_linearSlop) {
             this.m_limitState = Box2D.Dynamics.Joints.b2Joint.e_equalLimits;
         } else if (jointTransition <= this.m_lowerTranslation) {
             if (this.m_limitState != Box2D.Dynamics.Joints.b2Joint.e_atLowerLimit) {
@@ -295,7 +295,7 @@ Box2D.Dynamics.Joints.b2LineJoint.prototype.SolveVelocityConstraints = function(
     if (this.m_enableLimit && this.m_limitState != Box2D.Dynamics.Joints.b2Joint.e_inactiveLimit) {
         var Cdot2 = this.m_axis.x * (v2.x - v1.x) + this.m_axis.y * (v2.y - v1.y) + this.m_a2 * w2 - this.m_a1 * w1;
         var f1 = this.m_impulse.Copy();
-        var df = this.m_K.Solve(new b2Vec2(0, 0), (-Cdot1), (-Cdot2));
+        var df = this.m_K.Solve(new Box2D.Common.Math.b2Vec2(0, 0), (-Cdot1), (-Cdot2));
         this.m_impulse.Add(df);
         if (this.m_limitState == Box2D.Dynamics.Joints.b2Joint.e_atLowerLimit) {
             this.m_impulse.y = Math.max(this.m_impulse.y, 0.0);
@@ -367,8 +367,8 @@ Box2D.Dynamics.Joints.b2LineJoint.prototype.SolvePositionConstraints = function(
     var angularError = 0.0;
     var active = false;
     var C2 = 0.0;
-    var R1 = b2Mat22.FromAngle(a1);
-    var R2 = b2Mat22.FromAngle(a2);
+    var R1 = Box2D.Common.Math.b2Mat22.FromAngle(a1);
+    var R2 = Box2D.Common.Math.b2Mat22.FromAngle(a2);
     tMat = R1;
     var r1X = this.m_localAnchor1.x - this.m_localCenterA.x;
     var r1Y = this.m_localAnchor1.y - this.m_localCenterA.y;
@@ -388,16 +388,16 @@ Box2D.Dynamics.Joints.b2LineJoint.prototype.SolvePositionConstraints = function(
         this.m_a1 = (dX + r1X) * this.m_axis.y - (dY + r1Y) * this.m_axis.x;
         this.m_a2 = r2X * this.m_axis.y - r2Y * this.m_axis.x;
         var translation = this.m_axis.x * dX + this.m_axis.y * dY;
-        if (Math.abs(this.m_upperTranslation - this.m_lowerTranslation) < 2.0 * b2Settings.b2_linearSlop) {
-            C2 = Box2D.Common.Math.b2Math.Clamp(translation, (-b2Settings.b2_maxLinearCorrection), b2Settings.b2_maxLinearCorrection);
+        if (Math.abs(this.m_upperTranslation - this.m_lowerTranslation) < 2.0 * Box2D.Common.b2Settings.b2_linearSlop) {
+            C2 = Box2D.Common.Math.b2Math.Clamp(translation, (-Box2D.Common.b2Settings.b2_maxLinearCorrection), Box2D.Common.b2Settings.b2_maxLinearCorrection);
             linearError = Math.abs(translation);
             active = true;
         } else if (translation <= this.m_lowerTranslation) {
-            C2 = Box2D.Common.Math.b2Math.Clamp(translation - this.m_lowerTranslation + b2Settings.b2_linearSlop, (-b2Settings.b2_maxLinearCorrection), 0.0);
+            C2 = Box2D.Common.Math.b2Math.Clamp(translation - this.m_lowerTranslation + Box2D.Common.b2Settings.b2_linearSlop, (-Box2D.Common.b2Settings.b2_maxLinearCorrection), 0.0);
             linearError = this.m_lowerTranslation - translation;
             active = true;
         } else if (translation >= this.m_upperTranslation) {
-            C2 = Box2D.Common.Math.b2Math.Clamp(translation - this.m_upperTranslation + b2Settings.b2_linearSlop, 0.0, b2Settings.b2_maxLinearCorrection);
+            C2 = Box2D.Common.Math.b2Math.Clamp(translation - this.m_upperTranslation + Box2D.Common.b2Settings.b2_linearSlop, 0.0, Box2D.Common.b2Settings.b2_maxLinearCorrection);
             linearError = translation - this.m_upperTranslation;
             active = true;
         }
@@ -405,7 +405,7 @@ Box2D.Dynamics.Joints.b2LineJoint.prototype.SolvePositionConstraints = function(
     this.m_perp = Box2D.Common.Math.b2Math.MulMV(R1, this.m_localYAxis1);
     this.m_s1 = (dX + r1X) * this.m_perp.y - (dY + r1Y) * this.m_perp.x;
     this.m_s2 = r2X * this.m_perp.y - r2Y * this.m_perp.x;
-    var impulse = new b2Vec2(0, 0);
+    var impulse = new Box2D.Common.Math.b2Vec2(0, 0);
     var C1 = this.m_perp.x * dX + this.m_perp.y * dY;
     linearError = Math.max(linearError, Math.abs(C1));
     angularError = 0.0;
