@@ -165,7 +165,14 @@ illandril.game.controls.keyHandler.nextID = 0;
  */
 illandril.game.controls.keyHandler.actionPendingFor = null;
 
+/**
+ * @type {Object.<number, Object.<string, boolean>>}
+ */
 illandril.game.controls.keyHandler.keyStates = {};
+
+/**
+ * @type {Object.<string, boolean|Object.<string, boolean>>}
+ */
 illandril.game.controls.keyHandler.modifierKeyStates = { CTRL: false, CTRL_LAST: {}, ALT: false, ALT_LAST: {}, SHIFT: false, SHIFT_LAST: {} };
 
 illandril.game.controls.keyHandler.rememberCurrentAsLastKeyState = function() {
@@ -223,7 +230,7 @@ illandril.game.controls.keyHandler.keyUp = function(e) {
 };
 
 /**
- * @param {string} keyCode
+ * @param {number} keyCode
  * @param {boolean=} ctrl
  * @param {boolean=} alt
  * @param {boolean=} shift

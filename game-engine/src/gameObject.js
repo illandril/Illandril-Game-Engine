@@ -17,10 +17,10 @@ illandril.game.gameObject = function(position) {
     /** @type {Array.<function(number, number)>} */
     this.thoughts = [];
     
-    /** @type {Array.<function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)>} */
+    /** @type {Array.<function(!Box2D.Dynamics.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)>} */
     this.ValidateBeginContactActions = [];
     
-    /** @type {Array.<function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)>} */
+    /** @type {Array.<function(!Box2D.Dynamics.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)>} */
     this.BeginContactActions = [];
     
     /** @type {Box2D.Dynamics.b2Body} */

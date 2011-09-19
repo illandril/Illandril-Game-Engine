@@ -210,7 +210,6 @@ test.createJointTests = function(testCount) {
     
     
     for ( var x = 0; x < gearCount; x++ ) {
-        var y = offset.y - gearRadius * 2;
         var jointDef = new Box2D.Dynamics.Joints.b2GearJointDef();
         var revJointDef = new Box2D.Dynamics.Joints.b2RevoluteJointDef();
         var prisJointDef = new Box2D.Dynamics.Joints.b2PrismaticJointDef();

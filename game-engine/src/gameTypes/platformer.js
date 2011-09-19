@@ -117,7 +117,7 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
             noRight: falseSides & platformer.SIDES.RIGHT
         };
         
-        /** @type {function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)} */
+        /** @type {function(!Box2D.Dynamics.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)} */
         var validateBeginContactAction = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
             if (contact.disabled) {
                 return;
@@ -173,7 +173,7 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
         };
         
         
-        /** @type {function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)} */
+        /** @type {function(!Box2D.Dynamics.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)} */
         var beginContactAction = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
             if (contact.disabled) {
                 return;

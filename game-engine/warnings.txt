@@ -8,6 +8,26 @@ required: function (?, ?, ?): undefined
     Box2D.defineProperty = Object.defineProperty;
                          ^
 
+../box2dweb-closure/src/dynamics/b2Body.js:98: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+    /** @type {Box2D.Dynamics.Controllers.b2Controller} */
+                                                      ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:137: WARNING - variable this.m_mass redefined with type number, original definition at ../box2dweb-closure/src/dynamics/b2Body.js:132 with type number
+        this.m_mass = 0;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:139: WARNING - variable this.m_invMass redefined with type number, original definition at ../box2dweb-closure/src/dynamics/b2Body.js:134 with type number
+        this.m_invMass = 0;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:160: WARNING - parameter bd does not appear in Box2D.Dynamics.b2Body.prototype.CreateFixture's parameter list
+Box2D.Dynamics.b2Body.prototype.CreateFixture = function(def) {
+                                                        ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:483: WARNING - Function Box2D.Dynamics.b2Fixture.prototype.GetMassData: called with 0 argument(s). Function requires at least 1 argument(s) and no more than 1 argument(s).
+        var massData = f.GetMassData();
+                                    ^
+
 ../box2dweb-closure/src/dynamics/b2World.js:75: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.b2DestructionListener
     /** @type {Box2D.Dynamics.b2DestructionListener} */
                                                    ^
@@ -24,25 +44,9 @@ required: function (?, ?, ?): undefined
  * @param {!Box2D.Dynamics.b22ContactListener} listener
                                              ^
 
-../box2dweb-closure/src/dynamics/b2World.js:197: WARNING - Bad type annotation. expecting a variable name in a @param tag
- */
- ^
-
 ../box2dweb-closure/src/dynamics/b2World.js:213: WARNING - Property RemoveBody never defined on coe0.controller
         coe0.controller.RemoveBody(b);
         ^
-
-../box2dweb-closure/src/dynamics/b2World.js:213: WARNING - Property controller never defined on coe0
-        coe0.controller.RemoveBody(b);
-        ^
-
-../box2dweb-closure/src/dynamics/b2World.js:248: WARNING - Bad type annotation. expecting a variable name in a @param tag
- * @return {!Box2D.Dynamics.Joints.b2Joint}
-   ^
-
-../box2dweb-closure/src/dynamics/b2World.js:291: WARNING - Bad type annotation. expecting a variable name in a @param tag
- */
- ^
 
 ../box2dweb-closure/src/dynamics/b2World.js:342: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
  * @param {!Box2D.Dynamics.Controllers.b2Controller} c
@@ -80,39 +84,27 @@ required: function (?, ?, ?): undefined
  * @param {goog.events.EventHandler=} opt_eventHandler Event handler to remove
                                    ^
 
-src/controls/keyHandler.js:83: WARNING - actual parameter 1 of illandril.game.controls.keyHandler.getKeyEventKey does not match formal parameter
-found   : number
-required: string
-        key = illandril.game.controls.keyHandler.getKeyEventKey(keyCodeOrKey, ctrl, alt, shift);
-                                                                ^
+src/controls/keyHandler.js:42: WARNING - restricted index type
+found   : string
+required: number
+        var repeat = modifierRepeat && illandril.game.controls.keyHandler.keyStates[keyCode].wasActive;
+                                                                                    ^
 
-src/controls/keyHandler.js:181: WARNING - Property KeyCode never defined on e
+src/controls/keyHandler.js:45: WARNING - actual parameter 1 of illandril.game.controls.keyHandler.getKeyEventKey does not match formal parameter
+found   : string
+required: number
+        var key = illandril.game.controls.keyHandler.getKeyEventKey(keyCode, illandril.game.controls.keyHandler.modifierKeyStates.CTRL, illandril.game.controls.keyHandler.modifierKeyStates.ALT, illandril.game.controls.keyHandler.modifierKeyStates.SHIFT);
+                                                                    ^
+
+src/controls/keyHandler.js:180: WARNING - restricted index type
+found   : string
+required: number
+    illandril.game.controls.keyHandler.keyStates[keyCode].wasActive = true;
+                                                 ^
+
+src/controls/keyHandler.js:188: WARNING - Property KeyCode never defined on e
   var keyCode = e.KeyCode;
                 ^
-
-src/gameObject.js:20: WARNING - Bad type annotation. Unknown type Box2D.Dynamic.Contacts.b2Contact
-    /** @type {Array.<function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)>} */
-                                                                ^
-
-src/gameObject.js:23: WARNING - Bad type annotation. Unknown type Box2D.Dynamic.Contacts.b2Contact
-    /** @type {Array.<function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)>} */
-                                                                ^
-
-src/gameTypes/platformer.js:120: WARNING - Bad type annotation. Unknown type Box2D.Dynamic.Contacts.b2Contact
-        /** @type {function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)} */
-                                                             ^
-
-src/gameTypes/platformer.js:176: WARNING - Bad type annotation. Unknown type Box2D.Dynamic.Contacts.b2Contact
-        /** @type {function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)} */
-                                                             ^
-
-src/games/test.js:222: WARNING - Redeclared variable: y
-            var y = offset.y - gearRadius * (i + 1) * 2;
-                ^
-
-src/games/test.js:233: WARNING - Redeclared variable: y
-        var y = offset.y - gearRadius * (gearHeight + 1) * 2;
-            ^
 
 src/shims.js:5: WARNING - Property requestAnimationFrame never defined on Window
     var fn = window.requestAnimationFrame       || 
@@ -140,5 +132,5 @@ required: Box2D.Dynamics.b2ContactFilter
     this.b2World.SetContactFilter(this);
                                   ^
 
-0 error(s), 33 warning(s), 80.5% typed
+0 error(s), 30 warning(s), 80.6% typed
 ../closure-library/closure/bin/build/closurebuilder.py: JavaScript compilation succeeded.
