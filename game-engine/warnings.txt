@@ -8,84 +8,6 @@ required: function (?, ?, ?): undefined
     Box2D.defineProperty = Object.defineProperty;
                          ^
 
-../box2dweb-closure/src/collision/b2AABB.js:70: WARNING - Bad type annotation. expecting a variable name in a @param tag
- */
- ^
-
-../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js:65: WARNING - Bad type annotation. expecting a variable name in a @param tag
- */
- ^
-
-../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js:153: WARNING - Bad type annotation. Unknown type Box2D.Collision.b2Fixture
- * @param {function(!Box2D.Collision.b2RayCastInput, !Box2D.Collision.b2Fixture): number} callback
-                                                                               ^
-
-../box2dweb-closure/src/collision/b2DynamicTreeNode.js:55: WARNING - assignment to property fixture of Box2D.Collision.b2DynamicTreeNode
-found   : (Box2D.Dynamics.b2Fixture|null|undefined)
-required: (Box2D.Dynamics.b2Fixture|null)
-    this.fixture = fixture;
-                 ^
-
-../box2dweb-closure/src/collision/b2WorldManifold.js:81: WARNING - Property m_localPoint never defined on Box2D.Collision.b2WorldManifold
-            tVec = manifold.m_localPoint;
-                   ^
-
-../box2dweb-closure/src/collision/b2WorldManifold.js:85: WARNING - Property m_localPoint never defined on Box2D.Common.Math.b2Vec2
-            tVec = manifold.m_points[0].m_localPoint;
-                   ^
-
-../box2dweb-closure/src/collision/b2WorldManifold.js:108: WARNING - Property m_localPlaneNormal never defined on Box2D.Collision.b2WorldManifold
-            tVec = manifold.m_localPlaneNormal;
-                   ^
-
-../box2dweb-closure/src/collision/b2WorldManifold.js:112: WARNING - Property m_localPoint never defined on Box2D.Collision.b2WorldManifold
-            tVec = manifold.m_localPoint;
-                   ^
-
-../box2dweb-closure/src/collision/b2WorldManifold.js:128: WARNING - Property m_localPlaneNormal never defined on Box2D.Collision.b2WorldManifold
-            tVec = manifold.m_localPlaneNormal;
-                   ^
-
-../box2dweb-closure/src/collision/b2WorldManifold.js:132: WARNING - Property m_localPoint never defined on Box2D.Collision.b2WorldManifold
-            tVec = manifold.m_localPoint;
-                   ^
-
-../box2dweb-closure/src/collision/shapes/b2CircleShape.js:49: WARNING - Bad type annotation. expected closing }
-    /** @type {!Box2D.Common.Math.b2Vec2 */
-                                         ^
-
-../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:50: WARNING - assignment to property m_prevEdge of Box2D.Collision.Shapes.b2EdgeShape
-found   : null
-required: Box2D.Collision.Shapes.b2EdgeShape
-    this.m_prevEdge = null;
-                    ^
-
-../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:53: WARNING - assignment to property m_nextEdge of Box2D.Collision.Shapes.b2EdgeShape
-found   : null
-required: Box2D.Collision.Shapes.b2EdgeShape
-    this.m_nextEdge = null;
-                    ^
-
-../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:337: WARNING - assignment to property m_prevEdge of Box2D.Collision.Shapes.b2EdgeShape
-found   : (Box2D.Collision.Shapes.b2EdgeShape|null)
-required: Box2D.Collision.Shapes.b2EdgeShape
-    this.m_prevEdge = edge;
-                    ^
-
-../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:350: WARNING - assignment to property m_nextEdge of Box2D.Collision.Shapes.b2EdgeShape
-found   : (Box2D.Collision.Shapes.b2EdgeShape|null)
-required: Box2D.Collision.Shapes.b2EdgeShape
-    this.m_nextEdge = edge;
-                    ^
-
-../box2dweb-closure/src/dynamics/b2Body.js:171: WARNING - Bad type annotation. expected closing }
- * @param {!Box2D.Common.Math.b2Vec2) position
-                                    ^
-
-../box2dweb-closure/src/dynamics/b2Body.js:171: WARNING - Bad type annotation. expecting a variable name in a @param tag
- * @param {!Box2D.Common.Math.b2Vec2) position
-                                    ^
-
 ../box2dweb-closure/src/dynamics/b2World.js:75: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.b2DestructionListener
     /** @type {Box2D.Dynamics.b2DestructionListener} */
                                                    ^
@@ -94,45 +16,57 @@ required: Box2D.Collision.Shapes.b2EdgeShape
     /** @type {Box2D.Dynamics.Controllers.b2Controller} */
                                                       ^
 
-../box2dweb-closure/src/dynamics/b2World.js:132: WARNING - Bad type annotation. expecting a variable name in a @param tag
+../box2dweb-closure/src/dynamics/b2World.js:131: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.b2DestructionListener
+ * @param {!Box2D.Dynamics.b2DestructionListener} listener
+                                                ^
+
+../box2dweb-closure/src/dynamics/b2World.js:145: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.b22ContactListener
+ * @param {!Box2D.Dynamics.b22ContactListener} listener
+                                             ^
+
+../box2dweb-closure/src/dynamics/b2World.js:197: WARNING - Bad type annotation. expecting a variable name in a @param tag
  */
  ^
 
-../box2dweb-closure/src/dynamics/b2World.js:139: WARNING - Bad type annotation. expecting a variable name in a @param tag
- */
- ^
-
-../box2dweb-closure/src/dynamics/b2World.js:146: WARNING - Bad type annotation. expecting a variable name in a @param tag
- */
- ^
-
-../box2dweb-closure/src/dynamics/b2World.js:153: WARNING - Bad type annotation. expecting a variable name in a @param tag
- */
- ^
-
-../box2dweb-closure/src/dynamics/b2World.js:203: WARNING - Property RemoveBody never defined on coe0.controller
+../box2dweb-closure/src/dynamics/b2World.js:213: WARNING - Property RemoveBody never defined on coe0.controller
         coe0.controller.RemoveBody(b);
         ^
 
-../box2dweb-closure/src/dynamics/b2World.js:203: WARNING - Property controller never defined on coe0
+../box2dweb-closure/src/dynamics/b2World.js:213: WARNING - Property controller never defined on coe0
         coe0.controller.RemoveBody(b);
         ^
 
-../box2dweb-closure/src/dynamics/b2World.js:325: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+../box2dweb-closure/src/dynamics/b2World.js:248: WARNING - Bad type annotation. expecting a variable name in a @param tag
+ * @return {!Box2D.Dynamics.Joints.b2Joint}
+   ^
+
+../box2dweb-closure/src/dynamics/b2World.js:291: WARNING - Bad type annotation. expecting a variable name in a @param tag
+ */
+ ^
+
+../box2dweb-closure/src/dynamics/b2World.js:342: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
  * @param {!Box2D.Dynamics.Controllers.b2Controller} c
                                                    ^
 
-../box2dweb-closure/src/dynamics/b2World.js:326: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+../box2dweb-closure/src/dynamics/b2World.js:343: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
  * @return {!Box2D.Dynamics.Controllers.b2Controller}
                                                     ^
 
-../box2dweb-closure/src/dynamics/b2World.js:655: WARNING - Bad type annotation. expecting a variable name in a @param tag
- */
- ^
+../box2dweb-closure/src/dynamics/b2World.js:355: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+ * @param {!Box2D.Dynamics.Controllers.b2Controller} c
+                                                   ^
 
-../box2dweb-closure/src/dynamics/b2World.js:736: WARNING - Bad type annotation. expecting a variable name in a @param tag
- */
- ^
+../box2dweb-closure/src/dynamics/b2World.js:365: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+ * @param {!Box2D.Dynamics.Controllers.b2Controller} controller
+                                                   ^
+
+../box2dweb-closure/src/dynamics/b2World.js:366: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+ * @return {!Box2D.Dynamics.Controllers.b2Controller}
+                                                    ^
+
+../box2dweb-closure/src/dynamics/b2World.js:384: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+ * @param {!Box2D.Dynamics.Controllers.b2Controller} controller
+                                                   ^
 
 ../closure-library/closure/goog/events/events.js:875: WARNING - Bad type annotation. Unknown type goog.debug.ErrorHandler
  * @param {goog.debug.ErrorHandler} errorHandler Error handler with which to
@@ -200,5 +134,11 @@ src/shims.js:9: WARNING - Property msRequestAnimationFrame never defined on Wind
               window.msRequestAnimationFrame     || 
               ^
 
-0 error(s), 46 warning(s), 80.4% typed
+src/world.js:30: WARNING - actual parameter 1 of Box2D.Dynamics.b2World.prototype.SetContactFilter does not match formal parameter
+found   : illandril.game.world
+required: Box2D.Dynamics.b2ContactFilter
+    this.b2World.SetContactFilter(this);
+                                  ^
+
+0 error(s), 33 warning(s), 80.5% typed
 ../closure-library/closure/bin/build/closurebuilder.py: JavaScript compilation succeeded.
