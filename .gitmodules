@@ -1,0 +1,3 @@
+[submodule "box2dweb-closure"]
+	path = box2dweb-closure
+	url = git://github.com/illandril/box2dweb-closure.git

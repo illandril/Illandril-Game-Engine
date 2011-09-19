@@ -8,7 +8,7 @@ debug = False
 
 builder = "../closure-library/closure/bin/build/closurebuilder.py"
 args = " --root=../closure-library/"
-args = args + " --root=../box2d/illandril/"
+args = args + " --root=../box2dweb-closure/src/"
 args = args + " --root=src/"
 for arg in sys.argv[2:]:
   args = args + " --namespace=" + arg
