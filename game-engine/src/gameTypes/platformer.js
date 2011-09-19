@@ -116,7 +116,35 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
             noLeft: falseSides & platformer.SIDES.LEFT,
             noRight: falseSides & platformer.SIDES.RIGHT
         };
-
+        
+        /** @type {function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)} */
+        var validateBeginContactAction = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
+            if (contact.disabled) {
+                return;
+            }
+            contact.disabled = true;
+            var m = new Box2D.Collision.b2WorldManifold();
+            contact.GetWorldManifold(m);
+            var normal = m.m_normal;
+            
+            /* This should really be the normal for the directional sided object
+            var m = contact.GetManifold();
+            var normal = m.m_localPlaneNormal;
+            if(contact.GetFixtureB() == fixtureA) {
+                normal = normal.GetNegative(); // This is wrong - need to transform the normal twice, once for each fixture
+            }
+            */
+            if (!(objectA.platformerRules.directionalSiding.noTop) && normal.y > platformer.NORMAL_ERROR) {
+                contact.disabled = false;
+            } else if (!(objectA.platformerRules.directionalSiding.noBottom) && normal.y < -platformer.NORMAL_ERROR) {
+                contact.disabled = false;
+            } else if (!(objectA.platformerRules.directionalSiding.noRight) && normal.x > platformer.NORMAL_ERROR) {
+                contact.disabled = false;
+            } else if (!(objectA.platformerRules.directionalSiding.noLeft) && normal.x < -platformer.NORMAL_ERROR) {
+                contact.disabled = false;
+            }
+        };
+        platform.ValidateBeginContactActions.push(validateBeginContactAction);
     };
     
     platformer.initializeJumper = function(jumper, jumpSpeed) {
@@ -143,11 +171,39 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
                 }
             }
         };
+        
+        
+        /** @type {function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)} */
+        var beginContactAction = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
+            if (contact.disabled) {
+                return;
+            }
+            var m = new Box2D.Collision.b2WorldManifold();
+            contact.GetWorldManifold(m);
+            var normal = m.m_normal;
+            if (normal.y > platformer.NORMAL_ERROR) {
+                var foundBody = false;
+                for (var i = 0; i < objectA.platformerRules.jumper.grounds.length; i++) {
+                    if (objectA.platformerRules.jumper.grounds[i].body == bodyB) {
+                        objectA.platformerRules.jumper.grounds[i].count++;
+                        foundBody = true;
+                        break;
+                    }
+                }
+                if (!foundBody) {
+                    objectA.platformerRules.jumper.grounds.push({body: bodyB, count: 1});
+                }
+                contact.platformerGrounds = contact.platformerGrounds || [];
+                contact.platformerGrounds.push({jumper: objectA, ground: bodyB});
+            }
+        };
+        jumper.BeginContactActions.push(beginContactAction);
+
     };
     
     platformer.initializeMover = function(mover, speed, acceleration) {
         mover.platformerRules = mover.platformerRules || {};
-        mover.platformerRules.type |= platformer.RULE_TYPES.JUMPER;
+        mover.platformerRules.type |= platformer.RULE_TYPES.MOVER;
         mover.platformerRules.mover = {
             acceleration: acceleration,
             speed: speed,
@@ -247,46 +303,7 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
     platformer.prototype.ShouldCollide = null; //function(fixtureA, fixtureB) {};
     
     //Called when two fixtures begin to touch, before BeginContact (should be actions that can disable contact)
-    platformer.prototype.ValidateBeginContact = function(contact) {
-        var fixtureA = contact.GetFixtureA();
-        var bodyA = fixtureA.GetBody();
-        var objectA = bodyA.object;
-        var fixtureB = contact.GetFixtureB();
-        var bodyB = fixtureB.GetBody();
-        var objectB = bodyB.object;
-        if (!contact.disabled && objectA && objectA.platformerRules) {
-            this._ValidateBeginPlatformerContact(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
-        }
-        if (!contact.disabled && objectB && objectB.platformerRules) {
-            this._ValidateBeginPlatformerContact(contact, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
-        }
-    };
-    
-    platformer.prototype._ValidateBeginPlatformerContact = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
-        if (objectA.platformerRules.type & platformer.RULE_TYPES.DIRECTIONAL_SIDING) {
-            contact.disabled = true;
-            var m = new Box2D.Collision.b2WorldManifold();
-            contact.GetWorldManifold(m);
-            var normal = m.m_normal;
-            /* This should really be the normal for the directional sided object
-            var m = contact.GetManifold();
-            var normal = m.m_localPlaneNormal;
-            if(contact.GetFixtureB() == fixtureA) {
-                normal = normal.GetNegative(); // This is wrong - need to transform the normal twice, once for each fixture
-            }
-            */
-            if (!(objectA.platformerRules.directionalSiding.noTop) && normal.y > platformer.NORMAL_ERROR) {
-                contact.disabled = false;
-            } else if (!(objectA.platformerRules.directionalSiding.noBottom) && normal.y < -platformer.NORMAL_ERROR) {
-                contact.disabled = false;
-            } else if (!(objectA.platformerRules.directionalSiding.noRight) && normal.x > platformer.NORMAL_ERROR) {
-                contact.disabled = false;
-            } else if (!(objectA.platformerRules.directionalSiding.noLeft) && normal.x < -platformer.NORMAL_ERROR) {
-                contact.disabled = false;
-            } else {
-            }
-        }
-    };
+    platformer.prototype.ValidateBeginContact = null;
     
     //Called when two fixtures begin to touch, after ValidateBeginContact (should be actions that can not disable contact)
     platformer.prototype.BeginContact = function(contact) {
@@ -311,27 +328,6 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
     };
      // Contact rules depending on all other rules
     platformer.prototype._BeginPlatformerContact = function(contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
-        if (objectA.platformerRules.type & platformer.RULE_TYPES.JUMPER) {
-            var m = new Box2D.Collision.b2WorldManifold();
-            contact.GetWorldManifold(m);
-            var normal = m.m_normal;
-            if (normal.y > platformer.NORMAL_ERROR) {
-                var foundBody = false;
-                for (var i = 0; i < objectA.platformerRules.jumper.grounds.length; i++) {
-                    if (objectA.platformerRules.jumper.grounds[i].body == bodyB) {
-                        objectA.platformerRules.jumper.grounds[i].count++;
-                        foundBody = true;
-                        break;
-                    }
-                }
-                if (!foundBody) {
-                    objectA.platformerRules.jumper.grounds.push({body: bodyB, count: 1});
-                }
-                contact.platformerGrounds = contact.platformerGrounds || [];
-                contact.platformerGrounds.push({jumper: objectA, ground: bodyB});
-            }
-        }
-        
         if (objectA.platformerRules.type & platformer.RULE_TYPES.DIRECTIONAL_ACTION) {
             var m = new Box2D.Collision.b2WorldManifold();
             contact.GetWorldManifold(m);

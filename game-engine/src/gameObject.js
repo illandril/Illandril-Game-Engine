@@ -5,11 +5,26 @@ goog.provide('illandril.game.gameObject');
  * @constructor
  */
 illandril.game.gameObject = function(position) {
+    /** @type {number} */
     this.UID = illandril.game.gameObject.NEXT_UID++;
+    
+    /** @type {!Box2D.Common.Math.b2Vec2} */
     this.position = position.Copy();
+    
+    /** @type {number} */
     this.angle = 0;
+    
     /** @type {Array.<function(number, number)>} */
     this.thoughts = [];
+    
+    /** @type {Array.<function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)>} */
+    this.ValidateBeginContactActions = [];
+    
+    /** @type {Array.<function(!Box2D.Dynamic.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)>} */
+    this.BeginContactActions = [];
+    
+    /** @type {Box2D.Dynamics.b2Body} */
+    this.body = null;
 };
 
 /**

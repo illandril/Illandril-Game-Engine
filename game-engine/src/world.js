@@ -97,17 +97,44 @@ illandril.game.world.prototype.ShouldCollide = function(fixtureA, fixtureB) {
 
 //Called when two fixtures begin to touch.
 illandril.game.world.prototype.BeginContact = function(contact) {
+    var fixtureA = contact.GetFixtureA();
+    var bodyA = fixtureA.GetBody();
+    var objectA = bodyA.object;
+    var fixtureB = contact.GetFixtureB();
+    var bodyB = fixtureB.GetBody();
+    var objectB = bodyB.object;
+    
+    // Called when two fixtures begin to touch, before BeginContact
+    // Should be actions that can disable contact - contact may already be disabled
+    for (var i = 0; i < objectA.ValidateBeginContactActions.length; i++) {
+        objectA.ValidateBeginContactActions[i](contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
+    }
+    
+    for (var i = 0; i < objectB.ValidateBeginContactActions.length; i++) {
+        objectB.ValidateBeginContactActions[i](contact, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
+    }
+    
     for( var i = 0; i < this.collisionFilters.length; i++ ) {
-        // Called when two fixtures begin to touch, before BeginContact
-        // Should be actions that can disable contact - contact may already be disabled
         if (this.collisionFilters[i].ValidateBeginContact) {
             this.collisionFilters[i].ValidateBeginContact(contact);
         }
         if(contact.disabled) {
             contact.SetEnabled(false);
         }
-        // Called when two fixtures begin to touch, after ValidateBeginContact
-        // Should be actions that can not disable contact - contact may already be disabled
+    }
+    
+    
+    // Called when two fixtures begin to touch, after ValidateBeginContact
+    // Should be actions that can not disable contact - contact may already be disabled
+    for (var i = 0; i < objectA.BeginContactActions.length; i++) {
+        objectA.BeginContactActions[i](contact, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
+    }
+    
+    for (var i = 0; i < objectB.BeginContactActions.length; i++) {
+        objectB.BeginContactActions[i](contact, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
+    }
+    
+    for( var i = 0; i < this.collisionFilters.length; i++ ) {
         if (this.collisionFilters[i].BeginContact) {
             this.collisionFilters[i].BeginContact(contact);
         }

@@ -12,16 +12,28 @@ goog.require('Box2D.Consts');
  * @constructor
  */
 Box2D.Collision.b2WorldManifold = function() {
+    /** @type  {!Box2D.Common.Math.b2Vec2} */
     this.m_normal = new Box2D.Common.Math.b2Vec2(0, 0);
+    
+    /** @type {Array.<!Box2D.Common.Math.b2Vec2>} */
     this.m_points = [];
+    
+    /** @type {number} */
+    this.m_pointCount = 0;
+    
     for (var i = 0; i < Box2D.Common.b2Settings.b2_maxManifoldPoints; i++) {
         this.m_points[i] = new Box2D.Common.Math.b2Vec2(0, 0);
     }
 };
 
+/**
+ * @param {!Box2D.Collision.b2WorldManifold} manifold
+ * @param {!Box2D.Common.Math.b2Transform} xfA
+ * @param {number} radiusA
+ * @param {!Box2D.Common.Math.b2Transform} xfB
+ * @param {number} radiusB
+ */
 Box2D.Collision.b2WorldManifold.prototype.Initialize = function(manifold, xfA, radiusA, xfB, radiusB) {
-    if (radiusA === undefined) radiusA = 0;
-    if (radiusB === undefined) radiusB = 0;
     if (manifold.m_pointCount == 0) {
         return;
     }
