@@ -300,7 +300,7 @@ illandril.game.ui.viewport.B2DEBUG_FLAGS = 0
                         | Box2D.Dynamics.b2DebugDraw.e_aabbBit
 //                        | Box2D.Dynamics.b2DebugDraw.e_centerOfMassBit
 //                        | Box2D.Dynamics.b2DebugDraw.e_controllerBit
-//                        | Box2D.Dynamics.b2DebugDraw.e_jointBit
+                        | Box2D.Dynamics.b2DebugDraw.e_jointBit
 //                        | Box2D.Dynamics.b2DebugDraw.e_pairBit
                         | Box2D.Dynamics.b2DebugDraw.e_shapeBit
                         ;

@@ -19,6 +19,7 @@ goog.require('illandril.game.platformer');
 goog.require('illandril.game.controls.keyHandler');
 goog.require('illandril.game.controls.action');
 
+goog.require('bridge');
 goog.require('mario');
 
 (function(test){
@@ -26,8 +27,8 @@ goog.require('mario');
 var player;
 var ramp;
 
-var testObjects = 50;
-var worldSize = new Box2D.Common.Math.b2Vec2(350, 80); // Meters
+var testObjects = 1;
+var worldSize = new Box2D.Common.Math.b2Vec2(350, 100); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(1024, 600); // Pixels
 var viewportScale = 20; // Pixels per Meter
 var addBallPit = true;
@@ -55,6 +56,9 @@ test.init = function(gameContainerID, doDebug, wasd) {
     mario.createMario(g, p, new Box2D.Common.Math.b2Vec2(0, worldSize.y), position);
     
     var testCount = 0;
+    
+    testCount++;
+    bridge.createBridge(g, p, new Box2D.Common.Math.b2Vec2(testLeft, worldSize.y - (marioFloor + testCount * distanceBetweenTests)));
     
     test.createJointTests(++testCount);
     test.createSlopeTests(++testCount);
