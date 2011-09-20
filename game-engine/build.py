@@ -6,8 +6,8 @@ if ( len( sys.argv ) < 2 ):
  
 debug = False
 
-builder = "../closure-library/closure/bin/build/closurebuilder.py"
-args = " --root=../closure-library/"
+builder = "../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py"
+args = " --root=../box2dweb-closure/closure-library/"
 args = args + " --root=../box2dweb-closure/src/"
 args = args + " --root=src/"
 for arg in sys.argv[2:]:
