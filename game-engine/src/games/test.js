@@ -27,8 +27,8 @@ goog.require('mario');
 var player;
 var ramp;
 
-var testObjects = 1;
-var worldSize = new Box2D.Common.Math.b2Vec2(350, 100); // Meters
+var testObjects = 250;
+var worldSize = new Box2D.Common.Math.b2Vec2(3500, 100); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(1024, 600); // Pixels
 var viewportScale = 20; // Pixels per Meter
 var addBallPit = true;
@@ -100,6 +100,12 @@ test.createPlatforms = function(testCount) {
         }
         p.createPlatform(new Box2D.Common.Math.b2Vec2(worldSize.x - testLeft, 0.25), new Box2D.Common.Math.b2Vec2((worldSize.x - testLeft) / 2 + testLeft, worldSize.y - yOffset - distanceBetweenTests));
     }
+    p.createPlatform(new Box2D.Common.Math.b2Vec2(1, 1), new Box2D.Common.Math.b2Vec2(testLeft - 3, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.LEFT);
+    p.createPlatform(new Box2D.Common.Math.b2Vec2(1, 1), new Box2D.Common.Math.b2Vec2(testLeft + 0, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.RIGHT);
+    p.createPlatform(new Box2D.Common.Math.b2Vec2(1, 1), new Box2D.Common.Math.b2Vec2(testLeft + 3, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.TOP);
+    p.createPlatform(new Box2D.Common.Math.b2Vec2(1, 1), new Box2D.Common.Math.b2Vec2(testLeft + 6, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.BOTTOM);
+    var x = p.createPlatform(new Box2D.Common.Math.b2Vec2(1, 1), new Box2D.Common.Math.b2Vec2(testLeft + 9, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.BOTTOM);
+    x.body.SetAngle(Math.PI / 2);
 };
 
 test.createSlopeTests = function(testCount) {
@@ -122,7 +128,7 @@ test.createJointTests = function(testCount) {
     var offset = new Box2D.Common.Math.b2Vec2(testLeft + testSpacing, worldSize.y - (marioFloor + testCount * distanceBetweenTests));
     
     var spinnerCount = 1;
-    var spinnerRadius = 4;
+    var spinnerRadius = 5;
     
     var distanceCount = 1;
     var distanceRadius = 2;
@@ -143,7 +149,7 @@ test.createJointTests = function(testCount) {
         var weldJointDef = new Box2D.Dynamics.Joints.b2WeldJointDef();
         offset.x += spinnerRadius;
         var bodyArgs = { angle: Math.random() * Math.PI };
-        var y = offset.y - 6;
+        var y = offset.y - spinnerRadius * 1.5;
         var b0 = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.01, 0.01), new Box2D.Common.Math.b2Vec2(offset.x, y), false /* visible */, { bodyArgs: bodyArgs });
         var b1 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(spinnerRadius * 2, spinnerRadius / 5), new Box2D.Common.Math.b2Vec2(offset.x, y), true /* visible */, { bodyArgs: bodyArgs });
         g.getViewport().setImage(b1, 'graphics/spinner.png');
@@ -257,7 +263,7 @@ test.createDebugObjects = function() {
         fixedRotation: false
     };
     var fixArgs = {
-        restitution: 1.5
+        restitution: 1.25
     };
     var shape = new Box2D.Collision.Shapes.b2CircleShape( 0.25 )
     var size = new Box2D.Common.Math.b2Vec2(0.5, 0.5);

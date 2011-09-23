@@ -126,6 +126,9 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
             var m = new Box2D.Collision.b2WorldManifold();
             contact.GetWorldManifold(m);
             var normal = m.m_normal;
+            if (contact.GetFixtureA() == fixtureB) {
+                normal = normal.GetNegative();
+            }
             
             /* This should really be the normal for the directional sided object
             var m = contact.GetManifold();
@@ -134,9 +137,9 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
                 normal = normal.GetNegative(); // This is wrong - need to transform the normal twice, once for each fixture
             }
             */
-            if (!(objectA.platformerRules.directionalSiding.noTop) && normal.y > platformer.NORMAL_ERROR) {
+            if (!(objectA.platformerRules.directionalSiding.noTop) && normal.y < -platformer.NORMAL_ERROR) {
                 contact.disabled = false;
-            } else if (!(objectA.platformerRules.directionalSiding.noBottom) && normal.y < -platformer.NORMAL_ERROR) {
+            } else if (!(objectA.platformerRules.directionalSiding.noBottom) && normal.y > platformer.NORMAL_ERROR) {
                 contact.disabled = false;
             } else if (!(objectA.platformerRules.directionalSiding.noRight) && normal.x > platformer.NORMAL_ERROR) {
                 contact.disabled = false;
@@ -166,7 +169,7 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
                     jumper.body.ApplyImpulse(new Box2D.Common.Math.b2Vec2(0,-impulse), newPos);
                     // Known bug: This might cause a double-impulse to the ground in some situations (when velocity is not 0 above)
                     for(var i = 0; i < grounds.length; i++) {
-                        grounds[i].body.ApplyImpulse(new Box2D.Common.Math.b2Vec2(0,impulse / grounds.length), newPos);
+                        grounds[i].GetBody().ApplyImpulse(new Box2D.Common.Math.b2Vec2(0,impulse / grounds.length), newPos);
                     }
                 }
             }
@@ -181,6 +184,10 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
             var m = new Box2D.Collision.b2WorldManifold();
             contact.GetWorldManifold(m);
             var normal = m.m_normal;
+            if (contact.GetFixtureA() == fixtureB) {
+                normal = normal.GetNegative();
+            }
+            
             if (normal.y > platformer.NORMAL_ERROR) {
                 var foundBody = false;
                 for (var i = 0; i < objectA.platformerRules.jumper.grounds.length; i++) {
@@ -197,8 +204,33 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
                 contact.platformerGrounds.push({jumper: objectA, ground: bodyB});
             }
         };
-        jumper.BeginContactActions.push(beginContactAction);
-
+        //jumper.BeginContactActions.push(beginContactAction);
+        
+        /** @type {function(!Box2D.Dynamics.Contacts.b2Contact, !Box2D.Common.Math.b2Vec2, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)} */
+        var postSolveAction = function(contact, impulse, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB) {
+            if (contact.disabled) {
+                return;
+            }
+            var m = new Box2D.Collision.b2WorldManifold();
+            contact.GetWorldManifold(m);
+            var normal = m.m_normal;
+            if (contact.GetFixtureA() == fixtureB) {
+                normal = normal.GetNegative();
+            }
+            if (normal.y > 0.5) {
+                if (!goog.array.contains(objectA.platformerRules.jumper.grounds, fixtureB)) {
+                    goog.array.insert(objectA.platformerRules.jumper.grounds, fixtureB);
+                    contact.platformerJumpers = contact.platformerJumpers || [];
+                    goog.array.insert(contact.platformerJumpers, objectA);
+                }
+            } else {
+                if (goog.array.contains(objectA.platformerRules.jumper.grounds, fixtureB)) {
+                    goog.array.remove(objectA.platformerRules.jumper.grounds, fixtureB);
+                    goog.array.remove(contact.platformerJumpers, objectA);
+                }
+            }
+        };
+        jumper.PostSolveActions.push(postSolveAction);
     };
     
     platformer.initializeMover = function(mover, speed, acceleration) {
@@ -332,11 +364,15 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
             var m = new Box2D.Collision.b2WorldManifold();
             contact.GetWorldManifold(m);
             var normal = m.m_normal;
-            if (normal.y > platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.topOnBegin) {
+            if (contact.GetFixtureA() == fixtureB) {
+                normal = normal.GetNegative();
+            }
+
+            if (normal.y < -platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.topOnBegin) {
                 for (var i = 0; i < objectA.platformerRules.directionalActions.topOnBegin.length; i++) {
                     objectA.platformerRules.directionalActions.topOnBegin[i](contact);
                 }
-            } else if (normal.y < -platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.bottomOnBegin) {
+            } else if (normal.y > platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.bottomOnBegin) {
                 for (var i = 0; i < objectA.platformerRules.directionalActions.bottomOnBegin.length; i++) {
                     objectA.platformerRules.directionalActions.bottomOnBegin[i](contact);
                 }
@@ -363,24 +399,13 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
     
     //Called when two fixtures cease to touch.
     platformer.prototype.EndContact = function(contact) {
-        if (contact.platformerGrounds) {
-            for (var j = 0; j < contact.platformerGrounds.length; j++) {
-                var jumper = contact.platformerGrounds[j].jumper;
-                var groundBody = contact.platformerGrounds[j].ground;
-                var newGrounds = [];
-                for (var i = 0; i < jumper.platformerRules.jumper.grounds.length; i++) {
-                    if (jumper.platformerRules.jumper.grounds[i].body == groundBody) {
-                        jumper.platformerRules.jumper.grounds[i].count--;
-                        if (jumper.platformerRules.jumper.grounds[i].count > 0) {
-                            newGrounds.push(jumper.platformerRules.jumper.grounds[i]);
-                        }
-                    } else {
-                        newGrounds.push(jumper.platformerRules.jumper.grounds[i]);
-                    }
-                }
-                jumper.platformerRules.jumper.grounds = newGrounds;
+        if (contact.platformerJumpers) {
+            for (var j = 0; j < contact.platformerJumpers.length; j++) {
+                var jumper = contact.platformerJumpers[j];
+                goog.array.remove(jumper.platformerRules.jumper.grounds, contact.GetFixtureA());
+                goog.array.remove(jumper.platformerRules.jumper.grounds, contact.GetFixtureB());
             }
-            contact.platformerGrounds = null;
+            contact.platformerJumpers = null;
         }
         
         if (contact.disabled) {
@@ -411,11 +436,15 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
             var m = new Box2D.Collision.b2WorldManifold();
             contact.GetWorldManifold(m);
             var normal = m.m_normal;
-            if (normal.y > platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.topOnEnd) {
+            if (contact.GetFixtureA() == fixtureB) {
+                normal = normal.GetNegative();
+            }
+
+            if (normal.y < -platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.topOnEnd) {
                 for (var i = 0; i < objectA.platformerRules.directionalActions.topOnEnd.length; i++) {
                     objectA.platformerRules.directionalActions.topOnEnd[i](contact);
                 }
-            } else if (normal.y < -platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.bottomOnEnd) {
+            } else if (normal.y > platformer.NORMAL_ERROR && objectA.platformerRules.directionalActions.bottomOnEnd) {
                 for (var i = 0; i < objectA.platformerRules.directionalActions.bottomOnEnd.length; i++) {
                     objectA.platformerRules.directionalActions.bottomOnEnd[i](contact);
                 }

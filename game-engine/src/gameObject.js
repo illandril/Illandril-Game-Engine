@@ -23,6 +23,9 @@ illandril.game.gameObject = function(position) {
     /** @type {Array.<function(!Box2D.Dynamics.Contacts.b2Contact, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)>} */
     this.BeginContactActions = [];
     
+    /** @type {Array.<function(!Box2D.Dynamics.Contacts.b2Contact, !Box2D.Common.Math.b2Vec2, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture, !illandril.game.gameObject, !Box2D.Dynamics.b2Body, !Box2D.Dynamics.b2Fixture)>} */
+    this.PostSolveActions = [];
+    
     /** @type {Box2D.Dynamics.b2Body} */
     this.body = null;
 };

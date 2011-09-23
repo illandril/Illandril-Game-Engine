@@ -200,9 +200,16 @@ illandril.game.game._update = function(time) {
             tick = illandril.game.game.MAX_TICK; 
         }
         if ( illandril.game.game.fps ) {
+            var objCount = 0;
+            var contactCount = 0;
+            for (var i = 0; i < illandril.game.game.games.length; i++) {
+                objCount += illandril.game.game.games[i].world.b2World.m_bodyCount;
+                contactCount += illandril.game.game.games[i].world.b2World.GetContactCount();
+            }
+
             var instantFPS = 1 / tick;
             illandril.game.game.rollingFPS = illandril.game.game.rollingFPS * 0.99 + instantFPS * 0.01;
-            illandril.game.game.fps.innerHTML = Math.round(instantFPS) + " - " + Math.round(illandril.game.game.rollingFPS);
+            illandril.game.game.fps.innerHTML = Math.round(instantFPS) + " FPS<br>" + Math.round(illandril.game.game.rollingFPS) + " Rolling FPS<br>" +  objCount + " World Objects<br>" +  contactCount + " Active Contacts";
         }
         illandril.game.game.lastTickTime = time;
         for (var i = 0; i < illandril.game.game.games.length; i++) {

@@ -166,6 +166,23 @@ illandril.game.world.prototype.PreSolve = function(contact, oldManifold) {
 
 // This lets you inspect a contact after the solver is finished.
 illandril.game.world.prototype.PostSolve = function(contact, impulse) {
+    var fixtureA = contact.GetFixtureA();
+    var bodyA = fixtureA.GetBody();
+    var objectA = bodyA.object;
+    var fixtureB = contact.GetFixtureB();
+    var bodyB = fixtureB.GetBody();
+    var objectB = bodyB.object;
+    
+    // Called when two fixtures begin to touch, before BeginContact
+    // Should be actions that can disable contact - contact may already be disabled
+    for (var i = 0; i < objectA.PostSolveActions.length; i++) {
+        objectA.PostSolveActions[i](contact, impulse, objectA, bodyA, fixtureA, objectB, bodyB, fixtureB);
+    }
+    
+    for (var i = 0; i < objectB.PostSolveActions.length; i++) {
+        objectB.PostSolveActions[i](contact, impulse, objectB, bodyB, fixtureB, objectA, bodyA, fixtureA);
+    }
+    
     for( var i = 0; i < this.collisionFilters.length; i++ ) {
         if (this.collisionFilters[i].PostSolve) {
             this.collisionFilters[i].PostSolve(contact, impulse);
