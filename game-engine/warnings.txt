@@ -1,18 +1,18 @@
 ../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: Scanning paths...
-../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: 881 sources scanned.
+../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: 890 sources scanned.
 ../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: Building dependency tree..
-../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: Compiling with the following command: java -jar ../closure-compiler/compiler.jar --js ../box2dweb-closure/closure-library/closure/goog/base.js --js ../box2dweb-closure/closure-library/closure/goog/string/string.js --js ../box2dweb-closure/closure-library/closure/goog/useragent/useragent.js --js ../box2dweb-closure/closure-library/closure/goog/events/keynames.js --js ../box2dweb-closure/closure-library/closure/goog/events/keycodes.js --js ../box2dweb-closure/closure-library/closure/goog/events/eventtype.js --js ../box2dweb-closure/closure-library/closure/goog/debug/errorhandlerweakdep.js --js ../box2dweb-closure/closure-library/closure/goog/object/object.js --js ../box2dweb-closure/closure-library/closure/goog/debug/error.js --js ../box2dweb-closure/closure-library/closure/goog/asserts/asserts.js --js ../box2dweb-closure/closure-library/closure/goog/array/array.js --js ../box2dweb-closure/closure-library/closure/goog/debug/entrypointregistry.js --js ../box2dweb-closure/closure-library/closure/goog/events/eventwrapper.js --js ../box2dweb-closure/closure-library/closure/goog/events/browserfeature.js --js ../box2dweb-closure/closure-library/closure/goog/disposable/idisposable.js --js ../box2dweb-closure/closure-library/closure/goog/disposable/disposable.js --js ../box2dweb-closure/closure-library/closure/goog/events/event.js --js ../box2dweb-closure/closure-library/closure/goog/reflect/reflect.js --js ../box2dweb-closure/closure-library/closure/goog/events/browserevent.js --js ../box2dweb-closure/closure-library/closure/goog/events/listener.js --js ../box2dweb-closure/closure-library/closure/goog/useragent/jscript.js --js ../box2dweb-closure/closure-library/closure/goog/structs/simplepool.js --js ../box2dweb-closure/closure-library/closure/goog/events/pools.js --js ../box2dweb-closure/closure-library/closure/goog/events/events.js --js ../box2dweb-closure/closure-library/closure/goog/events/eventtarget.js --js ../box2dweb-closure/closure-library/closure/goog/events/keyhandler.js --js src/controls/keyHandler.js --js ../box2dweb-closure/src/common/math/b2Vec2.js --js src/ui/ui.js --js ../box2dweb-closure/src/dynamics/b2DebugDraw.js --js src/ui/spriteSheet.js --js ../box2dweb-closure/src/collision/b2AABB.js --js src/ui/viewport.js --js src/shims.js --js ../box2dweb-closure/src/dynamics/b2FilterData.js --js ../box2dweb-closure/src/dynamics/b2FixtureDef.js --js ../box2dweb-closure/src/common/math/b2Mat22.js --js ../box2dweb-closure/src/common/math/b2Math.js --js ../box2dweb-closure/src/common/b2Settings.js --js ../box2dweb-closure/src/collision/b2SimplexVertex.js --js ../box2dweb-closure/src/collision/b2Simplex.js --js ../box2dweb-closure/src/collision/b2Distance.js --js ../box2dweb-closure/src/collision/b2DistanceInput.js --js ../box2dweb-closure/src/collision/b2DistanceOutput.js --js ../box2dweb-closure/src/collision/b2SimplexCache.js --js ../box2dweb-closure/src/collision/b2DistanceProxy.js --js ../box2dweb-closure/src/collision/shapes/b2Shape.js --js ../box2dweb-closure/src/collision/shapes/b2MassData.js --js ../box2dweb-closure/src/common/math/b2Transform.js --js ../box2dweb-closure/src/collision/shapes/b2PolygonShape.js --js ../box2dweb-closure/src/dynamics/b2ContactFilter.js --js ../box2dweb-closure/src/dynamics/joints/b2JointEdge.js --js ../box2dweb-closure/src/dynamics/joints/b2Joint.js --js ../box2dweb-closure/src/dynamics/joints/b2PulleyJoint.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactRegister.js --js ../box2dweb-closure/src/base.js --js ../box2dweb-closure/src/collision/Features.js --js ../box2dweb-closure/src/collision/b2ContactID.js --js ../box2dweb-closure/src/collision/ClipVertex.js --js ../box2dweb-closure/src/collision/b2ManifoldPoint.js --js ../box2dweb-closure/src/collision/b2Manifold.js --js ../box2dweb-closure/src/collision/b2Collision.js --js ../box2dweb-closure/src/collision/b2SeparationFunction.js --js ../box2dweb-closure/src/collision/b2TimeOfImpact.js --js ../box2dweb-closure/src/common/math/b2Sweep.js --js ../box2dweb-closure/src/collision/b2TOIInput.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactEdge.js --js ../box2dweb-closure/src/dynamics/b2BodyDef.js --js ../box2dweb-closure/src/dynamics/contacts/b2Contact.js --js ../box2dweb-closure/src/dynamics/contacts/b2CircleContact.js --js ../box2dweb-closure/src/dynamics/contacts/b2EdgeAndCircleContact.js --js ../box2dweb-closure/src/collision/shapes/b2CircleShape.js --js ../box2dweb-closure/src/dynamics/contacts/b2PolyAndCircleContact.js --js ../box2dweb-closure/src/collision/shapes/b2EdgeShape.js --js ../box2dweb-closure/src/dynamics/contacts/b2PolyAndEdgeContact.js --js ../box2dweb-closure/src/dynamics/contacts/b2PolygonContact.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactFactory.js --js ../box2dweb-closure/src/collision/b2ContactPoint.js --js ../box2dweb-closure/src/collision/IBroadPhase.js --js ../box2dweb-closure/src/collision/b2DynamicTreePair.js --js ../box2dweb-closure/src/collision/b2DynamicTreeNode.js --js ../box2dweb-closure/src/collision/b2RayCastInput.js --js ../box2dweb-closure/src/collision/b2DynamicTree.js --js ../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js --js ../box2dweb-closure/src/dynamics/b2ContactListener.js --js ../box2dweb-closure/src/dynamics/b2ContactManager.js --js ../box2dweb-closure/src/dynamics/joints/b2MouseJoint.js --js ../box2dweb-closure/src/common/b2Color.js --js ../box2dweb-closure/src/consts.js --js ../box2dweb-closure/src/collision/b2WorldManifold.js --js ../box2dweb-closure/src/dynamics/b2TimeStep.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactConstraintPoint.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactConstraint.js --js ../box2dweb-closure/src/dynamics/contacts/b2PositionSolverManifold.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js --js ../box2dweb-closure/src/dynamics/b2ContactImpulse.js --js ../box2dweb-closure/src/dynamics/b2Island.js --js ../box2dweb-closure/src/dynamics/joints/b2DistanceJoint.js --js ../box2dweb-closure/src/dynamics/b2Fixture.js --js ../box2dweb-closure/src/dynamics/b2Body.js --js ../box2dweb-closure/src/collision/b2RayCastOutput.js --js ../box2dweb-closure/src/queue.js --js ../box2dweb-closure/src/dynamics/b2World.js --js src/gameObject.js --js src/world.js --js src/ui/animation.js --js src/ai/ai.js --js src/game.js --js ../box2dweb-closure/src/dynamics/joints/b2JointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2PulleyJointDef.js --js src/controls/action.js --js src/gameTypes/platformer.js --js src/games/mario.js --js ../box2dweb-closure/src/common/math/b2Vec3.js --js ../box2dweb-closure/src/common/math/b2Mat33.js --js ../box2dweb-closure/src/dynamics/joints/b2PrismaticJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2PrismaticJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2MouseJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2DistanceJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2WeldJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2WeldJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2RevoluteJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2RevoluteJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2Jacobian.js --js ../box2dweb-closure/src/dynamics/joints/b2GearJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2GearJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2LineJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2LineJointDef.js --js src/games/test.js --js src/games/pit.js --output_wrapper=(function(){%output%})(); --warning_level=VERBOSE --compilation_level=ADVANCED_OPTIMIZATIONS --define=goog.DEBUG=false
+../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: Compiling with the following command: java -jar ../closure-compiler/compiler.jar --js ../box2dweb-closure/closure-library/closure/goog/base.js --js ../box2dweb-closure/closure-library/closure/goog/string/string.js --js ../box2dweb-closure/closure-library/closure/goog/useragent/useragent.js --js ../box2dweb-closure/closure-library/closure/goog/events/keynames.js --js ../box2dweb-closure/closure-library/closure/goog/events/keycodes.js --js ../box2dweb-closure/closure-library/closure/goog/events/eventtype.js --js ../box2dweb-closure/closure-library/closure/goog/debug/errorhandlerweakdep.js --js ../box2dweb-closure/closure-library/closure/goog/object/object.js --js ../box2dweb-closure/closure-library/closure/goog/debug/error.js --js ../box2dweb-closure/closure-library/closure/goog/asserts/asserts.js --js ../box2dweb-closure/closure-library/closure/goog/array/array.js --js ../box2dweb-closure/closure-library/closure/goog/debug/entrypointregistry.js --js ../box2dweb-closure/closure-library/closure/goog/events/eventwrapper.js --js ../box2dweb-closure/closure-library/closure/goog/events/browserfeature.js --js ../box2dweb-closure/closure-library/closure/goog/disposable/idisposable.js --js ../box2dweb-closure/closure-library/closure/goog/disposable/disposable.js --js ../box2dweb-closure/closure-library/closure/goog/events/event.js --js ../box2dweb-closure/closure-library/closure/goog/reflect/reflect.js --js ../box2dweb-closure/closure-library/closure/goog/events/browserevent.js --js ../box2dweb-closure/closure-library/closure/goog/events/listener.js --js ../box2dweb-closure/closure-library/closure/goog/useragent/jscript.js --js ../box2dweb-closure/closure-library/closure/goog/structs/simplepool.js --js ../box2dweb-closure/closure-library/closure/goog/events/pools.js --js ../box2dweb-closure/closure-library/closure/goog/events/events.js --js ../box2dweb-closure/closure-library/closure/goog/events/eventtarget.js --js ../box2dweb-closure/closure-library/closure/goog/events/keyhandler.js --js src/controls/keyHandler.js --js ../box2dweb-closure/src/common/math/b2Vec2.js --js src/ui/ui.js --js ../box2dweb-closure/src/dynamics/b2DebugDraw.js --js src/ui/spriteSheet.js --js ../box2dweb-closure/src/collision/b2AABB.js --js src/ui/viewport.js --js src/shims.js --js ../box2dweb-closure/src/dynamics/b2FilterData.js --js ../box2dweb-closure/src/dynamics/b2FixtureDef.js --js ../box2dweb-closure/src/common/math/b2Mat22.js --js ../box2dweb-closure/src/common/math/b2Math.js --js ../box2dweb-closure/src/common/b2Settings.js --js ../box2dweb-closure/src/collision/b2SimplexVertex.js --js ../box2dweb-closure/src/collision/b2Simplex.js --js ../box2dweb-closure/src/collision/b2Distance.js --js ../box2dweb-closure/src/collision/b2DistanceInput.js --js ../box2dweb-closure/src/collision/b2DistanceOutput.js --js ../box2dweb-closure/src/collision/b2SimplexCache.js --js ../box2dweb-closure/src/collision/b2DistanceProxy.js --js ../box2dweb-closure/src/collision/shapes/b2Shape.js --js ../box2dweb-closure/src/collision/shapes/b2MassData.js --js ../box2dweb-closure/src/common/math/b2Transform.js --js ../box2dweb-closure/src/collision/shapes/b2PolygonShape.js --js ../box2dweb-closure/src/dynamics/b2ContactFilter.js --js ../box2dweb-closure/src/dynamics/joints/b2JointEdge.js --js ../box2dweb-closure/src/dynamics/joints/b2Joint.js --js ../box2dweb-closure/src/dynamics/joints/b2PulleyJoint.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactRegister.js --js ../box2dweb-closure/src/base.js --js ../box2dweb-closure/src/collision/Features.js --js ../box2dweb-closure/src/collision/b2ContactID.js --js ../box2dweb-closure/src/collision/ClipVertex.js --js ../box2dweb-closure/src/collision/b2ManifoldPoint.js --js ../box2dweb-closure/src/collision/b2Manifold.js --js ../box2dweb-closure/src/collision/b2Collision.js --js ../box2dweb-closure/src/collision/b2SeparationFunction.js --js ../box2dweb-closure/src/collision/b2TimeOfImpact.js --js ../box2dweb-closure/src/common/math/b2Sweep.js --js ../box2dweb-closure/src/collision/b2TOIInput.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactEdge.js --js ../box2dweb-closure/src/dynamics/b2BodyDef.js --js ../box2dweb-closure/src/dynamics/contacts/b2Contact.js --js ../box2dweb-closure/src/dynamics/contacts/b2CircleContact.js --js ../box2dweb-closure/src/dynamics/contacts/b2EdgeAndCircleContact.js --js ../box2dweb-closure/src/collision/shapes/b2CircleShape.js --js ../box2dweb-closure/src/dynamics/contacts/b2PolyAndCircleContact.js --js ../box2dweb-closure/src/collision/shapes/b2EdgeShape.js --js ../box2dweb-closure/src/dynamics/contacts/b2PolyAndEdgeContact.js --js ../box2dweb-closure/src/dynamics/contacts/b2PolygonContact.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactFactory.js --js ../box2dweb-closure/src/collision/b2ContactPoint.js --js ../box2dweb-closure/src/collision/IBroadPhase.js --js ../box2dweb-closure/src/collision/b2DynamicTreePair.js --js ../box2dweb-closure/src/collision/b2DynamicTreeNode.js --js ../box2dweb-closure/src/collision/b2RayCastInput.js --js ../box2dweb-closure/src/collision/b2DynamicTree.js --js ../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js --js ../box2dweb-closure/src/dynamics/b2ContactListener.js --js ../box2dweb-closure/src/dynamics/b2ContactManager.js --js ../box2dweb-closure/src/dynamics/joints/b2MouseJoint.js --js ../box2dweb-closure/src/common/b2Color.js --js ../box2dweb-closure/src/consts.js --js ../box2dweb-closure/src/collision/b2WorldManifold.js --js ../box2dweb-closure/src/dynamics/b2TimeStep.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactConstraintPoint.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactConstraint.js --js ../box2dweb-closure/src/dynamics/contacts/b2PositionSolverManifold.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js --js ../box2dweb-closure/src/dynamics/b2ContactImpulse.js --js ../box2dweb-closure/src/dynamics/b2Island.js --js ../box2dweb-closure/src/dynamics/joints/b2DistanceJoint.js --js ../box2dweb-closure/src/dynamics/b2Fixture.js --js ../box2dweb-closure/src/dynamics/b2Body.js --js ../box2dweb-closure/src/collision/b2RayCastOutput.js --js ../box2dweb-closure/src/queue.js --js ../box2dweb-closure/src/dynamics/b2World.js --js src/gameObject.js --js src/world.js --js src/ui/animation.js --js src/ai/ai.js --js src/game.js --js ../box2dweb-closure/src/dynamics/joints/b2JointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2PulleyJointDef.js --js ../box2dweb-closure/src/common/math/b2Vec3.js --js ../box2dweb-closure/src/common/math/b2Mat33.js --js ../box2dweb-closure/src/dynamics/joints/b2PrismaticJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2PrismaticJointDef.js --js src/controls/action.js --js src/gameTypes/platformer.js --js ../box2dweb-closure/src/dynamics/joints/b2MouseJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2DistanceJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2WeldJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2WeldJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2RevoluteJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2RevoluteJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2Jacobian.js --js ../box2dweb-closure/src/dynamics/joints/b2GearJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2GearJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2LineJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2LineJointDef.js --js src/games/bridge.js --js src/games/mario.js --js src/games/test.js --js src/games/pit.js --output_wrapper=(function(){%output%})(); --warning_level=VERBOSE --compilation_level=ADVANCED_OPTIMIZATIONS --define=goog.DEBUG=false
 ../box2dweb-closure/closure-library/closure/goog/events/events.js:875: WARNING - Bad type annotation. Unknown type goog.debug.ErrorHandler
  * @param {goog.debug.ErrorHandler} errorHandler Error handler with which to
-                                  ^
+           ^
 
 ../box2dweb-closure/closure-library/closure/goog/events/eventwrapper.js:44: WARNING - Bad type annotation. Unknown type goog.events.EventHandler
  * @param {goog.events.EventHandler=} opt_eventHandler Event handler to add
-                                   ^
+           ^
 
 ../box2dweb-closure/closure-library/closure/goog/events/eventwrapper.js:62: WARNING - Bad type annotation. Unknown type goog.events.EventHandler
  * @param {goog.events.EventHandler=} opt_eventHandler Event handler to remove
-                                   ^
+           ^
 
 ../box2dweb-closure/src/base.js:42: WARNING - assignment to property defineProperty of Box2D
 found   : function (Object, string, Object): Object
@@ -22,7 +22,7 @@ required: function (?, ?, ?): undefined
 
 ../box2dweb-closure/src/dynamics/b2Body.js:98: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
     /** @type {Box2D.Dynamics.Controllers.b2Controller} */
-                                                      ^
+               ^
 
 ../box2dweb-closure/src/dynamics/b2Body.js:137: WARNING - variable this.m_mass redefined with type number, original definition at ../box2dweb-closure/src/dynamics/b2Body.js:132 with type number
         this.m_mass = 0;
@@ -34,7 +34,7 @@ required: function (?, ?, ?): undefined
 
 ../box2dweb-closure/src/dynamics/b2Body.js:160: WARNING - parameter bd does not appear in Box2D.Dynamics.b2Body.prototype.CreateFixture's parameter list
 Box2D.Dynamics.b2Body.prototype.CreateFixture = function(def) {
-                                                        ^
+                                                ^
 
 ../box2dweb-closure/src/dynamics/b2Body.js:483: WARNING - Function Box2D.Dynamics.b2Fixture.prototype.GetMassData: called with 0 argument(s). Function requires at least 1 argument(s) and no more than 1 argument(s).
         var massData = f.GetMassData();
@@ -42,47 +42,47 @@ Box2D.Dynamics.b2Body.prototype.CreateFixture = function(def) {
 
 ../box2dweb-closure/src/dynamics/b2World.js:75: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.b2DestructionListener
     /** @type {Box2D.Dynamics.b2DestructionListener} */
-                                                   ^
+               ^
 
 ../box2dweb-closure/src/dynamics/b2World.js:90: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
     /** @type {Box2D.Dynamics.Controllers.b2Controller} */
-                                                      ^
+               ^
 
-../box2dweb-closure/src/dynamics/b2World.js:131: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.b2DestructionListener
+../box2dweb-closure/src/dynamics/b2World.js:128: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.b2DestructionListener
  * @param {!Box2D.Dynamics.b2DestructionListener} listener
-                                                ^
+            ^
 
-../box2dweb-closure/src/dynamics/b2World.js:145: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.b22ContactListener
+../box2dweb-closure/src/dynamics/b2World.js:142: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.b22ContactListener
  * @param {!Box2D.Dynamics.b22ContactListener} listener
-                                             ^
+            ^
 
-../box2dweb-closure/src/dynamics/b2World.js:213: WARNING - Property RemoveBody never defined on coe0.controller
+../box2dweb-closure/src/dynamics/b2World.js:210: WARNING - Property RemoveBody never defined on coe0.controller
         coe0.controller.RemoveBody(b);
         ^
 
-../box2dweb-closure/src/dynamics/b2World.js:342: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+../box2dweb-closure/src/dynamics/b2World.js:339: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
  * @param {!Box2D.Dynamics.Controllers.b2Controller} c
-                                                   ^
+            ^
 
-../box2dweb-closure/src/dynamics/b2World.js:343: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+../box2dweb-closure/src/dynamics/b2World.js:340: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
  * @return {!Box2D.Dynamics.Controllers.b2Controller}
-                                                    ^
+             ^
 
-../box2dweb-closure/src/dynamics/b2World.js:355: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+../box2dweb-closure/src/dynamics/b2World.js:352: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
  * @param {!Box2D.Dynamics.Controllers.b2Controller} c
-                                                   ^
+            ^
 
-../box2dweb-closure/src/dynamics/b2World.js:365: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+../box2dweb-closure/src/dynamics/b2World.js:362: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
  * @param {!Box2D.Dynamics.Controllers.b2Controller} controller
-                                                   ^
+            ^
 
-../box2dweb-closure/src/dynamics/b2World.js:366: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+../box2dweb-closure/src/dynamics/b2World.js:363: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
  * @return {!Box2D.Dynamics.Controllers.b2Controller}
-                                                    ^
+             ^
 
-../box2dweb-closure/src/dynamics/b2World.js:384: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
+../box2dweb-closure/src/dynamics/b2World.js:381: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.Controllers.b2Controller
  * @param {!Box2D.Dynamics.Controllers.b2Controller} controller
-                                                   ^
+            ^
 
 src/controls/keyHandler.js:42: WARNING - restricted index type
 found   : string
@@ -106,17 +106,9 @@ src/controls/keyHandler.js:188: WARNING - Property KeyCode never defined on e
   var keyCode = e.KeyCode;
                 ^
 
-src/shims.js:5: WARNING - Property requestAnimationFrame never defined on Window
-    var fn = window.requestAnimationFrame       || 
-             ^
-
-src/shims.js:6: WARNING - Property webkitRequestAnimationFrame never defined on Window
-              window.webkitRequestAnimationFrame || 
-              ^
-
-src/shims.js:7: WARNING - Property mozRequestAnimationFrame never defined on Window
-              window.mozRequestAnimationFrame    || 
-              ^
+src/games/bridge.js:40: WARNING - Function test.createBridge: called with 4 argument(s). Function requires at least 3 argument(s) and no more than 3 argument(s).
+    test.createBridge(g, p, new Box2D.Common.Math.b2Vec2(5, worldSize.y), position);
+                     ^
 
 src/shims.js:8: WARNING - Property oRequestAnimationFrame never defined on Window
               window.oRequestAnimationFrame      || 
@@ -132,5 +124,5 @@ required: Box2D.Dynamics.b2ContactFilter
     this.b2World.SetContactFilter(this);
                                   ^
 
-0 error(s), 30 warning(s), 80.6% typed
+0 error(s), 28 warning(s), 80.9% typed
 ../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: JavaScript compilation succeeded.
