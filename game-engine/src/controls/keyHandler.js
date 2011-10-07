@@ -186,8 +186,11 @@ illandril.game.controls.keyHandler.rememberCurrentAsLastKeyState = function() {
 
 illandril.game.controls.keyHandler.getKeyState = function(e) {
   var keyCode = e.KeyCode;
-  if (goog.userAgent.GECKO && e.keyCode in goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_) {
+  if (goog.userAgent.GECKO &&
+       e.keyCode in goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_) {
     keyCode = goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_[e.keyCode];
+  } else {
+    keyCode = e.keyCode;
   }
   return { keyCode: keyCode, ctrlKey: e.ctrlKey, altKey: e.altKey, shiftKey: e.shiftKey };
 };
