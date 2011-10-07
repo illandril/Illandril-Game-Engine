@@ -18,32 +18,6 @@
     /** @type {Box2D.Dynamics.Controllers.b2Controller} */
                ^
 
-../box2dweb-closure/src/dynamics/b2Body.js:137: WARNING - variable this.m_mass redefined with type number, original definition at ../box2dweb-closure/src/dynamics/b2Body.js:132 with type number
-        this.m_mass = 0;
-        ^
-
-../box2dweb-closure/src/dynamics/b2Body.js:139: WARNING - variable this.m_invMass redefined with type number, original definition at ../box2dweb-closure/src/dynamics/b2Body.js:134 with type number
-        this.m_invMass = 0;
-        ^
-
-../box2dweb-closure/src/dynamics/b2Body.js:160: WARNING - parameter bd does not appear in Box2D.Dynamics.b2Body.prototype.CreateFixture's parameter list
-Box2D.Dynamics.b2Body.prototype.CreateFixture = function(def) {
-                                                ^
-
-../box2dweb-closure/src/dynamics/b2Body.js:483: WARNING - Function Box2D.Dynamics.b2Fixture.prototype.GetMassData: called with 0 argument(s). Function requires at least 1 argument(s) and no more than 1 argument(s).
-        var massData = f.GetMassData();
-                                    ^
-
-../box2dweb-closure/src/dynamics/b2ContactManager.js:132: WARNING - actual parameter 1 of Box2D.Collision.b2DynamicTreeBroadPhase.prototype.UpdatePairs does not match formal parameter
-found   : function (Box2D.Dynamics.b2Fixture, Box2D.Dynamics.b2Fixture): ?
-required: function ((Box2D.Dynamics.b2Fixture|null), (Box2D.Dynamics.b2Fixture|null)): ?
-    this.m_broadPhase.UpdatePairs(addPairCallback);
-                                  ^
-
-../box2dweb-closure/src/dynamics/b2Island.js:205: WARNING - parameter step does not appear in Box2D.Dynamics.b2Island.prototype.SolveTOI's parameter list
-Box2D.Dynamics.b2Island.prototype.SolveTOI = function(subStep) {
-                                             ^
-
 ../box2dweb-closure/src/dynamics/b2World.js:76: WARNING - Bad type annotation. Unknown type Box2D.Dynamics.b2DestructionListener
     /** @type {Box2D.Dynamics.b2DestructionListener} */
                ^
@@ -88,7 +62,7 @@ Box2D.Dynamics.b2Island.prototype.SolveTOI = function(subStep) {
  * @param {!Box2D.Dynamics.Controllers.b2Controller} controller
             ^
 
-../box2dweb-closure/src/dynamics/b2World.js:841: WARNING - actual parameter 1 of Box2D.Dynamics.b2Island.prototype.AddBody does not match formal parameter
+../box2dweb-closure/src/dynamics/b2World.js:832: WARNING - actual parameter 1 of Box2D.Dynamics.b2Island.prototype.AddBody does not match formal parameter
 found   : *
 required: Box2D.Dynamics.b2Body
             m_island.AddBody(b);
@@ -134,5 +108,5 @@ required: Box2D.Dynamics.b2ContactFilter
     this.b2World.SetContactFilter(this);
                                   ^
 
-0 error(s), 30 warning(s), 81.3% typed
+0 error(s), 24 warning(s), 81.8% typed
 ../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: JavaScript compilation succeeded.
