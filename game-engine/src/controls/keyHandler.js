@@ -166,7 +166,7 @@ illandril.game.controls.keyHandler.nextID = 0;
 illandril.game.controls.keyHandler.actionPendingFor = null;
 
 /**
- * @type {Object.<number, Object.<string, boolean>>}
+ * @type {Object.<Object.<boolean>>}
  */
 illandril.game.controls.keyHandler.keyStates = {};
 
@@ -186,11 +186,8 @@ illandril.game.controls.keyHandler.rememberCurrentAsLastKeyState = function() {
 
 illandril.game.controls.keyHandler.getKeyState = function(e) {
   var keyCode = e.KeyCode;
-  if (goog.userAgent.GECKO &&
-       e.keyCode in goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_) {
+  if (goog.userAgent.GECKO && e.keyCode in goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_) {
     keyCode = goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_[e.keyCode];
-  } else {
-    keyCode = e.keyCode;
   }
   return { keyCode: keyCode, ctrlKey: e.ctrlKey, altKey: e.altKey, shiftKey: e.shiftKey };
 };
@@ -230,7 +227,7 @@ illandril.game.controls.keyHandler.keyUp = function(e) {
 };
 
 /**
- * @param {number} keyCode
+ * @param {string} keyCode
  * @param {boolean=} ctrl
  * @param {boolean=} alt
  * @param {boolean=} shift

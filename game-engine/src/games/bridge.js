@@ -37,7 +37,7 @@ test.init = function(gameContainerID, doDebug, wasd) {
     p = new illandril.game.platformer(g);
     var position = new Box2D.Common.Math.b2Vec2(5, worldSize.y - 15);
     test.createPlayer(position, wasd);
-    test.createBridge(g, p, new Box2D.Common.Math.b2Vec2(5, worldSize.y), position);
+    test.createBridge(g, p, new Box2D.Common.Math.b2Vec2(5, worldSize.y));
     
     g.startWhenReady();
 };

@@ -27,7 +27,7 @@ goog.require('mario');
 var player;
 var ramp;
 
-var testObjects = 250;
+var testObjects = 5;
 var worldSize = new Box2D.Common.Math.b2Vec2(3500, 100); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(1024, 600); // Pixels
 var viewportScale = 20; // Pixels per Meter
