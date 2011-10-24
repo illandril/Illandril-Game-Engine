@@ -203,7 +203,7 @@ illandril.game.game._update = function(time) {
             var objCount = 0;
             var contactCount = 0;
             for (var i = 0; i < illandril.game.game.games.length; i++) {
-                objCount += illandril.game.game.games[i].world.b2World.m_bodyCount;
+                objCount += illandril.game.game.games[i].world.b2World.GetBodyCount();
                 contactCount += illandril.game.game.games[i].world.b2World.GetContactCount();
             }
 
