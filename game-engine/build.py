@@ -17,6 +17,10 @@ args = args + " --compiler_jar=../closure-compiler/compiler.jar"
 args = args + " --compiler_flags=--output_wrapper='(function(){%output%})();'"
 args = args + " --compiler_flags=--warning_level=VERBOSE"
 
+args = args + " --compiler_flags=--js=src/deps.js"
+args = args + " --compiler_flags=--js=../box2dweb-closure/src/deps.js"
+args = args + " --compiler_flags=--js=../box2dweb-closure/closure-library/closure/goog/deps.js"
+
 if debug:
   args = args + " --compiler_flags=--compilation_level=SIMPLE_OPTIMIZATIONS"
   args = args + " --compiler_flags=--formatting=PRETTY_PRINT"
