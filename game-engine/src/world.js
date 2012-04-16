@@ -15,6 +15,8 @@ goog.require('illandril.game.ui.viewport');
  * @param {!illandril.game.game} game
  * @param {!Box2D.Common.Math.b2Vec2} worldSize
  * @param {!Box2D.Common.Math.b2Vec2} gravity
+ * @implements {Box2D.Dynamics.iContactFilter}
+ * @implements {Box2D.Dynamics.iContactListener}
  * @constructor
  */
 illandril.game.world = function(game, worldSize, gravity) {
@@ -27,6 +29,7 @@ illandril.game.world = function(game, worldSize, gravity) {
     this.game = game;
     this.worldSize = new Box2D.Common.Math.b2Vec2(worldSize.x, worldSize.y);
     this.b2World = new Box2D.Dynamics.b2World( gravity, true /* allow sleep */ );
+
     this.b2World.SetContactFilter(this);
     this.b2World.SetContactListener(this);
     
