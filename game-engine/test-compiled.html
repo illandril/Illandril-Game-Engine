@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+  <title>Engine Test</title>
+  <link rel="stylesheet" type="text/css" href="./styles/game_window.css">
+  <script type="text/javascript" src="test.js"></script>  
+ </head>
+ <body>
+  <div style="text-align: center;">
+   <!--
+   <div id="game" class="gameWindow">
+   </div>
+   <BR>
+   WASD
+   <script type="text/javascript">
+    mario.init( "game", false /* debug */, true /* wasd */ );
+   </script>
+   <br><br>
+   <!-- -->
+   <!--
+   <div id="game2" class="gameWindow">
+   </div>
+   <BR>
+   ARROWS
+   <script type="text/javascript">
+    pit.init( "game2", false /* debug */, false /* wasd */ );
+   </script>
+   <!-- -->
+   <!-- -->
+   <div id="game3" class="gameWindow">
+   </div>
+   <BR>
+   WASD
+   <script type="text/javascript">
+    test.init( "game3", false /* debug */, true /* wasd */ );
+   </script>
+   <br><br>
+   <!-- -->
+   <!--
+   <div id="game4" class="gameWindow">
+   </div>
+   <BR>
+   WASD
+   <script type="text/javascript">
+    bridge.init( "game4", false /* debug */, true /* wasd */ );
+   </script>
+   <br><br>
+   <!-- -->
+  </div>
+  <div id="fps"></div>
+  <script type="text/javascript">
+   /* Uncomment to get an FPS alert
+   x = new Date();
+   y = null;
+   setInterval(function(){
+       if (x != null) {
+           if((new Date() - x) > 5000) {
+               x = null;
+               y = new Date();
+           }
+       } else if (y != null) {
+           var elapsedTime = new Date() - y;
+           if(elapsedTime > 20000) {
+               alert( frames / ( elapsedTime / 1000 ) );
+               y = null;
+           }
+       }
+   },1000);
+   */
+  </script>
+ </body>
+</html>
