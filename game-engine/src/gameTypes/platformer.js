@@ -74,6 +74,100 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
     return player;
 };
 
+illandril.game.platformer.prototype.createSlimePlayer = function(diameter, position) {
+    var args = {
+        bodyArgs: {
+            fixedRotation: true
+        },
+        fixtureArgs: {
+            restitution: 0,
+            density: 0.25,
+            friction: 10
+        }
+    };
+    var displaySize = Box2D.Common.Math.b2Vec2.Get(diameter, diameter);
+    var coreRadius = Math.min(diameter / 6, diameter / 6);
+    var coreShape = new Box2D.Collision.Shapes.b2CircleShape(coreRadius);
+    var player = this.game.getWorld().createObject(displaySize, position, true /* visible */,  coreShape, args);
+    Box2D.Common.Math.b2Vec2.Free(displaySize);
+    
+
+    
+    var edgeCount = 24;
+    
+    var dJDef = new Box2D.Dynamics.Joints.b2DistanceJointDef();
+    var damping = 0.5;
+    var hz = 0.4;
+    var coreDamping = 0.5;
+    var coreHz = 4;
+    args.fixtureArgs.density = 1;
+    
+    var edgeRadius = Math.min(diameter / edgeCount * 2, diameter / edgeCount * 2);
+    var edgeSize = Box2D.Common.Math.b2Vec2.Get(edgeRadius * 2, edgeRadius * 2)
+    var edgeShape = new Box2D.Collision.Shapes.b2CircleShape(edgeRadius);
+    
+    var halfSize = Box2D.Common.Math.b2Vec2.Get(diameter / 2, diameter / 2);
+    var edgePos = Box2D.Common.Math.b2Vec2.Get(0,0);
+    var edges = [];
+    for ( var i = 0; i < edgeCount; i++ ) {
+        edgePos.x = (position.x + halfSize.x * Math.cos(2 * Math.PI * i / edgeCount));
+        edgePos.y = (position.y + halfSize.y * Math.sin(2 * Math.PI * i / edgeCount));
+        var edge = this.game.getWorld().createObject(edgeSize, edgePos, true /* visible */, edgeShape, args);
+        edges.push(edge);
+    }
+    for ( var i = 0; i < edgeCount; i++ ) {
+        var edge = edges[i];
+        dJDef.Initialize(player.body, edge.body, player.body.GetWorldCenter(), edge.body.GetWorldCenter());
+        dJDef.dampingRatio = coreDamping;
+        dJDef.frequencyHz = coreHz;
+        dJDef.collideConnected = true;
+        this.game.getWorld().getBox2DWorld().CreateJoint(dJDef);
+        for ( var j = i + 1; j < edgeCount; j++ ) {
+            var lastEdge = edges[j];
+            dJDef.Initialize(lastEdge.body, edge.body, lastEdge.body.GetWorldCenter(), edge.body.GetWorldCenter());
+            dJDef.dampingRatio = damping;
+            dJDef.frequencyHz = hz;
+            dJDef.collideConnected = false;
+            this.game.getWorld().getBox2DWorld().CreateJoint(dJDef);
+        }
+    }
+    Box2D.Common.Math.b2Vec2.Free(edgePos);
+    Box2D.Common.Math.b2Vec2.Free(halfSize);
+    Box2D.Common.Math.b2Vec2.Free(edgeSize);
+    
+    
+    illandril.game.platformer.initializeMover(player, illandril.game.platformer.DEFAULTS.PLAYER_SPEED * 5, illandril.game.platformer.DEFAULTS.PLAYER_ACCELERATION * 5);
+    illandril.game.platformer.initializeLiving(player, illandril.game.platformer.LIVING_FILTERS.PLAYER);
+    player.actions = {};
+    player.actions.moveUp = new illandril.game.controls.action(function(tickTime) {
+        //player.platformerRules.jumper.jump();
+    }, 'Move Up', true);
+    player.actions.moveDown = new illandril.game.controls.action(function(tickTime) {
+        // Duck? Drop down through floor?
+    }, 'Move Down', true);
+    player.actions.moveLeft = new illandril.game.controls.action(function(tickTime) {
+        player.platformerRules.mover.moveLeft();
+        //moveJoint.SetMotorSpeed(-moveSpeed);
+        //moveJoint.EnableMotor(true);
+    }, 'Move Left', true);
+    player.actions.moveRight = new illandril.game.controls.action(function(tickTime) {
+        player.platformerRules.mover.moveRight();
+        //moveJoint.SetMotorSpeed(moveSpeed);
+        //moveJoint.EnableMotor(true);
+    }, 'Move Right', true);
+    player.actions.reset = new illandril.game.controls.action(function(tickTime) {
+        var edgePos = Box2D.Common.Math.b2Vec2.Get(0,0);
+        var position = player.body.GetWorldCenter();
+        for ( var i = 0; i < edges.length; i++ ) {
+            edgePos.x = (position.x + coreRadius * Math.cos(2 * Math.PI * i / edgeCount));
+            edgePos.y = (position.y + coreRadius * Math.sin(2 * Math.PI * i / edgeCount));
+            edges[i].body.SetPosition(edgePos);
+        }
+    }, 'Reset', false);
+    
+    return player;
+};
+
 (function(platformer){
     platformer.NORMAL_ERROR = 0.1; // Ensure solid hits for breaking, jump surfaces, etc
     platformer.DEFAULT_GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );

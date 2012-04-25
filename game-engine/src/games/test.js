@@ -28,7 +28,7 @@ var player;
 var ramp;
 
 var testObjects = 5;
-var worldSize = new Box2D.Common.Math.b2Vec2(3500, 100); // Meters
+var worldSize = new Box2D.Common.Math.b2Vec2(1500, 100); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(1024, 600); // Pixels
 var viewportScale = 20; // Pixels per Meter
 var addBallPit = true;
@@ -47,6 +47,7 @@ var p;
 
 test.init = function(gameContainerID, doDebug, wasd) {
     g = new illandril.game.game(test, gameContainerID, worldSize, illandril.game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
+    window['g'] = g;
     p = new illandril.game.platformer(g);
     
     var startingTest = 1;
@@ -57,14 +58,14 @@ test.init = function(gameContainerID, doDebug, wasd) {
     
     var testCount = 0;
     
-    testCount++;
-    bridge.createBridge(g, p, new Box2D.Common.Math.b2Vec2(testLeft, worldSize.y - (marioFloor + testCount * distanceBetweenTests)));
+    //testCount++;
+    //bridge.createBridge(g, p, new Box2D.Common.Math.b2Vec2(testLeft, worldSize.y - (marioFloor + testCount * distanceBetweenTests)));
     
-    test.createJointTests(++testCount);
-    test.createSlopeTests(++testCount);
+    //test.createJointTests(++testCount);
+    //test.createSlopeTests(++testCount);
     
-    test.createPlatforms(testCount);
-    test.createDebugObjects();
+    //test.createPlatforms(testCount);
+    //test.createDebugObjects();
     
     g.startWhenReady();
 };
@@ -76,7 +77,8 @@ test.createPlayer = function(position, wasd) {
     var frameSpeed = 4;
     var frameSize = new Box2D.Common.Math.b2Vec2(21, 47);
     var size = new Box2D.Common.Math.b2Vec2(frameSize.x / viewportScale, frameSize.y / viewportScale);
-    player = p.createPlayer(size, position);
+    //player = p.createPlayer(size, position);
+    player = p.createSlimePlayer(size.y, position);
     g.getAnimationManager().setAsFourDirectionalAnimation(player, size, sprite, spriteOffset, frameSize, frames, frameSpeed);
     
     gameControls = new illandril.game.controls.keyHandler("game");

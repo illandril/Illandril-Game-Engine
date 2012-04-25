@@ -23,7 +23,7 @@ goog.require('illandril.game.controls.action');
 
 var player;
 
-var worldSize = new Box2D.Common.Math.b2Vec2(350, 30); // Meters
+var worldSize = new Box2D.Common.Math.b2Vec2(350, 60); // Meters
 var viewportSize = new Box2D.Common.Math.b2Vec2(1000, 300); // Pixels
 var viewportScale = 20; // Pixels per Meter
 
@@ -35,7 +35,7 @@ var p;
 test.init = function(gameContainerID, doDebug, wasd) {
     g = new illandril.game.game(test, gameContainerID, worldSize, illandril.game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
     p = new illandril.game.platformer(g);
-    var position = new Box2D.Common.Math.b2Vec2(5, worldSize.y - 15);
+    var position = new Box2D.Common.Math.b2Vec2(6, worldSize.y - 35);
     test.createPlayer(position, wasd);
     test.createBridge(g, p, new Box2D.Common.Math.b2Vec2(5, worldSize.y));
     
@@ -49,7 +49,8 @@ test.createPlayer = function(position, wasd) {
     var frameSpeed = 4;
     var frameSize = new Box2D.Common.Math.b2Vec2(21, 47);
     var size = new Box2D.Common.Math.b2Vec2(frameSize.x / 20, frameSize.y / 20);
-    player = p.createPlayer(size, position);
+    //player = p.createPlayer(size, position);
+    player = p.createSlimePlayer(size.y, position);
     g.getAnimationManager().setAsFourDirectionalAnimation(player, size, sprite, spriteOffset, frameSize, frames, frameSpeed);
     gameControls = new illandril.game.controls.keyHandler("game");
     var pauseAction = new illandril.game.controls.action(function(){ g.togglePause(); }, "Pause", false /* executeOnRepeat */);
@@ -60,17 +61,20 @@ test.createPlayer = function(position, wasd) {
     playerControls.registerAction(player.actions.moveLeft, wasd ? goog.events.KeyCodes.A : goog.events.KeyCodes.LEFT, false, false, false);
     playerControls.registerAction(player.actions.moveDown, wasd ? goog.events.KeyCodes.S : goog.events.KeyCodes.DOWN, false, false, false);
     playerControls.registerAction(player.actions.moveRight, wasd ? goog.events.KeyCodes.D : goog.events.KeyCodes.RIGHT, false, false, false);
+    if ( player.actions.reset != null ) {
+        playerControls.registerAction(player.actions.reset, goog.events.KeyCodes.R, false, false, false);
+    }
 };
 
 test.createBridge = function(g, p, offset) {
     var position = offset.Copy();
-    position.y -= 10;
+    position.y -= 30;
     var panelSize = new Box2D.Common.Math.b2Vec2(2.5, 0.1);
     var panelSpacing = 0.5;
-    var panels = 30;
+    var panels = 60;
     var lastPanel = null;
     for (var i = 0; i < panels; i++) {
-        position.x += panelSize.x / 2;
+        position.x += panelSize.x / 2.5;
         var thisPanel;
         if (i != 0 && i != panels - 1) {
             thisPanel = g.getWorld().createBox(panelSize, position, true /* visible */);
@@ -82,10 +86,11 @@ test.createBridge = function(g, p, offset) {
             var center = Box2D.Common.Math.b2Math.AddVV(lastPanel.body.GetWorldCenter(), thisPanel.body.GetWorldCenter() );
             center.Multiply(0.5);
             jointDef.Initialize(lastPanel.body, thisPanel.body, center);
+            jointDef.collideConnected = false;
             g.getWorld().getBox2DWorld().CreateJoint(jointDef);
         }
         lastPanel = thisPanel;
-        position.x += panelSize.x / 2;
+        position.x += panelSize.x / 2.5;
         position.x += panelSpacing;
     }
 };
