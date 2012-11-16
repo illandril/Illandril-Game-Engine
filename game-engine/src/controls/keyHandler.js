@@ -67,7 +67,7 @@ illandril.game.controls.keyHandler.prototype.handleKeyEvents = function(time, ti
  * @param {!illandril.game.controls.action} action
  */
 illandril.game.controls.keyHandler.prototype.getKeyForAction = function(action) {
-    return this.reverseControls[action.name];
+    return this.reverseControls[action.id];
 };
 
 /**
@@ -84,11 +84,11 @@ illandril.game.controls.keyHandler.prototype.registerAction = function(action, k
     }
     var changes = [];
     var oldAction = this.controls[key];
-    var oldKey = this.reverseControls[action.name];
+    var oldKey = this.reverseControls[action.id];
     if (oldAction != null) {
         if (oldKey != null) {
             this.controls[oldKey] = oldAction;
-            this.reverseControls[oldAction.name] = oldKey;
+            this.reverseControls[oldAction.id] = oldKey;
             changes.push(new illandril.game.controls.keyHandler.exportedAction(oldKey, oldAction));
         } else {
             throw 'The specified key is already in use for a different function.';
@@ -97,7 +97,7 @@ illandril.game.controls.keyHandler.prototype.registerAction = function(action, k
         delete this.controls[oldKey];
     }
     this.controls[key] = action;
-    this.reverseControls[action.name] = key;
+    this.reverseControls[action.id] = key;
     changes.push(new illandril.game.controls.keyHandler.exportedAction(key, action));
     this.notifyControlChangeListeners(changes);
 };
@@ -117,10 +117,10 @@ illandril.game.controls.keyHandler.prototype.registerActionFromInput = function(
  * @param {!illandril.game.controls.action} action
  */
 illandril.game.controls.keyHandler.prototype.unregisterAction = function(action) {
-    var oldKey = this.reverseControls[action.name];
+    var oldKey = this.reverseControls[action.id];
     if (oldKey != null) {
         delete this.controls[oldKey];
-        delete this.reverseControls[action.name];
+        delete this.reverseControls[action.id];
         this.notifyControlChangeListeners([new illandril.game.controls.keyHandler.exportedAction(null, action)]);
     }
 };

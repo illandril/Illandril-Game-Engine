@@ -168,6 +168,79 @@ illandril.game.platformer.prototype.createSlimePlayer = function(diameter, posit
     return player;
 };
 
+illandril.game.platformer.prototype.createRoboPlayer = function(size, position) {
+    this.game.getWorld().createScenery(size, position, 0 /* zOffset */);
+    var args = {
+        bodyArgs: {
+            fixedRotation: true
+        },
+        fixtureArgs: {
+            restitution: 0
+        }
+    };
+    var halfSize = Box2D.Common.Math.b2Vec2.Get(size.x / 2, size.y / 2);
+    var wheelSize = Box2D.Common.Math.b2Vec2.Get(halfSize.x, halfSize.x);
+    var floatingPos = Box2D.Common.Math.b2Vec2.Get(position.x, position.y);
+    
+    var player = this.game.getWorld().createSafeBox(halfSize, floatingPos, true /* visible */, args);
+    
+    floatingPos.x = position.x - halfSize.x / 2;
+    floatingPos.y = position.y + halfSize.y + wheelSize.y;
+    args.bodyArgs.fixedRotation = false;
+    var wheelShape = new Box2D.Collision.Shapes.b2CircleShape(wheelSize.x / 2);
+    var leftWheel = this.game.getWorld().createObject(wheelSize, floatingPos, true /* visible */, wheelShape, args)
+    floatingPos.x = position.x + halfSize.x / 2;
+    var rightWheel = this.game.getWorld().createObject(wheelSize, floatingPos, true /* visible */, wheelShape, args)
+    
+    var dJDef = new Box2D.Dynamics.Joints.b2DistanceJointDef();
+    dJDef.Initialize(player.body, leftWheel.body, player.body.GetWorldCenter(), leftWheel.body.GetWorldCenter());
+    this.game.getWorld().getBox2DWorld().CreateJoint(dJDef);
+    dJDef.Initialize(player.body, rightWheel.body, player.body.GetWorldCenter(), rightWheel.body.GetWorldCenter());
+    this.game.getWorld().getBox2DWorld().CreateJoint(dJDef);
+    dJDef.Initialize(leftWheel.body, rightWheel.body, leftWheel.body.GetWorldCenter(), rightWheel.body.GetWorldCenter());
+    this.game.getWorld().getBox2DWorld().CreateJoint(dJDef);
+
+    illandril.game.platformer.initializeJumper(player, illandril.game.platformer.DEFAULTS.PLAYER_SPEED);
+    illandril.game.platformer.initializeMover(player, illandril.game.platformer.DEFAULTS.PLAYER_SPEED, illandril.game.platformer.DEFAULTS.PLAYER_ACCELERATION);
+    illandril.game.platformer.initializeLiving(player, illandril.game.platformer.LIVING_FILTERS.PLAYER);
+    
+    // Add left/right edge to the player so they slide against walls
+    /*
+    var shape = new Box2D.Collision.Shapes.b2PolygonShape();
+    var edging = 0.01;
+    shape.SetAsArray([
+        new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, halfSize.y - edging),
+        new Box2D.Common.Math.b2Vec2(-halfSize.x - edging, 0),
+        new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, -halfSize.y + edging),
+        new Box2D.Common.Math.b2Vec2(halfSize.x - edging, -halfSize.y + edging),
+        new Box2D.Common.Math.b2Vec2(halfSize.x + edging, 0),
+        new Box2D.Common.Math.b2Vec2(halfSize.x - edging, halfSize.y - edging)
+        ]);
+    
+    player.edging = this.game.getWorld().addFixture(player.body, shape, { fixtureArgs: { friction: 0 } });
+    */
+    Box2D.Common.Math.b2Vec2.Free(halfSize);
+    Box2D.Common.Math.b2Vec2.Free(wheelSize);
+    Box2D.Common.Math.b2Vec2.Free(floatingPos);
+    
+    player.actions = {};
+    player.actions.moveUp = new illandril.game.controls.action(function(tickTime) {
+        player.platformerRules.jumper.jump();
+    }, 'Move Up', true);
+    player.actions.moveDown = new illandril.game.controls.action(function(tickTime) {
+        // Duck? Drop down through floor?
+    }, 'Move Down', true);
+    player.actions.moveLeft = new illandril.game.controls.action(function(tickTime) {
+        player.platformerRules.mover.moveLeft();
+    }, 'Move Left', true);
+    player.actions.moveRight = new illandril.game.controls.action(function(tickTime) {
+        player.platformerRules.mover.moveRight();
+    }, 'Move Right', true);
+    
+    
+    return player;
+};
+
 (function(platformer){
     platformer.NORMAL_ERROR = 0.1; // Ensure solid hits for breaking, jump surfaces, etc
     platformer.DEFAULT_GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );

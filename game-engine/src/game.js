@@ -170,7 +170,7 @@ illandril.game.game.run = function() {
     if(!illandril.game.game.isRunning) {
         illandril.game.game.fps = document.getElementById( "fps" );
         illandril.game.game.isRunning = true;
-        illandril.game.game._update();
+        illandril.game.requestAnimFrame(illandril.game.game._update, document.body);
     }
 };
 

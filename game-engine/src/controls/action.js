@@ -15,4 +15,8 @@ illandril.game.controls.action = function(fn, name, executeOnRepeat) {
     
     /** @type {boolean} */
     this.executeOnRepeat = executeOnRepeat;
+    
+    this.id = "Action" + illandril.game.controls.action.nextID++;
 };
+
+illandril.game.controls.action.nextID = 0;
