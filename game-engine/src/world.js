@@ -27,18 +27,18 @@ illandril.game.world = function(game, worldSize, gravity) {
     this.objects = {};
     
     this.game = game;
-    this.worldSize = new Box2D.Common.Math.b2Vec2(worldSize.x, worldSize.y);
-    this.b2World = new Box2D.Dynamics.b2World( gravity, true /* allow sleep */ );
+    this.worldSize = Box2D.Common.Math.b2Vec2.Get(worldSize.x, worldSize.y);
+    this.b2World = Box2D.Common.Math.b2Vec2.Get( gravity, true /* allow sleep */ );
 
     this.b2World.SetContactFilter(this);
     this.b2World.SetContactListener(this);
     
     // Add in the boundries
     var boundryWidth = 5;
-    this.top = this.createStaticBox(new Box2D.Common.Math.b2Vec2(this.worldSize.x + boundryWidth, boundryWidth), new Box2D.Common.Math.b2Vec2(this.worldSize.x / 2, -boundryWidth / 2), false /* visible */, null, { friction: 0} );
-    this.bottom = this.createStaticBox(new Box2D.Common.Math.b2Vec2(this.worldSize.x + boundryWidth, boundryWidth), new Box2D.Common.Math.b2Vec2(this.worldSize.x / 2, this.worldSize.y + boundryWidth / 2), false /* visible */, null, { friction: 0});
-    this.left = this.createStaticBox(new Box2D.Common.Math.b2Vec2(boundryWidth, this.worldSize.y + boundryWidth), new Box2D.Common.Math.b2Vec2(-boundryWidth / 2, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
-    this.right = this.createStaticBox(new Box2D.Common.Math.b2Vec2(boundryWidth, this.worldSize.y + boundryWidth), new Box2D.Common.Math.b2Vec2(this.worldSize.x + boundryWidth / 2, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
+    this.top = this.createStaticBox(Box2D.Common.Math.b2Vec2.Get(this.worldSize.x + boundryWidth, boundryWidth), Box2D.Common.Math.b2Vec2.Get(this.worldSize.x / 2, -boundryWidth / 2), false /* visible */, null, { friction: 0} );
+    this.bottom = this.createStaticBox(Box2D.Common.Math.b2Vec2.Get(this.worldSize.x + boundryWidth, boundryWidth), Box2D.Common.Math.b2Vec2.Get(this.worldSize.x / 2, this.worldSize.y + boundryWidth / 2), false /* visible */, null, { friction: 0});
+    this.left = this.createStaticBox(Box2D.Common.Math.b2Vec2.Get(boundryWidth, this.worldSize.y + boundryWidth), Box2D.Common.Math.b2Vec2.Get(-boundryWidth / 2, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
+    this.right = this.createStaticBox(Box2D.Common.Math.b2Vec2.Get(boundryWidth, this.worldSize.y + boundryWidth), Box2D.Common.Math.b2Vec2.Get(this.worldSize.x + boundryWidth / 2, this.worldSize.y / 2), false /* visible */, null, { friction: 0});
 };
 
 /**
@@ -224,17 +224,17 @@ illandril.game.world.prototype.createSafeBox = function(size, position, visible,
     var shape = new Box2D.Collision.Shapes.b2PolygonShape();
     //shape.SetAsBox(size.x / 2, size.y / 2);
     // Make the boxes have slightly angled edges to avoid having things get stuck (lousy floating point rounding!)
-    var halfSize = new Box2D.Common.Math.b2Vec2(size.x / 2, size.y / 2);
+    var halfSize = Box2D.Common.Math.b2Vec2.Get(size.x / 2, size.y / 2);
     var edging = 0.01;
     shape.SetAsArray([
-        new Box2D.Common.Math.b2Vec2(0, halfSize.y),
-        new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, halfSize.y - edging),
-        new Box2D.Common.Math.b2Vec2(-halfSize.x, 0),
-        new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, -halfSize.y + edging),
-        new Box2D.Common.Math.b2Vec2(0, -halfSize.y),
-        new Box2D.Common.Math.b2Vec2(halfSize.x - edging, -halfSize.y + edging),
-        new Box2D.Common.Math.b2Vec2(halfSize.x, 0),
-        new Box2D.Common.Math.b2Vec2(halfSize.x - edging, halfSize.y - edging)
+        Box2D.Common.Math.b2Vec2.Get(0, halfSize.y),
+        Box2D.Common.Math.b2Vec2.Get(-halfSize.x + edging, halfSize.y - edging),
+        Box2D.Common.Math.b2Vec2.Get(-halfSize.x, 0),
+        Box2D.Common.Math.b2Vec2.Get(-halfSize.x + edging, -halfSize.y + edging),
+        Box2D.Common.Math.b2Vec2.Get(0, -halfSize.y),
+        Box2D.Common.Math.b2Vec2.Get(halfSize.x - edging, -halfSize.y + edging),
+        Box2D.Common.Math.b2Vec2.Get(halfSize.x, 0),
+        Box2D.Common.Math.b2Vec2.Get(halfSize.x - edging, halfSize.y - edging)
         ]);
     return this.createObject(size, position, visible, shape, args);
 };

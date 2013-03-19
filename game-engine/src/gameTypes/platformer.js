@@ -45,15 +45,15 @@ illandril.game.platformer.prototype.createPlayer = function(size, position) {
     
     // Add left/right edge to the player so they slide against walls
     var shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    var halfSize = new Box2D.Common.Math.b2Vec2(size.x / 2, size.y / 2);
+    var halfSize = Box2D.Common.Math.b2Vec2.Get(size.x / 2, size.y / 2);
     var edging = 0.01;
     shape.SetAsArray([
-        new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, halfSize.y - edging),
-        new Box2D.Common.Math.b2Vec2(-halfSize.x - edging, 0),
-        new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, -halfSize.y + edging),
-        new Box2D.Common.Math.b2Vec2(halfSize.x - edging, -halfSize.y + edging),
-        new Box2D.Common.Math.b2Vec2(halfSize.x + edging, 0),
-        new Box2D.Common.Math.b2Vec2(halfSize.x - edging, halfSize.y - edging)
+        Box2D.Common.Math.b2Vec2.Get(-halfSize.x + edging, halfSize.y - edging),
+        Box2D.Common.Math.b2Vec2.Get(-halfSize.x - edging, 0),
+        Box2D.Common.Math.b2Vec2.Get(-halfSize.x + edging, -halfSize.y + edging),
+        Box2D.Common.Math.b2Vec2.Get(halfSize.x - edging, -halfSize.y + edging),
+        Box2D.Common.Math.b2Vec2.Get(halfSize.x + edging, 0),
+        Box2D.Common.Math.b2Vec2.Get(halfSize.x - edging, halfSize.y - edging)
         ]);
     player.edging = this.game.getWorld().addFixture(player.body, shape, { fixtureArgs: { friction: 0 } });
     
@@ -209,12 +209,12 @@ illandril.game.platformer.prototype.createRoboPlayer = function(size, position) 
     var shape = new Box2D.Collision.Shapes.b2PolygonShape();
     var edging = 0.01;
     shape.SetAsArray([
-        new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, halfSize.y - edging),
-        new Box2D.Common.Math.b2Vec2(-halfSize.x - edging, 0),
-        new Box2D.Common.Math.b2Vec2(-halfSize.x + edging, -halfSize.y + edging),
-        new Box2D.Common.Math.b2Vec2(halfSize.x - edging, -halfSize.y + edging),
-        new Box2D.Common.Math.b2Vec2(halfSize.x + edging, 0),
-        new Box2D.Common.Math.b2Vec2(halfSize.x - edging, halfSize.y - edging)
+        Box2D.Common.Math.b2Vec2.Get(-halfSize.x + edging, halfSize.y - edging),
+        Box2D.Common.Math.b2Vec2.Get(-halfSize.x - edging, 0),
+        Box2D.Common.Math.b2Vec2.Get(-halfSize.x + edging, -halfSize.y + edging),
+        Box2D.Common.Math.b2Vec2.Get(halfSize.x - edging, -halfSize.y + edging),
+        Box2D.Common.Math.b2Vec2.Get(halfSize.x + edging, 0),
+        Box2D.Common.Math.b2Vec2.Get(halfSize.x - edging, halfSize.y - edging)
         ]);
     
     player.edging = this.game.getWorld().addFixture(player.body, shape, { fixtureArgs: { friction: 0 } });
@@ -243,9 +243,9 @@ illandril.game.platformer.prototype.createRoboPlayer = function(size, position) 
 
 (function(platformer){
     platformer.NORMAL_ERROR = 0.1; // Ensure solid hits for breaking, jump surfaces, etc
-    platformer.DEFAULT_GRAVITY = new Box2D.Common.Math.b2Vec2( 0, 9.8 );
+    platformer.DEFAULT_GRAVITY = Box2D.Common.Math.b2Vec2.Get( 0, 9.8 );
     platformer.DEFAULTS = {
-        GRAVITY: new Box2D.Common.Math.b2Vec2( 0, 9.8 ),
+        GRAVITY: Box2D.Common.Math.b2Vec2.Get( 0, 9.8 ),
         JUMP_IMPULSE_MODIFIER: 1.5,
         PLAYER_SPEED: 8,
         PLAYER_ACCELERATION: 1
@@ -333,10 +333,10 @@ illandril.game.platformer.prototype.createRoboPlayer = function(size, position) 
                     var velocity = jumper.body.GetLinearVelocity();
                     velocity.y = 0;
                     jumper.body.SetLinearVelocity(velocity);
-                    jumper.body.ApplyImpulse(new Box2D.Common.Math.b2Vec2(0,-impulse), newPos);
+                    jumper.body.ApplyImpulse(Box2D.Common.Math.b2Vec2.Get(0,-impulse), newPos);
                     // Known bug: This might cause a double-impulse to the ground in some situations (when velocity is not 0 above)
                     for(var i = 0; i < grounds.length; i++) {
-                        grounds[i].GetBody().ApplyImpulse(new Box2D.Common.Math.b2Vec2(0,impulse / grounds.length), newPos);
+                        grounds[i].GetBody().ApplyImpulse(Box2D.Common.Math.b2Vec2.Get(0,impulse / grounds.length), newPos);
                     }
                 }
             }
@@ -412,7 +412,7 @@ illandril.game.platformer.prototype.createRoboPlayer = function(size, position) 
                 var velChange = desiredVel - vel.x;
                 if (velChange > 0 ) {
                     var imp = mover.body.GetMass() * velChange;
-                    mover.body.ApplyImpulse(new Box2D.Common.Math.b2Vec2(imp,0), mover.body.GetWorldCenter());
+                    mover.body.ApplyImpulse(Box2D.Common.Math.b2Vec2.Get(imp,0), mover.body.GetWorldCenter());
                 }
             },
             moveLeft: function() {
@@ -421,7 +421,7 @@ illandril.game.platformer.prototype.createRoboPlayer = function(size, position) 
                 var velChange = desiredVel - vel.x;
                 if (velChange < 0 ) {
                     var imp = mover.body.GetMass() * velChange;
-                    mover.body.ApplyImpulse(new Box2D.Common.Math.b2Vec2(imp,0), mover.body.GetWorldCenter());
+                    mover.body.ApplyImpulse(Box2D.Common.Math.b2Vec2.Get(imp,0), mover.body.GetWorldCenter());
                 }
             }
         };

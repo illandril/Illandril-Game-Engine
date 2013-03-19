@@ -19,17 +19,21 @@ illandril.game.ui.viewport = function(g, containerID, scale, viewportSize, debug
     this.domObjects = {};
     this.game = g;
     this.viewportSize = viewportSize;
-    this.scaledViewportSize = new Box2D.Common.Math.b2Vec2(viewportSize.x / scale, viewportSize.y / scale);
+    this.scaledViewportSize = Box2D.Common.Math.b2Vec2.Get(viewportSize.x / scale, viewportSize.y / scale);
     this.scale = scale;
-    this.camera = new Box2D.Common.Math.b2Vec2(0, 0);
-    this.lastCamera = new Box2D.Common.Math.b2Vec2(-1, -1); // Can't be 0,0, or if we start in the top-left corner the viewportWorldObject won't update
+    this.camera = Box2D.Common.Math.b2Vec2.Get(0, 0);
+    this.lastCamera = Box2D.Common.Math.b2Vec2.Get(-1, -1); // Can't be 0,0, or if we start in the top-left corner the viewportWorldObject won't update
     
-    this.viewportAABB = new Box2D.Collision.b2AABB();
-    this.viewportAABB.upperBound = this.scaledViewportSize.Copy();
-    this.viewportAABB.upperBound.Multiply(illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE);
+    this.viewportAABB = Box2D.Collision.b2AABB.Get();
+    var lowerBound = Box2D.Common.Math.b2Vec2.Get(0, 0);
+    var upperBound = this.scaledViewportSize.Copy();
+    upperBound.Multiply(illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE);
+    this.viewportAABB.SetVV(lowerBound, upperBound);
+    Box2D.Common.Math.b2Vec2.Free(lowerBound);
+    Box2D.Common.Math.b2Vec2.Free(upperBound);
     //var viewportWorldObjectSize = new Box2D.Common.Math.b2Vec2(this.scaledViewportSize.x * illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE, this.scaledViewportSize.y * illandril.game.ui.viewport.VIEWPORT_LOAD_SCALE);
     //this.viewportWorldObject = this.game.getWorld().createStaticBox(viewportWorldObjectSize, new Box2D.Common.Math.b2Vec2(0, 0), false /* visible */, null /* bodyArgs */, { isSensor: true } );
-    this.lookAt(new Box2D.Common.Math.b2Vec2(0, 0));
+    this.lookAt(this.camera);
     
     var container = document.getElementById(containerID);
     this.displayContainer = document.createElement('span');
@@ -159,8 +163,7 @@ illandril.game.ui.viewport.prototype.draw = function(time, tick) {
             var visible = false;
             var pos = obj.getDisplayPosition(this.camera);
             var size = objDisplay.size;
-            objDisplay.aabb.lowerBound.Set(pos.x - size.x, pos.y - size.y);
-            objDisplay.aabb.upperBound.Set(pos.x + size.x, pos.y + size.y);
+            objDisplay.aabb.Set(pos.x - size.x, pos.y - size.y, pos.x + size.x, pos.y + size.y);
             if (!viewportAABB.TestOverlap(objDisplay.aabb)) {
                 continue;
             }
@@ -223,7 +226,7 @@ illandril.game.ui.viewport.prototype.draw = function(time, tick) {
 illandril.game.ui.viewport.prototype.setDisplaySize = function(object, size) {
     if (object.display == null) {
         object.display = {};
-        object.display.aabb = new Box2D.Collision.b2AABB();
+        object.display.aabb = Box2D.Collision.b2AABB.Get();
         object.getDisplayPosition = function(camera) {
             var pos = this.getPosition();
             if(this.display.parallaxMultiplier == 0) {

@@ -23,8 +23,8 @@ goog.require('illandril.game.controls.action');
 
 var player;
 
-var worldSize = new Box2D.Common.Math.b2Vec2(350, 60); // Meters
-var viewportSize = new Box2D.Common.Math.b2Vec2(1000, 300); // Pixels
+var worldSize = Box2D.Common.Math.b2Vec2.Get(350, 60); // Meters
+var viewportSize = Box2D.Common.Math.b2Vec2.Get(1000, 300); // Pixels
 var viewportScale = 20; // Pixels per Meter
 
 var playerControls;
@@ -35,20 +35,20 @@ var p;
 test.init = function(gameContainerID, doDebug, wasd) {
     g = new illandril.game.game(test, gameContainerID, worldSize, illandril.game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
     p = new illandril.game.platformer(g);
-    var position = new Box2D.Common.Math.b2Vec2(6, worldSize.y - 35);
+    var position = Box2D.Common.Math.b2Vec2.Get(6, worldSize.y - 35);
     test.createPlayer(position, wasd);
-    test.createBridge(g, p, new Box2D.Common.Math.b2Vec2(5, worldSize.y));
+    test.createBridge(g, p, Box2D.Common.Math.b2Vec2.Get(5, worldSize.y));
     
     g.startWhenReady();
 };
 
 test.createPlayer = function(position, wasd) {
     var sprite = '../external-resources/graphics/urbansquall_tileset/characters/princess_AP.png';
-    var spriteOffset = new Box2D.Common.Math.b2Vec2(0, 0);
+    var spriteOffset = Box2D.Common.Math.b2Vec2.Get(0, 0);
     var frames = 4;
     var frameSpeed = 4;
-    var frameSize = new Box2D.Common.Math.b2Vec2(21, 47);
-    var size = new Box2D.Common.Math.b2Vec2(frameSize.x / 20, frameSize.y / 20);
+    var frameSize = Box2D.Common.Math.b2Vec2.Get(21, 47);
+    var size = Box2D.Common.Math.b2Vec2.Get(frameSize.x / 20, frameSize.y / 20);
     //player = p.createPlayer(size, position);
     player = p.createSlimePlayer(size.y, position);
     g.getAnimationManager().setAsFourDirectionalAnimation(player, size, sprite, spriteOffset, frameSize, frames, frameSpeed);
@@ -69,7 +69,7 @@ test.createPlayer = function(position, wasd) {
 test.createBridge = function(g, p, offset) {
     var position = offset.Copy();
     position.y -= 30;
-    var panelSize = new Box2D.Common.Math.b2Vec2(2.5, 0.1);
+    var panelSize = Box2D.Common.Math.b2Vec2.Get(2.5, 0.1);
     var panelSpacing = 0.5;
     var panels = 60;
     var lastPanel = null;

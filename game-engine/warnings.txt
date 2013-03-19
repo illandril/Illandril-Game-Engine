@@ -1,16 +1,1578 @@
 ../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: Scanning paths...
-../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: 896 sources scanned.
+../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: 897 sources scanned.
 ../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: Building dependency tree..
 ../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: Compiling with the following command: java -jar ../closure-compiler/compiler.jar --js ../box2dweb-closure/closure-library/closure/goog/base.js --js ../box2dweb-closure/closure-library/closure/goog/string/string.js --js ../box2dweb-closure/closure-library/closure/goog/useragent/useragent.js --js ../box2dweb-closure/closure-library/closure/goog/events/keynames.js --js ../box2dweb-closure/closure-library/closure/goog/events/keycodes.js --js ../box2dweb-closure/closure-library/closure/goog/events/eventtype.js --js ../box2dweb-closure/closure-library/closure/goog/debug/errorhandlerweakdep.js --js ../box2dweb-closure/closure-library/closure/goog/object/object.js --js ../box2dweb-closure/closure-library/closure/goog/debug/error.js --js ../box2dweb-closure/closure-library/closure/goog/asserts/asserts.js --js ../box2dweb-closure/closure-library/closure/goog/array/array.js --js ../box2dweb-closure/closure-library/closure/goog/debug/entrypointregistry.js --js ../box2dweb-closure/closure-library/closure/goog/events/eventwrapper.js --js ../box2dweb-closure/closure-library/closure/goog/events/browserfeature.js --js ../box2dweb-closure/closure-library/closure/goog/disposable/idisposable.js --js ../box2dweb-closure/closure-library/closure/goog/disposable/disposable.js --js ../box2dweb-closure/closure-library/closure/goog/events/event.js --js ../box2dweb-closure/closure-library/closure/goog/reflect/reflect.js --js ../box2dweb-closure/closure-library/closure/goog/events/browserevent.js --js ../box2dweb-closure/closure-library/closure/goog/events/listener.js --js ../box2dweb-closure/closure-library/closure/goog/useragent/jscript.js --js ../box2dweb-closure/closure-library/closure/goog/structs/simplepool.js --js ../box2dweb-closure/closure-library/closure/goog/events/pools.js --js ../box2dweb-closure/closure-library/closure/goog/events/events.js --js ../box2dweb-closure/closure-library/closure/goog/events/eventtarget.js --js ../box2dweb-closure/closure-library/closure/goog/events/keyhandler.js --js src/controls/keyHandler.js --js ../box2dweb-closure/src/usage_tracker.js --js ../box2dweb-closure/src/common/math/b2Vec2.js --js src/ui/ui.js --js ../box2dweb-closure/src/dynamics/b2DebugDraw.js --js src/ui/spriteSheet.js --js ../box2dweb-closure/src/collision/b2AABB.js --js src/ui/viewport.js --js src/shims.js --js ../box2dweb-closure/src/dynamics/b2FilterData.js --js ../box2dweb-closure/src/dynamics/b2FixtureDef.js --js ../box2dweb-closure/src/common/math/b2Mat22.js --js ../box2dweb-closure/src/common/math/b2Math.js --js ../box2dweb-closure/src/common/b2Settings.js --js ../box2dweb-closure/src/collision/b2DistanceProxy.js --js ../box2dweb-closure/src/collision/b2DistanceOutput.js --js ../box2dweb-closure/src/collision/b2SimplexVertex.js --js ../box2dweb-closure/src/collision/b2Simplex.js --js ../box2dweb-closure/src/collision/b2Distance.js --js ../box2dweb-closure/src/collision/b2SimplexCache.js --js ../box2dweb-closure/src/collision/b2DistanceInput.js --js ../box2dweb-closure/src/collision/shapes/b2Shape.js --js ../box2dweb-closure/src/collision/shapes/b2MassData.js --js ../box2dweb-closure/src/common/math/b2Transform.js --js ../box2dweb-closure/src/collision/shapes/b2PolygonShape.js --js ../box2dweb-closure/src/dynamics/iContactFilter.js --js ../box2dweb-closure/src/dynamics/b2ContactFilter.js --js ../box2dweb-closure/src/dynamics/joints/b2JointEdge.js --js ../box2dweb-closure/src/dynamics/joints/b2Joint.js --js ../box2dweb-closure/src/dynamics/joints/b2PulleyJoint.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactRegister.js --js ../box2dweb-closure/src/collision/b2ContactID.js --js ../box2dweb-closure/src/collision/ClipVertex.js --js ../box2dweb-closure/src/collision/b2ManifoldPoint.js --js ../box2dweb-closure/src/collision/b2Manifold.js --js ../box2dweb-closure/src/collision/b2Collision.js --js ../box2dweb-closure/src/collision/b2SeparationFunction.js --js ../box2dweb-closure/src/collision/b2TimeOfImpact.js --js ../box2dweb-closure/src/common/math/b2Sweep.js --js ../box2dweb-closure/src/collision/b2TOIInput.js --js ../box2dweb-closure/src/dynamics/b2BodyDef.js --js ../box2dweb-closure/src/dynamics/contacts/b2Contact.js --js ../box2dweb-closure/src/dynamics/contacts/b2CircleContact.js --js ../box2dweb-closure/src/dynamics/contacts/b2EdgeAndCircleContact.js --js ../box2dweb-closure/src/collision/shapes/b2CircleShape.js --js ../box2dweb-closure/src/dynamics/contacts/b2PolyAndCircleContact.js --js ../box2dweb-closure/src/collision/shapes/b2EdgeShape.js --js ../box2dweb-closure/src/dynamics/contacts/b2PolyAndEdgeContact.js --js ../box2dweb-closure/src/dynamics/contacts/b2PolygonContact.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactFactory.js --js ../box2dweb-closure/src/dynamics/iContactListener.js --js ../box2dweb-closure/src/dynamics/b2ContactListener.js --js ../box2dweb-closure/src/collision/b2ContactPoint.js --js ../box2dweb-closure/src/collision/IBroadPhase.js --js ../box2dweb-closure/src/collision/b2DynamicTreePair.js --js ../box2dweb-closure/src/collision/b2DynamicTreeNode.js --js ../box2dweb-closure/src/collision/b2RayCastInput.js --js ../box2dweb-closure/src/collision/b2DynamicTree.js --js ../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js --js ../box2dweb-closure/src/dynamics/b2ContactManager.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactListNode.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactList.js --js ../box2dweb-closure/closure-library/closure/goog/structs/queue.js --js ../box2dweb-closure/src/dynamics/b2BodyListNode.js --js ../box2dweb-closure/src/dynamics/b2BodyList.js --js ../box2dweb-closure/src/dynamics/joints/b2MouseJoint.js --js ../box2dweb-closure/src/common/b2Color.js --js ../box2dweb-closure/src/collision/b2WorldManifold.js --js ../box2dweb-closure/src/dynamics/b2TimeStep.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactConstraintPoint.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactConstraint.js --js ../box2dweb-closure/src/dynamics/contacts/b2PositionSolverManifold.js --js ../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js --js ../box2dweb-closure/src/dynamics/b2ContactImpulse.js --js ../box2dweb-closure/src/dynamics/b2Island.js --js ../box2dweb-closure/src/dynamics/joints/b2DistanceJoint.js --js ../box2dweb-closure/src/dynamics/controllers/b2ControllerListNode.js --js ../box2dweb-closure/src/dynamics/controllers/b2ControllerList.js --js ../box2dweb-closure/src/dynamics/b2Fixture.js --js ../box2dweb-closure/src/dynamics/b2FixtureListNode.js --js ../box2dweb-closure/src/dynamics/b2FixtureList.js --js ../box2dweb-closure/src/dynamics/b2Body.js --js ../box2dweb-closure/src/collision/b2RayCastOutput.js --js ../box2dweb-closure/src/dynamics/b2World.js --js src/gameObject.js --js src/world.js --js src/ui/animation.js --js src/ai/ai.js --js src/game.js --js ../box2dweb-closure/src/dynamics/joints/b2JointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2PulleyJointDef.js --js ../box2dweb-closure/src/common/math/b2Vec3.js --js ../box2dweb-closure/src/common/math/b2Mat33.js --js ../box2dweb-closure/src/dynamics/joints/b2PrismaticJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2PrismaticJointDef.js --js src/controls/action.js --js src/gameTypes/platformer.js --js ../box2dweb-closure/src/dynamics/joints/b2MouseJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2DistanceJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2WeldJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2WeldJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2RevoluteJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2RevoluteJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2Jacobian.js --js ../box2dweb-closure/src/dynamics/joints/b2GearJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2GearJointDef.js --js ../box2dweb-closure/src/dynamics/joints/b2LineJoint.js --js ../box2dweb-closure/src/dynamics/joints/b2LineJointDef.js --js src/games/bridge.js --js src/games/mario.js --js src/games/test.js --js src/games/pit.js --output_wrapper=(function(){%output%})(); --warning_level=VERBOSE --js=src/deps.js --js=../box2dweb-closure/src/deps.js --js=../box2dweb-closure/closure-library/closure/goog/deps.js --compilation_level=ADVANCED_OPTIMIZATIONS --define=goog.DEBUG=false
+../box2dweb-closure/closure-library/closure/goog/events/events.js:931: WARNING - actual parameter 2 of goog.events.BrowserEvent.prototype.init does not match formal parameter
+found   : Object
+required: (Node|null|undefined)
+    evt.init(ieEvent, this);
+                      ^
+
+../box2dweb-closure/closure-library/closure/goog/events/events.js:988: WARNING - actual parameter 2 of goog.events.BrowserEvent does not match formal parameter
+found   : Object
+required: (Node|null|undefined)
+  var be = new goog.events.BrowserEvent(opt_evt, this);
+                                                 ^
+
+../box2dweb-closure/closure-library/closure/goog/events/pools.js:204: WARNING - inconsistent return type
+found   : *
+required: {count_: number, remaining_: number}
+      return objectPool.getObject();
+             ^
+
+../box2dweb-closure/src/collision/b2Collision.js:296: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+    manifold.m_localPlaneNormal.SetV(Box2D.Collision.b2Collision.s_localNormal);
+    ^
+
+../box2dweb-closure/src/collision/b2Collision.js:297: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+    manifold.m_localPoint.SetV(Box2D.Collision.b2Collision.s_planePoint);
+    ^
+
+../box2dweb-closure/src/collision/b2Collision.js:305: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+            manifold.m_points[pointCount].m_localPoint.x = (tX * xf2.R.col1.x + tY * xf2.R.col1.y);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:305: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+            manifold.m_points[pointCount].m_localPoint.x = (tX * xf2.R.col1.x + tY * xf2.R.col1.y);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:306: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+            manifold.m_points[pointCount].m_localPoint.y = (tX * xf2.R.col2.x + tY * xf2.R.col2.y);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:306: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+            manifold.m_points[pointCount].m_localPoint.y = (tX * xf2.R.col2.x + tY * xf2.R.col2.y);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:307: WARNING - Access to private property m_id of Box2D.Collision.b2ManifoldPoint not allowed here.
+            manifold.m_points[pointCount].m_id.Set(Box2D.Collision.b2Collision.s_clipPoints2[i].id);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:307: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+            manifold.m_points[pointCount].m_id.Set(Box2D.Collision.b2Collision.s_clipPoints2[i].id);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:308: WARNING - Access to private property m_id of Box2D.Collision.b2ManifoldPoint not allowed here.
+            manifold.m_points[pointCount].m_id.SetFlip(flip);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:308: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+            manifold.m_points[pointCount].m_id.SetFlip(flip);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:336: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+    manifold.m_localPoint.SetV(circle1.GetLocalPosition());
+    ^
+
+../box2dweb-closure/src/collision/b2Collision.js:337: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+    manifold.m_localPlaneNormal.SetZero();
+    ^
+
+../box2dweb-closure/src/collision/b2Collision.js:339: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+    manifold.m_points[0].m_localPoint.SetV(circle2.GetLocalPosition());
+    ^
+
+../box2dweb-closure/src/collision/b2Collision.js:339: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+    manifold.m_points[0].m_localPoint.SetV(circle2.GetLocalPosition());
+    ^
+
+../box2dweb-closure/src/collision/b2Collision.js:340: WARNING - Access to private property m_id of Box2D.Collision.b2ManifoldPoint not allowed here.
+    manifold.m_points[0].m_id.SetKey(0);
+    ^
+
+../box2dweb-closure/src/collision/b2Collision.js:340: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+    manifold.m_points[0].m_id.SetKey(0);
+    ^
+
+../box2dweb-closure/src/collision/b2Collision.js:378: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+        manifold.m_localPlaneNormal.SetV(polygon.GetNormal(normalIndex));
+        ^
+
+../box2dweb-closure/src/collision/b2Collision.js:379: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+        manifold.m_localPoint.x = 0.5 * (v1.x + v2.x);
+        ^
+
+../box2dweb-closure/src/collision/b2Collision.js:380: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+        manifold.m_localPoint.y = 0.5 * (v1.y + v2.y);
+        ^
+
+../box2dweb-closure/src/collision/b2Collision.js:381: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+        manifold.m_points[0].m_localPoint.SetV(circle.GetLocalPosition());
+        ^
+
+../box2dweb-closure/src/collision/b2Collision.js:381: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+        manifold.m_points[0].m_localPoint.SetV(circle.GetLocalPosition());
+        ^
+
+../box2dweb-closure/src/collision/b2Collision.js:382: WARNING - Access to private property m_id of Box2D.Collision.b2ManifoldPoint not allowed here.
+        manifold.m_points[0].m_id.SetKey(0);
+        ^
+
+../box2dweb-closure/src/collision/b2Collision.js:382: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+        manifold.m_points[0].m_id.SetKey(0);
+        ^
+
+../box2dweb-closure/src/collision/b2Collision.js:389: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+            manifold.m_localPlaneNormal.x = cLocalX - v1.x;
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:390: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+            manifold.m_localPlaneNormal.y = cLocalY - v1.y;
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:391: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+            manifold.m_localPlaneNormal.Normalize();
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:392: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+            manifold.m_localPoint.SetV(v1);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:393: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+            manifold.m_points[0].m_localPoint.SetV(circle.GetLocalPosition());
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:393: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+            manifold.m_points[0].m_localPoint.SetV(circle.GetLocalPosition());
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:394: WARNING - Access to private property m_id of Box2D.Collision.b2ManifoldPoint not allowed here.
+            manifold.m_points[0].m_id.SetKey(0);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:394: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+            manifold.m_points[0].m_id.SetKey(0);
+            ^
+
+../box2dweb-closure/src/collision/b2Collision.js:401: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_localPlaneNormal.x = cLocalX - v2.x;
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:402: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_localPlaneNormal.y = cLocalY - v2.y;
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:403: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_localPlaneNormal.Normalize();
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:404: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_localPoint.SetV(v2);
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:405: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+                manifold.m_points[0].m_localPoint.SetV(circle.GetLocalPosition());
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:405: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_points[0].m_localPoint.SetV(circle.GetLocalPosition());
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:406: WARNING - Access to private property m_id of Box2D.Collision.b2ManifoldPoint not allowed here.
+                manifold.m_points[0].m_id.SetKey(0);
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:406: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_points[0].m_id.SetKey(0);
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:414: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_localPlaneNormal.x = polygon.GetNormal(normalIndex).x;
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:415: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_localPlaneNormal.y = polygon.GetNormal(normalIndex).y;
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:416: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_localPlaneNormal.Normalize();
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:417: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_localPoint.Set(faceCenterX, faceCenterY);
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:418: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+                manifold.m_points[0].m_localPoint.SetV(circle.GetLocalPosition());
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:418: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_points[0].m_localPoint.SetV(circle.GetLocalPosition());
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:419: WARNING - Access to private property m_id of Box2D.Collision.b2ManifoldPoint not allowed here.
+                manifold.m_points[0].m_id.SetKey(0);
+                ^
+
+../box2dweb-closure/src/collision/b2Collision.js:419: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+                manifold.m_points[0].m_id.SetKey(0);
+                ^
+
+../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js:140: WARNING - Property length never defined on Box2D.Collision.b2DynamicTreeBroadPhase.m_tree
+    return this.m_tree.length;
+           ^
+
+../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js:166: WARNING - Access to private property fixture of Box2D.Collision.b2DynamicTreeBroadPhase.queryProxy not allowed here.
+    if (fixture != this.queryProxy.fixture) {
+                   ^
+
+../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js:167: WARNING - Access to private property fixture of Box2D.Collision.b2DynamicTreeBroadPhase.queryProxy not allowed here.
+        if ( !(this.queryProxy.fixture == this.lastQueryFixtureA && fixture == this.lastQueryFixtureB)
+               ^
+
+../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js:168: WARNING - Access to private property fixture of Box2D.Collision.b2DynamicTreeBroadPhase.queryProxy not allowed here.
+             && !(this.queryProxy.fixture == this.lastQueryFixtureB && fixture == this.lastQueryFixtureA) ) {
+                  ^
+
+../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js:169: WARNING - Access to private property fixture of Box2D.Collision.b2DynamicTreeBroadPhase.queryProxy not allowed here.
+            this.updatePairsCallback(this.queryProxy.fixture, fixture);
+                                     ^
+
 ../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js:169: WARNING - actual parameter 1 of Box2D.Collision.b2DynamicTreeBroadPhase.updatePairsCallback does not match formal parameter
 found   : (Box2D.Dynamics.b2Fixture|null)
 required: Box2D.Dynamics.b2Fixture
             this.updatePairsCallback(this.queryProxy.fixture, fixture);
                                      ^
 
+../box2dweb-closure/src/collision/b2DynamicTreeBroadPhase.js:170: WARNING - Access to private property fixture of Box2D.Collision.b2DynamicTreeBroadPhase.queryProxy not allowed here.
+            this.lastQueryFixtureA = this.queryProxy.fixture;
+                                     ^
+
+../box2dweb-closure/src/collision/b2TimeOfImpact.js:57: WARNING - Access to private property m_radius of Box2D.Collision.b2DistanceProxy not allowed here.
+    var radius = proxyA.m_radius + proxyB.m_radius;
+                 ^
+
+../box2dweb-closure/src/collision/b2TimeOfImpact.js:57: WARNING - Access to private property m_radius of Box2D.Collision.b2DistanceProxy not allowed here.
+    var radius = proxyA.m_radius + proxyB.m_radius;
+                                   ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:77: WARNING - Access to private property m_pointCount of Box2D.Collision.b2Manifold not allowed here.
+    if (manifold.m_pointCount == 0) {
+        ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:89: WARNING - Access to private property m_type of Box2D.Collision.b2Manifold not allowed here.
+    switch (manifold.m_type) {
+            ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:92: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+            tVec = manifold.m_localPoint;
+                   ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:96: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+            tVec = manifold.m_points[0].m_localPoint;
+                   ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:96: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+            tVec = manifold.m_points[0].m_localPoint;
+                   ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:119: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+            tVec = manifold.m_localPlaneNormal;
+                   ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:123: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+            tVec = manifold.m_localPoint;
+                   ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:128: WARNING - Access to private property m_pointCount of Box2D.Collision.b2Manifold not allowed here.
+            for (i = 0; i < manifold.m_pointCount; i++) {
+                            ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:130: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+                tVec = manifold.m_points[i].m_localPoint;
+                       ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:130: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+                tVec = manifold.m_points[i].m_localPoint;
+                       ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:139: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+            tVec = manifold.m_localPlaneNormal;
+                   ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:143: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+            tVec = manifold.m_localPoint;
+                   ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:148: WARNING - Access to private property m_pointCount of Box2D.Collision.b2Manifold not allowed here.
+            for (i = 0; i < manifold.m_pointCount; i++) {
+                            ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:150: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+                tVec = manifold.m_points[i].m_localPoint;
+                       ^
+
+../box2dweb-closure/src/collision/b2WorldManifold.js:150: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+                tVec = manifold.m_points[i].m_localPoint;
+                       ^
+
+../box2dweb-closure/src/collision/shapes/b2CircleShape.js:153: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+    aabb.lowerBound.Set(pX - this.m_radius, pY - this.m_radius);
+    ^
+
+../box2dweb-closure/src/collision/shapes/b2CircleShape.js:154: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+    aabb.upperBound.Set(pX + this.m_radius, pY + this.m_radius);
+    ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:194: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+        aabb.lowerBound.x = v1X;
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:195: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+        aabb.upperBound.x = v2X;
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:197: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+        aabb.lowerBound.x = v2X;
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:198: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+        aabb.upperBound.x = v1X;
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:201: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+        aabb.lowerBound.y = v1Y;
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:202: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+        aabb.upperBound.y = v2Y;
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:204: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+        aabb.lowerBound.y = v2Y;
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:205: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+        aabb.upperBound.y = v1Y;
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:214: WARNING - Access to private property mass of Box2D.Collision.Shapes.b2MassData not allowed here.
+    massData.mass = 0;
+    ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:215: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+    massData.center.SetV(this.m_v1);
+    ^
+
+../box2dweb-closure/src/collision/shapes/b2EdgeShape.js:216: WARNING - Access to private property I of Box2D.Collision.Shapes.b2MassData not allowed here.
+    massData.I = 0;
+    ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:363: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+    aabb.lowerBound.x = lowerX - this.m_radius;
+    ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:364: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+    aabb.lowerBound.y = lowerY - this.m_radius;
+    ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:365: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+    aabb.upperBound.x = upperX + this.m_radius;
+    ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:366: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+    aabb.upperBound.y = upperY + this.m_radius;
+    ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:375: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+        massData.center.x = 0.5 * (this.m_vertices[0].x + this.m_vertices[1].x);
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:376: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+        massData.center.y = 0.5 * (this.m_vertices[0].y + this.m_vertices[1].y);
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:377: WARNING - Access to private property mass of Box2D.Collision.Shapes.b2MassData not allowed here.
+        massData.mass = 0.0;
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:378: WARNING - Access to private property I of Box2D.Collision.Shapes.b2MassData not allowed here.
+        massData.I = 0.0;
+        ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:455: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+            var newV = Box2D.Common.Math.b2Math.MulX(xf, md.center);
+                                                         ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:458: WARNING - Access to private property mass of Box2D.Collision.Shapes.b2MassData not allowed here.
+            var mass = md.mass;
+                       ^
+
+../box2dweb-closure/src/collision/shapes/b2PolygonShape.js:529: WARNING - Bad type annotation. expecting a variable name in a @param tag
+ * @return {!Box2D.Common.Math.b2Vec2}
+   ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:244: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+        var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                         ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:244: WARNING - Access to private property m_contactManager of Box2D.Dynamics.b2Body.m_world not allowed here.
+        var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                         ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:248: WARNING - Access to private property m_body of Box2D.Dynamics.b2Fixture not allowed here.
+    fixture.m_body = this;
+    ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:249: WARNING - Access to private property m_density of Box2D.Dynamics.b2Fixture not allowed here.
+    if (fixture.m_density > 0.0) {
+        ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:252: WARNING - Access to private property m_newFixture of Box2D.Dynamics.b2Body.m_world not allowed here.
+    this.m_world.m_newFixture = true;
+    ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:283: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        if (fixture == contactNode.contact.GetFixtureA() || fixture == contactNode.contact.GetFixtureB()) {
+                       ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:283: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        if (fixture == contactNode.contact.GetFixtureA() || fixture == contactNode.contact.GetFixtureB()) {
+                                                                       ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:284: WARNING - Access to private property m_contactManager of Box2D.Dynamics.b2Body.m_world not allowed here.
+            this.m_world.m_contactManager.Destroy(contactNode.contact);
+            ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:284: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+            this.m_world.m_contactManager.Destroy(contactNode.contact);
+                                                  ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:288: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+        var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                         ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:288: WARNING - Access to private property m_contactManager of Box2D.Dynamics.b2Body.m_world not allowed here.
+        var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                         ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:311: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                     ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:311: WARNING - Access to private property m_contactManager of Box2D.Dynamics.b2Body.m_world not allowed here.
+    var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                     ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:316: WARNING - Access to private property m_contactManager of Box2D.Dynamics.b2Body.m_world not allowed here.
+    this.m_world.m_contactManager.FindNewContacts();
+    ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:571: WARNING - Access to private property mass of Box2D.Collision.Shapes.b2MassData not allowed here.
+    massData.mass = this.m_mass;
+    ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:572: WARNING - Access to private property I of Box2D.Collision.Shapes.b2MassData not allowed here.
+    massData.I = this.m_I;
+    ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:573: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+    massData.center.SetV(this.m_sweep.localCenter);
+    ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:588: WARNING - Access to private property mass of Box2D.Collision.Shapes.b2MassData not allowed here.
+    this.m_mass = massData.mass;
+                  ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:593: WARNING - Access to private property I of Box2D.Collision.Shapes.b2MassData not allowed here.
+    if (massData.I > 0.0 && !this.m_fixedRotation) {
+        ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:594: WARNING - Access to private property I of Box2D.Collision.Shapes.b2MassData not allowed here.
+        this.m_I = massData.I - this.m_mass * (massData.center.x * massData.center.x + massData.center.y * massData.center.y);
+                   ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:594: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+        this.m_I = massData.I - this.m_mass * (massData.center.x * massData.center.x + massData.center.y * massData.center.y);
+                                               ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:594: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+        this.m_I = massData.I - this.m_mass * (massData.center.x * massData.center.x + massData.center.y * massData.center.y);
+                                                                   ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:594: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+        this.m_I = massData.I - this.m_mass * (massData.center.x * massData.center.x + massData.center.y * massData.center.y);
+                                                                                       ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:594: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+        this.m_I = massData.I - this.m_mass * (massData.center.x * massData.center.x + massData.center.y * massData.center.y);
+                                                                                                           ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:598: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+    this.m_sweep.localCenter.SetV(massData.center);
+                                  ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:618: WARNING - Access to private property m_density of Box2D.Dynamics.b2Fixture not allowed here.
+        if (f.m_density == 0.0) {
+            ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:622: WARNING - Access to private property mass of Box2D.Collision.Shapes.b2MassData not allowed here.
+        this.m_mass += massData.mass;
+                       ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:623: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+        center.x += massData.center.x * massData.mass;
+                    ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:623: WARNING - Access to private property mass of Box2D.Collision.Shapes.b2MassData not allowed here.
+        center.x += massData.center.x * massData.mass;
+                                        ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:624: WARNING - Access to private property center of Box2D.Collision.Shapes.b2MassData not allowed here.
+        center.y += massData.center.y * massData.mass;
+                    ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:624: WARNING - Access to private property mass of Box2D.Collision.Shapes.b2MassData not allowed here.
+        center.y += massData.center.y * massData.mass;
+                                        ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:625: WARNING - Access to private property I of Box2D.Collision.Shapes.b2MassData not allowed here.
+        this.m_I += massData.I;
+                    ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:757: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        contactNode.contact.FlagForFiltering();
+        ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:845: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+        var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                         ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:845: WARNING - Access to private property m_contactManager of Box2D.Dynamics.b2Body.m_world not allowed here.
+        var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                         ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:851: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+        var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                         ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:851: WARNING - Access to private property m_contactManager of Box2D.Dynamics.b2Body.m_world not allowed here.
+        var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                         ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:856: WARNING - Access to private property m_contactManager of Box2D.Dynamics.b2Body.m_world not allowed here.
+            this.m_world.m_contactManager.Destroy(contactNode.contact);
+            ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:856: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+            this.m_world.m_contactManager.Destroy(contactNode.contact);
+                                                  ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:934: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                     ^
+
+../box2dweb-closure/src/dynamics/b2Body.js:934: WARNING - Access to private property m_contactManager of Box2D.Dynamics.b2Body.m_world not allowed here.
+    var broadPhase = this.m_world.m_contactManager.m_broadPhase;
+                     ^
+
+../box2dweb-closure/src/dynamics/b2BodyList.js:89: WARNING - Access to private property ID of Box2D.Dynamics.b2Body not allowed here.
+    var bodyID = body.ID;
+                 ^
+
+../box2dweb-closure/src/dynamics/b2BodyList.js:93: WARNING - Access to private property m_lists of Box2D.Dynamics.b2Body not allowed here.
+        body.m_lists.push(this);
+        ^
+
+../box2dweb-closure/src/dynamics/b2BodyList.js:103: WARNING - Access to private property ID of Box2D.Dynamics.b2Body not allowed here.
+    var bodyID = body.ID;
+                 ^
+
+../box2dweb-closure/src/dynamics/b2BodyList.js:137: WARNING - Access to private property ID of Box2D.Dynamics.b2Body not allowed here.
+    var bodyID = body.ID;
+                 ^
+
+../box2dweb-closure/src/dynamics/b2BodyList.js:139: WARNING - Access to private property m_lists of Box2D.Dynamics.b2Body not allowed here.
+        goog.array.remove(body.m_lists, this);
+                          ^
+
+../box2dweb-closure/src/dynamics/b2ContactManager.js:98: WARNING - Access to private property contactList of Box2D.Dynamics.b2Body not allowed here.
+  for (var contactNode = bodyB.contactList.GetFirstNode(Box2D.Dynamics.Contacts.b2ContactList.TYPES.allContacts); contactNode; contactNode = contactNode.GetNextNode()) {
+                         ^
+
+../box2dweb-closure/src/dynamics/b2ContactManager.js:99: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+    var fA = contactNode.contact.GetFixtureA();
+             ^
+
+../box2dweb-closure/src/dynamics/b2ContactManager.js:101: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        var fB = contactNode.contact.GetFixtureB();
+                 ^
+
+../box2dweb-closure/src/dynamics/b2ContactManager.js:106: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        var fB = contactNode.contact.GetFixtureB();
+                 ^
+
+../box2dweb-closure/src/dynamics/b2ContactManager.js:135: WARNING - Access to private property m_pointCount of Box2D.Dynamics.Contacts.b2Contact.m_manifold not allowed here.
+    if (c.m_manifold.m_pointCount > 0) {
+        ^
+
+../box2dweb-closure/src/dynamics/b2ContactManager.js:135: WARNING - Access to protected property m_manifold of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+    if (c.m_manifold.m_pointCount > 0) {
+        ^
+
+../box2dweb-closure/src/dynamics/b2ContactManager.js:144: WARNING - Access to private property contactList of Box2D.Dynamics.b2ContactManager.m_world not allowed here.
+    for (var contactNode = this.m_world.contactList.GetFirstNode(Box2D.Dynamics.Contacts.b2ContactList.TYPES.allContacts); contactNode; contactNode = contactNode.GetNextNode()) {
+                           ^
+
+../box2dweb-closure/src/dynamics/b2ContactManager.js:145: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        var c = contactNode.contact;
+                ^
+
+../box2dweb-closure/src/dynamics/b2Fixture.js:130: WARNING - Access to private property contactList of Box2D.Dynamics.b2Fixture.m_body not allowed here.
+    for (var contactNode = this.m_body.contactList.GetFirstNode(Box2D.Dynamics.Contacts.b2ContactList.TYPES.allContacts); contactNode; contactNode = contactNode.GetNextNode()) {
+                           ^
+
+../box2dweb-closure/src/dynamics/b2Fixture.js:131: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        var fixtureA = contactNode.contact.GetFixtureA();
+                       ^
+
+../box2dweb-closure/src/dynamics/b2Fixture.js:132: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        var fixtureB = contactNode.contact.GetFixtureB();
+                       ^
+
+../box2dweb-closure/src/dynamics/b2Fixture.js:134: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+            contactNode.contact.SetSensor(fixtureA.IsSensor() || fixtureB.IsSensor());
+            ^
+
+../box2dweb-closure/src/dynamics/b2Fixture.js:154: WARNING - Access to private property contactList of Box2D.Dynamics.b2Fixture.m_body not allowed here.
+    for (var contactNode = this.m_body.contactList.GetFirstNode(Box2D.Dynamics.Contacts.b2ContactList.TYPES.allContacts); contactNode; contactNode = contactNode.GetNextNode()) {
+                           ^
+
+../box2dweb-closure/src/dynamics/b2Fixture.js:155: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        if (contactNode.contact.GetFixtureA() == this || contactNode.contact.GetFixtureB() == this) {
+            ^
+
+../box2dweb-closure/src/dynamics/b2Fixture.js:155: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        if (contactNode.contact.GetFixtureA() == this || contactNode.contact.GetFixtureB() == this) {
+                                                         ^
+
+../box2dweb-closure/src/dynamics/b2Fixture.js:156: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+            contactNode.contact.FlagForFiltering();
+            ^
+
+../box2dweb-closure/src/dynamics/b2FixtureList.js:80: WARNING - Access to private property ID of Box2D.Dynamics.b2Fixture not allowed here.
+    var fixtureID = fixture.ID;
+                    ^
+
+../box2dweb-closure/src/dynamics/b2FixtureList.js:100: WARNING - Access to private property ID of Box2D.Dynamics.b2Fixture not allowed here.
+    var fixtureID = fixture.ID;
+                    ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:127: WARNING - Access to private property m_constraints of Box2D.Dynamics.b2Island.m_contactSolver not allowed here.
+    this.Report(this.m_contactSolver.m_constraints);
+                ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:141: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_linearVelocity.x += step.dt * (gravity.x + b.m_invMass * b.m_force.x);
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:141: WARNING - Access to private property m_invMass of Box2D.Dynamics.b2Body not allowed here.
+        b.m_linearVelocity.x += step.dt * (gravity.x + b.m_invMass * b.m_force.x);
+                                                       ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:141: WARNING - Access to private property m_force of Box2D.Dynamics.b2Body not allowed here.
+        b.m_linearVelocity.x += step.dt * (gravity.x + b.m_invMass * b.m_force.x);
+                                                                     ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:142: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_linearVelocity.y += step.dt * (gravity.y + b.m_invMass * b.m_force.y);
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:142: WARNING - Access to private property m_invMass of Box2D.Dynamics.b2Body not allowed here.
+        b.m_linearVelocity.y += step.dt * (gravity.y + b.m_invMass * b.m_force.y);
+                                                       ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:142: WARNING - Access to private property m_force of Box2D.Dynamics.b2Body not allowed here.
+        b.m_linearVelocity.y += step.dt * (gravity.y + b.m_invMass * b.m_force.y);
+                                                                     ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:143: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_angularVelocity += step.dt * b.m_invI * b.m_torque;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:143: WARNING - Access to private property m_invI of Box2D.Dynamics.b2Body not allowed here.
+        b.m_angularVelocity += step.dt * b.m_invI * b.m_torque;
+                                         ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:143: WARNING - Access to private property m_torque of Box2D.Dynamics.b2Body not allowed here.
+        b.m_angularVelocity += step.dt * b.m_invI * b.m_torque;
+                                                    ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:144: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_linearVelocity.Multiply(Box2D.Common.Math.b2Math.Clamp(1.0 - step.dt * b.m_linearDamping, 0.0, 1.0));
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:144: WARNING - Access to private property m_linearDamping of Box2D.Dynamics.b2Body not allowed here.
+        b.m_linearVelocity.Multiply(Box2D.Common.Math.b2Math.Clamp(1.0 - step.dt * b.m_linearDamping, 0.0, 1.0));
+                                                                                   ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:145: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_angularVelocity *= Box2D.Common.Math.b2Math.Clamp(1.0 - step.dt * b.m_angularDamping, 0.0, 1.0);
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:145: WARNING - Access to private property m_angularDamping of Box2D.Dynamics.b2Body not allowed here.
+        b.m_angularVelocity *= Box2D.Common.Math.b2Math.Clamp(1.0 - step.dt * b.m_angularDamping, 0.0, 1.0);
+                                                                              ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:177: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var translationX = step.dt * b.m_linearVelocity.x;
+                                     ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:178: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var translationY = step.dt * b.m_linearVelocity.y;
+                                     ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:180: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+            b.m_linearVelocity.Normalize();
+            ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:181: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+            b.m_linearVelocity.x *= Box2D.Common.b2Settings.b2_maxTranslation * step.inv_dt;
+            ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:182: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+            b.m_linearVelocity.y *= Box2D.Common.b2Settings.b2_maxTranslation * step.inv_dt;
+            ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:184: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var rotation = step.dt * b.m_angularVelocity;
+                                 ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:186: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+            if (b.m_angularVelocity < 0.0) {
+                ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:187: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+                b.m_angularVelocity = -Box2D.Common.b2Settings.b2_maxRotation * step.inv_dt;
+                ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:189: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+                b.m_angularVelocity = Box2D.Common.b2Settings.b2_maxRotation * step.inv_dt;
+                ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:192: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c0.SetV(b.m_sweep.c);
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:192: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c0.SetV(b.m_sweep.c);
+                          ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:193: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.a0 = b.m_sweep.a;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:193: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.a0 = b.m_sweep.a;
+                       ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:194: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c.x += step.dt * b.m_linearVelocity.x;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:194: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c.x += step.dt * b.m_linearVelocity.x;
+                                   ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:195: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c.y += step.dt * b.m_linearVelocity.y;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:195: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c.y += step.dt * b.m_linearVelocity.y;
+                                   ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:196: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.a += step.dt * b.m_angularVelocity;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:196: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.a += step.dt * b.m_angularVelocity;
+                                 ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:227: WARNING - Access to private property m_allowSleep of Box2D.Dynamics.b2Body not allowed here.
+        if (!b.m_allowSleep || Math.abs(b.m_angularVelocity) > Box2D.Common.b2Settings.b2_angularSleepTolerance || Box2D.Common.Math.b2Math.Dot(b.m_linearVelocity, b.m_linearVelocity) > Box2D.Common.b2Settings.b2_linearSleepToleranceSquared) {
+             ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:227: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+        if (!b.m_allowSleep || Math.abs(b.m_angularVelocity) > Box2D.Common.b2Settings.b2_angularSleepTolerance || Box2D.Common.Math.b2Math.Dot(b.m_linearVelocity, b.m_linearVelocity) > Box2D.Common.b2Settings.b2_linearSleepToleranceSquared) {
+                                        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:227: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        if (!b.m_allowSleep || Math.abs(b.m_angularVelocity) > Box2D.Common.b2Settings.b2_angularSleepTolerance || Box2D.Common.Math.b2Math.Dot(b.m_linearVelocity, b.m_linearVelocity) > Box2D.Common.b2Settings.b2_linearSleepToleranceSquared) {
+                                                                                                                                                ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:227: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        if (!b.m_allowSleep || Math.abs(b.m_angularVelocity) > Box2D.Common.b2Settings.b2_angularSleepTolerance || Box2D.Common.Math.b2Math.Dot(b.m_linearVelocity, b.m_linearVelocity) > Box2D.Common.b2Settings.b2_linearSleepToleranceSquared) {
+                                                                                                                                                                    ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:228: WARNING - Access to private property m_sleepTime of Box2D.Dynamics.b2Body not allowed here.
+            b.m_sleepTime = 0.0;
+            ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:231: WARNING - Access to private property m_sleepTime of Box2D.Dynamics.b2Body not allowed here.
+            b.m_sleepTime += step.dt;
+            ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:232: WARNING - Access to private property m_sleepTime of Box2D.Dynamics.b2Body not allowed here.
+            minSleepTime = Math.min(minSleepTime, b.m_sleepTime);
+                                                  ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:261: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var translationX = subStep.dt * b.m_linearVelocity.x;
+                                        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:262: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var translationY = subStep.dt * b.m_linearVelocity.y;
+                                        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:264: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+            b.m_linearVelocity.Normalize();
+            ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:265: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+            b.m_linearVelocity.x *= Box2D.Common.b2Settings.b2_maxTranslation * subStep.inv_dt;
+            ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:266: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+            b.m_linearVelocity.y *= Box2D.Common.b2Settings.b2_maxTranslation * subStep.inv_dt;
+            ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:268: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var rotation = subStep.dt * b.m_angularVelocity;
+                                    ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:270: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+            if (b.m_angularVelocity < 0.0) {
+                ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:271: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+                b.m_angularVelocity = (-Box2D.Common.b2Settings.b2_maxRotation * subStep.inv_dt);
+                ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:273: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+                b.m_angularVelocity = Box2D.Common.b2Settings.b2_maxRotation * subStep.inv_dt;
+                ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:276: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c0.SetV(b.m_sweep.c);
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:276: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c0.SetV(b.m_sweep.c);
+                          ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:277: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.a0 = b.m_sweep.a;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:277: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.a0 = b.m_sweep.a;
+                       ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:278: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c.x += subStep.dt * b.m_linearVelocity.x;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:278: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c.x += subStep.dt * b.m_linearVelocity.x;
+                                      ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:279: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c.y += subStep.dt * b.m_linearVelocity.y;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:279: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.c.y += subStep.dt * b.m_linearVelocity.y;
+                                      ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:280: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.a += subStep.dt * b.m_angularVelocity;
+        ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:280: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.a += subStep.dt * b.m_angularVelocity;
+                                    ^
+
+../box2dweb-closure/src/dynamics/b2Island.js:295: WARNING - Access to private property m_constraints of Box2D.Dynamics.Contacts.b2ContactSolver not allowed here.
+    this.Report(contactSolver.m_constraints);
+                ^
+
+../box2dweb-closure/src/dynamics/b2World.js:190: WARNING - Access to private property m_contactListener of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+     this.island = new Box2D.Dynamics.b2Island(this.m_contactManager.m_contactListener, this.m_contactSolver);
+                                               ^
+
+../box2dweb-closure/src/dynamics/b2World.js:210: WARNING - Access to private property m_contactFilter of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    this.m_contactManager.m_contactFilter = filter;
+    ^
+
+../box2dweb-closure/src/dynamics/b2World.js:217: WARNING - Access to private property m_contactListener of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    this.m_contactManager.m_contactListener = listener;
+    ^
+
+../box2dweb-closure/src/dynamics/b2World.js:231: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    var oldBroadPhase = this.m_contactManager.m_broadPhase;
+                        ^
+
+../box2dweb-closure/src/dynamics/b2World.js:232: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    this.m_contactManager.m_broadPhase = broadPhase;
+    ^
+
+../box2dweb-closure/src/dynamics/b2World.js:245: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    return this.m_contactManager.m_broadPhase.GetProxyCount();
+           ^
+
+../box2dweb-closure/src/dynamics/b2World.js:264: WARNING - Access to private property m_jointList of Box2D.Dynamics.b2Body not allowed here.
+    var jn = b.m_jointList;
+             ^
+
+../box2dweb-closure/src/dynamics/b2World.js:276: WARNING - Access to private property contactList of Box2D.Dynamics.b2Body not allowed here.
+    for (var contactNode = b.contactList.GetFirstNode(Box2D.Dynamics.Contacts.b2ContactList.TYPES.allContacts); contactNode; contactNode = contactNode.GetNextNode()) {
+                           ^
+
+../box2dweb-closure/src/dynamics/b2World.js:277: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        this.m_contactManager.Destroy(contactNode.contact);
+                                      ^
+
+../box2dweb-closure/src/dynamics/b2World.js:510: WARNING - Access to private property m_force of Box2D.Dynamics.b2BodyListNode.body not allowed here.
+        node.body.m_force.SetZero();
+        ^
+
+../box2dweb-closure/src/dynamics/b2World.js:511: WARNING - Access to private property m_torque of Box2D.Dynamics.b2BodyListNode.body not allowed here.
+        node.body.m_torque = 0.0;
+        ^
+
+../box2dweb-closure/src/dynamics/b2World.js:533: WARNING - Access to private property m_xf of Box2D.Dynamics.b2Body not allowed here.
+                    this.DrawShape(s, b.m_xf, color_inactive);
+                                      ^
+
+../box2dweb-closure/src/dynamics/b2World.js:535: WARNING - Access to private property m_xf of Box2D.Dynamics.b2Body not allowed here.
+                    this.DrawShape(s, b.m_xf, color_static);
+                                      ^
+
+../box2dweb-closure/src/dynamics/b2World.js:537: WARNING - Access to private property m_xf of Box2D.Dynamics.b2Body not allowed here.
+                    this.DrawShape(s, b.m_xf, color_kinematic);
+                                      ^
+
+../box2dweb-closure/src/dynamics/b2World.js:539: WARNING - Access to private property m_xf of Box2D.Dynamics.b2Body not allowed here.
+                    this.DrawShape(s, b.m_xf, color_dynamic_sleeping);
+                                      ^
+
+../box2dweb-closure/src/dynamics/b2World.js:541: WARNING - Access to private property m_xf of Box2D.Dynamics.b2Body not allowed here.
+                    this.DrawShape(s, b.m_xf, color_dynamic_awake);
+                                      ^
+
+../box2dweb-closure/src/dynamics/b2World.js:559: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+            var fixtureA = contactNode.contact.GetFixtureA();
+                           ^
+
+../box2dweb-closure/src/dynamics/b2World.js:560: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+            var fixtureB = contactNode.contact.GetFixtureB();
+                           ^
+
+../box2dweb-closure/src/dynamics/b2World.js:574: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+                var aabb = this.m_contactManager.m_broadPhase.GetFatAABB(f.m_proxy);
+                           ^
+
+../box2dweb-closure/src/dynamics/b2World.js:575: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+                var vs = [Box2D.Common.Math.b2Vec2.Get(aabb.lowerBound.x, aabb.lowerBound.y),
+                                                       ^
+
+../box2dweb-closure/src/dynamics/b2World.js:575: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+                var vs = [Box2D.Common.Math.b2Vec2.Get(aabb.lowerBound.x, aabb.lowerBound.y),
+                                                                          ^
+
+../box2dweb-closure/src/dynamics/b2World.js:576: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+                          Box2D.Common.Math.b2Vec2.Get(aabb.upperBound.x, aabb.lowerBound.y),
+                                                       ^
+
+../box2dweb-closure/src/dynamics/b2World.js:576: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+                          Box2D.Common.Math.b2Vec2.Get(aabb.upperBound.x, aabb.lowerBound.y),
+                                                                          ^
+
+../box2dweb-closure/src/dynamics/b2World.js:577: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+                          Box2D.Common.Math.b2Vec2.Get(aabb.upperBound.x, aabb.upperBound.y),
+                                                       ^
+
+../box2dweb-closure/src/dynamics/b2World.js:577: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+                          Box2D.Common.Math.b2Vec2.Get(aabb.upperBound.x, aabb.upperBound.y),
+                                                                          ^
+
+../box2dweb-closure/src/dynamics/b2World.js:578: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+                          Box2D.Common.Math.b2Vec2.Get(aabb.lowerBound.x, aabb.upperBound.y)];
+                                                       ^
+
+../box2dweb-closure/src/dynamics/b2World.js:578: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+                          Box2D.Common.Math.b2Vec2.Get(aabb.lowerBound.x, aabb.upperBound.y)];
+                                                                          ^
+
+../box2dweb-closure/src/dynamics/b2World.js:590: WARNING - Access to private property m_xf of Box2D.Dynamics.b2Body not allowed here.
+            Box2D.Dynamics.b2World.s_xf.R = b.m_xf.R;
+                                            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:602: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    this.m_contactManager.m_broadPhase.Query(callback, aabb);
+    ^
+
+../box2dweb-closure/src/dynamics/b2World.js:619: WARNING - Access to private property lowerBound of Box2D.Collision.b2AABB not allowed here.
+    aabb.lowerBound.Set(p.x - Box2D.Common.b2Settings.b2_linearSlop, p.y - Box2D.Common.b2Settings.b2_linearSlop);
+    ^
+
+../box2dweb-closure/src/dynamics/b2World.js:620: WARNING - Access to private property upperBound of Box2D.Collision.b2AABB not allowed here.
+    aabb.upperBound.Set(p.x + Box2D.Common.b2Settings.b2_linearSlop, p.y + Box2D.Common.b2Settings.b2_linearSlop);
+    ^
+
+../box2dweb-closure/src/dynamics/b2World.js:621: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    this.m_contactManager.m_broadPhase.Query(WorldQueryWrapper, aabb);
+    ^
+
+../box2dweb-closure/src/dynamics/b2World.js:631: WARNING - Access to private property m_broadPhase of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    var broadPhase = this.m_contactManager.m_broadPhase;
+                     ^
+
+../box2dweb-closure/src/dynamics/b2World.js:736: WARNING - Access to private property m_contactListener of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    m_island.Reset(this.m_contactManager.m_contactListener, this.m_contactSolver);
+                   ^
+
+../box2dweb-closure/src/dynamics/b2World.js:742: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        contactNode.contact.m_islandFlag = false;
+        ^
+
+../box2dweb-closure/src/dynamics/b2World.js:806: WARNING - Access to private property m_contactListener of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+    m_island.Reset(this.m_contactManager.m_contactListener, this.m_contactSolver);
+                   ^
+
+../box2dweb-closure/src/dynamics/b2World.js:811: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        b.m_sweep.t0 = 0.0;
+        ^
+
+../box2dweb-closure/src/dynamics/b2World.js:814: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        contactNode.contact.m_islandFlag = false;
+        ^
+
+../box2dweb-closure/src/dynamics/b2World.js:815: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        contactNode.contact.m_toi = null;
+        ^
+
+../box2dweb-closure/src/dynamics/b2World.js:827: WARNING - Access to protected property m_fixtureA of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+        var fixtureABody = minContact.m_fixtureA.GetBody();
+                           ^
+
+../box2dweb-closure/src/dynamics/b2World.js:828: WARNING - Access to protected property m_fixtureB of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+        var fixtureBBody =  minContact.m_fixtureB.GetBody();
+                            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:829: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        Box2D.Dynamics.b2World.s_backupA.Set(fixtureABody.m_sweep);
+                                             ^
+
+../box2dweb-closure/src/dynamics/b2World.js:830: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+        Box2D.Dynamics.b2World.s_backupB.Set(fixtureBBody.m_sweep);
+                                             ^
+
+../box2dweb-closure/src/dynamics/b2World.js:833: WARNING - Access to private property m_contactListener of Box2D.Dynamics.b2World.m_contactManager not allowed here.
+        minContact.Update(this.m_contactManager.m_contactListener);
+                          ^
+
+../box2dweb-closure/src/dynamics/b2World.js:836: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+            fixtureABody.m_sweep.Set(Box2D.Dynamics.b2World.s_backupA);
+            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:837: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+            fixtureBBody.m_sweep.Set(Box2D.Dynamics.b2World.s_backupB);
+            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:863: WARNING - Access to private property contactList of Box2D.Dynamics.b2Body not allowed here.
+            for (var contactNode = b.contactList.GetFirstNode(Box2D.Dynamics.Contacts.b2ContactList.TYPES.nonSensorEnabledTouchingContacts); contactNode; contactNode = contactNode.GetNextNode()) {
+                                   ^
+
+../box2dweb-closure/src/dynamics/b2World.js:864: WARNING - Property m_contactCount never defined on Box2D.Dynamics.b2Island
+                if (m_island.m_contactCount == Box2D.Common.b2Settings.b2_maxTOIContactsPerIsland) {
+                    ^
+
+../box2dweb-closure/src/dynamics/b2World.js:867: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+                var contact = contactNode.contact;
+                              ^
+
+../box2dweb-closure/src/dynamics/b2World.js:885: WARNING - Access to private property m_jointList of Box2D.Dynamics.b2Body not allowed here.
+            for (var jEdge = b.m_jointList; jEdge; jEdge = jEdge.next) {
+                             ^
+
+../box2dweb-closure/src/dynamics/b2World.js:886: WARNING - Property m_jointCount never defined on Box2D.Dynamics.b2Island
+                if (m_island.m_jointCount == Box2D.Common.b2Settings.b2_maxTOIJointsPerIsland) {
+                    ^
+
+../box2dweb-closure/src/dynamics/b2World.js:908: WARNING - Access to private property m_bodies of Box2D.Dynamics.b2Island not allowed here.
+        for (var i = 0; i < m_island.m_bodies.length; i++) {
+                            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:909: WARNING - Access to private property m_bodies of Box2D.Dynamics.b2Island not allowed here.
+            m_island.m_bodies[i].m_islandFlag = false;
+            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:910: WARNING - Access to private property m_bodies of Box2D.Dynamics.b2Island not allowed here.
+            if (!m_island.m_bodies[i].IsAwake() || m_island.m_bodies[i].GetType() != Box2D.Dynamics.b2BodyDef.b2_dynamicBody) {
+                 ^
+
+../box2dweb-closure/src/dynamics/b2World.js:910: WARNING - Access to private property m_bodies of Box2D.Dynamics.b2Island not allowed here.
+            if (!m_island.m_bodies[i].IsAwake() || m_island.m_bodies[i].GetType() != Box2D.Dynamics.b2BodyDef.b2_dynamicBody) {
+                                                   ^
+
+../box2dweb-closure/src/dynamics/b2World.js:913: WARNING - Access to private property m_bodies of Box2D.Dynamics.b2Island not allowed here.
+            m_island.m_bodies[i].SynchronizeFixtures();
+            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:914: WARNING - Access to private property contactList of Box2D.Dynamics.b2Body not allowed here.
+            for (var contactNode = m_island.m_bodies[i].contactList.GetFirstNode(Box2D.Dynamics.Contacts.b2ContactList.TYPES.allContacts); contactNode; contactNode = contactNode.GetNextNode()) {
+                                   ^
+
+../box2dweb-closure/src/dynamics/b2World.js:914: WARNING - Access to private property m_bodies of Box2D.Dynamics.b2Island not allowed here.
+            for (var contactNode = m_island.m_bodies[i].contactList.GetFirstNode(Box2D.Dynamics.Contacts.b2ContactList.TYPES.allContacts); contactNode; contactNode = contactNode.GetNextNode()) {
+                                   ^
+
+../box2dweb-closure/src/dynamics/b2World.js:915: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+                contactNode.contact.m_toi = null;
+                ^
+
+../box2dweb-closure/src/dynamics/b2World.js:918: WARNING - Property m_contactCount never defined on Box2D.Dynamics.b2Island
+        for (var i = 0; i < m_island.m_contactCount; i++) {
+                            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:919: WARNING - Access to private property m_contacts of Box2D.Dynamics.b2Island not allowed here.
+            m_island.m_contacts[i].m_islandFlag = false;
+            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:920: WARNING - Access to private property m_contacts of Box2D.Dynamics.b2Island not allowed here.
+            m_island.m_contacts[i].m_toi = null;
+            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:922: WARNING - Property m_jointCount never defined on Box2D.Dynamics.b2Island
+        for (var i = 0; i < m_island.m_jointCount; i++) {
+                            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:923: WARNING - Access to private property m_joints of Box2D.Dynamics.b2Island not allowed here.
+            m_island.m_joints[i].m_islandFlag = false;
+            ^
+
+../box2dweb-closure/src/dynamics/b2World.js:937: WARNING - Access to private property contact of Box2D.Dynamics.Contacts.b2ContactListNode not allowed here.
+        var c = contactNode.contact;
+                ^
+
+../box2dweb-closure/src/dynamics/b2World.js:948: WARNING - Access to protected property m_fixtureA of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+            var fixtureABody = c.m_fixtureA.GetBody();
+                               ^
+
+../box2dweb-closure/src/dynamics/b2World.js:949: WARNING - Access to protected property m_fixtureB of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+            var fixtureBBody = c.m_fixtureB.GetBody();
+                               ^
+
+../box2dweb-closure/src/dynamics/b2World.js:950: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+            var t0 = fixtureABody.m_sweep.t0;
+                     ^
+
+../box2dweb-closure/src/dynamics/b2World.js:951: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+            if (fixtureABody.m_sweep.t0 < fixtureBBody.m_sweep.t0) {
+                ^
+
+../box2dweb-closure/src/dynamics/b2World.js:951: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+            if (fixtureABody.m_sweep.t0 < fixtureBBody.m_sweep.t0) {
+                                          ^
+
+../box2dweb-closure/src/dynamics/b2World.js:952: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+                t0 = fixtureBBody.m_sweep.t0;
+                     ^
+
+../box2dweb-closure/src/dynamics/b2World.js:953: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+                fixtureABody.m_sweep.Advance(t0);
+                ^
+
+../box2dweb-closure/src/dynamics/b2World.js:954: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+            } else if (fixtureBBody.m_sweep.t0 < fixtureABody.m_sweep.t0) {
+                       ^
+
+../box2dweb-closure/src/dynamics/b2World.js:954: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+            } else if (fixtureBBody.m_sweep.t0 < fixtureABody.m_sweep.t0) {
+                                                 ^
+
+../box2dweb-closure/src/dynamics/b2World.js:955: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+                t0 = fixtureABody.m_sweep.t0;
+                     ^
+
+../box2dweb-closure/src/dynamics/b2World.js:956: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+                fixtureBBody.m_sweep.Advance(t0);
+                ^
+
+../box2dweb-closure/src/dynamics/b2World.js:958: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+            toi = c.ComputeTOI(fixtureABody.m_sweep, fixtureBBody.m_sweep);
+                               ^
+
+../box2dweb-closure/src/dynamics/b2World.js:958: WARNING - Access to private property m_sweep of Box2D.Dynamics.b2Body not allowed here.
+            toi = c.ComputeTOI(fixtureABody.m_sweep, fixtureBBody.m_sweep);
+                                                     ^
+
+../box2dweb-closure/src/dynamics/b2World.js:982: WARNING - Access to protected property m_fixtureA of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+    var fixtureABody = c.m_fixtureA.GetBody();
+                       ^
+
+../box2dweb-closure/src/dynamics/b2World.js:983: WARNING - Access to protected property m_fixtureB of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+    var fixtureBBody = c.m_fixtureB.GetBody();
+                       ^
+
+../box2dweb-closure/src/dynamics/b2World.js:1035: WARNING - Access to private property m_p of Box2D.Collision.Shapes.b2CircleShape not allowed here.
+        var center = Box2D.Common.Math.b2Math.MulX(xf, circle.m_p);
+                                                       ^
+
+../box2dweb-closure/src/dynamics/b2World.js:1036: WARNING - Access to protected property m_radius of Box2D.Collision.Shapes.b2CircleShape not allowed here.
+        var radius = circle.m_radius;
+                     ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:208: WARNING - Access to protected property m_radius of Box2D.Collision.Shapes.b2Shape not allowed here.
+    worldManifold.Initialize(this.m_manifold, bodyA.GetTransform(), shapeA.m_radius, bodyB.GetTransform(), shapeB.m_radius);
+                                                                    ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:208: WARNING - Access to protected property m_radius of Box2D.Collision.Shapes.b2Shape not allowed here.
+    worldManifold.Initialize(this.m_manifold, bodyA.GetTransform(), shapeA.m_radius, bodyB.GetTransform(), shapeB.m_radius);
+                                                                                                           ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:313: WARNING - Access to private property m_aabb of Box2D.Dynamics.Contacts.b2Contact.m_fixtureA not allowed here.
+  var aabbOverlap = this.m_fixtureA.m_aabb.TestOverlap(this.m_fixtureB.m_aabb);
+                    ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:313: WARNING - Access to private property m_aabb of Box2D.Dynamics.Contacts.b2Contact.m_fixtureB not allowed here.
+  var aabbOverlap = this.m_fixtureA.m_aabb.TestOverlap(this.m_fixtureB.m_aabb);
+                                                       ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:318: WARNING - Access to private property m_pointCount of Box2D.Dynamics.Contacts.b2Contact.m_manifold not allowed here.
+     this.m_manifold.m_pointCount = 0;
+     ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:327: WARNING - Access to private property m_pointCount of Box2D.Dynamics.Contacts.b2Contact.m_manifold not allowed here.
+        touching = this.m_manifold.m_pointCount > 0;
+                   ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:328: WARNING - Access to private property m_pointCount of Box2D.Dynamics.Contacts.b2Contact.m_manifold not allowed here.
+        for (var i = 0; i < this.m_manifold.m_pointCount; i++) {
+                            ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:329: WARNING - Access to private property m_points of Box2D.Dynamics.Contacts.b2Contact.m_manifold not allowed here.
+           var mp2 = this.m_manifold.m_points[i];
+                     ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:330: WARNING - Access to private property m_normalImpulse of Box2D.Collision.b2ManifoldPoint not allowed here.
+           mp2.m_normalImpulse = 0.0;
+           ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:331: WARNING - Access to private property m_tangentImpulse of Box2D.Collision.b2ManifoldPoint not allowed here.
+           mp2.m_tangentImpulse = 0.0;
+           ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:332: WARNING - Access to private property m_pointCount of Box2D.Dynamics.Contacts.b2Contact.m_oldManifold not allowed here.
+           for (var j = 0; j < this.m_oldManifold.m_pointCount; j++) {
+                               ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:333: WARNING - Access to private property m_points of Box2D.Dynamics.Contacts.b2Contact.m_oldManifold not allowed here.
+              var mp1 = this.m_oldManifold.m_points[j];
+                        ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:334: WARNING - Access to private property m_id of Box2D.Collision.b2ManifoldPoint not allowed here.
+              if (mp1.m_id.GetKey() == mp2.m_id.GetKey()) {
+                  ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:334: WARNING - Access to private property m_id of Box2D.Collision.b2ManifoldPoint not allowed here.
+              if (mp1.m_id.GetKey() == mp2.m_id.GetKey()) {
+                                       ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:335: WARNING - Access to private property m_normalImpulse of Box2D.Collision.b2ManifoldPoint not allowed here.
+                 mp2.m_normalImpulse = mp1.m_normalImpulse;
+                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:335: WARNING - Access to private property m_normalImpulse of Box2D.Collision.b2ManifoldPoint not allowed here.
+                 mp2.m_normalImpulse = mp1.m_normalImpulse;
+                                       ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:336: WARNING - Access to private property m_tangentImpulse of Box2D.Collision.b2ManifoldPoint not allowed here.
+                 mp2.m_tangentImpulse = mp1.m_tangentImpulse;
+                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:336: WARNING - Access to private property m_tangentImpulse of Box2D.Collision.b2ManifoldPoint not allowed here.
+                 mp2.m_tangentImpulse = mp1.m_tangentImpulse;
+                                        ^
+
+../box2dweb-closure/src/dynamics/contacts/b2Contact.js:342: WARNING - Access to private property m_pointCount of Box2D.Dynamics.Contacts.b2Contact.m_manifold not allowed here.
+        this.m_manifold.m_pointCount = 0;
+        ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactList.js:87: WARNING - Access to private property ID of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+    var contactID = contact.ID;
+                    ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactList.js:103: WARNING - Access to private property ID of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+        this.CreateNode(contact, contact.ID, Box2D.Dynamics.Contacts.b2ContactList.TYPES.nonSensorEnabledTouchingContacts);
+                                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactList.js:105: WARNING - Access to private property ID of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+        this.RemoveNode(contact.ID, Box2D.Dynamics.Contacts.b2ContactList.TYPES.nonSensorEnabledTouchingContacts);
+                        ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactList.js:108: WARNING - Access to private property ID of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+        this.CreateNode(contact, contact.ID, Box2D.Dynamics.Contacts.b2ContactList.TYPES.nonSensorEnabledContinuousContacts);
+                                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactList.js:110: WARNING - Access to private property ID of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+        this.RemoveNode(contact.ID, Box2D.Dynamics.Contacts.b2ContactList.TYPES.nonSensorEnabledContinuousContacts);
+                        ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactList.js:118: WARNING - Access to private property ID of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+    var contactID = contact.ID;
+                    ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:66: WARNING - Access to protected property m_fixtureA of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+        var fixtureA = contact.m_fixtureA;
+                       ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:67: WARNING - Access to protected property m_fixtureB of Box2D.Dynamics.Contacts.b2Contact not allowed here.
+        var fixtureB = contact.m_fixtureB;
+                       ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:68: WARNING - Access to private property m_shape of Box2D.Dynamics.b2Fixture not allowed here.
+        var shapeA = fixtureA.m_shape;
+                     ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:69: WARNING - Access to private property m_shape of Box2D.Dynamics.b2Fixture not allowed here.
+        var shapeB = fixtureB.m_shape;
+                     ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:70: WARNING - Access to protected property m_radius of Box2D.Collision.Shapes.b2Shape not allowed here.
+        var radiusA = shapeA.m_radius;
+                      ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:71: WARNING - Access to protected property m_radius of Box2D.Collision.Shapes.b2Shape not allowed here.
+        var radiusB = shapeB.m_radius;
+                      ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:77: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var vAX = bodyA.m_linearVelocity.x;
+                  ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:78: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var vAY = bodyA.m_linearVelocity.y;
+                  ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:79: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var vBX = bodyB.m_linearVelocity.x;
+                  ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:80: WARNING - Access to private property m_linearVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var vBY = bodyB.m_linearVelocity.y;
+                  ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:81: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var wA = bodyA.m_angularVelocity;
+                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:82: WARNING - Access to private property m_angularVelocity of Box2D.Dynamics.b2Body not allowed here.
+        var wB = bodyB.m_angularVelocity;
+                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:83: WARNING - Access to private property m_pointCount of Box2D.Collision.b2Manifold not allowed here.
+        Box2D.Common.b2Settings.b2Assert(manifold.m_pointCount > 0);
+                                         ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:85: WARNING - Access to private property m_normal of Box2D.Collision.b2WorldManifold not allowed here.
+        var normalX = Box2D.Dynamics.Contacts.b2ContactSolver.s_worldManifold.m_normal.x;
+                      ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:86: WARNING - Access to private property m_normal of Box2D.Collision.b2WorldManifold not allowed here.
+        var normalY = Box2D.Dynamics.Contacts.b2ContactSolver.s_worldManifold.m_normal.y;
+                      ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:93: WARNING - Access to private property m_pointCount of Box2D.Collision.b2Manifold not allowed here.
+        cc.pointCount = manifold.m_pointCount;
+                        ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:96: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+        cc.localPlaneNormal.x = manifold.m_localPlaneNormal.x;
+                                ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:97: WARNING - Access to private property m_localPlaneNormal of Box2D.Collision.b2Manifold not allowed here.
+        cc.localPlaneNormal.y = manifold.m_localPlaneNormal.y;
+                                ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:98: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+        cc.localPoint.x = manifold.m_localPoint.x;
+                          ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:99: WARNING - Access to private property m_localPoint of Box2D.Collision.b2Manifold not allowed here.
+        cc.localPoint.y = manifold.m_localPoint.y;
+                          ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:101: WARNING - Access to private property m_type of Box2D.Collision.b2Manifold not allowed here.
+        cc.type = manifold.m_type;
+                  ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:103: WARNING - Access to private property m_points of Box2D.Collision.b2Manifold not allowed here.
+            var cp = manifold.m_points[k];
+                     ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:105: WARNING - Access to private property m_normalImpulse of Box2D.Collision.b2ManifoldPoint not allowed here.
+            ccp.normalImpulse = cp.m_normalImpulse;
+                                ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:106: WARNING - Access to private property m_tangentImpulse of Box2D.Collision.b2ManifoldPoint not allowed here.
+            ccp.tangentImpulse = cp.m_tangentImpulse;
+                                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:107: WARNING - Access to private property m_localPoint of Box2D.Collision.b2ManifoldPoint not allowed here.
+            ccp.localPoint.SetV(cp.m_localPoint);
+                                ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:108: WARNING - Access to private property m_points of Box2D.Collision.b2WorldManifold not allowed here.
+            var rAX = ccp.rA.x = Box2D.Dynamics.Contacts.b2ContactSolver.s_worldManifold.m_points[k].x - bodyA.GetWorldCenter().x;
+                                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:109: WARNING - Access to private property m_points of Box2D.Collision.b2WorldManifold not allowed here.
+            var rAY = ccp.rA.y = Box2D.Dynamics.Contacts.b2ContactSolver.s_worldManifold.m_points[k].y - bodyA.GetWorldCenter().y;
+                                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:110: WARNING - Access to private property m_points of Box2D.Collision.b2WorldManifold not allowed here.
+            var rBX = ccp.rB.x = Box2D.Dynamics.Contacts.b2ContactSolver.s_worldManifold.m_points[k].x - bodyB.GetWorldCenter().x;
+                                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:111: WARNING - Access to private property m_points of Box2D.Collision.b2WorldManifold not allowed here.
+            var rBY = ccp.rB.y = Box2D.Dynamics.Contacts.b2ContactSolver.s_worldManifold.m_points[k].y - bodyB.GetWorldCenter().y;
+                                 ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:118: WARNING - Access to private property m_mass of Box2D.Dynamics.b2Body not allowed here.
+            var kEqualized = bodyA.m_mass * bodyA.GetInverseMass() + bodyB.m_mass * bodyB.GetInverseMass();
+                             ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:118: WARNING - Access to private property m_mass of Box2D.Dynamics.b2Body not allowed here.
+            var kEqualized = bodyA.m_mass * bodyA.GetInverseMass() + bodyB.m_mass * bodyB.GetInverseMass();
+                                                                     ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:119: WARNING - Access to private property m_mass of Box2D.Dynamics.b2Body not allowed here.
+            kEqualized += bodyA.m_mass * bodyA.GetInverseInertia() * rnA + bodyB.m_mass * bodyB.GetInverseInertia() * rnB;
+                          ^
+
+../box2dweb-closure/src/dynamics/contacts/b2ContactSolver.js:119: WARNING - Access to private property m_mass of Box2D.Dynamics.b2Body not allowed here.
+            kEqualized += bodyA.m_mass * bodyA.GetInverseInertia() * rnA + bodyB.m_mass * bodyB.GetInverseInertia() * rnB;
+                                                                           ^
+
 ../box2dweb-closure/src/usage_tracker.js:128: WARNING - Property nonMethod never defined on UsageTracker
         this.nonMethod();
         ^
 
-0 error(s), 2 warning(s), 86.4% typed
+src/controls/keyHandler.js:58: WARNING - actual parameter 1 of illandril.game.controls.keyHandler.prototype.registerAction does not match formal parameter
+found   : (illandril.game.controls.action|null)
+required: illandril.game.controls.action
+            controls.registerAction(controls.actionToRegister, key);
+                                    ^
+
+src/controls/keyHandler.js:190: WARNING - Access to private property mozKeyCodeToKeyCodeMap_ of goog.events.KeyHandler not allowed here.
+       e.keyCode in goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_) {
+                    ^
+
+src/controls/keyHandler.js:191: WARNING - Access to private property mozKeyCodeToKeyCodeMap_ of goog.events.KeyHandler not allowed here.
+    keyCode = goog.events.KeyHandler.mozKeyCodeToKeyCodeMap_[e.keyCode];
+              ^
+
+src/game.js:206: WARNING - Property GetBodyCount never defined on illandril.game.world.b2World
+                objCount += illandril.game.game.games[i].world.b2World.GetBodyCount();
+                            ^
+
+src/game.js:207: WARNING - Property GetContactCount never defined on illandril.game.world.b2World
+                contactCount += illandril.game.game.games[i].world.b2World.GetContactCount();
+                                ^
+
+src/gameTypes/platformer.js:295: WARNING - Access to private property m_normal of Box2D.Collision.b2WorldManifold not allowed here.
+            var normal = m.m_normal;
+                         ^
+
+src/gameTypes/platformer.js:353: WARNING - Access to private property m_normal of Box2D.Collision.b2WorldManifold not allowed here.
+            var normal = m.m_normal;
+                         ^
+
+src/gameTypes/platformer.js:383: WARNING - Access to private property m_normal of Box2D.Collision.b2WorldManifold not allowed here.
+            var normal = m.m_normal;
+                         ^
+
+src/gameTypes/platformer.js:533: WARNING - Access to private property m_normal of Box2D.Collision.b2WorldManifold not allowed here.
+            var normal = m.m_normal;
+                         ^
+
+src/gameTypes/platformer.js:605: WARNING - Access to private property m_normal of Box2D.Collision.b2WorldManifold not allowed here.
+            var normal = m.m_normal;
+                         ^
+
+src/games/mario.js:161: WARNING - Function illandril.game.platformer.initializeDirectionalAction: called with 3 argument(s). Function requires at least 4 argument(s) and no more than 4 argument(s).
+            illandril.game.platformer.initializeDirectionalAction(obj, function(collidingObject){
+            ^
+
+src/games/mario.js:173: WARNING - Function illandril.game.platformer.initializeDirectionalAction: called with 3 argument(s). Function requires at least 4 argument(s) and no more than 4 argument(s).
+            illandril.game.platformer.initializeDirectionalAction(obj, function(contact){
+            ^
+
+src/games/mario.js:192: WARNING - Function illandril.game.platformer.initializeDirectionalAction: called with 3 argument(s). Function requires at least 4 argument(s) and no more than 4 argument(s).
+            illandril.game.platformer.initializeDirectionalAction(obj, function(contact){
+            ^
+
+src/games/mario.js:203: WARNING - Function illandril.game.platformer.initializeDirectionalAction: called with 3 argument(s). Function requires at least 4 argument(s) and no more than 4 argument(s).
+            illandril.game.platformer.initializeDirectionalAction(obj, function(contact){
+            ^
+
+src/games/mario.js:213: WARNING - Function illandril.game.platformer.initializeDirectionalAction: called with 3 argument(s). Function requires at least 4 argument(s) and no more than 4 argument(s).
+            illandril.game.platformer.initializeDirectionalAction(obj, function(contact){
+            ^
+
+src/ui/viewport.js:237: WARNING - Access to private property b2Vec2 of Box2D.Common.Math not allowed here.
+                return new Box2D.Common.Math.b2Vec2(newX, newY);
+                           ^
+
+src/world.js:31: WARNING - actual parameter 1 of Box2D.Common.Math.b2Vec2.Get does not match formal parameter
+found   : Box2D.Common.Math.b2Vec2
+required: number
+    this.b2World = Box2D.Common.Math.b2Vec2.Get( gravity, true /* allow sleep */ );
+                                                 ^
+
+src/world.js:31: WARNING - actual parameter 2 of Box2D.Common.Math.b2Vec2.Get does not match formal parameter
+found   : boolean
+required: number
+    this.b2World = Box2D.Common.Math.b2Vec2.Get( gravity, true /* allow sleep */ );
+                                                          ^
+
+src/world.js:33: WARNING - Property SetContactFilter never defined on illandril.game.world.b2World
+    this.b2World.SetContactFilter(this);
+    ^
+
+src/world.js:34: WARNING - Property SetContactListener never defined on illandril.game.world.b2World
+    this.b2World.SetContactListener(this);
+    ^
+
+src/world.js:49: WARNING - Property Step never defined on illandril.game.world.b2World
+    this.b2World.Step(tick /* time delta (sec) */, illandril.game.world.frameSteps /* Velocity Iterations */, illandril.game.world.frameSteps /* Position Iterations */);
+    ^
+
+src/world.js:50: WARNING - Property ClearForces never defined on illandril.game.world.b2World
+    this.b2World.ClearForces();
+    ^
+
+src/world.js:64: WARNING - inconsistent return type
+found   : Box2D.Common.Math.b2Vec2
+required: Box2D.Dynamics.b2World
+    return this.b2World;
+           ^
+
+src/world.js:83: WARNING - Property RayCollide never defined on Box2D.Dynamics.b2ContactFilter.prototype
+    return Box2D.Dynamics.b2ContactFilter.prototype.RayCollide(userData, fixture);
+           ^
+
+src/world.js:243: WARNING - Property IsLocked never defined on illandril.game.world.b2World
+    if(this.b2World.IsLocked()) {
+       ^
+
+src/world.js:273: WARNING - Property CreateBody never defined on illandril.game.world.b2World
+    var body = this.b2World.CreateBody(bodyDef);
+               ^
+
+0 error(s), 389 warning(s), 86.9% typed
 ../box2dweb-closure/closure-library/closure/bin/build/closurebuilder.py: JavaScript compilation succeeded.

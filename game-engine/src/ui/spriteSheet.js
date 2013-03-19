@@ -13,10 +13,10 @@ goog.require('Box2D.Common.Math.b2Vec2');
 illandril.game.ui.spriteSheet = function(url, offset, sheetSize, tileSize) {
     illandril.game.ui.ui.preloadImage(url);
     this.url = url;
-    this.offset = offset || new Box2D.Common.Math.b2Vec2(0, 0);
-    this.sheetSize = sheetSize || new Box2D.Common.Math.b2Vec2(1, 1);
-    this.tileSize = tileSize || new Box2D.Common.Math.b2Vec2(1, 1);
-    this.tile = new Box2D.Common.Math.b2Vec2(1, 1);
+    this.offset = offset || Box2D.Common.Math.b2Vec2.Get(0, 0);
+    this.sheetSize = sheetSize || Box2D.Common.Math.b2Vec2.Get(1, 1);
+    this.tileSize = tileSize || Box2D.Common.Math.b2Vec2.Get(1, 1);
+    this.tile = Box2D.Common.Math.b2Vec2.Get(1, 1);
 };
 
 /**

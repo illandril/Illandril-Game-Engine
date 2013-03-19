@@ -13,7 +13,7 @@ illandril.game.ui.animation = function(game) {
 };
 
 illandril.game.ui.animation.prototype.setAsFourDirectionalAnimation = function(object, size, url, offset, frameSize, xFrames, frameSpeed) {
-    this.setSpriteSheet(object, size, url, offset, frameSize, new Box2D.Common.Math.b2Vec2(xFrames, 4), frameSpeed);
+    this.setSpriteSheet(object, size, url, offset, frameSize, Box2D.Common.Math.b2Vec2.Get(xFrames, 4), frameSpeed);
     this.game.getAIManager().addThinker(object, illandril.game.ui.animation.fourDirectionalAnimationThought);
 };
 
@@ -59,7 +59,7 @@ illandril.game.ui.animation.fourDirectionalAnimationThought = function(time, tic
 illandril.game.ui.animation.fourDirectionalAnimation = function(time, tick, object) {
     var animation = object.display.animation;
     animation.frameTick += tick;
-    var tile = new Box2D.Common.Math.b2Vec2(1,1);
+    var tile = Box2D.Common.Math.b2Vec2.Get(1,1);
     
     var vel = object.body.GetLinearVelocity();
     var absX = Math.abs(vel.x);

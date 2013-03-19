@@ -14,8 +14,8 @@ goog.require('goog.events.KeyCodes');
 var player;
 var ramp;
 var testObjects = 0;
-var worldSize = new Box2D.Common.Math.b2Vec2(5, 10); // Meters
-var viewportSize = new Box2D.Common.Math.b2Vec2(100, 200); // Pixels
+var worldSize = Box2D.Common.Math.b2Vec2.Get(5, 10); // Meters
+var viewportSize = Box2D.Common.Math.b2Vec2.Get(100, 200); // Pixels
 var viewportScale = 20; // Pixels per Meter
 var addBallPit = true;
 
@@ -27,7 +27,7 @@ var p;
 test.init = function(gameContainerID, doDebug, wasd) {
     g = new illandril.game.game(test, gameContainerID, worldSize, illandril.game.platformer.DEFAULTS.GRAVITY, viewportSize, viewportScale, doDebug);
     p = new illandril.game.platformer(g);
-    var position = new Box2D.Common.Math.b2Vec2(2, 2);
+    var position = Box2D.Common.Math.b2Vec2.Get(2, 2);
     test.createWorld();
     test.createPlayer(position, wasd);
     g.startWhenReady();
@@ -35,11 +35,11 @@ test.init = function(gameContainerID, doDebug, wasd) {
 
 test.createPlayer = function(position, wasd) {
     var sprite = '../external-resources/graphics/urbansquall_tileset/characters/princess_AP.png';
-    var spriteOffset = new Box2D.Common.Math.b2Vec2(0, 0);
+    var spriteOffset = Box2D.Common.Math.b2Vec2.Get(0, 0);
     var frames = 4;
     var frameSpeed = 4;
-    var frameSize = new Box2D.Common.Math.b2Vec2(21, 47);
-    var size = new Box2D.Common.Math.b2Vec2(frameSize.x / viewportScale, frameSize.y / viewportScale);
+    var frameSize = Box2D.Common.Math.b2Vec2.Get(21, 47);
+    var size = Box2D.Common.Math.b2Vec2.Get(frameSize.x / viewportScale, frameSize.y / viewportScale);
     player = p.createPlayer(size, position);
     g.getAnimationManager().setAsFourDirectionalAnimation(player, size, sprite, spriteOffset, frameSize, frames, frameSpeed);
     
@@ -55,9 +55,9 @@ test.createPlayer = function(position, wasd) {
 };
 
 test.createWorld = function() {
-    var platformSize = new Box2D.Common.Math.b2Vec2(3, 0.25);
-    p.createBlock(new Box2D.Common.Math.b2Vec2(worldSize.x, 0.5), new Box2D.Common.Math.b2Vec2((worldSize.x/2), worldSize.y-0.25));
-    test.createBallPit(new Box2D.Common.Math.b2Vec2(worldSize.x , 6), new Box2D.Common.Math.b2Vec2(0, worldSize.y-0.25));
+    var platformSize = Box2D.Common.Math.b2Vec2.Get(3, 0.25);
+    p.createBlock(Box2D.Common.Math.b2Vec2.Get(worldSize.x, 0.5), Box2D.Common.Math.b2Vec2.Get((worldSize.x/2), worldSize.y-0.25));
+    test.createBallPit(Box2D.Common.Math.b2Vec2.Get(worldSize.x , 6), Box2D.Common.Math.b2Vec2.Get(0, worldSize.y-0.25));
 };
 
 test.createBallPit = function(size, bottomLeft) {
@@ -66,13 +66,13 @@ test.createBallPit = function(size, bottomLeft) {
     // Ramp
     var rampWidth = 0; //size.y * 3; //size.y;
     var rampLength = Math.sqrt(rampWidth * rampWidth + size.y * size.y);
-    //g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, rampLength), new Box2D.Common.Math.b2Vec2(bottomLeft.x + rampWidth / 2, bottomLeft.y - size.y / 2), true /* visible */, { angle: Math.atan(rampWidth / size.y)/* Math.PI / (4 / (rampWidth/size.y))*/ }, null );
+    //g.getWorld().createStaticBox(Box2D.Common.Math.b2Vec2.Get(0.25, rampLength), Box2D.Common.Math.b2Vec2.Get(bottomLeft.x + rampWidth / 2, bottomLeft.y - size.y / 2), true /* visible */, { angle: Math.atan(rampWidth / size.y)/* Math.PI / (4 / (rampWidth/size.y))*/ }, null );
     
     // Left wall
-    g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, size.y), new Box2D.Common.Math.b2Vec2(bottomLeft.x + rampWidth, bottomLeft.y - size.y / 2), true /* visible */, null, null );
+    g.getWorld().createStaticBox(Box2D.Common.Math.b2Vec2.Get(0.25, size.y), Box2D.Common.Math.b2Vec2.Get(bottomLeft.x + rampWidth, bottomLeft.y - size.y / 2), true /* visible */, null, null );
     
     // Right wall
-    g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.25, size.y), new Box2D.Common.Math.b2Vec2(bottomLeft.x + size.x - 0.125, bottomLeft.y - size.y / 2), true /* visible */, null, null );
+    g.getWorld().createStaticBox(Box2D.Common.Math.b2Vec2.Get(0.25, size.y), Box2D.Common.Math.b2Vec2.Get(bottomLeft.x + size.x - 0.125, bottomLeft.y - size.y / 2), true /* visible */, null, null );
     
     var radius = 0.15;
     var shape = new Box2D.Collision.Shapes.b2CircleShape(radius);
@@ -82,7 +82,7 @@ test.createBallPit = function(size, bottomLeft) {
             var ballArgs = {
                 fixtureArgs: { density: 0.1, restitution: 0.1, friction: 0.1 }
             };
-            var ball = g.getWorld().createObject(new Box2D.Common.Math.b2Vec2(radius * 2, radius * 2), new Box2D.Common.Math.b2Vec2(bottomLeft.x + x - (cnt++ % 2) * radius, bottomLeft.y - y), true /* visible */, shape, ballArgs);
+            var ball = g.getWorld().createObject(Box2D.Common.Math.b2Vec2.Get(radius * 2, radius * 2), Box2D.Common.Math.b2Vec2.Get(bottomLeft.x + x - (cnt++ % 2) * radius, bottomLeft.y - y), true /* visible */, shape, ballArgs);
             var color = Math.random();
             if (color <= 0.25) {
                 g.getViewport().setImage(ball, 'graphics/ball-red.png');

@@ -24,10 +24,10 @@ goog.require('illandril.game.controls.action');
 var player = null;
 var player2 = null;
 
-var worldSize = new Box2D.Common.Math.b2Vec2(50, 30); // Meters
-var viewportSize = new Box2D.Common.Math.b2Vec2(1000, 600); // Pixels
+var worldSize = Box2D.Common.Math.b2Vec2.Get(50, 30); // Meters
+var viewportSize = Box2D.Common.Math.b2Vec2.Get(1000, 600); // Pixels
 var viewportScale = 20; // Pixels per Meter
-var spawn = new Box2D.Common.Math.b2Vec2(6, worldSize.y - 5);
+var spawn = Box2D.Common.Math.b2Vec2.Get(6, worldSize.y - 5);
 var playerControls;
 var gameControls;
 var g;
@@ -69,11 +69,11 @@ test.createPlayer = function(wasd) {
         position = player2.body.GetWorldCenter();
     }
     var sprite = '../external-resources/graphics/urbansquall_tileset/characters/princess_AP.png';
-    var spriteOffset = new Box2D.Common.Math.b2Vec2(0, 0);
+    var spriteOffset = Box2D.Common.Math.b2Vec2.Get(0, 0);
     var frames = 4;
     var frameSpeed = 4;
-    var frameSize = new Box2D.Common.Math.b2Vec2(21, 47);
-    var size = new Box2D.Common.Math.b2Vec2(frameSize.x / 20, frameSize.y / 20);
+    var frameSize = Box2D.Common.Math.b2Vec2.Get(21, 47);
+    var size = Box2D.Common.Math.b2Vec2.Get(frameSize.x / 20, frameSize.y / 20);
     var thisPlayer = p.createRoboPlayer(size, position);
     
     

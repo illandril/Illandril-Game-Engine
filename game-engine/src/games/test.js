@@ -28,8 +28,8 @@ var player;
 var ramp;
 
 var testObjects = 5;
-var worldSize = new Box2D.Common.Math.b2Vec2(1500, 100); // Meters
-var viewportSize = new Box2D.Common.Math.b2Vec2(1024, 600); // Pixels
+var worldSize = Box2D.Common.Math.b2Vec2.Get(1500, 100); // Meters
+var viewportSize = Box2D.Common.Math.b2Vec2.Get(1024, 600); // Pixels
 var viewportScale = 20; // Pixels per Meter
 var addBallPit = true;
 
@@ -51,15 +51,15 @@ test.init = function(gameContainerID, doDebug, wasd) {
     p = new illandril.game.platformer(g);
     
     var startingTest = 1;
-    var position = new Box2D.Common.Math.b2Vec2(5, worldSize.y - 7 - distanceBetweenTests * startingTest);
+    var position = Box2D.Common.Math.b2Vec2.Get(5, worldSize.y - 7 - distanceBetweenTests * startingTest);
     
     test.createPlayer(position, wasd);
-    mario.createMario(g, p, new Box2D.Common.Math.b2Vec2(0, worldSize.y), position);
+    mario.createMario(g, p, Box2D.Common.Math.b2Vec2.Get(0, worldSize.y), position);
     
     var testCount = 0;
     
     //testCount++;
-    //bridge.createBridge(g, p, new Box2D.Common.Math.b2Vec2(testLeft, worldSize.y - (marioFloor + testCount * distanceBetweenTests)));
+    //bridge.createBridge(g, p, Box2D.Common.Math.b2Vec2.Get(testLeft, worldSize.y - (marioFloor + testCount * distanceBetweenTests)));
     
     //test.createJointTests(++testCount);
     //test.createSlopeTests(++testCount);
@@ -72,11 +72,11 @@ test.init = function(gameContainerID, doDebug, wasd) {
 
 test.createPlayer = function(position, wasd) {
     var sprite = '../external-resources/graphics/urbansquall_tileset/characters/princess_AP.png';
-    var spriteOffset = new Box2D.Common.Math.b2Vec2(0, 0);
+    var spriteOffset = Box2D.Common.Math.b2Vec2.Get(0, 0);
     var frames = 4;
     var frameSpeed = 4;
-    var frameSize = new Box2D.Common.Math.b2Vec2(21, 47);
-    var size = new Box2D.Common.Math.b2Vec2(frameSize.x / viewportScale, frameSize.y / viewportScale);
+    var frameSize = Box2D.Common.Math.b2Vec2.Get(21, 47);
+    var size = Box2D.Common.Math.b2Vec2.Get(frameSize.x / viewportScale, frameSize.y / viewportScale);
     //player = p.createPlayer(size, position);
     player = p.createSlimePlayer(size.y, position);
     g.getAnimationManager().setAsFourDirectionalAnimation(player, size, sprite, spriteOffset, frameSize, frames, frameSpeed);
@@ -93,26 +93,26 @@ test.createPlayer = function(position, wasd) {
 };
 
 test.createPlatforms = function(testCount) {
-    var platformSize = new Box2D.Common.Math.b2Vec2(3, 0.25);
+    var platformSize = Box2D.Common.Math.b2Vec2.Get(3, 0.25);
     for (var i = 0; i < testCount; i++) {
         var yOffset = marioFloor + i * distanceBetweenTests;
         for (var y = distanceBetweenPlatforms; y <= distanceBetweenTests; y += distanceBetweenPlatforms) {
-            p.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(leftPlat, worldSize.y - y - yOffset));
-            p.createPlatform(platformSize, new Box2D.Common.Math.b2Vec2(rightPlat, worldSize.y - y - yOffset));
+            p.createPlatform(platformSize, Box2D.Common.Math.b2Vec2.Get(leftPlat, worldSize.y - y - yOffset));
+            p.createPlatform(platformSize, Box2D.Common.Math.b2Vec2.Get(rightPlat, worldSize.y - y - yOffset));
         }
-        p.createPlatform(new Box2D.Common.Math.b2Vec2(worldSize.x - testLeft, 0.25), new Box2D.Common.Math.b2Vec2((worldSize.x - testLeft) / 2 + testLeft, worldSize.y - yOffset - distanceBetweenTests));
+        p.createPlatform(Box2D.Common.Math.b2Vec2.Get(worldSize.x - testLeft, 0.25), Box2D.Common.Math.b2Vec2.Get((worldSize.x - testLeft) / 2 + testLeft, worldSize.y - yOffset - distanceBetweenTests));
     }
-    p.createPlatform(new Box2D.Common.Math.b2Vec2(1, 1), new Box2D.Common.Math.b2Vec2(testLeft - 3, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.LEFT);
-    p.createPlatform(new Box2D.Common.Math.b2Vec2(1, 1), new Box2D.Common.Math.b2Vec2(testLeft + 0, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.RIGHT);
-    p.createPlatform(new Box2D.Common.Math.b2Vec2(1, 1), new Box2D.Common.Math.b2Vec2(testLeft + 3, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.TOP);
-    p.createPlatform(new Box2D.Common.Math.b2Vec2(1, 1), new Box2D.Common.Math.b2Vec2(testLeft + 6, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.BOTTOM);
-    var x = p.createPlatform(new Box2D.Common.Math.b2Vec2(1, 1), new Box2D.Common.Math.b2Vec2(testLeft + 9, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.BOTTOM);
+    p.createPlatform(Box2D.Common.Math.b2Vec2.Get(1, 1), Box2D.Common.Math.b2Vec2.Get(testLeft - 3, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.LEFT);
+    p.createPlatform(Box2D.Common.Math.b2Vec2.Get(1, 1), Box2D.Common.Math.b2Vec2.Get(testLeft + 0, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.RIGHT);
+    p.createPlatform(Box2D.Common.Math.b2Vec2.Get(1, 1), Box2D.Common.Math.b2Vec2.Get(testLeft + 3, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.TOP);
+    p.createPlatform(Box2D.Common.Math.b2Vec2.Get(1, 1), Box2D.Common.Math.b2Vec2.Get(testLeft + 6, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.BOTTOM);
+    var x = p.createPlatform(Box2D.Common.Math.b2Vec2.Get(1, 1), Box2D.Common.Math.b2Vec2.Get(testLeft + 9, worldSize.y - marioFloor - 3.5), illandril.game.platformer.SIDES.BOTTOM);
     x.body.SetAngle(Math.PI / 2);
 };
 
 test.createSlopeTests = function(testCount) {
     var testSpacing = 2;
-    var offset = new Box2D.Common.Math.b2Vec2(testLeft + testSpacing, worldSize.y - (marioFloor + testCount * distanceBetweenTests));
+    var offset = Box2D.Common.Math.b2Vec2.Get(testLeft + testSpacing, worldSize.y - (marioFloor + testCount * distanceBetweenTests));
     var minSlope = -Math.PI / 4;
     var maxSlope = 0;
     var slopeTicks = 20;
@@ -120,14 +120,14 @@ test.createSlopeTests = function(testCount) {
     var slopeTick = (maxSlope - minSlope) / slopeTicks;
     for(var slope = minSlope; slope <= maxSlope; slope += slopeTick) {
         offset.x += slopeWidth / 2;
-        var ramp = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(slopeWidth, slopeWidth / 10),  new Box2D.Common.Math.b2Vec2(offset.x, offset.y - slopeWidth / 2), true /* visible */, { angle: slope }, null );
+        var ramp = g.getWorld().createStaticBox(Box2D.Common.Math.b2Vec2.Get(slopeWidth, slopeWidth / 10),  Box2D.Common.Math.b2Vec2.Get(offset.x, offset.y - slopeWidth / 2), true /* visible */, { angle: slope }, null );
         offset.x += slopeWidth / 2 + testSpacing;
     }
 };
 
 test.createJointTests = function(testCount) {
     var testSpacing = 2;
-    var offset = new Box2D.Common.Math.b2Vec2(testLeft + testSpacing, worldSize.y - (marioFloor + testCount * distanceBetweenTests));
+    var offset = Box2D.Common.Math.b2Vec2.Get(testLeft + testSpacing, worldSize.y - (marioFloor + testCount * distanceBetweenTests));
     
     var spinnerCount = 1;
     var spinnerRadius = 5;
@@ -152,11 +152,11 @@ test.createJointTests = function(testCount) {
         offset.x += spinnerRadius;
         var bodyArgs = { angle: Math.random() * Math.PI };
         var y = offset.y - spinnerRadius * 1.5;
-        var b0 = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.01, 0.01), new Box2D.Common.Math.b2Vec2(offset.x, y), false /* visible */, { bodyArgs: bodyArgs });
-        var b1 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(spinnerRadius * 2, spinnerRadius / 5), new Box2D.Common.Math.b2Vec2(offset.x, y), true /* visible */, { bodyArgs: bodyArgs });
+        var b0 = g.getWorld().createStaticBox(Box2D.Common.Math.b2Vec2.Get(0.01, 0.01), Box2D.Common.Math.b2Vec2.Get(offset.x, y), false /* visible */, { bodyArgs: bodyArgs });
+        var b1 = g.getWorld().createBox(Box2D.Common.Math.b2Vec2.Get(spinnerRadius * 2, spinnerRadius / 5), Box2D.Common.Math.b2Vec2.Get(offset.x, y), true /* visible */, { bodyArgs: bodyArgs });
         g.getViewport().setImage(b1, 'graphics/spinner.png');
         bodyArgs.angle += Math.PI / 2;
-        var b2 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(spinnerRadius * 2, spinnerRadius / 5), new Box2D.Common.Math.b2Vec2(offset.x, y), true /* visible */, { bodyArgs: bodyArgs });
+        var b2 = g.getWorld().createBox(Box2D.Common.Math.b2Vec2.Get(spinnerRadius * 2, spinnerRadius / 5), Box2D.Common.Math.b2Vec2.Get(offset.x, y), true /* visible */, { bodyArgs: bodyArgs });
         g.getViewport().setImage(b2, 'graphics/spinner.png');
         jointDef.Initialize(b0.body, b1.body, b0.body.GetWorldCenter());
         g.getWorld().getBox2DWorld().CreateJoint(jointDef);
@@ -175,10 +175,10 @@ test.createJointTests = function(testCount) {
         var sideLength = distanceRadius * 1.5;
         var sideWidth = distanceRadius * 0.1;
         
-        var bottom = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(sideLength, sideWidth), new Box2D.Common.Math.b2Vec2(offset.x + sideWidth / 2, y + distanceRadius), true /* visible */, { bodyArgs: bodyArgs });
-        var top = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(sideLength, sideWidth), new Box2D.Common.Math.b2Vec2(offset.x + sideWidth / 2, y - distanceRadius), true /* visible */, { bodyArgs: bodyArgs });
-        var left = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(sideWidth, sideLength), new Box2D.Common.Math.b2Vec2(offset.x - distanceRadius, y + sideWidth / 2), true /* visible */, { bodyArgs: bodyArgs });
-        var right = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(sideWidth, sideLength), new Box2D.Common.Math.b2Vec2(offset.x + distanceRadius, y + sideWidth / 2), true /* visible */, { bodyArgs: bodyArgs });
+        var bottom = g.getWorld().createBox(Box2D.Common.Math.b2Vec2.Get(sideLength, sideWidth), Box2D.Common.Math.b2Vec2.Get(offset.x + sideWidth / 2, y + distanceRadius), true /* visible */, { bodyArgs: bodyArgs });
+        var top = g.getWorld().createBox(Box2D.Common.Math.b2Vec2.Get(sideLength, sideWidth), Box2D.Common.Math.b2Vec2.Get(offset.x + sideWidth / 2, y - distanceRadius), true /* visible */, { bodyArgs: bodyArgs });
+        var left = g.getWorld().createBox(Box2D.Common.Math.b2Vec2.Get(sideWidth, sideLength), Box2D.Common.Math.b2Vec2.Get(offset.x - distanceRadius, y + sideWidth / 2), true /* visible */, { bodyArgs: bodyArgs });
+        var right = g.getWorld().createBox(Box2D.Common.Math.b2Vec2.Get(sideWidth, sideLength), Box2D.Common.Math.b2Vec2.Get(offset.x + distanceRadius, y + sideWidth / 2), true /* visible */, { bodyArgs: bodyArgs });
         
         jointDef.Initialize(bottom.body, top.body, bottom.body.GetWorldCenter(), top.body.GetWorldCenter());
         g.getWorld().getBox2DWorld().CreateJoint(jointDef);
@@ -202,17 +202,17 @@ test.createJointTests = function(testCount) {
         var jointDef = new Box2D.Dynamics.Joints.b2PulleyJointDef();
         
         offset.x += pulleyWidth / 2;
-        var left = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(pulleyWidth, pulleyWidth / 10), new Box2D.Common.Math.b2Vec2(offset.x + pulleyWidth / 2, y), true /* visible */, { bodyArgs: bodyArgs });
+        var left = g.getWorld().createBox(Box2D.Common.Math.b2Vec2.Get(pulleyWidth, pulleyWidth / 10), Box2D.Common.Math.b2Vec2.Get(offset.x + pulleyWidth / 2, y), true /* visible */, { bodyArgs: bodyArgs });
         
         offset.x += pulleyWidth * 2;
-        var right = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(pulleyWidth, pulleyWidth / 10), new Box2D.Common.Math.b2Vec2(offset.x + pulleyWidth / 2, y), true /* visible */, { bodyArgs: bodyArgs });
+        var right = g.getWorld().createBox(Box2D.Common.Math.b2Vec2.Get(pulleyWidth, pulleyWidth / 10), Box2D.Common.Math.b2Vec2.Get(offset.x + pulleyWidth / 2, y), true /* visible */, { bodyArgs: bodyArgs });
         
         var leftTop = left.body.GetWorldCenter().Copy()
         leftTop.y -= pulleyWidth;
-        g.getWorld().createScenery(new Box2D.Common.Math.b2Vec2(pulleyWidth / 10, pulleyWidth / 10), leftTop);
+        g.getWorld().createScenery(Box2D.Common.Math.b2Vec2.Get(pulleyWidth / 10, pulleyWidth / 10), leftTop);
         var rightTop = right.body.GetWorldCenter().Copy()
         rightTop.y -= pulleyWidth;
-        g.getWorld().createScenery(new Box2D.Common.Math.b2Vec2(pulleyWidth / 10, pulleyWidth / 10), rightTop);
+        g.getWorld().createScenery(Box2D.Common.Math.b2Vec2.Get(pulleyWidth / 10, pulleyWidth / 10), rightTop);
         
         jointDef.Initialize(left.body, right.body, leftTop, rightTop, left.body.GetWorldCenter(), right.body.GetWorldCenter(), (x + 1) / 2 /* ratio */);
         g.getWorld().getBox2DWorld().CreateJoint(jointDef);
@@ -231,8 +231,8 @@ test.createJointTests = function(testCount) {
         var lastJoint = null;
         for(var i = 0; i < gearHeight; i++) {
             var y = offset.y - gearRadius * (i + 1) * 2;
-            var b0 = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.01, 0.01), new Box2D.Common.Math.b2Vec2(offset.x, y), false /* visible */, { bodyArgs: bodyArgs });
-            var b1 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(gearRadius * 2, gearRadius / 10), new Box2D.Common.Math.b2Vec2(offset.x, y), true /* visible */, { bodyArgs: bodyArgs });
+            var b0 = g.getWorld().createStaticBox(Box2D.Common.Math.b2Vec2.Get(0.01, 0.01), Box2D.Common.Math.b2Vec2.Get(offset.x, y), false /* visible */, { bodyArgs: bodyArgs });
+            var b1 = g.getWorld().createBox(Box2D.Common.Math.b2Vec2.Get(gearRadius * 2, gearRadius / 10), Box2D.Common.Math.b2Vec2.Get(offset.x, y), true /* visible */, { bodyArgs: bodyArgs });
             revJointDef.Initialize(b0.body, b1.body, b0.body.GetWorldCenter());
             var joint = g.getWorld().getBox2DWorld().CreateJoint(revJointDef);
             if (lastJoint !== null) {
@@ -242,10 +242,10 @@ test.createJointTests = function(testCount) {
             lastJoint = joint;
         }
         var y = offset.y - gearRadius * (gearHeight + 1) * 2;
-        var b0 = g.getWorld().createStaticBox(new Box2D.Common.Math.b2Vec2(0.01, 0.01), new Box2D.Common.Math.b2Vec2(offset.x, y), false /* visible */, { bodyArgs: bodyArgs });
-        var b1 = g.getWorld().createBox(new Box2D.Common.Math.b2Vec2(gearRadius / 5, gearRadius / 10), new Box2D.Common.Math.b2Vec2(offset.x, y), true /* visible */, { bodyArgs: bodyArgs });
+        var b0 = g.getWorld().createStaticBox(Box2D.Common.Math.b2Vec2.Get(0.01, 0.01), Box2D.Common.Math.b2Vec2.Get(offset.x, y), false /* visible */, { bodyArgs: bodyArgs });
+        var b1 = g.getWorld().createBox(Box2D.Common.Math.b2Vec2.Get(gearRadius / 5, gearRadius / 10), Box2D.Common.Math.b2Vec2.Get(offset.x, y), true /* visible */, { bodyArgs: bodyArgs });
         var prismJointDef = new Box2D.Dynamics.Joints.b2PrismaticJointDef();
-        prismJointDef.Initialize(b0.body, b1.body, b0.body.GetWorldCenter(), new Box2D.Common.Math.b2Vec2(Math.random(), Math.random()) /* axis */)
+        prismJointDef.Initialize(b0.body, b1.body, b0.body.GetWorldCenter(), Box2D.Common.Math.b2Vec2.Get(Math.random(), Math.random()) /* axis */)
         prismJointDef.enableLimit = true;
         prismJointDef.lowerTranslation = -gearRadius / 2;
         prismJointDef.upperTranslation = gearRadius / 2;
@@ -268,41 +268,41 @@ test.createDebugObjects = function() {
         restitution: 1.25
     };
     var shape = new Box2D.Collision.Shapes.b2CircleShape( 0.25 )
-    var size = new Box2D.Common.Math.b2Vec2(0.5, 0.5);
+    var size = Box2D.Common.Math.b2Vec2.Get(0.5, 0.5);
     for ( var i = 0; i < testObjects; i++ ) {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
-      var position = new Box2D.Common.Math.b2Vec2(x + ( i % 20 ) / 20 + 4.5, 15 + ( i % 20 ));
+      var position = Box2D.Common.Math.b2Vec2.Get(x + ( i % 20 ) / 20 + 4.5, 15 + ( i % 20 ));
       g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
     shape = new Box2D.Collision.Shapes.b2PolygonShape();
     shape.SetAsBox( 0.25, 0.25 );
     for ( var i = 0; i < testObjects; i++ ) {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
-      var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 5 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 5 ) % 20 ));
+      var position = Box2D.Common.Math.b2Vec2.Get(x + ( ( i + 5 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 5 ) % 20 ));
       bodyArgs.angle = ( i % 17 ) / 17;
       g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
     shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0.5, -0.5), new Box2D.Common.Math.b2Vec2(-0.5,0.5)] );
+    shape.SetAsArray( [ Box2D.Common.Math.b2Vec2.Get(-0.5, -0.5), Box2D.Common.Math.b2Vec2.Get(0.5, -0.5), Box2D.Common.Math.b2Vec2.Get(-0.5,0.5)] );
     for ( var i = 0; i < testObjects; i++ ) {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
-      var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 10 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 10 ) % 20 ));
+      var position = Box2D.Common.Math.b2Vec2.Get(x + ( ( i + 10 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 10 ) % 20 ));
       bodyArgs.angle = ( i % 22 ) / 22;
       g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
     shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-Math.random() * 0.5, -Math.random() * 0.5), new Box2D.Common.Math.b2Vec2(Math.random() * 0.5, -Math.random() * 0.5), new Box2D.Common.Math.b2Vec2(Math.random() * 0.5, Math.random() * 0.5), new Box2D.Common.Math.b2Vec2(-Math.random() * 0.5, Math.random() * 0.5)] );
+    shape.SetAsArray( [ Box2D.Common.Math.b2Vec2.Get(-Math.random() * 0.5, -Math.random() * 0.5), Box2D.Common.Math.b2Vec2.Get(Math.random() * 0.5, -Math.random() * 0.5), Box2D.Common.Math.b2Vec2.Get(Math.random() * 0.5, Math.random() * 0.5), Box2D.Common.Math.b2Vec2.Get(-Math.random() * 0.5, Math.random() * 0.5)] );
     for ( var i = 0; i < testObjects; i++ ) {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
-      var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 15 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 15 ) % 20 ));
+      var position = Box2D.Common.Math.b2Vec2.Get(x + ( ( i + 15 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 15 ) % 20 ));
       bodyArgs.angle = ( i % 35 ) / 35;
       g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
     shape = new Box2D.Collision.Shapes.b2PolygonShape();
-    shape.SetAsArray( [ new Box2D.Common.Math.b2Vec2(-0.5, -0.5), new Box2D.Common.Math.b2Vec2(0, -0.5), new Box2D.Common.Math.b2Vec2(0.5,0), new Box2D.Common.Math.b2Vec2(0.5, 0.5), new Box2D.Common.Math.b2Vec2( 0, 0.3 )] );
+    shape.SetAsArray( [ Box2D.Common.Math.b2Vec2.Get(-0.5, -0.5), Box2D.Common.Math.b2Vec2.Get(0, -0.5), Box2D.Common.Math.b2Vec2.Get(0.5,0), Box2D.Common.Math.b2Vec2.Get(0.5, 0.5), Box2D.Common.Math.b2Vec2.Get( 0, 0.3 )] );
     for ( var i = 0; i < testObjects; i++ ) {
       var x = ( i * 5 ) % ( worldSize.x - 10 );
-      var position = new Box2D.Common.Math.b2Vec2(x + ( ( i + 15 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 15 ) % 20 ));
+      var position = Box2D.Common.Math.b2Vec2.Get(x + ( ( i + 15 ) % 20 ) / 20 + 4.5, 15 + ( ( i + 15 ) % 20 ));
       bodyArgs.angle = ( i % 35 ) / 35;
       g.getWorld().createObject(size, position, true /* visible */, shape, {bodyArgs: bodyArgs, fixtureArgs: fixArgs });
     }
